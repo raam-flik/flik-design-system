@@ -204,6 +204,8 @@ h3{{font-size:18px;font-weight:600;color:var(--app-ink);margin:40px 0 4px}}
 .gd{{color:var(--app-muted);margin:0 0 14px;font-size:14px}}
 .us{{color:var(--app-muted);font-size:13px;line-height:1.45}}
 /* colours */
+.rule{{margin-top:24px;padding:16px 20px;border-radius:12px;background:var(--primary-soft);color:var(--app-ink);font-size:15px;max-width:860px}}
+.rule b{{color:var(--primary)}}
 .pal{{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:28px}}
 .sws{{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}}
 .sw{{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:4px;border-radius:12px;padding:8px 8px 12px;box-shadow:var(--app-shadow);background:#fff;transition:transform .15s,box-shadow .15s}}
@@ -282,6 +284,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 
 <main>
 <section class="s" id="colours"><h2>Colours</h2><p class="x-lead">Five brand colours. Violet is the only colour for things people click; navy carries the text; cyan, magenta and orange live in the brand ribbon.</p>
+<div class="rule"><b>Use only these colours.</b> Every colour on a FLIK page or in the dashboard comes from this list. No other colours, no new tints or shades, and no gradients except the brand ribbon. Bank, e-wallet, card and courier logos keep their own colours. Need a new colour? Ask for it to be added here first.</div>
 {color_html}</section>
 
 <section class="s" id="type"><h2>Type</h2><p class="x-lead">One typeface, Inter, everywhere. Website headings are large and light; the dashboard is smaller and bolder so tables stay easy to scan.</p>
