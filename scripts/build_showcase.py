@@ -294,6 +294,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 {shape_html}</section>
 
 <section class="s" id="components"><h2>Components</h2><p class="x-lead">Every piece below is live, built from the real styles. Each one says when to use it and what to avoid.</p>
+<div class="rule"><b>Reuse first.</b> Always build with these components. Combine and configure what is here before making anything new. If nothing fits, the new piece is added to this design system (with an example and rules) and approved before it is used. No one-off buttons, cards, tables or badges.</div>
 <div class="cnav">{"".join(f'<a href="#{i}">{esc(t)}</a>' for i, t in comp_nav)}</div>
 {comp_html}</section>
 

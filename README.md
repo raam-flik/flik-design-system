@@ -88,6 +88,8 @@ Use the files in **Logos**; never redraw them. The wordmark goes top-left in eve
 
 ## Using the components
 
+**Reuse first.** Whenever you build with the FLIK Design System (website, dashboard, any new page or flow), always use the existing components and their markup first. Combine and configure what is here before you create anything. Only when nothing fits, propose a new component: add it to the system with a preview, a guide (when to use it, what to avoid) and its styles in `components/bundle.css`, get it approved, then use it. No one-off buttons, cards, tables, badges or form fields inside a page.
+
 Load `tokens.css`, then `components/bundle.css`. Every class starts with `fl-`. Wrap marketing markup in `.fl` and dashboard markup in `.fl fl-app` so each gets its base text style. Components are plain HTML and CSS; copy the markup from each component's preview and add your own behaviour (open/close, sorting). Marketing components: Button, TextLink, Pill, SectionHeading, StatGrid, ResourceCard, FAQ, Header, CodePanel. Product components: AppButton, StatusBadge, FilterChip, Tabs, SegmentedControl, DataTable, KPICard, FormField, Checkbox, PopoverMenu, Modal, Toast, SidebarNav, SearchField. Product flows (the v4 Customers, Invoices and Shipments pages): PageHeader, EmptyState, FlowShell, Stepper, OptionCard, RadioList, ChoicePills, Combobox, EntityCard, LineItems, CollapsibleCard, CourierServiceCard, SummaryPanel, PaymentCards, DocumentPreview, SuccessBanner.
 
 Do not add back: sidebar search, breadcrumbs, row chevrons, helper subtitles under titles, orange or gradient buttons, pastel card tiles.
