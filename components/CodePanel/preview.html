@@ -1,0 +1,14 @@
+<!-- @dsCard group="Marketing" height=170 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><style>body{margin:0;padding:16px;background:var(--surface)}</style></head>
+<body>
+<div class="fl">
+<div class="fl-dark"><p class="soft" style="margin:0 0 14px;font-size:15px">Create a checkout session and send shoppers to FLIK.</p><div class="fl-code">// create a checkout session
+const s = await flik.checkout.create({
+  items: [{ sku: 'LS-M', qty: 1 }],
+});
+redirect(s.url);</div></div>
+</div>
+</body>
+</html>

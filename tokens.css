@@ -1,0 +1,111 @@
+/* FLIK Design System — generated from tokens.json. Do not edit by hand. */
+:root{
+  --primary:#6a4bff;
+  --primary-hover:#5536e6;
+  --primary-soft:#f2efff;
+  --primary-disabled:#c4b8ff;
+  --on-primary:#ffffff;
+  --flik-orange:#f26324;
+  --flik-navy:#232356;
+  --ribbon-1:#ff7a2e;
+  --ribbon-2:#ff2db8;
+  --ribbon-3:#6a4bff;
+  --ribbon-4:#00e5ff;
+  --ink:#002d5d;
+  --body:#425466;
+  --muted:#64748d;
+  --faint:#8898aa;
+  --surface:#ffffff;
+  --surface-alt:#f8fafd;
+  --line:#e3e8ee;
+  --line-soft:#eef2f7;
+  --guide:#e5edf5;
+  --line-strong:#c5ceda;
+  --dark:#002d5d;
+  --dark-raised:#0b3a6e;
+  --dark-line:#1c4573;
+  --dark-guide:#14406F;
+  --on-dark-muted:#aab4cc;
+  --on-dark-accent:#7ff3ff;
+  --code-text:#d7def0;
+  --ok:#1ea672;
+  --ok-soft:#e7f7ef;
+  --ok-text:#0e6e48;
+  --warn:#c4862d;
+  --warn-soft:#fdf4e5;
+  --warn-text:#8a5a12;
+  --bad:#df1b41;
+  --bad-soft:#fdecef;
+  --bad-text:#a3112e;
+  --neutral-soft:#eef1f5;
+  --stat-text:#50617a;
+  --app-ink:#002d5d;
+  --app-text:#353a44;
+  --app-muted:#687385;
+  --app-faint:#8c95a3;
+  --app-line:#ebeef1;
+  --app-line-2:#d8dee4;
+  --app-hover:#f6f8fa;
+  --app-field:#f5f6f8;
+  --app-selected:#f8f6ff;
+  --app-control-border:#c0c8d2;
+  --app-danger-text:#b3093c;
+  --badge-ok-bg:#d7f7c2;
+  --badge-ok-text:#05690d;
+  --badge-ok-border:#a6eb84;
+  --badge-neutral-bg:#ebeef1;
+  --badge-neutral-text:#545969;
+  --badge-neutral-border:#d5dbe1;
+  --badge-warn-bg:#fcedb9;
+  --badge-warn-text:#a82c00;
+  --badge-warn-border:#f7d46e;
+  --badge-bad-bg:#ffe7f2;
+  --badge-bad-text:#b3093c;
+  --badge-bad-border:#ffc0db;
+  --badge-info-bg:#f0ecff;
+  --badge-info-text:#5536e6;
+  --badge-info-border:#d2c8ff;
+  --container:1180px;
+  --guide-gap:1266px;
+  --gutter:32px;
+  --gutter-mobile:16px;
+  --section-y:112px;
+  --section-y-sm:72px;
+  --card-pad:24px;
+  --grid-gap:16px;
+  --app-sidebar:240px;
+  --app-content-x:28px;
+  --app-row:52px;
+  --radius-btn:4px;
+  --radius-badge:5px;
+  --radius-control:6px;
+  --radius-card:8px;
+  --radius-lg:12px;
+  --radius-pill:999px;
+  --shadow-sm:0 2px 5px rgba(50,50,93,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 30px 60px -12px rgba(50,50,93,.25), 0 18px 36px -18px rgba(0,0,0,.3);
+  --shadow-hover:0 18px 36px -18px rgba(50,50,93,.28), 0 8px 16px -10px rgba(0,0,0,.12);
+  --app-shadow:0 0 0 1px rgba(64,68,82,.08), 0 2px 5px rgba(64,68,82,.08);
+  --app-pop:0 0 0 1px rgba(64,68,82,.08), 0 8px 24px -4px rgba(64,68,82,.18), 0 16px 48px -8px rgba(64,68,82,.18);
+  --focus-ring:0 0 0 3px rgba(106,75,255,.35);
+  --font-sans:Inter, -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.hero{font-family:var(--font-sans);font-size:60px;line-height:1.1;font-weight:400;letter-spacing:-1.6px}
+.display{font-family:var(--font-sans);font-size:56px;line-height:1.1;font-weight:300;letter-spacing:-1.4px}
+.heading{font-family:var(--font-sans);font-size:36px;line-height:1.15;font-weight:300;letter-spacing:-0.8px}
+.stat{font-family:var(--font-sans);font-size:48px;line-height:1.03;font-weight:300;letter-spacing:-0.96px}
+.title{font-family:var(--font-sans);font-size:20px;line-height:1.3;font-weight:400;letter-spacing:-0.3px}
+.lead{font-family:var(--font-sans);font-size:20px;line-height:1.45;font-weight:300;letter-spacing:-0.2px}
+.body{font-family:var(--font-sans);font-size:15px;line-height:1.6;font-weight:400}
+.label{font-family:var(--font-sans);font-size:14px;line-height:1.4;font-weight:500}
+.button{font-family:var(--font-sans);font-size:15px;line-height:1;font-weight:500}
+.caption{font-family:var(--font-sans);font-size:13px;line-height:1.45;font-weight:400}
+.page-title{font-family:var(--font-sans);font-size:28px;line-height:1.2;font-weight:600;letter-spacing:-0.4px}
+.kpi{font-family:var(--font-sans);font-size:28px;line-height:1.2;font-weight:600;letter-spacing:-0.4px}
+.section-title{font-family:var(--font-sans);font-size:18px;line-height:1.3;font-weight:600;letter-spacing:-0.2px}
+.app-body{font-family:var(--font-sans);font-size:14px;line-height:1.45;font-weight:400}
+.table-head{font-family:var(--font-sans);font-size:13.5px;line-height:1.4;font-weight:600}
+.control{font-family:var(--font-sans);font-size:13.5px;line-height:1;font-weight:500}
+.badge{font-family:var(--font-sans);font-size:12.5px;line-height:1;font-weight:500}
+.code{font-family:var(--font-mono);font-size:13px;line-height:1.75;font-weight:400}

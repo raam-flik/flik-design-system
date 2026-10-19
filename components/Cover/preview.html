@@ -1,0 +1,41 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8">
+<style>
+html,body{margin:0;background:var(--surface)}
+.cv{position:relative;width:960px;height:288px;overflow:hidden;background:var(--surface)}
+.cv svg{position:absolute;inset:0}
+.k-dark{fill:var(--dark)}.k-pri{fill:var(--primary)}.k-soft{fill:var(--primary-soft)}.k-orange{fill:var(--ribbon-1)}.k-magenta{fill:var(--ribbon-2)}.k-cyan{fill:var(--ribbon-4)}
+.r{rx:var(--radius-lg)}
+.g{stroke:var(--surface);stroke-width:1.5;fill:none}
+.g2{stroke:var(--guide);stroke-width:1.5;fill:none}
+.t{position:absolute;left:40px;bottom:36px;max-width:440px}
+.t h1{margin:0;font-family:var(--font-sans);font-size:120px;line-height:.92;font-weight:400;letter-spacing:-3px;color:var(--ink)}
+.t p{margin:14px 0 0;font-family:var(--font-sans);font-size:14px;line-height:1.4;color:var(--muted)}
+</style></head>
+<body>
+<div class="cv">
+<svg width="960" height="288" viewBox="0 0 960 288" aria-hidden="true">
+<!--
+  blocks: dark (184×288, bleeds top and bottom), primary (184×200, bleeds top), ribbon-2 magenta (184×72, bleeds bottom),
+          primary-soft (88×136, radius-lg), ribbon-1 orange (88×104), ribbon-4 cyan (88×40) — brand ink, accent and ribbon hues.
+  arrangement: a strip of unequal slabs flush right, bleeding off the top, right and bottom like the hero ribbon.
+  pattern: hairline rules, "two vertical guide lines frame every section" (README, Layout): two guides in `guide` on the ground,
+           continued as cut-outs in `surface` through the blocks.
+  scales: gaps 16 (grid-gap), slab widths 88/184 (≈ multiples of card-pad 24 minus gaps), corners radius-lg on the free blocks.
+-->
+  <rect class="k-soft r" x="504" y="24" width="88" height="136"/>
+  <rect class="k-orange r" x="504" y="176" width="88" height="104"/>
+  <rect class="k-dark" x="608" y="0" width="184" height="288"/>
+  <rect class="k-pri" x="808" y="0" width="152" height="200"/>
+  <rect class="k-magenta" x="808" y="216" width="152" height="72"/>
+  <rect class="k-cyan r" x="624" y="232" width="88" height="40"/>
+  <line class="g2" x1="488" y1="0" x2="488" y2="288"/>
+  <line class="g" x1="700" y1="0" x2="700" y2="216"/>
+  <line class="g" x1="884" y1="0" x2="884" y2="288"/>
+</svg>
+<div class="t"><h1>FLIK</h1><p>Payment, shipping and funding for growing brands, on the web and in the dashboard.</p></div>
+</div>
+</body>
+</html>
