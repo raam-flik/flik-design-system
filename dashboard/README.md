@@ -2,6 +2,8 @@
 
 **Live:** https://landing-page-raams-projects-2709477f.vercel.app/dashboard/
 
+This is a **copy**. The main copy lives in the flik-dashboard repo (`product/Dashboard/<menu>/prototype-v4.html`, one file per menu); change it there first, then refresh this file.
+
 `index.html` is the newest FLIK merchant dashboard prototype (v4 palette) as one self-contained file: HTML, CSS and JavaScript inline, no build step, no dependencies except the Inter font from Google Fonts. Open it in a browser or serve the folder (`python3 -m http.server`) and start from it when you build a new page. All data in it is made up and seeded, so it looks the same on every load.
 
 ## Pages

@@ -43,7 +43,7 @@ FLIK is commerce infrastructure for Indonesian brands: **Payment** (Checkout, In
 - **You and your.** Speak to the merchant ("your balance", "your shoppers"). FLIK refers to itself as FLIK or "the FLIK team", never "we" in headings.
 - **Sentence case** everywhere: headings, buttons, menu items ("Contact sales", "Start shipping free"). Product names keep their capitals (Checkout, Merchant Cash Advance, FLIK Account).
 - **Languages.** English first, everywhere: the website (English at `/`, Bahasa Indonesia second at `/id/` with the same slugs) and the dashboard, including every menu name (Checkout personalization, Reports, Shipping settings).
-- **Formats.** Money `Rp1.250.000` (no space, no decimals, dot thousands); short money `Rp250 jt`, `Rp5 M`; amounts in tables are left-aligned with no currency column; dates `14 Okt 2026`, with time `14 Okt 2026, 10:42`; phone `+62 812-3456-7890`; AWB numbers in the mono face.
+- **Formats.** Money `Rp1.250.000` (no space, no decimals, dot thousands); short money `Rp250 jt`, `Rp5 M`; amounts in tables are left-aligned with no currency column; dates `14 Oct 2026`, with time `14 Oct 2026, 10:42`; phone `+62 812-3456-7890`; AWB numbers in the mono face.
 - **Only real claims.** Use the figures in the product reference (30-second checkout, 3× faster, 40% off shipping, 3% COD fee, 99% shipment creation success). Mark example data in mockups as example data.
 - **Buttons say what happens** ("Refund", "Create shipments"); toasts confirm in past tense ("Refund sent").
 - No emoji, no exclamation marks in UI, no "revolutionary", "seamless" or other filler.
