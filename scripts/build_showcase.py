@@ -308,7 +308,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 <ul class="write">{writing}</ul></section>
 </main>
 
-<footer><div class="in"><span>FLIK Design System · v4 palette</span><span><a href="https://github.com/raam-flik/flik-design-system">Files on GitHub</a> · <a href="https://landing-page-raams-projects-2709477f.vercel.app/dashboard/">Live dashboard</a></span></div></footer>
+<footer><div class="in"><span>FLIK Design System · v4 palette</span><span><a href="https://github.com/raam-flik/flik-design-system">Files on GitHub</a> · <a href="tailwind/index.html">Tailwind version</a> · <a href="https://landing-page-raams-projects-2709477f.vercel.app/dashboard/">Live dashboard</a></span></div></footer>
 <div class="copied" id="copied"></div>
 <script>
 // Click a colour to copy its hex code; demo buttons inside the stages do nothing.

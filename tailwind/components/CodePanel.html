@@ -1,0 +1,9 @@
+<!-- group:website | A monospace code block on the dark band. -->
+<div class="rounded-lg bg-dark p-10 text-on-primary max-md:p-6">
+  <p class="mb-3.5 text-[15px] text-on-dark-muted">Create a checkout session and send shoppers to FLIK.</p>
+  <pre class="overflow-x-auto rounded-[10px] border border-dark-line bg-dark-raised px-5 py-[18px] text-code text-code-text">// create a checkout session
+const s = await flik.checkout.create({
+  items: [{ sku: 'LS-M', qty: 1 }],
+});
+redirect(s.url);</pre>
+</div>

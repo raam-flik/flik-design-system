@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLIK Dashboard (Tailwind)</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Tailwind v4 in the browser, for this prototype only. In a project, build with Tailwind and import ../theme.css. -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.13"></script>
+<style type="text/tailwindcss">
+/* FLIK Design System for Tailwind CSS v4. Generated from tokens.json by scripts/build_tailwind.py; do not edit by hand.
+   How to use it: see tailwind/README.md (import Tailwind first, then this file).
+   Tailwind's default colour palette is switched off: only FLIK colours exist (bg-primary, text-ink, border-app-line ...). */
+
+@theme {
+  /* Colours: only these. */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-primary: #6a4bff;
+  --color-primary-hover: #5536e6;
+  --color-primary-soft: #f2efff;
+  --color-primary-disabled: #c4b8ff;
+  --color-on-primary: #ffffff;
+  --color-flik-orange: #f26324;
+  --color-flik-navy: #232356;
+  --color-ribbon-1: #ff7a2e;
+  --color-ribbon-2: #ff2db8;
+  --color-ribbon-3: #6a4bff;
+  --color-ribbon-4: #00e5ff;
+  --color-ink: #002d5d;
+  --color-body: #425466;
+  --color-muted: #64748d;
+  --color-faint: #8898aa;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8fafd;
+  --color-line: #e3e8ee;
+  --color-line-soft: #eef2f7;
+  --color-guide: #e5edf5;
+  --color-line-strong: #c5ceda;
+  --color-dark: #002d5d;
+  --color-dark-raised: #0b3a6e;
+  --color-dark-line: #1c4573;
+  --color-dark-guide: #14406F;
+  --color-on-dark-muted: #aab4cc;
+  --color-on-dark-accent: #7ff3ff;
+  --color-code-text: #d7def0;
+  --color-ok: #1ea672;
+  --color-ok-soft: #e7f7ef;
+  --color-ok-text: #0e6e48;
+  --color-warn: #c4862d;
+  --color-warn-soft: #fdf4e5;
+  --color-warn-text: #8a5a12;
+  --color-bad: #df1b41;
+  --color-bad-soft: #fdecef;
+  --color-bad-text: #a3112e;
+  --color-neutral-soft: #eef1f5;
+  --color-stat-text: #50617a;
+  --color-app-ink: #002d5d;
+  --color-app-text: #353a44;
+  --color-app-muted: #687385;
+  --color-app-faint: #8c95a3;
+  --color-app-line: #ebeef1;
+  --color-app-line-2: #d8dee4;
+  --color-app-hover: #f6f8fa;
+  --color-app-field: #f5f6f8;
+  --color-app-selected: #f8f6ff;
+  --color-app-control-border: #c0c8d2;
+  --color-app-danger-text: #b3093c;
+  --color-badge-ok-bg: #d7f7c2;
+  --color-badge-ok-text: #05690d;
+  --color-badge-ok-border: #a6eb84;
+  --color-badge-neutral-bg: #ebeef1;
+  --color-badge-neutral-text: #545969;
+  --color-badge-neutral-border: #d5dbe1;
+  --color-badge-warn-bg: #fcedb9;
+  --color-badge-warn-text: #a82c00;
+  --color-badge-warn-border: #f7d46e;
+  --color-badge-bad-bg: #ffe7f2;
+  --color-badge-bad-text: #b3093c;
+  --color-badge-bad-border: #ffc0db;
+  --color-badge-info-bg: #f0ecff;
+  --color-badge-info-text: #5536e6;
+  --color-badge-info-border: #d2c8ff;
+
+  /* Type */
+  --font-sans: Inter, -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Marketing text styles: text-<name> sets size, line height, weight and tracking */
+  --text-hero: 60px;
+  --text-hero--line-height: 1.1;
+  --text-hero--font-weight: 400;
+  --text-hero--letter-spacing: -1.6px;
+  --text-display: 56px;
+  --text-display--line-height: 1.1;
+  --text-display--font-weight: 300;
+  --text-display--letter-spacing: -1.4px;
+  --text-heading: 36px;
+  --text-heading--line-height: 1.15;
+  --text-heading--font-weight: 300;
+  --text-heading--letter-spacing: -0.8px;
+  --text-stat: 48px;
+  --text-stat--line-height: 1.03;
+  --text-stat--font-weight: 300;
+  --text-stat--letter-spacing: -0.96px;
+  --text-title: 20px;
+  --text-title--line-height: 1.3;
+  --text-title--font-weight: 400;
+  --text-title--letter-spacing: -0.3px;
+  --text-lead: 20px;
+  --text-lead--line-height: 1.45;
+  --text-lead--font-weight: 300;
+  --text-lead--letter-spacing: -0.2px;
+  --text-paragraph: 15px;
+  --text-paragraph--line-height: 1.6;
+  --text-paragraph--font-weight: 400;
+  --text-label: 14px;
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 500;
+  --text-button: 15px;
+  --text-button--line-height: 1;
+  --text-button--font-weight: 500;
+  --text-caption: 13px;
+  --text-caption--line-height: 1.45;
+  --text-caption--font-weight: 400;
+  /* Product text styles: text-<name> sets size, line height, weight and tracking */
+  --text-page-title: 28px;
+  --text-page-title--line-height: 1.2;
+  --text-page-title--font-weight: 600;
+  --text-page-title--letter-spacing: -0.4px;
+  --text-kpi: 28px;
+  --text-kpi--line-height: 1.2;
+  --text-kpi--font-weight: 600;
+  --text-kpi--letter-spacing: -0.4px;
+  --text-section-title: 18px;
+  --text-section-title--line-height: 1.3;
+  --text-section-title--font-weight: 600;
+  --text-section-title--letter-spacing: -0.2px;
+  --text-app-body: 14px;
+  --text-app-body--line-height: 1.45;
+  --text-app-body--font-weight: 400;
+  --text-table-head: 13.5px;
+  --text-table-head--line-height: 1.4;
+  --text-table-head--font-weight: 600;
+  --text-control: 13.5px;
+  --text-control--line-height: 1;
+  --text-control--font-weight: 500;
+  --text-badge: 12.5px;
+  --text-badge--line-height: 1;
+  --text-badge--font-weight: 500;
+  /* Code text styles: text-<name> sets size, line height, weight and tracking */
+  --text-code: 13px;
+  --text-code--line-height: 1.75;
+  --text-code--font-weight: 400;
+
+  /* Corners: rounded-btn, rounded-badge, rounded-control, rounded-card, rounded-lg, rounded-pill */
+  --radius-btn: 4px;
+  --radius-badge: 5px;
+  --radius-control: 6px;
+  --radius-card: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Shadows: shadow-sm, shadow-lg, shadow-hover (website); shadow-app, shadow-pop (dashboard); shadow-focus */
+  --shadow-sm: 0 2px 5px rgba(50,50,93,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg: 0 30px 60px -12px rgba(50,50,93,.25), 0 18px 36px -18px rgba(0,0,0,.3);
+  --shadow-hover: 0 18px 36px -18px rgba(50,50,93,.28), 0 8px 16px -10px rgba(0,0,0,.12);
+  --shadow-app: 0 0 0 1px rgba(64,68,82,.08), 0 2px 5px rgba(64,68,82,.08);
+  --shadow-pop: 0 0 0 1px rgba(64,68,82,.08), 0 8px 24px -4px rgba(64,68,82,.18), 0 16px 48px -8px rgba(64,68,82,.18);
+  --shadow-focus: 0 0 0 3px rgba(106,75,255,.35);
+
+  /* Named spacing (p-gutter, py-section, w-sidebar, h-row ...) and widths (max-w-site) */
+  --container-site: 1180px;
+  --container-guides: 1266px;
+  --spacing-gutter: 32px;
+  --spacing-gutter-mobile: 16px;
+  --spacing-section: 112px;
+  --spacing-section-sm: 72px;
+  --spacing-card: 24px;
+  --spacing-grid: 16px;
+  --spacing-sidebar: 240px;
+  --spacing-content: 28px;
+  --spacing-row: 52px;
+}
+
+@layer base {
+  body { font-family: var(--font-sans); color: var(--color-ink); background: var(--color-surface); -webkit-font-smoothing: antialiased; }
+}
+
+/* Element styles the dashboard relies on (tables, headings, page text). Everything else is utility classes in the markup. */
+@layer base {
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-sans);color:var(--color-app-text);background:#fff;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  input{font:inherit;color:inherit}
+  svg{display:block;flex:none}
+  h1{font-size:28px;font-weight:600;color:var(--color-app-ink);letter-spacing:-.4px;margin-top:6px}
+  table{width:100%;border-collapse:collapse;min-width:860px}
+  th{text-align:left;font-size:13.5px;font-weight:600;color:var(--color-app-ink);padding:10px 8px;border-bottom:1px solid var(--color-app-line);white-space:nowrap;user-select:none}
+  td{padding:0 8px;height:52px;border-bottom:1px solid var(--color-app-line);white-space:nowrap;font-size:14px}
+  tbody tr{cursor:pointer}
+  tbody tr:hover td{background:var(--color-app-hover)}
+  @media (max-width:600px){h1{font-size:24px}}
+  [hidden]{display:none!important}
+  small{font-size:smaller}
+}
+</style>
+</head>
+<body>
+<div class="app grid grid-cols-[240px_1fr] min-h-screen max-[960px]:grid-cols-1">
+  <!-- ===== Sidebar ===== -->
+  <aside class="side border-r border-r-app-line sticky top-0 h-screen overflow-y-auto bg-white flex flex-col max-[960px]:fixed max-[960px]:left-0 max-[960px]:top-0 max-[960px]:bottom-0 max-[960px]:w-65 max-[960px]:z-[85] max-[960px]:[transform:translateX(-100%)] max-[960px]:[transition:transform_.25s] max-[960px]:shadow-pop max-[960px]:[&.open]:transform-none" id="side">
+    <button class="acct flex items-center gap-2.5 pt-4.5 pb-4 px-4.5 border-b border-b-app-line w-full text-left hover:bg-app-hover [&_b]:font-semibold [&_b]:text-[14.5px] [&_b]:text-app-ink [&_b]:flex-1" data-toast="Switch business account">
+      <span class="lg [.acct_&]:w-7 [.acct_&]:h-7 [.acct_&]:rounded-[7px] [.acct_&]:border [.acct_&]:border-app-line-2 [.acct_&]:flex [.acct_&]:items-center [.acct_&]:justify-center [.acct_&]:bg-white [.acct_&]:shadow-[0_1px_1px_rgba(0,0,0,.04)]"><svg width="16" height="16" viewBox="0 0 32 32"><path d="M27.6 18.8c0-4.3-2.4-5.4-5.4-5.4h-5.6v8.8c0 3 1.3 5.4 5.5 5.4v-8.8h5.5Z" fill="#F26324"/><path d="M30.9 10.4c0-5.3-2.5-6-5.5-6H7.4v17.8c0 3 .7 5.4 6.3 5.4V10.4h17.2Z" fill="#F26324"/></svg></span>
+      <b>Aruna Studio</b>
+      <span data-ic="sel"></span>
+    </button>
+    <nav class="nav py-4 px-2.5 grid gap-0.5" id="nav"></nav>
+    <div class="side-foot mt-auto py-3.5 px-4.5 border-t border-t-app-line text-[12px] text-app-faint">FLIK Dashboard · Prototype</div>
+  </aside>
+  <div class="scrim fixed inset-0 [background:rgba(0,45,93,.28)] z-[70] opacity-0 pointer-events-none [transition:opacity_.2s] [&.open]:opacity-100 [&.open]:pointer-events-auto" id="sidescrim"></div>
+
+  <!-- ===== Main ===== -->
+  <div class="main min-w-0 flex flex-col">
+    <header class="top flex items-center gap-3.5 py-3.5 px-7 sticky top-0 bg-white z-20 max-[960px]:py-3 max-[960px]:px-4">
+      <button class="burger hidden w-8.5 h-8.5 rounded-control items-center justify-center text-app-muted max-[960px]:flex" id="burger" aria-label="Open menu"><span data-ic="menu"></span></button>
+      <label class="search flex-1 flex items-center gap-2 h-9.5 rounded-card bg-app-field py-0 px-3 text-app-muted max-w-[860px] [&_input]:border-0 [&_input]:outline-none [&_input]:bg-transparent [&_input]:flex-1 [&_input]:text-[14px] [&_input]:text-app-text [&_input]:min-w-0 focus-within:shadow-[0_0_0_2px_rgba(106,75,255,.35)] focus-within:bg-white [&_kbd]:font-sans [&_kbd]:text-[11.5px] [&_kbd]:border [&_kbd]:border-app-line-2 [&_kbd]:rounded-btn [&_kbd]:py-0 [&_kbd]:px-[5px] [&_kbd]:text-app-faint [&_kbd]:bg-white max-[960px]:[&_kbd]:hidden"><span data-ic="search"></span><input id="q" placeholder="Search" autocomplete="off"><kbd>/</kbd></label>
+      <div class="tools flex items-center gap-1.5 ml-auto">
+        <button class="ib hide-s w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-toast="Opens FLIK help center" aria-label="Help"><span data-ic="help"></span></button>
+        <button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" id="bell" aria-label="Notifications"><span data-ic="bell"></span><span class="dot [.ib_&]:absolute [.ib_&]:top-[7px] [.ib_&]:right-2 [.ib_&]:w-[7px] [.ib_&]:h-[7px] [.ib_&]:rounded-full [.ib_&]:bg-bad [.ib_&]:border-[1.5px] [.ib_&]:border-white"></span></button>
+        <button class="ib hide-s w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-toast="Opens Settings" aria-label="Settings"><span data-ic="gear"></span></button>
+        <button class="plus w-9.5 h-9.5 rounded-full bg-primary text-white flex items-center justify-center ml-1 hover:bg-primary-hover" id="plus" aria-label="Create"><span data-ic="plus"></span></button>
+      </div>
+    </header>
+
+    <main class="content pt-2 pb-12 px-7 max-[960px]:pt-1 max-[960px]:pb-10 max-[960px]:px-4" id="view-home" hidden>
+      <h1>Home</h1>
+      <h2 class="sec text-[18px] font-semibold text-app-ink mt-7 tracking-[-.2px]">Quick access</h2>
+      <div class="qa-grid grid grid-cols-3 gap-3.5 mt-3 max-[1380px]:grid-cols-2 max-[700px]:grid-cols-1" id="qa"></div>
+      <h2 class="sec text-[18px] font-semibold text-app-ink mt-7 tracking-[-.2px]">Sales summary</h2>
+      <section class="card shadow-app rounded-card pt-5 pb-3 px-5 mt-3 bg-white">
+        <div class="kpi-row flex justify-between items-start gap-4 flex-wrap">
+          <div class="kpi"><div class="kpi-v flex items-center gap-2.5 [&_b]:text-[28px] [&_b]:font-semibold [&_b]:text-app-ink [&_b]:tracking-[-.4px]"><b class="num tabular-nums" id="kpi">0</b><span class="delta text-[12.5px] font-medium py-0.5 px-[7px] rounded-badge [&.up]:bg-badge-ok-bg [&.up]:text-badge-ok-text [&.down]:bg-badge-bad-bg [&.down]:text-badge-bad-text" id="delta"></span></div><span class="kpi-l text-app-muted text-[13.5px]" id="kpi-l">Last 7 days</span></div>
+          <div class="kpi-ctl flex items-center gap-2.5 flex-wrap">
+            <button class="chip set h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" id="range"><span>Period</span> <span class="val [.chip.set_&]:text-primary" id="range-v">Last 7 days</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
+            <div class="seg inline-flex bg-app-field rounded-card p-[3px] [&_button]:h-7 [&_button]:py-0 [&_button]:px-3 [&_button]:rounded-control [&_button]:font-medium [&_button]:text-app-muted [&_button]:text-[13.5px]" role="tablist"><button class="on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary" data-m="count">Transactions</button><button data-m="gmv">Total GMV</button></div>
+          </div>
+        </div>
+        <div class="chart relative mt-4 h-75 [&_svg]:w-full [&_svg]:h-full [&_svg]:overflow-visible max-[700px]:h-60" id="chart"></div>
+      </section>
+    </main>
+    <main class="content pt-2 pb-12 px-7 max-[960px]:pt-1 max-[960px]:pb-10 max-[960px]:px-4" id="view-cus" hidden>
+      <h1>Customers</h1>
+      <section class="es-hero mt-5 bg-app-hover rounded-card py-18 px-16 grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-12 items-center max-[1100px]:grid-cols-1 max-[1100px]:py-12 max-[1100px]:px-10 max-[1100px]:gap-9 max-[700px]:py-8 max-[700px]:px-5">
+        <div class="es-copy [&_h2]:text-[36px] [&_h2]:leading-[44px] [&_h2]:font-semibold [&_h2]:text-app-ink [&_h2]:tracking-[-.6px] [&_h2]:max-w-[440px] [&_p]:text-[18px] [&_p]:leading-[28px] [&_p]:text-app-muted [&_p]:mt-4 [&_p]:max-w-[460px] max-[700px]:[&_h2]:text-[28px] max-[700px]:[&_h2]:leading-[36px] max-[700px]:[&_p]:text-[16px] max-[700px]:[&_p]:leading-[24px]">
+          <h2>All your customers in one place</h2>
+          <p>Shoppers who pay through Checkout, chat or your storefront are saved here automatically, with their contact details, address and order history.</p>
+          <button class="btn btn-p es-cta inline-flex items-center gap-1.5 rounded-control font-medium whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none h-10 text-[15px] py-0 px-4 mt-7 [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-toast="Opens Add customer">Add customer</button>
+        </div>
+        <div class="es-art relative h-52.5 max-w-[360px] w-full justify-self-center rounded-[14px] [background:linear-gradient(135deg,#F3F0FF,#FBF9FF_60%,#fff)] [-webkit-mask-image:linear-gradient(90deg,#000_80%,transparent)] [mask-image:linear-gradient(90deg,#000_80%,transparent)] max-[1100px]:justify-self-start" aria-hidden="true" id="es-art"></div>
+      </section>
+      <div class="es-cards grid grid-cols-[1fr_1fr] gap-4 mt-4 max-[700px]:grid-cols-1">
+        <section class="es-card bg-app-hover rounded-card pt-5 pb-4.5 px-5 flex flex-col items-start [&_h3]:text-[15px] [&_h3]:font-semibold [&_h3]:text-app-ink [&_p]:text-app-muted [&_p]:mt-2 [&_p]:leading-[1.5] [&_p]:max-w-[520px]">
+          <h3>Import your customer list</h3>
+          <p>Moving from a spreadsheet or another platform? Upload your list and match the columns. Duplicate phone numbers are merged for you.</p>
+          <span class="es-tag inline-flex items-center gap-1.5 h-7.5 py-0 pr-3 pl-2.5 rounded-pill bg-white shadow-app text-[13.5px] font-medium text-app-text mt-3.5"><span data-ic="tag"></span>Supports CSV and Excel</span>
+          <button class="es-link mt-auto pt-4.5 font-medium text-app-text underline [text-underline-offset:3px] [text-decoration-color:var(--color-app-faint)] inline-flex items-center gap-[5px] hover:text-primary hover:[text-decoration-color:currentColor]" data-toast="Opens Import customers">Import customers</button>
+        </section>
+        <section class="es-card bg-app-hover rounded-card pt-5 pb-4.5 px-5 flex flex-col items-start [&_h3]:text-[15px] [&_h3]:font-semibold [&_h3]:text-app-ink [&_p]:text-app-muted [&_p]:mt-2 [&_p]:leading-[1.5] [&_p]:max-w-[520px]">
+          <h3>Customers sync from every sale</h3>
+          <p>Every order from Checkout, Payment Link or Invoice creates or updates a customer profile, so you never type the same address twice.</p>
+          <button class="es-link mt-auto pt-4.5 font-medium text-app-text underline [text-underline-offset:3px] [text-decoration-color:var(--color-app-faint)] inline-flex items-center gap-[5px] hover:text-primary hover:[text-decoration-color:currentColor]" data-toast="Opens Checkout settings">Set up Checkout <span data-ic="ext"></span></button>
+        </section>
+      </div>
+    </main>
+    <main class="content pt-2 pb-12 px-7 max-[960px]:pt-1 max-[960px]:pb-10 max-[960px]:px-4" id="view-inv" hidden>
+      <div class="ph flex items-center justify-between gap-3"><h1>Invoices</h1><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-newinv><span data-ic="plus"></span>Create invoice</button></div>
+      <div class="tabs flex gap-7 border-b border-b-app-line mt-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [.ie-pv_&]:mt-2 [.ie-pv_&]:border-app-line-2" id="inv-tabs" role="tablist"></div>
+      <div class="filters flex items-center gap-2 mt-4.5 flex-wrap">
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by status"><span data-ic="pluscirc"></span>Status</button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by created date"><span data-ic="pluscirc"></span>Created</button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by due date"><span data-ic="pluscirc"></span>Due date</button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by total"><span data-ic="pluscirc"></span>Total</button>
+        <div class="fright ml-auto flex gap-2 max-[600px]:ml-0 max-[600px]:w-full"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-toast="Exporting invoices as CSV"><span data-ic="export"></span>Export</button></div>
+      </div>
+      <div class="tbl-wrap overflow-x-auto mt-3.5"><table><thead><tr><th>Total</th><th></th><th>Invoice number</th><th>Customer</th><th>WhatsApp</th><th>Due</th><th>Created</th><th></th></tr></thead><tbody id="inv-body"></tbody></table></div>
+      <div class="foot flex items-center justify-between gap-3 mt-3.5 text-app-muted text-[13.5px] [&_b]:text-app-text [&_b]:font-semibold"><span id="inv-count"></span></div>
+    </main>
+    <main class="content pt-2 pb-12 px-7 max-[960px]:pt-1 max-[960px]:pb-10 max-[960px]:px-4" id="view-shp" hidden>
+      <div class="ph flex items-center justify-between gap-3"><h1>Shipments</h1><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-newshp><span data-ic="plus"></span>Create shipment</button></div>
+      <div class="tabs flex gap-7 border-b border-b-app-line mt-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [.ie-pv_&]:mt-2 [.ie-pv_&]:border-app-line-2" id="shp-tabs" role="tablist"></div>
+      <div class="filters flex items-center gap-2 mt-4.5 flex-wrap">
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by warehouse"><span data-ic="pluscirc"></span>Warehouse</button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by created date"><span data-ic="pluscirc"></span>Created</button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by courier"><span data-ic="pluscirc"></span>Courier</button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-toast="Filter by payment type"><span data-ic="pluscirc"></span>COD / Non-COD</button>
+        <div class="fright ml-auto flex gap-2 max-[600px]:ml-0 max-[600px]:w-full"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-toast="Exporting shipments as CSV"><span data-ic="export"></span>Export</button></div>
+      </div>
+      <div class="tbl-wrap overflow-x-auto mt-3.5"><table><thead><tr><th>Shipping cost</th><th></th><th>Batch</th><th>Courier</th><th>Shipments</th><th>COD value</th><th>Pickup from</th><th>Created</th><th></th></tr></thead><tbody id="shp-body"></tbody></table></div>
+      <div class="foot flex items-center justify-between gap-3 mt-3.5 text-app-muted text-[13.5px] [&_b]:text-app-text [&_b]:font-semibold"><span id="shp-count"></span></div>
+    </main>
+    <main class="content pt-2 pb-12 px-7 max-[960px]:pt-1 max-[960px]:pb-10 max-[960px]:px-4" id="view-tx">
+      <h1>Transactions</h1>
+      <div class="tabs flex gap-7 border-b border-b-app-line mt-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [.ie-pv_&]:mt-2 [.ie-pv_&]:border-app-line-2" id="tabs" role="tablist"></div>
+
+      <div class="filters flex items-center gap-2 mt-4.5 flex-wrap" id="filters">
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-f="date"><span data-ic="pluscirc"></span><span class="lbl">Date and time</span></button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-f="status"><span data-ic="pluscirc"></span><span class="lbl">Status</span></button>
+        <button class="chip h-7.5 inline-flex items-center gap-1.5 py-0 pr-3 pl-[9px] rounded-pill border border-dashed border-app-line-2 text-app-muted text-[13.5px] font-medium relative whitespace-nowrap hover:bg-app-hover [&_svg]:text-app-faint [&.set]:border-solid [&.set]:border-app-line-2 [&.set]:text-app-text [&.set]:bg-white" data-f="method"><span data-ic="pluscirc"></span><span class="lbl">Payment method</span></button>
+        <button class="pillf on h-7.5 inline-flex items-center gap-1.5 py-0 pr-[13px] pl-[9px] rounded-pill text-[13.5px] font-medium text-app-muted border border-dashed border-app-line-2 [&.on]:border-0 [&.on]:text-white [&.on]:[background:linear-gradient(90deg,#6A4BFF_0%,#FF2DB8_55%,#FF7A2E_100%)] [&.on]:shadow-[0_2px_6px_rgba(106,75,255,.3)] [&.on_svg]:text-white [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary" id="srcpill"><span data-ic="minuscirc"></span>FLIK Checkout</button>
+        <div class="fright ml-auto flex gap-2 max-[600px]:ml-0 max-[600px]:w-full">
+          <button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="export"><span data-ic="export"></span>Export</button>
+        </div>
+      </div>
+
+      <div class="bulk hidden items-center gap-2.5 mt-4 py-2 px-3 rounded-card bg-primary-soft text-primary font-medium [&.show]:flex" id="bulk"><span id="bulk-n">0 selected</span><span class="sp [.bulk_&]:flex-1 [.sx-foot_&]:flex-1"></span><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="bulk-export">Export</button><button class="btn btn-d h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-danger-text [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="bulk-refund">Refund</button><button class="btn h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="bulk-clear" style="color:var(--color-primary)">Clear</button></div>
+
+      <div class="tbl-wrap overflow-x-auto mt-3.5"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+      <div class="foot flex items-center justify-between gap-3 mt-3.5 text-app-muted text-[13.5px] [&_b]:text-app-text [&_b]:font-semibold"><span id="count"></span><div class="pager flex gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="prev">Previous</button><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="next">Next</button></div></div>
+    </main>
+  </div>
+</div>
+
+<!-- Popovers -->
+<div class="pop absolute z-[60] bg-white rounded-[10px] shadow-pop min-w-57.5 p-1.5 hidden [&.open]:block [&_h6]:text-[12.5px] [&_h6]:font-semibold [&_h6]:text-app-ink [&_h6]:pt-2 [&_h6]:pb-1.5 [&_h6]:px-2.5" id="pop"></div>
+<div class="sx fixed inset-0 z-[86] bg-white flex flex-col" id="sx" hidden role="dialog" aria-label="Create shipment">
+  <div class="sx-top h-15 flex-none flex items-center gap-3.5 py-0 px-5 border-b border-b-app-line [&>b]:font-medium [&>b]:text-app-ink [&>b]:text-[14.5px] [&>b]:whitespace-nowrap max-[700px]:py-0 max-[700px]:px-3 max-[700px]:gap-2 max-[700px]:[&>b]:hidden"><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" id="sx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep [.ie-top_&]:w-[1px] [.ie-top_&]:h-5 [.ie-top_&]:bg-app-line-2 max-[600px]:[.ie-top_&]:hidden [.sx-top_&]:w-[1px] [.sx-top_&]:h-5 [.sx-top_&]:bg-app-line-2 max-[700px]:[.sx-top_&]:hidden"></span><b>Create shipment</b><div class="steps flex items-center gap-1.5 my-0 mx-auto pr-30 max-[1100px]:pr-0" id="sx-steps"></div></div>
+  <div class="sx-body flex-1 min-h-0 overflow-y-auto bg-white" id="sx-body"></div>
+  <div class="sx-foot fixed left-0 right-0 bottom-0 z-[87] bg-white border-t border-t-app-line h-16 flex items-center gap-2 py-0 px-6 max-[700px]:py-0 max-[700px]:px-4" id="sx-foot"></div>
+</div>
+<div class="ie fixed inset-0 z-[86] bg-white flex flex-col" id="ie" hidden role="dialog" aria-label="Create invoice">
+  <div class="ie-top h-15 flex-none flex items-center gap-3.5 py-0 px-5 border-b border-b-app-line [&_b]:font-medium [&_b]:text-app-ink [&_b]:text-[14.5px] max-[600px]:py-0 max-[600px]:px-3 max-[600px]:gap-2 max-[600px]:[&_b]:hidden">
+    <button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" id="ie-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep [.ie-top_&]:w-[1px] [.ie-top_&]:h-5 [.ie-top_&]:bg-app-line-2 max-[600px]:[.ie-top_&]:hidden [.sx-top_&]:w-[1px] [.sx-top_&]:h-5 [.sx-top_&]:bg-app-line-2 max-[700px]:[.sx-top_&]:hidden"></span><b>Create invoice</b>
+    <div class="ie-acts ml-auto flex gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="ie-pv">Hide preview</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="ie-review" disabled>Review invoice</button></div>
+  </div>
+  <div class="ie-body flex-1 min-h-0 grid grid-cols-[1fr_1fr] [.ie.nopv_&]:grid-cols-1 max-[900px]:grid-cols-1 max-[900px]:overflow-y-auto"><div class="ie-form overflow-y-auto pt-10 pb-20 pr-12 pl-24 [&>section]:max-w-[520px] [&>section]:mb-10 max-[1100px]:pt-8 max-[1100px]:pb-20 max-[1100px]:px-8 max-[900px]:overflow-visible max-[900px]:[.ie.pvon_&]:hidden max-[600px]:pt-6 max-[600px]:pb-20 max-[600px]:px-4" id="ie-form"></div><div class="ie-pv [.ie.nopv_&]:hidden bg-app-hover overflow-y-auto pt-10 pb-15 px-12 max-[1100px]:p-8 max-[900px]:overflow-visible max-[900px]:[.ie:not(.pvon)_&]:hidden max-[600px]:py-6 max-[600px]:px-4" id="ie-pvw"></div></div>
+</div>
+
+<!-- Drawer -->
+<div class="scrim fixed inset-0 [background:rgba(0,45,93,.28)] z-[70] opacity-0 pointer-events-none [transition:opacity_.2s] [&.open]:opacity-100 [&.open]:pointer-events-auto" id="dscrim"></div>
+<aside class="drawer fixed top-0 right-0 bottom-0 w-115 max-w-full bg-white z-[80] shadow-pop [transform:translateX(100%)] [transition:transform_.25s_ease] flex flex-col [&.open]:transform-none max-[600px]:w-full" id="drawer" aria-hidden="true"></aside>
+
+<!-- Modal -->
+<div class="mscrim fixed inset-0 [background:rgba(0,45,93,.35)] z-[90] hidden items-center justify-center p-4 [&.open]:flex" id="mscrim"><div class="modal bg-white rounded-lg shadow-pop w-full max-w-[440px]" id="modal" role="dialog" aria-modal="true"></div></div>
+<div class="toast fixed left-[50%] bottom-5.5 [transform:translate(-50%,16px)] bg-app-ink text-white py-2.5 px-4 rounded-card text-[13.5px] z-[100] opacity-0 [transition:opacity_.2s,transform_.2s] pointer-events-none max-w-[calc(100%_-_32px)] [&.show]:opacity-100 [&.show]:[transform:translate(-50%,0)]" id="toast"></div>
+
+<script>
+/* ===== Icons ===== */
+const P={
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
+  help:'<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17.2v.1"/>',
+  bell:'<path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.5 1.5h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  pluscirc:'<circle cx="12" cy="12" r="8.5"/><path d="M12 8.5v7M8.5 12h7"/>',
+  minuscirc:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12h7"/>',
+  x:'<path d="M7 7l10 10M17 7 7 17"/>',
+  check:'<path d="m5.5 12.5 4 4L18.5 7.5"/>',
+  export:'<path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 13v5.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V13"/>',
+  sort:'<path d="m8 9 4-4 4 4M8 15l4 4 4-4"/>',
+  up:'<path d="m8 14 4-4 4 4"/>',down:'<path d="m8 10 4 4 4-4"/>',
+  dots:'<circle cx="5.5" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="18.5" cy="12" r="1.4" fill="currentColor"/>',
+  home:'<path d="M4 10.5 12 4l8 6.5V20h-5v-5.5H9V20H4z"/>',
+  bal:'<path d="M4 6h10M4 12h7M4 18h10"/><circle cx="18" cy="15" r="3"/>',
+  tx:'<path d="M5 8h13l-3.5-3.5M19 16H6l3.5 3.5"/>',
+  user:'<circle cx="12" cy="8" r="3.5"/><path d="M5 20c1-3.5 3.7-5.5 7-5.5s6 2 7 5.5"/>',
+  box:'<path d="M4 8 12 4l8 4v8l-8 4-8-4z"/><path d="m4 8 8 4 8-4M12 12v8"/>',
+  cart:'<circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2.5 3.5h3l2.4 11.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7H6.3"/>',
+  truck:'<path d="M2.5 6.5h11V16h-11z"/><path d="M13.5 10h4l3.5 3.5V16h-7.5"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/>',
+  coins:'<ellipse cx="9" cy="7" rx="5.5" ry="2.5"/><path d="M3.5 7v4c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5V7"/><path d="M14.5 10.6c2 .3 3.5 1.1 3.5 2v4c0 1.4-2.5 2.5-5.5 2.5-1.2 0-2.3-.2-3.2-.5"/>',
+  chart:'<path d="M5 20V11M11 20V5M17 20v-6M3 20h18"/>',
+  more:'<circle cx="5.5" cy="12" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="18.5" cy="12" r="1.3" fill="currentColor"/>',
+  chev:'<path d="m7 10 5 5 5-5"/>',
+  sel:'<path d="m8 9 4-4 4 4M8 15l4 4 4-4"/>',
+  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+  copy:'<rect x="8" y="8" width="11" height="11" rx="2"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/>',
+  refund:'<path d="M4 9h11a5 5 0 0 1 0 10H9"/><path d="m8 5-4 4 4 4"/>',
+  tag:'<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.2 6.2a1.4 1.4 0 0 1-2 0z"/><circle cx="8" cy="8" r="1.4"/>',
+  chat:'<path d="M20 11.5a7.5 7.5 0 0 1-11.2 6.5L4 19.5l1.5-4.5A7.5 7.5 0 1 1 20 11.5z"/>',
+  store:'<path d="M4 9.5 5.5 4.5h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12.5v7h13v-7M10 19.5v-4h4v4"/>',
+  upload:'<path d="M12 15V4M8 8l4-4 4 4"/><path d="M4 15v4h16v-4"/>',
+  ig:'<rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r=".6"/>',
+  invoice:'<path d="M6 3.5h12v17l-3-2-3 2-3-2-3 2z"/><path d="M9 8.5h6M9 12h6"/>',
+  pin:'<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+  bolt:'<path d="M13 3 5 13.5h6L10.5 21 19 10.5h-6z"/>',
+  ext:'<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+  minus:'<path d="M5 12h14"/>',
+  wh:'<path d="M3.5 9.5 12 4l8.5 5.5V20h-17z"/><path d="M7.5 20v-6.5h9V20M7.5 16.5h9"/>',
+  pkg:'<path d="M4 8 12 4l8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8M8 6l8 4"/>',
+  sheet:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.5h16M4 14.5h16M10 9.5V20"/>',
+  print:'<path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="1.5"/><path d="M7 14h10v6H7z"/>',
+  clock:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+  warn:'<path d="M12 4 2.8 19.5h18.4z"/><path d="M12 10v4M12 17v.01"/>',
+  trash:'<path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/>',
+  doc:'<path d="M7 3.5h7l4 4v13H7z"/><path d="M14 3.5v4h4M10 12h5M10 15.5h5"/>',
+  link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'
+};
+const ic=(n,s=16,w=1.7)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;
+const paintIcons=root=>root.querySelectorAll('[data-ic]').forEach(e=>{const k=e.dataset.ic,top=!!e.closest('.ib');e.innerHTML=ic(k,k==='plus'?20:top?22:16,k==='plus'?2.2:top?1.6:1.7)});
+paintIcons(document);
+
+/* ===== Sidebar ===== */
+const NAV=[
+  {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customers',v:'cus'},{i:'box',t:'Product catalog'},
+  {h:'Products'},
+  {i:'cart',t:'Checkout',sub:['Orders',{t:'Invoices',v:'inv'},'Payment methods','Checkout personalization','Order analytics']},
+  {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},'Bulk shipping','Warehouses','Courier performance']},
+  {i:'coins',t:'Funding',sub:['Merchant cash advance','Auto settlement']},
+  {i:'chart',t:'Reporting',sub:['Reports','Exports']},
+  {i:'more',t:'More',sub:['Developers','Settings']}
+];
+const nav=document.getElementById('nav');
+nav.innerHTML=NAV.map(n=>n.h?`<div class="navh text-[12.5px] text-app-muted pt-4.5 pb-1.5 px-2.5 font-medium">${n.h}</div>`:n.sub?`<div class="grp"><button class="ni flex items-center gap-2.5 h-8 py-0 px-2.5 rounded-control text-app-text text-[14px] w-full text-left hover:bg-app-hover [&.on]:text-primary [&.on]:font-medium [&_svg]:text-app-muted [&.on_svg]:text-primary [.sub_&]:h-7.5 [.sub_&]:text-[13.5px]">${ic(n.i)}${n.t}<span class="chev [.ni_&]:ml-auto [.ni_&]:text-app-faint [.ni_&]:[transition:transform_.15s] [.grp.open>.ni_&]:[transform:rotate(180deg)] [.sx-sh_&]:ml-auto [.sx-sh_&]:text-app-muted [.sx-sh_&]:flex [.sx-sh_&]:[transition:transform_.2s] [.sx-ship.open_.sx-sh_&]:[transform:rotate(180deg)] [.sx-addr_&]:ml-auto [.sx-addr_&]:flex [.sx-addr_&]:text-app-muted [.sx-addr_&]:[transform:rotate(-90deg)]">${ic('chev',14)}</span></button><div class="sub hidden pt-0.5 pb-1 pr-0 pl-7.5 [.grp.open_&]:grid">${n.sub.map(s=>s.v?`<button class="ni flex items-center gap-2.5 h-8 py-0 px-2.5 rounded-control text-app-text text-[14px] w-full text-left hover:bg-app-hover [&.on]:text-primary [&.on]:font-medium [&_svg]:text-app-muted [&.on_svg]:text-primary [.sub_&]:h-7.5 [.sub_&]:text-[13.5px]" data-view="${s.v}">${s.t}</button>`:`<button class="ni flex items-center gap-2.5 h-8 py-0 px-2.5 rounded-control text-app-text text-[14px] w-full text-left hover:bg-app-hover [&.on]:text-primary [&.on]:font-medium [&_svg]:text-app-muted [&.on_svg]:text-primary [.sub_&]:h-7.5 [.sub_&]:text-[13.5px]" data-toast="Opens ${s}">${s}</button>`).join('')}</div></div>`:n.v?`<button class="ni flex items-center gap-2.5 h-8 py-0 px-2.5 rounded-control text-app-text text-[14px] w-full text-left hover:bg-app-hover [&.on]:text-primary [&.on]:font-medium [&_svg]:text-app-muted [&.on_svg]:text-primary [.sub_&]:h-7.5 [.sub_&]:text-[13.5px]" data-view="${n.v}">${ic(n.i)}${n.t}</button>`:`<button class="ni flex items-center gap-2.5 h-8 py-0 px-2.5 rounded-control text-app-text text-[14px] w-full text-left hover:bg-app-hover [&.on]:text-primary [&.on]:font-medium [&_svg]:text-app-muted [&.on_svg]:text-primary [.sub_&]:h-7.5 [.sub_&]:text-[13.5px]" data-toast="Opens ${n.t}">${ic(n.i)}${n.t}</button>`).join('');
+nav.querySelectorAll('.grp>.ni').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
+const side=document.getElementById('side'),sscrim=document.getElementById('sidescrim');
+const setSide=o=>{side.classList.toggle('open',o);sscrim.classList.toggle('open',o)};
+document.getElementById('burger').onclick=()=>setSide(true);
+sscrim.onclick=()=>setSide(false);
+
+/* ===== Dummy data (seeded, so it's the same on every load) ===== */
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const pick=a=>a[Math.floor(rnd()*a.length)];
+const METHODS={
+  qris:{cat:'QRIS',bg:'#111',txt:'QRIS',d:()=>'QRIS · '+pick(['BCA mobile','GoPay','OVO','DANA','ShopeePay'])},
+  gopay:{cat:'E-wallet',bg:'#00AED6',txt:'gopay',d:()=>'GoPay · +62 812-•••-'+(1000+Math.floor(rnd()*8999))},
+  ovo:{cat:'E-wallet',bg:'#4C3494',txt:'OVO',d:()=>'OVO · +62 813-•••-'+(1000+Math.floor(rnd()*8999))},
+  dana:{cat:'E-wallet',bg:'#118EEA',txt:'DANA',d:()=>'DANA · +62 857-•••-'+(1000+Math.floor(rnd()*8999))},
+  bca:{cat:'Virtual account',bg:'#005EAA',txt:'BCA',d:()=>'VA <span class="dots [.pmd_&]:tracking-[1px] [.pmd_&]:mr-[3px]">••••</span>'+(1000+Math.floor(rnd()*8999))},
+  mandiri:{cat:'Virtual account',bg:'#003D79',txt:'mandiri',d:()=>'VA <span class="dots [.pmd_&]:tracking-[1px] [.pmd_&]:mr-[3px]">••••</span>'+(1000+Math.floor(rnd()*8999))},
+  bni:{cat:'Virtual account',bg:'#F15A23',txt:'BNI',d:()=>'VA <span class="dots [.pmd_&]:tracking-[1px] [.pmd_&]:mr-[3px]">••••</span>'+(1000+Math.floor(rnd()*8999))},
+  visa:{cat:'Card',bg:'#1A1F71',txt:'VISA',d:()=>'<span class="dots [.pmd_&]:tracking-[1px] [.pmd_&]:mr-[3px]">••••</span>'+pick(['0876','7662','4242','3077'])},
+  mc:{cat:'Card',bg:'#111',txt:'mc',d:()=>'<span class="dots [.pmd_&]:tracking-[1px] [.pmd_&]:mr-[3px]">••••</span>'+pick(['4949','5454','0876'])},
+  cod:{cat:'COD',bg:'#1EA672',txt:'COD',d:()=>'Cash on delivery'}
+};
+const MKEYS=['qris','qris','qris','gopay','ovo','dana','bca','bca','mandiri','bni','visa','mc','cod','cod'];
+const CUST=['Rina Putri','Budi Santoso','Sari Wulandari','Andi Pratama','Dewi Lestari','Fajar Nugroho','Maya Sari','Rizky Ramadhan','Putri Ayu','Agus Setiawan','Nadia Rahma','Yoga Saputra'];
+const CITY=['Jakarta','Bandung','Surabaya','Medan','Denpasar','Makassar','Yogyakarta','Semarang'];
+const SRC=['FLIK Checkout','FLIK Checkout','FLIK Checkout','FLIK Checkout','Payment link','Invoice'];
+const NOW=new Date(2026,9,14,16,20);
+const PAY=[];let t=NOW.getTime();
+for(let i=0;i<380;i++){
+  t-=Math.floor((.5+rnd()*8)*3600*1000);
+  const m=pick(MKEYS),r=rnd();
+  let st=r<.74?'succeeded':r<.82?'refunded':r<.88?'pending':r<.94?'canceled':'failed';
+  if(m==='cod'&&st==='failed')st='canceled';
+  const amt=Math.round((49000+rnd()*rnd()*2400000)/500)*500;
+  const created=new Date(t);
+  PAY.push({id:'py_'+Math.random().toString(36).slice(2,8)+Math.floor(rnd()*1e6).toString(36),amount:amt,currency:'IDR',status:st,mk:m,method:METHODS[m].d(),customer:pick(CUST),city:pick(CITY),source:m==='cod'?'FLIK Checkout':pick(SRC),
+    order:'FLK-'+(20480-i),created,refunded:st==='refunded'?new Date(t+Math.floor((1+rnd()*48)*3600*1000)):null,
+    courier:pick(['Regular','Same day','Next day','Instant']),awb:'FLK'+created.getFullYear().toString().slice(2)+String(created.getMonth()+1).padStart(2,'0')+String(created.getDate()).padStart(2,'0')+String(1000+i)});
+}
+const SETTLE=Array.from({length:18},(_,i)=>{const d=new Date(NOW.getTime()-i*86400000);return{id:'st_'+(9000-i),amount:Math.round((800000+rnd()*2200000)/1000)*1000,status:i===0?'pending':'succeeded',created:d,ref:'MCA-0007'}});
+
+/* ===== Formatting ===== */
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const rp=n=>'Rp'+Math.abs(n).toLocaleString('id-ID');
+const fdate=d=>`${d.getDate()} ${MON[d.getMonth()]}, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+const fdateY=d=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+const ST={succeeded:['Succeeded','ok','check'],refunded:['Refunded','pu','refund'],pending:['Pending','warn',null],canceled:['Canceled','gr','x'],failed:['Failed','bad','x']};
+const stPill=s=>{const x=ST[s];return`<span class="st ${x[1]} inline-flex items-center gap-1 h-5.5 py-0 px-[7px] rounded-badge text-[12.5px] font-medium border [&.ok]:bg-badge-ok-bg [&.ok]:text-badge-ok-text [&.ok]:border-badge-ok-border [&.gr]:bg-badge-neutral-bg [&.gr]:text-badge-neutral-text [&.gr]:border-badge-neutral-border [&.warn]:bg-badge-warn-bg [&.warn]:text-badge-warn-text [&.warn]:border-badge-warn-border [&.bad]:bg-badge-bad-bg [&.bad]:text-badge-bad-text [&.bad]:border-badge-bad-border [&.pu]:bg-badge-info-bg [&.pu]:text-badge-info-text [&.pu]:border-badge-info-border">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
+const pmBadge=k=>{const m=METHODS[k];if(k==='mc')return`<span class="pmb w-8.5 h-5.5 rounded-btn flex items-center justify-center text-[8.5px] font-bold tracking-[.2px] text-white flex-none" style="background:#111"><svg width="22" height="14" viewBox="0 0 22 14"><circle cx="8" cy="7" r="5.5" fill="#EB001B"/><circle cx="14" cy="7" r="5.5" fill="#F79E1B" opacity=".9"/></svg></span>`;return`<span class="pmb w-8.5 h-5.5 rounded-btn flex items-center justify-center text-[8.5px] font-bold tracking-[.2px] text-white flex-none" style="background:${m.bg}">${m.txt}</span>`};
+
+/* ===== State ===== */
+const TABS=[['payments','Payments'],['cod','COD payouts'],['refunds','Refunds'],['settle','Auto settlements']];
+const S={tab:'payments',q:'',date:null,status:new Set(),method:new Set(),srcOnly:true,sort:{k:'created',dir:-1},page:0,sel:new Set()};
+const PER=15;
+
+function rows(){
+  let r;
+  if(S.tab==='settle')r=SETTLE.map(x=>({...x}));
+  else{
+    r=PAY.filter(p=>S.tab==='payments'||(S.tab==='cod'?p.mk==='cod'&&p.status==='succeeded':p.status==='refunded'));
+    if(S.srcOnly)r=r.filter(p=>p.source==='FLIK Checkout');
+    if(S.status.size)r=r.filter(p=>S.status.has(p.status));
+    if(S.method.size)r=r.filter(p=>S.method.has(METHODS[p.mk].cat));
+  }
+  if(S.date){const days={today:1,'7d':7,'30d':30,'90d':90}[S.date];const from=new Date(NOW);from.setHours(0,0,0,0);from.setDate(from.getDate()-(days-1));r=r.filter(p=>p.created>=from)}
+  if(S.q){const q=S.q.toLowerCase().replace(/[.\s]/g,'');r=r.filter(p=>[p.id,p.order,p.customer,p.method,String(p.amount),p.awb,p.ref].filter(Boolean).join(' ').toLowerCase().replace(/<[^>]+>|[.\s•]/g,'').includes(q))}
+  const k=S.sort.k,d=S.sort.dir;
+  r.sort((a,b)=>{const va=a[k]??(d>0?Infinity:-Infinity),vb=b[k]??(d>0?Infinity:-Infinity);return (va>vb?1:va<vb?-1:0)*d});
+  return r;
+}
+
+/* ===== Render ===== */
+const tabsEl=document.getElementById('tabs');
+function renderTabs(){
+  const n={payments:PAY.length,cod:PAY.filter(p=>p.mk==='cod'&&p.status==='succeeded').length,refunds:PAY.filter(p=>p.status==='refunded').length,settle:SETTLE.length};
+  tabsEl.innerHTML=TABS.map(t=>`<button class="tab${S.tab===t[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} pt-2.5 pb-[11px] px-0 text-app-muted font-medium text-[14.5px] border-b-[2px] border-b-transparent mb-[-1px] whitespace-nowrap hover:text-app-text [&.on]:text-primary [&.on]:[border-bottom-color:var(--color-primary)]" data-t="${t[0]}" role="tab" aria-selected="${S.tab===t[0]}">${t[1]}</button>`).join('');
+  tabsEl.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{S.tab=b.dataset.t;S.page=0;S.sel.clear();if(S.tab==='refunds'&&S.sort.k==='created')S.sort={k:'refunded',dir:-1};if(S.tab!=='refunds'&&S.sort.k==='refunded'&&S.tab!=='payments')S.sort={k:'created',dir:-1};render()});
+}
+function cols(){
+  if(S.tab==='settle')return[['amount','Amount',1],['status','',0],['ref','Cash advance',0],['created','Date',1]];
+  if(S.tab==='cod')return[['amount','Amount',1],['status','',0],['fee','COD fee (3%)',0],['net','Added to balance',0],['created','Delivered',1]];
+  return[['amount','Amount',1],['status','',0],['method','Payment method',0],['created','Date',1],['refunded','Refunded date',1]];
+}
+function render(){
+  renderTabs();
+  const all=rows(),pages=Math.max(1,Math.ceil(all.length/PER));S.page=Math.min(S.page,pages-1);
+  const view=all.slice(S.page*PER,S.page*PER+PER);
+  const C=cols();
+  const allSel=view.length&&view.every(r=>S.sel.has(r.id)),someSel=view.some(r=>S.sel.has(r.id));
+  document.getElementById('thead').innerHTML=`<tr><th class="c-chk w-9"><button class="cb ${allSel?'on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':someSel?'mixed':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]" id="selall" aria-label="Select all">${allSel?ic('check',12,3):''}</button></th>`+
+    C.map(c=>{if(c[0]==='status')return'<th></th>';const sorted=S.sort.k===c[0];return`<th class="${c[2]?'sort cursor-pointer hover:text-primary':''}${sorted?' sorted':''}" ${c[2]?`data-s="${c[0]}"`:''} >${c[1]}${c[2]?`<span class="si [th_&]:inline-flex [th_&]:[vertical-align:middle] [th_&]:ml-[3px] [th_&]:text-app-faint [th.sorted_&]:text-primary">${ic(sorted?(S.sort.dir>0?'up':'down'):'sort',13,2)}</span>`:''}</th>`}).join('')+'<th style="width:40px"></th></tr>';
+  const tb=document.getElementById('tbody');
+  if(!view.length){tb.innerHTML=`<tr><td colspan="9" style="height:auto;border:0;cursor:default"><div class="empty py-14 px-0 text-center text-app-muted [&_b]:block [&_b]:text-app-ink [&_b]:text-[15px] [&_b]:mb-1"><b>No results</b>Try changing the filters or search.</div></td></tr>`}
+  else tb.innerHTML=view.map(r=>{
+    const on=S.sel.has(r.id);
+    let cells=`<td class="amt num tabular-nums font-semibold text-app-ink text-left w-[1%] pr-6 whitespace-nowrap">${rp(r.amount)}</td><td class="c-st w-37.5">${stPill(r.status)}</td>`;
+    if(S.tab==='settle')cells+=`<td><span class="pmd text-app-text">${r.ref}</span> <span class="src text-[12.5px] text-app-muted">· Auto settlement</span></td><td class="date text-app-text">${fdate(r.created)}</td>`;
+    else if(S.tab==='cod'){const fee=Math.round(r.amount*.03);cells+=`<td class="num tabular-nums">−${rp(fee)}</td><td class="num tabular-nums" style="font-weight:500">${rp(r.amount-fee)}</td><td class="date text-app-text">${fdate(r.created)}</td>`}
+    else cells+=`<td><div class="pm flex items-center gap-2.5">${pmBadge(r.mk)}<span class="pmd text-app-text">${r.method}</span></div></td><td class="date text-app-text">${fdate(r.created)}</td><td class="rdate${r.refunded?'':' none'} text-app-text [&.none]:text-app-faint">${r.refunded?fdate(r.refunded):'—'}</td>`;
+    return`<tr data-id="${r.id}" class="${on?'sel [tbody_&_td]:bg-app-selected':''}"><td class="c-chk w-9"><button class="cb ${on?'on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]" data-chk="${r.id}" aria-label="Select row">${on?ic('check',12,3):''}</button></td>${cells}<td><button class="dots-b w-7 h-7 rounded-control flex items-center justify-center text-app-muted ml-auto hover:bg-white hover:shadow-app" data-menu="${r.id}" aria-label="More">${ic('dots',16)}</button></td></tr>`;
+  }).join('');
+  document.getElementById('count').innerHTML=all.length?`Viewing <b>${S.page*PER+1}–${Math.min(all.length,S.page*PER+PER)}</b> of <b>${all.length}</b> results`:'Viewing <b>0</b> results';
+  document.getElementById('prev').disabled=S.page===0;document.getElementById('next').disabled=S.page>=pages-1;
+  document.getElementById('prev').style.opacity=S.page===0?.5:1;document.getElementById('next').style.opacity=S.page>=pages-1?.5:1;
+  const bulk=document.getElementById('bulk');bulk.classList.toggle('show',S.sel.size>0);document.getElementById('bulk-n').textContent=`${S.sel.size} selected`;
+  document.getElementById('bulk-refund').style.display=S.tab==='payments'?'':'none';
+  renderChips();
+  // wire
+  document.getElementById('selall').onclick=e=>{e.stopPropagation();if(allSel)view.forEach(r=>S.sel.delete(r.id));else view.forEach(r=>S.sel.add(r.id));render()};
+  document.querySelectorAll('th[data-s]').forEach(th=>th.onclick=()=>{const k=th.dataset.s;S.sort=S.sort.k===k?{k,dir:-S.sort.dir}:{k,dir:k==='amount'?-1:-1};render()});
+  tb.querySelectorAll('[data-chk]').forEach(b=>b.onclick=e=>{e.stopPropagation();const id=b.dataset.chk;S.sel.has(id)?S.sel.delete(id):S.sel.add(id);render()});
+  tb.querySelectorAll('[data-menu]').forEach(b=>b.onclick=e=>{e.stopPropagation();rowMenu(b,b.dataset.menu)});
+  tb.querySelectorAll('tr[data-id]').forEach(tr=>tr.onclick=()=>openDetail(tr.dataset.id));
+}
+document.getElementById('prev').onclick=()=>{S.page--;render()};
+document.getElementById('next').onclick=()=>{S.page++;render()};
+document.getElementById('bulk-clear').onclick=()=>{S.sel.clear();render()};
+
+/* ===== Filters ===== */
+const DATE_OPTS=[['today','Today'],['7d','Last 7 days'],['30d','Last 30 days'],['90d','Last 90 days']];
+const STATUS_OPTS=['succeeded','pending','refunded','canceled','failed'];
+const METHOD_OPTS=['QRIS','E-wallet','Virtual account','Card','COD'];
+function renderChips(){
+  document.querySelectorAll('#filters .chip').forEach(ch=>{
+    const f=ch.dataset.f,base={date:'Date and time',status:'Status',method:'Payment method'}[f];
+    let val='';
+    if(f==='date'&&S.date)val=DATE_OPTS.find(o=>o[0]===S.date)[1];
+    if(f==='status'&&S.status.size)val=[...S.status].map(s=>ST[s][0]).join(', ');
+    if(f==='method'&&S.method.size)val=[...S.method].join(', ');
+    const disabled=S.tab==='settle'&&f!=='date';
+    ch.style.display=disabled?'none':'';
+    ch.classList.toggle('set',!!val);
+    ch.innerHTML=val?`<span class="clr [.chip.set_&]:text-app-faint [.chip.set_&]:ml-0.5 [.chip.set_&:hover]:text-app-text" data-clr="${f}">${ic('x',14,2)}</span>${base} <span class="val [.chip.set_&]:text-primary">${val.length>28?val.slice(0,26)+'…':val}</span>`:`${ic('pluscirc',15)}${base}`;
+  });
+  const pill=document.getElementById('srcpill');pill.style.display=S.tab==='settle'?'none':'';
+  pill.classList.toggle('on',S.srcOnly);pill.innerHTML=`${ic(S.srcOnly?'minuscirc':'pluscirc',15)}FLIK Checkout`;
+}
+const pop=document.getElementById('pop');let popFor=null;
+function closePop(){pop.classList.remove('open');popFor=null}
+function placePop(anchor,alignRight){const r=anchor.getBoundingClientRect();pop.style.top=(r.bottom+6+scrollY)+'px';pop.classList.add('open');const w=pop.offsetWidth;let left=alignRight?r.right-w:r.left;left=Math.max(8,Math.min(left,innerWidth-w-8));pop.style.left=left+'px'}
+function openFilter(ch){
+  const f=ch.dataset.f;if(popFor===ch){closePop();return}
+  popFor=ch;
+  if(f==='date'){
+    pop.innerHTML=`<h6>Filter by date</h6>${DATE_OPTS.map(o=>`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-v="${o[0]}"><span class="rdo${S.date===o[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-full border border-[#C0C8D2] flex-none relative [&.on]:border-[5px] [&.on]:border-primary [.ie-r_&]:mt-0.5 [.sx-svc_.n_&]:ml-auto [.sx-wl_&]:mt-0.5"></span>${o[1]}</button>`).join('')}<div class="pop-f flex justify-end gap-1.5 pt-2 pb-1 px-1.5 border-t border-t-app-line mt-1.5"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-clear>Clear</button></div>`;
+    pop.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{S.date=b.dataset.v;S.page=0;closePop();render()});
+  }else{
+    const opts=f==='status'?STATUS_OPTS:METHOD_OPTS,set=f==='status'?S.status:S.method,temp=new Set(set);
+    const lab=v=>f==='status'?ST[v][0]:v;
+    const draw=()=>{pop.innerHTML=`<h6>Filter by ${f==='status'?'status':'payment method'}</h6>${opts.map(o=>`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-v="${o}"><span class="cb${temp.has(o)?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]">${temp.has(o)?ic('check',12,3):''}</span>${lab(o)}</button>`).join('')}<div class="pop-f flex justify-end gap-1.5 pt-2 pb-1 px-1.5 border-t border-t-app-line mt-1.5"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-clear>Clear</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-apply>Apply</button></div>`;
+      pop.querySelectorAll('[data-v]').forEach(b=>b.onclick=e=>{e.stopPropagation();temp.has(b.dataset.v)?temp.delete(b.dataset.v):temp.add(b.dataset.v);draw()});
+      pop.querySelector('[data-apply]').onclick=()=>{set.clear();temp.forEach(v=>set.add(v));S.page=0;closePop();render()};
+      pop.querySelector('[data-clear]').onclick=()=>{set.clear();S.page=0;closePop();render()};
+    };draw();
+  }
+  const clr=pop.querySelector('[data-clear]');if(f==='date')clr.onclick=()=>{S.date=null;closePop();render()};
+  placePop(ch);
+}
+document.getElementById('filters').addEventListener('click',e=>{
+  const c=e.target.closest('[data-clr]');
+  if(c){e.stopPropagation();const f=c.dataset.clr;if(f==='date')S.date=null;else(f==='status'?S.status:S.method).clear();S.page=0;closePop();render();return}
+  const ch=e.target.closest('.chip');if(ch){e.stopPropagation();openFilter(ch)}
+});
+document.getElementById('srcpill').onclick=()=>{S.srcOnly=!S.srcOnly;S.page=0;render();toast(S.srcOnly?'Showing FLIK Checkout payments only':'Showing payments from all sources')};
+document.addEventListener('click',e=>{if(!e.target.closest('#pop'))closePop()});
+addEventListener('resize',closePop);
+
+/* Search */
+const qEl=document.getElementById('q');
+qEl.oninput=()=>{S.q=qEl.value.trim();S.page=0;render()};
+addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==qEl&&!document.querySelector('.mscrim.open')){e.preventDefault();qEl.focus()}if(e.key==='Escape'){closePop();closeDetail();closeModal();setSide(false)}});
+
+/* ===== Row menu ===== */
+function rowMenu(btn,id){
+  if(popFor===btn){closePop();return}popFor=btn;
+  const p=PAY.find(x=>x.id===id)||SETTLE.find(x=>x.id===id);
+  const canRefund=p&&p.mk&&p.status==='succeeded'&&p.mk!=='cod';
+  pop.innerHTML=`<div class="menu [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-t-app-line [&_hr]:my-[5px] [&_hr]:mx-0"><button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-a="view">${ic('tx',15)}View details</button><button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-a="copy">${ic('copy',15)}Copy ID</button>${p.customer?`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-a="cust">${ic('user',15)}View customer</button>`:''}${canRefund?`<hr><button class="opt danger flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-a="refund">${ic('refund',15)}Refund payment</button>`:''}</div>`;
+  pop.querySelectorAll('[data-a]').forEach(b=>b.onclick=e=>{e.stopPropagation();closePop();const a=b.dataset.a;if(a==='view')openDetail(id);if(a==='copy')copyId(id);if(a==='cust')toast(`Opens customer ${p.customer}`);if(a==='refund')refundModal([id])});
+  placePop(btn,true);
+}
+function copyId(id){try{navigator.clipboard&&navigator.clipboard.writeText(id)}catch(e){}toast(`Copied ${id}`)}
+
+/* ===== Detail drawer ===== */
+const drawer=document.getElementById('drawer'),dscrim=document.getElementById('dscrim');
+function openDetail(id){
+  const p=PAY.find(x=>x.id===id),s=!p&&SETTLE.find(x=>x.id===id);
+  if(s){drawer.innerHTML=`<div class="dh flex items-center justify-between py-4 px-5 border-b border-b-app-line"><span class="kind [.dh_&]:text-[13px] [.dh_&]:text-app-muted [.dh_&]:flex [.dh_&]:items-center [.dh_&]:gap-1.5">${ic('coins',15)}Auto settlement</span><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db p-5 overflow-y-auto flex-1"><div class="d-amt flex items-center gap-2.5 flex-wrap [&_b]:text-[26px] [&_b]:font-semibold [&_b]:text-app-ink [&_b]:tracking-[-.4px]"><b class="num tabular-nums">${rp(s.amount)}</b>${stPill(s.status)}</div><p class="d-sub text-app-muted mt-1 text-[13px]">${s.id}</p><div class="dsec mt-6.5 [&_h5]:text-[15px] [&_h5]:font-semibold [&_h5]:text-app-ink [&_h5]:pb-2.5 [&_h5]:border-b [&_h5]:border-b-app-line [&_h5]:mb-2.5"><h5>Details</h5><dl class="kv grid grid-cols-[150px_1fr] gap-y-[9px] gap-x-3 text-[13.5px] [&_dt]:text-app-muted [&_dd]:text-app-text [&_dd]:break-words max-[600px]:grid-cols-[120px_1fr]"><dt>Cash advance</dt><dd>${s.ref}</dd><dt>Type</dt><dd>Deducted from sales</dd><dt>Date</dt><dd>${fdateY(s.created)}</dd><dt>Fees</dt><dd>No hidden fees</dd></dl></div></div>`}
+  else{
+    const canRefund=p.status==='succeeded'&&p.mk!=='cod';
+    const tl=[[p.created,'Payment started','',null]];
+    if(p.status!=='pending'&&p.status!=='canceled'&&p.status!=='failed')tl.unshift([new Date(p.created.getTime()+28000),'Payment succeeded','ok','check']);
+    if(p.status==='canceled')tl.unshift([new Date(p.created.getTime()+3600000),'Payment canceled','',null]);
+    if(p.status==='failed')tl.unshift([new Date(p.created.getTime()+60000),'Payment failed','',null]);
+    if(p.refunded)tl.unshift([p.refunded,`Refunded ${rp(p.amount)}`,'pu','refund']);
+    drawer.innerHTML=`<div class="dh flex items-center justify-between py-4 px-5 border-b border-b-app-line"><span class="kind [.dh_&]:text-[13px] [.dh_&]:text-app-muted [.dh_&]:flex [.dh_&]:items-center [.dh_&]:gap-1.5">${ic('tx',15)}Payment</span><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="db p-5 overflow-y-auto flex-1">
+      <div class="d-amt flex items-center gap-2.5 flex-wrap [&_b]:text-[26px] [&_b]:font-semibold [&_b]:text-app-ink [&_b]:tracking-[-.4px]"><b class="num tabular-nums">${rp(p.amount)}</b>${stPill(p.status)}</div>
+      <p class="d-sub text-app-muted mt-1 text-[13px]">Charged to ${p.customer} · ${p.id}</p>
+      <div class="d-acts flex gap-2 mt-4 flex-wrap">${canRefund?`<button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-refund="${p.id}">${ic('refund',15)}Refund</button>`:''}<button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-copy="${p.id}">${ic('copy',15)}Copy ID</button><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-toast="Opens order ${p.order}">${ic('cart',15)}View order</button></div>
+      <div class="dsec mt-6.5 [&_h5]:text-[15px] [&_h5]:font-semibold [&_h5]:text-app-ink [&_h5]:pb-2.5 [&_h5]:border-b [&_h5]:border-b-app-line [&_h5]:mb-2.5"><h5>Recent activity</h5><div class="tl grid gap-0">${tl.map(x=>`<div class="tli ${x[2]} grid grid-cols-[18px_1fr] gap-2.5 relative pb-3.5 before:content-[''] before:absolute before:left-2 before:top-4.5 before:bottom-0 before:w-[1px] before:bg-app-line-2 [&:last-child::before]:hidden [&_i]:w-[17px] [&_i]:h-[17px] [&_i]:rounded-full [&_i]:bg-app-hover [&_i]:border [&_i]:border-app-line-2 [&_i]:flex [&_i]:items-center [&_i]:justify-center [&_i]:text-app-muted [&.ok_i]:bg-badge-ok-bg [&.ok_i]:border-badge-ok-border [&.ok_i]:text-badge-ok-text [&.pu_i]:bg-badge-info-bg [&.pu_i]:border-badge-info-border [&.pu_i]:text-badge-info-text [&_b]:font-medium [&_b]:block [&_b]:text-[13.5px] [&_b]:text-app-ink [&_span]:text-[12.5px] [&_span]:text-app-muted"><i>${x[3]?ic(x[3],11,2.4):''}</i><div><b>${x[1]}</b><span>${fdateY(x[0])}</span></div></div>`).join('')}</div></div>
+      <div class="dsec mt-6.5 [&_h5]:text-[15px] [&_h5]:font-semibold [&_h5]:text-app-ink [&_h5]:pb-2.5 [&_h5]:border-b [&_h5]:border-b-app-line [&_h5]:mb-2.5"><h5>Payment details</h5><dl class="kv grid grid-cols-[150px_1fr] gap-y-[9px] gap-x-3 text-[13.5px] [&_dt]:text-app-muted [&_dd]:text-app-text [&_dd]:break-words max-[600px]:grid-cols-[120px_1fr]"><dt>Amount</dt><dd class="num tabular-nums">${rp(p.amount)}</dd><dt>Payment method</dt><dd><div class="pm flex items-center gap-2.5">${pmBadge(p.mk)}<span>${p.method}</span></div></dd><dt>Source</dt><dd>${p.source}</dd><dt>Order</dt><dd>${p.order}</dd><dt>Statement descriptor</dt><dd>ARUNA STUDIO</dd></dl></div>
+      <div class="dsec mt-6.5 [&_h5]:text-[15px] [&_h5]:font-semibold [&_h5]:text-app-ink [&_h5]:pb-2.5 [&_h5]:border-b [&_h5]:border-b-app-line [&_h5]:mb-2.5"><h5>Customer</h5><dl class="kv grid grid-cols-[150px_1fr] gap-y-[9px] gap-x-3 text-[13.5px] [&_dt]:text-app-muted [&_dd]:text-app-text [&_dd]:break-words max-[600px]:grid-cols-[120px_1fr]"><dt>Name</dt><dd>${p.customer}</dd><dt>WhatsApp</dt><dd>+62 812-3456-7890</dd><dt>City</dt><dd>${p.city}</dd></dl></div>
+      <div class="dsec mt-6.5 [&_h5]:text-[15px] [&_h5]:font-semibold [&_h5]:text-app-ink [&_h5]:pb-2.5 [&_h5]:border-b [&_h5]:border-b-app-line [&_h5]:mb-2.5"><h5>Shipping</h5><dl class="kv grid grid-cols-[150px_1fr] gap-y-[9px] gap-x-3 text-[13.5px] [&_dt]:text-app-muted [&_dd]:text-app-text [&_dd]:break-words max-[600px]:grid-cols-[120px_1fr]"><dt>Service</dt><dd>FLIK Shipping · ${p.courier}</dd><dt>Tracking number</dt><dd>${p.awb}</dd><dt>From</dt><dd>Warehouse Jakarta</dd></dl></div>
+    </div>`;
+  }
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
+  drawer.querySelector('[data-dclose]').onclick=closeDetail;
+  drawer.querySelectorAll('[data-refund]').forEach(b=>b.onclick=()=>refundModal([b.dataset.refund]));
+  drawer.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copyId(b.dataset.copy));
+}
+function closeDetail(){drawer.classList.remove('open');dscrim.classList.remove('open');drawer.setAttribute('aria-hidden','true')}
+dscrim.onclick=closeDetail;
+
+/* ===== Refund modal ===== */
+const mscrim=document.getElementById('mscrim'),modal=document.getElementById('modal');
+function closeModal(){mscrim.classList.remove('open')}
+mscrim.onclick=e=>{if(e.target===mscrim||e.target.closest('[data-mclose]'))closeModal()};
+function refundModal(ids){
+  const list=ids.map(id=>PAY.find(p=>p.id===id)).filter(p=>p&&p.status==='succeeded'&&p.mk!=='cod');
+  if(!list.length){toast('Only succeeded, non-COD payments can be refunded');return}
+  const total=list.reduce((a,p)=>a+p.amount,0),single=list.length===1;
+  modal.innerHTML=`<div class="mh pt-5 pb-1.5 px-5.5 flex justify-between items-center [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:text-app-ink"><h3>Refund ${single?'payment':list.length+' payments'}</h3><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb py-2.5 px-5.5 grid gap-3.5">${single?`<div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="ramt">Refund amount</label><input id="ramt" class="num tabular-nums" value="${list[0].amount.toLocaleString('id-ID')}"><p class="hint [.fld_&]:text-[12.5px] [.fld_&]:text-app-muted [.fld_&]:mt-[5px]">Up to ${rp(list[0].amount)}. Refunds go back to the original payment method.</p></div>`:`<p>${list.length} payments, ${rp(total)} in total, will be refunded in full.</p>`}
+  <div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="rreason">Reason</label><input id="rreason" value="Requested by customer"></div></div>
+  <div class="mf pt-3.5 pb-5 px-5.5 flex justify-end gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-mclose>Cancel</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="rgo">Refund ${single?'':rp(total)}</button></div>`;
+  mscrim.classList.add('open');
+  const go=document.getElementById('rgo'),amt=document.getElementById('ramt');
+  if(amt){const v=()=>{const n=+amt.value.replace(/\D/g,'');go.disabled=!(n>0&&n<=list[0].amount);go.textContent=`Refund ${n?rp(n):''}`};amt.oninput=v;v()}
+  go.onclick=()=>{const when=new Date(NOW.getTime()+60000);list.forEach(p=>{p.status='refunded';p.refunded=when});S.sel.clear();closeModal();render();if(drawer.classList.contains('open')&&single)openDetail(list[0].id);toast(single?`Refunded ${amt?rp(+amt.value.replace(/\D/g,'')):rp(total)}`:`Refunded ${list.length} payments`)};
+}
+document.getElementById('bulk-refund').onclick=()=>refundModal([...S.sel]);
+
+/* ===== Export (CSV of current view) ===== */
+function exportCsv(onlySel){
+  let r=rows();if(onlySel)r=r.filter(x=>S.sel.has(x.id));
+  const head=['id','amount','currency','status','payment_method','customer','date','refunded_date'];
+  const csv=[head.join(',')].concat(r.map(x=>[x.id,x.amount,'IDR',x.status,x.mk?METHODS[x.mk].cat:'Auto settlement',x.customer||'',fdateY(x.created),x.refunded?fdateY(x.refunded):''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','))).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`flik-${S.tab}-${NOW.toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  toast(`Exported ${r.length} rows`);
+}
+document.getElementById('export').onclick=()=>exportCsv(false);
+document.getElementById('bulk-export').onclick=()=>exportCsv(true);
+
+/* ===== Top bar menus ===== */
+document.getElementById('plus').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  pop.innerHTML=`<div class="menu [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-t-app-line [&_hr]:my-[5px] [&_hr]:mx-0"><h6>Create</h6><button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-c="Payment link">${ic('link',15)}Payment link</button><button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-c="Shipment">${ic('truck',15)}Shipment</button><button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-c="Invoice">${ic('tx',15)}Invoice</button><button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-c="Funding request">${ic('coins',15)}Funding request</button></div>`;
+  pop.querySelectorAll('[data-c]').forEach(o=>o.onclick=()=>{closePop();if(o.dataset.c==='Invoice'){location.hash='invoices/create';return}if(o.dataset.c==='Shipment'){location.hash='shipments/create';return}toast(`Opens the new ${o.dataset.c.toLowerCase()} form`)});placePop(b,true)};
+document.getElementById('bell').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;b.querySelector('.dot')?.remove();
+  pop.innerHTML=`<div class="menu [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-t-app-line [&_hr]:my-[5px] [&_hr]:mx-0" style="width:300px"><h6>Notifications</h6>${[['Payout received','Rp4.523.800 added to your balance','2m'],['Shipment delivered','FLK2610141012 · Surabaya','1h'],['Auto settlement','Rp1.250.000 deducted from sales','5h']].map(n=>`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" style="align-items:flex-start"><span style="flex:1"><b style="font-weight:500;display:block;color:var(--color-app-ink)">${n[0]}</b><span style="color:var(--color-app-muted);font-size:12.5px">${n[1]}</span></span><span style="color:var(--color-app-faint);font-size:12px">${n[2]}</span></button>`).join('')}</div>`;placePop(b,true)};
+
+/* ===== Toast + generic actions ===== */
+const toastEl=document.getElementById('toast');let tt;
+function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2400)}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-toast]');if(a){toast(a.dataset.toast);if(a.closest('#side'))setSide(false)}});
+
+render();
+
+/* ===== Home ===== */
+const QA=[
+  ['inv','Online invoice','Create an invoice with your choice of payment methods','+ Invoice',()=>{location.hash='invoices/create'}],
+  ['pkg','Send a package','Many couriers and services to choose from','+ Shipment',()=>{location.hash='shipments/create'}],
+  ['form','Order form','Create a landing page and order form for selling online','+ Order form',()=>toast('Opens the new order form builder')],
+  ['tag','Add a promo','Create a shipping or product promo','+ Promo',()=>toast('Opens the new promo form')],
+  ['wallet','Top up balance','Add balance to create shipments','+ Balance',topupModal],
+  ['track','Track shipments','Check the status of one package or many at once','Track',trackModal]
+];
+Object.assign(P,{
+  inv:'<path d="M7 3.5h8l3 3V20.5H7z"/><path d="M15 3.5v3h3M10 10h5M10 13.5h5M10 17h3"/>',
+  pkg:'<path d="M4 8 12 4l8 4v8l-8 4-8-4z"/><path d="m4 8 8 4 8-4M12 12v8M8 6l8 4"/>',
+  form:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M8 13h8M8 16.5h5"/>',
+  tag:'<path d="M3.5 12.5V4.5a1 1 0 0 1 1-1h8l8 8-9 9z"/><circle cx="8.5" cy="8.5" r="1.5"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 9.5h18M16 14h2"/>',
+  track:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M11 8v3l2 1.5"/>'
+});
+document.getElementById('qa').innerHTML=QA.map((q,i)=>`<div class="qa flex items-center gap-3.5 p-4 rounded-card shadow-app bg-white text-left w-full [transition:box-shadow_.15s] hover:shadow-[0_0_0_1px_rgba(64,68,82,.14),0_4px_12px_rgba(64,68,82,.1)]"><span class="qic w-10 h-10 rounded-card bg-white border border-[#E3E8EE] text-primary flex items-center justify-center flex-none">${ic(q[0],20,1.6)}</span><span class="qt [.qa_&]:flex-1 [.qa_&]:min-w-0 [.qa_&_b]:block [.qa_&_b]:font-semibold [.qa_&_b]:text-app-ink [.qa_&_b]:text-[14.5px] [.qa_&_span]:block [.qa_&_span]:text-app-muted [.qa_&_span]:text-[13px] [.qa_&_span]:mt-0.5 max-[700px]:[.qa_&_span]:whitespace-normal"><b>${q[1]}</b><span>${q[2]}</span></span><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-qa="${i}">${q[3]}</button></div>`).join('');
+document.querySelectorAll('[data-qa]').forEach(b=>b.onclick=e=>{e.stopPropagation();QA[+b.dataset.qa][4]()});
+
+/* Sales summary chart (from the same dummy payments as Transactions) */
+const H={metric:'count',days:7};
+function series(days,offset=0){
+  const out=[];for(let i=days-1;i>=0;i--){const d0=new Date(NOW);d0.setHours(0,0,0,0);d0.setDate(d0.getDate()-i-offset);const d1=new Date(d0);d1.setDate(d1.getDate()+1);
+    const ps=PAY.filter(p=>p.status==='succeeded'&&p.created>=d0&&p.created<d1);out.push({d:d0,count:ps.length,gmv:ps.reduce((a,p)=>a+p.amount,0)})}
+  return out;
+}
+const compact=n=>n>=1e9?'Rp'+(n/1e9).toLocaleString('id-ID',{maximumFractionDigits:1})+' M':n>=1e6?'Rp'+(n/1e6).toLocaleString('id-ID',{maximumFractionDigits:1})+' jt':n>=1e3?'Rp'+Math.round(n/1e3)+' rb':'Rp'+n;
+function niceMax(v){if(v<=0)return H.metric==='count'?6:1000000;const p=Math.pow(10,Math.floor(Math.log10(v)));for(const m of[1,1.2,1.5,2,2.5,3,4,5,6,8,10])if(m*p>=v)return m*p;return 10*p}
+function drawChart(){
+  const el=document.getElementById('chart');const W=el.clientWidth,Hh=el.clientHeight;if(!W)return;
+  const data=series(H.days),prev=series(H.days,H.days),key=H.metric;
+  const total=data.reduce((a,x)=>a+x[key],0),ptotal=prev.reduce((a,x)=>a+x[key],0);
+  document.getElementById('kpi').textContent=key==='count'?total.toLocaleString('id-ID'):rp(total);
+  document.getElementById('kpi-l').textContent=`Last ${H.days} days`;document.getElementById('range-v').textContent=`Last ${H.days} days`;
+  const dl=document.getElementById('delta');if(ptotal){const pc=(total-ptotal)/ptotal*100;dl.className='delta '+(pc>=0?'up':'down')+' '+'text-[12.5px] font-medium py-0.5 px-[7px] rounded-badge [&.up]:bg-badge-ok-bg [&.up]:text-badge-ok-text [&.down]:bg-badge-bad-bg [&.down]:text-badge-bad-text';dl.textContent=(pc>=0?'+':'')+pc.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';dl.title='Compared with the previous '+H.days+' days'}else{dl.className='delta';dl.textContent=''}
+  const L=key==='count'?28:64,R=12,T=12,B=28,iw=W-L-R,ih=Hh-T-B;
+  const max=niceMax(Math.max(...data.map(x=>x[key]),...prev.map(x=>x[key]))),ticks=6;
+  const X=i=>L+(data.length===1?iw/2:i*iw/(data.length-1)),Y=v=>T+ih-(v/max)*ih;
+  let g='';for(let i=0;i<=ticks;i++){const v=max*i/ticks,y=Y(v);g+=`<line class="gl [.chart_&]:[stroke:var(--color-app-line)]" x1="${L}" x2="${W-R}" y1="${y}" y2="${y}"/><text class="ax [.chart_&]:[fill:var(--color-app-faint)] [.chart_&]:text-[11.5px] [.chart_&]:font-sans" x="${L-8}" y="${y+4}" text-anchor="end">${key==='count'?Math.round(v):compact(v)}</text>`}
+  const step=Math.ceil(data.length/8);data.forEach((x,i)=>{if(i%step===0||i===data.length-1)g+=`<text class="ax [.chart_&]:[fill:var(--color-app-faint)] [.chart_&]:text-[11.5px] [.chart_&]:font-sans" x="${X(i)}" y="${Hh-6}" text-anchor="middle">${x.d.getDate()} ${MON[x.d.getMonth()]}</text>`});
+  // smooth curve through the points (Catmull-Rom to Bezier, clamped so it never dips below 0)
+  const smooth=pts=>pts.map((p,i)=>{if(!i)return`M${p[0].toFixed(1)},${p[1].toFixed(1)}`;const p0=pts[i-2]||pts[i-1],p1=pts[i-1],p3=pts[i+1]||p;const c1=[p1[0]+(p[0]-p0[0])/6,Math.min(T+ih,p1[1]+(p[1]-p0[1])/6)],c2=[p[0]-(p3[0]-p1[0])/6,Math.min(T+ih,p[1]-(p3[1]-p1[1])/6)];return`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p[0].toFixed(1)},${p[1].toFixed(1)}`}).join(' ');
+  const line=smooth(data.map((x,i)=>[X(i),Y(x[key])]));
+  const pline=smooth(prev.map((x,i)=>[X(i),Y(x[key])]));
+  const area=line+` L${X(data.length-1)},${T+ih} L${X(0)},${T+ih} Z`;
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${Hh}"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A4BFF" stop-opacity=".18"/><stop offset="1" stop-color="#6A4BFF" stop-opacity="0"/></linearGradient></defs>${g}
+    <path d="${pline}" fill="none" stroke="#C0C8D2" stroke-width="1.5" stroke-dasharray="4 4"/><path d="${area}" fill="url(#ag)"/><path d="${line}" fill="none" stroke="#6A4BFF" stroke-width="2"/>
+    <line class="cur-line [.chart_&]:[stroke:var(--color-app-line-2)] [.chart_&]:[stroke-dasharray:3_3]" id="hl" y1="${T}" y2="${T+ih}" style="display:none"/><circle id="hp" r="4.5" fill="#fff" stroke="#6A4BFF" stroke-width="2" style="display:none"/>
+    <rect x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent" id="hit"/></svg><div class="tip absolute pointer-events-none bg-white rounded-card shadow-pop py-2 px-2.5 text-[12.5px] whitespace-nowrap [transform:translate(-50%,-100%)] -mt-3 hidden [&_b]:block [&_b]:text-app-ink [&_b]:text-[13.5px] [&_b]:font-semibold [&_span]:text-app-muted" id="tip"></div>`;
+  const hit=el.querySelector('#hit'),hl=el.querySelector('#hl'),hp=el.querySelector('#hp'),tip=el.querySelector('#tip');
+  const show=e=>{const r=el.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;const i=Math.max(0,Math.min(data.length-1,Math.round((x-L)/(iw/(Math.max(1,data.length-1))))));const d=data[i],px=X(i),py=Y(d[key]);
+    hl.setAttribute('x1',px);hl.setAttribute('x2',px);hl.style.display='';hp.setAttribute('cx',px);hp.setAttribute('cy',py);hp.style.display='';
+    tip.innerHTML=`<b>${key==='count'?d.count+' transactions':rp(d.gmv)}</b><span>${d.d.getDate()} ${MON[d.d.getMonth()]} ${d.d.getFullYear()} · prev. ${key==='count'?prev[i].count:compact(prev[i].gmv)}</span>`;tip.style.display='block';tip.style.left=Math.max(70,Math.min(W-70,px))+'px';tip.style.top=py+'px'};
+  hit.addEventListener('mousemove',show);hit.addEventListener('touchstart',show,{passive:true});hit.addEventListener('mouseleave',()=>{hl.style.display=hp.style.display='none';tip.style.display='none'});
+}
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x===b));H.metric=b.dataset.m;drawChart()});
+document.getElementById('range').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  pop.innerHTML=`<h6>Period</h6>${[7,14,30].map(n=>`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-n="${n}"><span class="rdo${H.days===n?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-full border border-[#C0C8D2] flex-none relative [&.on]:border-[5px] [&.on]:border-primary [.ie-r_&]:mt-0.5 [.sx-svc_.n_&]:ml-auto [.sx-wl_&]:mt-0.5"></span>Last ${n} days</button>`).join('')}`;
+  pop.querySelectorAll('[data-n]').forEach(o=>o.onclick=()=>{H.days=+o.dataset.n;closePop();drawChart()});placePop(b,true)};
+addEventListener('resize',()=>{if(!document.getElementById('view-home').hidden)drawChart()});
+
+/* Top up balance */
+function topupModal(){
+  let amt=1000000,via='bca';
+  const draw=()=>{modal.innerHTML=`<div class="mh pt-5 pb-1.5 px-5.5 flex justify-between items-center [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:text-app-ink"><h3>Top up balance</h3><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb py-2.5 px-5.5 grid gap-3.5"><div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="tamt">Amount</label><input id="tamt" class="num tabular-nums" value="${amt.toLocaleString('id-ID')}"></div>
+  <div class="amtopts flex gap-2 flex-wrap [&_button]:h-7.5 [&_button]:py-0 [&_button]:px-3 [&_button]:rounded-pill [&_button]:shadow-app [&_button]:text-[13px] [&_button]:font-medium">${[100000,500000,1000000,5000000].map(v=>`<button class="${v===amt?'on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''}" data-a="${v}">${rp(v)}</button>`).join('')}</div>
+  <div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label>Pay with</label><div class="paylist grid gap-1.5">${[['bca','BCA virtual account'],['mandiri','Mandiri virtual account'],['qris','QRIS']].map(m=>`<button class="payopt${via===m[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} flex items-center gap-2.5 p-2.5 rounded-card shadow-app text-left w-full [&.on]:shadow-[0_0_0_1.5px_var(--color-primary)]" data-v="${m[0]}">${pmBadge(m[0])}<span style="flex:1">${m[1]}</span><span class="rdo${via===m[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-full border border-[#C0C8D2] flex-none relative [&.on]:border-[5px] [&.on]:border-primary [.ie-r_&]:mt-0.5 [.sx-svc_.n_&]:ml-auto [.sx-wl_&]:mt-0.5"></span></button>`).join('')}</div></div></div>
+  <div class="mf pt-3.5 pb-5 px-5.5 flex justify-end gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-mclose>Cancel</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="tgo">Continue</button></div>`;
+  const inp=document.getElementById('tamt'),go=document.getElementById('tgo');
+  inp.oninput=()=>{amt=+inp.value.replace(/\D/g,'');go.disabled=!(amt>=10000)};
+  modal.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{amt=+b.dataset.a;draw()});
+  modal.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{via=b.dataset.v;draw()});
+  go.onclick=()=>{modal.innerHTML=`<div class="mh pt-5 pb-1.5 px-5.5 flex justify-between items-center [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:text-app-ink"><h3>Complete your top up</h3><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb py-2.5 px-5.5 grid gap-3.5"><div class="vabox bg-app-field rounded-card p-3.5 grid gap-1 [&_b]:text-[20px] [&_b]:text-app-ink [&_b]:tracking-[1px]">${via==='qris'?`<span class="kpi-l text-app-muted text-[13.5px]">Scan with any banking or e-wallet app</span><b>QRIS · ${rp(amt)}</b>`:`<span class="kpi-l text-app-muted text-[13.5px]">${via==='bca'?'BCA':'Mandiri'} virtual account number</span><b class="num tabular-nums">8808 0812 3456 7890</b><span class="kpi-l text-app-muted text-[13.5px]">Transfer exactly ${rp(amt)}</span>`}</div><p class="kpi-l text-app-muted text-[13.5px]">Your balance updates automatically after payment.</p></div><div class="mf pt-3.5 pb-5 px-5.5 flex justify-end gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-mclose>Close</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="tdone">I've paid</button></div>`;
+    document.getElementById('tdone').onclick=()=>{closeModal();toast(`Top up of ${rp(amt)} is being confirmed`)}};
+  };
+  draw();mscrim.classList.add('open');
+}
+/* Track shipments */
+function trackModal(){
+  modal.innerHTML=`<div class="mh pt-5 pb-1.5 px-5.5 flex justify-between items-center [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:text-app-ink"><h3>Track shipments</h3><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb py-2.5 px-5.5 grid gap-3.5"><div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="tno">Tracking numbers</label><input id="tno" value="${PAY[0].awb}" placeholder="One or more, separated by commas"></div><div id="tres"></div></div>
+  <div class="mf pt-3.5 pb-5 px-5.5 flex justify-end gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-mclose>Close</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="tgo2">Track</button></div>`;
+  mscrim.classList.add('open');
+  const run=()=>{const nos=document.getElementById('tno').value.split(/[,\s]+/).filter(Boolean);
+    document.getElementById('tres').innerHTML=nos.length?nos.map(n=>`<div class="dsec mt-6.5 [&_h5]:text-[15px] [&_h5]:font-semibold [&_h5]:text-app-ink [&_h5]:pb-2.5 [&_h5]:border-b [&_h5]:border-b-app-line [&_h5]:mb-2.5" style="margin-top:6px"><h5 style="font-size:13.5px">${n}</h5><div class="tl grid gap-0">${[['Out for delivery','Surabaya · 14 Oct 2026, 08:12','pu'],['Arrived at sorting hub','Surabaya · 13 Oct 2026, 22:40',''],['Picked up by courier','Jakarta · 12 Oct 2026, 15:30','']].map(x=>`<div class="tli ${x[2]} grid grid-cols-[18px_1fr] gap-2.5 relative pb-3.5 before:content-[''] before:absolute before:left-2 before:top-4.5 before:bottom-0 before:w-[1px] before:bg-app-line-2 [&:last-child::before]:hidden [&_i]:w-[17px] [&_i]:h-[17px] [&_i]:rounded-full [&_i]:bg-app-hover [&_i]:border [&_i]:border-app-line-2 [&_i]:flex [&_i]:items-center [&_i]:justify-center [&_i]:text-app-muted [&.ok_i]:bg-badge-ok-bg [&.ok_i]:border-badge-ok-border [&.ok_i]:text-badge-ok-text [&.pu_i]:bg-badge-info-bg [&.pu_i]:border-badge-info-border [&.pu_i]:text-badge-info-text [&_b]:font-medium [&_b]:block [&_b]:text-[13.5px] [&_b]:text-app-ink [&_span]:text-[12.5px] [&_span]:text-app-muted"><i></i><div><b>${x[0]}</b><span>${x[1]}</span></div></div>`).join('')}</div></div>`).join(''):'<p class="kpi-l text-app-muted text-[13.5px]">Enter at least one tracking number.</p>'};
+  document.getElementById('tgo2').onclick=run;
+}
+
+/* ===== Invoices: list ===== */
+const IST={draft:['Draft','gr',null],open:['Open','pu',null],past:['Past due','bad',null],paid:['Paid','ok','check'],void:['Void','gr',null]};
+const iPill=s=>{const x=IST[s];return`<span class="st ${x[1]} inline-flex items-center gap-1 h-5.5 py-0 px-[7px] rounded-badge text-[12.5px] font-medium border [&.ok]:bg-badge-ok-bg [&.ok]:text-badge-ok-text [&.ok]:border-badge-ok-border [&.gr]:bg-badge-neutral-bg [&.gr]:text-badge-neutral-text [&.gr]:border-badge-neutral-border [&.warn]:bg-badge-warn-bg [&.warn]:text-badge-warn-text [&.warn]:border-badge-warn-border [&.bad]:bg-badge-bad-bg [&.bad]:text-badge-bad-text [&.bad]:border-badge-bad-border [&.pu]:bg-badge-info-bg [&.pu]:text-badge-info-text [&.pu]:border-badge-info-border">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
+const fday=d=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`;
+const phone=()=>`+62 ${pick(['812','813','821','822','852','857','878','895'])}-${1000+Math.floor(rnd()*8999)}-${1000+Math.floor(rnd()*8999)}`;
+const ICUST=CUST.map(n=>({name:n,phone:phone(),email:n.toLowerCase().replace(' ','.')+'@gmail.com',city:pick(CITY)}));
+const CATALOG=[['Linen shirt · White',289000],['Canvas tote bag',149000],['Wide-leg trousers',219000],['Basic tee · Black',99000],['Voile scarf · Floral',125000],['Leather sneakers',459000],['Batik dress · Indigo',375000],['Gift wrapping',15000]];
+const INV=Array.from({length:16},(_,i)=>{const c=new Date(NOW.getTime()-i*1.7*86400000-Math.floor(rnd()*36e5*6));const st=i<2?'draft':i<6?'open':i===6||i===9?'past':i===11?'void':'paid';const cu=pick(ICUST);
+  return{no:st==='draft'?'Draft':'INV-2026-'+String(48-i).padStart(4,'0'),cust:cu,total:Math.round((150000+rnd()*2400000)/1000)*1000,status:st,created:c,due:st==='draft'?null:new Date(c.getTime()+(st==='past'?7:14)*86400000)}});
+const ITABS=[['all','All invoices'],['draft','Draft'],['open','Open'],['past','Past due'],['paid','Paid']];
+let itab='all';
+function renderInv(){
+  document.getElementById('inv-tabs').innerHTML=ITABS.map(t=>`<button class="tab${itab===t[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} pt-2.5 pb-[11px] px-0 text-app-muted font-medium text-[14.5px] border-b-[2px] border-b-transparent mb-[-1px] whitespace-nowrap hover:text-app-text [&.on]:text-primary [&.on]:[border-bottom-color:var(--color-primary)]" data-it="${t[0]}">${t[1]}</button>`).join('');
+  const rows=INV.filter(v=>itab==='all'||v.status===itab);
+  document.getElementById('inv-body').innerHTML=rows.length?rows.map((v,i)=>`<tr data-inv="${INV.indexOf(v)}"><td class="amt num tabular-nums font-semibold text-app-ink text-left w-[1%] pr-6 whitespace-nowrap">${rp(v.total)}</td><td class="c-st w-37.5">${iPill(v.status)}</td><td class="inv-no text-app-text tabular-nums">${v.no}</td><td>${v.cust.name}</td><td class="inv-sub text-app-muted">${v.cust.phone}</td><td class="date text-app-text">${v.due?fday(v.due):'<span class="inv-sub text-app-muted">—</span>'}</td><td class="date text-app-text">${fdate(v.created)}</td><td><button class="dots-b w-7 h-7 rounded-control flex items-center justify-center text-app-muted ml-auto hover:bg-white hover:shadow-app" data-toast="Opens invoice actions" aria-label="More">${ic('dots',16)}</button></td></tr>`).join('')
+    :`<tr><td colspan="8" style="height:auto;border:0;cursor:default"><div class="empty py-14 px-0 text-center text-app-muted [&_b]:block [&_b]:text-app-ink [&_b]:text-[15px] [&_b]:mb-1"><b>No invoices</b>Invoices you create will show up here.</div></td></tr>`;
+  document.getElementById('inv-count').innerHTML=`<b>${rows.length}</b> ${rows.length===1?'invoice':'invoices'}`;
+  document.querySelectorAll('[data-it]').forEach(b=>b.onclick=()=>{itab=b.dataset.it;renderInv()});
+}
+document.getElementById('inv-body').addEventListener('click',e=>{if(e.target.closest('.dots-b'))return;const tr=e.target.closest('tr[data-inv]');if(tr){const v=INV[tr.dataset.inv];if(v.status==='draft'){openEditor(v)}else toast(`Opens ${v.no}`)}});
+document.addEventListener('click',e=>{if(e.target.closest('[data-newinv]')){closePop();location.hash='invoices/create'}});
+
+/* ===== Invoices: create editor ===== */
+const ie=document.getElementById('ie'),ieForm=document.getElementById('ie-form'),iePv=document.getElementById('ie-pvw');
+let D,editing=null;
+const blank=()=>({cust:null,lines:[],mode:'request',dueDays:14,dp:50,via:{wa:true,email:false},memo:false,memoTx:'Thank you for shopping with Aruna Studio!',footer:false,footerTx:'Goods that have been bought can be exchanged within 7 days.',npwp:false,pv:'pdf',dd:null,q:''});
+const nextNo=()=>'INV-2026-'+String(49+INV.filter(v=>v.status!=='draft'&&v.created>NOW).length).padStart(4,'0');
+const sub=()=>D.lines.reduce((a,l)=>a+l.price*l.qty,0);
+const dueDate=()=>new Date(NOW.getTime()+D.dueDays*86400000);
+const initials=n=>n.split(' ').map(x=>x[0]).slice(0,2).join('');
+function openEditor(draft){editing=draft||null;D=blank();if(draft){D.cust=draft.cust;D.lines=[{name:'Custom order',price:draft.total,qty:1}]}
+  ie.hidden=false;document.body.style.overflow='hidden';ie.classList.toggle('nopv',false);ie.classList.remove('pvon');drawForm();drawPv();
+  document.getElementById('ie-pv').textContent=matchMedia('(max-width:900px)').matches?'Show preview':'Hide preview'}
+function closeEditor(){ie.hidden=true;document.body.style.overflow=''}
+function drawForm(){
+  const dd=D.dd;
+  const custList=ICUST.filter(c=>!D.q||c.name.toLowerCase().includes(D.q.toLowerCase())||c.phone.replace(/\D/g,'').includes(D.q.replace(/\D/g,'')));
+  const itemList=CATALOG.filter(p=>!D.q||p[0].toLowerCase().includes(D.q.toLowerCase()));
+  ieForm.innerHTML=`
+  <section><h2 class="ie-h text-[20px] font-semibold text-app-ink tracking-[-.2px] mb-3.5">Customer</h2>${D.cust?`<div class="ie-cust flex items-center gap-3 py-3 px-3.5 rounded-card shadow-app [&_div]:flex-1 [&_div]:min-w-0 [&_b]:block [&_b]:font-medium [&_b]:text-app-ink [&_span]:text-[13px] [&_span]:text-app-muted"><span class="ie-av w-8.5 h-8.5 rounded-full bg-primary-soft text-primary flex items-center justify-center font-semibold text-[13px] flex-none">${initials(D.cust.name)}</span><div><b>${D.cust.name}</b><span>${D.cust.phone} · ${D.cust.email}</span></div><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" style="width:30px;height:30px" data-unc aria-label="Remove customer">${ic('x',16)}</button></div>`
+    :`<div class="ie-fld relative [&>svg]:absolute [&>svg]:left-2.5 [&>svg]:top-2.5 [&>svg]:text-app-faint">${ic('search',16)}<input class="ie-in w-full h-9 rounded-control border-0 shadow-app py-0 pr-2.5 pl-8.5 outline-none text-[14px] bg-white focus:shadow-[0_0_0_2px_rgba(106,75,255,.4)]" id="ie-cq" placeholder="Find or add a customer…" value="${dd==='c'?D.q:''}" autocomplete="off">${dd==='c'?`<div class="ie-dd absolute left-0 right-0 top-10.5 z-[5] bg-white rounded-[10px] shadow-pop p-1.5 max-h-[300px] overflow-y-auto [&_h6]:text-[12px] [&_h6]:font-semibold [&_h6]:text-app-muted [&_h6]:pt-2 [&_h6]:pb-1 [&_h6]:px-2.5 [&_h6]:uppercase [&_h6]:tracking-[.4px]"><button class="opt add flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.ie-dd_&]:text-primary [.ie-dd_&]:font-medium [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-newc>${ic('plus',15,2)}Add new customer</button><h6>Recent</h6>${custList.slice(0,6).map(c=>`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-c="${ICUST.indexOf(c)}"><b>${c.name}</b><span>${c.phone}</span></button>`).join('')||'<div class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" style="color:var(--color-app-muted)">No matches</div>'}</div>`:''}</div>`}</section>
+  <section><h2 class="ie-h text-[20px] font-semibold text-app-ink tracking-[-.2px] mb-3.5">Items</h2><p class="ie-p text-app-muted -mt-1.5 mb-3.5 mx-0">Add one-time items or products from your product catalog.</p>
+    ${D.lines.length?`<div class="ie-lines grid mb-3">${D.lines.map((l,i)=>`<div class="ie-line grid grid-cols-[1fr_auto_110px_28px] items-center gap-3 py-3 px-0 border-b border-b-app-line first:border-t first:border-t-app-line [&_b]:font-medium [&_b]:text-app-ink [&_b]:block [&_small]:text-app-muted [&_small]:text-[12.5px] max-[600px]:grid-cols-[1fr_auto_28px]"><div><b>${l.name}</b><small>${rp(l.price)} each</small></div><div class="qty inline-flex items-center rounded-control shadow-app h-7.5 [&_button]:w-7 [&_button]:h-7.5 [&_button]:flex [&_button]:items-center [&_button]:justify-center [&_button]:text-app-muted [&_button:hover]:text-app-ink [&_span]:min-w-5.5 [&_span]:text-center [&_span]:font-medium"><button data-q="${i}" data-d="-1" aria-label="Less">${ic('minus',14,2)}</button><span class="num tabular-nums">${l.qty}</span><button data-q="${i}" data-d="1" aria-label="More">${ic('plus',14,2)}</button></div><span class="lt num tabular-nums [.ie-line_&]:text-right [.ie-line_&]:font-medium [.ie-line_&]:text-app-ink max-[600px]:[.ie-line_&]:hidden">${rp(l.price*l.qty)}</span><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" style="width:28px;height:28px" data-rm="${i}" aria-label="Remove item">${ic('x',15)}</button></div>`).join('')}</div>`:''}
+    <div class="ie-fld relative [&>svg]:absolute [&>svg]:left-2.5 [&>svg]:top-2.5 [&>svg]:text-app-faint">${ic('search',16)}<input class="ie-in w-full h-9 rounded-control border-0 shadow-app py-0 pr-2.5 pl-8.5 outline-none text-[14px] bg-white focus:shadow-[0_0_0_2px_rgba(106,75,255,.4)]" id="ie-iq" placeholder="Find or add an item…" value="${dd==='i'?D.q:''}" autocomplete="off">${dd==='i'?`<div class="ie-dd absolute left-0 right-0 top-10.5 z-[5] bg-white rounded-[10px] shadow-pop p-1.5 max-h-[300px] overflow-y-auto [&_h6]:text-[12px] [&_h6]:font-semibold [&_h6]:text-app-muted [&_h6]:pt-2 [&_h6]:pb-1 [&_h6]:px-2.5 [&_h6]:uppercase [&_h6]:tracking-[.4px]"><button class="opt add flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.ie-dd_&]:text-primary [.ie-dd_&]:font-medium [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-custom>${ic('plus',15,2)}Add custom item${D.q?` “${D.q}”`:''}</button><h6>Product catalog</h6>${itemList.map(p=>`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-p="${CATALOG.indexOf(p)}"><b>${p[0]}</b><span class="num tabular-nums">${rp(p[1])}</span></button>`).join('')||'<div class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" style="color:var(--color-app-muted)">No matches</div>'}</div>`:''}</div>
+    ${D.lines.length?`<div class="ie-tot flex justify-between pt-1 pb-0 px-0 font-semibold text-app-ink" style="margin-top:14px"><span>Total</span><span class="num tabular-nums">${rp(sub())}</span></div>`:''}</section>
+  <section><h2 class="ie-h text-[20px] font-semibold text-app-ink tracking-[-.2px] mb-3.5">Payment collection</h2><div class="ie-rad grid">
+    ${[['request','Request payment','Send a payment link that’s due on a specific date'],['dp','Request a down payment','Collect part now and the rest before you ship'],['cod','Cash on delivery','Your customer pays the courier when the order arrives']].map(o=>`<div class="ie-r flex gap-3 items-start text-left py-3.5 px-0 border-b border-b-app-line w-full last:border-b-0 [&_b]:block [&_b]:font-semibold [&_b]:text-app-ink [&_b]:text-[15px]" role="radio" aria-checked="${D.mode===o[0]}" tabindex="0" data-mode="${o[0]}"><span class="rdo${D.mode===o[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-full border border-[#C0C8D2] flex-none relative [&.on]:border-[5px] [&.on]:border-primary [.ie-r_&]:mt-0.5 [.sx-svc_.n_&]:ml-auto [.sx-wl_&]:mt-0.5"></span><div style="flex:1"><b>${o[1]}</b><span class="d [.ie-r_&]:text-[13px] [.ie-r_&]:text-app-muted [.sx-svc_&]:text-[12.5px] [.sx-svc_&]:text-app-muted">${o[2]}</span>
+      ${D.mode===o[0]&&o[0]==='request'?`<div class="more amtopts flex gap-2 flex-wrap [&_button]:h-7.5 [&_button]:py-0 [&_button]:px-3 [&_button]:rounded-pill [&_button]:shadow-app [&_button]:text-[13px] [&_button]:font-medium [.ie-r_&]:mt-3 [.ie-r_&]:flex [.ie-r_&]:flex-wrap [.ie-r_&]:gap-2">${[7,14,30].map(n=>`<button class="${D.dueDays===n?'on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''}" data-due="${n}">Due in ${n} days</button>`).join('')}</div>`:''}
+      ${D.mode===o[0]&&o[0]==='dp'?`<div class="more amtopts flex gap-2 flex-wrap [&_button]:h-7.5 [&_button]:py-0 [&_button]:px-3 [&_button]:rounded-pill [&_button]:shadow-app [&_button]:text-[13px] [&_button]:font-medium [.ie-r_&]:mt-3 [.ie-r_&]:flex [.ie-r_&]:flex-wrap [.ie-r_&]:gap-2">${[30,50].map(n=>`<button class="${D.dp===n?'on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''}" data-dp="${n}">${n}% now</button>`).join('')}</div>`:''}</div></div>`).join('')}
+  </div></section>
+  <section><h2 class="ie-h text-[20px] font-semibold text-app-ink tracking-[-.2px] mb-3.5">Send via</h2>
+    <button class="ie-chk flex items-center gap-2.5 py-[7px] px-0 w-full text-left [&_small]:text-app-muted [&_small]:ml-0.5" data-via="wa"><span class="cb${D.via.wa?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]">${D.via.wa?ic('check',12,3):''}</span>WhatsApp${D.cust?`<small>${D.cust.phone}</small>`:''}</button>
+    <button class="ie-chk flex items-center gap-2.5 py-[7px] px-0 w-full text-left [&_small]:text-app-muted [&_small]:ml-0.5" data-via="email"><span class="cb${D.via.email?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]">${D.via.email?ic('check',12,3):''}</span>Email${D.cust?`<small>${D.cust.email}</small>`:''}</button></section>
+  <section><h2 class="ie-h text-[20px] font-semibold text-app-ink tracking-[-.2px] mb-3.5">Additional options</h2>
+    <button class="ie-chk flex items-center gap-2.5 py-[7px] px-0 w-full text-left [&_small]:text-app-muted [&_small]:ml-0.5" data-opt="memo"><span class="cb${D.memo?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]">${D.memo?ic('check',12,3):''}</span>Memo</button>${D.memo?`<textarea class="ie-ta min-h-18 border-0 rounded-control shadow-app py-[9px] px-2.5 mt-1 mb-2 mr-0 ml-6.5 w-[calc(100%_-_26px)] [font:inherit] resize-y outline-none focus:shadow-[0_0_0_2px_rgba(106,75,255,.4)]" data-tx="memoTx">${D.memoTx}</textarea>`:''}
+    <button class="ie-chk flex items-center gap-2.5 py-[7px] px-0 w-full text-left [&_small]:text-app-muted [&_small]:ml-0.5" data-opt="footer"><span class="cb${D.footer?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]">${D.footer?ic('check',12,3):''}</span>Footer</button>${D.footer?`<textarea class="ie-ta min-h-18 border-0 rounded-control shadow-app py-[9px] px-2.5 mt-1 mb-2 mr-0 ml-6.5 w-[calc(100%_-_26px)] [font:inherit] resize-y outline-none focus:shadow-[0_0_0_2px_rgba(106,75,255,.4)]" data-tx="footerTx">${D.footerTx}</textarea>`:''}
+    <button class="ie-chk flex items-center gap-2.5 py-[7px] px-0 w-full text-left [&_small]:text-app-muted [&_small]:ml-0.5" data-opt="npwp"><span class="cb${D.npwp?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-btn border border-[#C0C8D2] flex items-center justify-center flex-none bg-white shadow-[0_1px_1px_rgba(0,0,0,.05)] [&.on]:bg-primary [&.on]:border-primary [&.on]:text-white [&.mixed]:bg-primary [&.mixed]:border-primary [&.mixed::after]:content-[''] [&.mixed::after]:w-2 [&.mixed::after]:h-0.5 [&.mixed::after]:bg-white [&.mixed::after]:rounded-[1px]">${D.npwp?ic('check',12,3):''}</span>Show NPWP (tax ID)</button></section>`;
+  document.getElementById('ie-review').disabled=!(D.cust&&D.lines.length&&(D.via.wa||D.via.email));
+  const fi=document.getElementById(dd==='c'?'ie-cq':'ie-iq');if(dd&&fi){fi.focus();fi.setSelectionRange(fi.value.length,fi.value.length)}
+}
+ieForm.addEventListener('focusin',e=>{const id=e.target.id;if((id==='ie-cq'&&D.dd!=='c')||(id==='ie-iq'&&D.dd!=='i')){D.dd=id==='ie-cq'?'c':'i';D.q='';drawForm()}});
+ieForm.addEventListener('input',e=>{if(e.target.matches('.ie-in')){D.q=e.target.value;drawForm()}else if(e.target.dataset.tx){D[e.target.dataset.tx]=e.target.value;drawPv()}});
+ieForm.addEventListener('keydown',e=>{if(e.key==='Escape'&&D.dd){D.dd=null;drawForm()}else if(e.key==='Enter'&&e.target.closest('.ie-r')){e.target.click()}});
+ieForm.addEventListener('click',e=>{const t=e.target.closest('button,[data-mode]');
+  if(!e.target.closest('.ie-fld')&&D.dd){D.dd=null;if(!t){drawForm();return}}
+  if(!t)return;const d=t.dataset;
+  if(d.c){D.cust=ICUST[d.c];D.dd=null}
+  else if('newc' in d){D.cust={name:D.q||'New customer',phone:'+62 812-0000-0000',email:'customer@email.com'};D.dd=null;toast('Customer added')}
+  else if('unc' in d)D.cust=null;
+  else if(d.p){const p=CATALOG[d.p],ex=D.lines.find(l=>l.name===p[0]);ex?ex.qty++:D.lines.push({name:p[0],price:p[1],qty:1});D.dd=null}
+  else if('custom' in d){D.lines.push({name:D.q||'Custom item',price:100000,qty:1});D.dd=null}
+  else if(d.q){const l=D.lines[d.q];l.qty=Math.max(1,l.qty+(+d.d))}
+  else if(d.rm)D.lines.splice(+d.rm,1);
+  else if(d.mode)D.mode=d.mode;
+  else if(d.due){e.stopPropagation();D.dueDays=+d.due}
+  else if(d.dp){e.stopPropagation();D.dp=+d.dp}
+  else if(d.via)D.via[d.via]=!D.via[d.via];
+  else if(d.opt)D[d.opt]=!D[d.opt];
+  else return;
+  drawForm();drawPv()});
+function drawPv(){
+  const total=sub(),due=dueDate(),cn=D.cust?D.cust.name:'Example customer',first=cn.split(' ')[0],no=editing&&editing.no!=='Draft'?editing.no:nextNo();
+  const now=D.mode==='dp'?Math.round(total*D.dp/100):total;
+  const headline=D.mode==='cod'?`${rp(total)} paid on delivery`:D.mode==='dp'?`${rp(now)} down payment due now`:`${rp(total)} due ${fday(due)}`;
+  const tabs=[['pdf','PDF'],['wa','WhatsApp'],['page','Payment page']];
+  let body='';
+  if(D.pv==='pdf')body=`<div class="ie-paper bg-white rounded-control shadow-[0_12px_32px_-12px_rgba(50,50,93,.22),0_4px_10px_-6px_rgba(0,0,0,.08)] pt-9 pb-11 px-9 mt-5 text-[11.5px] text-app-text min-h-140 max-w-[600px] max-[600px]:pt-5.5 max-[600px]:pb-7.5 max-[600px]:px-4.5"><div class="ip-h flex justify-between items-start gap-3 [&_b]:text-[20px] [&_b]:font-semibold [&_b]:text-app-ink [&_span]:text-[16px] [&_span]:font-semibold [&_span]:text-app-faint"><b>Invoice</b><span>Aruna Studio</span></div>
+    <dl class="ip-meta grid grid-cols-[auto_1fr] gap-y-[3px] gap-x-3.5 mt-4 [&_dt]:text-app-muted"><dt>Invoice number</dt><dd>${no}</dd><dt>Date of issue</dt><dd>${fday(NOW)}</dd>${D.mode==='request'?`<dt>Date due</dt><dd>${fday(due)}</dd>`:''}</dl>
+    <div class="ip-two grid grid-cols-[1fr_1fr] gap-4 mt-5 leading-[1.55] [&_b]:text-app-ink [&_b]:font-semibold"><div><b>Aruna Studio</b><br>Jl. Kemang Raya No. 12<br>Jakarta Selatan 12730<br>Indonesia${D.npwp?'<br>NPWP 01.234.567.8-901.000':''}</div><div><b>Bill to</b><br>${cn}${D.cust?`<br>${D.cust.phone}<br>${D.cust.email}`:''}</div></div>
+    <div class="ip-due text-[17px] font-semibold text-app-ink mt-6">${headline}</div>${D.mode!=='cod'?'<span class="ip-pay inline-block mt-1.5 text-primary font-medium">Pay online</span>':''}
+    <table class="ip-t w-full min-w-0 mt-6.5 [border-collapse:collapse] [&_th]:text-[10.5px] [&_th]:font-medium [&_th]:text-app-muted [&_th]:pt-0 [&_th]:pb-1.5 [&_th]:px-0 [&_th]:border-b [&_th]:border-b-app-ink [&_td]:h-auto [&_td]:py-2 [&_td]:px-0 [&_td]:text-[11.5px] [&_td]:border-b [&_td]:border-b-app-line [&_td]:whitespace-normal [&_tbody_tr]:cursor-default [&_tbody_tr:hover_td]:bg-transparent"><thead><tr><th>Description</th><th class="r [.ip-t_&]:text-right">Qty</th><th class="r [.ip-t_&]:text-right">Unit price</th><th class="r [.ip-t_&]:text-right">Amount</th></tr></thead><tbody>${D.lines.map(l=>`<tr><td>${l.name}</td><td class="r [.ip-t_&]:text-right">${l.qty}</td><td class="r [.ip-t_&]:text-right">${rp(l.price)}</td><td class="r [.ip-t_&]:text-right">${rp(l.price*l.qty)}</td></tr>`).join('')}</tbody></table>
+    <div class="ip-sum mt-2.5 mb-0 mr-0 ml-auto w-[60%] grid grid-cols-[1fr_auto] gap-y-1.5 gap-x-0 [&_span:nth-child(even)]:text-right [&_span:nth-child(even)]:pl-3"><span>Subtotal</span><span class="num tabular-nums">${rp(total)}</span><span>Total</span><span class="num tabular-nums">${rp(total)}</span>${D.mode==='dp'?`<span>Down payment (${D.dp}%)</span><span class="num tabular-nums">${rp(now)}</span><span class="b [.ip-sum_&]:font-semibold [.ip-sum_&]:text-app-ink [.ip-sum_&]:border-t [.ip-sum_&]:border-t-app-line [.ip-sum_&]:pt-1.5">Remaining</span><span class="b num tabular-nums [.ip-sum_&]:font-semibold [.ip-sum_&]:text-app-ink [.ip-sum_&]:border-t [.ip-sum_&]:border-t-app-line [.ip-sum_&]:pt-1.5">${rp(total-now)}</span>`:`<span class="b [.ip-sum_&]:font-semibold [.ip-sum_&]:text-app-ink [.ip-sum_&]:border-t [.ip-sum_&]:border-t-app-line [.ip-sum_&]:pt-1.5">Amount due</span><span class="b num tabular-nums [.ip-sum_&]:font-semibold [.ip-sum_&]:text-app-ink [.ip-sum_&]:border-t [.ip-sum_&]:border-t-app-line [.ip-sum_&]:pt-1.5">${rp(total)}</span>`}</div>
+    ${D.memo&&D.memoTx?`<div class="ip-note mt-6.5 pt-3.5 border-t border-t-app-line text-app-muted whitespace-pre-wrap">${D.memoTx}</div>`:''}${D.footer&&D.footerTx?`<div class="ip-note mt-6.5 pt-3.5 border-t border-t-app-line text-app-muted whitespace-pre-wrap" style="font-size:10.5px">${D.footerTx}</div>`:''}</div>`;
+  else if(D.pv==='wa')body=`<div class="ie-wa mt-5 max-w-[420px] rounded-[14px] overflow-hidden shadow-[0_12px_32px_-12px_rgba(50,50,93,.22)]"><div class="wh [.ie-wa_&]:bg-[#075E54] [.ie-wa_&]:text-white [.ie-wa_&]:py-3 [.ie-wa_&]:px-3.5 [.ie-wa_&]:flex [.ie-wa_&]:items-center [.ie-wa_&]:gap-2.5 [.ie-wa_&_i]:w-7.5 [.ie-wa_&_i]:h-7.5 [.ie-wa_&_i]:rounded-full [.ie-wa_&_i]:bg-white [.ie-wa_&_i]:text-[#075E54] [.ie-wa_&_i]:not-italic [.ie-wa_&_i]:font-bold [.ie-wa_&_i]:text-[12px] [.ie-wa_&_i]:flex [.ie-wa_&_i]:items-center [.ie-wa_&_i]:justify-center"><i>AS</i><div><b style="font-weight:600">Aruna Studio</b><div style="font-size:12px;opacity:.8">Business account</div></div></div><div class="wb [.ie-wa_&]:bg-[#ECE5DD] [.ie-wa_&]:pt-4.5 [.ie-wa_&]:pb-6.5 [.ie-wa_&]:px-3.5 [.ie-wa_&]:min-h-75"><div class="bub [.ie-wa_&]:bg-white [.ie-wa_&]:rounded-[0_10px_10px_10px] [.ie-wa_&]:pt-[9px] [.ie-wa_&]:pb-1.5 [.ie-wa_&]:px-[11px] [.ie-wa_&]:max-w-[88%] [.ie-wa_&]:text-[13.5px] [.ie-wa_&]:leading-[1.5] [.ie-wa_&]:shadow-[0_1px_1px_rgba(0,0,0,.08)] [.ie-wa_&]:whitespace-pre-wrap [.ie-wa_&_a]:text-[#027EB5] [.ie-wa_&_small]:block [.ie-wa_&_small]:text-right [.ie-wa_&_small]:text-[#8696A0] [.ie-wa_&_small]:text-[11px]">Hi ${first}, here’s your invoice ${no} from Aruna Studio.\n\n<b>${D.mode==='cod'?'Total: '+rp(total)+' (pay on delivery)':D.mode==='dp'?'Down payment: '+rp(now)+' of '+rp(total):'Total: '+rp(total)+'\nDue: '+fday(due)}</b>\n\n${D.mode==='cod'?'View invoice':'Pay here'}: <a>flik.id/i/x7k2q</a>${D.memo&&D.memoTx?'\n\n'+D.memoTx:''}<small>16:20</small></div></div></div>`;
+  else body=`<div class="ie-pp mt-5 max-w-[420px] bg-white rounded-lg p-7 shadow-[0_12px_32px_-12px_rgba(50,50,93,.22)]"><div class="m [.ie-pp_&]:flex [.ie-pp_&]:items-center [.ie-pp_&]:gap-2.5 [.ie-pp_&]:font-semibold [.ie-pp_&]:text-app-ink [.ie-pp_&_i]:w-7 [.ie-pp_&_i]:h-7 [.ie-pp_&_i]:rounded-[7px] [.ie-pp_&_i]:bg-app-ink [.ie-pp_&_i]:text-white [.ie-pp_&_i]:not-italic [.ie-pp_&_i]:text-[12px] [.ie-pp_&_i]:flex [.ie-pp_&_i]:items-center [.ie-pp_&_i]:justify-center"><i>AS</i>Aruna Studio</div><div class="a num tabular-nums [.ie-pp_&]:text-[30px] [.ie-pp_&]:font-semibold [.ie-pp_&]:text-app-ink [.ie-pp_&]:tracking-[-.5px] [.ie-pp_&]:mt-4.5">${rp(D.mode==='dp'?now:total)}</div><div class="s [.ie-pp_&]:text-app-muted [.ie-pp_&]:mt-0.5">${D.mode==='dp'?`Down payment for ${no}`:D.mode==='cod'?`${no} · Pay on delivery`:`${no} · Due ${fday(due)}`}</div><div class="ms [.ie-pp_&]:flex [.ie-pp_&]:gap-1.5 [.ie-pp_&]:flex-wrap [.ie-pp_&]:my-4.5 [.ie-pp_&]:mx-0">${['qris','gopay','ovo','bca','mandiri'].map(pmBadge).join('')}</div><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" tabindex="-1">${D.mode==='cod'?'Confirm order':'Pay '+rp(D.mode==='dp'?now:total)}</button><div class="f [.ie-pp_&]:text-center [.ie-pp_&]:text-[12px] [.ie-pp_&]:text-app-faint [.ie-pp_&]:mt-3">Powered by FLIK</div></div>`;
+  iePv.innerHTML=`<h2 class="ie-h text-[20px] font-semibold text-app-ink tracking-[-.2px] mb-3.5" style="margin:0">Preview</h2><div class="tabs flex gap-7 border-b border-b-app-line mt-5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [.ie-pv_&]:mt-2 [.ie-pv_&]:border-app-line-2">${tabs.map(t=>`<button class="tab${D.pv===t[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} pt-2.5 pb-[11px] px-0 text-app-muted font-medium text-[14.5px] border-b-[2px] border-b-transparent mb-[-1px] whitespace-nowrap hover:text-app-text [&.on]:text-primary [&.on]:[border-bottom-color:var(--color-primary)]" data-pv="${t[0]}">${t[1]}</button>`).join('')}</div>${body}`;
+}
+iePv.addEventListener('click',e=>{const t=e.target.closest('[data-pv]');if(t){D.pv=t.dataset.pv;drawPv()}});
+document.getElementById('ie-pv').onclick=e=>{const small=matchMedia('(max-width:900px)').matches;
+  if(small){const on=ie.classList.toggle('pvon');e.currentTarget.textContent=on?'Edit invoice':'Show preview'}
+  else{const off=ie.classList.toggle('nopv');e.currentTarget.textContent=off?'Show preview':'Hide preview'}};
+document.getElementById('ie-close').onclick=()=>{
+  if(D.cust&&D.lines.length&&!editing){INV.unshift({no:'Draft',cust:D.cust,total:sub(),status:'draft',created:new Date(),due:null});toast('Saved as draft')}
+  location.hash='invoices'};
+document.getElementById('ie-review').onclick=()=>{
+  const total=sub(),via=[D.via.wa&&'WhatsApp',D.via.email&&'Email'].filter(Boolean).join(' and ');
+  modal.innerHTML=`<div class="mh pt-5 pb-1.5 px-5.5 flex justify-between items-center [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:text-app-ink"><h3>Send invoice</h3><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb py-2.5 px-5.5 grid gap-3.5"><dl class="sum-kv grid grid-cols-[110px_1fr] gap-y-2 gap-x-3 text-[13.5px] [&_dt]:text-app-muted [&_dd]:text-app-ink"><dt>To</dt><dd>${D.cust.name}</dd><dt>Send via</dt><dd>${via}</dd><dt>Amount</dt><dd class="num tabular-nums">${rp(total)}</dd><dt>Collection</dt><dd>${D.mode==='cod'?'Cash on delivery':D.mode==='dp'?`${D.dp}% down payment (${rp(Math.round(total*D.dp/100))})`:`Due ${fday(dueDate())}`}</dd><dt>Items</dt><dd>${D.lines.reduce((a,l)=>a+l.qty,0)} items</dd></dl></div>
+  <div class="mf pt-3.5 pb-5 px-5.5 flex justify-end gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-mclose>Back</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="ie-send">Send invoice</button></div>`;
+  mscrim.classList.add('open');
+  document.getElementById('ie-send').onclick=()=>{const no=nextNo(),created=new Date(NOW.getTime()+60000*(INV.length));
+    if(editing)INV.splice(INV.indexOf(editing),1);
+    INV.unshift({no,cust:D.cust,total,status:'open',created,due:D.mode==='request'?dueDate():null});
+    closeModal();itab='all';location.hash='invoices';toast(`${no} sent to ${D.cust.name} via ${via}`)}};
+
+/* ===== Shipments: list ===== */
+const LOGO={anteraja:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/anteraja.png',jne:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/jne.png',lion:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/lionparcel.png',spx:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/spx.png'};
+const COURIERS=[
+  {k:'anteraja',n:'AnterAja',bg:'#E4007F'},{k:'sicepat',n:'SiCepat',bg:'#C8102E'},{k:'lion',n:'Lion Parcel',bg:'#E31E24'},
+  {k:'jne',n:'JNE',bg:'#1B3E8F'},{k:'ninja',n:'Ninja Xpress',bg:'#C8102E'},{k:'spx',n:'SPX Express',bg:'#EE4D2D'},{k:'jnt',n:'J&T Express',bg:'#D7000F'}];
+const cLogo=k=>{const c=COURIERS.find(x=>x.k===k);return LOGO[k]?`<img class="clg w-5.5 h-5.5 rounded-badge object-contain bg-white shadow-[0_0_0_1px_var(--color-app-line)] flex-none inline-flex items-center justify-center text-[8.5px] font-bold text-white [.sx-cr_.nm_&]:w-7 [.sx-cr_.nm_&]:h-7 [.sx-cr_.nm_&]:rounded-[7px]" src="${LOGO[k]}" alt="">`:`<span class="clg w-5.5 h-5.5 rounded-badge object-contain bg-white shadow-[0_0_0_1px_var(--color-app-line)] flex-none inline-flex items-center justify-center text-[8.5px] font-bold text-white [.sx-cr_.nm_&]:w-7 [.sx-cr_.nm_&]:h-7 [.sx-cr_.nm_&]:rounded-[7px]" style="background:${c.bg};box-shadow:none">${c.n.slice(0,2).toUpperCase()}</span>`};
+const SERVICES=[ // [courier, service, group, eta, Rp per kg, list price per kg|null, tag]
+  ['anteraja','Regular','reg','2–3 days',11000,null],
+  ['sicepat','Regular','reg','2–4 days',6500,null],['sicepat','GOKIL','cargo','1–3 days',35000,null],
+  ['lion','Regular Pack','reg','2–3 days',7560,9450],['lion','Jago Pack','reg','2–7 days',7290,8100],['lion','Big Pack','cargo','6–9 days',36450,40500],
+  ['jne','Regular','reg','2–3 days',8800,11000],['jne','YES','exp','1 day',18000,null],
+  ['ninja','Standard','reg','1–3 days',6000,10000,'Cheapest'],['ninja','Cargo','cargo','1–3 days',7000,10000,'Recommended'],
+  ['spx','Standard','reg','2–4 days',7000,null],['spx','Sameday','exp','Same day',22000,null],
+  ['jnt','EZ','reg','2–3 days',9000,null]];
+const WAREHOUSES=[{n:'Main warehouse',a:'Jl. Kemang Raya No. 12, Bangka, Mampang Prapatan, Jakarta Selatan, DKI Jakarta 12730'},{n:'Bandung warehouse',a:'Jl. Sekejati No. 3, Sukapada, Cibeunying Kidul, Kota Bandung, Jawa Barat 40125'}];
+const SST={pay:['Awaiting payment','warn',null],ready:['Ready for pickup','pu',null],transit:['In transit','gr',null],done:['Delivered','ok','check'],bad:['Invalid data','bad',null]};
+const sPill=s=>{const x=SST[s];return`<span class="st ${x[1]} inline-flex items-center gap-1 h-5.5 py-0 px-[7px] rounded-badge text-[12.5px] font-medium border [&.ok]:bg-badge-ok-bg [&.ok]:text-badge-ok-text [&.ok]:border-badge-ok-border [&.gr]:bg-badge-neutral-bg [&.gr]:text-badge-neutral-text [&.gr]:border-badge-neutral-border [&.warn]:bg-badge-warn-bg [&.warn]:text-badge-warn-text [&.warn]:border-badge-warn-border [&.bad]:bg-badge-bad-bg [&.bad]:text-badge-bad-text [&.bad]:border-badge-bad-border [&.pu]:bg-badge-info-bg [&.pu]:text-badge-info-text [&.pu]:border-badge-info-border">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
+const bid=()=>Math.floor(rnd()*0xFFFFFFFF).toString(16).toUpperCase().padStart(8,'0');
+const SHP=Array.from({length:14},(_,i)=>{const sv=pick(SERVICES.filter(x=>x[2]==='reg'));const n=1+Math.floor(rnd()*(i%4===0?12:3));const cod=Math.floor(rnd()*(n+1));
+  const st=i===0?'pay':i<3?'ready':i<6?'transit':i===7?'bad':'done';
+  return{id:bid(),st,svc:sv,n,cod,codv:cod*Math.round((90000+rnd()*400000)/1000)*1000,cost:n*sv[4],wh:WAREHOUSES[i%3===2?1:0],created:new Date(NOW.getTime()-i*0.9*86400000-Math.floor(rnd()*36e5*5))}});
+const STABS=[['all','All'],['pay','Awaiting payment'],['ready','Ready for pickup'],['transit','In transit'],['done','Delivered'],['bad','Invalid data']];
+let stab='all';
+function renderShp(){
+  document.getElementById('shp-tabs').innerHTML=STABS.map(t=>`<button class="tab${stab===t[0]?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} pt-2.5 pb-[11px] px-0 text-app-muted font-medium text-[14.5px] border-b-[2px] border-b-transparent mb-[-1px] whitespace-nowrap hover:text-app-text [&.on]:text-primary [&.on]:[border-bottom-color:var(--color-primary)]" data-stb="${t[0]}">${t[1]}</button>`).join('');
+  const rows=SHP.filter(v=>stab==='all'||v.st===stab);
+  const cn=k=>COURIERS.find(c=>c.k===k).n;
+  document.getElementById('shp-body').innerHTML=rows.length?rows.map(v=>`<tr data-shp="${v.id}"><td class="amt num tabular-nums font-semibold text-app-ink text-left w-[1%] pr-6 whitespace-nowrap">${rp(v.cost)}</td><td class="c-st w-37.5">${sPill(v.st)}</td><td class="inv-no text-app-text tabular-nums">${v.id}</td><td><div class="sx-cl flex items-center gap-2">${cLogo(v.svc[0])}<span>${cn(v.svc[0])} · ${v.svc[1]}</span></div></td><td>${v.cod?`${v.cod} COD`:''}${v.cod&&v.n-v.cod?' · ':''}${v.n-v.cod?`${v.n-v.cod} Non-COD`:''}</td><td class="num tabular-nums">${v.codv?rp(v.codv):'<span class="inv-sub text-app-muted">—</span>'}</td><td>${v.wh.n}</td><td class="date text-app-text">${fdate(v.created)}</td><td><button class="dots-b w-7 h-7 rounded-control flex items-center justify-center text-app-muted ml-auto hover:bg-white hover:shadow-app" data-toast="Opens shipment actions" aria-label="More">${ic('dots',16)}</button></td></tr>`).join('')
+    :`<tr><td colspan="9" style="height:auto;border:0;cursor:default"><div class="empty py-14 px-0 text-center text-app-muted [&_b]:block [&_b]:text-app-ink [&_b]:text-[15px] [&_b]:mb-1"><b>No shipments</b>Shipments you create will show up here.</div></td></tr>`;
+  document.getElementById('shp-count').innerHTML=`<b>${rows.length}</b> ${rows.length===1?'batch':'batches'}`;
+  document.querySelectorAll('[data-stb]').forEach(b=>b.onclick=()=>{stab=b.dataset.stb;renderShp()});
+}
+document.getElementById('shp-body').addEventListener('click',e=>{if(e.target.closest('.dots-b'))return;const tr=e.target.closest('tr[data-shp]');if(tr)toast(`Opens batch ${tr.dataset.shp}`)});
+document.addEventListener('click',e=>{if(e.target.closest('[data-newshp]')){closePop();location.hash='shipments/create'}});
+
+/* ===== Shipments: create flow ===== */
+const sx=document.getElementById('sx'),sxBody=document.getElementById('sx-body'),sxFoot=document.getElementById('sx-foot');
+const SSTEPS=['Details','Courier','Pickup','Summary','Payment'];
+const BAL=4523800,PLATFORM=1000,PAYOUT=[['same','Same-day payout · 3% COD fee',.03],['next','Next-day payout · 2.5% COD fee',.025],['week','Weekly payout · 2% COD fee',.02]];
+let X;
+const newShip=()=>({phone:'',name:'',addr:null,l:'',w:'',h:'',kg:'',items:'',cod:'',open:true});
+const blankX=()=>({step:0,wh:0,how:'manual',pay:'cod',payout:'same',ships:[newShip()],svc:null,day:null,slot:null,done:null});
+const kgOf=s=>Math.max(1,Math.ceil(+s.kg||0),Math.ceil((+s.l||0)*(+s.w||0)*(+s.h||0)/6000));
+const shipOk=s=>s.phone.replace(/\D/g,'').length>=9&&s.name.trim()&&s.addr&&+s.kg>0&&s.items.trim()&&(X.pay!=='cod'||+String(s.cod).replace(/\D/g,'')>0);
+const codVal=s=>+String(s.cod).replace(/\D/g,'')||0;
+const svcPrice=sv=>X.ships.reduce((a,s)=>a+sv[4]*kgOf(s),0);
+const svcList=sv=>sv[5]?X.ships.reduce((a,s)=>a+sv[5]*kgOf(s),0):null;
+function costs(){const sv=X.svc!=null?SERVICES[X.svc]:null;const ship=sv?svcPrice(sv):0,list=sv?svcList(sv)||ship:0;
+  const codTot=X.pay==='cod'?X.ships.reduce((a,s)=>a+codVal(s),0):0;const rate=PAYOUT.find(p=>p[0]===X.payout)[2];
+  const codFee=X.pay==='cod'?Math.round(codTot*rate):0;return{ship,list,save:list-ship,codTot,codFee,platform:PLATFORM,total:ship+codFee+PLATFORM}}
+const DAYS=[0,1,2].map(i=>new Date(NOW.getFullYear(),NOW.getMonth(),NOW.getDate()+1+i));
+const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const SLOTS=['09:00–12:00','12:00–15:00','15:00–18:00'];
+const pickupTx=()=>X.day==null?'—':`${DOW[DAYS[X.day].getDay()]}, ${fday(DAYS[X.day])} · ${SLOTS[X.slot]}`;
+function stepOk(){if(X.step===0)return X.ships.length&&X.ships.every(shipOk);if(X.step===1)return X.svc!=null;if(X.step===2)return X.day!=null&&X.slot!=null;if(X.step===4)return BAL>=costs().total;return true}
+function openShip(){X=blankX();sx.hidden=false;document.body.style.overflow='hidden';drawSx()}
+function closeShip(){sx.hidden=true;document.body.style.overflow=''}
+function sideHtml(){const c=costs(),sv=X.svc!=null?SERVICES[X.svc]:null;
+  return`<aside class="sx-side sticky top-0 bg-app-hover rounded-[10px] p-5 [&_h4]:text-[14px] [&_h4]:font-semibold [&_h4]:text-app-ink [&_h4]:mb-3 max-[1100px]:static"><h4>Summary</h4><dl class="sx-kv grid grid-cols-[1fr_auto] gap-y-[9px] gap-x-0 text-[13.5px] [&_dd]:pl-3 [&_dt]:text-app-muted [&_dd]:text-app-ink [&_dd]:text-right [&_s]:text-app-faint [&_s]:mr-1.5 [&_s]:font-normal"><dt>Shipments</dt><dd>${X.ships.length}</dd><dt>Payment</dt><dd>${X.pay==='cod'?'COD':'Non-COD'}</dd>${X.pay==='cod'?`<dt>COD value</dt><dd class="num tabular-nums">${rp(c.codTot)}</dd>`:''}
+  <dt>Courier</dt><dd>${sv?COURIERS.find(x=>x.k===sv[0]).n+' '+sv[1]:'—'}</dd><dt>Pickup</dt><dd>${X.day!=null?`${DOW[DAYS[X.day].getDay()]} ${DAYS[X.day].getDate()} ${MON[DAYS[X.day].getMonth()]}`:'—'}</dd>
+  <dt>Shipping</dt><dd class="num tabular-nums">${sv?(c.save?`<s>${rp(c.list)}</s>`:'')+rp(c.ship):'—'}</dd>${X.pay==='cod'?`<dt>COD fee</dt><dd class="num tabular-nums">${rp(c.codFee)}</dd>`:''}<dt>Platform fee</dt><dd class="num tabular-nums">${rp(c.platform)}</dd>
+  <dt class="t [.sx-kv_&]:border-t [.sx-kv_&]:border-t-app-line-2 [.sx-kv_&]:pt-2.5 [.sx-kv_&]:font-semibold">You pay</dt><dd class="t num tabular-nums [.sx-kv_&]:border-t [.sx-kv_&]:border-t-app-line-2 [.sx-kv_&]:pt-2.5 [.sx-kv_&]:font-semibold">${sv?rp(c.total):'—'}</dd></dl></aside>`}
+const inp=(i,k,lab,ph,o={})=>`<div class="sx-f [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input]:[font:inherit] [&_input]:bg-white [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="s${i}${k}">${lab}</label><div class="${o.pre?'pre [.sx-f_&]:relative [.sx-f_&_input]:pl-10.5 [.sx-f_&_em]:absolute [.sx-f_&_em]:left-2.5 [.sx-f_&_em]:top-[9px] [.sx-f_&_em]:not-italic [.sx-f_&_em]:text-app-muted [.sx-f_&_em]:text-[13.5px]':o.unit?'unit [.sx-f_&]:relative [.sx-f_&_input]:pr-8.5 [.sx-f_&_em]:absolute [.sx-f_&_em]:right-2.5 [.sx-f_&_em]:top-[9px] [.sx-f_&_em]:not-italic [.sx-f_&_em]:text-app-faint [.sx-f_&_em]:text-[13px]':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="s${i}${k}" data-si="${i}" data-k="${k}" value="${X.ships[i][k]}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`;
+function shipCard(s,i){const ok=shipOk(s);
+  return`<div class="sx-ship${s.open?' open':''} rounded-[10px] shadow-app mb-3 bg-white"><button class="sx-sh flex items-center gap-2.5 py-3.5 px-4.5 w-full text-left [&_b]:text-app-ink [&_b]:font-semibold" data-tog="${i}"><b>Shipment ${i+1}</b>${ok?`<span class="ok [.sx-sh_&]:text-badge-ok-text [.sx-sh_&]:flex">${ic('check',15,2.4)}</span>`:''}<span class="sum [.sx-sh_&]:text-app-muted [.sx-sh_&]:text-[13px] [.sx-sh_&]:ml-1.5 [.sx-sh_&]:overflow-hidden [.sx-sh_&]:text-ellipsis [.sx-sh_&]:whitespace-nowrap [.sx-sh_&]:min-w-0">${!s.open&&s.name?`${s.name}${s.addr?' · '+s.addr.city:''}`:''}</span><span class="chev [.ni_&]:ml-auto [.ni_&]:text-app-faint [.ni_&]:[transition:transform_.15s] [.grp.open>.ni_&]:[transform:rotate(180deg)] [.sx-sh_&]:ml-auto [.sx-sh_&]:text-app-muted [.sx-sh_&]:flex [.sx-sh_&]:[transition:transform_.2s] [.sx-ship.open_.sx-sh_&]:[transform:rotate(180deg)] [.sx-addr_&]:ml-auto [.sx-addr_&]:flex [.sx-addr_&]:text-app-muted [.sx-addr_&]:[transform:rotate(-90deg)]">${ic('chev',16)}</span></button>
+  <div class="sx-sb hidden pt-1 pb-4.5 px-4.5 border-t border-t-app-line [.sx-ship.open_&]:block"><div class="sx-g sx-g2 grid gap-3.5 mt-3.5 grid-cols-[1fr_1fr] max-[700px]:grid-cols-1">${inp(i,'phone','Customer WhatsApp','812-3456-7890',{pre:'+62',num:1})}${inp(i,'name','Customer name','Full name')}</div>
+  <div class="sx-g grid gap-3.5 mt-3.5"><div class="sx-f [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input]:[font:inherit] [&_input]:bg-white [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label>Customer address</label><button class="sx-addr${s.addr?' set':''} w-full min-h-9 rounded-control shadow-app py-2 px-2.5 flex items-center gap-2 text-left text-app-faint [&.set]:text-app-text" data-addr="${i}">${s.addr?`${s.addr.street}, ${s.addr.city} ${s.addr.zip}`:'Set customer address'}<span class="chev [.ni_&]:ml-auto [.ni_&]:text-app-faint [.ni_&]:[transition:transform_.15s] [.grp.open>.ni_&]:[transform:rotate(180deg)] [.sx-sh_&]:ml-auto [.sx-sh_&]:text-app-muted [.sx-sh_&]:flex [.sx-sh_&]:[transition:transform_.2s] [.sx-ship.open_.sx-sh_&]:[transform:rotate(180deg)] [.sx-addr_&]:ml-auto [.sx-addr_&]:flex [.sx-addr_&]:text-app-muted [.sx-addr_&]:[transform:rotate(-90deg)]">${ic('chev',16)}</span></button></div></div>
+  <div class="sx-g sx-g4 grid gap-3.5 mt-3.5 grid-cols-4 max-[700px]:grid-cols-[1fr_1fr]">${inp(i,'l','Length','0',{unit:'cm',num:1})}${inp(i,'w','Width','0',{unit:'cm',num:1})}${inp(i,'h','Height','0',{unit:'cm',num:1})}${inp(i,'kg','Weight','0',{unit:'kg',num:1})}</div>
+  <div class="sx-g ${X.pay==='cod'?'sx-g2 grid-cols-[1fr_1fr] max-[700px]:grid-cols-1':''} grid gap-3.5 mt-3.5">${inp(i,'items','Package contents','e.g. 3 pyjamas, 5 swimsuits')}${X.pay==='cod'?inp(i,'cod','COD amount','0',{pre:'Rp',num:1}):''}</div>
+  ${X.ships.length>1?`<div class="sx-row flex gap-2 justify-between items-center mt-1" style="margin-top:14px;justify-content:flex-end"><button class="btn btn-d h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-danger-text [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-del="${i}">${ic('trash',15)}Remove</button></div>`:''}</div></div>`}
+function drawSx(){
+  const st=X.step;
+  document.getElementById('sx-steps').innerHTML=X.done?'':SSTEPS.map((t,i)=>`${i?'<span class="stp-l w-7 h-[1px] bg-app-line-2 max-[700px]:w-3"></span>':''}<span class="stp${i===st?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':i<st?' done':''} flex items-center gap-[7px] text-[13.5px] text-app-faint font-medium whitespace-nowrap [&_i]:w-5 [&_i]:h-5 [&_i]:rounded-full [&_i]:border-[1.5px] [&_i]:border-app-line-2 [&_i]:flex [&_i]:items-center [&_i]:justify-center [&_i]:not-italic [&_i]:text-[11px] [&.on]:text-app-ink [&.on_i]:border-primary [&.on_i]:bg-primary [&.on_i]:text-white [&.done]:text-app-text [&.done_i]:border-primary [&.done_i]:text-primary max-[1100px]:[.steps_&_span]:hidden"><i>${i<st?ic('check',11,3):i+1}</i><span>${t}</span></span>`).join('');
+  if(X.done){sxFoot.hidden=true;sxBody.innerHTML=doneHtml();return}
+  sxFoot.hidden=false;let main='';
+  if(st===0){const w=WAREHOUSES[X.wh];
+    main=`<h2>Shipment details</h2><p class="sx-lead text-app-muted mb-5.5">Where it ships from, how customers pay, and who receives it.</p>
+    <section><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2">Pickup from</div><div class="sx-card sx-whc rounded-[10px] shadow-app py-4 px-4.5 bg-white flex gap-3 items-start [&>div]:min-w-0 [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_span]:text-app-muted [&_span]:text-[13.5px] [&_span]:leading-[1.5]"><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('wh',18)}</span><div><b>${w.n}</b><span>${w.a}</span></div><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-wh>Change</button></div></section>
+    <section><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2">Add shipments</div><div class="sx-opts grid grid-cols-[1fr_1fr] gap-3 max-[700px]:grid-cols-1">
+      <button class="sx-opt${X.how==='manual'?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} flex gap-3 items-start text-left p-4 rounded-[10px] shadow-app bg-white w-full hover:shadow-[0_0_0_1px_rgba(64,68,82,.18),0_2px_5px_rgba(64,68,82,.1)] [&.on]:shadow-[0_0_0_2px_var(--color-primary)] [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_span]:text-[13px] [&_span]:text-app-muted" data-how="manual"><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('pkg',18)}</span><div><b>Manual entry</b><span>Fill in each shipment</span></div></button>
+      <button class="sx-opt${X.how==='bulk'?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} flex gap-3 items-start text-left p-4 rounded-[10px] shadow-app bg-white w-full hover:shadow-[0_0_0_1px_rgba(64,68,82,.18),0_2px_5px_rgba(64,68,82,.1)] [&.on]:shadow-[0_0_0_2px_var(--color-primary)] [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_span]:text-[13px] [&_span]:text-app-muted" data-how="bulk"><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('sheet',18)}</span><div><b>Bulk upload</b><span>Upload many at once with a spreadsheet</span></div></button></div></section>
+    <section><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2">Payment</div><div class="sx-opts grid grid-cols-[1fr_1fr] gap-3 max-[700px]:grid-cols-1">
+      <button class="sx-opt${X.pay==='cod'?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} flex gap-3 items-start text-left p-4 rounded-[10px] shadow-app bg-white w-full hover:shadow-[0_0_0_1px_rgba(64,68,82,.18),0_2px_5px_rgba(64,68,82,.1)] [&.on]:shadow-[0_0_0_2px_var(--color-primary)] [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_span]:text-[13px] [&_span]:text-app-muted" data-pay="cod"><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('coins',18)}</span><div><b>COD</b><span>The customer pays the courier on delivery</span></div></button>
+      <button class="sx-opt${X.pay==='non'?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} flex gap-3 items-start text-left p-4 rounded-[10px] shadow-app bg-white w-full hover:shadow-[0_0_0_1px_rgba(64,68,82,.18),0_2px_5px_rgba(64,68,82,.1)] [&.on]:shadow-[0_0_0_2px_var(--color-primary)] [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_span]:text-[13px] [&_span]:text-app-muted" data-pay="non"><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('check',18)}</span><div><b>Non-COD</b><span>Already paid, the courier only delivers</span></div></button></div>
+      ${X.pay==='cod'?`<select class="sx-sel w-full h-9 rounded-control border-0 shadow-app py-0 px-2.5 [font:inherit] bg-white mt-3 outline-none text-app-text focus:shadow-[0_0_0_2px_rgba(106,75,255,.4)]" id="sx-payout" aria-label="COD payout">${PAYOUT.map(p=>`<option value="${p[0]}" ${X.payout===p[0]?'selected':''}>${p[1]}</option>`).join('')}</select>`:''}</section>
+    <section><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2">Shipments</div>${X.how==='bulk'&&!X.uploaded?`<div class="sx-drop border-[1.5px] border-dashed border-app-line-2 rounded-[10px] p-8 text-center text-app-muted [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_b]:mt-2.5 [&_b]:mb-1 [&_b]:mx-0"><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('upload',20)}</span><b>Upload your spreadsheet</b>CSV or Excel, up to 500 shipments.<div class="sx-row flex gap-2 justify-between items-center mt-1" style="justify-content:center;margin-top:16px"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-toast="Downloading the template">${ic('export',15)}Download template</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-upload>Upload file</button></div></div>`
+      :X.ships.map(shipCard).join('')+`<div class="sx-row flex gap-2 justify-between items-center mt-1"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-addship>${ic('plus',15,2)}Add shipment</button><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-reset style="color:var(--color-app-muted)">Reset</button></div>`}</section>`}
+  else if(st===1){
+    main=`<h2>Choose a courier</h2><p class="sx-lead text-app-muted mb-5.5">Prices cover all ${X.ships.length} ${X.ships.length===1?'shipment':'shipments'} (${X.ships.reduce((a,s)=>a+kgOf(s),0)} kg in total).</p>`+
+    [['reg','Regular'],['exp','Express'],['cargo','Cargo']].map(g=>{const rows=COURIERS.map(c=>[c,SERVICES.map((v,i)=>[v,i]).filter(([v])=>v[0]===c.k&&v[2]===g[0])]).filter(r=>r[1].length);
+      return`<div class="sx-grp mb-6.5 [&>h3]:text-[13px] [&>h3]:font-semibold [&>h3]:text-app-muted [&>h3]:uppercase [&>h3]:tracking-[.4px] [&>h3]:mb-2.5"><h3>${g[1]}</h3>${rows.map(([c,list])=>`<div class="sx-cr grid grid-cols-[150px_1fr] gap-3.5 py-3.5 px-0 border-t border-t-app-line max-[700px]:grid-cols-1"><div class="nm [.sx-cr_&]:flex [.sx-cr_&]:items-center [.sx-cr_&]:gap-2.5 [.sx-cr_&]:font-semibold [.sx-cr_&]:text-app-ink [.sx-cr_&]:self-start [.sx-cr_&]:pt-3 max-[700px]:[.sx-cr_&]:pt-0">${cLogo(c.k)}${c.n}</div><div class="sx-svcs grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2.5">${list.map(([v,i])=>{const p=svcPrice(v),l=svcList(v);return`<button class="sx-svc${X.svc===i?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} relative text-left py-3 px-3.5 rounded-card shadow-app bg-white grid gap-0.5 hover:shadow-[0_0_0_1px_rgba(64,68,82,.18),0_2px_5px_rgba(64,68,82,.1)] [&.on]:shadow-[0_0_0_2px_var(--color-primary)]" data-svc="${i}">${v[6]?`<span class="sx-tag${v[6]==='Cheapest'?' ch':''} absolute top-[-9px] left-2.5 h-4.5 py-0 px-[7px] rounded-pill text-[11px] font-semibold inline-flex items-center bg-badge-ok-bg text-badge-ok-text border border-badge-ok-border [&.ch]:bg-badge-info-bg [&.ch]:text-badge-info-text [&.ch]:border-badge-info-border">${v[6]}</span>`:''}<span class="n [.sx-svc_&]:flex [.sx-svc_&]:items-center [.sx-svc_&]:gap-2 [.sx-svc_&]:font-medium [.sx-svc_&]:text-app-ink">${v[1]}<span class="rdo${X.svc===i?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-full border border-[#C0C8D2] flex-none relative [&.on]:border-[5px] [&.on]:border-primary [.ie-r_&]:mt-0.5 [.sx-svc_.n_&]:ml-auto [.sx-wl_&]:mt-0.5"></span></span><span class="d [.ie-r_&]:text-[13px] [.ie-r_&]:text-app-muted [.sx-svc_&]:text-[12.5px] [.sx-svc_&]:text-app-muted">${v[3]}</span><span class="p num tabular-nums [.sx-svc_&]:font-semibold [.sx-svc_&]:text-app-ink [.sx-svc_&]:mt-1.5 [.sx-svc_&_s]:font-normal [.sx-svc_&_s]:text-app-faint [.sx-svc_&_s]:text-[12.5px] [.sx-svc_&_s]:ml-1.5">${rp(p)}${l?`<s>${rp(l)}</s>`:''}</span></button>`}).join('')}</div></div>`).join('')}</div>`}).join('')}
+  else if(st===2){const sv=SERVICES[X.svc],c=COURIERS.find(x=>x.k===sv[0]);
+    main=`<h2>Schedule pickup</h2><p class="sx-lead text-app-muted mb-5.5">${c.n} will pick up ${X.ships.length} ${X.ships.length===1?'shipment':'shipments'} from ${WAREHOUSES[X.wh].n}.</p>
+    <section class="sx-card rounded-[10px] shadow-app py-4 px-4.5 bg-white"><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2" style="margin-bottom:4px">${cLogo(c.k)}${c.n} ${sv[1]}</div>
+      <div class="sx-f [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input]:[font:inherit] [&_input]:bg-white [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]" style="margin-top:14px"><label>Day</label><div class="sx-slots flex flex-wrap gap-2 mt-2.5 [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-pill [&_button]:shadow-app [&_button]:text-[13.5px] [&_button]:font-medium">${DAYS.map((d,i)=>`<button class="${X.day===i?'on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''}" data-day="${i}">${i===0?'Tomorrow':DOW[d.getDay()]}, ${d.getDate()} ${MON[d.getMonth()]}</button>`).join('')}</div></div>
+      <div class="sx-f [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input]:[font:inherit] [&_input]:bg-white [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]" style="margin-top:18px"><label>Time</label><div class="sx-slots flex flex-wrap gap-2 mt-2.5 [&_button]:h-8.5 [&_button]:py-0 [&_button]:px-3.5 [&_button]:rounded-pill [&_button]:shadow-app [&_button]:text-[13.5px] [&_button]:font-medium">${SLOTS.map((t,i)=>`<button class="${X.slot===i?'on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''}" data-slot="${i}">${t}</button>`).join('')}</div></div></section>`}
+  else if(st===3){const sv=SERVICES[X.svc],cn=COURIERS.find(x=>x.k===sv[0]).n;
+    main=`<h2>Review shipments</h2><p class="sx-lead text-app-muted mb-5.5">Check everything before you pay.</p>
+    <section><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2">Pickup</div><div class="sx-card sx-whc rounded-[10px] shadow-app py-4 px-4.5 bg-white flex gap-3 items-start [&>div]:min-w-0 [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_span]:text-app-muted [&_span]:text-[13.5px] [&_span]:leading-[1.5]"><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('clock',18)}</span><div><b>${pickupTx()}</b><span>${WAREHOUSES[X.wh].n} · ${WAREHOUSES[X.wh].a}</span></div><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-go="2">Edit</button></div></section>
+    <section><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2">Shipments</div>${X.ships.map((s,i)=>`<div class="sx-card rounded-[10px] shadow-app py-4 px-4.5 bg-white" style="margin-bottom:12px"><div class="sx-row flex gap-2 justify-between items-center mt-1" style="margin:0 0 14px"><b style="color:var(--color-app-ink);font-weight:600">Shipment ${i+1}</b><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-go="0">Edit</button></div>
+      <dl class="sx-dl grid grid-cols-4 gap-y-3.5 gap-x-4.5 text-[13.5px] [&_dt]:text-app-muted [&_dt]:text-[12.5px] [&_dd]:text-app-ink [&_dd]:font-medium [&_dd]:mt-0.5 max-[700px]:grid-cols-[1fr_1fr]"><div><dt>Customer</dt><dd>${s.name}</dd></div><div><dt>WhatsApp</dt><dd>+62 ${s.phone}</dd></div><div><dt>Courier</dt><dd>${cn} ${sv[1]}</dd></div><div><dt>Shipping</dt><dd class="num tabular-nums">${rp(sv[4]*kgOf(s))}</dd></div>
+      <div class="w2 [.sx-dl_&]:[grid-column:span_2]"><dt>Address</dt><dd>${s.addr.street}, ${s.addr.city} ${s.addr.zip}</dd></div><div><dt>Contents</dt><dd>${s.items}</dd></div><div><dt>Size · weight</dt><dd>${s.l||0}×${s.w||0}×${s.h||0} cm · ${s.kg} kg</dd></div>
+      <div><dt>Payment</dt><dd>${X.pay==='cod'?'COD':'Non-COD'}</dd></div>${X.pay==='cod'?`<div><dt>COD amount</dt><dd class="num tabular-nums">${rp(codVal(s))}</dd></div>`:''}</dl></div>`).join('')}</section>`}
+  else{const c=costs();
+    main=`<h2>Payment</h2><p class="sx-lead text-app-muted mb-5.5">Fees are paid from your FLIK balance.</p>
+    <div class="sx-pay grid grid-cols-[1fr_1fr] gap-3 mb-6 max-[700px]:grid-cols-1"><div class="sx-bal rounded-[10px] p-5 bg-app-ink text-white [&_span]:text-[13px] [&_span]:opacity-75 [&_b]:block [&_b]:text-[24px] [&_b]:font-semibold [&_b]:tracking-[-.3px] [&_b]:mt-1"><span>FLIK balance</span><b class="num tabular-nums">${rp(BAL)}</b></div><div class="sx-due rounded-[10px] p-5 bg-primary-soft [&_span]:text-[13px] [&_span]:text-app-muted [&_b]:block [&_b]:text-[24px] [&_b]:font-semibold [&_b]:text-app-ink [&_b]:tracking-[-.3px] [&_b]:mt-1"><span>You pay</span><b class="num tabular-nums">${rp(c.total)}</b></div></div>
+    <section class="sx-card rounded-[10px] shadow-app py-4 px-4.5 bg-white"><div class="sx-h text-[16px] font-semibold text-app-ink mb-3 flex items-center gap-2">Details</div><dl class="sx-kv grid grid-cols-[1fr_auto] gap-y-[9px] gap-x-0 text-[13.5px] [&_dd]:pl-3 [&_dt]:text-app-muted [&_dd]:text-app-ink [&_dd]:text-right [&_s]:text-app-faint [&_s]:mr-1.5 [&_s]:font-normal"><dt>Shipping for ${X.ships.length} ${X.ships.length===1?'shipment':'shipments'}</dt><dd class="num tabular-nums">${c.save?`<s>${rp(c.list)}</s>`:''}${rp(c.ship)}</dd>${X.pay==='cod'?`<dt>COD fee (${PAYOUT.find(p=>p[0]===X.payout)[2]*100}% of ${rp(c.codTot)})</dt><dd class="num tabular-nums">${rp(c.codFee)}</dd>`:''}<dt>Platform fee</dt><dd class="num tabular-nums">${rp(c.platform)}</dd><dt class="t [.sx-kv_&]:border-t [.sx-kv_&]:border-t-app-line-2 [.sx-kv_&]:pt-2.5 [.sx-kv_&]:font-semibold">Total</dt><dd class="t num tabular-nums [.sx-kv_&]:border-t [.sx-kv_&]:border-t-app-line-2 [.sx-kv_&]:pt-2.5 [.sx-kv_&]:font-semibold">${rp(c.total)}</dd></dl></section>
+    ${X.pay==='cod'?`<p style="color:var(--color-app-muted);margin-top:14px;font-size:13.5px">The ${rp(c.codTot)} COD value goes to your balance after delivery.</p>`:''}`}
+  sxBody.innerHTML=`<div class="sx-in max-w-[1120px] my-0 mx-auto pt-9 pb-30 px-8 grid grid-cols-[minmax(0,1fr)_320px] gap-12 items-start max-[1100px]:grid-cols-[minmax(0,1fr)] max-[1100px]:gap-6 max-[700px]:pt-6 max-[700px]:pb-30 max-[700px]:px-4"><div class="sx-main [&>section]:mb-9 [&_h2]:text-[22px] [&_h2]:font-semibold [&_h2]:text-app-ink [&_h2]:tracking-[-.3px] [&_h2]:mb-1.5">${main}</div>${sideHtml()}</div>`;
+  sxFoot.innerHTML=`${st?`<button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-back>Back</button>`:''}<span class="sp [.bulk_&]:flex-1 [.sx-foot_&]:flex-1"></span><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="sx-next" ${stepOk()?'':'disabled'}>${st===4?'Confirm and pay':'Continue'}</button>`;
+}
+function doneHtml(){const d=X.done;return`<div class="sx-done max-w-[620px] my-0 mx-auto pt-14 pb-20 px-6"><div class="sx-ok flex items-center gap-3.5 py-5 px-5.5 rounded-lg bg-app-ink text-white [&_i]:w-8.5 [&_i]:h-8.5 [&_i]:rounded-full [&_i]:bg-ok [&_i]:flex [&_i]:items-center [&_i]:justify-center [&_i]:flex-none [&_b]:text-[18px] [&_b]:font-semibold [&_b]:flex-1 [&_span]:block [&_span]:text-[13px] [&_span]:opacity-75 [&_span]:font-normal"><i>${ic('check',18,2.6)}</i><b>Shipment created<span>Batch ${d.id} · ${d.n} ${d.n===1?'shipment':'shipments'}</span></b><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-toast="Printing shipping labels">${ic('print',15)}Print labels</button></div>
+  <div class="sx-next grid grid-cols-[1fr_1fr] gap-3 mt-5 [&>div]:rounded-lg [&>div]:shadow-app [&>div]:p-5.5 [&_b]:block [&_b]:text-app-ink [&_b]:font-semibold [&_b]:text-[15px] [&_b]:mt-3 [&_span]:text-app-muted [&_span]:text-[13.5px] [&_span]:leading-[1.5] max-[700px]:grid-cols-1"><div><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('truck',19)}</span><b>Pickup</b><span>${d.courier} will pick up your ${d.n===1?'parcel':'parcels'} on ${d.when}.</span></div><div><span class="ic [.sx-whc_&]:w-8.5 [.sx-whc_&]:h-8.5 [.sx-whc_&]:rounded-card [.sx-whc_&]:bg-primary-soft [.sx-whc_&]:text-primary [.sx-whc_&]:flex [.sx-whc_&]:items-center [.sx-whc_&]:justify-center [.sx-whc_&]:flex-none [.sx-opt_&]:w-9 [.sx-opt_&]:h-9 [.sx-opt_&]:rounded-card [.sx-opt_&]:bg-app-hover [.sx-opt_&]:text-app-ink [.sx-opt_&]:flex [.sx-opt_&]:items-center [.sx-opt_&]:justify-center [.sx-opt_&]:flex-none [.sx-opt.on_&]:bg-primary-soft [.sx-opt.on_&]:text-primary [.sx-drop_&]:w-10 [.sx-drop_&]:h-10 [.sx-drop_&]:rounded-full [.sx-drop_&]:bg-primary-soft [.sx-drop_&]:text-primary [.sx-drop_&]:inline-flex [.sx-drop_&]:items-center [.sx-drop_&]:justify-center [.sx-next_&]:w-9.5 [.sx-next_&]:h-9.5 [.sx-next_&]:rounded-[9px] [.sx-next_&]:bg-primary-soft [.sx-next_&]:text-primary [.sx-next_&]:flex [.sx-next_&]:items-center [.sx-next_&]:justify-center">${ic('pkg',19)}</span><b>Pack your parcel</b><span>Pack each order and stick its label on before the courier arrives.</span></div></div>
+  <div class="sx-row flex gap-2 justify-between items-center mt-1" style="margin-top:24px;justify-content:flex-end"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-again>Create another</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-view-shp>View shipments</button></div></div>`}
+// edits
+sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.si!=null){if(t.dataset.k==='cod'){const n=+t.value.replace(/\D/g,'');t.value=n?n.toLocaleString('id-ID'):''}X.ships[t.dataset.si][t.dataset.k]=t.value;
+  const card=t.closest('.sx-ship'),i=+t.dataset.si,ok=shipOk(X.ships[i]);const has=card.querySelector('.sx-sh .ok');
+  if(ok&&!has)card.querySelector('.sx-sh b').insertAdjacentHTML('afterend',`<span class="ok [.sx-sh_&]:text-badge-ok-text [.sx-sh_&]:flex">${ic('check',15,2.4)}</span>`);if(!ok&&has)has.remove();
+  document.getElementById('sx-next').disabled=!stepOk();sxBody.querySelector('.sx-side').outerHTML=sideHtml()}});
+sxBody.addEventListener('change',e=>{if(e.target.id==='sx-payout'){X.payout=e.target.value;sxBody.querySelector('.sx-side').outerHTML=sideHtml()}});
+sxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;
+  if(d.tog!=null)X.ships[d.tog].open=!X.ships[d.tog].open;
+  else if(d.how){X.how=d.how;X.uploaded=false}
+  else if(d.pay)X.pay=d.pay;
+  else if('upload' in d){X.uploaded=true;X.ships=BULK.map(b=>({...b,open:false}));toast(`${BULK.length} shipments imported from orders.xlsx`)}
+  else if('addship' in d){X.ships.forEach(s=>s.open=false);X.ships.push(newShip())}
+  else if('reset' in d){X.ships=[newShip()];X.uploaded=false}
+  else if(d.del!=null)X.ships.splice(+d.del,1);
+  else if(d.svc!=null)X.svc=+d.svc;
+  else if(d.day!=null)X.day=+d.day;
+  else if(d.slot!=null)X.slot=+d.slot;
+  else if(d.go!=null)X.step=+d.go;
+  else if(d.addr!=null){addrModal(+d.addr);return}
+  else if('wh' in d){whModal();return}
+  else if('again' in d){X=blankX()}
+  else if('viewShp' in d){location.hash='shipments';return}
+  else return;
+  drawSx()});
+sxFoot.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if('back' in t.dataset){X.step--;drawSx();sxBody.scrollTop=0;return}
+  if(t.id==='sx-next'&&!t.disabled){if(X.step<4){X.step++;drawSx();sxBody.scrollTop=0;return}
+    const c=costs(),sv=SERVICES[X.svc],id=bid(),cod=X.pay==='cod'?X.ships.length:0;
+    SHP.unshift({id,st:'ready',svc:sv,n:X.ships.length,cod,codv:c.codTot,cost:c.ship,wh:WAREHOUSES[X.wh],created:new Date(NOW.getTime()+60000*SHP.length)});
+    X.done={id,n:X.ships.length,courier:COURIERS.find(x=>x.k===sv[0]).n,when:pickupTx().replace(' · ',', ')};stab='all';drawSx();sxBody.scrollTop=0}});
+document.getElementById('sx-close').onclick=()=>{location.hash='shipments'};
+const BULK=[['812-4471-2290','Dewi Lestari','Jl. Dago No. 88','Coblong, Kota Bandung','40135','2 batik dresses','1','750000'],['857-3302-1184','Agus Setiawan','Jl. Pemuda No. 21','Semarang Tengah, Kota Semarang','50132','1 pair of sneakers','2','459000'],['878-9910-4432','Nadia Rahma','Jl. Malioboro No. 5','Gedongtengen, Yogyakarta','55271','3 basic tees','1','297000']]
+  .map(b=>({phone:b[0],name:b[1],addr:{street:b[2],city:b[3],zip:b[4]},l:'30',w:'20',h:'10',kg:b[6],items:b[5],cod:(+b[7]).toLocaleString('id-ID')}));
+function addrModal(i){const a=X.ships[i].addr||{street:'',city:'',zip:''};
+  modal.innerHTML=`<div class="mh pt-5 pb-1.5 px-5.5 flex justify-between items-center [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:text-app-ink"><h3>Customer address</h3><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb py-2.5 px-5.5 grid gap-3.5"><div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="ad1">Street address</label><input id="ad1" value="${a.street}" placeholder="Street, building, house number"></div>
+  <div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="ad2">District and city</label><input id="ad2" value="${a.city}" placeholder="e.g. Cilandak, Jakarta Selatan"></div>
+  <div class="fld [&_label]:block [&_label]:text-[13px] [&_label]:font-medium [&_label]:mb-1.5 [&_label]:text-app-ink [&_input]:w-full [&_input]:h-9 [&_input]:rounded-control [&_input]:border-0 [&_input]:shadow-app [&_input]:py-0 [&_input]:px-2.5 [&_input]:outline-none [&_input:focus]:shadow-[0_0_0_2px_rgba(106,75,255,.4)]"><label for="ad3">Postal code</label><input id="ad3" value="${a.zip}" inputmode="numeric" placeholder="12430"></div></div>
+  <div class="mf pt-3.5 pb-5 px-5.5 flex justify-end gap-2"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-mclose>Cancel</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="adsave" disabled>Save address</button></div>`;
+  mscrim.classList.add('open');const v=()=>[1,2,3].map(n=>document.getElementById('ad'+n).value.trim());const b=document.getElementById('adsave');
+  const chk=()=>{const [s1,c1,z]=v();b.disabled=!(s1&&c1&&/^\d{5}$/.test(z))};chk();modal.oninput=chk;
+  b.onclick=()=>{const [s1,c1,z]=v();X.ships[i].addr={street:s1,city:c1,zip:z};closeModal();modal.oninput=null;drawSx()};
+  document.getElementById('ad1').focus()}
+function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh pt-5 pb-1.5 px-5.5 flex justify-between items-center [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:text-app-ink"><h3>Pickup address</h3><button class="ib w-9.5 h-9.5 rounded-full flex items-center justify-center text-app-muted relative hover:bg-app-hover hover:text-app-text max-[600px]:[.tools_&.hide-s]:hidden" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb sx-wl py-2.5 px-5.5 grid gap-3.5">${WAREHOUSES.map((w,i)=>`<button class="opt flex items-center gap-2.5 w-full py-[7px] px-2.5 rounded-control text-[13.5px] text-left hover:bg-app-hover [.menu_&.danger]:text-app-danger-text [.ie-dd_&_b]:font-medium [.ie-dd_&_b]:text-app-ink [.ie-dd_&_span]:text-app-muted [.ie-dd_&_span]:ml-auto [.ie-dd_&_span]:text-[13px] [.sx-wl_&]:items-start [.sx-wl_&]:py-3 [.sx-wl_&]:px-2.5 [.sx-wl_&]:border-b [.sx-wl_&]:border-b-app-line [.sx-wl_&]:rounded-[0] [.sx-wl_&:last-child]:border-b-0 [.sx-wl_&_b]:block [.sx-wl_&_b]:font-semibold [.sx-wl_&_b]:text-app-ink [.sx-wl_&_span]:text-app-muted [.sx-wl_&_span]:text-[13px] [.sx-wl_&_span]:leading-[1.5]" data-w="${i}"><span class="rdo${sel===i?' on [.seg_&]:bg-white [.seg_&]:text-app-ink [.seg_&]:shadow-app [.amtopts_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.amtopts_&]:text-primary [.sx-slots_&]:shadow-[0_0_0_1.5px_var(--color-primary)] [.sx-slots_&]:text-primary':''} w-4 h-4 rounded-full border border-[#C0C8D2] flex-none relative [&.on]:border-[5px] [&.on]:border-primary [.ie-r_&]:mt-0.5 [.sx-svc_.n_&]:ml-auto [.sx-wl_&]:mt-0.5"></span><div><b>${w.n}</b><span>${w.a}</span></div></button>`).join('')}</div>
+  <div class="mf pt-3.5 pb-5 px-5.5 flex justify-end gap-2" style="justify-content:space-between"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-toast="Opens Add warehouse">${ic('plus',15,2)}Add address</button><div style="display:flex;gap:8px"><button class="btn btn-o h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-white shadow-app text-app-text hover:shadow-[0_0_0_1px_rgba(64,68,82,.16),0_2px_5px_rgba(64,68,82,.1)] [.qa_&]:flex-none [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" data-mclose>Cancel</button><button class="btn btn-p h-8 inline-flex items-center gap-1.5 py-0 px-3 rounded-control font-medium text-[13.5px] whitespace-nowrap bg-primary text-white hover:bg-primary-hover disabled:bg-primary-disabled disabled:cursor-not-allowed [.qa_&]:flex-none [.ph_&]:h-8.5 [.ie-pp_&]:w-full [.ie-pp_&]:justify-center [.ie-pp_&]:h-10 [.ie-pp_&]:text-[14.5px] [.sx-whc_&]:ml-auto [.sx-foot_&]:h-9 [.sx-foot_&]:py-0 [.sx-foot_&]:px-4" id="whsave">Use address</button></div></div>`;
+  modal.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{sel=+b.dataset.w;draw()});
+  document.getElementById('whsave').onclick=()=>{X.wh=sel;closeModal();drawSx()}};draw();mscrim.classList.add('open')}
+
+/* ===== Simple router: #home / #transactions ===== */
+const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments']};
+const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'?'shp':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+function show(view){
+  if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
+  if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
+  const home=view==='home';
+  Object.keys(VIEWS).forEach(k=>document.getElementById('view-'+k).hidden=k!==view);
+  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===view));
+  document.title=VIEWS[view][1]+' | FLIK Dashboard';
+  if(home)drawChart();
+  if(view==='shp'){renderShp();nav.querySelector('[data-view="shp"]').closest('.grp').classList.add('open')}
+  if(view==='inv'){renderInv();nav.querySelector('[data-view="inv"]').closest('.grp').classList.add('open')}
+  closeDetail();setSide(false);scrollTo(0,0);
+}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{location.hash=VIEWS[b.dataset.view][0]});
+addEventListener('hashchange',()=>show(hashView()));
+
+/* Customers empty-state art: FLIK customers hub wired to the channels customers come from */
+(()=>{
+  const A=[['chat',0],['ig',1],['cart',2],['store',3],['link',4],['invoice',.5,1],['pin',1.5,1],['upload',2.5,1],['tx',3.5,1]];
+  const x=(c)=>16+c*54,y=r=>r?150:94;
+  const wire=`<svg class="wire [.es-art_&]:absolute [.es-art_&]:inset-0 [.es-art_&]:w-full [.es-art_&]:h-full [.es-art_&]:overflow-visible [.es-art_&_path]:[fill:none] [.es-art_&_path]:[stroke:#D2C8FF] [.es-art_&_path]:[stroke-width:1.5]" width="360" height="210"><path d="M62 43H84M104 43H137Q145 43 145 51V94"/></svg>`;
+  document.getElementById('es-art').innerHTML=wire+`<div class="es-t hub absolute w-10.5 h-10.5 rounded-[10px] bg-white shadow-app flex items-center justify-center text-app-ink [&.hub]:left-4 [&.hub]:top-5 [&.hub]:w-11.5 [&.hub]:h-11.5 [&.hub]:bg-primary [&.hub]:text-white [&.hub]:shadow-[0_0_0_6px_rgba(106,75,255,.12)]">${ic('user',22,1.8)}</div><div class="es-node absolute left-21 top-[33px] w-5 h-5 rounded-full bg-white shadow-app flex items-center justify-center text-primary">${ic('bolt',11,2)}</div>`+
+    A.map(([n,c,r])=>`<div class="es-t absolute w-10.5 h-10.5 rounded-[10px] bg-white shadow-app flex items-center justify-center text-app-ink [&.hub]:left-4 [&.hub]:top-5 [&.hub]:w-11.5 [&.hub]:h-11.5 [&.hub]:bg-primary [&.hub]:text-white [&.hub]:shadow-[0_0_0_6px_rgba(106,75,255,.12)]" style="left:${x(c)}px;top:${y(r)}px">${ic(n,19,1.7)}</div>`).join('');
+})();
+show(hashView());
+
+</script>
+</body>
+</html>

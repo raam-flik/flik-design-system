@@ -15,6 +15,7 @@ Tokens, components and guidelines for the FLIK marketing site and merchant dashb
 | `components/<Name>/preview.html` | A live example of each component (markup to copy) |
 | `components/<Name>/README.md` | When to use it, how it behaves, what not to do |
 | `assets/Logos/` | The real FLIK wordmark and F mark. Never redraw them |
+| `tailwind/` | **Tailwind CSS v4 version**: `theme.css` (the FLIK theme), every component and the full dashboard in utility classes, and a gallery ([guide](tailwind/README.md)) |
 | `dashboard/index.html` | The newest merchant dashboard prototype as one HTML file, to reuse its structure ([guide](dashboard/README.md)) |
 
 ## Reference dashboard
