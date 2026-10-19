@@ -2,7 +2,7 @@
 
 The marketing top bar (68px) with the FLIK wordmark, the Products / Solutions / Developers / Resources mega menus, Pricing, Sign in and Contact sales.
 
-**Use** on every marketing page. Over a hero it starts transparent and turns white on hover or once the page scrolls. The Products menu always has three columns in this order: **Payment, Shipping, Funding** (see the sitemap in the README).
+**Use** on every marketing page. Over a hero it starts transparent and turns white on hover or once the page scrolls.
 
 **Markup.** `.fl-hdr` holds the logo `<img>`, `.fl-nav` buttons and `.right`. The panel is `.fl-mega` with one column per group, each item an `.fl-mi` with a name and a one-line description.
 

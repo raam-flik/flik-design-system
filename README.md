@@ -84,21 +84,6 @@ Line icons on a 24px grid, 1.7px stroke (2px at 14px and below), round caps and 
 
 Use the files in **Logos**; never redraw them. The wordmark goes top-left in every header (30px tall on marketing, the F mark at 16–28px in the dashboard account switcher and app icons). Keep clear space of at least the height of the F around the logo. Put it on `surface` or `surface-alt` only; on the `dark` band use the F mark alone on a white tile.
 
-## Sitemap (Products menu)
-
-Three columns, always in this order:
-
-| Payment | Shipping | Funding |
-|---|---|---|
-| Payment | Shipping | Merchant Cash Advance |
-| In-Store Payment | Bulk Shipping | Auto Settlement |
-| Checkout | COD Shipping | Flexibility |
-| Invoice | Shipment Tracking | Inventory Financing |
-| Payment Link | Courier Performance | Outlet Expansion |
-| Payment Methods | Warehouses | Marketing Budget |
-| FLIK Account | Return Management | |
-| Checkout Personalization | Cross-Border Shipping | |
-
 ## Using the components
 
 Load `tokens.css`, then `components/bundle.css`. Every class starts with `fl-`. Wrap marketing markup in `.fl` and dashboard markup in `.fl fl-app` so each gets its base text style. Components are plain HTML and CSS; copy the markup from each component's preview and add your own behaviour (open/close, sorting). Marketing components: Button, TextLink, Pill, SectionHeading, StatGrid, ResourceCard, FAQ, Header, CodePanel. Product components: AppButton, StatusBadge, FilterChip, Tabs, SegmentedControl, DataTable, KPICard, FormField, Checkbox, PopoverMenu, Modal, Toast, SidebarNav, SearchField. Product flows (the v4 Customers, Invoices and Shipments pages): PageHeader, EmptyState, FlowShell, Stepper, OptionCard, RadioList, ChoicePills, Combobox, EntityCard, LineItems, CollapsibleCard, CourierServiceCard, SummaryPanel, PaymentCards, DocumentPreview, SuccessBanner.
