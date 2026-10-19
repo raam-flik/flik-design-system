@@ -8,6 +8,7 @@ Tokens, components and guidelines for the FLIK marketing site and merchant dashb
 
 | Path | What |
 |---|---|
+| `index.html` | **Visual overview for everyone**: colours (click to copy), type, shapes, every component live, logo and writing rules. Open it in a browser. Rebuild it with `python3 scripts/build_showcase.py` after changing tokens or components |
 | `tokens.json` | Every colour, type style, spacing, radius and shadow token, with a usage note each |
 | `tokens.css` | The same tokens as CSS custom properties and type classes (generated from `tokens.json`) |
 | `components/bundle.css` | Component styles; every class starts with `fl-` |
