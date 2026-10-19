@@ -62,6 +62,9 @@ svg{display:block;flex:none}
 .ib{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative}
 .ib:hover{background:var(--hover);color:var(--text)}
 .ib .dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:#DF1B41;border:1.5px solid #fff}
+/* Top bar balance: outline buttons (AppButton); + opens Top up */
+.tools .bal{margin-right:-2px}
+.tools .bal-add{width:32px;justify-content:center;padding:0;margin-right:6px}
 .plus{width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;margin-left:4px}
 .plus:hover{background:var(--primary-h)}
 
@@ -83,9 +86,6 @@ h1{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px;margin-t
 .chip.set .val{color:var(--primary)}
 .chip.set .clr{color:var(--faint);margin-left:2px}
 .chip.set .clr:hover{color:var(--text)}
-.pillf{height:30px;display:inline-flex;align-items:center;gap:6px;padding:0 13px 0 9px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--muted);border:1px dashed var(--line-2)}
-.pillf.on{border:0;color:#fff;background:linear-gradient(90deg,#6A4BFF 0%,#FF2DB8 55%,#FF7A2E 100%);box-shadow:0 2px 6px rgba(106,75,255,.3)}
-.pillf.on svg{color:#fff}
 .fright{margin-left:auto;display:flex;gap:8px}
 .btn{height:32px;display:inline-flex;align-items:center;gap:6px;padding:0 12px;border-radius:6px;font-weight:500;font-size:13.5px;white-space:nowrap}
 .btn-o{background:#fff;box-shadow:var(--sh);color:var(--text)}
@@ -205,7 +205,7 @@ tbody tr.sel td{background:#F8F6FF}
   .search kbd{display:none}
 }
 @media (max-width:600px){
-  .tools .ib.hide-s{display:none}
+  .tools .ib.hide-s,.tools .btn.hide-s{display:none}
   .fright{margin-left:0;width:100%}
   .drawer{width:100%}
   .kv{grid-template-columns:120px 1fr}
@@ -383,6 +383,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .stp-l{width:28px;height:1px;background:var(--line-2)}
 .sx-body{flex:1;min-height:0;overflow-y:auto;background:#fff}
 .sx-in{max-width:1120px;margin:0 auto;padding:36px 32px 120px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:start}
+.sx-in.solo{grid-template-columns:minmax(0,1fr);max-width:820px}
 .sx-main>section{margin-bottom:36px}
 .sx-main h2{font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.3px;margin-bottom:6px}
 .sx-h{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
@@ -480,6 +481,21 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .sx-wl .rdo{margin-top:2px}
 @media (max-width:1100px){.sx-in{grid-template-columns:minmax(0,1fr);gap:24px}.sx-side{position:static}.steps .stp span{display:none}.steps{padding-right:0}}
 @media (max-width:700px){.sx-top{padding:0 12px;gap:8px}.sx-top .sep,.sx-top>b{display:none}.stp-l{width:12px}.sx-in{padding:24px 16px 120px}.sx-opts,.sx-g2,.sx-pay,.sx-next{grid-template-columns:1fr}.sx-g4{grid-template-columns:1fr 1fr}.sx-cr{grid-template-columns:1fr}.sx-cr .nm{padding-top:0}.sx-dl{grid-template-columns:1fr 1fr}.sx-foot{padding:0 16px}}
+/* ===== Merchant Cash Advance (reuses EmptyState, FlowShell, Stepper, OptionCard, CollapsibleCard, ChoicePills, SummaryPanel) ===== */
+.es-cards.c3{grid-template-columns:repeat(3,1fr)}
+.es-ctas{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+.es-ctas .es-cta{margin-top:0}
+.sx-h .ok{color:var(--ok-tx);display:flex;margin-left:auto}
+.sx-h .todo{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-2);margin-left:auto;flex:none}
+.mx-range.warn{color:var(--warn-tx)}
+.sx-card+.sx-card{margin-top:12px}
+.mx-file{margin-top:10px}
+.mx-file .ie-av{border-radius:8px}
+.mx-drop{padding:18px}
+.mx-drop b{margin:6px 0 2px}
+.mx-pf{display:flex;align-items:center;gap:8px}
+.mx-pf .pmb{background:var(--ink)}
+@media (max-width:700px){.es-cards.c3{grid-template-columns:1fr}}
 @media (max-width:1380px){.qa-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:700px){.qa-grid{grid-template-columns:1fr}.chart{height:240px}.qa .qt span{white-space:normal}}
 </style>
@@ -504,6 +520,8 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <button class="burger" id="burger" aria-label="Open menu"><span data-ic="menu"></span></button>
       <label class="search"><span data-ic="search"></span><input id="q" placeholder="Search" autocomplete="off"><kbd>/</kbd></label>
       <div class="tools">
+        <button class="btn btn-o bal hide-s" data-toast="Opens Balances" aria-label="FLIK balance"><span data-ic="wallet"></span><span class="num" id="balv">Rp4.523.800</span></button>
+        <button class="btn btn-o bal-add hide-s" id="baladd" aria-label="Top up balance" title="Top up balance"><span data-ic="plus"></span></button>
         <button class="ib hide-s" data-toast="Opens FLIK help center" aria-label="Help"><span data-ic="help"></span></button>
         <button class="ib" id="bell" aria-label="Notifications"><span data-ic="bell"></span><span class="dot"></span></button>
         <button class="ib hide-s" data-toast="Opens Settings" aria-label="Settings"><span data-ic="gear"></span></button>
@@ -565,7 +583,31 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <div class="foot"><span id="inv-count"></span></div>
     </main>
     <main class="content" id="view-shp" hidden>
-      <div class="ph"><h1>Shipments</h1><button class="btn btn-p" data-newshp><span data-ic="plus"></span>Create shipment</button></div>
+      <div class="ph"><h1>Shipments</h1><button class="btn btn-p" data-newshp id="shp-new" hidden><span data-ic="plus"></span>Create shipment</button></div>
+      <div id="shp-empty">
+      <section class="es-hero">
+        <div class="es-copy">
+          <h2>Ship every order from one dashboard</h2>
+          <p>Compare every courier, book a pickup and track each package in one place. COD payments land in your FLIK balance after delivery.</p>
+          <button class="btn btn-p es-cta" data-newshp>Create shipment</button>
+        </div>
+        <div class="es-art" aria-hidden="true" id="es-art-shp"></div>
+      </section>
+      <div class="es-cards">
+        <section class="es-card">
+          <h3>Ship many orders at once</h3>
+          <p>Upload a spreadsheet of orders and create up to 500 shipments in one go, each with its own customer, size and COD amount.</p>
+          <span class="es-tag"><span data-ic="tag"></span>Supports CSV and Excel</span>
+          <button class="es-link" data-toast="Downloading the template">Download the template</button>
+        </section>
+        <section class="es-card">
+          <h3>Add your pickup address</h3>
+          <p>Couriers pick up from your warehouse. Add one or more addresses so every shipment knows where it starts.</p>
+          <button class="es-link" data-toast="Opens Warehouses">Set up warehouses <span data-ic="ext"></span></button>
+        </section>
+      </div>
+      </div>
+      <div id="shp-list" hidden>
       <div class="tabs" id="shp-tabs" role="tablist"></div>
       <div class="filters">
         <button class="chip" data-toast="Filter by warehouse"><span data-ic="pluscirc"></span>Warehouse</button>
@@ -576,6 +618,26 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       </div>
       <div class="tbl-wrap"><table><thead><tr><th>Shipping cost</th><th></th><th>Batch</th><th>Courier</th><th>Shipments</th><th>COD value</th><th>Pickup from</th><th>Created</th><th></th></tr></thead><tbody id="shp-body"></tbody></table></div>
       <div class="foot"><span id="shp-count"></span></div>
+      </div>
+    </main>
+    <main class="content" id="view-mca" hidden>
+      <div class="ph"><h1>Merchant Cash Advance</h1><button class="btn btn-p" data-newmca><span data-ic="plus"></span>Apply for funding</button></div>
+      <section class="es-hero">
+        <div class="es-copy">
+          <h2>Funding for the stock you sell</h2>
+          <p>Get Rp100 million to Rp5 billion upfront for inventory, and repay it from your sales. Applying takes under 10 minutes.</p>
+          <div class="es-ctas"><button class="btn btn-p es-cta" data-newmca>Apply for funding</button><button class="btn btn-o es-cta" data-toast="Opens the Merchant Cash Advance guide">Learn more</button></div>
+        </div>
+        <div class="es-art" aria-hidden="true" id="es-art-mca"></div>
+      </section>
+      <div class="es-cards c3">
+        <section class="es-card"><h3>Transparent terms</h3><p>You see the amount, the fee and the repayment before you sign. No hidden costs.</p></section>
+        <section class="es-card"><h3>Assessed on your sales</h3><p>We look at your store's sales and history, not only at collateral.</p></section>
+        <section class="es-card"><h3>Repay as you sell</h3><p>A share of each sale settles the funding automatically, so repayments follow your sales.</p></section>
+      </div>
+      <h2 class="sec">Applications</h2>
+      <div class="tbl-wrap"><table><thead><tr><th>Funding</th><th></th><th>Project</th><th>Tenor</th><th>Remaining to repay</th><th>Applied</th><th></th></tr></thead><tbody id="mca-body"></tbody></table></div>
+      <div class="foot"><span id="mca-count"></span></div>
     </main>
     <main class="content" id="view-tx">
       <h1>Transactions</h1>
@@ -585,7 +647,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
         <button class="chip" data-f="date"><span data-ic="pluscirc"></span><span class="lbl">Date and time</span></button>
         <button class="chip" data-f="status"><span data-ic="pluscirc"></span><span class="lbl">Status</span></button>
         <button class="chip" data-f="method"><span data-ic="pluscirc"></span><span class="lbl">Payment method</span></button>
-        <button class="pillf on" id="srcpill"><span data-ic="minuscirc"></span>FLIK Checkout</button>
+        <button class="chip" data-f="source"><span data-ic="pluscirc"></span><span class="lbl">Source</span></button>
         <div class="fright">
           <button class="btn btn-o" id="export"><span data-ic="export"></span>Export</button>
         </div>
@@ -605,6 +667,11 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
   <div class="sx-top"><button class="ib" id="sx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Create shipment</b><div class="steps" id="sx-steps"></div></div>
   <div class="sx-body" id="sx-body"></div>
   <div class="sx-foot" id="sx-foot"></div>
+</div>
+<div class="sx" id="mx" hidden role="dialog" aria-label="Apply for funding">
+  <div class="sx-top"><button class="ib" id="mx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Apply for funding</b><div class="steps" id="mx-steps"></div></div>
+  <div class="sx-body" id="mx-body"></div>
+  <div class="sx-foot" id="mx-foot"></div>
 </div>
 <div class="ie" id="ie" hidden role="dialog" aria-label="Create invoice">
   <div class="ie-top">
@@ -663,6 +730,7 @@ const P={
   bolt:'<path d="M13 3 5 13.5h6L10.5 21 19 10.5h-6z"/>',
   ext:'<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
   minus:'<path d="M5 12h14"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 9.5h18M16 14h2"/>',
   wh:'<path d="M3.5 9.5 12 4l8.5 5.5V20h-17z"/><path d="M7.5 20v-6.5h9V20M7.5 16.5h9"/>',
   pkg:'<path d="M4 8 12 4l8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8M8 6l8 4"/>',
   sheet:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.5h16M4 14.5h16M10 9.5V20"/>',
@@ -679,12 +747,13 @@ paintIcons(document);
 
 /* ===== Sidebar ===== */
 const NAV=[
-  {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customers',v:'cus'},{i:'box',t:'Product catalog'},
+  {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customer',v:'cus'},{i:'box',t:'Product Catalog'},
   {h:'Products'},
-  {i:'cart',t:'Checkout',sub:['Orders',{t:'Invoices',v:'inv'},'Payment methods','Checkout personalization','Order analytics']},
-  {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},'Bulk shipping','Warehouses','Courier performance']},
-  {i:'coins',t:'Funding',sub:['Merchant cash advance','Auto settlement']},
-  {i:'chart',t:'Reporting',sub:['Reports','Exports']},
+  {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop','Payment Link','Checkout Personalization','Order Form']},
+  {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},'Tracking','Warehouse','Couriers','Red Zone']},
+  {i:'coins',t:'Merchant Cash Advance',v:'mca'},
+  {i:'tag',t:'Marketing',sub:['Chat Commerce','Leads Management','Voucher','Post Purchase Offer','Cashback']},
+  {i:'chart',t:'Analytics',sub:['Checkout','Shipping']},
   {i:'more',t:'More',sub:['Developers','Settings']}
 ];
 const nav=document.getElementById('nav');
@@ -740,7 +809,7 @@ const pmBadge=k=>{const m=METHODS[k];if(k==='mc')return`<span class="pmb" style=
 
 /* ===== State ===== */
 const TABS=[['payments','Payments'],['cod','COD payouts'],['refunds','Refunds'],['settle','Auto settlements']];
-const S={tab:'payments',q:'',date:null,status:new Set(),method:new Set(),srcOnly:true,sort:{k:'created',dir:-1},page:0,sel:new Set()};
+const S={tab:'payments',q:'',date:null,status:new Set(),method:new Set(),source:new Set(['FLIK Checkout']),sort:{k:'created',dir:-1},page:0,sel:new Set()};
 const PER=15;
 
 function rows(){
@@ -748,7 +817,7 @@ function rows(){
   if(S.tab==='settle')r=SETTLE.map(x=>({...x}));
   else{
     r=PAY.filter(p=>S.tab==='payments'||(S.tab==='cod'?p.mk==='cod'&&p.status==='succeeded':p.status==='refunded'));
-    if(S.srcOnly)r=r.filter(p=>p.source==='FLIK Checkout');
+    if(S.source.size)r=r.filter(p=>S.source.has(p.source));
     if(S.status.size)r=r.filter(p=>S.status.has(p.status));
     if(S.method.size)r=r.filter(p=>S.method.has(METHODS[p.mk].cat));
   }
@@ -810,20 +879,20 @@ document.getElementById('bulk-clear').onclick=()=>{S.sel.clear();render()};
 const DATE_OPTS=[['today','Today'],['7d','Last 7 days'],['30d','Last 30 days'],['90d','Last 90 days']];
 const STATUS_OPTS=['succeeded','pending','refunded','canceled','failed'];
 const METHOD_OPTS=['QRIS','E-wallet','Virtual account','Card','COD'];
+const SOURCE_OPTS=['FLIK Checkout','Payment link','Invoice'];
 function renderChips(){
   document.querySelectorAll('#filters .chip').forEach(ch=>{
-    const f=ch.dataset.f,base={date:'Date and time',status:'Status',method:'Payment method'}[f];
+    const f=ch.dataset.f,base={date:'Date and time',status:'Status',method:'Payment method',source:'Source'}[f];
     let val='';
     if(f==='date'&&S.date)val=DATE_OPTS.find(o=>o[0]===S.date)[1];
     if(f==='status'&&S.status.size)val=[...S.status].map(s=>ST[s][0]).join(', ');
     if(f==='method'&&S.method.size)val=[...S.method].join(', ');
+    if(f==='source'&&S.source.size)val=[...S.source].join(', ');
     const disabled=S.tab==='settle'&&f!=='date';
     ch.style.display=disabled?'none':'';
     ch.classList.toggle('set',!!val);
     ch.innerHTML=val?`<span class="clr" data-clr="${f}">${ic('x',14,2)}</span>${base} <span class="val">${val.length>28?val.slice(0,26)+'…':val}</span>`:`${ic('pluscirc',15)}${base}`;
   });
-  const pill=document.getElementById('srcpill');pill.style.display=S.tab==='settle'?'none':'';
-  pill.classList.toggle('on',S.srcOnly);pill.innerHTML=`${ic(S.srcOnly?'minuscirc':'pluscirc',15)}FLIK Checkout`;
 }
 const pop=document.getElementById('pop');let popFor=null;
 function closePop(){pop.classList.remove('open');popFor=null}
@@ -835,9 +904,9 @@ function openFilter(ch){
     pop.innerHTML=`<h6>Filter by date</h6>${DATE_OPTS.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${S.date===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}<div class="pop-f"><button class="btn btn-o" data-clear>Clear</button></div>`;
     pop.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{S.date=b.dataset.v;S.page=0;closePop();render()});
   }else{
-    const opts=f==='status'?STATUS_OPTS:METHOD_OPTS,set=f==='status'?S.status:S.method,temp=new Set(set);
+    const opts={status:STATUS_OPTS,method:METHOD_OPTS,source:SOURCE_OPTS}[f],set={status:S.status,method:S.method,source:S.source}[f],temp=new Set(set);
     const lab=v=>f==='status'?ST[v][0]:v;
-    const draw=()=>{pop.innerHTML=`<h6>Filter by ${f==='status'?'status':'payment method'}</h6>${opts.map(o=>`<button class="opt" data-v="${o}"><span class="cb${temp.has(o)?' on':''}">${temp.has(o)?ic('check',12,3):''}</span>${lab(o)}</button>`).join('')}<div class="pop-f"><button class="btn btn-o" data-clear>Clear</button><button class="btn btn-p" data-apply>Apply</button></div>`;
+    const draw=()=>{pop.innerHTML=`<h6>Filter by ${{status:'status',method:'payment method',source:'source'}[f]}</h6>${opts.map(o=>`<button class="opt" data-v="${o}"><span class="cb${temp.has(o)?' on':''}">${temp.has(o)?ic('check',12,3):''}</span>${lab(o)}</button>`).join('')}<div class="pop-f"><button class="btn btn-o" data-clear>Clear</button><button class="btn btn-p" data-apply>Apply</button></div>`;
       pop.querySelectorAll('[data-v]').forEach(b=>b.onclick=e=>{e.stopPropagation();temp.has(b.dataset.v)?temp.delete(b.dataset.v):temp.add(b.dataset.v);draw()});
       pop.querySelector('[data-apply]').onclick=()=>{set.clear();temp.forEach(v=>set.add(v));S.page=0;closePop();render()};
       pop.querySelector('[data-clear]').onclick=()=>{set.clear();S.page=0;closePop();render()};
@@ -848,10 +917,9 @@ function openFilter(ch){
 }
 document.getElementById('filters').addEventListener('click',e=>{
   const c=e.target.closest('[data-clr]');
-  if(c){e.stopPropagation();const f=c.dataset.clr;if(f==='date')S.date=null;else(f==='status'?S.status:S.method).clear();S.page=0;closePop();render();return}
+  if(c){e.stopPropagation();const f=c.dataset.clr;if(f==='date')S.date=null;else({status:S.status,method:S.method,source:S.source}[f]).clear();S.page=0;closePop();render();return}
   const ch=e.target.closest('.chip');if(ch){e.stopPropagation();openFilter(ch)}
 });
-document.getElementById('srcpill').onclick=()=>{S.srcOnly=!S.srcOnly;S.page=0;render();toast(S.srcOnly?'Showing FLIK Checkout payments only':'Showing payments from all sources')};
 document.addEventListener('click',e=>{if(!e.target.closest('#pop'))closePop()});
 addEventListener('resize',closePop);
 
@@ -1152,7 +1220,7 @@ document.getElementById('ie-review').onclick=()=>{
     closeModal();itab='all';location.hash='invoices';toast(`${no} sent to ${D.cust.name} via ${via}`)}};
 
 /* ===== Shipments: list ===== */
-const LOGO={anteraja:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/anteraja.png',jne:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/jne.png',lion:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/lionparcel.png',spx:'https://landing-page-raams-projects-2709477f.vercel.app/shipping/img/spx.png'};
+const LOGO={anteraja:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/anteraja.png',jne:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/jne.png',lion:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/lionparcel.png',spx:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/spx.png'};
 const COURIERS=[
   {k:'anteraja',n:'AnterAja',bg:'#E4007F'},{k:'sicepat',n:'SiCepat',bg:'#C8102E'},{k:'lion',n:'Lion Parcel',bg:'#E31E24'},
   {k:'jne',n:'JNE',bg:'#1B3E8F'},{k:'ninja',n:'Ninja Xpress',bg:'#C8102E'},{k:'spx',n:'SPX Express',bg:'#EE4D2D'},{k:'jnt',n:'J&T Express',bg:'#D7000F'}];
@@ -1169,12 +1237,15 @@ const WAREHOUSES=[{n:'Main warehouse',a:'Jl. Kemang Raya No. 12, Bangka, Mampang
 const SST={pay:['Awaiting payment','warn',null],ready:['Ready for pickup','pu',null],transit:['In transit','gr',null],done:['Delivered','ok','check'],bad:['Invalid data','bad',null]};
 const sPill=s=>{const x=SST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
 const bid=()=>Math.floor(rnd()*0xFFFFFFFF).toString(16).toUpperCase().padStart(8,'0');
-const SHP=Array.from({length:14},(_,i)=>{const sv=pick(SERVICES.filter(x=>x[2]==='reg'));const n=1+Math.floor(rnd()*(i%4===0?12:3));const cod=Math.floor(rnd()*(n+1));
+/* Example batches are generated (keeps the seeded data stable) but the page starts empty, like a new merchant. */
+const SHP_EXAMPLE=Array.from({length:14},(_,i)=>{const sv=pick(SERVICES.filter(x=>x[2]==='reg'));const n=1+Math.floor(rnd()*(i%4===0?12:3));const cod=Math.floor(rnd()*(n+1));
   const st=i===0?'pay':i<3?'ready':i<6?'transit':i===7?'bad':'done';
   return{id:bid(),st,svc:sv,n,cod,codv:cod*Math.round((90000+rnd()*400000)/1000)*1000,cost:n*sv[4],wh:WAREHOUSES[i%3===2?1:0],created:new Date(NOW.getTime()-i*0.9*86400000-Math.floor(rnd()*36e5*5))}});
+const SHP=[];  // the page starts empty; created shipments are added here
 const STABS=[['all','All'],['pay','Awaiting payment'],['ready','Ready for pickup'],['transit','In transit'],['done','Delivered'],['bad','Invalid data']];
 let stab='all';
 function renderShp(){
+  const empty=!SHP.length;document.getElementById('shp-empty').hidden=!empty;document.getElementById('shp-list').hidden=empty;document.getElementById('shp-new').hidden=empty;
   document.getElementById('shp-tabs').innerHTML=STABS.map(t=>`<button class="tab${stab===t[0]?' on':''}" data-stb="${t[0]}">${t[1]}</button>`).join('');
   const rows=SHP.filter(v=>stab==='all'||v.st===stab);
   const cn=k=>COURIERS.find(c=>c.k===k).n;
@@ -1208,11 +1279,6 @@ const pickupTx=()=>X.day==null?'—':`${DOW[DAYS[X.day].getDay()]}, ${fday(DAYS[
 function stepOk(){if(X.step===0)return X.ships.length&&X.ships.every(shipOk);if(X.step===1)return X.svc!=null;if(X.step===2)return X.day!=null&&X.slot!=null;if(X.step===4)return BAL>=costs().total;return true}
 function openShip(){X=blankX();sx.hidden=false;document.body.style.overflow='hidden';drawSx()}
 function closeShip(){sx.hidden=true;document.body.style.overflow=''}
-function sideHtml(){const c=costs(),sv=X.svc!=null?SERVICES[X.svc]:null;
-  return`<aside class="sx-side"><h4>Summary</h4><dl class="sx-kv"><dt>Shipments</dt><dd>${X.ships.length}</dd><dt>Payment</dt><dd>${X.pay==='cod'?'COD':'Non-COD'}</dd>${X.pay==='cod'?`<dt>COD value</dt><dd class="num">${rp(c.codTot)}</dd>`:''}
-  <dt>Courier</dt><dd>${sv?COURIERS.find(x=>x.k===sv[0]).n+' '+sv[1]:'—'}</dd><dt>Pickup</dt><dd>${X.day!=null?`${DOW[DAYS[X.day].getDay()]} ${DAYS[X.day].getDate()} ${MON[DAYS[X.day].getMonth()]}`:'—'}</dd>
-  <dt>Shipping</dt><dd class="num">${sv?(c.save?`<s>${rp(c.list)}</s>`:'')+rp(c.ship):'—'}</dd>${X.pay==='cod'?`<dt>COD fee</dt><dd class="num">${rp(c.codFee)}</dd>`:''}<dt>Platform fee</dt><dd class="num">${rp(c.platform)}</dd>
-  <dt class="t">You pay</dt><dd class="t num">${sv?rp(c.total):'—'}</dd></dl></aside>`}
 const inp=(i,k,lab,ph,o={})=>`<div class="sx-f"><label for="s${i}${k}">${lab}</label><div class="${o.pre?'pre':o.unit?'unit':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="s${i}${k}" data-si="${i}" data-k="${k}" value="${X.ships[i][k]}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`;
 function shipCard(s,i){const ok=shipOk(s);
   return`<div class="sx-ship${s.open?' open':''}"><button class="sx-sh" data-tog="${i}"><b>Shipment ${i+1}</b>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}<span class="sum">${!s.open&&s.name?`${s.name}${s.addr?' · '+s.addr.city:''}`:''}</span><span class="chev">${ic('chev',16)}</span></button>
@@ -1259,7 +1325,7 @@ function drawSx(){
     <div class="sx-pay"><div class="sx-bal"><span>FLIK balance</span><b class="num">${rp(BAL)}</b></div><div class="sx-due"><span>You pay</span><b class="num">${rp(c.total)}</b></div></div>
     <section class="sx-card"><div class="sx-h">Details</div><dl class="sx-kv"><dt>Shipping for ${X.ships.length} ${X.ships.length===1?'shipment':'shipments'}</dt><dd class="num">${c.save?`<s>${rp(c.list)}</s>`:''}${rp(c.ship)}</dd>${X.pay==='cod'?`<dt>COD fee (${PAYOUT.find(p=>p[0]===X.payout)[2]*100}% of ${rp(c.codTot)})</dt><dd class="num">${rp(c.codFee)}</dd>`:''}<dt>Platform fee</dt><dd class="num">${rp(c.platform)}</dd><dt class="t">Total</dt><dd class="t num">${rp(c.total)}</dd></dl></section>
     ${X.pay==='cod'?`<p style="color:var(--muted);margin-top:14px;font-size:13.5px">The ${rp(c.codTot)} COD value goes to your balance after delivery.</p>`:''}`}
-  sxBody.innerHTML=`<div class="sx-in"><div class="sx-main">${main}</div>${sideHtml()}</div>`;
+  sxBody.innerHTML=`<div class="sx-in solo"><div class="sx-main">${main}</div></div>`;
   sxFoot.innerHTML=`${st?`<button class="btn btn-o" data-back>Back</button>`:''}<span class="sp"></span><button class="btn btn-p" id="sx-next" ${stepOk()?'':'disabled'}>${st===4?'Confirm and pay':'Continue'}</button>`;
 }
 function doneHtml(){const d=X.done;return`<div class="sx-done"><div class="sx-ok"><i>${ic('check',18,2.6)}</i><b>Shipment created<span>Batch ${d.id} · ${d.n} ${d.n===1?'shipment':'shipments'}</span></b><button class="btn btn-o" data-toast="Printing shipping labels">${ic('print',15)}Print labels</button></div>
@@ -1269,8 +1335,8 @@ function doneHtml(){const d=X.done;return`<div class="sx-done"><div class="sx-ok
 sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.si!=null){if(t.dataset.k==='cod'){const n=+t.value.replace(/\D/g,'');t.value=n?n.toLocaleString('id-ID'):''}X.ships[t.dataset.si][t.dataset.k]=t.value;
   const card=t.closest('.sx-ship'),i=+t.dataset.si,ok=shipOk(X.ships[i]);const has=card.querySelector('.sx-sh .ok');
   if(ok&&!has)card.querySelector('.sx-sh b').insertAdjacentHTML('afterend',`<span class="ok">${ic('check',15,2.4)}</span>`);if(!ok&&has)has.remove();
-  document.getElementById('sx-next').disabled=!stepOk();sxBody.querySelector('.sx-side').outerHTML=sideHtml()}});
-sxBody.addEventListener('change',e=>{if(e.target.id==='sx-payout'){X.payout=e.target.value;sxBody.querySelector('.sx-side').outerHTML=sideHtml()}});
+  document.getElementById('sx-next').disabled=!stepOk()}});
+sxBody.addEventListener('change',e=>{if(e.target.id==='sx-payout'){X.payout=e.target.value}});
 sxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;
   if(d.tog!=null)X.ships[d.tog].open=!X.ships[d.tog].open;
   else if(d.how){X.how=d.how;X.uploaded=false}
@@ -1314,17 +1380,204 @@ function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh"
   modal.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{sel=+b.dataset.w;draw()});
   document.getElementById('whsave').onclick=()=>{X.wh=sel;closeModal();drawSx()}};draw();mscrim.classList.add('open')}
 
+/* ===== Merchant Cash Advance: page ===== */
+const MST={active:['Active','ok','check'],review:['In review','warn',null],draft:['Unfinished','gr',null],paid:['Paid off','pu',null]};
+const mPill=s=>{const x=MST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
+const MCA=[
+  {id:'MCA-2026-0011',st:'active',amount:350000000,tenor:6,left:335680000,applied:new Date(2026,8,26,15,45)},
+  {id:'MCA-2026-0010',st:'review',amount:250000000,tenor:3,left:null,applied:new Date(2026,9,8,10,12)},
+  {id:'MCA-2026-0009',st:'draft',amount:150000000,tenor:6,left:null,applied:new Date(2026,9,12,9,30),data:null},
+  {id:'MCA-2026-0007',st:'paid',amount:200000000,tenor:6,left:0,applied:new Date(2026,2,3,14,5)}];
+const mcaNo=()=>'MCA-2026-'+String(12+MCA.filter(a=>a.created).length).padStart(4,'0');
+function renderMca(){
+  document.getElementById('mca-body').innerHTML=MCA.map((a,i)=>`<tr data-mca="${i}"><td class="amt num">${rp(a.amount)}</td><td class="c-st">${mPill(a.st)}</td><td class="inv-no">${a.id}</td><td>${a.tenor?a.tenor+' months':'<span class="inv-sub">—</span>'}</td><td class="num">${a.left==null?'<span class="inv-sub">—</span>':rp(a.left)}</td><td class="date">${fdate(a.applied)}</td><td><button class="dots-b" data-toast="Opens application actions" aria-label="More">${ic('dots',16)}</button></td></tr>`).join('');
+  document.getElementById('mca-count').innerHTML=`<b>${MCA.length}</b> ${MCA.length===1?'application':'applications'}`;
+}
+document.getElementById('mca-body').addEventListener('click',e=>{if(e.target.closest('.dots-b'))return;const tr=e.target.closest('tr[data-mca]');if(!tr)return;const a=MCA[tr.dataset.mca];
+  if(a.st==='draft'){MCA_RESUME=a;location.hash='merchant-cash-advance/apply'}else toast(`Opens ${a.id}`)});
+let MCA_RESUME=null,MCA_PREFILL=false;
+const SAVED={nik:'3171 •••• •••• 0012',ktp:'ktp-owner.jpg',npwp:'91.924.721.9-471.618',npwpFile:'npwp.pdf',nib:'9120 0021 4455 6',nibFile:'nib.pdf'};
+document.addEventListener('click',e=>{if(!e.target.closest('[data-newmca]'))return;closePop();
+  if(!MCA.some(a=>a.st!=='draft')){MCA_PREFILL=false;location.hash='merchant-cash-advance/apply';return}
+  modal.innerHTML=`<div class="mh"><h3>Use your saved business data?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><p style="color:var(--muted)">You've applied before. Use the business data we already have, or submit new data.</p>
+  <dl class="sum-kv"><dt>Owner NIK</dt><dd class="num">${SAVED.nik}</dd><dt>Owner KTP</dt><dd>${SAVED.ktp}</dd><dt>Owner NPWP</dt><dd class="num">${SAVED.npwp}</dd><dt>NPWP file</dt><dd>${SAVED.npwpFile}</dd><dt>NIB</dt><dd class="num">${SAVED.nib}</dd><dt>NIB file</dt><dd>${SAVED.nibFile}</dd></dl></div>
+  <div class="mf"><button class="btn btn-o" id="mx-new">Submit new data</button><button class="btn btn-p" id="mx-use">Use saved data</button></div>`;
+  mscrim.classList.add('open');
+  document.getElementById('mx-new').onclick=()=>{closeModal();MCA_PREFILL=false;location.hash='merchant-cash-advance/apply'};
+  document.getElementById('mx-use').onclick=()=>{closeModal();MCA_PREFILL=true;location.hash='merchant-cash-advance/apply'};
+});
+
+/* ===== Merchant Cash Advance: application flow ===== */
+const mx=document.getElementById('mx'),mxBody=document.getElementById('mx-body'),mxFoot=document.getElementById('mx-foot');
+const MSTEPS=['Funding request','Management','Platforms and data','Legal documents','Financial documents'];
+const AGES=['Less than 1 year','1–2 years','2–5 years','More than 5 years'];
+const TENORS=[3,6,9,12];
+const SALES=['Shopify','WooCommerce','Tokopedia','TikTok Shop','Shopee','Lazada','Blibli','Zalora','Offline store or POS','Other'];
+const ADS=['Google Ads','Meta Ads','TikTok Ads','Shopee Ads','Tokopedia Ads'];
+let M,mxResume=null;
+const fileOf=(n,size)=>({n,s:size||'0.8 MB'});
+const blankM=()=>({step:0,done:null,type:null,age:'',addr:null,amount:'',tenor:null,margin:'',
+  dir:{ktp:null,name:'',nik:'',dob:'',gender:'',phone:'',npwp:null,read:false},pg:{ktp:null,phone:''},
+  sales:[],ads:[],plat:{},open:{},legal:{npwpNo:'',npwp:null,nib:null,akta:null,sk:null},fin:{bank:null,pl:null,bs:null},prefilled:false});
+const num=v=>+String(v).replace(/\D/g,'')||0;
+const company=()=>M.type==='company';
+const mPct=()=>parseFloat(String(M.margin).replace(',','.').replace(/[^\d.]/g,''))||0;
+const who=()=>company()?'Director':'Owner';
+const platOk=n=>{const p=M.plat[n]||{};return ADS.includes(n)?!!(p.period&&num(p.spend)>0&&p.report):(p.connected||(p.mode==='manual'&&p.rev&&p.shot))};
+const mOk=[
+  ()=>M.type&&M.age&&M.addr&&num(M.amount)>=1e8&&num(M.amount)<=5e9&&M.tenor&&mPct()>0&&mPct()<=100,
+  ()=>{const d=M.dir;const base=d.ktp&&d.name.trim()&&d.nik.replace(/\D/g,'').length===16&&d.dob&&d.gender&&num(d.phone)>=1e8&&d.npwp;return base&&(!company()||(M.pg.ktp&&num(M.pg.phone)>=1e8))},
+  ()=>M.sales.length>0&&[...M.sales,...M.ads].every(platOk),
+  ()=>{const l=M.legal;return l.npwpNo.replace(/\D/g,'').length>=15&&l.npwp&&l.nib&&(!company()||(l.akta&&l.sk))},
+  ()=>M.fin.bank&&M.fin.pl&&M.fin.bs];
+function openMca(){
+  M=blankM();mxResume=MCA_RESUME;MCA_RESUME=null;
+  if(mxResume&&mxResume.data)M=JSON.parse(JSON.stringify(mxResume.data));
+  else if(mxResume){M.type='company';M.age='2–5 years';M.addr={street:'Jl. Kemang Raya No. 12',city:'Mampang Prapatan, Jakarta Selatan',zip:'12730'};M.amount=(mxResume.amount).toLocaleString('id-ID');M.tenor=mxResume.tenor;M.margin='35';M.step=1}
+  if(MCA_PREFILL&&!mxResume){M.prefilled=true;Object.assign(M.dir,{ktp:fileOf(SAVED.ktp),name:'Dewi Lestari',nik:'3171045203900012',dob:'1990-03-12',gender:'female',npwp:fileOf(SAVED.npwpFile),read:true});M.legal.npwpNo=SAVED.npwp;M.legal.npwp=fileOf(SAVED.npwpFile);M.legal.nib=fileOf(SAVED.nibFile)}
+  MCA_PREFILL=false;mx.hidden=false;document.body.style.overflow='hidden';drawMx();
+}
+function closeMca(){mx.hidden=true;document.body.style.overflow=''}
+const tick=ok=>ok?`<span class="ok">${ic('check',16,2.4)}</span>`:'<span class="todo" aria-label="Not done yet"></span>';
+const card=(title,ok,inner,tip)=>`<section class="sx-card"><div class="sx-h">${title}${tip?`<span class="src" title="${tip}">${ic('help',14)}</span>`:''}${tick(ok)}</div>${inner}</section>`;
+const field=(path,label,ph,o={})=>{const v=getP(path)??'';return`<div class="sx-f">${label?`<label>${label}</label>`:''}<div class="${o.pre?'pre':o.unit?'unit':''}">${o.pre?`<em>${o.pre}</em>`:''}<input data-mp="${path}" value="${String(v).replace(/"/g,'&quot;')}" placeholder="${ph}" ${o.type?`type="${o.type}"`:''} ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`};
+function getP(p){return p.split('.').reduce((o,k)=>o==null?o:o[k],M)}
+function setP(p,v){const ks=p.split('.');let o=M;ks.slice(0,-1).forEach(k=>{o[k]=o[k]||{};o=o[k]});o[ks[ks.length-1]]=v}
+const upload=(path,label,fmt,name)=>{const f=getP(path);return f?`<div class="ie-cust mx-file"><span class="ie-av">${ic('doc',16)}</span><div><b>${f.n}</b><span>${f.s}</span></div><button class="ib" style="width:30px;height:30px" data-unf="${path}" aria-label="Remove ${label}">${ic('x',15)}</button></div>`
+  :`<div class="sx-drop mx-drop"><b>${label}</b>${fmt}<div class="sx-row" style="justify-content:center;margin-top:10px"><button class="btn btn-o" data-upf="${path}" data-fn="${name}">${ic('upload',15)}Upload file</button></div></div>`};
+function step0(){
+  const types=[['personal','Personal','You run the business in your own name'],['company','Company','A registered company (PT or CV)']];
+  return`<h2>Funding request</h2><p class="sx-lead">Tell us about your business and the funding you need.</p>
+  ${card('Business type',!!M.type,`<div class="sx-opts">${types.map(t=>`<button class="sx-opt${M.type===t[0]?' on':''}" data-mtype="${t[0]}"><span class="ic">${ic(t[0]==='company'?'wh':'user',18)}</span><div><b>${t[1]}</b><span>${t[2]}</span></div></button>`).join('')}</div>`)}
+  ${card('Business age',!!M.age,`<select class="sx-sel" data-msel="age" style="margin-top:0"><option value="">Choose business age</option>${AGES.map(a=>`<option ${M.age===a?'selected':''}>${a}</option>`).join('')}</select>`)}
+  ${card(company()?'Company address':'Business address',!!M.addr,`<button class="sx-addr${M.addr?' set':''}" data-maddr>${M.addr?`${M.addr.street}, ${M.addr.city} ${M.addr.zip}`:'Set the address'}<span class="chev">${ic('chev',16)}</span></button>`)}
+  ${card('Requested amount',num(M.amount)>=1e8&&num(M.amount)<=5e9,field('amount','','Enter an amount',{pre:'Rp',num:1})+`<p class="src mx-range${num(M.amount)>0&&(num(M.amount)<1e8||num(M.amount)>5e9)?' warn':''}" style="margin-top:6px">From Rp100.000.000 to Rp5.000.000.000</p>`,'The total funding your business needs')}
+  ${card('Tenor',!!M.tenor,`<div class="sx-slots" style="margin-top:0">${TENORS.map(t=>`<button class="${M.tenor===t?'on':''}" data-mten="${t}">${t} months</button>`).join('')}</div>`,'How long you would like to repay the funding')}
+  ${card('Estimated gross margin',mPct()>0,field('margin','','For example 30',{unit:'%'}),'Your estimated profit as a share of total sales')}`}
+function step1(){const d=M.dir,W=who();
+  return`<h2>Management</h2><p class="sx-lead">${company()?'The director and a personal guarantee':'The business owner'}. Upload the KTP and we fill in the details for you to check.</p>
+  ${M.prefilled?`<div class="sx-note">${ic('check',15,2.4)}Filled in from your saved business data. Check it before you continue.</div>`:''}
+  ${card(`${W}'s KTP`,!!d.ktp,upload('dir.ktp','KTP photo','JPG or PNG, up to 5 MB','ktp-'+W.toLowerCase()+'.jpg'))}
+  ${d.ktp?card(`${W}'s details`,!!(d.name.trim()&&d.nik.replace(/\D/g,'').length===16&&d.dob&&d.gender),`${d.read?`<div class="sx-note" style="margin-bottom:4px">${ic('warn',15)}Read from the KTP. Check each field.</div>`:''}<div class="sx-g sx-g2">${field('dir.name','Full name','As on the KTP')}${field('dir.nik','NIK','16 digits',{num:1})}</div><div class="sx-g sx-g2">${field('dir.dob','Date of birth','',{type:'date'})}<div class="sx-f"><label>Gender</label><div class="sx-slots" style="margin-top:0">${[['female','Female'],['male','Male']].map(g=>`<button class="${d.gender===g[0]?'on':''}" data-mgen="${g[0]}">${g[1]}</button>`).join('')}</div></div></div>`):''}
+  ${card(`${W}'s phone`,num(d.phone)>=1e8,field('dir.phone','WhatsApp number','812-3456-7890',{pre:'+62',num:1}))}
+  ${card(`${W}'s NPWP`,!!d.npwp,upload('dir.npwp','NPWP photo','JPG or PNG, up to 5 MB','npwp-'+W.toLowerCase()+'.jpg'))}
+  ${company()?card('Personal guarantee',!!(M.pg.ktp&&num(M.pg.phone)>=1e8),upload('pg.ktp','Guarantor KTP photo','JPG or PNG, up to 5 MB','ktp-guarantor.jpg')+`<div class="sx-g">${field('pg.phone','Guarantor WhatsApp number','812-3456-7890',{pre:'+62',num:1})}</div>`,'The owner, CEO or a commissioner who guarantees the funding'):''}`}
+function platCard(n){const p=M.plat[n]=M.plat[n]||{},isAd=ADS.includes(n),ok=platOk(n),open=M.open[n]!==false;
+  let inner='';
+  if(isAd)inner=`<div class="sx-g sx-g2"><div class="sx-f"><label>Data period</label><select class="sx-sel" style="margin-top:0" data-mplat="${n}" data-k="period"><option value="">Choose a period</option>${['Last 3 months','Last 6 months','Last 12 months'].map(o=>`<option ${p.period===o?'selected':''}>${o}</option>`).join('')}</select></div>${field('plat.'+n+'.spend','Average monthly ad spend','5.000.000',{pre:'Rp',num:1})}</div><div class="sx-g sx-g2">${upload('plat.'+n+'.report','Ads report','XLS or CSV, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-report.xlsx')}${upload('plat.'+n+'.shot','Report screenshot (optional)','JPG or PNG, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-report.png')}</div>`;
+  else{inner=`<div class="sx-opts" style="margin-top:14px"><button class="sx-opt${p.mode==='connect'?' on':''}" data-mmode="connect" data-mn="${n}"><span class="ic">${ic('link',18)}</span><div><b>Connect your store</b><span>Sync sales automatically</span></div></button><button class="sx-opt${p.mode==='manual'?' on':''}" data-mmode="manual" data-mn="${n}"><span class="ic">${ic('upload',18)}</span><div><b>Upload manually</b><span>A revenue file and a screenshot</span></div></button></div>`;
+    if(p.mode==='connect')inner+=p.connected?`<div class="ie-cust mx-file"><span class="ie-av">${ic('check',16,2.4)}</span><div><b>Connected</b><span>${p.email}</span></div><button class="btn btn-o" data-mdisc="${n}">Disconnect</button></div>`:`<div class="sx-row" style="margin-top:12px"><button class="btn btn-p" data-mconn="${n}">${ic('link',15)}Connect ${n}</button></div>`;
+    if(p.mode==='manual')inner+=`<div class="sx-g sx-g2">${upload('plat.'+n+'.rev','Revenue, last 6 months','XLS or CSV, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.xlsx')}${upload('plat.'+n+'.shot','Revenue screenshot','JPG or PNG, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.png')}</div>`}
+  return`<div class="sx-ship${open?' open':''}"><button class="sx-sh" data-mtog="${n}"><span class="mx-pf"><span class="pmb">${n.replace(/[^A-Za-z ]/g,'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span><b>${n}</b></span>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${p.connected?`<span class="st pu">Connected</span>`:''}<span class="chev">${ic('chev',16)}</span></button><div class="sx-sb">${inner}</div></div>`}
+function step2(){const pills=(list,key)=>`<div class="sx-slots">${list.map(n=>`<button class="${M[key].includes(n)?'on':''}" data-mpl="${n}" data-key="${key}">${n}</button>`).join('')}</div>`;
+  return`<h2>Platforms and data</h2><p class="sx-lead">Where you sell and advertise. Connect a store or upload its revenue, so we can assess your sales.</p>
+  ${card('Sales platforms',M.sales.length>0,`<p class="src">Choose every platform you sell on.</p>${pills(SALES,'sales')}`)}
+  ${card('Marketing platforms',true,`<p class="src">Optional. Choose the ad platforms you use.</p>${pills(ADS,'ads')}`)}
+  ${[...M.sales,...M.ads].length?`<section style="margin-top:24px"><div class="sx-h">Data for each platform</div>${[...M.sales,...M.ads].map(platCard).join('')}</section>`:''}`}
+function step3(){const l=M.legal;
+  return`<h2>Legal documents</h2><p class="sx-lead">${company()?'Your company registration documents.':'Your business registration documents.'} PDF only, up to 10 MB each.</p>
+  ${card(company()?'Company NPWP':'NPWP',l.npwpNo.replace(/\D/g,'').length>=15&&!!l.npwp,`<div class="sx-g" style="margin-top:0">${field('legal.npwpNo','NPWP number','00.000.000.0-000.000',{num:1})}</div>`+upload('legal.npwp','NPWP document','PDF, up to 10 MB','npwp.pdf'))}
+  ${card('NIB',!!l.nib,upload('legal.nib','NIB document','PDF, up to 10 MB','nib.pdf'),'Business identification number from OSS')}
+  ${company()?card('Deed of establishment and amendments',!!l.akta,upload('legal.akta','Akta pendirian and perubahan','PDF, up to 10 MB','akta.pdf')):''}
+  ${company()?card('SK Kemenkumham',!!l.sk,upload('legal.sk','Ministry of Law decree','PDF, up to 10 MB','sk-kemenkumham.pdf')):''}`}
+function step4(){const f=M.fin;
+  return`<h2>Financial documents</h2><p class="sx-lead">PDF only, up to 10 MB each.</p>
+  ${card('Bank statements',!!f.bank,upload('fin.bank','Bank statements, last 6 months','PDF, up to 10 MB','bank-statements.pdf'))}
+  ${card('Profit and loss statement',!!f.pl,upload('fin.pl','Profit and loss statement','PDF, up to 10 MB','profit-and-loss.pdf'))}
+  ${card('Balance sheet',!!f.bs,upload('fin.bs','Balance sheet','PDF, up to 10 MB','balance-sheet.pdf'))}`}
+function mxDone(){const d=M.done;return`<div class="sx-done"><div class="sx-ok"><i>${ic('check',18,2.6)}</i><b>Application submitted<span>Funding ${d.id} · ${rp(d.amount)} · ${d.tenor} months</span></b><button class="btn btn-o" data-mcopy="${d.id}">${ic('copy',15)}Copy ID</button></div>
+  <div class="sx-next"><div><span class="ic">${ic('doc',19)}</span><b>We're verifying your documents</b><span>The FLIK team checks your application and contacts you on WhatsApp. Follow the status in Merchant Cash Advance.</span></div><div><span class="ic">${ic('chat',19)}</span><b>Questions?</b><span>Contact customer service on WhatsApp, or email support@flik.co.id.</span></div></div>
+  <div class="sx-row" style="margin-top:24px;justify-content:flex-end"><button class="btn btn-o" data-toast="Opens customer service on WhatsApp">Contact customer service</button><button class="btn btn-p" data-mback>Back to Merchant Cash Advance</button></div></div>`}
+function drawMx(){
+  const st=M.step;
+  document.getElementById('mx-steps').innerHTML=M.done?'':MSTEPS.map((t,i)=>`${i?'<span class="stp-l"></span>':''}<span class="stp${i===st?' on':i<st?' done':''}"><i>${i<st?ic('check',11,3):i+1}</i><span>${t}</span></span>`).join('');
+  if(M.done){mxFoot.hidden=true;mxBody.innerHTML=mxDone();return}
+  mxFoot.hidden=false;
+  mxBody.innerHTML=`<div class="sx-in solo"><div class="sx-main">${[step0,step1,step2,step3,step4][st]()}</div></div>`;
+  mxFoot.innerHTML=`${st?'<button class="btn btn-o" data-mprev>Back</button>':''}<span class="sp"></span><button class="btn btn-p" id="mx-next" ${mOk[st]()?'':'disabled'}>${st===4?'Submit application':'Continue'}</button>`;
+}
+const mxRefresh=()=>{document.getElementById('mx-next').disabled=!mOk[M.step]()};
+mxBody.addEventListener('input',e=>{const t=e.target;if(!t.dataset.mp)return;let v=t.value;
+  if(/amount|phone|spend/.test(t.dataset.mp)){const n=num(v);v=n?(t.dataset.mp.includes('phone')?String(n):n.toLocaleString('id-ID')):'';t.value=v}
+  setP(t.dataset.mp,v);mxRefresh();syncTicks()});
+/* Update the green ticks in place while typing (a full redraw would swallow the next click) */
+function syncTicks(){const tmp=document.createElement('div');tmp.innerHTML=[step0,step1,step2,step3,step4][M.step]();
+  ['.sx-h','.sx-sh'].forEach(sel=>{const a=[...tmp.querySelectorAll(sel)],b=[...mxBody.querySelectorAll('.sx-main '+sel)];
+    a.forEach((h,i)=>{const live=b[i];if(!live)return;const has=!!h.querySelector(':scope > .ok'),cur=live.querySelector(':scope > .ok');
+      if(has&&!cur){const ok=document.createElement('span');ok.className='ok';ok.innerHTML=ic('check',sel==='.sx-h'?16:15,2.4);sel==='.sx-sh'?live.querySelector('.mx-pf').after(ok):live.appendChild(ok)}
+      if(!has&&cur)cur.remove();
+      if(sel==='.sx-h'){const todo=live.querySelector(':scope > .todo');if(has&&todo)todo.remove();if(!has&&!todo)live.insertAdjacentHTML('beforeend','<span class="todo" aria-label="Not done yet"></span>')}})})
+  const amt=num(M.amount),rg=mxBody.querySelector('.mx-range');if(rg)rg.classList.toggle('warn',amt>0&&(amt<1e8||amt>5e9))}
+mxBody.addEventListener('change',e=>{const t=e.target;if(t.dataset.msel){M[t.dataset.msel]=t.value;drawMx()}else if(t.dataset.mplat){M.plat[t.dataset.mplat][t.dataset.k]=t.value;drawMx()}else if(t.dataset.mp){setP(t.dataset.mp,t.value);mxRefresh();syncTicks()}});
+mxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;const y=mxBody.scrollTop;
+  if(d.mtype)M.type=d.mtype;
+  else if(d.mten)M.tenor=+d.mten;
+  else if(d.mgen)M.dir.gender=d.mgen;
+  else if('maddr' in d){mAddr();return}
+  else if(d.upf){setP(d.upf,fileOf(d.fn));if(d.upf==='dir.ktp'&&!M.dir.name)Object.assign(M.dir,{name:'Dewi Lestari',nik:'3171045203900012',dob:'1990-03-12',gender:'female',read:true});toast(`${d.fn} uploaded`)}
+  else if(d.unf){setP(d.unf,null);if(d.unf==='dir.ktp')Object.assign(M.dir,{name:'',nik:'',dob:'',gender:'',read:false})}
+  else if(d.mpl){const arr=M[d.key];const i=arr.indexOf(d.mpl);i<0?arr.push(d.mpl):arr.splice(i,1)}
+  else if(d.mtog)M.open[d.mtog]=M.open[d.mtog]===false;
+  else if(d.mmode){M.plat[d.mn].mode=d.mmode}
+  else if(d.mconn){mConnect(d.mconn);return}
+  else if(d.mdisc){Object.assign(M.plat[d.mdisc],{connected:false,email:''})}
+  else if(d.mcopy){navigator.clipboard&&navigator.clipboard.writeText(d.mcopy).catch(()=>{});toast(`${d.mcopy} copied`);return}
+  else if('mback' in d){location.hash='merchant-cash-advance';return}
+  else return;
+  drawMx();mxBody.scrollTop=y});
+function mAddr(){const a=M.addr||{street:'',city:'',zip:''};
+  modal.innerHTML=`<div class="mh"><h3>${company()?'Company':'Business'} address</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="fld"><label for="ma1">Street address</label><input id="ma1" value="${a.street}" placeholder="Street, building, number"></div><div class="fld"><label for="ma2">District and city</label><input id="ma2" value="${a.city}" placeholder="e.g. Kebayoran Baru, Jakarta Selatan"></div><div class="fld"><label for="ma3">Postal code</label><input id="ma3" value="${a.zip}" inputmode="numeric" placeholder="12160"></div></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="masave" disabled>Save address</button></div>`;
+  mscrim.classList.add('open');const v=()=>[1,2,3].map(n=>document.getElementById('ma'+n).value.trim());const b=document.getElementById('masave');
+  const chk=()=>{const [s1,c1,z]=v();b.disabled=!(s1&&c1&&/^\d{5}$/.test(z))};chk();modal.oninput=chk;
+  b.onclick=()=>{const [s1,c1,z]=v();M.addr={street:s1,city:c1,zip:z};modal.oninput=null;closeModal();drawMx()};document.getElementById('ma1').focus()}
+function mConnect(n){
+  modal.innerHTML=`<div class="mh"><h3>Connect ${n}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="fld"><label for="mc1">Store account email</label><input id="mc1" placeholder="name@yourstore.com" autocomplete="off"></div><div class="sx-note" style="margin:0">${ic('warn',15)}Sign in to your ${n} account in this browser first.</div></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="mcgo" disabled>Connect</button></div>`;
+  mscrim.classList.add('open');const i=document.getElementById('mc1'),b=document.getElementById('mcgo');
+  modal.oninput=()=>{b.disabled=!/^\S+@\S+\.\S+$/.test(i.value.trim())};
+  b.onclick=()=>{Object.assign(M.plat[n],{connected:true,email:i.value.trim()});modal.oninput=null;closeModal();toast(`${n} connected`);drawMx()};i.focus()}
+mxFoot.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if('mprev' in t.dataset){M.step--;drawMx();mxBody.scrollTop=0;return}
+  if(t.id!=='mx-next'||t.disabled)return;
+  if(M.step<4){M.step++;drawMx();mxBody.scrollTop=0;return}
+  modal.innerHTML=`<div class="mh"><h3>Agree to the credit check</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><p style="color:var(--muted)">To continue, read and agree to the terms for the credit score check through CLIK.</p><button class="ie-chk" id="mcag"><span class="cb"></span>I have read and agree to the <a href="#" data-toast="Opens the Terms and Conditions">Terms and Conditions</a> and the <a href="#" data-toast="Opens the Privacy Policy">Privacy Policy</a>.</button></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="mcsub" disabled>Submit application</button></div>`;
+  mscrim.classList.add('open');let agreed=false;const ag=document.getElementById('mcag'),sb=document.getElementById('mcsub');
+  ag.onclick=e=>{if(e.target.closest('a'))return;agreed=!agreed;ag.querySelector('.cb').outerHTML=`<span class="cb${agreed?' on':''}">${agreed?ic('check',12,3):''}</span>`;sb.disabled=!agreed};
+  sb.onclick=()=>{closeModal();const id=mxResume?mxResume.id:mcaNo();if(mxResume)MCA.splice(MCA.indexOf(mxResume),1);
+    MCA.unshift({id,st:'review',amount:num(M.amount),tenor:M.tenor,left:null,applied:new Date(NOW.getTime()+60000),created:true});
+    M.done={id,amount:num(M.amount),tenor:M.tenor};mxResume=null;drawMx();mxBody.scrollTop=0}});
+document.getElementById('mx-close').onclick=()=>{
+  if(!M.done&&(M.type||num(M.amount))){const data=JSON.parse(JSON.stringify(M));
+    if(mxResume){mxResume.data=data;mxResume.amount=num(M.amount)||mxResume.amount;mxResume.tenor=M.tenor||mxResume.tenor}
+    else MCA.unshift({id:mcaNo(),st:'draft',amount:num(M.amount),tenor:M.tenor,left:null,applied:new Date(NOW.getTime()+60000),created:true,data});
+    toast('Saved. Continue any time from Merchant Cash Advance.')}
+  location.hash='merchant-cash-advance'};
+/* Merchant Cash Advance art: funding hub wired to what it pays for (row 1) and how it is repaid (row 2) */
+(()=>{const x=c=>16+c*54,y=r=>r?150:94;
+  const r1=[['pkg',0],['store',1],['cart',2],['tx',3],['chart',4]].map(([n,c])=>`<div class="es-t" style="left:${x(c)}px;top:${y(0)}px">${ic(n,19,1.7)}</div>`);
+  const r2=[['wallet',.5],['clock',1.5],['doc',2.5],['check',3.5]].map(([n,c])=>`<div class="es-t" style="left:${x(c)}px;top:${y(1)}px">${ic(n,19,1.7)}</div>`);
+  document.getElementById('es-art-mca').innerHTML=`<svg class="wire" width="360" height="210"><path d="M62 43H84M104 43H137Q145 43 145 51V94"/></svg><div class="es-t hub">${ic('coins',22,1.8)}</div><div class="es-node">${ic('bolt',11,2)}</div>`+r1.join('')+r2.join('');
+})();
+
 /* ===== Simple router: #home / #transactions ===== */
-const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments']};
-const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'?'shp':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance']};
+const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'?'shp':location.hash==='#merchant-cash-advance/apply'?'mca':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
   if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
+  if(location.hash==='#merchant-cash-advance/apply'){view='mca';openMca()}else if(!mx.hidden)closeMca();
   const home=view==='home';
   Object.keys(VIEWS).forEach(k=>document.getElementById('view-'+k).hidden=k!==view);
   document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===view));
   document.title=VIEWS[view][1]+' | FLIK Dashboard';
   if(home)drawChart();
+  if(view==='mca')renderMca();
   if(view==='shp'){renderShp();nav.querySelector('[data-view="shp"]').closest('.grp').classList.add('open')}
   if(view==='inv'){renderInv();nav.querySelector('[data-view="inv"]').closest('.grp').classList.add('open')}
   closeDetail();setSide(false);scrollTo(0,0);
@@ -1340,6 +1593,17 @@ addEventListener('hashchange',()=>show(hashView()));
   document.getElementById('es-art').innerHTML=wire+`<div class="es-t hub">${ic('user',22,1.8)}</div><div class="es-node">${ic('bolt',11,2)}</div>`+
     A.map(([n,c,r])=>`<div class="es-t" style="left:${x(c)}px;top:${y(r)}px">${ic(n,19,1.7)}</div>`).join('');
 })();
+/* Shipments empty-state art: FLIK Shipping hub wired to the couriers (row 1) and what each shipment needs (row 2) */
+(()=>{
+  const x=c=>16+c*54,y=r=>r?150:94;
+  const row1=['anteraja','jne','lion','spx','sicepat'].map((k,c)=>`<div class="es-t" style="left:${x(c)}px;top:${y(0)}px">${cLogo(k)}</div>`);
+  const row2=[['pkg',.5],['pin',1.5],['clock',2.5],['print',3.5]].map(([n,c])=>`<div class="es-t" style="left:${x(c)}px;top:${y(1)}px">${ic(n,19,1.7)}</div>`);
+  const wire=`<svg class="wire" width="360" height="210"><path d="M62 43H84M104 43H137Q145 43 145 51V94"/></svg>`;
+  document.getElementById('es-art-shp').innerHTML=wire+`<div class="es-t hub">${ic('truck',22,1.8)}</div><div class="es-node">${ic('bolt',11,2)}</div>`+row1.join('')+row2.join('');
+})();
+/* Top bar balance */
+document.getElementById('balv').textContent=rp(BAL);
+document.getElementById('baladd').onclick=topupModal;
 show(hashView());
 
 </script>

@@ -15,8 +15,10 @@ This is a **copy**. The main copy lives in the flik-dashboard repo (`product/Das
 | `#customers` | Customers | The `EmptyState` pattern (nothing to list yet) |
 | `#invoices` | Invoices | `PageHeader`, tabs, filter chips, table |
 | `#invoices/create` | Create invoice | Full-screen editor: form left, live PDF / WhatsApp / payment page preview right |
-| `#shipments` | Shipments | List with status tabs |
-| `#shipments/create` | Create shipment | Five-step flow (Details, Courier, Pickup, Summary, Payment) with a running summary and a success screen |
+| `#shipments` (empty) | Shipments | Starts with the `EmptyState` pattern; the list appears after the first shipment |
+| `#shipments/create` | Create shipment | Five-step flow (Details, Courier, Pickup, Summary, Payment) and a success screen |
+| `#merchant-cash-advance` | Merchant Cash Advance | Funding offer, benefits, applications table (Active, In review, Unfinished, Paid off) |
+| `#merchant-cash-advance/apply` | Apply for funding | Saved-data prompt, five steps (funding request, management, platforms and data, legal and financial documents), credit-check consent, drafts that can be resumed |
 
 ## How the file is organised
 
@@ -26,7 +28,8 @@ Everything is in order inside the one file; search for the `/* ===== … ===== *
 - **Layout and components CSS**: sidebar, top bar, tabs, filter chips, buttons (`.btn-p`, `.btn-o`, `.btn-d`), table, drawer, modal, toast, then one block per page (Home, Invoices, Shipments). The design system's `components/bundle.css` has the same patterns with `fl-` class names.
 - **Markup**: one `<main class="content" id="view-…">` per page, plus the full-screen editors (`#ie` for invoices, `#sx` for shipments), the popover `#pop`, the modal `#mscrim` / `#modal` and the toast.
 - **Icons**: the `P` map of 24px line icons and `ic(name, size, stroke)`, which returns an inline SVG.
-- **Sidebar**: the `NAV` array. An item with `v:'key'` opens a page; a sub-item can be a string (shows a toast) or `{t:'Invoices', v:'inv'}` (opens a page).
+- **Top bar**: search, the FLIK balance with a + for Top up, help, notifications, settings and the Create menu.
+- **Sidebar**: the `NAV` array (Home, Balances, Transactions, Customer, Product Catalog; Products: Payments, Shipping, Merchant Cash Advance, Marketing, Analytics, More). An item with `v:'key'` opens a page; a sub-item can be a string (shows a toast) or `{t:'Invoices', v:'inv'}` (opens a page).
 - **Data**: seeded dummy data (`rnd()`, `pick()`), formatting helpers `rp()` (Rp1.250.000), `fdate()` and `fday()` (14 Oct 2026).
 - **Shared helpers**: `toast(text)`, `placePop(anchor)` / `closePop()` for popovers, `modal` + `mscrim` + `closeModal()` for dialogs. Any element with `data-toast="…"` shows that toast when clicked.
 - **Router** (end of the script): `VIEWS` maps a page key to its hash and title, and `show(view)` switches pages, opens the create flows on `#…/create` and highlights the sidebar.
