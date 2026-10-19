@@ -14,6 +14,13 @@ Tokens, components and guidelines for the FLIK marketing site and merchant dashb
 | `components/<Name>/preview.html` | A live example of each component (markup to copy) |
 | `components/<Name>/README.md` | When to use it, how it behaves, what not to do |
 | `assets/Logos/` | The real FLIK wordmark and F mark. Never redraw them |
+| `dashboard/index.html` | The newest merchant dashboard prototype as one HTML file, to reuse its structure ([guide](dashboard/README.md)) |
+
+## Reference dashboard
+
+The newest dashboard built with this system: **https://landing-page-raams-projects-2709477f.vercel.app/dashboard/**
+
+Its full HTML is in [`dashboard/index.html`](dashboard/index.html), one self-contained file you can copy to start a new page. [`dashboard/README.md`](dashboard/README.md) explains its pages, how the file is organised and how to add a page.
 
 ## Quick start
 
