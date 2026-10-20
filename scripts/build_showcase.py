@@ -167,9 +167,12 @@ PARTNER_NAMES = {"bca": "BCA", "bni": "BNI", "bri": "BRI", "bsi": "BSI", "mandir
                  "gopay": "GoPay", "ovo": "OVO", "qris": "QRIS", "shopeepay": "ShopeePay", "anteraja": "AnterAja", "deliveree": "Deliveree",
                  "gosend": "GoSend", "grabexpress": "GrabExpress", "idexpress": "ID Express", "jne": "JNE", "jnt": "J&T Express",
                  "lalamove": "Lalamove", "lionparcel": "Lion Parcel", "mrspeedy": "Mr. Speedy", "ninjaxpress": "Ninja Xpress", "paxel": "Paxel",
-                 "rpx": "RPX", "sap": "SAP Express", "sicepat": "SiCepat", "spx": "SPX Express", "tiki": "TIKI", "wahana": "Wahana"}
+                 "rpx": "RPX", "sap": "SAP Express", "sicepat": "SiCepat", "spx": "SPX Express", "tiki": "TIKI", "wahana": "Wahana",
+                 "blibli": "Blibli", "googleads": "Google Ads", "lazada": "Lazada", "magento1": "Magento 1", "magento2": "Magento 2",
+                 "metaads": "Meta Ads", "shopee": "Shopee", "shopify": "Shopify", "tiktok": "TikTok", "tokopedia": "Tokopedia",
+                 "woocommerce": "WooCommerce", "zalora": "Zalora"}
 partners_html = ""
-for kind, title in (("payment", "Payment"), ("courier", "Couriers")):
+for kind, title in (("payment", "Payment"), ("courier", "Couriers"), ("platform", "Platforms")):
     files = sorted(f[:-4] for f in os.listdir(P("assets", "Logos", kind)) if f.endswith(".png"))
     partners_html += f'<h3>{title}</h3><div class="plogos">' + "".join(
         f'<div class="fl-pm"><img class="fl-plogo fl-plogo--lg" src="assets/Logos/{kind}/{k}.png" alt="">'
@@ -317,7 +320,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 <div><div class="logo" style="background:var(--surface-alt)"><img src="assets/Logos/flik-wordmark.svg" alt="FLIK wordmark"></div><p class="logo-cap">Wordmark, on the light grey band.</p></div>
 <div><div class="logo"><img src="assets/Logos/flik-mark.svg" alt="FLIK F mark"></div><p class="logo-cap">F mark: app icon, account switcher.</p></div>
 <div><div class="logo dk"><span class="tile"><img src="assets/Logos/flik-mark.svg" alt="FLIK F mark"></span></div><p class="logo-cap">F mark on a white tile, on navy.</p></div></div>
-<h3 id="partner-logos">Partner logos</h3><p class="x-lead">Bank, e-wallet, QRIS and courier logos, shown with the <a href="#c-PartnerLogo">PartnerLogo</a> tile. They keep their own colours. Use the PNG files.</p>{partners_html}</section>
+<h3 id="partner-logos">Partner logos</h3><p class="x-lead">Bank, e-wallet, QRIS, courier and platform logos, shown with the <a href="#c-PartnerLogo">PartnerLogo</a> tile. They keep their own colours. Use the PNG files.</p>{partners_html}</section>
 
 <section class="s" id="writing"><h2>Writing</h2><p class="x-lead">How FLIK sounds, on the website and in the dashboard.</p>
 <ul class="write">{writing}</ul></section>

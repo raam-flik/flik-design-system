@@ -496,7 +496,8 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .mx-drop{padding:18px}
 .mx-drop b{margin:6px 0 2px}
 .mx-pf{display:flex;align-items:center;gap:8px}
-.mx-pf .pmb{background:var(--ink)}
+.sx-slots button:has(.plg){display:inline-flex;align-items:center;gap:8px;padding-left:8px}
+.plg-sm{width:20px;height:20px;border-radius:5px}
 @media (max-width:700px){.es-cards.c3{grid-template-columns:1fr}}
 /* ===== Balances (reuses PageHeader, KPICard, Stepper, Tabs, FilterChip, DataTable, StatusBadge, drawer, Modal) ===== */
 .bl-tiles{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:12px;margin-top:20px}
@@ -1475,6 +1476,9 @@ const AGES=['Less than 1 year','1–2 years','2–5 years','More than 5 years'];
 const TENORS=[3,6,9,12];
 const SALES=['Shopify','WooCommerce','Tokopedia','TikTok Shop','Shopee','Lazada','Blibli','Zalora','Offline store or POS','Other'];
 const ADS=['Google Ads','Meta Ads','TikTok Ads','Shopee Ads','Tokopedia Ads'];
+/* Platform logos (design-system/assets/Logos/platform); ads products use their parent brand */
+const PLOGO={'Shopify':'shopify','WooCommerce':'woocommerce','Tokopedia':'tokopedia','TikTok Shop':'tiktok','Shopee':'shopee','Lazada':'lazada','Blibli':'blibli','Zalora':'zalora','Google Ads':'googleads','Meta Ads':'metaads','TikTok Ads':'tiktok','Shopee Ads':'shopee','Tokopedia Ads':'tokopedia'};
+const platLg=(n,c='plg')=>PLOGO[n]?`<img class="${c}" src="${IMG}platform/${PLOGO[n]}.png" alt="">`:`<span class="${c} plg-i">${ic(n.startsWith('Offline')?'store':'more',14)}</span>`;
 let M,mxResume=null;
 const fileOf=(n,size)=>({n,s:size||'0.8 MB'});
 const blankM=()=>({step:0,done:null,type:null,age:'',addr:null,amount:'',tenor:null,margin:'',
@@ -1529,8 +1533,8 @@ function platCard(n){const p=M.plat[n]=M.plat[n]||{},isAd=ADS.includes(n),ok=pla
   else{inner=`<div class="sx-opts" style="margin-top:14px"><button class="sx-opt${p.mode==='connect'?' on':''}" data-mmode="connect" data-mn="${n}"><span class="ic">${ic('link',18)}</span><div><b>Connect your store</b><span>Sync sales automatically</span></div></button><button class="sx-opt${p.mode==='manual'?' on':''}" data-mmode="manual" data-mn="${n}"><span class="ic">${ic('upload',18)}</span><div><b>Upload manually</b><span>A revenue file and a screenshot</span></div></button></div>`;
     if(p.mode==='connect')inner+=p.connected?`<div class="ie-cust mx-file"><span class="ie-av">${ic('check',16,2.4)}</span><div><b>Connected</b><span>${p.email}</span></div><button class="btn btn-o" data-mdisc="${n}">Disconnect</button></div>`:`<div class="sx-row" style="margin-top:12px"><button class="btn btn-p" data-mconn="${n}">${ic('link',15)}Connect ${n}</button></div>`;
     if(p.mode==='manual')inner+=`<div class="sx-g sx-g2">${upload('plat.'+n+'.rev','Revenue, last 6 months','XLS or CSV, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.xlsx')}${upload('plat.'+n+'.shot','Revenue screenshot','JPG or PNG, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.png')}</div>`}
-  return`<div class="sx-ship${open?' open':''}"><button class="sx-sh" data-mtog="${n}"><span class="mx-pf"><span class="pmb">${n.replace(/[^A-Za-z ]/g,'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span><b>${n}</b></span>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${p.connected?`<span class="st pu">Connected</span>`:''}<span class="chev">${ic('chev',16)}</span></button><div class="sx-sb">${inner}</div></div>`}
-function step2(){const pills=(list,key)=>`<div class="sx-slots">${list.map(n=>`<button class="${M[key].includes(n)?'on':''}" data-mpl="${n}" data-key="${key}">${n}</button>`).join('')}</div>`;
+  return`<div class="sx-ship${open?' open':''}"><button class="sx-sh" data-mtog="${n}"><span class="mx-pf">${platLg(n)}<b>${n}</b></span>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${p.connected?`<span class="st pu">Connected</span>`:''}<span class="chev">${ic('chev',16)}</span></button><div class="sx-sb">${inner}</div></div>`}
+function step2(){const pills=(list,key)=>`<div class="sx-slots">${list.map(n=>`<button class="${M[key].includes(n)?'on':''}" data-mpl="${n}" data-key="${key}">${platLg(n,'plg plg-sm')}${n}</button>`).join('')}</div>`;
   return`<h2>Platforms and data</h2><p class="sx-lead">Where you sell and advertise. Connect a store or upload its revenue, so we can assess your sales.</p>
   ${card('Sales platforms',M.sales.length>0,`<p class="src">Choose every platform you sell on.</p>${pills(SALES,'sales')}`)}
   ${card('Marketing platforms',true,`<p class="src">Optional. Choose the ad platforms you use.</p>${pills(ADS,'ads')}`)}

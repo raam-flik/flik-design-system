@@ -88,7 +88,7 @@ Line icons on a 24px grid, 1.7px stroke (2px at 14px and below), round caps and 
 
 Use the files in **Logos**; never redraw them. The wordmark goes top-left in every header (30px tall on marketing, the F mark at 16–28px in the dashboard account switcher and app icons). Keep clear space of at least the height of the F around the logo. Put it on `surface` or `surface-alt` only; on the `dark` band use the F mark alone on a white tile.
 
-**Partner logos.** Bank, e-wallet, QRIS and courier logos are in `assets/Logos/payment/` and `assets/Logos/courier/`. Show them with `PartnerLogo`, always beside the name; never as coloured text or initials.
+**Partner logos.** Bank, e-wallet, QRIS, courier and platform logos are in `assets/Logos/payment/`, `assets/Logos/courier/` and `assets/Logos/platform/`. Show them with `PartnerLogo`, always beside the name; never as coloured text or initials.
 
 ## Using the components
 
