@@ -499,20 +499,25 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .mx-pf .pmb{background:var(--ink)}
 @media (max-width:700px){.es-cards.c3{grid-template-columns:1fr}}
 /* ===== Balances (reuses PageHeader, KPICard, Stepper, Tabs, FilterChip, DataTable, StatusBadge, drawer, Modal) ===== */
-.bl-tiles{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:12px;margin-top:20px}
-.bl-tile{text-align:left;width:100%;display:flex;flex-direction:column;gap:6px;padding:20px;margin:0;border-radius:8px;box-shadow:var(--sh);background:#fff}
+.bl-tiles{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:12px;margin-top:20px}
+.bl-tile{cursor:pointer;text-align:left;width:100%;display:flex;flex-direction:column;gap:6px;padding:20px;margin:0;border-radius:8px;box-shadow:var(--sh);background:#fff}
 .bl-tile:hover{box-shadow:0 0 0 1px rgba(64,68,82,.16),0 2px 5px rgba(64,68,82,.1)}
 .bl-tile .kpi-l{display:flex;align-items:center;gap:8px}
 .bl-tile .kpi-v b{font-size:22px}
 .bl-tile.main .kpi-v b{font-size:28px}
 .bl-tile .ex{color:var(--muted);font-size:13px;line-height:1.45}
 .bl-tile .up{color:var(--muted);font-size:12px;margin-top:auto;padding-top:6px}
-.bl-tile .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.bl-tile .row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px}
+.bl-btns{display:flex;gap:8px}
+.bl-acct{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.bl-acct .plg{width:20px;height:20px;border-radius:5px}
+.bl-acctb{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:500;padding:2px 4px;margin:-2px -4px;border-radius:6px;white-space:nowrap}
+.bl-acctb:hover{background:var(--hover);color:var(--primary)}
+.bl-acctb svg{color:var(--muted)}
+.bl-accts{display:grid;gap:8px}
+.bl-accts .payopt b{display:block;font-weight:500;color:var(--ink)}
 .bl-tile .bl-sub{display:grid;gap:2px;font-size:13px;color:var(--text)}
-.bl-flow{display:flex;align-items:center;flex-wrap:wrap;gap:8px 6px;margin-top:12px}
-.bl-flow .stp{color:var(--text)}
-.bl-flow .stp.end{color:var(--ink);font-weight:600}
-.bl-banner{display:flex;align-items:flex-start;gap:10px;margin-top:16px;padding:12px 14px;border-radius:8px;border:1px solid var(--warn-bd);background:var(--warn-bg);color:var(--warn-tx);font-size:13.5px}
+.bl-banner{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border-radius:8px;border:1px solid var(--warn-bd);background:var(--warn-bg);color:var(--warn-tx);font-size:13.5px}
 .bl-banner.bad{border-color:var(--bad-bd);background:var(--bad-bg);color:var(--bad-tx)}
 .bl-banner b{font-weight:600}
 .bl-banner .btn{margin-left:auto;flex:none}
@@ -523,19 +528,18 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .bl-tbl td.dr{color:var(--ink)}
 .bl-tbl td.cr{color:var(--ok-tx);font-weight:500}
 .bl-tbl tr.open td{background:var(--hover)}
-.bl-tbl tr.bl-x td{height:auto;padding:4px 8px 18px 44px;background:var(--hover);cursor:default;white-space:normal}
+.bl-tbl tbody tr:not(.bl-x):has(.bl-desc .src) td{height:auto;padding-top:8px;padding-bottom:8px}
+.bl-tbl tr.bl-x td{height:auto;padding:16px 8px 18px 44px;background:var(--hover);cursor:default;white-space:normal}
 .bl-tbl tr.bl-x:hover td{background:var(--hover)}
 .bl-x .kv{max-width:560px}
 .bl-wf{margin-top:14px;max-width:560px;display:grid;grid-template-columns:1fr auto;gap:8px 0;font-size:13.5px}
 .bl-wf dt{color:var(--text)}.bl-wf dd{text-align:right;padding-left:16px;font-variant-numeric:tabular-nums;color:var(--ink)}
 .bl-wf .t{border-top:1px solid var(--line-2);padding-top:8px;font-weight:600}
 .bl-wf .lnk{color:var(--primary);font-size:12.5px;margin-left:6px}
-.bl-foot{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;padding:12px 14px;border-radius:8px;background:var(--hover);font-size:13.5px;color:var(--text)}
-.bl-foot b{color:var(--ink);font-weight:600}
 .bl-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 :where(button,a,summary,[role=button],[tabindex]):focus-visible{outline:none;box-shadow:0 0 0 3px rgba(106,75,255,.35)}
-@media (max-width:1100px){.bl-tiles{grid-template-columns:1fr 1fr}}
-@media (max-width:600px){.bl-tiles{grid-template-columns:1fr}.bl-search{max-width:none;width:100%}.bl-tbl tr.bl-x td{padding-left:12px}}
+@media (max-width:1100px){.bl-tiles{grid-auto-flow:row;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.bl-tiles{grid-template-columns:minmax(0,1fr)}.bl-search{max-width:none;width:100%}#view-bal .ph{flex-wrap:wrap}#view-bal .ph .fright{flex-wrap:wrap}.bl-tbl tr.bl-x td{padding-left:12px}}
 @media (max-width:1380px){.qa-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:700px){.qa-grid{grid-template-columns:1fr}.chart{height:240px}.qa .qt span{white-space:normal}}
 </style>
@@ -683,7 +687,6 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <div class="ph"><h1>Balances</h1><div class="fright" style="margin-left:auto"><button class="chip" id="bl-state" title="Prototype control: preview the states the spec asks for"></button><button class="btn btn-o" id="bl-monthly"><span data-ic="doc"></span>Monthly statements</button></div></div>
       <div id="bl-banners"></div>
       <div class="bl-tiles" id="bl-tiles"></div>
-      <section class="card" style="padding-bottom:16px"><div class="kpi-l">Every credit passes these steps, in this order, before it reaches your active balance</div><div class="bl-flow" id="bl-flow"></div></section>
       <h2 class="sec">Statement</h2>
       <div class="tabs" id="bl-tabs" role="tablist"></div>
       <div class="filters">
@@ -692,7 +695,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
         <div class="fright"><button class="btn btn-o" id="bl-export"><span data-ic="export"></span>Export</button></div>
       </div>
       <div class="tbl-wrap"><table class="bl-tbl"><thead><tr><th>Date (WIB)</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead><tbody id="bl-body"></tbody></table></div>
-      <div class="bl-foot" id="bl-foot"></div>
+      
     </main>
     <main class="content" id="view-tx">
       <h1>Transactions</h1>
@@ -1134,9 +1137,9 @@ document.getElementById('range').onclick=e=>{e.stopPropagation();const b=e.curre
 addEventListener('resize',()=>{if(!document.getElementById('view-home').hidden)drawChart()});
 
 /* Top up balance */
-function topupModal(){
+function topupModal(title='Top up balance'){
   let amt=1000000,via='bca';
-  const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Top up balance</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  const draw=()=>{modal.innerHTML=`<div class="mh"><h3>${title}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="mb"><div class="fld"><label for="tamt">Amount</label><input id="tamt" class="num" value="${amt.toLocaleString('id-ID')}"></div>
   <div class="amtopts">${[100000,500000,1000000,5000000].map(v=>`<button class="${v===amt?'on':''}" data-a="${v}">${rp(v)}</button>`).join('')}</div>
   <div class="fld"><label>Pay with</label><div class="paylist">${[['bca','BCA virtual account'],['mandiri','Mandiri virtual account'],['qris','QRIS']].map(m=>`<button class="payopt${via===m[0]?' on':''}" data-v="${m[0]}">${pmBadge(m[0])}<span style="flex:1">${m[1]}</span><span class="rdo${via===m[0]?' on':''}"></span></button>`).join('')}</div></div></div>
@@ -1695,15 +1698,12 @@ function renderBal(){const v=bv();
   document.getElementById('bl-banners').innerHTML=bn;
   /* tiles: active, reserve, charges due, pending */
   const t=[];
-  t.push(`<div class="bl-tile main" role="button" tabindex="0" data-panel="active"><span class="kpi-l">Active balance</span><div class="row"><div class="kpi-v"><b class="num">${rp(v.active)}</b></div><button class="btn btn-p" data-withdraw ${v.frozen||v.active<=0?'disabled':''} title="${v.frozen?'Withdrawals are paused on your account':''}">Withdraw</button></div><span class="ex">Ready to withdraw or use</span>${LEDGER.some(l=>l.out)&&BS!=='new'?`<span class="bl-sub"><span>${rp(LEDGER.filter(l=>l.out).reduce((s,l)=>s-l.a,0))} being paid out</span></span>`:''}<span class="up">${UPD}</span></div>`);
+  t.push(`<div class="bl-tile main" role="button" tabindex="0" data-panel="active"><span class="kpi-l">Active balance<span class="src" title="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance" aria-label="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance">${ic('help',14)}</span></span><div class="row"><div class="kpi-v"><b class="num">${rp(v.active)}</b></div><div class="bl-btns"><button class="btn btn-o" data-withdraw ${v.frozen||v.active<=0?'disabled':''} title="${v.frozen?'Withdrawals are paused on your account':''}">Withdraw</button><button class="btn btn-p" data-buy>Buy credits</button></div></div><span class="bl-acct">Withdraws to<button class="bl-acctb" data-chacct title="Change withdrawal account" aria-label="Withdrawal account ${acctL()}, change"><img class="plg" src="${IMG}payment/${ACCOUNTS[ACCT].k}.png" alt="">${acctL()}${ic('sel',14)}</button></span><span class="ex">Ready to withdraw or use</span>${LEDGER.some(l=>l.out)&&BS!=='new'?`<span class="bl-sub"><span>${rp(LEDGER.filter(l=>l.out).reduce((s,l)=>s-l.a,0))} being paid out</span></span>`:''}<span class="up">${UPD}</span></div>`);
   t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="reserve"><span class="kpi-l">Reserve${v.short>0?`<span class="st ${v.short>=VIP_LIMIT?'bad':'warn'}">Shortfall ${rp(v.short)}</span>`:''}</span><div class="kpi-v"><b class="num">${v.policy?rp(v.reserve):'Not required'}</b></div><span class="ex">${v.policy?`Your money set aside for VIP parcels and card payments; returns automatically. Target ${rp(v.target)}.`:'No reserve policy applies to your account.'}</span><span class="up">${UPD}</span></div>`);
   if(v.invoice)t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="invoice"><span class="kpi-l">Monthly invoice</span><div class="kpi-v"><b class="num">${rp(1250000)}</b></div><span class="ex">Charges go on your monthly invoice instead of your wallet. Credit limit ${rp(10000000)}.</span><span class="up">${UPD}</span></div>`);
   else if(v.chargesN)t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="charges"><span class="kpi-l">Charges due<span class="st gr">${v.chargesN} open</span></span><div class="kpi-v"><b class="num">${rp(v.charges)}</b></div><span class="ex">Costs that came after a sale, taken automatically from money coming in</span><span class="up">${UPD}</span></div>`);
   t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="pending"><span class="kpi-l">Pending</span><div class="kpi-v"><b class="num">${rp(v.pending)}</b></div><span class="ex">Orders not complete, or payments FLIK hasn't received yet</span>${v.pending?`<span class="bl-sub"><span>${PENDING.orders.length} orders not complete</span><span>${PENDING.pay.length} payments awaiting settlement from the bank or payment provider</span></span>`:''}<span class="up">${UPD}</span></div>`);
-  const tiles=document.getElementById('bl-tiles');tiles.innerHTML=t.join('');tiles.style.gridTemplateColumns=t.length===3?'1.5fr 1fr 1fr':'';
-  /* the fixed order every credit follows */
-  const steps=['Fees','Financing repayment','Charges due','Reserve top-up'];
-  document.getElementById('bl-flow').innerHTML=`<span class="stp done">Money in</span><span class="stp-l"></span>`+steps.map((s,i)=>`<span class="stp"><i>${i+1}</i><span>${s}</span></span><span class="stp-l"></span>`).join('')+`<span class="stp end on"><i>${ic('check',11,3)}</i><span>Active balance</span></span>`;
+  const tiles=document.getElementById('bl-tiles');tiles.innerHTML=t.join('');
   /* statement */
   const tabs=[['all','All'],['active','Active balance'],['reserve','Reserve'],['charges','Charges due'],['pending','Pending']];
   document.getElementById('bl-tabs').innerHTML=tabs.map(x=>`<button class="tab${btab===x[0]?' on':''}" data-bt="${x[0]}">${x[1]}</button>`).join('');
@@ -1719,11 +1719,8 @@ function renderBal(){const v=bv();
       x=`<tr class="bl-x"><td colspan="5"><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl>
       ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{rate:'Opens the fee rate',fin:'Opens '+MCA_ID+' in Merchant Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
       <div class="bl-acts"><button class="btn btn-o" data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}">${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
-    return`<tr data-bl="${l.i}" class="${open?'open':''}"><td class="date">${fdate(l.t)}</td><td class="bl-desc"><b>${l.d}</b><span class="src">${pill(l)}</span></td><td class="num dr">${l.a<0?rp2(-l.a):''}</td><td class="num cr">${l.a>=0?rp2(l.a):''}</td><td class="num">${rp2(l.after)}</td></tr>${x}`}).join('')
+    return`<tr data-bl="${l.i}" class="${open?'open':''}"><td class="date">${fdate(l.t)}</td><td class="bl-desc"><b>${l.d}</b>${(p=>p?`<span class="src">${p}</span>`:'')(pill(l))}</td><td class="num dr">${l.a<0?rp2(-l.a):''}</td><td class="num cr">${l.a>=0?rp2(l.a):''}</td><td class="num">${rp2(l.after)}</td></tr>${x}`}).join('')
     :`<tr><td colspan="5" style="height:auto;border:0;cursor:default"><div class="empty"><b>${v.lines.length?'No matching lines':'No movements yet'}</b>${v.lines.length?'Try another reference, amount or date range.':'Your first sale or top-up shows up here.'}</div></td></tr>`;
-  /* foot: opening + movements = closing, per balance */
-  const keys=btab==='all'?['active','reserve','charges','pending']:[btab];
-  document.getElementById('bl-foot').innerHTML=`<span>${r[1]}</span>`+keys.map(k=>{const ls=all.filter(l=>l.b===k);const before=ls.filter(l=>l.t<r[2]);const op=before.length?before[before.length-1].after:(v.lines.length?OPEN[k]:0);const mv=Math.round(ls.filter(l=>l.t>=r[2]).reduce((s,l)=>s+l.a,0)*100)/100;return`<span>${BNAME[k]}: opening <b class="num">${rp2(op)}</b> + movements <b class="num">${rp2(mv)}</b> = closing <b class="num">${rp2(Math.round((op+mv)*100)/100)}</b></span>`}).join('');
 }
 /* detail panels (one per tile) */
 function balPanel(k){const v=bv();let h='';
@@ -1748,23 +1745,34 @@ function balPanel(k){const v=bv();let h='';
   drawer.querySelector('[data-dclose]').onclick=closeDetail;
 }
 /* withdraw: charges due are settled first, then the rest goes to the bank */
+/* Withdrawal accounts (where withdrawals are paid to) */
+const ACCOUNTS=[{k:'bca',bank:'BCA',no:'4521',name:'PT Aruna Studio Indonesia'},{k:'mandiri',bank:'Mandiri',no:'8890',name:'PT Aruna Studio Indonesia'}];
+let ACCT=0;const acctL=(a=ACCOUNTS[ACCT])=>`${a.bank} •••• ${a.no}`;
+function acctModal(){let sel=ACCT;
+  const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Withdrawal account</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="bl-accts">${ACCOUNTS.map((a,i)=>`<button class="payopt${sel===i?' on':''}" data-ac="${i}"><img class="plg" src="${IMG}payment/${a.k}.png" alt=""><span style="flex:1"><b>${acctL(a)}</b><span class="src">${a.name}</span></span><span class="rdo${sel===i?' on':''}"></span></button>`).join('')}<button class="payopt" data-toast="Opens Add bank account"><span class="plg plg-i">${ic('plus',14)}</span><span style="flex:1">Add bank account</span></button></div></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="acgo" ${sel===ACCT?'disabled':''}>Save</button></div>`;
+    modal.querySelectorAll('[data-ac]').forEach(b=>b.onclick=()=>{sel=+b.dataset.ac;draw()});
+    document.getElementById('acgo').onclick=()=>{ACCT=sel;closeModal();toast(`Withdrawals now go to ${acctL()}`);renderBal()}};
+  draw();mscrim.classList.add('open');
+}
 function withdrawModal(){const v=bv();if(v.frozen){toast('Withdrawals are paused on your account');return}
   let amt=Math.floor(v.active);const owed=v.charges;
   const draw=()=>{const settle=Math.min(owed,amt),bank=Math.max(0,amt-settle),ok=amt>=10000&&amt<=v.active;
     modal.innerHTML=`<div class="mh"><h3>Withdraw</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
     <div class="mb"><div class="fld"><label for="wamt">Amount</label><input id="wamt" class="num" value="${amt.toLocaleString('id-ID')}" inputmode="numeric"><p class="hint">Active balance ${rp(v.active)}</p></div>
-    <dl class="sum-kv"><dt>Requested</dt><dd class="num">${rp(amt)}</dd><dt>Charges due settled first</dt><dd class="num">−${rp(settle)}</dd><dt>To your bank</dt><dd class="num"><b>${rp(bank)}</b></dd><dt>Payout fee</dt><dd class="num">Rp0 (incl. VAT)</dd><dt>Bank account</dt><dd>BCA •••• 4521 · PT Aruna Studio Indonesia</dd></dl></div>
+    <dl class="sum-kv"><dt>Requested</dt><dd class="num">${rp(amt)}</dd><dt>Charges due settled first</dt><dd class="num">−${rp(settle)}</dd><dt>To your bank</dt><dd class="num"><b>${rp(bank)}</b></dd><dt>Payout fee</dt><dd class="num">Rp0 (incl. VAT)</dd><dt>Bank account</dt><dd>${acctL()} · ${ACCOUNTS[ACCT].name}</dd></dl></div>
     <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="wgo" ${ok?'':'disabled'}>Withdraw ${rp(bank)}</button></div>`;
     const i=document.getElementById('wamt');i.oninput=()=>{const p=i.selectionStart;amt=+i.value.replace(/\D/g,'')||0;draw();const n=document.getElementById('wamt');n.focus();n.setSelectionRange(n.value.length,n.value.length)};
     document.getElementById('wgo').onclick=()=>{const id='WD-2610-'+String(13+LEDGER.filter(l=>l.ref[1].startsWith('WD-')&&l.mine).length).padStart(4,'0'),now=LD(14,16,20+LEDGER.length%30);
       if(settle)LEDGER.push({t:now,b:'active',d:'Charges due settled before withdrawal '+id,ref:['Withdrawal ID',id],a:-settle,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
-      LEDGER.push({t:now,b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID',id],a:-bank,st:['Being paid out','warn'],out:1,mine:1,note:`Requested ${rp(amt)}: ${rp(settle)} charges due settled first, ${rp(bank)} to your bank`,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
+      LEDGER.push({t:now,b:'active',d:'Withdrawal to '+acctL(),ref:['Withdrawal ID',id],a:-bank,st:['Being paid out','warn'],out:1,mine:1,note:`Requested ${rp(amt)}: ${rp(settle)} charges due settled first, ${rp(bank)} to your bank`,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
       if(settle)LEDGER.push({t:now,b:'charges',d:'Collected before withdrawal '+id,ref:['Withdrawal ID',id],a:-settle,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
       CLOSE.active=Math.round((CLOSE.active-amt)*100)/100;CLOSE.charges=Math.max(0,CLOSE.charges-settle);if(settle>=owed){CHARGES.settled=CHARGES.open.map(c=>[c[0],c[1],c[2],c[3],'Paid before withdrawal '+id]).concat(CHARGES.settled);CHARGES.open=[]}
-      closeModal();closeDetail();document.getElementById('balv').textContent=rp(CLOSE.active);toast(`${rp(bank)} on its way to BCA •••• 4521`);renderBal()}};
+      closeModal();closeDetail();document.getElementById('balv').textContent=rp(CLOSE.active);toast(`${rp(bank)} on its way to ${acctL()}`);renderBal()}};
   draw();mscrim.classList.add('open')}
 /* events */
-document.getElementById('bl-tiles').addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){e.stopPropagation();withdrawModal();return}const t=e.target.closest('[data-panel]');if(t)balPanel(t.dataset.panel)});
+document.getElementById('bl-tiles').addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){e.stopPropagation();withdrawModal();return}if(e.target.closest('[data-buy]')){e.stopPropagation();topupModal('Buy credits');return}if(e.target.closest('[data-chacct]')){e.stopPropagation();acctModal();return}const t=e.target.closest('[data-panel]');if(t)balPanel(t.dataset.panel)});
 document.getElementById('bl-tiles').addEventListener('keydown',e=>{const t=e.target.closest('[data-panel]');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();balPanel(t.dataset.panel)}});
 drawer.addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){withdrawModal();return}const s=e.target.closest('[data-bstmt]');if(s){btab=s.dataset.bstmt;closeDetail();renderBal();document.getElementById('bl-tabs').scrollIntoView({behavior:'smooth',block:'start'})}});
 document.getElementById('bl-banners').addEventListener('click',e=>{if(e.target.closest('#bl-topres'))topupModal()});
