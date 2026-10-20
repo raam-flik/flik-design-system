@@ -475,6 +475,9 @@ def main():
     # JS that sets className directly
     body2 = body2.replace("className='delta '+(pc>=0?'up':'down')",
                           "className='delta '+(pc>=0?'up':'down')+' '+" + repr(" ".join(merged(["delta"]))))
+    # a plain className='a b' literal keeps its names and gets their utilities
+    body2 = re.sub(r"className='([\w -]+)'(?!\+)",
+                   lambda mm: "className='" + " ".join([mm.group(1)] + merged(mm.group(1).split())) + "'", body2)
     # base layer for element selectors
     base.append(("", "small", "font-size:smaller"))  # Tailwind's preflight makes <small> 80%; keep the browser default
     base_css = []
