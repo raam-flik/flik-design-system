@@ -115,6 +115,10 @@ h1{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px;margin-t
 .cb.mixed::after{content:"";width:8px;height:2px;background:#fff;border-radius:1px}
 .rdo{width:16px;height:16px;border-radius:50%;border:1px solid #C0C8D2;flex:none;position:relative}
 .rdo.on{border:5px solid var(--primary)}
+.dl-row{display:flex;align-items:flex-start;gap:12px}
+.dl-main{flex:1;min-width:0;display:grid;gap:2px}
+.dl-main b{font-weight:500;color:var(--ink)}
+.dl-item .d-acts{margin-top:10px}
 .pop-f{display:flex;justify-content:flex-end;gap:6px;padding:8px 6px 4px;border-top:1px solid var(--line);margin-top:6px}
 .menu .opt.danger{color:#B3093C}
 .menu hr{border:0;border-top:1px solid var(--line);margin:5px 0}
@@ -638,7 +642,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
         <button class="chip" data-toast="Filter by created date"><span data-ic="pluscirc"></span>Created</button>
         <button class="chip" data-toast="Filter by due date"><span data-ic="pluscirc"></span>Due date</button>
         <button class="chip" data-toast="Filter by total"><span data-ic="pluscirc"></span>Total</button>
-        <div class="fright"><button class="btn btn-o" data-toast="Exporting invoices as CSV"><span data-ic="export"></span>Export</button></div>
+        <div class="fright"><button class="btn btn-o" data-export="Invoices|Invoices · this view|CSV"><span data-ic="export"></span>Export</button></div>
       </div>
       <div class="tbl-wrap"><table><thead><tr><th>Total</th><th></th><th>Invoice number</th><th>Customer</th><th>WhatsApp</th><th>Due</th><th>Created</th><th></th></tr></thead><tbody id="inv-body"></tbody></table></div>
       <div class="foot"><span id="inv-count"></span></div>
@@ -675,7 +679,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
         <button class="chip" data-toast="Filter by created date"><span data-ic="pluscirc"></span>Created</button>
         <button class="chip" data-toast="Filter by courier"><span data-ic="pluscirc"></span>Courier</button>
         <button class="chip" data-toast="Filter by payment type"><span data-ic="pluscirc"></span>COD / Non-COD</button>
-        <div class="fright"><button class="btn btn-o" data-toast="Exporting shipments as CSV"><span data-ic="export"></span>Export</button></div>
+        <div class="fright"><button class="btn btn-o" data-export="Shipments|Shipments · this view|CSV"><span data-ic="export"></span>Export</button></div>
       </div>
       <div class="tbl-wrap"><table><thead><tr><th>Shipping cost</th><th></th><th>Batch</th><th>Courier</th><th>Shipments</th><th>COD value</th><th>Pickup from</th><th>Created</th><th></th></tr></thead><tbody id="shp-body"></tbody></table></div>
       <div class="foot"><span id="shp-count"></span></div>
@@ -1074,10 +1078,9 @@ function exportCsv(onlySel){
   const head=['id','amount','currency','status','payment_method','customer','date','refunded_date'];
   const csv=[head.join(',')].concat(r.map(x=>[x.id,x.amount,'IDR',x.status,x.mk?METHODS[x.mk].cat:'Auto settlement',x.customer||'',fdateY(x.created),x.refunded?fdateY(x.refunded):''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','))).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`flik-${S.tab}-${NOW.toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-  toast(`Exported ${r.length} rows`);
 }
-document.getElementById('export').onclick=()=>exportCsv(false);
-document.getElementById('bulk-export').onclick=()=>exportCsv(true);
+document.getElementById('export').onclick=()=>requestExport('Transactions · '+(TABS.find(t=>t[0]===S.tab)||['',''])[1],'Transactions · this view','CSV',()=>exportCsv(false));
+document.getElementById('bulk-export').onclick=()=>{const n=S.sel.size;requestExport(`Transactions · ${n} selected`,'Transactions · selected rows','CSV',()=>exportCsv(true))};
 
 /* ===== Top bar menus ===== */
 document.getElementById('plus').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
@@ -1091,8 +1094,45 @@ setLang(LANG);
 document.getElementById('lang').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
   pop.innerHTML=`<div class="menu" role="menu"><h6>Language</h6>${LANGS.map(l=>`<button class="opt lang-opt" role="menuitemradio" aria-checked="${LANG===l[0]}" data-lang="${l[0]}">${l[1]}${LANG===l[0]?`<span class="ck">${ic('check',15,2.2)}</span>`:''}</button>`).join('')}</div>`;
   pop.querySelectorAll('[data-lang]').forEach(o=>o.onclick=()=>{closePop();if(o.dataset.lang===LANG)return;setLang(o.dataset.lang);toast(LANG==='id'?'Bahasa Indonesia dipilih':'English selected')});placePop(b,true)};
+/* ===== Download Centre: exports are prepared, then collected here (kept 7 days) ===== */
+const DL_SEED=[
+  {id:'DL-2610-0031',name:'Monthly statement · September 2026',from:'Balances',kind:'PDF',at:+new Date(2026,9,1,6,0),st:'ready',size:'184 KB'},
+  {id:'DL-2610-0029',name:'Transactions · Payments',from:'Transactions · 1–30 Sep 2026',kind:'CSV',at:+new Date(2026,9,12,9,40),st:'ready',size:'96 KB'},
+  {id:'DL-2610-0011',name:'Shipments',from:'Shipments · 1–31 Aug 2026',kind:'CSV',at:+new Date(2026,9,3,15,5),st:'expired',size:'41 KB'}];
+let DLS;try{DLS=JSON.parse(localStorage.getItem('flik-downloads')||'null')}catch(e){}
+if(!Array.isArray(DLS))DLS=DL_SEED;
+const DL_MAKE={};
+const dlSave=()=>{try{localStorage.setItem('flik-downloads',JSON.stringify(DLS))}catch(e){}};
+const DLST={ready:['Ready','ok'],preparing:['Preparing','gr'],expired:['Expired','gr']};
+const dlWhen=t=>fdate(new Date(t));
+function requestExport(name,from,kind,make){
+  const id='DL-2610-'+String(32+DLS.filter(d=>d.mine).length).padStart(4,'0');
+  DLS.unshift({id,name,from,kind,at:Date.now(),st:'preparing',mine:1});if(make)DL_MAKE[id]=make;dlSave();
+  toast(`Preparing ${name}. It'll be in the Download Centre`);
+  setTimeout(()=>{const d=DLS.find(x=>x.id===id);if(!d)return;d.st='ready';d.size=kind==='PDF'?'120 KB':'24 KB';dlSave();
+    const bell=document.getElementById('bell');if(!bell.querySelector('.dot'))bell.insertAdjacentHTML('beforeend','<span class="dot"></span>');
+    if(drawer.dataset.dl)openDownloads()},2500);
+}
+function dlFile(d){if(DL_MAKE[d.id]){DL_MAKE[d.id]();return}toast(`Downloading ${d.id.toLowerCase()}.${d.kind.toLowerCase()}`)}
+function openDownloads(){closePop();
+  drawer.dataset.dl='1';
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('export',15)}Download Centre</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><p class="d-sub">Reports you export are prepared here. Files are kept for 7 days.</p>${DLS.length?DLS.map(d=>`<div class="dsec dl-item"><div class="dl-row"><div class="dl-main"><b>${d.name}</b><span class="src">${d.from} · ${d.kind}${d.size?' · '+d.size:''}</span><span class="src">Requested ${dlWhen(d.at)}</span></div><span class="st ${DLST[d.st][1]}">${DLST[d.st][0]}</span></div>${d.st==='ready'?`<div class="d-acts"><button class="btn btn-o" data-dl="${d.id}">${ic('export',15)}Download</button></div>`:''}</div>`).join(''):'<div class="dsec"><p class="d-sub">No reports yet. Use Export on any list to prepare one.</p></div>'}</div>`;
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
+  drawer.querySelector('[data-dclose]').onclick=()=>{delete drawer.dataset.dl;closeDetail()};
+  drawer.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>dlFile(DLS.find(x=>x.id===b.dataset.dl)));
+}
+dscrim.addEventListener('click',()=>{delete drawer.dataset.dl});
+/* exports declared in markup: data-export="Name|Where it came from|CSV" */
+document.addEventListener('click',e=>{const x=e.target.closest('[data-export]');if(!x)return;const [n,f,k]=x.dataset.export.split('|');requestExport(n,f,k||'CSV')});
+
 document.getElementById('bell').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;b.querySelector('.dot')?.remove();
-  pop.innerHTML=`<div class="menu" style="width:300px"><h6>Notifications</h6>${[['Withdrawal slightly delayed','WD-2610-0012 · Rp500.000, still being processed','1h','bal'],['New charge due','Return fee · AWB SPX8815 · Rp15.000','1h','bal'],['Reserve release','Rp100.000 back in your active balance on 18 Oct','5h','bal'],['Withdrawal returned','WD-2610-0009 · Rp1.500.000, the bank rejected it. Update your bank details','5d','bal'],['Withdrawal paid','WD-2610-0007 · Rp3.000.000 to BCA •••• 4521','13d','bal'],['Shipment delivered','FLK2610141012 · Surabaya','6h','shp']].map(n=>`<button class="opt" style="align-items:flex-start" data-goto="${n[3]}"><span style="flex:1"><b style="font-weight:500;display:block;color:var(--ink)">${n[0]}</b><span style="color:var(--muted);font-size:12.5px">${n[1]}</span></span><span style="color:var(--faint);font-size:12px">${n[2]}</span></button>`).join('')}</div>`;pop.querySelectorAll('[data-goto]').forEach(o=>o.onclick=()=>{closePop();location.hash=VIEWS[o.dataset.goto][0]});placePop(b,true)};
+  /* only significant events (monitoring alerts) and reports ready to download; no per-transaction pushes */
+  const ALERTS=[['Withdrawal slightly delayed','WD-2610-0012 · Rp500.000, still being processed','1h','bal'],['Withdrawal returned','WD-2610-0009 · Rp1.500.000, the bank rejected it. Update your bank details','5d','bal']];
+  const ready=DLS.filter(d=>d.st!=='expired').slice(0,3);
+  const row=(t,d,w,attr)=>`<button class="opt" style="align-items:flex-start" ${attr}><span style="flex:1"><b style="font-weight:500;display:block;color:var(--ink)">${t}</b><span style="color:var(--muted);font-size:12.5px">${d}</span></span><span style="color:var(--faint);font-size:12px">${w}</span></button>`;
+  pop.innerHTML=`<div class="menu" style="width:320px"><h6>Alerts</h6>${ALERTS.map(n=>row(n[0],n[1],n[2],`data-goto="${n[3]}"`)).join('')}<hr><h6>Downloads</h6>${ready.length?ready.map(d=>row(d.st==='ready'?'Ready to download':'Preparing',d.name,d.st==='ready'?dlWhen(d.at).split(',')[0]:'now','data-dlc')).join(''):'<p class="src" style="padding:4px 10px 8px">No reports yet</p>'}<div class="pop-f"><button class="btn btn-o" data-dlc>Open Download Centre</button></div></div>`;
+  pop.querySelectorAll('[data-goto]').forEach(o=>o.onclick=()=>{closePop();location.hash=VIEWS[o.dataset.goto][0]});
+  pop.querySelectorAll('[data-dlc]').forEach(o=>o.onclick=()=>openDownloads());placePop(b,true)};
 
 /* ===== Toast + generic actions ===== */
 const toastEl=document.getElementById('toast');let tt;
@@ -1839,13 +1879,14 @@ document.getElementById('bl-state').onclick=e=>{e.stopPropagation();const b=e.cu
   pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{BS=o.dataset.v;bopen=null;closePop();renderBal()});placePop(b,true)};
 document.getElementById('bl-export').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
   pop.innerHTML=`<div class="menu"><h6>Export this tab</h6><button class="opt" data-x="csv">${ic('sheet',15)}CSV, this range</button><button class="opt" data-x="pdf">${ic('doc',15)}PDF, this range</button></div>`;
-  pop.querySelector('[data-x="csv"]').onclick=()=>{closePop();const v=bv();
+  pop.querySelector('[data-x="csv"]').onclick=()=>{closePop();requestExport(BNAME[btab]+' statement','Balances · '+BNAME[btab],'CSV',balCsv)};
+  const balCsv=()=>{const v=bv();
     let rows;if(btab==='pending'){rows=[['Expected','Description','Status','Amount']].concat(v.pending?[...PENDING.orders.map(o=>[o[3],'Order '+o[0],o[1],o[2].toFixed(2)]),...PENDING.pay.map(o=>[o[3],o[0],o[1],o[2].toFixed(2)])]:[])}
     else{const st=stmt(v),ls=st.all.filter(l=>l.b===btab);rows=[['Date (WIB)','Business date','Description','Reference','Entry ID',btab==='charges'?'Paid':'Debit',btab==='charges'?'Not covered':'Credit',btab==='charges'?'Owed':'Balance']];
       ls.forEach(l=>rows.push([fdateY(l.t),fday(l.t),l.d,l.ref[0]+' '+l.ref[1],l.id,l.a<0?(-l.a).toFixed(2):'',l.a>=0?l.a.toFixed(2):'',l.after.toFixed(2)]));
       rows.push(['','',BNAME[btab]+': opening '+st.open[btab].toFixed(2)+' + movements = closing '+(ls.length?ls[ls.length-1].after:st.open[btab]).toFixed(2),'','','','',''])}
-    const csv=rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='flik-'+btab+'-2026-10.csv';a.click();toast(BNAME[btab]+' exported as CSV')};
-  pop.querySelector('[data-x="pdf"]').onclick=()=>{closePop();toast('Preparing the PDF statement')};placePop(b,true)};
+    const csv=rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='flik-'+btab+'-2026-10.csv';a.click()};
+  pop.querySelector('[data-x="pdf"]').onclick=()=>{closePop();requestExport(BNAME[btab]+' statement','Balances · '+BNAME[btab],'PDF')};placePop(b,true)};
 document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class="dh"><span class="kind">${ic('doc',15)}Monthly statements</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><p class="d-sub">Generated automatically on the 1st of each month, as a PDF on FLIK letterhead.</p>${[['September 2026','ST-2026-09-0042',3912400,OPEN.active],['August 2026','ST-2026-08-0042',2750000,3912400],['July 2026','ST-2026-07-0042',1180500,2750000]].map(m=>`<div class="dsec"><h5>${m[0]}</h5><dl class="kv"><dt>Statement number</dt><dd>${m[1]}</dd><dt>Opening</dt><dd class="num">${rp2(m[2])}</dd><dt>Closing</dt><dd class="num">${rp2(m[3])}</dd></dl><div class="d-acts"><button class="btn btn-o" data-toast="Downloading ${m[1]}.pdf">${ic('export',15)}Download PDF</button></div></div>`).join('')}</div>`;
   drawer.classList.add('open');dscrim.classList.add('open');drawer.querySelector('[data-dclose]').onclick=closeDetail};
 
