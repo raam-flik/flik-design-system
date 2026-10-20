@@ -63,8 +63,16 @@ svg{display:block;flex:none}
 .ib:hover{background:var(--hover);color:var(--text)}
 .ib .dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:#DF1B41;border:1.5px solid #fff}
 /* Top bar balance: outline buttons (AppButton); + opens Top up */
-.tools .bal{margin-right:-2px}
-.tools .bal-add{width:32px;justify-content:center;padding:0;margin-right:6px}
+.tools .balbox{padding:0;gap:0;overflow:hidden;margin-right:4px}
+.balbox button{height:32px;display:inline-flex;align-items:center;gap:6px;padding:0 10px 0 12px;color:var(--text)}
+.balbox button:hover{background:var(--hover)}
+.balbox .bal-add{width:32px;padding:0;justify-content:center;border-left:1px solid var(--line);color:var(--muted)}
+.balbox .bal-add:hover{color:var(--primary)}
+.lang{height:32px;display:inline-flex;align-items:center;gap:5px;padding:0 8px;border-radius:6px;color:var(--muted);font-size:13px;font-weight:500}
+.lang:hover{background:var(--hover);color:var(--text)}
+.lang [data-ic="chev"] svg{width:13px;height:13px}
+.lang-opt{justify-content:flex-start}
+.lang-opt .ck{margin-left:auto;color:var(--primary);display:flex}
 .plus{width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;margin-left:4px}
 .plus:hover{background:var(--primary-h)}
 
@@ -488,7 +496,6 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .es-ctas{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
 .es-ctas .es-cta{margin-top:0}
 .sx-h .ok{color:var(--ok-tx);display:flex;margin-left:auto}
-.sx-h .todo{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-2);margin-left:auto;flex:none}
 .mx-range.warn{color:var(--warn-tx)}
 .sx-card+.sx-card{margin-top:12px}
 .mx-file{margin-top:10px}
@@ -565,8 +572,8 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <button class="burger" id="burger" aria-label="Open menu"><span data-ic="menu"></span></button>
       <label class="search"><span data-ic="search"></span><input id="q" placeholder="Search" autocomplete="off"><kbd>/</kbd></label>
       <div class="tools">
-        <button class="btn btn-o bal hide-s" data-view="bal" aria-label="Active balance"><span data-ic="wallet"></span><span class="num" id="balv">Rp4.523.800</span></button>
-        <button class="btn btn-o bal-add hide-s" id="baladd" aria-label="Top up balance" title="Top up balance"><span data-ic="plus"></span></button>
+        <div class="btn btn-o balbox hide-s"><button class="bal" data-view="bal" aria-label="Active balance"><span data-ic="wallet"></span><span class="num" id="balv">Rp4.523.800</span></button><button class="bal-add" id="baladd" aria-label="Top up balance" title="Top up balance"><span data-ic="plus"></span></button></div>
+        <button class="lang" id="lang" aria-label="Language: English" aria-haspopup="menu"><span data-ic="globe"></span><span id="langv">EN</span><span data-ic="chev"></span></button>
         <button class="ib hide-s" data-toast="Opens FLIK help center" aria-label="Help"><span data-ic="help"></span></button>
         <button class="ib" id="bell" aria-label="Notifications"><span data-ic="bell"></span><span class="dot"></span></button>
         <button class="ib hide-s" data-toast="Opens Settings" aria-label="Settings"><span data-ic="gear"></span></button>
@@ -751,6 +758,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 <script>
 /* ===== Icons ===== */
 const P={
+  globe:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.6 5.4 3.6 8.5s-1.2 6-3.6 8.5M12 3.5C9.6 6 8.4 8.9 8.4 12s1.2 6 3.6 8.5"/>',
   card:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',
   search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
   help:'<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17.2v.1"/>',
@@ -1065,6 +1073,14 @@ document.getElementById('bulk-export').onclick=()=>exportCsv(true);
 document.getElementById('plus').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
   pop.innerHTML=`<div class="menu"><h6>Create</h6><button class="opt" data-c="Payment link">${ic('link',15)}Payment link</button><button class="opt" data-c="Shipment">${ic('truck',15)}Shipment</button><button class="opt" data-c="Invoice">${ic('tx',15)}Invoice</button><button class="opt" data-c="Funding request">${ic('coins',15)}Funding request</button></div>`;
   pop.querySelectorAll('[data-c]').forEach(o=>o.onclick=()=>{closePop();if(o.dataset.c==='Invoice'){location.hash='invoices/create';return}if(o.dataset.c==='Shipment'){location.hash='shipments/create';return}toast(`Opens the new ${o.dataset.c.toLowerCase()} form`)});placePop(b,true)};
+/* Language (English first, Bahasa Indonesia second). The prototype copy is English; the choice is remembered. */
+const LANGS=[['en','English','EN'],['id','Bahasa Indonesia','ID']];
+let LANG='en';try{LANG=localStorage.getItem('flik-lang')||'en'}catch(e){}
+const setLang=k=>{LANG=k;const l=LANGS.find(x=>x[0]===k);document.documentElement.lang=k;document.getElementById('langv').textContent=l[2];document.getElementById('lang').setAttribute('aria-label','Language: '+l[1]);try{localStorage.setItem('flik-lang',k)}catch(e){}};
+setLang(LANG);
+document.getElementById('lang').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  pop.innerHTML=`<div class="menu" role="menu"><h6>Language</h6>${LANGS.map(l=>`<button class="opt lang-opt" role="menuitemradio" aria-checked="${LANG===l[0]}" data-lang="${l[0]}">${l[1]}${LANG===l[0]?`<span class="ck">${ic('check',15,2.2)}</span>`:''}</button>`).join('')}</div>`;
+  pop.querySelectorAll('[data-lang]').forEach(o=>o.onclick=()=>{closePop();if(o.dataset.lang===LANG)return;setLang(o.dataset.lang);toast(LANG==='id'?'Bahasa Indonesia dipilih':'English selected')});placePop(b,true)};
 document.getElementById('bell').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;b.querySelector('.dot')?.remove();
   pop.innerHTML=`<div class="menu" style="width:300px"><h6>Notifications</h6>${[['Withdrawal slightly delayed','WD-2610-0012 · Rp500.000, still being processed','1h','bal'],['New charge due','Return fee · AWB SPX8815 · Rp15.000','1h','bal'],['Reserve release','Rp100.000 back in your active balance on 18 Oct','5h','bal'],['Withdrawal returned','WD-2610-0009 · Rp1.500.000, the bank rejected it. Update your bank details','5d','bal'],['Withdrawal paid','WD-2610-0007 · Rp3.000.000 to BCA •••• 4521','13d','bal'],['Shipment delivered','FLK2610141012 · Surabaya','6h','shp']].map(n=>`<button class="opt" style="align-items:flex-start" data-goto="${n[3]}"><span style="flex:1"><b style="font-weight:500;display:block;color:var(--ink)">${n[0]}</b><span style="color:var(--muted);font-size:12.5px">${n[1]}</span></span><span style="color:var(--faint);font-size:12px">${n[2]}</span></button>`).join('')}</div>`;pop.querySelectorAll('[data-goto]').forEach(o=>o.onclick=()=>{closePop();location.hash=VIEWS[o.dataset.goto][0]});placePop(b,true)};
 
@@ -1138,7 +1154,7 @@ document.getElementById('range').onclick=e=>{e.stopPropagation();const b=e.curre
 addEventListener('resize',()=>{if(!document.getElementById('view-home').hidden)drawChart()});
 
 /* Top up balance */
-function topupModal(title='Top up balance'){
+function topupModal(title){if(typeof title!=='string')title='Top up balance';
   let amt=1000000,via='bca';
   const draw=()=>{modal.innerHTML=`<div class="mh"><h3>${title}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="mb"><div class="fld"><label for="tamt">Amount</label><input id="tamt" class="num" value="${amt.toLocaleString('id-ID')}"></div>
@@ -1503,8 +1519,7 @@ function openMca(){
   MCA_PREFILL=false;mx.hidden=false;document.body.style.overflow='hidden';drawMx();
 }
 function closeMca(){mx.hidden=true;document.body.style.overflow=''}
-const tick=ok=>ok?`<span class="ok">${ic('check',16,2.4)}</span>`:'<span class="todo" aria-label="Not done yet"></span>';
-const card=(title,ok,inner,tip)=>`<section class="sx-card"><div class="sx-h">${title}${tip?`<span class="src" title="${tip}">${ic('help',14)}</span>`:''}${tick(ok)}</div>${inner}</section>`;
+const card=(title,ok,inner,tip)=>`<section class="sx-card"><div class="sx-h">${title}${tip?`<span class="src" title="${tip}">${ic('help',14)}</span>`:''}</div>${inner}</section>`;
 const field=(path,label,ph,o={})=>{const v=getP(path)??'';return`<div class="sx-f">${label?`<label>${label}</label>`:''}<div class="${o.pre?'pre':o.unit?'unit':''}">${o.pre?`<em>${o.pre}</em>`:''}<input data-mp="${path}" value="${String(v).replace(/"/g,'&quot;')}" placeholder="${ph}" ${o.type?`type="${o.type}"`:''} ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`};
 function getP(p){return p.split('.').reduce((o,k)=>o==null?o:o[k],M)}
 function setP(p,v){const ks=p.split('.');let o=M;ks.slice(0,-1).forEach(k=>{o[k]=o[k]||{};o=o[k]});o[ks[ks.length-1]]=v}
@@ -1533,7 +1548,7 @@ function platCard(n){const p=M.plat[n]=M.plat[n]||{},isAd=ADS.includes(n),ok=pla
   else{inner=`<div class="sx-opts" style="margin-top:14px"><button class="sx-opt${p.mode==='connect'?' on':''}" data-mmode="connect" data-mn="${n}"><span class="ic">${ic('link',18)}</span><div><b>Connect your store</b><span>Sync sales automatically</span></div></button><button class="sx-opt${p.mode==='manual'?' on':''}" data-mmode="manual" data-mn="${n}"><span class="ic">${ic('upload',18)}</span><div><b>Upload manually</b><span>A revenue file and a screenshot</span></div></button></div>`;
     if(p.mode==='connect')inner+=p.connected?`<div class="ie-cust mx-file"><span class="ie-av">${ic('check',16,2.4)}</span><div><b>Connected</b><span>${p.email}</span></div><button class="btn btn-o" data-mdisc="${n}">Disconnect</button></div>`:`<div class="sx-row" style="margin-top:12px"><button class="btn btn-p" data-mconn="${n}">${ic('link',15)}Connect ${n}</button></div>`;
     if(p.mode==='manual')inner+=`<div class="sx-g sx-g2">${upload('plat.'+n+'.rev','Revenue, last 6 months','XLS or CSV, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.xlsx')}${upload('plat.'+n+'.shot','Revenue screenshot','JPG or PNG, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.png')}</div>`}
-  return`<div class="sx-ship${open?' open':''}"><button class="sx-sh" data-mtog="${n}"><span class="mx-pf">${platLg(n)}<b>${n}</b></span>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${p.connected?`<span class="st pu">Connected</span>`:''}<span class="chev">${ic('chev',16)}</span></button><div class="sx-sb">${inner}</div></div>`}
+  return`<div class="sx-ship${open?' open':''}"><button class="sx-sh" data-mtog="${n}"><span class="mx-pf">${platLg(n)}<b>${n}</b></span>${p.connected?`<span class="st pu">Connected</span>`:''}<span class="chev">${ic('chev',16)}</span></button><div class="sx-sb">${inner}</div></div>`}
 function step2(){const pills=(list,key)=>`<div class="sx-slots">${list.map(n=>`<button class="${M[key].includes(n)?'on':''}" data-mpl="${n}" data-key="${key}">${platLg(n,'plg plg-sm')}${n}</button>`).join('')}</div>`;
   return`<h2>Platforms and data</h2><p class="sx-lead">Where you sell and advertise. Connect a store or upload its revenue, so we can assess your sales.</p>
   ${card('Sales platforms',M.sales.length>0,`<p class="src">Choose every platform you sell on.</p>${pills(SALES,'sales')}`)}
@@ -1565,13 +1580,8 @@ const mxRefresh=()=>{document.getElementById('mx-next').disabled=!mOk[M.step]()}
 mxBody.addEventListener('input',e=>{const t=e.target;if(!t.dataset.mp)return;let v=t.value;
   if(/amount|phone|spend/.test(t.dataset.mp)){const n=num(v);v=n?(t.dataset.mp.includes('phone')?String(n):n.toLocaleString('id-ID')):'';t.value=v}
   setP(t.dataset.mp,v);mxRefresh();syncTicks()});
-/* Update the green ticks in place while typing (a full redraw would swallow the next click) */
-function syncTicks(){const tmp=document.createElement('div');tmp.innerHTML=[step0,step1,step2,step3,step4][M.step]();
-  ['.sx-h','.sx-sh'].forEach(sel=>{const a=[...tmp.querySelectorAll(sel)],b=[...mxBody.querySelectorAll('.sx-main '+sel)];
-    a.forEach((h,i)=>{const live=b[i];if(!live)return;const has=!!h.querySelector(':scope > .ok'),cur=live.querySelector(':scope > .ok');
-      if(has&&!cur){const ok=document.createElement('span');ok.className='ok';ok.innerHTML=ic('check',sel==='.sx-h'?16:15,2.4);sel==='.sx-sh'?live.querySelector('.mx-pf').after(ok):live.appendChild(ok)}
-      if(!has&&cur)cur.remove();
-      if(sel==='.sx-h'){const todo=live.querySelector(':scope > .todo');if(has&&todo)todo.remove();if(!has&&!todo)live.insertAdjacentHTML('beforeend','<span class="todo" aria-label="Not done yet"></span>')}})})
+/* Update the amount range warning in place while typing (a full redraw would swallow the next click) */
+function syncTicks(){
   const amt=num(M.amount),rg=mxBody.querySelector('.mx-range');if(rg)rg.classList.toggle('warn',amt>0&&(amt<1e8||amt>5e9))}
 mxBody.addEventListener('change',e=>{const t=e.target;if(t.dataset.msel){M[t.dataset.msel]=t.value;drawMx()}else if(t.dataset.mplat){M.plat[t.dataset.mplat][t.dataset.k]=t.value;drawMx()}else if(t.dataset.mp){setP(t.dataset.mp,t.value);mxRefresh();syncTicks()}});
 mxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;const y=mxBody.scrollTop;
