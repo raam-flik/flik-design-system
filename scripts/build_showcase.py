@@ -172,6 +172,11 @@ PARTNER_NAMES = {"bca": "BCA", "bni": "BNI", "bri": "BRI", "bsi": "BSI", "mandir
                  "metaads": "Meta Ads", "shopee": "Shopee", "shopify": "Shopify", "tiktok": "TikTok", "tokopedia": "Tokopedia",
                  "woocommerce": "WooCommerce", "zalora": "Zalora"}
 partners_html = ""
+merchants = json.load(open(P("assets", "Logos", "merchant", "merchants.json")))
+merchants_html = ('<h3 id="merchant-logos">Merchant logos</h3><p class="x-lead">Brands that sell with FLIK, for the trusted-by strip. '
+                  'Shown in greyscale in the strip; use only with the brand\'s permission.</p><div class="mlogos">' + "".join(
+    f'<div class="ml{" dk" if m["light"] else ""}"><img src="assets/Logos/merchant/{m["file"]}" alt="{esc(m["name"])}"><span>{esc(m["name"])}</span></div>'
+    for m in merchants) + "</div>")
 for kind, title in (("payment", "Payment"), ("courier", "Couriers"), ("platform", "Platforms")):
     files = sorted(f[:-4] for f in os.listdir(P("assets", "Logos", kind)) if f.endswith(".png"))
     partners_html += f'<h3>{title}</h3><div class="plogos">' + "".join(
@@ -270,6 +275,7 @@ h3{{font-size:18px;font-weight:600;color:var(--app-ink);margin:40px 0 4px}}
 .logo.dk{{background:var(--dark)}}
 .logo.dk .tile{{background:#fff;border-radius:10px;padding:10px;display:flex}}
 .logo.dk .tile img{{height:32px}}
+.mlogos{{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}}.ml{{border-radius:8px;box-shadow:var(--app-shadow);height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px}}.ml img{{max-height:32px;max-width:85%}}.ml span{{font-size:12px;color:var(--app-muted)}}.ml.dk{{background:var(--dark)}}.ml.dk span{{color:var(--on-dark-muted)}}
 .plogos{{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 20px;margin-top:12px}}.plogos .fl-pm span{{display:flex;flex-direction:column;font-size:14px;color:var(--app-ink)}}.plogos code{{font:12px var(--font-mono,monospace);color:var(--app-muted)}}
 .logo-cap{{font-size:13px;color:var(--app-muted);margin-top:8px}}
 /* writing */
@@ -283,7 +289,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 @media (max-width:900px){{
   .x-hero .in{{grid-template-columns:1fr;padding:48px 16px 40px}}.x-hero h1{{font-size:38px}}
   .top .in,main,footer .in{{padding-left:16px;padding-right:16px}}
-  .pal{{grid-template-columns:repeat(2,1fr)}}.logos,.write,.plogos{{grid-template-columns:1fr 1fr}}
+  .pal{{grid-template-columns:repeat(2,1fr)}}.logos,.write,.plogos{{grid-template-columns:1fr 1fr}}.mlogos{{grid-template-columns:repeat(3,1fr)}}
   .ty{{grid-template-columns:1fr;gap:8px}}.ty .sample{{font-size:min(100%,34px)}}
 }}
 @media (max-width:560px){{.top .t{{display:none}}.pal,.logos,.write{{grid-template-columns:1fr}}.sp{{grid-template-columns:1fr 70px}}.sp .bar{{grid-column:1/-1}}}}
@@ -320,7 +326,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 <div><div class="logo" style="background:var(--surface-alt)"><img src="assets/Logos/flik-wordmark.svg" alt="FLIK wordmark"></div><p class="logo-cap">Wordmark, on the light grey band.</p></div>
 <div><div class="logo"><img src="assets/Logos/flik-mark.svg" alt="FLIK F mark"></div><p class="logo-cap">F mark: app icon, account switcher.</p></div>
 <div><div class="logo dk"><span class="tile"><img src="assets/Logos/flik-mark.svg" alt="FLIK F mark"></span></div><p class="logo-cap">F mark on a white tile, on navy.</p></div></div>
-<h3 id="partner-logos">Partner logos</h3><p class="x-lead">Bank, e-wallet, QRIS, courier and platform logos, shown with the <a href="#c-PartnerLogo">PartnerLogo</a> tile. They keep their own colours. Use the PNG files.</p>{partners_html}</section>
+<h3 id="partner-logos">Partner logos</h3><p class="x-lead">Bank, e-wallet, QRIS, courier and platform logos, shown with the <a href="#c-PartnerLogo">PartnerLogo</a> tile. They keep their own colours. Use the PNG files.</p>{partners_html}{merchants_html}</section>
 
 <section class="s" id="writing"><h2>Writing</h2><p class="x-lead">How FLIK sounds, on the website and in the dashboard.</p>
 <ul class="write">{writing}</ul></section>

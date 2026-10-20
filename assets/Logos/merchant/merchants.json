@@ -1,0 +1,842 @@
+[
+ {
+  "slug": "25h",
+  "name": "25H",
+  "file": "25h.png",
+  "source": "original/25H BLACK.png",
+  "width": 244,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "andall",
+  "name": "Andall",
+  "file": "andall.png",
+  "source": "original/ANDALL@3x.png",
+  "width": 459,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "aneka",
+  "name": "Aneka",
+  "file": "aneka.png",
+  "source": "original/ANEKA@3x.png",
+  "width": 96,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "arm-sports",
+  "name": "ARM Sports",
+  "file": "arm-sports.png",
+  "source": "original/ARM SPORTS@3x.png",
+  "width": 272,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "artch",
+  "name": "Artch",
+  "file": "artch.png",
+  "source": "original/ARTCH.png",
+  "width": 235,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "baggy-apparel",
+  "name": "Baggy Apparel",
+  "file": "baggy-apparel.png",
+  "source": "original/BAGGY APPAREL.png",
+  "width": 177,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "bia",
+  "name": "BIA",
+  "file": "bia.png",
+  "source": "original/BIA@3x.png",
+  "width": 96,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "booyah",
+  "name": "Booyah",
+  "file": "booyah.png",
+  "source": "original/BOOYAH@3x.png",
+  "width": 369,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "byelice",
+  "name": "Byelice",
+  "file": "byelice.png",
+  "source": "original/BYELICE.png",
+  "width": 153,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "cottonology",
+  "name": "Cottonology",
+  "file": "cottonology.png",
+  "source": "original/COTTONOLOGY@3x.png",
+  "width": 480,
+  "height": 85,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "carvil",
+  "name": "Carvil",
+  "file": "carvil.png",
+  "source": "original/Carvil red.png",
+  "width": 162,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "dauky",
+  "name": "Dauky",
+  "file": "dauky.png",
+  "source": "original/DAUKY@3x.png",
+  "width": 385,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "davclar",
+  "name": "Davclar",
+  "file": "davclar.png",
+  "source": "original/DAVCLAR@3x.png",
+  "width": 172,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "emrys",
+  "name": "Emrys",
+  "file": "emrys.png",
+  "source": "original/EMRYS@3x.png",
+  "width": 421,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "evo-plusmed",
+  "name": "Evo Plusmed",
+  "file": "evo-plusmed.png",
+  "source": "original/EVO PLUSMED.png",
+  "width": 365,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "elzatta",
+  "name": "Elzatta",
+  "file": "elzatta.png",
+  "source": "original/Elzatta.png",
+  "width": 372,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "fieri",
+  "name": "Fieri",
+  "file": "fieri.png",
+  "source": "original/FIERI@3x.png",
+  "width": 340,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "gently",
+  "name": "Gently",
+  "file": "gently.png",
+  "source": "original/GENTLY@3x.png",
+  "width": 480,
+  "height": 90,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "green-andara-residences",
+  "name": "Green Andara Residences",
+  "file": "green-andara-residences.png",
+  "source": "original/GREEN ANDARA RESIDENCES.jpg",
+  "width": 237,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "gula-paws",
+  "name": "Gula Paws",
+  "file": "gula-paws.png",
+  "source": "original/GULA PAWS.png",
+  "width": 215,
+  "height": 75,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "geraihawa",
+  "name": "Geraihawa",
+  "file": "geraihawa.png",
+  "source": "original/Geraihawa black logo.png",
+  "width": 455,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "hanoon",
+  "name": "Hanoon",
+  "file": "hanoon.png",
+  "source": "original/HANOON@3x.png",
+  "width": 397,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "hoya-fields",
+  "name": "Hoya Fields",
+  "file": "hoya-fields.png",
+  "source": "original/HOYA FIELDS 1.png",
+  "width": 95,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "julie-mango",
+  "name": "Julie Mango",
+  "file": "julie-mango.png",
+  "source": "original/JULIE MANGO@3x.png",
+  "width": 109,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "jamise",
+  "name": "Jamise",
+  "file": "jamise.png",
+  "source": "original/Jamise Hitam copy.png",
+  "width": 281,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "kuvings",
+  "name": "Kuvings",
+  "file": "kuvings.png",
+  "source": "original/KUVINGS@3x.png",
+  "width": 276,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "liga-arloji",
+  "name": "Liga Arloji",
+  "file": "liga-arloji.png",
+  "source": "original/LIGA ARLOJI.png",
+  "width": 240,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "fertig-white",
+  "name": "Fertig (white)",
+  "file": "fertig-white.png",
+  "source": "original/Logo Fertig white.png",
+  "width": 415,
+  "height": 96,
+  "background": "transparent",
+  "light": true
+ },
+ {
+  "slug": "fertig",
+  "name": "Fertig",
+  "file": "fertig.png",
+  "source": "original/Logo Fertig.png",
+  "width": 415,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "m-gee",
+  "name": "M. Gee",
+  "file": "m-gee.png",
+  "source": "original/M. GEE@3x.png",
+  "width": 207,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "mayora",
+  "name": "Mayora",
+  "file": "mayora.png",
+  "source": "original/MAYORA@3x.png",
+  "width": 457,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "milidi-dower",
+  "name": "Milidi Dower",
+  "file": "milidi-dower.png",
+  "source": "original/MILIDI DOWER.png",
+  "width": 158,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "mpy",
+  "name": "MPY",
+  "file": "mpy.png",
+  "source": "original/MPY.png",
+  "width": 81,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "my-love",
+  "name": "My Love",
+  "file": "my-love.png",
+  "source": "original/MY LOVE@3x.png",
+  "width": 204,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "mytee",
+  "name": "Mytee",
+  "file": "mytee.png",
+  "source": "original/MYTEE.png",
+  "width": 284,
+  "height": 93,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "ogre",
+  "name": "Ogre",
+  "file": "ogre.png",
+  "source": "original/OGRE@3x.png",
+  "width": 96,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "oxygen-denim",
+  "name": "Oxygen Denim",
+  "file": "oxygen-denim.png",
+  "source": "original/OXYGEN DENIM@3x.png",
+  "width": 324,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "petshop-indonesia",
+  "name": "Petshop Indonesia",
+  "file": "petshop-indonesia.png",
+  "source": "original/PETSHOP INDONESIA@3x 2 copy.png",
+  "width": 480,
+  "height": 72,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "petsantuy",
+  "name": "Petsantuy",
+  "file": "petsantuy.png",
+  "source": "original/Petsantuy.jpg",
+  "width": 104,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "posterq",
+  "name": "PosterQ",
+  "file": "posterq.png",
+  "source": "original/PosterQ.png",
+  "width": 419,
+  "height": 73,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "roughneck",
+  "name": "Roughneck",
+  "file": "roughneck.png",
+  "source": "original/ROUGHNECK@3x.png",
+  "width": 447,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "ryusei-white",
+  "name": "Ryusei (white)",
+  "file": "ryusei-white.png",
+  "source": "original/RYUSEI white@3x copy.png",
+  "width": 333,
+  "height": 96,
+  "background": "transparent",
+  "light": true
+ },
+ {
+  "slug": "ryusei",
+  "name": "Ryusei",
+  "file": "ryusei.png",
+  "source": "original/RYUSEI@3x.png",
+  "width": 333,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "sadia",
+  "name": "Sadia",
+  "file": "sadia.png",
+  "source": "original/SADIA@3x.png",
+  "width": 257,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "sanip-tiraka",
+  "name": "Sanip Tiraka",
+  "file": "sanip-tiraka.png",
+  "source": "original/SANIP TIRAKA.png",
+  "width": 71,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "sol-et-terre",
+  "name": "Sol et Terre",
+  "file": "sol-et-terre.png",
+  "source": "original/SOL ET TERRE@3x.png",
+  "width": 480,
+  "height": 75,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "solcare",
+  "name": "Solcare",
+  "file": "solcare.png",
+  "source": "original/SOLCARE@3x.png",
+  "width": 480,
+  "height": 88,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "sunrise",
+  "name": "Sunrise",
+  "file": "sunrise.png",
+  "source": "original/SUNRISE@3x.png",
+  "width": 308,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "susu-fitnessku",
+  "name": "Susu Fitnessku",
+  "file": "susu-fitnessku.png",
+  "source": "original/SUSU FITNESSKU.jpg",
+  "width": 96,
+  "height": 96,
+  "background": "solid",
+  "light": false
+ },
+ {
+  "slug": "style-cycle",
+  "name": "Style Cycle",
+  "file": "style-cycle.png",
+  "source": "original/Style Cycle.png",
+  "width": 311,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "teratu-beauty",
+  "name": "Teratu Beauty",
+  "file": "teratu-beauty.png",
+  "source": "original/TERATU BEAUTY LOGO.png",
+  "width": 259,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "trooper",
+  "name": "Trooper",
+  "file": "trooper.png",
+  "source": "original/TROOPER@3x.png",
+  "width": 361,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "two-mix",
+  "name": "Two Mix",
+  "file": "two-mix.png",
+  "source": "original/TWO MIX@3x.png",
+  "width": 96,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "xtart",
+  "name": "Xtart",
+  "file": "xtart.png",
+  "source": "original/XTART@3x.png",
+  "width": 298,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "yesamalika",
+  "name": "Yesamalika",
+  "file": "yesamalika.png",
+  "source": "original/YESAMALIKA@3x.png",
+  "width": 480,
+  "height": 60,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "zmnow",
+  "name": "ZMNow",
+  "file": "zmnow.png",
+  "source": "original/ZMNOW.webp",
+  "width": 398,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "gakmikir",
+  "name": "Gakmikir",
+  "file": "gakmikir.png",
+  "source": "original/gakmikir.webp",
+  "width": 96,
+  "height": 96,
+  "background": "solid",
+  "light": false
+ },
+ {
+  "slug": "gio-cardin",
+  "name": "Gio Cardin",
+  "file": "gio-cardin.png",
+  "source": "original/gio cardin.webp",
+  "width": 480,
+  "height": 51,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "happyfeet",
+  "name": "Happyfeet",
+  "file": "happyfeet.png",
+  "source": "original/happyfeet.png",
+  "width": 480,
+  "height": 69,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "kado-unik",
+  "name": "Kado Unik",
+  "file": "kado-unik.png",
+  "source": "original/kado unik.png",
+  "width": 379,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "kaffah-sentral-indonesia",
+  "name": "Kaffah Sentral Indonesia",
+  "file": "kaffah-sentral-indonesia.png",
+  "source": "original/kaffah sentral indonesia.png",
+  "width": 101,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "key-by-keira-shabira",
+  "name": "Key by Keira Shabira",
+  "file": "key-by-keira-shabira.png",
+  "source": "original/key by keira shabira.png",
+  "width": 119,
+  "height": 94,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "keychron",
+  "name": "Keychron",
+  "file": "keychron.png",
+  "source": "original/keychron.png",
+  "width": 419,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "cempaka-variasi",
+  "name": "Cempaka Variasi",
+  "file": "cempaka-variasi.png",
+  "source": "original/logo cempaka variasi.jpeg",
+  "width": 124,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "emandos",
+  "name": "Emandos",
+  "file": "emandos.png",
+  "source": "original/logo-emandos.png",
+  "width": 280,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "luma-dawa",
+  "name": "Luma Dawa",
+  "file": "luma-dawa.png",
+  "source": "original/luma dawa.png",
+  "width": 307,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "makeblock",
+  "name": "Makeblock",
+  "file": "makeblock.png",
+  "source": "original/makeblock.png",
+  "width": 480,
+  "height": 80,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "meccanism",
+  "name": "Meccanism",
+  "file": "meccanism.png",
+  "source": "original/meccanism.png",
+  "width": 303,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "minaku",
+  "name": "Minaku",
+  "file": "minaku.png",
+  "source": "original/minaku.png",
+  "width": 95,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "moire",
+  "name": "Moire",
+  "file": "moire.png",
+  "source": "original/moire.avif",
+  "width": 260,
+  "height": 59,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "myfirst",
+  "name": "myFirst",
+  "file": "myfirst.png",
+  "source": "original/myFirst-Logo-ico copy.png",
+  "width": 156,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "nehhat",
+  "name": "Nehhat",
+  "file": "nehhat.png",
+  "source": "original/nehhat_logo (1).png",
+  "width": 234,
+  "height": 49,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "northy",
+  "name": "Northy",
+  "file": "northy.png",
+  "source": "original/northy black.png",
+  "width": 81,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "nuphy",
+  "name": "NuPhy",
+  "file": "nuphy.png",
+  "source": "original/nuphy.webp",
+  "width": 342,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "occa",
+  "name": "Occa",
+  "file": "occa.png",
+  "source": "original/occa.png",
+  "width": 253,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "qnq",
+  "name": "QnQ",
+  "file": "qnq.png",
+  "source": "original/qnqlogo.png",
+  "width": 224,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "sevenrose",
+  "name": "Sevenrose",
+  "file": "sevenrose.png",
+  "source": "original/sevenrose.webp",
+  "width": 293,
+  "height": 72,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "skandi",
+  "name": "Skandi",
+  "file": "skandi.png",
+  "source": "original/skandilogo.png",
+  "width": 264,
+  "height": 72,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "soru",
+  "name": "Soru",
+  "file": "soru.png",
+  "source": "original/soru.png",
+  "width": 223,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "stetoskop-id",
+  "name": "Stetoskop ID",
+  "file": "stetoskop-id.png",
+  "source": "original/stetoskop id.avif",
+  "width": 235,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "third-day",
+  "name": "Third Day",
+  "file": "third-day.png",
+  "source": "original/third day.png",
+  "width": 412,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "vincencio",
+  "name": "Vincencio",
+  "file": "vincencio.png",
+  "source": "original/vincencio logo.webp",
+  "width": 480,
+  "height": 67,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "zaafer",
+  "name": "Zaafer",
+  "file": "zaafer.png",
+  "source": "original/zaafer.webp",
+  "width": 77,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ },
+ {
+  "slug": "zeero",
+  "name": "Zeero",
+  "file": "zeero.png",
+  "source": "original/zeero logo.jpg",
+  "width": 264,
+  "height": 96,
+  "background": "transparent",
+  "light": false
+ }
+]
