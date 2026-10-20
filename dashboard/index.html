@@ -137,6 +137,8 @@ tbody tr.sel td{background:#F8F6FF}
 .st.bad{background:var(--bad-bg);color:var(--bad-tx);border-color:var(--bad-bd)}
 .st.pu{background:var(--pu-bg);color:var(--pu-tx);border-color:var(--pu-bd)}
 .pm{display:flex;align-items:center;gap:10px}
+.plg{width:24px;height:24px;border-radius:6px;background:#fff;box-shadow:0 0 0 1px var(--line);object-fit:contain;flex:none;display:inline-flex;align-items:center;justify-content:center}
+.plg-i{background:var(--primary-soft);color:var(--primary);box-shadow:none}
 .pmb{width:34px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:700;letter-spacing:.2px;color:#fff;flex:none}
 .pmd{color:var(--text)}
 .pmd .dots{letter-spacing:1px;margin-right:3px}
@@ -369,7 +371,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 /* ===== Shipments ===== */
 .sx-wh{display:flex;align-items:center;gap:8px;color:var(--text)}
 .sx-cl{display:flex;align-items:center;gap:8px}
-.clg{width:22px;height:22px;border-radius:5px;object-fit:contain;background:#fff;box-shadow:0 0 0 1px var(--line);flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:700;color:#fff}
+.clg{width:24px;height:24px;border-radius:6px;object-fit:contain;background:#fff;box-shadow:0 0 0 1px var(--line);flex:none;display:inline-flex;align-items:center;justify-content:center}
 /* Create shipment: full-screen flow */
 .sx{position:fixed;inset:0;z-index:86;background:#fff;display:flex;flex-direction:column}
 .sx-top{height:60px;flex:none;display:flex;align-items:center;gap:14px;padding:0 20px;border-bottom:1px solid var(--line)}
@@ -438,7 +440,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .sx-grp>h3{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
 .sx-cr{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
 .sx-cr .nm{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink);align-self:start;padding-top:12px}
-.sx-cr .nm .clg{width:28px;height:28px;border-radius:7px}
+.sx-cr .nm .clg{width:32px;height:32px;border-radius:8px}
 .sx-svcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
 .sx-svc{position:relative;text-align:left;padding:12px 14px;border-radius:8px;box-shadow:var(--sh);background:#fff;display:grid;gap:2px}
 .sx-svc:hover{box-shadow:0 0 0 1px rgba(64,68,82,.18),0 2px 5px rgba(64,68,82,.1)}
@@ -496,6 +498,44 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .mx-pf{display:flex;align-items:center;gap:8px}
 .mx-pf .pmb{background:var(--ink)}
 @media (max-width:700px){.es-cards.c3{grid-template-columns:1fr}}
+/* ===== Balances (reuses PageHeader, KPICard, Stepper, Tabs, FilterChip, DataTable, StatusBadge, drawer, Modal) ===== */
+.bl-tiles{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:12px;margin-top:20px}
+.bl-tile{text-align:left;width:100%;display:flex;flex-direction:column;gap:6px;padding:20px;margin:0;border-radius:8px;box-shadow:var(--sh);background:#fff}
+.bl-tile:hover{box-shadow:0 0 0 1px rgba(64,68,82,.16),0 2px 5px rgba(64,68,82,.1)}
+.bl-tile .kpi-l{display:flex;align-items:center;gap:8px}
+.bl-tile .kpi-v b{font-size:22px}
+.bl-tile.main .kpi-v b{font-size:28px}
+.bl-tile .ex{color:var(--muted);font-size:13px;line-height:1.45}
+.bl-tile .up{color:var(--muted);font-size:12px;margin-top:auto;padding-top:6px}
+.bl-tile .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.bl-tile .bl-sub{display:grid;gap:2px;font-size:13px;color:var(--text)}
+.bl-flow{display:flex;align-items:center;flex-wrap:wrap;gap:8px 6px;margin-top:12px}
+.bl-flow .stp{color:var(--text)}
+.bl-flow .stp.end{color:var(--ink);font-weight:600}
+.bl-banner{display:flex;align-items:flex-start;gap:10px;margin-top:16px;padding:12px 14px;border-radius:8px;border:1px solid var(--warn-bd);background:var(--warn-bg);color:var(--warn-tx);font-size:13.5px}
+.bl-banner.bad{border-color:var(--bad-bd);background:var(--bad-bg);color:var(--bad-tx)}
+.bl-banner b{font-weight:600}
+.bl-banner .btn{margin-left:auto;flex:none}
+.bl-search{max-width:320px;height:30px}
+.bl-desc b{font-weight:500;color:var(--ink);display:block}
+.bl-desc .src{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px}
+.bl-tbl td.num{white-space:nowrap}
+.bl-tbl td.dr{color:var(--ink)}
+.bl-tbl td.cr{color:var(--ok-tx);font-weight:500}
+.bl-tbl tr.open td{background:var(--hover)}
+.bl-tbl tr.bl-x td{height:auto;padding:4px 8px 18px 44px;background:var(--hover);cursor:default;white-space:normal}
+.bl-tbl tr.bl-x:hover td{background:var(--hover)}
+.bl-x .kv{max-width:560px}
+.bl-wf{margin-top:14px;max-width:560px;display:grid;grid-template-columns:1fr auto;gap:8px 0;font-size:13.5px}
+.bl-wf dt{color:var(--text)}.bl-wf dd{text-align:right;padding-left:16px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.bl-wf .t{border-top:1px solid var(--line-2);padding-top:8px;font-weight:600}
+.bl-wf .lnk{color:var(--primary);font-size:12.5px;margin-left:6px}
+.bl-foot{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;padding:12px 14px;border-radius:8px;background:var(--hover);font-size:13.5px;color:var(--text)}
+.bl-foot b{color:var(--ink);font-weight:600}
+.bl-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+:where(button,a,summary,[role=button],[tabindex]):focus-visible{outline:none;box-shadow:0 0 0 3px rgba(106,75,255,.35)}
+@media (max-width:1100px){.bl-tiles{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.bl-tiles{grid-template-columns:1fr}.bl-search{max-width:none;width:100%}.bl-tbl tr.bl-x td{padding-left:12px}}
 @media (max-width:1380px){.qa-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:700px){.qa-grid{grid-template-columns:1fr}.chart{height:240px}.qa .qt span{white-space:normal}}
 </style>
@@ -505,7 +545,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
   <!-- ===== Sidebar ===== -->
   <aside class="side" id="side">
     <button class="acct" data-toast="Switch business account">
-      <span class="lg"><svg width="16" height="16" viewBox="0 0 32 32"><path d="M27.6 18.8c0-4.3-2.4-5.4-5.4-5.4h-5.6v8.8c0 3 1.3 5.4 5.5 5.4v-8.8h5.5Z" fill="#F26324"/><path d="M30.9 10.4c0-5.3-2.5-6-5.5-6H7.4v17.8c0 3 .7 5.4 6.3 5.4V10.4h17.2Z" fill="#F26324"/></svg></span>
+      <span class="lg"><svg width="16" height="16" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M23.2088 17.4254C23.2088 13.1436 20.7668 11.9717 17.755 11.9717H12.1924V20.7969C12.1924 23.8087 13.5039 26.2507 17.6461 26.2507V17.4254H23.2088Z" fill="#F26324"/><path d="M26.442 9.00748C26.442 3.71863 24 3 20.9882 3H2.94434V20.7678C2.94434 23.7796 3.6806 26.2215 9.22868 26.2215V9.00748H26.4427H26.442Z" fill="#F26324"/></svg></span>
       <b>Aruna Studio</b>
       <span data-ic="sel"></span>
     </button>
@@ -520,7 +560,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <button class="burger" id="burger" aria-label="Open menu"><span data-ic="menu"></span></button>
       <label class="search"><span data-ic="search"></span><input id="q" placeholder="Search" autocomplete="off"><kbd>/</kbd></label>
       <div class="tools">
-        <button class="btn btn-o bal hide-s" data-toast="Opens Balances" aria-label="FLIK balance"><span data-ic="wallet"></span><span class="num" id="balv">Rp4.523.800</span></button>
+        <button class="btn btn-o bal hide-s" data-view="bal" aria-label="Active balance"><span data-ic="wallet"></span><span class="num" id="balv">Rp4.523.800</span></button>
         <button class="btn btn-o bal-add hide-s" id="baladd" aria-label="Top up balance" title="Top up balance"><span data-ic="plus"></span></button>
         <button class="ib hide-s" data-toast="Opens FLIK help center" aria-label="Help"><span data-ic="help"></span></button>
         <button class="ib" id="bell" aria-label="Notifications"><span data-ic="bell"></span><span class="dot"></span></button>
@@ -639,6 +679,21 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <div class="tbl-wrap"><table><thead><tr><th>Funding</th><th></th><th>Project</th><th>Tenor</th><th>Remaining to repay</th><th>Applied</th><th></th></tr></thead><tbody id="mca-body"></tbody></table></div>
       <div class="foot"><span id="mca-count"></span></div>
     </main>
+    <main class="content" id="view-bal" hidden>
+      <div class="ph"><h1>Balances</h1><div class="fright" style="margin-left:auto"><button class="chip" id="bl-state" title="Prototype control: preview the states the spec asks for"></button><button class="btn btn-o" id="bl-monthly"><span data-ic="doc"></span>Monthly statements</button></div></div>
+      <div id="bl-banners"></div>
+      <div class="bl-tiles" id="bl-tiles"></div>
+      <section class="card" style="padding-bottom:16px"><div class="kpi-l">Every credit passes these steps, in this order, before it reaches your active balance</div><div class="bl-flow" id="bl-flow"></div></section>
+      <h2 class="sec">Statement</h2>
+      <div class="tabs" id="bl-tabs" role="tablist"></div>
+      <div class="filters">
+        <label class="search bl-search"><span data-ic="search"></span><input id="bl-q" placeholder="Order ID, AWB, withdrawal ID or amount" autocomplete="off" aria-label="Search the statement"></label>
+        <button class="chip" id="bl-range"></button>
+        <div class="fright"><button class="btn btn-o" id="bl-export"><span data-ic="export"></span>Export</button></div>
+      </div>
+      <div class="tbl-wrap"><table class="bl-tbl"><thead><tr><th>Date (WIB)</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead><tbody id="bl-body"></tbody></table></div>
+      <div class="bl-foot" id="bl-foot"></div>
+    </main>
     <main class="content" id="view-tx">
       <h1>Transactions</h1>
       <div class="tabs" id="tabs" role="tablist"></div>
@@ -692,6 +747,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 <script>
 /* ===== Icons ===== */
 const P={
+  card:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>',
   search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
   help:'<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17.2v.1"/>',
   bell:'<path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.5 1.5h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
@@ -747,7 +803,7 @@ paintIcons(document);
 
 /* ===== Sidebar ===== */
 const NAV=[
-  {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customer',v:'cus'},{i:'box',t:'Product Catalog'},
+  {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customer',v:'cus'},{i:'box',t:'Product Catalog'},
   {h:'Products'},
   {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop','Payment Link','Checkout Personalization','Order Form']},
   {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},'Tracking','Warehouse','Couriers','Red Zone']},
@@ -767,17 +823,18 @@ sscrim.onclick=()=>setSide(false);
 /* ===== Dummy data (seeded, so it's the same on every load) ===== */
 let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
 const pick=a=>a[Math.floor(rnd()*a.length)];
+const IMG='https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/'; // partner logos (design-system/assets/Logos)
 const METHODS={
-  qris:{cat:'QRIS',bg:'#111',txt:'QRIS',d:()=>'QRIS · '+pick(['BCA mobile','GoPay','OVO','DANA','ShopeePay'])},
-  gopay:{cat:'E-wallet',bg:'#00AED6',txt:'gopay',d:()=>'GoPay · +62 812-•••-'+(1000+Math.floor(rnd()*8999))},
-  ovo:{cat:'E-wallet',bg:'#4C3494',txt:'OVO',d:()=>'OVO · +62 813-•••-'+(1000+Math.floor(rnd()*8999))},
-  dana:{cat:'E-wallet',bg:'#118EEA',txt:'DANA',d:()=>'DANA · +62 857-•••-'+(1000+Math.floor(rnd()*8999))},
-  bca:{cat:'Virtual account',bg:'#005EAA',txt:'BCA',d:()=>'VA <span class="dots">••••</span>'+(1000+Math.floor(rnd()*8999))},
-  mandiri:{cat:'Virtual account',bg:'#003D79',txt:'mandiri',d:()=>'VA <span class="dots">••••</span>'+(1000+Math.floor(rnd()*8999))},
-  bni:{cat:'Virtual account',bg:'#F15A23',txt:'BNI',d:()=>'VA <span class="dots">••••</span>'+(1000+Math.floor(rnd()*8999))},
-  visa:{cat:'Card',bg:'#1A1F71',txt:'VISA',d:()=>'<span class="dots">••••</span>'+pick(['0876','7662','4242','3077'])},
-  mc:{cat:'Card',bg:'#111',txt:'mc',d:()=>'<span class="dots">••••</span>'+pick(['4949','5454','0876'])},
-  cod:{cat:'COD',bg:'#1EA672',txt:'COD',d:()=>'Cash on delivery'}
+  qris:{cat:'QRIS',lg:'qris',d:()=>'QRIS · '+pick(['BCA mobile','GoPay','OVO','DANA','ShopeePay'])},
+  gopay:{cat:'E-wallet',lg:'gopay',d:()=>'GoPay · +62 812-•••-'+(1000+Math.floor(rnd()*8999))},
+  ovo:{cat:'E-wallet',lg:'ovo',d:()=>'OVO · +62 813-•••-'+(1000+Math.floor(rnd()*8999))},
+  dana:{cat:'E-wallet',lg:'dana',d:()=>'DANA · +62 857-•••-'+(1000+Math.floor(rnd()*8999))},
+  bca:{cat:'Virtual account',lg:'bca',d:()=>'VA <span class="dots">••••</span>'+(1000+Math.floor(rnd()*8999))},
+  mandiri:{cat:'Virtual account',lg:'mandiri',d:()=>'VA <span class="dots">••••</span>'+(1000+Math.floor(rnd()*8999))},
+  bni:{cat:'Virtual account',lg:'bni',d:()=>'VA <span class="dots">••••</span>'+(1000+Math.floor(rnd()*8999))},
+  visa:{cat:'Card',icon:'card',d:()=>'Visa <span class="dots">••••</span>'+pick(['0876','7662','4242','3077'])},
+  mc:{cat:'Card',icon:'card',d:()=>'Mastercard <span class="dots">••••</span>'+pick(['4949','5454','0876'])},
+  cod:{cat:'COD',icon:'coins',d:()=>'Cash on delivery'}
 };
 const MKEYS=['qris','qris','qris','gopay','ovo','dana','bca','bca','mandiri','bni','visa','mc','cod','cod'];
 const CUST=['Rina Putri','Budi Santoso','Sari Wulandari','Andi Pratama','Dewi Lestari','Fajar Nugroho','Maya Sari','Rizky Ramadhan','Putri Ayu','Agus Setiawan','Nadia Rahma','Yoga Saputra'];
@@ -805,7 +862,7 @@ const fdate=d=>`${d.getDate()} ${MON[d.getMonth()]}, ${String(d.getHours()).padS
 const fdateY=d=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 const ST={succeeded:['Succeeded','ok','check'],refunded:['Refunded','pu','refund'],pending:['Pending','warn',null],canceled:['Canceled','gr','x'],failed:['Failed','bad','x']};
 const stPill=s=>{const x=ST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
-const pmBadge=k=>{const m=METHODS[k];if(k==='mc')return`<span class="pmb" style="background:#111"><svg width="22" height="14" viewBox="0 0 22 14"><circle cx="8" cy="7" r="5.5" fill="#EB001B"/><circle cx="14" cy="7" r="5.5" fill="#F79E1B" opacity=".9"/></svg></span>`;return`<span class="pmb" style="background:${m.bg}">${m.txt}</span>`};
+const pmBadge=k=>{const m=METHODS[k];return m.lg?`<img class="plg" src="${IMG}payment/${m.lg}.png" alt="">`:`<span class="plg plg-i">${ic(m.icon,14)}</span>`};
 
 /* ===== State ===== */
 const TABS=[['payments','Payments'],['cod','COD payouts'],['refunds','Refunds'],['settle','Auto settlements']];
@@ -1005,7 +1062,7 @@ document.getElementById('plus').onclick=e=>{e.stopPropagation();const b=e.curren
   pop.innerHTML=`<div class="menu"><h6>Create</h6><button class="opt" data-c="Payment link">${ic('link',15)}Payment link</button><button class="opt" data-c="Shipment">${ic('truck',15)}Shipment</button><button class="opt" data-c="Invoice">${ic('tx',15)}Invoice</button><button class="opt" data-c="Funding request">${ic('coins',15)}Funding request</button></div>`;
   pop.querySelectorAll('[data-c]').forEach(o=>o.onclick=()=>{closePop();if(o.dataset.c==='Invoice'){location.hash='invoices/create';return}if(o.dataset.c==='Shipment'){location.hash='shipments/create';return}toast(`Opens the new ${o.dataset.c.toLowerCase()} form`)});placePop(b,true)};
 document.getElementById('bell').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;b.querySelector('.dot')?.remove();
-  pop.innerHTML=`<div class="menu" style="width:300px"><h6>Notifications</h6>${[['Payout received','Rp4.523.800 added to your balance','2m'],['Shipment delivered','FLK2610141012 · Surabaya','1h'],['Auto settlement','Rp1.250.000 deducted from sales','5h']].map(n=>`<button class="opt" style="align-items:flex-start"><span style="flex:1"><b style="font-weight:500;display:block;color:var(--ink)">${n[0]}</b><span style="color:var(--muted);font-size:12.5px">${n[1]}</span></span><span style="color:var(--faint);font-size:12px">${n[2]}</span></button>`).join('')}</div>`;placePop(b,true)};
+  pop.innerHTML=`<div class="menu" style="width:300px"><h6>Notifications</h6>${[['Withdrawal slightly delayed','WD-2610-0012 · Rp500.000, still being processed','1h','bal'],['New charge due','Return fee · AWB SPX8815 · Rp15.000','1h','bal'],['Reserve release','Rp100.000 back in your active balance on 18 Oct','5h','bal'],['Withdrawal returned','WD-2610-0009 · Rp1.500.000, the bank rejected it. Update your bank details','5d','bal'],['Withdrawal paid','WD-2610-0007 · Rp3.000.000 to BCA •••• 4521','13d','bal'],['Shipment delivered','FLK2610141012 · Surabaya','6h','shp']].map(n=>`<button class="opt" style="align-items:flex-start" data-goto="${n[3]}"><span style="flex:1"><b style="font-weight:500;display:block;color:var(--ink)">${n[0]}</b><span style="color:var(--muted);font-size:12.5px">${n[1]}</span></span><span style="color:var(--faint);font-size:12px">${n[2]}</span></button>`).join('')}</div>`;pop.querySelectorAll('[data-goto]').forEach(o=>o.onclick=()=>{closePop();location.hash=VIEWS[o.dataset.goto][0]});placePop(b,true)};
 
 /* ===== Toast + generic actions ===== */
 const toastEl=document.getElementById('toast');let tt;
@@ -1220,11 +1277,11 @@ document.getElementById('ie-review').onclick=()=>{
     closeModal();itab='all';location.hash='invoices';toast(`${no} sent to ${D.cust.name} via ${via}`)}};
 
 /* ===== Shipments: list ===== */
-const LOGO={anteraja:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/anteraja.png',jne:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/jne.png',lion:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/lionparcel.png',spx:'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/spx.png'};
+const LOGO=Object.fromEntries(Object.entries({anteraja:'anteraja',sicepat:'sicepat',lion:'lionparcel',jne:'jne',ninja:'ninjaxpress',spx:'spx',jnt:'jnt'}).map(([k,f])=>[k,IMG+'courier/'+f+'.png']));
 const COURIERS=[
-  {k:'anteraja',n:'AnterAja',bg:'#E4007F'},{k:'sicepat',n:'SiCepat',bg:'#C8102E'},{k:'lion',n:'Lion Parcel',bg:'#E31E24'},
-  {k:'jne',n:'JNE',bg:'#1B3E8F'},{k:'ninja',n:'Ninja Xpress',bg:'#C8102E'},{k:'spx',n:'SPX Express',bg:'#EE4D2D'},{k:'jnt',n:'J&T Express',bg:'#D7000F'}];
-const cLogo=k=>{const c=COURIERS.find(x=>x.k===k);return LOGO[k]?`<img class="clg" src="${LOGO[k]}" alt="">`:`<span class="clg" style="background:${c.bg};box-shadow:none">${c.n.slice(0,2).toUpperCase()}</span>`};
+  {k:'anteraja',n:'AnterAja'},{k:'sicepat',n:'SiCepat'},{k:'lion',n:'Lion Parcel'},
+  {k:'jne',n:'JNE'},{k:'ninja',n:'Ninja Xpress'},{k:'spx',n:'SPX Express'},{k:'jnt',n:'J&T Express'}];
+const cLogo=k=>{const c=COURIERS.find(x=>x.k===k);return LOGO[k]?`<img class="clg" src="${LOGO[k]}" alt="">`:`<span class="clg plg-i">${ic('truck',14)}</span>`};
 const SERVICES=[ // [courier, service, group, eta, Rp per kg, list price per kg|null, tag]
   ['anteraja','Regular','reg','2–3 days',11000,null],
   ['sicepat','Regular','reg','2–4 days',6500,null],['sicepat','GOKIL','cargo','1–3 days',35000,null],
@@ -1565,8 +1622,173 @@ document.getElementById('mx-close').onclick=()=>{
   document.getElementById('es-art-mca').innerHTML=`<svg class="wire" width="360" height="210"><path d="M62 43H84M104 43H137Q145 43 145 51V94"/></svg><div class="es-t hub">${ic('coins',22,1.8)}</div><div class="es-node">${ic('bolt',11,2)}</div>`+r1.join('')+r2.join('');
 })();
 
+/* ===== Balances: ledger (every number on the page is summed from these lines) ===== */
+const LD=(d,h,m)=>new Date(2026,9,d,h,m);
+const rp2=n=>(n<0?'−':'')+'Rp'+Math.abs(n).toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2});
+const BNAME={active:'Active balance',reserve:'Reserve',charges:'Charges due',pending:'Pending'};
+const MCA_ID='MCA-2026-0011',FIN=.10;
+const fin=n=>-Math.round(n*FIN*100)/100;
+let LEDGER=[
+ {t:LD(1,9,12),b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID','WD-2610-0007'],a:-3000000,st:['Paid','ok'],note:'Paid on 1 Oct 2026, 14:20 WIB'},
+ {t:LD(3,10,5),b:'active',d:'Checkout order completed',ref:['Order ID','ORD-2026-10391'],wf:[['Card payment received',1000000],['Payment fee · card, 2%',-20000,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-98000,'fin'],['Charges due settled',0],['Set aside in reserve · card policy, 10% for 14 days',-100000,'rsv']]},
+ {t:LD(3,10,5),b:'reserve',d:'Set aside from order ORD-2026-10391 · card policy, 10% for 14 days',ref:['Order ID','ORD-2026-10391'],a:100000,note:'Released on 18 Oct 2026'},
+ {t:LD(4,16,40),b:'active',d:'Shipping booked and paid from the wallet',ref:['AWB','JNE0048812'],a:-27000},
+ {t:LD(6,8,55),b:'charges',d:'Return fee · parcel returned to sender',ref:['AWB','SPX7731'],a:15000},
+ {t:LD(6,11,30),b:'active',d:'Wallet top-up · BCA virtual account',ref:['Top-up ID','TU-2610-0021'],early:1,wf:[['Top-up received',2000000],['Payment fee · virtual account, Rp4.000',-4000,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-199600,'fin'],['Charges due settled · return fee AWB SPX7731',-15000,'cd'],['Set aside in reserve · VIP shortfall',-200000,'rsv']]},
+ {t:LD(6,11,30),b:'charges',d:'Collected from top-up TU-2610-0021',ref:['Top-up ID','TU-2610-0021'],a:-15000},
+ {t:LD(6,11,30),b:'reserve',d:'Set aside from top-up TU-2610-0021 · VIP shortfall',ref:['Top-up ID','TU-2610-0021'],a:200000},
+ {t:LD(8,13,15),b:'active',d:'Reserve released · card payment cleared after 14 days',ref:['Payment ID','PAY-0921-2231'],a:100000},
+ {t:LD(8,13,15),b:'reserve',d:'Released: card payment PAY-0921-2231 cleared',ref:['Payment ID','PAY-0921-2231'],a:-100000},
+ {t:LD(9,9,0),b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID','WD-2610-0009'],a:-1500000,st:['Returned','bad']},
+ {t:LD(9,15,10),b:'active',d:'Withdrawal WD-2610-0009 returned: bank rejected (account closed)',ref:['Withdrawal ID','WD-2610-0009'],a:1500000,fix:'bank'},
+ {t:LD(10,12,45),b:'active',d:'Bank transfer from GoFood outlet G-20311',ref:['Transfer ID','BT-2610-0118'],wf:[['Transfer received',845000],['Payment fee',0],['Financing repayment · 10% of money in, '+MCA_ID,-84500,'fin'],['Charges due settled',0],['Set aside in reserve',0]]},
+ {t:LD(11,10,2),b:'active',d:'Shipping booked and paid from the wallet',ref:['AWB','SPX7790'],a:-18000},
+ {t:LD(11,10,2),b:'active',d:'Shipping booked and paid from the wallet',ref:['AWB','SPX7790'],a:-18000,rev:'r1',corr:'Charged twice by mistake'},
+ {t:LD(11,10,20),b:'active',d:'Correction: duplicate shipping charge reversed',ref:['AWB','SPX7790'],a:18000,rev:'r1',corr:'Reverses the duplicate charge of 11 Oct, 10:02'},
+ {t:LD(12,14,30),b:'active',d:'EDC sale settled · card',ref:['EDC ID','EDC-2610-0457'],early:1,wf:[['Card payment received',650000],['Payment fee · card, 2%',-13000,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-63700,'fin'],['Charges due settled',0],['Set aside in reserve · card policy, 10% for 14 days',-65000,'rsv']]},
+ {t:LD(12,14,30),b:'reserve',d:'Set aside from EDC sale EDC-2610-0457 · card policy, 10% for 14 days',ref:['EDC ID','EDC-2610-0457'],a:65000,note:'Released on 27 Oct 2026'},
+ {t:LD(13,8,30),b:'pending',d:'Order paid, waiting for completion',ref:['Order ID','ORD-2026-10482'],a:417500},
+ {t:LD(13,9,40),b:'active',d:'Refund paid to a shopper',ref:['Order ID','ORD-2026-10402'],a:-125000},
+ {t:LD(13,17,20),b:'charges',d:'Return fee · parcel returned to sender',ref:['AWB','SPX7702'],a:20000},
+ {t:LD(13,17,30),b:'charges',d:'Collected from the reserve',ref:['AWB','SPX7702'],a:-20000},
+ {t:LD(13,17,30),b:'reserve',d:'Used to pay return fee AWB SPX7702',ref:['AWB','SPX7702'],a:-20000},
+ {t:LD(14,9,5),b:'pending',d:'Order paid, waiting for delivery',ref:['Order ID','ORD-2026-10488'],a:489000},
+ {t:LD(14,9,40),b:'pending',d:'Order paid, in transit',ref:['Order ID','ORD-2026-10491'],a:312500},
+ {t:LD(14,10,30),b:'pending',d:'Order ORD-2026-10482 completed: moved to money in',ref:['Order ID','ORD-2026-10482'],a:-417500},
+ {t:LD(14,10,30),b:'active',d:'Checkout order completed · QRIS',ref:['Order ID','ORD-2026-10482'],wf:[['QRIS payment received',417500],['Payment fee · QRIS, 0.7%',-2922.5,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-41457.75,'fin'],['Charges due settled',0],['Set aside in reserve · QRIS is never held',0]]},
+ {t:LD(14,11,15),b:'pending',d:'Order paid, being packed',ref:['Order ID','ORD-2026-10495'],a:435000},
+ {t:LD(14,12,10),b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID','WD-2610-0012'],a:-500000,st:['Processing, slightly delayed','warn'],out:1},
+ {t:LD(14,13,5),b:'charges',d:'Shipping fee increase · re-weighed, Rp18.000 → Rp27.000',ref:['AWB','JNE0051120'],a:9000},
+ {t:LD(14,14,0),b:'active',d:'Fee refunded · payment fee on ORD-2026-10391',ref:['Order ID','ORD-2026-10391'],wf:[['Fee refund received',4000],['Payment fee',0],['Financing repayment · 10% of money in, '+MCA_ID,-400,'fin'],['Charges due settled · part of the fee increase AWB JNE0051120',-3600,'cd'],['Set aside in reserve',0]]},
+ {t:LD(14,14,0),b:'charges',d:'Collected from fee refund ORD-2026-10391 (part)',ref:['AWB','JNE0051120'],a:-3600},
+ {t:LD(14,14,20),b:'pending',d:'Card payments awaiting settlement · 14 Oct batch',ref:['Payment batch','CB-2610-14'],a:650000},
+ {t:LD(14,14,45),b:'pending',d:'Top-up awaiting settlement · BCA virtual account',ref:['Top-up ID','TU-2610-0024'],a:300000},
+ {t:LD(14,15,20),b:'charges',d:'Return fee · parcel returned to sender',ref:['AWB','SPX8815'],a:15000}];
+const CLOSE={active:4523800,reserve:1240000,charges:20400,pending:2186500};
+LEDGER.forEach((l,i)=>{l.i=i;l.id='LE-2610-'+String(4100+i);if(l.wf){l.a=Math.round(l.wf.reduce((s,r)=>s+r[1],0)*100)/100}});
+const OPEN={};Object.keys(CLOSE).forEach(k=>OPEN[k]=Math.round((CLOSE[k]-LEDGER.filter(l=>l.b===k).reduce((s,l)=>s+l.a,0))*100)/100);
+const RESERVE={target:1580000,vip:[['SPX8840','SPX Express','In transit',186000,'Delivered'],['JNE0052201','JNE','Out for delivery',154000,'Delivered'],['SPX8811','SPX Express','Delivered, invoice being checked',210000,'Invoice checked'],['LP1120934','Lion Parcel','In transit',525000,'Delivered'],['SPX8862','SPX Express','Picked up, not yet covered',340000,'Delivered']],
+  card:[['ORD-2026-10391','3 Oct 2026',100000,'18 Oct 2026'],['EDC-2610-0457','12 Oct 2026',65000,'27 Oct 2026']]};
+const CHARGES={open:[['14 Oct 2026','Return fee: parcel returned to sender','AWB SPX8815',15000,0],['14 Oct 2026','Shipping fee increase: re-weighed, Rp18.000 → Rp27.000','AWB JNE0051120',9000,3600]],
+  settled:[['13 Oct 2026','Return fee: parcel returned to sender','AWB SPX7702',20000,'Paid from the reserve on 13 Oct'],['6 Oct 2026','Return fee: parcel returned to sender','AWB SPX7731',15000,'Paid from top-up TU-2610-0021 on 6 Oct']]};
+const PENDING={orders:[['ORD-2026-10488','Waiting for delivery',489000,'16 Oct 2026'],['ORD-2026-10491','In transit',312500,'17 Oct 2026'],['ORD-2026-10495','Being packed',435000,'18 Oct 2026']],
+  pay:[['Card payments · 14 Oct batch','Card, settles 2 business days after payment',650000,'16 Oct 2026'],['Top-up TU-2610-0024','BCA virtual account, settles next business day',300000,'15 Oct 2026']]};
+const VIP_LIMIT=2000000;
+const BSTATES=[['normal','Normal'],['early','Early settlement'],['frozen','Account frozen'],['new','New merchant, no sales'],['noreserve','Reserve not required'],['near','Shortfall near the VIP limit'],['paused','VIP bookings paused'],['invoice','Invoice client']];
+let BS='normal',btab='all',bq='',brange='month',bopen=null;
+const UPD='Updated 14 Oct 2026, 16:20 WIB';
+
+/* state: what the page shows for the chosen preview state */
+function bv(){const s=BS,z=s==='new';
+  const reserveHeld=z||s==='noreserve'?0:CLOSE.reserve;
+  const target=z||s==='noreserve'?0:s==='near'?3090000:s==='paused'?3290000:RESERVE.target;
+  return{active:z?0:CLOSE.active,pending:z?0:CLOSE.pending,charges:z||s==='invoice'?0:CLOSE.charges,chargesN:z||s==='invoice'?0:CHARGES.open.length,
+    reserve:reserveHeld,target,short:Math.max(0,target-reserveHeld),policy:!(z||s==='noreserve'),frozen:s==='frozen',invoice:s==='invoice',early:s==='early',lines:z?[]:LEDGER.filter(l=>s!=='noreserve'||l.b!=='reserve')}}
+function renderBal(){const v=bv();
+  document.getElementById('bl-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${BSTATES.find(x=>x[0]===BS)[1]}</span>`;
+  document.getElementById('bl-state').classList.add('set');
+  /* banners */
+  let bn='';
+  if(v.frozen)bn+=`<div class="bl-banner bad">${ic('warn',16)}<div><b>Withdrawals are paused on your account.</b> We need to re-check your identity documents. Sales, collections and reserve releases carry on, and a withdrawal we already accepted still completes. Contact your account manager or support@flik.co.id.</div><button class="btn btn-o" data-toast="Opens customer service on WhatsApp">Contact us</button></div>`;
+  if(BS==='near')bn+=`<div class="bl-banner">${ic('warn',16)}<div><b>Reserve shortfall ${rp(v.short)}.</b> New VIP bookings pause at ${rp(VIP_LIMIT)}, ${rp(VIP_LIMIT-v.short)} from now. Prepaid bookings stay open.</div><button class="btn btn-o" id="bl-topres">Top up balance</button></div>`;
+  if(BS==='paused')bn+=`<div class="bl-banner bad">${ic('warn',16)}<div><b>New VIP bookings are paused.</b> The reserve shortfall is ${rp(v.short)}, over the ${rp(VIP_LIMIT)} limit. Add more than ${rp(v.short-VIP_LIMIT)} to the reserve to reopen them; prepaid bookings stay open.</div><button class="btn btn-o" id="bl-topres">Top up balance</button></div>`;
+  document.getElementById('bl-banners').innerHTML=bn;
+  /* tiles: active, reserve, charges due, pending */
+  const t=[];
+  t.push(`<div class="bl-tile main" role="button" tabindex="0" data-panel="active"><span class="kpi-l">Active balance</span><div class="row"><div class="kpi-v"><b class="num">${rp(v.active)}</b></div><button class="btn btn-p" data-withdraw ${v.frozen||v.active<=0?'disabled':''} title="${v.frozen?'Withdrawals are paused on your account':''}">Withdraw</button></div><span class="ex">Ready to withdraw or use</span>${LEDGER.some(l=>l.out)&&BS!=='new'?`<span class="bl-sub"><span>${rp(LEDGER.filter(l=>l.out).reduce((s,l)=>s-l.a,0))} being paid out</span></span>`:''}<span class="up">${UPD}</span></div>`);
+  t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="reserve"><span class="kpi-l">Reserve${v.short>0?`<span class="st ${v.short>=VIP_LIMIT?'bad':'warn'}">Shortfall ${rp(v.short)}</span>`:''}</span><div class="kpi-v"><b class="num">${v.policy?rp(v.reserve):'Not required'}</b></div><span class="ex">${v.policy?`Your money set aside for VIP parcels and card payments; returns automatically. Target ${rp(v.target)}.`:'No reserve policy applies to your account.'}</span><span class="up">${UPD}</span></div>`);
+  if(v.invoice)t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="invoice"><span class="kpi-l">Monthly invoice</span><div class="kpi-v"><b class="num">${rp(1250000)}</b></div><span class="ex">Charges go on your monthly invoice instead of your wallet. Credit limit ${rp(10000000)}.</span><span class="up">${UPD}</span></div>`);
+  else if(v.chargesN)t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="charges"><span class="kpi-l">Charges due<span class="st gr">${v.chargesN} open</span></span><div class="kpi-v"><b class="num">${rp(v.charges)}</b></div><span class="ex">Costs that came after a sale, taken automatically from money coming in</span><span class="up">${UPD}</span></div>`);
+  t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="pending"><span class="kpi-l">Pending</span><div class="kpi-v"><b class="num">${rp(v.pending)}</b></div><span class="ex">Orders not complete, or payments FLIK hasn't received yet</span>${v.pending?`<span class="bl-sub"><span>${PENDING.orders.length} orders not complete</span><span>${PENDING.pay.length} payments awaiting settlement from the bank or payment provider</span></span>`:''}<span class="up">${UPD}</span></div>`);
+  const tiles=document.getElementById('bl-tiles');tiles.innerHTML=t.join('');tiles.style.gridTemplateColumns=t.length===3?'1.5fr 1fr 1fr':'';
+  /* the fixed order every credit follows */
+  const steps=['Fees','Financing repayment','Charges due','Reserve top-up'];
+  document.getElementById('bl-flow').innerHTML=`<span class="stp done">Money in</span><span class="stp-l"></span>`+steps.map((s,i)=>`<span class="stp"><i>${i+1}</i><span>${s}</span></span><span class="stp-l"></span>`).join('')+`<span class="stp end on"><i>${ic('check',11,3)}</i><span>Active balance</span></span>`;
+  /* statement */
+  const tabs=[['all','All'],['active','Active balance'],['reserve','Reserve'],['charges','Charges due'],['pending','Pending']];
+  document.getElementById('bl-tabs').innerHTML=tabs.map(x=>`<button class="tab${btab===x[0]?' on':''}" data-bt="${x[0]}">${x[1]}</button>`).join('');
+  const RANGES={month:['This month','1–14 Oct 2026',LD(1,0,0)],week:['Last 7 days','8–14 Oct 2026',LD(8,0,0)],today:['Today','14 Oct 2026',LD(14,0,0)]};
+  const r=RANGES[brange],rb=document.getElementById('bl-range');rb.className='chip set';rb.innerHTML=`${ic('sel',14)}Date <span class="val">${r[0]}</span>`;
+  const run={};Object.keys(OPEN).forEach(k=>run[k]=OPEN[k]);
+  const all=v.lines.map(l=>{run[l.b]=Math.round((run[l.b]+l.a)*100)/100;return{...l,after:run[l.b]}});
+  const q=bq.toLowerCase().replace(/[.\s]/g,'');
+  const rows=all.filter(l=>(btab==='all'||l.b===btab)&&l.t>=r[2]&&(!q||[l.ref[1],l.d,String(Math.abs(l.a)),l.id].join(' ').toLowerCase().replace(/[.\s]/g,'').includes(q))).reverse();
+  const pill=l=>[l.st?`<span class="st ${l.st[1]}">${l.st[0]}</span>`:'',v.early&&l.early?'<span class="st pu">Early settlement</span>':'',l.rev?'<span class="st gr">Correction</span>':'',btab==='all'?`<span>${BNAME[l.b]}</span>`:''].filter(Boolean).join('');
+  document.getElementById('bl-body').innerHTML=rows.length?rows.map(l=>{const open=bopen===l.i;
+    let x='';if(open){const wf=l.wf&&!(v.invoice);
+      x=`<tr class="bl-x"><td colspan="5"><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl>
+      ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{rate:'Opens the fee rate',fin:'Opens '+MCA_ID+' in Merchant Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
+      <div class="bl-acts"><button class="btn btn-o" data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}">${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
+    return`<tr data-bl="${l.i}" class="${open?'open':''}"><td class="date">${fdate(l.t)}</td><td class="bl-desc"><b>${l.d}</b><span class="src">${pill(l)}</span></td><td class="num dr">${l.a<0?rp2(-l.a):''}</td><td class="num cr">${l.a>=0?rp2(l.a):''}</td><td class="num">${rp2(l.after)}</td></tr>${x}`}).join('')
+    :`<tr><td colspan="5" style="height:auto;border:0;cursor:default"><div class="empty"><b>${v.lines.length?'No matching lines':'No movements yet'}</b>${v.lines.length?'Try another reference, amount or date range.':'Your first sale or top-up shows up here.'}</div></td></tr>`;
+  /* foot: opening + movements = closing, per balance */
+  const keys=btab==='all'?['active','reserve','charges','pending']:[btab];
+  document.getElementById('bl-foot').innerHTML=`<span>${r[1]}</span>`+keys.map(k=>{const ls=all.filter(l=>l.b===k);const before=ls.filter(l=>l.t<r[2]);const op=before.length?before[before.length-1].after:(v.lines.length?OPEN[k]:0);const mv=Math.round(ls.filter(l=>l.t>=r[2]).reduce((s,l)=>s+l.a,0)*100)/100;return`<span>${BNAME[k]}: opening <b class="num">${rp2(op)}</b> + movements <b class="num">${rp2(mv)}</b> = closing <b class="num">${rp2(Math.round((op+mv)*100)/100)}</b></span>`}).join('');
+}
+/* detail panels (one per tile) */
+function balPanel(k){const v=bv();let h='';
+  const head=(icon,t)=>`<div class="dh"><span class="kind">${ic(icon,15)}${t}</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>`;
+  if(k==='active'){const out=LEDGER.filter(l=>l.out);h=head('wallet','Active balance')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.active)}</b></div><p class="d-sub">Ready to withdraw or use. Excludes pending sales, the reserve and withdrawals being paid out.</p><div class="d-acts"><button class="btn btn-p" data-withdraw ${v.frozen||v.active<=0?'disabled':''}>Withdraw</button><button class="btn btn-o" data-bstmt="active">See the statement</button></div>
+    ${out.length&&BS!=='new'?`<div class="dsec"><h5>Being paid out</h5>${out.map(l=>`<dl class="kv"><dt>${l.ref[1]}</dt><dd class="num">${rp2(-l.a)} · <span class="st ${l.st[1]}">${l.st[0]}</span></dd></dl><p class="d-sub">Retrying after a temporary bank error. It stays "Processing" while we keep trying.</p>`).join('')}</div>`:''}
+    <div class="dsec"><h5>What moves it</h5><dl class="kv"><dt>Money in</dt><dd>Completed and settled orders, top-ups, QRIS and EDC sales, bank transfers, reserve releases, returned withdrawals, refunded fees</dd><dt>Money out</dt><dd>Withdrawals, shipping paid from the wallet, financing repayment, charges due, reserve top-ups, refunds to shoppers</dd></dl></div></div>`}
+  if(k==='reserve'){h=head('coins','Reserve')+`<div class="db"><div class="d-amt"><b class="num">${v.policy?rp2(v.reserve):'Not required'}</b>${v.short?`<span class="st ${v.short>=VIP_LIMIT?'bad':'warn'}">Shortfall ${rp(v.short)}</span>`:''}</div><p class="d-sub">Your own money, set aside while a risk is still open. It can't be withdrawn, pays your charges due first, and flows back the moment the risk clears.</p>
+    ${v.policy?`<div class="dsec"><h5>Reserve card</h5><dl class="kv"><dt>Reserve</dt><dd class="num">${rp2(v.reserve)}</dd><dt>Target now</dt><dd class="num">${rp2(v.target)}</dd><dt>Shortfall</dt><dd class="num">${rp2(v.short)} of the ${rp(VIP_LIMIT)} VIP limit</dd><dt>Next releases</dt><dd>${RESERVE.card.map(c=>`${rp(c[2])} back on ${c[3]}`).join('<br>')}</dd></dl></div>
+    <div class="dsec"><h5>VIP parcels</h5>${RESERVE.vip.map(p=>`<dl class="kv"><dt>AWB ${p[0]}</dt><dd><span class="num">${rp(p[3])}</span> · ${p[1]} · ${p[2]}<br><span class="src">Released when: ${p[4].toLowerCase()}</span></dd></dl>`).join('<div style="height:8px"></div>')}</div>
+    <div class="dsec"><h5>Card payments</h5>${RESERVE.card.map(c=>`<dl class="kv"><dt>${c[0]}</dt><dd><span class="num">${rp(c[2])}</span> held · settled ${c[1]} · released ${c[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>
+    <div class="dsec"><h5>Reserve settings</h5><dl class="kv"><dt>VIP shipping</dt><dd>Shipping fee after FLIK's subsidy + VIP commission per open parcel · since 1 Jun 2026</dd><dt>Card payments</dt><dd>10% of each card payment for 14 days · since 1 Jun 2026</dd><dt>Changes</dt><dd>Made by FLIK only, and shown in the history with their effective date</dd></dl></div>
+    <div class="d-acts"><button class="btn btn-o" data-bstmt="reserve">See the reserve history</button></div>`:`<div class="dsec"><h5>Reserve settings</h5><p class="d-sub">No reserve policy applies to your account. QRIS and virtual account payments are never held.</p></div>`}</div>`}
+  if(k==='charges'){h=head('doc','Charges due')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.charges)}</b><span class="st gr">${v.chargesN} open</span></div><p class="d-sub">Collected automatically as money comes in, from the reserve first and then the active balance, oldest first, never more than is owed.</p>
+    <div class="dsec"><h5>Open</h5>${CHARGES.open.map(c=>`<dl class="kv"><dt>${c[0]}</dt><dd><b style="font-weight:500">${c[1]}</b><br>${c[2]} · <span class="num">${rp(c[3])}</span> · collected <span class="num">${rp(c[4])}</span> · still owed <span class="num">${rp(c[3]-c[4])}</span><br><button class="lnk" style="color:var(--primary);font-size:12.5px" data-toast="Opens the parcel's tracking and the courier's bill">Open the parcel</button></dd></dl>`).join('<div style="height:10px"></div>')}</div>
+    <div class="dsec"><h5>Settled</h5>${CHARGES.settled.map(c=>`<dl class="kv"><dt>${c[0]}</dt><dd>${c[1]} · ${c[2]} · <span class="num">${rp(c[3])}</span><br><span class="src">${c[4]}</span></dd></dl>`).join('<div style="height:10px"></div>')}</div></div>`}
+  if(k==='pending'){h=head('clock','Pending')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.pending)}</b></div><p class="d-sub">Money not usable yet: the order isn't complete, or FLIK hasn't received the payment from the bank or payment provider.</p>
+    ${v.pending?`<div class="dsec"><h5>${PENDING.orders.length} orders not complete</h5>${PENDING.orders.map(o=>`<dl class="kv"><dt>${o[0]}</dt><dd><span class="num">${rp(o[2])}</span> · ${o[1]} · expected ${o[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>
+    <div class="dsec"><h5>${PENDING.pay.length} payments awaiting settlement</h5>${PENDING.pay.map(o=>`<dl class="kv"><dt>${o[0]}</dt><dd><span class="num">${rp(o[2])}</span> · ${o[1]} · expected ${o[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>`:'<div class="dsec"><p class="d-sub">Nothing pending.</p></div>'}</div>`}
+  if(k==='invoice'){h=head('invoice','Monthly invoice')+`<div class="db"><div class="d-amt"><b class="num">${rp2(1250000)}</b></div><p class="d-sub">Your charges appear on the monthly invoice instead of as wallet deductions.</p><div class="dsec"><h5>This month</h5><dl class="kv"><dt>Invoice</dt><dd>INV-FLIK-2026-10, issued on 1 Nov</dd><dt>Receivable</dt><dd class="num">${rp2(1250000)}</dd><dt>Credit limit</dt><dd class="num">${rp2(10000000)}</dd></dl></div></div>`}
+  drawer.innerHTML=h;drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
+  drawer.querySelector('[data-dclose]').onclick=closeDetail;
+}
+/* withdraw: charges due are settled first, then the rest goes to the bank */
+function withdrawModal(){const v=bv();if(v.frozen){toast('Withdrawals are paused on your account');return}
+  let amt=Math.floor(v.active);const owed=v.charges;
+  const draw=()=>{const settle=Math.min(owed,amt),bank=Math.max(0,amt-settle),ok=amt>=10000&&amt<=v.active;
+    modal.innerHTML=`<div class="mh"><h3>Withdraw</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><div class="fld"><label for="wamt">Amount</label><input id="wamt" class="num" value="${amt.toLocaleString('id-ID')}" inputmode="numeric"><p class="hint">Active balance ${rp(v.active)}</p></div>
+    <dl class="sum-kv"><dt>Requested</dt><dd class="num">${rp(amt)}</dd><dt>Charges due settled first</dt><dd class="num">−${rp(settle)}</dd><dt>To your bank</dt><dd class="num"><b>${rp(bank)}</b></dd><dt>Payout fee</dt><dd class="num">Rp0 (incl. VAT)</dd><dt>Bank account</dt><dd>BCA •••• 4521 · PT Aruna Studio Indonesia</dd></dl></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="wgo" ${ok?'':'disabled'}>Withdraw ${rp(bank)}</button></div>`;
+    const i=document.getElementById('wamt');i.oninput=()=>{const p=i.selectionStart;amt=+i.value.replace(/\D/g,'')||0;draw();const n=document.getElementById('wamt');n.focus();n.setSelectionRange(n.value.length,n.value.length)};
+    document.getElementById('wgo').onclick=()=>{const id='WD-2610-'+String(13+LEDGER.filter(l=>l.ref[1].startsWith('WD-')&&l.mine).length).padStart(4,'0'),now=LD(14,16,20+LEDGER.length%30);
+      if(settle)LEDGER.push({t:now,b:'active',d:'Charges due settled before withdrawal '+id,ref:['Withdrawal ID',id],a:-settle,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
+      LEDGER.push({t:now,b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID',id],a:-bank,st:['Being paid out','warn'],out:1,mine:1,note:`Requested ${rp(amt)}: ${rp(settle)} charges due settled first, ${rp(bank)} to your bank`,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
+      if(settle)LEDGER.push({t:now,b:'charges',d:'Collected before withdrawal '+id,ref:['Withdrawal ID',id],a:-settle,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
+      CLOSE.active=Math.round((CLOSE.active-amt)*100)/100;CLOSE.charges=Math.max(0,CLOSE.charges-settle);if(settle>=owed){CHARGES.settled=CHARGES.open.map(c=>[c[0],c[1],c[2],c[3],'Paid before withdrawal '+id]).concat(CHARGES.settled);CHARGES.open=[]}
+      closeModal();closeDetail();document.getElementById('balv').textContent=rp(CLOSE.active);toast(`${rp(bank)} on its way to BCA •••• 4521`);renderBal()}};
+  draw();mscrim.classList.add('open')}
+/* events */
+document.getElementById('bl-tiles').addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){e.stopPropagation();withdrawModal();return}const t=e.target.closest('[data-panel]');if(t)balPanel(t.dataset.panel)});
+document.getElementById('bl-tiles').addEventListener('keydown',e=>{const t=e.target.closest('[data-panel]');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();balPanel(t.dataset.panel)}});
+drawer.addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){withdrawModal();return}const s=e.target.closest('[data-bstmt]');if(s){btab=s.dataset.bstmt;closeDetail();renderBal();document.getElementById('bl-tabs').scrollIntoView({behavior:'smooth',block:'start'})}});
+document.getElementById('bl-banners').addEventListener('click',e=>{if(e.target.closest('#bl-topres'))topupModal()});
+document.getElementById('bl-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-bt]');if(b){btab=b.dataset.bt;bopen=null;renderBal()}});
+document.getElementById('bl-body').addEventListener('click',e=>{if(e.target.closest('.bl-x'))return;const tr=e.target.closest('tr[data-bl]');if(tr){const i=+tr.dataset.bl;bopen=bopen===i?null:i;renderBal()}});
+document.getElementById('bl-q').oninput=e=>{bq=e.target.value.trim();renderBal()};
+document.getElementById('bl-range').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  pop.innerHTML=`<h6>Date range</h6>${[['month','This month'],['week','Last 7 days'],['today','Today']].map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${brange===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+  pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{brange=o.dataset.v;closePop();renderBal()});placePop(b)};
+document.getElementById('bl-state').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${BSTATES.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${BS===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+  pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{BS=o.dataset.v;bopen=null;closePop();renderBal()});placePop(b,true)};
+document.getElementById('bl-export').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  pop.innerHTML=`<div class="menu"><h6>Export the statement</h6><button class="opt" data-x="csv">${ic('sheet',15)}CSV, this range</button><button class="opt" data-x="pdf">${ic('doc',15)}PDF, this range</button></div>`;
+  pop.querySelector('[data-x="csv"]').onclick=()=>{closePop();const v=bv();const run={...OPEN};const rows=[['Date (WIB)','Business date','Balance','Description','Reference','Entry ID','Debit','Credit','Running balance']];
+    v.lines.forEach(l=>{run[l.b]=Math.round((run[l.b]+l.a)*100)/100;rows.push([fdateY(l.t),fday(l.t),BNAME[l.b],l.d,l.ref[0]+' '+l.ref[1],l.id,l.a<0?(-l.a).toFixed(2):'',l.a>=0?l.a.toFixed(2):'',run[l.b].toFixed(2)])});
+    Object.keys(OPEN).forEach(k=>rows.push(['','',BNAME[k],'Opening '+OPEN[k].toFixed(2)+' + movements = closing '+run[k].toFixed(2),'','','','','']));
+    const csv=rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='flik-statement-2026-10.csv';a.click();toast('Statement exported as CSV')};
+  pop.querySelector('[data-x="pdf"]').onclick=()=>{closePop();toast('Preparing the PDF statement')};placePop(b,true)};
+document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class="dh"><span class="kind">${ic('doc',15)}Monthly statements</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><p class="d-sub">Generated automatically on the 1st of each month, as a PDF on FLIK letterhead.</p>${[['September 2026','ST-2026-09-0042',3912400,4088480.25],['August 2026','ST-2026-08-0042',2750000,3912400],['July 2026','ST-2026-07-0042',1180500,2750000]].map(m=>`<div class="dsec"><h5>${m[0]}</h5><dl class="kv"><dt>Statement number</dt><dd>${m[1]}</dd><dt>Opening</dt><dd class="num">${rp2(m[2])}</dd><dt>Closing</dt><dd class="num">${rp2(m[3])}</dd></dl><div class="d-acts"><button class="btn btn-o" data-toast="Downloading ${m[1]}.pdf">${ic('export',15)}Download PDF</button></div></div>`).join('')}</div>`;
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.querySelector('[data-dclose]').onclick=closeDetail};
+
 /* ===== Simple router: #home / #transactions ===== */
-const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance']};
+const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance'],bal:['balances','Balances']};
 const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'?'shp':location.hash==='#merchant-cash-advance/apply'?'mca':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
@@ -1578,6 +1800,7 @@ function show(view){
   document.title=VIEWS[view][1]+' | FLIK Dashboard';
   if(home)drawChart();
   if(view==='mca')renderMca();
+  if(view==='bal')renderBal();
   if(view==='shp'){renderShp();nav.querySelector('[data-view="shp"]').closest('.grp').classList.add('open')}
   if(view==='inv'){renderInv();nav.querySelector('[data-view="inv"]').closest('.grp').classList.add('open')}
   closeDetail();setSide(false);scrollTo(0,0);

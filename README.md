@@ -16,6 +16,7 @@ Tokens, components and guidelines for the FLIK marketing site and merchant dashb
 | `components/<Name>/README.md` | When to use it, how it behaves, what not to do |
 | `assets/Logos/` | The real FLIK wordmark and F mark. Never redraw them |
 | `tailwind/` | **Tailwind CSS v4 version**: `theme.css` (the FLIK theme), every component and the full dashboard in utility classes, and a gallery ([guide](tailwind/README.md)) |
+| `skills/design-qa/` | **Design QA skill** for AI tools: checks a page for missing states, spacing, colours, type, copy and accessibility against this system ([SKILL.md](skills/design-qa/SKILL.md)) |
 | `dashboard/index.html` | The newest merchant dashboard prototype as one HTML file, to reuse its structure ([guide](dashboard/README.md)) |
 
 ## Reference dashboard
@@ -87,10 +88,12 @@ Line icons on a 24px grid, 1.7px stroke (2px at 14px and below), round caps and 
 
 Use the files in **Logos**; never redraw them. The wordmark goes top-left in every header (30px tall on marketing, the F mark at 16–28px in the dashboard account switcher and app icons). Keep clear space of at least the height of the F around the logo. Put it on `surface` or `surface-alt` only; on the `dark` band use the F mark alone on a white tile.
 
+**Partner logos.** Bank, e-wallet, QRIS and courier logos are in `assets/Logos/payment/` and `assets/Logos/courier/`. Show them with `PartnerLogo`, always beside the name; never as coloured text or initials.
+
 ## Using the components
 
 **Reuse first.** Whenever you build with the FLIK Design System (website, dashboard, any new page or flow), always use the existing components and their markup first. Combine and configure what is here before you create anything. Only when nothing fits, propose a new component: add it to the system with a preview, a guide (when to use it, what to avoid) and its styles in `components/bundle.css`, get it approved, then use it. No one-off buttons, cards, tables, badges or form fields inside a page.
 
-Load `tokens.css`, then `components/bundle.css`. Every class starts with `fl-`. Wrap marketing markup in `.fl` and dashboard markup in `.fl fl-app` so each gets its base text style. Components are plain HTML and CSS; copy the markup from each component's preview and add your own behaviour (open/close, sorting). Marketing components: Button, TextLink, Pill, SectionHeading, StatGrid, ResourceCard, FAQ, Header, CodePanel. Product components: AppButton, StatusBadge, FilterChip, Tabs, SegmentedControl, DataTable, KPICard, FormField, Checkbox, PopoverMenu, Modal, Toast, SidebarNav, SearchField. Product flows (the v4 Customers, Invoices and Shipments pages): PageHeader, EmptyState, FlowShell, Stepper, OptionCard, RadioList, ChoicePills, Combobox, EntityCard, LineItems, CollapsibleCard, CourierServiceCard, SummaryPanel, PaymentCards, DocumentPreview, SuccessBanner.
+Load `tokens.css`, then `components/bundle.css`. Every class starts with `fl-`. Wrap marketing markup in `.fl` and dashboard markup in `.fl fl-app` so each gets its base text style. Components are plain HTML and CSS; copy the markup from each component's preview and add your own behaviour (open/close, sorting). Marketing components: Button, TextLink, Pill, SectionHeading, StatGrid, ResourceCard, FAQ, Header, CodePanel. Product components: AppButton, StatusBadge, FilterChip, Tabs, SegmentedControl, DataTable, KPICard, FormField, Checkbox, PopoverMenu, Modal, Toast, SidebarNav, SearchField, PartnerLogo. Product flows (the v4 Customers, Invoices and Shipments pages): PageHeader, EmptyState, FlowShell, Stepper, OptionCard, RadioList, ChoicePills, Combobox, EntityCard, LineItems, CollapsibleCard, CourierServiceCard, SummaryPanel, PaymentCards, DocumentPreview, SuccessBanner.
 
 Do not add back: sidebar search, breadcrumbs, row chevrons, helper subtitles under titles, orange or gradient buttons, pastel card tiles.

@@ -162,6 +162,19 @@ cover = ('<svg viewBox="488 0 472 288" role="img" aria-label="FLIK brand colours
          '<line x1="884" y1="0" x2="884" y2="288" stroke="var(--surface)" stroke-width="1.5"/></svg>')
 counts = sum(len(v) for v in comps.values())
 
+# ---------- Partner logos (payment and courier) ----------
+PARTNER_NAMES = {"bca": "BCA", "bni": "BNI", "bri": "BRI", "bsi": "BSI", "mandiri": "Mandiri", "permata": "Permata", "dana": "DANA",
+                 "gopay": "GoPay", "ovo": "OVO", "qris": "QRIS", "shopeepay": "ShopeePay", "anteraja": "AnterAja", "deliveree": "Deliveree",
+                 "gosend": "GoSend", "grabexpress": "GrabExpress", "idexpress": "ID Express", "jne": "JNE", "jnt": "J&T Express",
+                 "lalamove": "Lalamove", "lionparcel": "Lion Parcel", "mrspeedy": "Mr. Speedy", "ninjaxpress": "Ninja Xpress", "paxel": "Paxel",
+                 "rpx": "RPX", "sap": "SAP Express", "sicepat": "SiCepat", "spx": "SPX Express", "tiki": "TIKI", "wahana": "Wahana"}
+partners_html = ""
+for kind, title in (("payment", "Payment"), ("courier", "Couriers")):
+    files = sorted(f[:-4] for f in os.listdir(P("assets", "Logos", kind)) if f.endswith(".png"))
+    partners_html += f'<h3>{title}</h3><div class="plogos">' + "".join(
+        f'<div class="fl-pm"><img class="fl-plogo fl-plogo--lg" src="assets/Logos/{kind}/{k}.png" alt="">'
+        f'<span>{esc(PARTNER_NAMES.get(k, k))}<code>{kind}/{k}.png</code></span></div>' for k in files) + "</div>"
+
 PAGE = f'''<!doctype html>
 <html lang="en">
 <head>
@@ -254,6 +267,7 @@ h3{{font-size:18px;font-weight:600;color:var(--app-ink);margin:40px 0 4px}}
 .logo.dk{{background:var(--dark)}}
 .logo.dk .tile{{background:#fff;border-radius:10px;padding:10px;display:flex}}
 .logo.dk .tile img{{height:32px}}
+.plogos{{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 20px;margin-top:12px}}.plogos .fl-pm span{{display:flex;flex-direction:column;font-size:14px;color:var(--app-ink)}}.plogos code{{font:12px var(--font-mono,monospace);color:var(--app-muted)}}
 .logo-cap{{font-size:13px;color:var(--app-muted);margin-top:8px}}
 /* writing */
 .write{{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:0;list-style:none;margin:28px 0 0}}
@@ -266,7 +280,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 @media (max-width:900px){{
   .x-hero .in{{grid-template-columns:1fr;padding:48px 16px 40px}}.x-hero h1{{font-size:38px}}
   .top .in,main,footer .in{{padding-left:16px;padding-right:16px}}
-  .pal{{grid-template-columns:repeat(2,1fr)}}.logos,.write{{grid-template-columns:1fr 1fr}}
+  .pal{{grid-template-columns:repeat(2,1fr)}}.logos,.write,.plogos{{grid-template-columns:1fr 1fr}}
   .ty{{grid-template-columns:1fr;gap:8px}}.ty .sample{{font-size:min(100%,34px)}}
 }}
 @media (max-width:560px){{.top .t{{display:none}}.pal,.logos,.write{{grid-template-columns:1fr}}.sp{{grid-template-columns:1fr 70px}}.sp .bar{{grid-column:1/-1}}}}
@@ -302,7 +316,8 @@ footer .in{{max-width:1180px;margin:0 auto;padding:28px 24px;display:flex;gap:16
 <div class="logos"><div><div class="logo"><img src="assets/Logos/flik-wordmark.svg" alt="FLIK wordmark"></div><p class="logo-cap">Wordmark, on white. Header of every page.</p></div>
 <div><div class="logo" style="background:var(--surface-alt)"><img src="assets/Logos/flik-wordmark.svg" alt="FLIK wordmark"></div><p class="logo-cap">Wordmark, on the light grey band.</p></div>
 <div><div class="logo"><img src="assets/Logos/flik-mark.svg" alt="FLIK F mark"></div><p class="logo-cap">F mark: app icon, account switcher.</p></div>
-<div><div class="logo dk"><span class="tile"><img src="assets/Logos/flik-mark.svg" alt="FLIK F mark"></span></div><p class="logo-cap">F mark on a white tile, on navy.</p></div></div></section>
+<div><div class="logo dk"><span class="tile"><img src="assets/Logos/flik-mark.svg" alt="FLIK F mark"></span></div><p class="logo-cap">F mark on a white tile, on navy.</p></div></div>
+<h3 id="partner-logos">Partner logos</h3><p class="x-lead">Bank, e-wallet, QRIS and courier logos, shown with the <a href="#c-PartnerLogo">PartnerLogo</a> tile. They keep their own colours. Use the PNG files.</p>{partners_html}</section>
 
 <section class="s" id="writing"><h2>Writing</h2><p class="x-lead">How FLIK sounds, on the website and in the dashboard.</p>
 <ul class="write">{writing}</ul></section>
