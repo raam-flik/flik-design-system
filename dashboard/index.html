@@ -517,6 +517,15 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .bl-tile .up{color:var(--muted);font-size:12px;margin-top:auto;padding-top:6px}
 .bl-tile .row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px}
 .bl-btns{display:flex;gap:8px}
+.bl-info{display:grid;gap:8px;margin-top:12px}
+.bl-strip{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;width:100%;text-align:left;padding:12px 16px;border-radius:8px;background:var(--hover);color:var(--muted);font-size:13.5px;cursor:pointer}
+.bl-strip:hover{box-shadow:var(--sh)}
+.bl-strip b{font-weight:600;color:var(--ink)}
+.bl-strip .ex{flex:1 1 240px;min-width:0}
+.bl-strip .lnk{color:var(--primary);font-weight:500}
+.bl-owed{cursor:pointer}
+.bl-tbl.owed td.cr{color:var(--ink);font-weight:400}
+.bl-tbl tr.bl-in td{cursor:default}
 .bl-acct{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
 .bl-acct .plg{width:20px;height:20px;border-radius:5px}
 .bl-acctb{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:500;padding:2px 4px;margin:-2px -4px;border-radius:6px;white-space:nowrap}
@@ -695,6 +704,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <div class="ph"><h1>Balances</h1><div class="fright" style="margin-left:auto"><button class="chip" id="bl-state" title="Prototype control: preview the states the spec asks for"></button><button class="btn btn-o" id="bl-monthly"><span data-ic="doc"></span>Monthly statements</button></div></div>
       <div id="bl-banners"></div>
       <div class="bl-tiles" id="bl-tiles"></div>
+      <div class="bl-info" id="bl-info"></div>
       <h2 class="sec">Statement</h2>
       <div class="tabs" id="bl-tabs" role="tablist"></div>
       <div class="filters">
@@ -702,7 +712,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
         <button class="chip" id="bl-range"></button>
         <div class="fright"><button class="btn btn-o" id="bl-export"><span data-ic="export"></span>Export</button></div>
       </div>
-      <div class="tbl-wrap"><table class="bl-tbl"><thead><tr><th>Date (WIB)</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead><tbody id="bl-body"></tbody></table></div>
+      <div class="tbl-wrap"><table class="bl-tbl"><thead id="bl-head"></thead><tbody id="bl-body"></tbody></table></div>
       
     </main>
     <main class="content" id="view-tx">
@@ -1647,94 +1657,120 @@ const MCA_ID='MCA-2026-0011',FIN=.10;
 const fin=n=>-Math.round(n*FIN*100)/100;
 let LEDGER=[
  {t:LD(1,9,12),b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID','WD-2610-0007'],a:-3000000,st:['Paid','ok'],note:'Paid on 1 Oct 2026, 14:20 WIB'},
- {t:LD(3,10,5),b:'active',d:'Checkout order completed',ref:['Order ID','ORD-2026-10391'],wf:[['Card payment received',1000000],['Payment fee · card, 2%',-20000,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-98000,'fin'],['Charges due settled',0],['Set aside in reserve · card policy, 10% for 14 days',-100000,'rsv']]},
+ {t:LD(3,10,5),b:'active',d:'Checkout order completed',ref:['Order ID','ORD-2026-10391'],wf:[['Card payment received',1000000],['Payment processing · card (incl. VAT)',-4440,'pg'],['FLIK fee',-15560,'flik'],['Financing repayment · 10% of money in, '+MCA_ID,-98000,'fin'],['Charges due settled',0],['Set aside in reserve · card policy, 10% for 14 days',-100000,'rsv']]},
  {t:LD(3,10,5),b:'reserve',d:'Set aside from order ORD-2026-10391 · card policy, 10% for 14 days',ref:['Order ID','ORD-2026-10391'],a:100000,note:'Released on 18 Oct 2026'},
  {t:LD(4,16,40),b:'active',d:'Shipping booked and paid from the wallet',ref:['AWB','JNE0048812'],a:-27000},
- {t:LD(6,8,55),b:'charges',d:'Return fee · parcel returned to sender',ref:['AWB','SPX7731'],a:15000},
- {t:LD(6,11,30),b:'active',d:'Wallet top-up · BCA virtual account',ref:['Top-up ID','TU-2610-0021'],early:1,wf:[['Top-up received',2000000],['Payment fee · virtual account, Rp4.000',-4000,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-199600,'fin'],['Charges due settled · return fee AWB SPX7731',-15000,'cd'],['Set aside in reserve · VIP shortfall',-200000,'rsv']]},
- {t:LD(6,11,30),b:'charges',d:'Collected from top-up TU-2610-0021',ref:['Top-up ID','TU-2610-0021'],a:-15000},
+ {t:LD(6,8,55),b:'active',d:'Return fee · parcel returned to sender',ref:['AWB','SPX7731'],a:-15000},
+ {t:LD(6,11,30),b:'active',d:'Wallet top-up · BCA virtual account',ref:['Top-up ID','TU-2610-0021'],early:1,wf:[['Top-up received',2000000],['Payment processing · virtual account (incl. VAT)',-4440,'pg'],['Financing repayment · 10% of money in, '+MCA_ID,-199600,'fin'],['Charges due settled',0],['Set aside in reserve · VIP shortfall',-200000,'rsv']]},
  {t:LD(6,11,30),b:'reserve',d:'Set aside from top-up TU-2610-0021 · VIP shortfall',ref:['Top-up ID','TU-2610-0021'],a:200000},
  {t:LD(8,13,15),b:'active',d:'Reserve released · card payment cleared after 14 days',ref:['Payment ID','PAY-0921-2231'],a:100000},
  {t:LD(8,13,15),b:'reserve',d:'Released: card payment PAY-0921-2231 cleared',ref:['Payment ID','PAY-0921-2231'],a:-100000},
  {t:LD(9,9,0),b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID','WD-2610-0009'],a:-1500000,st:['Returned','bad']},
  {t:LD(9,15,10),b:'active',d:'Withdrawal WD-2610-0009 returned: bank rejected (account closed)',ref:['Withdrawal ID','WD-2610-0009'],a:1500000,fix:'bank'},
- {t:LD(10,12,45),b:'active',d:'Bank transfer from GoFood outlet G-20311',ref:['Transfer ID','BT-2610-0118'],wf:[['Transfer received',845000],['Payment fee',0],['Financing repayment · 10% of money in, '+MCA_ID,-84500,'fin'],['Charges due settled',0],['Set aside in reserve',0]]},
+ {t:LD(10,12,45),b:'active',d:'Bank transfer from GoFood outlet G-20311',ref:['Transfer ID','BT-2610-0118'],wf:[['Transfer received',845000],['Payment processing',0],['Financing repayment · 10% of money in, '+MCA_ID,-84500,'fin'],['Charges due settled',0],['Set aside in reserve',0]]},
  {t:LD(11,10,2),b:'active',d:'Shipping booked and paid from the wallet',ref:['AWB','SPX7790'],a:-18000},
  {t:LD(11,10,2),b:'active',d:'Shipping booked and paid from the wallet',ref:['AWB','SPX7790'],a:-18000,rev:'r1',corr:'Charged twice by mistake'},
  {t:LD(11,10,20),b:'active',d:'Correction: duplicate shipping charge reversed',ref:['AWB','SPX7790'],a:18000,rev:'r1',corr:'Reverses the duplicate charge of 11 Oct, 10:02'},
- {t:LD(12,14,30),b:'active',d:'EDC sale settled · card',ref:['EDC ID','EDC-2610-0457'],early:1,wf:[['Card payment received',650000],['Payment fee · card, 2%',-13000,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-63700,'fin'],['Charges due settled',0],['Set aside in reserve · card policy, 10% for 14 days',-65000,'rsv']]},
+ {t:LD(12,14,30),b:'active',d:'EDC sale settled · card',ref:['EDC ID','EDC-2610-0457'],early:1,wf:[['Card payment received',650000],['Payment processing · card (incl. VAT)',-9000,'pg'],['FLIK fee',-4000,'flik'],['Financing repayment · 10% of money in, '+MCA_ID,-63700,'fin'],['Charges due settled',0],['Set aside in reserve · card policy, 10% for 14 days',-65000,'rsv']]},
  {t:LD(12,14,30),b:'reserve',d:'Set aside from EDC sale EDC-2610-0457 · card policy, 10% for 14 days',ref:['EDC ID','EDC-2610-0457'],a:65000,note:'Released on 27 Oct 2026'},
+ {t:LD(12,16,10),b:'active',d:'COD paid out by the courier',ref:['AWB','SPX7795'],wf:[['COD collected from the shopper',250000],['Shipping fee · SiCepat REG',-14000],['COD fee',-7500],['Financing repayment · 10% of money in, '+MCA_ID,-22850,'fin'],['Charges due settled',0],['Set aside in reserve',0]]},
  {t:LD(13,8,30),b:'pending',d:'Order paid, waiting for completion',ref:['Order ID','ORD-2026-10482'],a:417500},
  {t:LD(13,9,40),b:'active',d:'Refund paid to a shopper',ref:['Order ID','ORD-2026-10402'],a:-125000},
- {t:LD(13,17,20),b:'charges',d:'Return fee · parcel returned to sender',ref:['AWB','SPX7702'],a:20000},
- {t:LD(13,17,30),b:'charges',d:'Collected from the reserve',ref:['AWB','SPX7702'],a:-20000},
- {t:LD(13,17,30),b:'reserve',d:'Used to pay return fee AWB SPX7702',ref:['AWB','SPX7702'],a:-20000},
+ {t:LD(13,17,20),b:'active',d:'Return fee · parcel returned to sender',ref:['AWB','SPX7702'],a:-20000},
  {t:LD(14,9,5),b:'pending',d:'Order paid, waiting for delivery',ref:['Order ID','ORD-2026-10488'],a:489000},
  {t:LD(14,9,40),b:'pending',d:'Order paid, in transit',ref:['Order ID','ORD-2026-10491'],a:312500},
  {t:LD(14,10,30),b:'pending',d:'Order ORD-2026-10482 completed: moved to money in',ref:['Order ID','ORD-2026-10482'],a:-417500},
- {t:LD(14,10,30),b:'active',d:'Checkout order completed · QRIS',ref:['Order ID','ORD-2026-10482'],wf:[['QRIS payment received',417500],['Payment fee · QRIS, 0.7%',-2922.5,'rate'],['Financing repayment · 10% of money in, '+MCA_ID,-41457.75,'fin'],['Charges due settled',0],['Set aside in reserve · QRIS is never held',0]]},
+ {t:LD(14,10,30),b:'active',d:'Checkout order completed · QRIS',ref:['Order ID','ORD-2026-10482'],wf:[['QRIS payment received',417500],['Payment processing · QRIS (incl. VAT)',-2922.5,'pg'],['FLIK fee',-8350,'flik'],['Financing repayment · 10% of money in, '+MCA_ID,-41457.75,'fin'],['Charges due settled',0],['Set aside in reserve · QRIS is never held',0]]},
  {t:LD(14,11,15),b:'pending',d:'Order paid, being packed',ref:['Order ID','ORD-2026-10495'],a:435000},
  {t:LD(14,12,10),b:'active',d:'Withdrawal to BCA •••• 4521',ref:['Withdrawal ID','WD-2610-0012'],a:-500000,st:['Processing, slightly delayed','warn'],out:1},
- {t:LD(14,13,5),b:'charges',d:'Shipping fee increase · re-weighed, Rp18.000 → Rp27.000',ref:['AWB','JNE0051120'],a:9000},
- {t:LD(14,14,0),b:'active',d:'Fee refunded · payment fee on ORD-2026-10391',ref:['Order ID','ORD-2026-10391'],wf:[['Fee refund received',4000],['Payment fee',0],['Financing repayment · 10% of money in, '+MCA_ID,-400,'fin'],['Charges due settled · part of the fee increase AWB JNE0051120',-3600,'cd'],['Set aside in reserve',0]]},
- {t:LD(14,14,0),b:'charges',d:'Collected from fee refund ORD-2026-10391 (part)',ref:['AWB','JNE0051120'],a:-3600},
+ {t:LD(14,13,5),b:'active',d:'Shipping fee increase · re-weighed, Rp18.000 → Rp27.000',ref:['AWB','JNE0051120'],a:-9000},
+ {t:LD(14,14,0),b:'active',d:'Fee refunded · payment fee on ORD-2026-10391',ref:['Order ID','ORD-2026-10391'],wf:[['Fee refund received',4000],['Payment processing',0],['Financing repayment · 10% of money in, '+MCA_ID,-400,'fin'],['Charges due settled',0],['Set aside in reserve',0]]},
  {t:LD(14,14,20),b:'pending',d:'Card payments awaiting settlement · 14 Oct batch',ref:['Payment batch','CB-2610-14'],a:650000},
  {t:LD(14,14,45),b:'pending',d:'Top-up awaiting settlement · BCA virtual account',ref:['Top-up ID','TU-2610-0024'],a:300000},
- {t:LD(14,15,20),b:'charges',d:'Return fee · parcel returned to sender',ref:['AWB','SPX8815'],a:15000}];
-const CLOSE={active:4523800,reserve:1240000,charges:20400,pending:2186500};
+ {t:LD(14,15,20),b:'active',d:'Return fee · parcel returned to sender',ref:['AWB','SPX8815'],a:-15000}];
+const CLOSE={active:4523800,reserve:1240000,charges:0,pending:2340500};
 LEDGER.forEach((l,i)=>{l.i=i;l.id='LE-2610-'+String(4100+i);if(l.wf){l.a=Math.round(l.wf.reduce((s,r)=>s+r[1],0)*100)/100}});
 const OPEN={};Object.keys(CLOSE).forEach(k=>OPEN[k]=Math.round((CLOSE[k]-LEDGER.filter(l=>l.b===k).reduce((s,l)=>s+l.a,0))*100)/100);
 const RESERVE={target:1580000,vip:[['SPX8840','SPX Express','In transit',186000,'Delivered'],['JNE0052201','JNE','Out for delivery',154000,'Delivered'],['SPX8811','SPX Express','Delivered, invoice being checked',210000,'Invoice checked'],['LP1120934','Lion Parcel','In transit',525000,'Delivered'],['SPX8862','SPX Express','Picked up, not yet covered',340000,'Delivered']],
   card:[['ORD-2026-10391','3 Oct 2026',100000,'18 Oct 2026'],['EDC-2610-0457','12 Oct 2026',65000,'27 Oct 2026']]};
 const CHARGES={open:[['14 Oct 2026','Return fee: parcel returned to sender','AWB SPX8815',15000,0],['14 Oct 2026','Shipping fee increase: re-weighed, Rp18.000 → Rp27.000','AWB JNE0051120',9000,3600]],
-  settled:[['13 Oct 2026','Return fee: parcel returned to sender','AWB SPX7702',20000,'Paid from the reserve on 13 Oct'],['6 Oct 2026','Return fee: parcel returned to sender','AWB SPX7731',15000,'Paid from top-up TU-2610-0021 on 6 Oct']]};
+  settled:[['10 Oct 2026','Return fee: parcel returned to sender','AWB SPX7650',12000,'Taken from bank transfer BT-2610-0118 on 10 Oct'],['2 Oct 2026','Shipping fee increase: re-weighed','AWB JNE0047710',6000,'Paid with a top-up on 2 Oct']]};
 const PENDING={orders:[['ORD-2026-10488','Waiting for delivery',489000,'16 Oct 2026'],['ORD-2026-10491','In transit',312500,'17 Oct 2026'],['ORD-2026-10495','Being packed',435000,'18 Oct 2026']],
-  pay:[['Card payments · 14 Oct batch','Card, settles 2 business days after payment',650000,'16 Oct 2026'],['Top-up TU-2610-0024','BCA virtual account, settles next business day',300000,'15 Oct 2026']]};
+  pay:[['Card payments · 14 Oct batch','Card, settles 2 business days after payment',650000,'16 Oct 2026'],['Top-up TU-2610-0024','BCA virtual account, settles next business day',300000,'15 Oct 2026'],['COD · AWB JNE0052201','Out for delivery; the courier pays it out after delivery',154000,'17 Oct 2026']]};
+/* "Fees not covered" preview: the active balance ran out, so FLIK fees it couldn't pay became charges due */
+const OWED_LINES=[
+ {t:LD(13,10,0),b:'active',d:'Shipping booked and paid from the wallet',ref:['AWB','SPX8862'],a:-27000},
+ {t:LD(14,13,5),b:'active',d:'Shipping fee increase · re-weighed, Rp18.000 → Rp27.000 (part paid)',ref:['AWB','JNE0051120'],a:-3600},
+ {t:LD(14,13,5),b:'charges',d:'Shipping fee increase · Rp5.400 not covered by the active balance',ref:['AWB','JNE0051120'],a:5400},
+ {t:LD(14,15,20),b:'charges',d:'Return fee · parcel returned to sender, not covered by the active balance',ref:['AWB','SPX8815'],a:15000}];
+OWED_LINES.forEach((l,i)=>{l.i=1000+i;l.id='LE-2610-'+String(5100+i)});
 const VIP_LIMIT=2000000;
-const BSTATES=[['normal','Normal'],['early','Early settlement'],['frozen','Account frozen'],['new','New merchant, no sales'],['noreserve','Reserve not required'],['near','Shortfall near the VIP limit'],['paused','VIP bookings paused'],['invoice','Invoice client']];
-let BS='normal',btab='all',bq='',brange='month',bopen=null;
+const OWE_LIMIT=500000; /* dummy: how far a VIP merchant may owe before new shipments pause */
+const BSTATES=[['normal','Normal'],['early','Early settlement'],['frozen','Account frozen'],['new','New merchant, no sales'],['noreserve','Reserve not required'],['near','Shortfall near the VIP limit'],['paused','VIP bookings paused'],['owed','Fees not covered'],['invoice','Invoice client']];
+let BS='normal',btab='active',bq='',brange='month',bopen=null;
 const UPD='Updated 14 Oct 2026, 16:20 WIB';
 
 /* state: what the page shows for the chosen preview state */
-function bv(){const s=BS,z=s==='new';
+function bv(){const s=BS,z=s==='new',owed=s==='owed';
   const reserveHeld=z||s==='noreserve'?0:CLOSE.reserve;
   const target=z||s==='noreserve'?0:s==='near'?3090000:s==='paused'?3290000:RESERVE.target;
-  return{active:z?0:CLOSE.active,pending:z?0:CLOSE.pending,charges:z||s==='invoice'?0:CLOSE.charges,chargesN:z||s==='invoice'?0:CHARGES.open.length,
-    reserve:reserveHeld,target,short:Math.max(0,target-reserveHeld),policy:!(z||s==='noreserve'),frozen:s==='frozen',invoice:s==='invoice',early:s==='early',lines:z?[]:LEDGER.filter(l=>s!=='noreserve'||l.b!=='reserve')}}
+  const lines=z?[]:owed?[...OWED_LINES,...LEDGER.filter(l=>l.b==='reserve')].sort((a,b)=>a.t-b.t):LEDGER.filter(l=>l.b!=='charges'&&(s!=='noreserve'||l.b!=='reserve'));
+  return{active:z||owed?0:CLOSE.active,pending:z?0:CLOSE.pending,charges:owed?20400:0,chargesN:owed?CHARGES.open.length:0,
+    reserve:reserveHeld,target,short:Math.max(0,target-reserveHeld),policy:!(z||s==='noreserve'),frozen:s==='frozen',invoice:s==='invoice',early:s==='early',lines}}
+/* every wallet's lines with its running balance, worked back from today's closing balances */
+function stmt(v){const close={active:v.active,reserve:v.reserve,charges:v.charges},open={},run={};
+  Object.keys(close).forEach(k=>{open[k]=Math.round((close[k]-v.lines.filter(l=>l.b===k).reduce((s,l)=>s+l.a,0))*100)/100;run[k]=open[k]});
+  const all=v.lines.filter(l=>l.b in close).map(l=>{run[l.b]=Math.round((run[l.b]+l.a)*100)/100;return{...l,after:run[l.b]}});
+  return{open,all}}
 function renderBal(){const v=bv();
   document.getElementById('bl-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${BSTATES.find(x=>x[0]===BS)[1]}</span>`;
   document.getElementById('bl-state').classList.add('set');
-  /* banners */
+  /* banners: money owed to FLIK first (a bill, not a wallet), then account notices */
   let bn='';
+  if(v.charges>0)bn+=`<div class="bl-banner bl-owed" role="button" tabindex="0" data-panel="charges">${ic('warn',16)}<div><b>You owe FLIK ${rp(v.charges)}.</b> ${v.chargesN} fees your active balance couldn't cover, collected from your reserve first, then from money coming in. New shipments pause above ${rp(OWE_LIMIT)}.</div><button class="btn btn-o" id="bl-payowed">Pay now</button></div>`;
   if(v.frozen)bn+=`<div class="bl-banner bad">${ic('warn',16)}<div><b>Withdrawals are paused on your account.</b> We need to re-check your identity documents. Sales, collections and reserve releases carry on, and a withdrawal we already accepted still completes. Contact your account manager or support@flik.co.id.</div><button class="btn btn-o" data-toast="Opens customer service on WhatsApp">Contact us</button></div>`;
   if(BS==='near')bn+=`<div class="bl-banner">${ic('warn',16)}<div><b>Reserve shortfall ${rp(v.short)}.</b> New VIP bookings pause at ${rp(VIP_LIMIT)}, ${rp(VIP_LIMIT-v.short)} from now. Prepaid bookings stay open.</div><button class="btn btn-o" id="bl-topres">Top up balance</button></div>`;
   if(BS==='paused')bn+=`<div class="bl-banner bad">${ic('warn',16)}<div><b>New VIP bookings are paused.</b> The reserve shortfall is ${rp(v.short)}, over the ${rp(VIP_LIMIT)} limit. Add more than ${rp(v.short-VIP_LIMIT)} to the reserve to reopen them; prepaid bookings stay open.</div><button class="btn btn-o" id="bl-topres">Top up balance</button></div>`;
   document.getElementById('bl-banners').innerHTML=bn;
-  /* tiles: active, reserve, charges due, pending */
+  /* wallets: money you hold */
   const t=[];
-  t.push(`<div class="bl-tile main" role="button" tabindex="0" data-panel="active"><span class="kpi-l">Active balance<span class="src" title="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance" aria-label="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance">${ic('help',14)}</span></span><div class="row"><div class="kpi-v"><b class="num">${rp(v.active)}</b></div><div class="bl-btns"><button class="btn btn-o" data-withdraw ${v.frozen||v.active<=0?'disabled':''} title="${v.frozen?'Withdrawals are paused on your account':''}">Withdraw</button><button class="btn btn-p" data-buy>Buy credits</button></div></div><span class="bl-acct">Withdraws to<button class="bl-acctb" data-chacct title="Change withdrawal account" aria-label="Withdrawal account ${acctL()}, change"><img class="plg" src="${IMG}payment/${ACCOUNTS[ACCT].k}.png" alt="">${acctL()}${ic('sel',14)}</button></span><span class="ex">Ready to withdraw or use</span>${LEDGER.some(l=>l.out)&&BS!=='new'?`<span class="bl-sub"><span>${rp(LEDGER.filter(l=>l.out).reduce((s,l)=>s-l.a,0))} being paid out</span></span>`:''}<span class="up">${UPD}</span></div>`);
+  t.push(`<div class="bl-tile main" role="button" tabindex="0" data-panel="active"><span class="kpi-l">Active balance<span class="src" title="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance" aria-label="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance">${ic('help',14)}</span></span><div class="row"><div class="kpi-v"><b class="num">${rp(v.active)}</b></div><div class="bl-btns"><button class="btn btn-o" data-withdraw ${v.frozen||v.active<=0?'disabled':''} title="${v.frozen?'Withdrawals are paused on your account':''}">Withdraw</button><button class="btn btn-p" data-buy>Buy credits</button></div></div><span class="bl-acct">Withdraws to<button class="bl-acctb" data-chacct title="Change withdrawal account" aria-label="Withdrawal account ${acctL()}, change"><img class="plg" src="${IMG}payment/${ACCOUNTS[ACCT].k}.png" alt="">${acctL()}${ic('sel',14)}</button></span><span class="ex">Ready to withdraw or use</span>${LEDGER.some(l=>l.out)&&BS!=='new'&&BS!=='owed'?`<span class="bl-sub"><span>${rp(LEDGER.filter(l=>l.out).reduce((s,l)=>s-l.a,0))} being paid out</span></span>`:''}<span class="up">${UPD}</span></div>`);
   t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="reserve"><span class="kpi-l">Reserve${v.short>0?`<span class="st ${v.short>=VIP_LIMIT?'bad':'warn'}">Shortfall ${rp(v.short)}</span>`:''}</span><div class="kpi-v"><b class="num">${v.policy?rp(v.reserve):'Not required'}</b></div><span class="ex">${v.policy?`Your money set aside for VIP parcels and card payments; returns automatically. Target ${rp(v.target)}.`:'No reserve policy applies to your account.'}</span><span class="up">${UPD}</span></div>`);
-  if(v.invoice)t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="invoice"><span class="kpi-l">Monthly invoice</span><div class="kpi-v"><b class="num">${rp(1250000)}</b></div><span class="ex">Charges go on your monthly invoice instead of your wallet. Credit limit ${rp(10000000)}.</span><span class="up">${UPD}</span></div>`);
-  else if(v.chargesN)t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="charges"><span class="kpi-l">Charges due<span class="st gr">${v.chargesN} open</span></span><div class="kpi-v"><b class="num">${rp(v.charges)}</b></div><span class="ex">Costs that came after a sale, taken automatically from money coming in</span><span class="up">${UPD}</span></div>`);
-  t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="pending"><span class="kpi-l">Pending</span><div class="kpi-v"><b class="num">${rp(v.pending)}</b></div><span class="ex">Orders not complete, or payments FLIK hasn't received yet</span>${v.pending?`<span class="bl-sub"><span>${PENDING.orders.length} orders not complete</span><span>${PENDING.pay.length} payments awaiting settlement from the bank or payment provider</span></span>`:''}<span class="up">${UPD}</span></div>`);
-  const tiles=document.getElementById('bl-tiles');tiles.innerHTML=t.join('');
-  /* statement */
-  const tabs=[['all','All'],['active','Active balance'],['reserve','Reserve'],['charges','Charges due'],['pending','Pending']];
-  document.getElementById('bl-tabs').innerHTML=tabs.map(x=>`<button class="tab${btab===x[0]?' on':''}" data-bt="${x[0]}">${x[1]}</button>`).join('');
+  document.getElementById('bl-tiles').innerHTML=t.join('');
+  /* information only: money on its way, and the monthly invoice for invoice clients */
+  let info=`<button class="bl-strip" data-panel="pending">${ic('clock',16)}<span class="l">Pending</span><b class="num">${rp(v.pending)}</b><span class="ex">${v.pending?`${PENDING.orders.length} orders not complete · ${PENDING.pay.length} payments awaiting settlement`:'Nothing pending'}</span><span class="lnk">View</span></button>`;
+  if(v.invoice)info+=`<button class="bl-strip" data-panel="invoice">${ic('invoice',16)}<span class="l">Monthly invoice</span><b class="num">${rp(1250000)}</b><span class="ex">Your charges go on this invoice instead of your wallet</span><span class="lnk">View</span></button>`;
+  document.getElementById('bl-info').innerHTML=info;
+  /* statement: one tab per wallet, each with its own running balance; incoming and charges due are lists */
+  const tabs=[['active','Active balance'],...(v.policy?[['reserve','Reserve']]:[]),['pending','Pending'],['charges','Charges due']];
+  if(!tabs.some(x=>x[0]===btab))btab='active';
   const RANGES={month:['This month','1–14 Oct 2026',LD(1,0,0)],week:['Last 7 days','8–14 Oct 2026',LD(8,0,0)],today:['Today','14 Oct 2026',LD(14,0,0)]};
-  const r=RANGES[brange],rb=document.getElementById('bl-range');rb.className='chip set';rb.innerHTML=`${ic('sel',14)}Date <span class="val">${r[0]}</span>`;
-  const run={};Object.keys(OPEN).forEach(k=>run[k]=OPEN[k]);
-  const all=v.lines.map(l=>{run[l.b]=Math.round((run[l.b]+l.a)*100)/100;return{...l,after:run[l.b]}});
-  const q=bq.toLowerCase().replace(/[.\s]/g,'');
-  const rows=all.filter(l=>(btab==='all'||l.b===btab)&&l.t>=r[2]&&(!q||[l.ref[1],l.d,String(Math.abs(l.a)),l.id].join(' ').toLowerCase().replace(/[.\s]/g,'').includes(q))).reverse();
-  const pill=l=>[l.st?`<span class="st ${l.st[1]}">${l.st[0]}</span>`:'',v.early&&l.early?'<span class="st pu">Early settlement</span>':'',l.rev?'<span class="st gr">Correction</span>':'',btab==='all'?`<span>${BNAME[l.b]}</span>`:''].filter(Boolean).join('');
-  document.getElementById('bl-body').innerHTML=rows.length?rows.map(l=>{const open=bopen===l.i;
-    let x='';if(open){const wf=l.wf&&!(v.invoice);
+  const r=RANGES[brange],rb=document.getElementById('bl-range');rb.className='chip set';rb.innerHTML=`${ic('sel',14)}Date <span class="val">${r[0]}</span>`;rb.hidden=btab==='pending';
+  const q=bq.toLowerCase().replace(/[.\s]/g,''),hit=a=>!q||a.join(' ').toLowerCase().replace(/[.\s]/g,'').includes(q);
+  const pend=(v.pending?[...PENDING.orders.map(o=>[o[3],'Order '+o[0],o[1],o[2]]),...PENDING.pay.map(o=>[o[3],o[0],o[1],o[2]])]:[]).filter(x=>hit([x[1],x[2],String(x[3])]));
+  const st=stmt(v),inRange=st.all.filter(l=>l.t>=r[2]&&hit([l.ref[1],l.d,String(Math.abs(l.a)),l.id]));
+  /* a search finds its lines in every balance: each tab shows how many it holds */
+  const cnt=k=>q?(k==='pending'?pend.length:inRange.filter(l=>l.b===k).length):(k==='charges'?v.chargesN:0);
+  document.getElementById('bl-tabs').innerHTML=tabs.map(x=>`<button class="tab${btab===x[0]?' on':''}" data-bt="${x[0]}">${x[1]}${cnt(x[0])?`<span class="ct">${cnt(x[0])}</span>`:''}</button>`).join('');
+  const head=document.getElementById('bl-head'),body=document.getElementById('bl-body'),tbl=body.closest('table');
+  tbl.classList.toggle('owed',btab==='charges');
+  if(btab==='pending'){
+    head.innerHTML='<tr><th>Expected</th><th>Description</th><th>Status</th><th>Amount</th></tr>';
+    const items=pend;
+    body.innerHTML=items.length?items.map(x=>`<tr class="bl-in"><td class="date">${x[0]}</td><td class="bl-desc"><b>${x[1]}</b></td><td>${x[2]}</td><td class="num">${rp2(x[3])}</td></tr>`).join('')
+      :`<tr><td colspan="4" style="height:auto;border:0;cursor:default"><div class="empty"><b>${v.pending?'No matching items':'Nothing pending'}</b>${v.pending?'Try another order ID or amount.':'Orders you haven\'t completed and payments FLIK hasn\'t received yet show up here.'}</div></td></tr>`;
+    return}
+  head.innerHTML=btab==='charges'?'<tr><th>Date (WIB)</th><th>Description</th><th>Paid</th><th>Not covered</th><th>Owed</th></tr>':'<tr><th>Date (WIB)</th><th>Description</th><th>Debit</th><th>Credit</th><th>Balance</th></tr>';
+  const rows=inRange.filter(l=>l.b===btab).reverse();
+  const pill=l=>[l.st?`<span class="st ${l.st[1]}">${l.st[0]}</span>`:'',v.early&&l.early?'<span class="st pu">Early settlement</span>':'',l.rev?'<span class="st gr">Correction</span>':''].filter(Boolean).join('');
+  const none=btab==='charges'?['No charges due','FLIK fees are paid from your active balance as they happen. A fee it can\'t cover shows up here until your reserve or the next money coming in pays it.']:v.lines.length?['No matching lines','Try another reference, amount or date range.']:['No movements yet','Your first sale or top-up shows up here.'];
+  body.innerHTML=rows.length?rows.map(l=>{const open=bopen===l.i;
+    let x='';if(open){
       x=`<tr class="bl-x"><td colspan="5"><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl>
-      ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{rate:'Opens the fee rate',fin:'Opens '+MCA_ID+' in Merchant Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
+      ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{pg:'Opens the payment processing rate',flik:'Opens your FLIK agreement',fin:'Opens '+MCA_ID+' in Merchant Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
       <div class="bl-acts"><button class="btn btn-o" data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}">${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
     return`<tr data-bl="${l.i}" class="${open?'open':''}"><td class="date">${fdate(l.t)}</td><td class="bl-desc"><b>${l.d}</b>${(p=>p?`<span class="src">${p}</span>`:'')(pill(l))}</td><td class="num dr">${l.a<0?rp2(-l.a):''}</td><td class="num cr">${l.a>=0?rp2(l.a):''}</td><td class="num">${rp2(l.after)}</td></tr>${x}`}).join('')
-    :`<tr><td colspan="5" style="height:auto;border:0;cursor:default"><div class="empty"><b>${v.lines.length?'No matching lines':'No movements yet'}</b>${v.lines.length?'Try another reference, amount or date range.':'Your first sale or top-up shows up here.'}</div></td></tr>`;
+    :`<tr><td colspan="5" style="height:auto;border:0;cursor:default"><div class="empty"><b>${none[0]}</b>${none[1]}</div></td></tr>`;
 }
 /* detail panels (one per tile) */
 function balPanel(k){const v=bv();let h='';
@@ -1742,16 +1778,16 @@ function balPanel(k){const v=bv();let h='';
   if(k==='active'){const out=LEDGER.filter(l=>l.out);h=head('wallet','Active balance')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.active)}</b></div><p class="d-sub">Ready to withdraw or use. Excludes pending sales, the reserve and withdrawals being paid out.</p><div class="d-acts"><button class="btn btn-p" data-withdraw ${v.frozen||v.active<=0?'disabled':''}>Withdraw</button><button class="btn btn-o" data-bstmt="active">See the statement</button></div>
     ${out.length&&BS!=='new'?`<div class="dsec"><h5>Being paid out</h5>${out.map(l=>`<dl class="kv"><dt>${l.ref[1]}</dt><dd class="num">${rp2(-l.a)} · <span class="st ${l.st[1]}">${l.st[0]}</span></dd></dl><p class="d-sub">Retrying after a temporary bank error. It stays "Processing" while we keep trying.</p>`).join('')}</div>`:''}
     <div class="dsec"><h5>What moves it</h5><dl class="kv"><dt>Money in</dt><dd>Completed and settled orders, top-ups, QRIS and EDC sales, bank transfers, reserve releases, returned withdrawals, refunded fees</dd><dt>Money out</dt><dd>Withdrawals, shipping paid from the wallet, financing repayment, charges due, reserve top-ups, refunds to shoppers</dd></dl></div></div>`}
-  if(k==='reserve'){h=head('coins','Reserve')+`<div class="db"><div class="d-amt"><b class="num">${v.policy?rp2(v.reserve):'Not required'}</b>${v.short?`<span class="st ${v.short>=VIP_LIMIT?'bad':'warn'}">Shortfall ${rp(v.short)}</span>`:''}</div><p class="d-sub">Your own money, set aside while a risk is still open. It can't be withdrawn, pays your charges due first, and flows back the moment the risk clears.</p>
+  if(k==='reserve'){h=head('coins','Reserve')+`<div class="db"><div class="d-amt"><b class="num">${v.policy?rp2(v.reserve):'Not required'}</b>${v.short?`<span class="st ${v.short>=VIP_LIMIT?'bad':'warn'}">Shortfall ${rp(v.short)}</span>`:''}</div><p class="d-sub">Your own money, set aside while a risk is still open. It can't be withdrawn, pays your charges due first, and flows back to your active balance the moment the risk clears.</p>
     ${v.policy?`<div class="dsec"><h5>Reserve card</h5><dl class="kv"><dt>Reserve</dt><dd class="num">${rp2(v.reserve)}</dd><dt>Target now</dt><dd class="num">${rp2(v.target)}</dd><dt>Shortfall</dt><dd class="num">${rp2(v.short)} of the ${rp(VIP_LIMIT)} VIP limit</dd><dt>Next releases</dt><dd>${RESERVE.card.map(c=>`${rp(c[2])} back on ${c[3]}`).join('<br>')}</dd></dl></div>
     <div class="dsec"><h5>VIP parcels</h5>${RESERVE.vip.map(p=>`<dl class="kv"><dt>AWB ${p[0]}</dt><dd><span class="num">${rp(p[3])}</span> · ${p[1]} · ${p[2]}<br><span class="src">Released when: ${p[4].toLowerCase()}</span></dd></dl>`).join('<div style="height:8px"></div>')}</div>
     <div class="dsec"><h5>Card payments</h5>${RESERVE.card.map(c=>`<dl class="kv"><dt>${c[0]}</dt><dd><span class="num">${rp(c[2])}</span> held · settled ${c[1]} · released ${c[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>
     <div class="dsec"><h5>Reserve settings</h5><dl class="kv"><dt>VIP shipping</dt><dd>Shipping fee after FLIK's subsidy + VIP commission per open parcel · since 1 Jun 2026</dd><dt>Card payments</dt><dd>10% of each card payment for 14 days · since 1 Jun 2026</dd><dt>Changes</dt><dd>Made by FLIK only, and shown in the history with their effective date</dd></dl></div>
     <div class="d-acts"><button class="btn btn-o" data-bstmt="reserve">See the reserve history</button></div>`:`<div class="dsec"><h5>Reserve settings</h5><p class="d-sub">No reserve policy applies to your account. QRIS and virtual account payments are never held.</p></div>`}</div>`}
-  if(k==='charges'){h=head('doc','Charges due')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.charges)}</b><span class="st gr">${v.chargesN} open</span></div><p class="d-sub">Collected automatically as money comes in, from the reserve first and then the active balance, oldest first, never more than is owed.</p>
-    <div class="dsec"><h5>Open</h5>${CHARGES.open.map(c=>`<dl class="kv"><dt>${c[0]}</dt><dd><b style="font-weight:500">${c[1]}</b><br>${c[2]} · <span class="num">${rp(c[3])}</span> · collected <span class="num">${rp(c[4])}</span> · still owed <span class="num">${rp(c[3]-c[4])}</span><br><button class="lnk" style="color:var(--primary);font-size:12.5px" data-toast="Opens the parcel's tracking and the courier's bill">Open the parcel</button></dd></dl>`).join('<div style="height:10px"></div>')}</div>
+  if(k==='charges'){h=head('doc','Charges due')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.charges)}</b><span class="st gr">${v.chargesN} open</span></div><p class="d-sub">FLIK fees your active balance couldn't cover. Collected automatically as money comes in, from your reserve first and then the active balance, oldest first, never more than is owed. You can also pay them now.</p><div class="d-acts"><button class="btn btn-p" data-payowed>Pay ${rp(v.charges)} now</button><button class="btn btn-o" data-bstmt="charges">See the charges</button></div>
+    <div class="dsec"><h5>Open</h5>${CHARGES.open.map(c=>`<dl class="kv"><dt>${c[0]}</dt><dd><b style="font-weight:500">${c[1]}</b><br>${c[2]} · <span class="num">${rp(c[3])}</span> · paid from active balance <span class="num">${rp(c[4])}</span> · still owed <span class="num">${rp(c[3]-c[4])}</span><br><button class="lnk" style="color:var(--primary);font-size:12.5px" data-toast="Opens the parcel's tracking and the courier's bill">Open the parcel</button></dd></dl>`).join('<div style="height:10px"></div>')}</div>
     <div class="dsec"><h5>Settled</h5>${CHARGES.settled.map(c=>`<dl class="kv"><dt>${c[0]}</dt><dd>${c[1]} · ${c[2]} · <span class="num">${rp(c[3])}</span><br><span class="src">${c[4]}</span></dd></dl>`).join('<div style="height:10px"></div>')}</div></div>`}
-  if(k==='pending'){h=head('clock','Pending')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.pending)}</b></div><p class="d-sub">Money not usable yet: the order isn't complete, or FLIK hasn't received the payment from the bank or payment provider.</p>
+  if(k==='pending'){h=head('clock','Pending')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.pending)}</b></div><p class="d-sub">Money on its way, not in your wallets yet: the order isn't complete, or FLIK hasn't received the payment from the bank or payment provider. For information only.</p>
     ${v.pending?`<div class="dsec"><h5>${PENDING.orders.length} orders not complete</h5>${PENDING.orders.map(o=>`<dl class="kv"><dt>${o[0]}</dt><dd><span class="num">${rp(o[2])}</span> · ${o[1]} · expected ${o[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>
     <div class="dsec"><h5>${PENDING.pay.length} payments awaiting settlement</h5>${PENDING.pay.map(o=>`<dl class="kv"><dt>${o[0]}</dt><dd><span class="num">${rp(o[2])}</span> · ${o[1]} · expected ${o[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>`:'<div class="dsec"><p class="d-sub">Nothing pending.</p></div>'}</div>`}
   if(k==='invoice'){h=head('invoice','Monthly invoice')+`<div class="db"><div class="d-amt"><b class="num">${rp2(1250000)}</b></div><p class="d-sub">Your charges appear on the monthly invoice instead of as wallet deductions.</p><div class="dsec"><h5>This month</h5><dl class="kv"><dt>Invoice</dt><dd>INV-FLIK-2026-10, issued on 1 Nov</dd><dt>Receivable</dt><dd class="num">${rp2(1250000)}</dd><dt>Credit limit</dt><dd class="num">${rp2(10000000)}</dd></dl></div></div>`}
@@ -1788,8 +1824,10 @@ function withdrawModal(){const v=bv();if(v.frozen){toast('Withdrawals are paused
 /* events */
 document.getElementById('bl-tiles').addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){e.stopPropagation();withdrawModal();return}if(e.target.closest('[data-buy]')){e.stopPropagation();topupModal('Buy credits');return}if(e.target.closest('[data-chacct]')){e.stopPropagation();acctModal();return}const t=e.target.closest('[data-panel]');if(t)balPanel(t.dataset.panel)});
 document.getElementById('bl-tiles').addEventListener('keydown',e=>{const t=e.target.closest('[data-panel]');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();balPanel(t.dataset.panel)}});
-drawer.addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){withdrawModal();return}const s=e.target.closest('[data-bstmt]');if(s){btab=s.dataset.bstmt;closeDetail();renderBal();document.getElementById('bl-tabs').scrollIntoView({behavior:'smooth',block:'start'})}});
-document.getElementById('bl-banners').addEventListener('click',e=>{if(e.target.closest('#bl-topres'))topupModal()});
+drawer.addEventListener('click',e=>{if(e.target.closest('[data-withdraw]')){withdrawModal();return}if(e.target.closest('[data-payowed]')){topupModal('Pay what you owe');return}const s=e.target.closest('[data-bstmt]');if(s){btab=s.dataset.bstmt;closeDetail();renderBal();document.getElementById('bl-tabs').scrollIntoView({behavior:'smooth',block:'start'})}});
+document.getElementById('bl-banners').addEventListener('click',e=>{if(e.target.closest('#bl-topres')){topupModal();return}if(e.target.closest('#bl-payowed')){e.stopPropagation();topupModal('Pay what you owe');return}const p=e.target.closest('[data-panel]');if(p)balPanel(p.dataset.panel)});
+document.getElementById('bl-banners').addEventListener('keydown',e=>{const p=e.target.closest('[data-panel]');if(p&&e.target===p&&(e.key==='Enter'||e.key===' ')){e.preventDefault();balPanel(p.dataset.panel)}});
+document.getElementById('bl-info').addEventListener('click',e=>{const p=e.target.closest('[data-panel]');if(p)balPanel(p.dataset.panel)});
 document.getElementById('bl-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-bt]');if(b){btab=b.dataset.bt;bopen=null;renderBal()}});
 document.getElementById('bl-body').addEventListener('click',e=>{if(e.target.closest('.bl-x'))return;const tr=e.target.closest('tr[data-bl]');if(tr){const i=+tr.dataset.bl;bopen=bopen===i?null:i;renderBal()}});
 document.getElementById('bl-q').oninput=e=>{bq=e.target.value.trim();renderBal()};
@@ -1800,13 +1838,15 @@ document.getElementById('bl-state').onclick=e=>{e.stopPropagation();const b=e.cu
   pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${BSTATES.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${BS===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
   pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{BS=o.dataset.v;bopen=null;closePop();renderBal()});placePop(b,true)};
 document.getElementById('bl-export').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
-  pop.innerHTML=`<div class="menu"><h6>Export the statement</h6><button class="opt" data-x="csv">${ic('sheet',15)}CSV, this range</button><button class="opt" data-x="pdf">${ic('doc',15)}PDF, this range</button></div>`;
-  pop.querySelector('[data-x="csv"]').onclick=()=>{closePop();const v=bv();const run={...OPEN};const rows=[['Date (WIB)','Business date','Balance','Description','Reference','Entry ID','Debit','Credit','Running balance']];
-    v.lines.forEach(l=>{run[l.b]=Math.round((run[l.b]+l.a)*100)/100;rows.push([fdateY(l.t),fday(l.t),BNAME[l.b],l.d,l.ref[0]+' '+l.ref[1],l.id,l.a<0?(-l.a).toFixed(2):'',l.a>=0?l.a.toFixed(2):'',run[l.b].toFixed(2)])});
-    Object.keys(OPEN).forEach(k=>rows.push(['','',BNAME[k],'Opening '+OPEN[k].toFixed(2)+' + movements = closing '+run[k].toFixed(2),'','','','','']));
-    const csv=rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='flik-statement-2026-10.csv';a.click();toast('Statement exported as CSV')};
+  pop.innerHTML=`<div class="menu"><h6>Export this tab</h6><button class="opt" data-x="csv">${ic('sheet',15)}CSV, this range</button><button class="opt" data-x="pdf">${ic('doc',15)}PDF, this range</button></div>`;
+  pop.querySelector('[data-x="csv"]').onclick=()=>{closePop();const v=bv();
+    let rows;if(btab==='pending'){rows=[['Expected','Description','Status','Amount']].concat(v.pending?[...PENDING.orders.map(o=>[o[3],'Order '+o[0],o[1],o[2].toFixed(2)]),...PENDING.pay.map(o=>[o[3],o[0],o[1],o[2].toFixed(2)])]:[])}
+    else{const st=stmt(v),ls=st.all.filter(l=>l.b===btab);rows=[['Date (WIB)','Business date','Description','Reference','Entry ID',btab==='charges'?'Paid':'Debit',btab==='charges'?'Not covered':'Credit',btab==='charges'?'Owed':'Balance']];
+      ls.forEach(l=>rows.push([fdateY(l.t),fday(l.t),l.d,l.ref[0]+' '+l.ref[1],l.id,l.a<0?(-l.a).toFixed(2):'',l.a>=0?l.a.toFixed(2):'',l.after.toFixed(2)]));
+      rows.push(['','',BNAME[btab]+': opening '+st.open[btab].toFixed(2)+' + movements = closing '+(ls.length?ls[ls.length-1].after:st.open[btab]).toFixed(2),'','','','',''])}
+    const csv=rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='flik-'+btab+'-2026-10.csv';a.click();toast(BNAME[btab]+' exported as CSV')};
   pop.querySelector('[data-x="pdf"]').onclick=()=>{closePop();toast('Preparing the PDF statement')};placePop(b,true)};
-document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class="dh"><span class="kind">${ic('doc',15)}Monthly statements</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><p class="d-sub">Generated automatically on the 1st of each month, as a PDF on FLIK letterhead.</p>${[['September 2026','ST-2026-09-0042',3912400,4088480.25],['August 2026','ST-2026-08-0042',2750000,3912400],['July 2026','ST-2026-07-0042',1180500,2750000]].map(m=>`<div class="dsec"><h5>${m[0]}</h5><dl class="kv"><dt>Statement number</dt><dd>${m[1]}</dd><dt>Opening</dt><dd class="num">${rp2(m[2])}</dd><dt>Closing</dt><dd class="num">${rp2(m[3])}</dd></dl><div class="d-acts"><button class="btn btn-o" data-toast="Downloading ${m[1]}.pdf">${ic('export',15)}Download PDF</button></div></div>`).join('')}</div>`;
+document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class="dh"><span class="kind">${ic('doc',15)}Monthly statements</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><p class="d-sub">Generated automatically on the 1st of each month, as a PDF on FLIK letterhead.</p>${[['September 2026','ST-2026-09-0042',3912400,OPEN.active],['August 2026','ST-2026-08-0042',2750000,3912400],['July 2026','ST-2026-07-0042',1180500,2750000]].map(m=>`<div class="dsec"><h5>${m[0]}</h5><dl class="kv"><dt>Statement number</dt><dd>${m[1]}</dd><dt>Opening</dt><dd class="num">${rp2(m[2])}</dd><dt>Closing</dt><dd class="num">${rp2(m[3])}</dd></dl><div class="d-acts"><button class="btn btn-o" data-toast="Downloading ${m[1]}.pdf">${ic('export',15)}Download PDF</button></div></div>`).join('')}</div>`;
   drawer.classList.add('open');dscrim.classList.add('open');drawer.querySelector('[data-dclose]').onclick=closeDetail};
 
 /* ===== Simple router: #home / #transactions ===== */
