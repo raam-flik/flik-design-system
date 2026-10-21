@@ -510,6 +510,90 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .sx-slots button:has(.plg){display:inline-flex;align-items:center;gap:8px;padding-left:8px}
 .plg-sm{width:20px;height:20px;border-radius:5px}
 @media (max-width:700px){.es-cards.c3{grid-template-columns:1fr}}
+/* ===== Couriers (reuses PageHeader, Tabs, SearchField, CollapsibleCard, Checkbox, PartnerLogo, StatusBadge) ===== */
+.cou-sum{font-size:13px;color:var(--muted)}
+.cou-sum b{color:var(--ink);font-weight:600}
+.cou-all{color:var(--primary);font-weight:500;font-size:13px;margin-left:16px}
+#cou-list{margin-top:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+#cou-list .cou-card{margin-bottom:0}
+#cou-list>.empty{grid-column:1/-1}
+.cou-card .cou-h{display:flex;align-items:center;gap:12px;padding:0 18px 0 16px}
+.cou-card .cou-h>.cb{flex:none;position:relative}
+.cou-card .cou-h>.cb::before{content:"";position:absolute;inset:-14px}
+.cou-tog{display:flex;align-items:center;gap:10px;flex:1;min-width:0;min-height:56px;text-align:left}
+.cou-tog .clg{width:32px;height:32px;border-radius:8px}
+.cou-tog b{color:var(--ink);font-weight:600}
+.cou-tog .n-on{font-size:13px;color:var(--muted)}
+.cou-tog .chev{margin-left:auto;color:var(--muted);display:flex;transition:transform .2s}
+.cou-card.open .cou-tog .chev{transform:rotate(180deg)}
+.cou-card.off .cou-tog b{color:var(--muted)}
+.cou-svcs{display:grid;grid-template-columns:minmax(0,1fr);padding-top:6px}
+.cou-svc{display:flex;align-items:center;gap:10px;min-height:44px;text-align:left;border-bottom:1px solid var(--line)}
+.cou-svc .n{flex:1;min-width:0;color:var(--ink);font-size:13.5px;font-weight:500}
+.cou-svc .eta{font-size:13px;color:var(--muted);white-space:nowrap}
+.cou-svc.off .n{color:var(--muted);font-weight:400}
+.cou-svc .st{flex:none}
+@media (max-width:1100px){#cou-list{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){.cou-svc .st{display:none}.cou-card .cou-h{padding:0 12px}}
+/* ===== Warehouses (reuses PageHeader, Tabs, SearchField, DataTable, StatusBadge, PopoverMenu, drawer, FlowShell, FormField, Checkbox, SegmentedControl) ===== */
+.wh-tbl td{height:auto;padding-top:10px;padding-bottom:10px;cursor:pointer}
+.wh-tbl td .src{display:block;margin-top:2px}
+.wh-n{display:flex;align-items:center;gap:8px}
+.wh-n b{font-weight:500;color:var(--ink)}
+.wh-code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px}
+.sx-f.full{grid-column:1/-1}
+.sx-f textarea{width:100%;min-height:72px;border-radius:6px;border:0;box-shadow:var(--sh);padding:8px 10px;font:inherit;outline:none;resize:vertical;background:#fff}
+.sx-f textarea:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
+.sx-f .opt-l{font-weight:400;color:var(--muted)}
+.wh-err{color:var(--bad-tx);font-size:12.5px;margin-top:5px}
+.wh-find{display:flex;gap:8px;align-items:flex-end}
+.wh-find .sx-f{flex:1}
+.wh-find .btn{height:36px}
+.wh-days{margin-top:6px}
+.wh-day{display:grid;grid-template-columns:154px minmax(0,1fr);align-items:center;gap:10px;min-height:44px;border-bottom:1px solid var(--line)}
+.wh-day:last-child{border-bottom:0}
+.wh-dayt{display:flex;align-items:center;gap:10px;min-height:44px;text-align:left}
+.wh-dayt b{font-weight:500;color:var(--ink);font-size:13.5px}
+.wh-day .tm{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+.wh-day .tm select{width:104px;margin-top:0;height:32px}
+.wh-check{display:flex;gap:10px;align-items:flex-start;padding:12px 0;width:100%;text-align:left;border-bottom:1px solid var(--line)}
+.wh-check .cb{margin-top:2px}
+.wh-check b{display:block;font-weight:500;color:var(--ink)}
+.wh-check .src{display:block}
+.wh-check[disabled]{opacity:.55;cursor:not-allowed}
+.wh-status{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px}
+.wh-status b{font-weight:500;color:var(--ink)}
+@media (max-width:600px){.wh-find{flex-direction:column;align-items:stretch}.wh-day{grid-template-columns:minmax(0,1fr);gap:0;padding-bottom:8px}.wh-day .tm{padding-left:26px}}
+/* ===== Tracking (reuses PageHeader, FormField, AppButton, CollapsibleCard, StatusBadge, PartnerLogo) ===== */
+.trk-form{padding-bottom:16px}
+.trk-form .fld label{display:flex;align-items:center;gap:6px}
+.trk-row{display:flex;gap:8px}
+.trk-row input{flex:1;min-width:0}
+.trk-err{color:var(--bad-tx);font-size:13px;margin-top:6px}
+.trk-ex{font-size:12.5px;color:var(--muted);margin-top:8px}
+.trk-ex .lnk{color:var(--primary);font-weight:500}
+.trk-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 10px}
+.trk-head b{font-size:13.5px;color:var(--ink);font-weight:600}
+.trk-head .lnk{color:var(--primary);font-weight:500;font-size:13px}
+.trk-card .sx-sh{flex-wrap:wrap;row-gap:4px}
+.trk-card .sx-sh .awb{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13.5px;color:var(--ink);font-weight:600}
+.trk-card .sx-sh .sum{flex:1 1 180px}
+.trk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 20px;padding:16px 0;border-bottom:1px solid var(--line)}
+.trk-grid dt{font-size:12.5px;color:var(--muted)}
+.trk-grid dd{font-size:13.5px;color:var(--ink);font-weight:500;margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.trk-grid .wide{grid-column:span 2}
+.trk-sec{padding-top:16px}
+.trk-sec h5{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:12px}
+.trk-hist{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:20px}
+.tli.bad i{background:var(--bad-bg);border-color:var(--bad-bd);color:var(--bad-tx)}
+.tli.warn i{background:var(--warn-bg);border-color:var(--warn-bd);color:var(--warn-tx)}
+.trk-pod{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
+.trk-pod button{aspect-ratio:1;border-radius:8px;border:1px dashed var(--line-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:12.5px}
+.trk-pod button:hover{background:var(--hover)}
+.trk-acts{display:flex;gap:8px;flex-wrap:wrap;padding-top:14px}
+.trk-none{padding:14px 18px;color:var(--muted);font-size:13.5px}
+@media (max-width:800px){.trk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.trk-hist{grid-template-columns:1fr}.trk-pod{max-width:260px}}
+@media (max-width:600px){.trk-row{flex-direction:column}.trk-row input{flex:none}.trk-row .btn{justify-content:center}.trk-grid{grid-template-columns:minmax(0,1fr)}.trk-grid .wide{grid-column:auto}}
 /* ===== Balances (reuses PageHeader, KPICard, Stepper, Tabs, FilterChip, DataTable, StatusBadge, drawer, Modal) ===== */
 .bl-tiles{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:12px;margin-top:20px}
 .bl-tile{cursor:pointer;text-align:left;width:100%;display:flex;flex-direction:column;gap:6px;padding:20px;margin:0;border-radius:8px;box-shadow:var(--sh);background:#fff}
@@ -668,7 +752,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
         <section class="es-card">
           <h3>Add your pickup address</h3>
           <p>Couriers pick up from your warehouse. Add one or more addresses so every shipment knows where it starts.</p>
-          <button class="es-link" data-toast="Opens Warehouses">Set up warehouses <span data-ic="ext"></span></button>
+          <button class="es-link" data-view="wh">Set up warehouses <span data-ic="ext"></span></button>
         </section>
       </div>
       </div>
@@ -684,6 +768,35 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
       <div class="tbl-wrap"><table><thead><tr><th>Shipping cost</th><th></th><th>Batch</th><th>Courier</th><th>Shipments</th><th>COD value</th><th>Pickup from</th><th>Created</th><th></th></tr></thead><tbody id="shp-body"></tbody></table></div>
       <div class="foot"><span id="shp-count"></span></div>
       </div>
+    </main>
+    <main class="content" id="view-trk" hidden>
+      <div class="ph"><h1>Tracking</h1></div>
+      <section class="card trk-form">
+        <div class="fld"><label for="trk-q">Tracking numbers (AWB)<span class="src" title="One or more AWB numbers, separated by commas or spaces. Up to 20 at a time." aria-label="One or more AWB numbers, separated by commas or spaces. Up to 20 at a time."><span data-ic="help"></span></span></label>
+          <div class="trk-row"><input id="trk-q" placeholder="FLK2610141012, SPX8840" autocomplete="off" aria-describedby="trk-err"><button class="btn btn-p" id="trk-go">Track</button></div>
+          <p class="trk-err" id="trk-err" hidden></p>
+          <p class="trk-ex">No AWB at hand? <button class="lnk" id="trk-ex">Try 5 example shipments</button></p>
+        </div>
+      </section>
+      <div id="trk-res"></div>
+    </main>
+    <main class="content" id="view-wh" hidden>
+      <div class="ph"><h1>Warehouses</h1><button class="btn btn-p" id="wh-new"><span data-ic="plus"></span>Add warehouse</button></div>
+      <div class="tabs" id="wh-tabs" role="tablist"></div>
+      <div class="filters">
+        <label class="search bl-search"><span data-ic="search"></span><input id="wh-q" placeholder="Name, code or city" autocomplete="off" aria-label="Search warehouses"></label>
+      </div>
+      <div class="tbl-wrap"><table class="wh-tbl"><thead><tr><th>Warehouse</th><th>City</th><th>PIC</th><th>Operating hours</th><th>Status</th><th style="width:40px"></th></tr></thead><tbody id="wh-body"></tbody></table></div>
+      <div class="foot"><span id="wh-count"></span></div>
+    </main>
+    <main class="content" id="view-cou" hidden>
+      <div class="ph"><h1>Couriers</h1><div class="fright" style="margin-left:auto"><button class="btn btn-o" id="cou-discard" disabled>Discard</button><button class="btn btn-p" id="cou-save" disabled>Save changes</button></div></div>
+      <div class="tabs" id="cou-tabs" role="tablist"></div>
+      <div class="filters">
+        <label class="search bl-search"><span data-ic="search"></span><input id="cou-q" placeholder="Courier or service" autocomplete="off" aria-label="Search couriers and services"></label>
+        <div class="fright"><span class="cou-sum" id="cou-sum"></span><button class="lnk cou-all" id="cou-all">Expand all</button></div>
+      </div>
+      <div id="cou-list"></div>
     </main>
     <main class="content" id="view-mca" hidden>
       <div class="ph"><h1>Merchant Cash Advance</h1><button class="btn btn-p" data-newmca><span data-ic="plus"></span>Apply for funding</button></div>
@@ -747,6 +860,11 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
   <div class="sx-top"><button class="ib" id="sx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Create shipment</b><div class="steps" id="sx-steps"></div></div>
   <div class="sx-body" id="sx-body"></div>
   <div class="sx-foot" id="sx-foot"></div>
+</div>
+<div class="sx" id="wx" hidden role="dialog" aria-label="Add warehouse">
+  <div class="sx-top"><button class="ib" id="wx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b id="wx-title">Add warehouse</b></div>
+  <div class="sx-body" id="wx-body"></div>
+  <div class="sx-foot" id="wx-foot"></div>
 </div>
 <div class="sx" id="mx" hidden role="dialog" aria-label="Apply for funding">
   <div class="sx-top"><button class="ib" id="mx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Apply for funding</b><div class="steps" id="mx-steps"></div></div>
@@ -832,7 +950,7 @@ const NAV=[
   {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customer',v:'cus'},{i:'box',t:'Product Catalog'},
   {h:'Products'},
   {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop','Payment Link','Checkout Personalization','Order Form']},
-  {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},'Tracking','Warehouse','Couriers','Red Zone']},
+  {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},{t:'Tracking',v:'trk'},{t:'Warehouses',v:'wh'},{t:'Couriers',v:'cou'},'Red Zone']},
   {i:'coins',t:'Merchant Cash Advance',v:'mca'},
   {i:'tag',t:'Marketing',sub:['Chat Commerce','Leads Management','Voucher','Post Purchase Offer','Cashback']},
   {i:'chart',t:'Analytics',sub:['Checkout','Shipping']},
@@ -1148,7 +1266,7 @@ const QA=[
   ['form','Order form','Create a landing page and order form for selling online','+ Order form',()=>toast('Opens the new order form builder')],
   ['tag','Add a promo','Create a shipping or product promo','+ Promo',()=>toast('Opens the new promo form')],
   ['wallet','Top up balance','Add balance to create shipments','+ Balance',topupModal],
-  ['track','Track shipments','Check the status of one package or many at once','Track',trackModal]
+  ['track','Track shipments','Check the status of one package or many at once','Track',()=>{location.hash='tracking'}]
 ];
 Object.assign(P,{
   inv:'<path d="M7 3.5h8l3 3V20.5H7z"/><path d="M15 3.5v3h3M10 10h5M10 13.5h5M10 17h3"/>',
@@ -1230,6 +1348,50 @@ function trackModal(){
     document.getElementById('tres').innerHTML=nos.length?nos.map(n=>`<div class="dsec" style="margin-top:6px"><h5 style="font-size:13.5px">${n}</h5><div class="tl">${[['Out for delivery','Surabaya · 14 Oct 2026, 08:12','pu'],['Arrived at sorting hub','Surabaya · 13 Oct 2026, 22:40',''],['Picked up by courier','Jakarta · 12 Oct 2026, 15:30','']].map(x=>`<div class="tli ${x[2]}"><i></i><div><b>${x[0]}</b><span>${x[1]}</span></div></div>`).join('')}</div></div>`).join(''):'<p class="kpi-l">Enter at least one tracking number.</p>'};
   document.getElementById('tgo2').onclick=run;
 }
+
+/* ===== Tracking: look up one or more AWBs (example data) ===== */
+const TRK={
+  FLK2610141012:{c:'jne',svc:'Regular',st:'done',sent:'12 Oct 2026, 15:30',from:'Warehouse Jakarta',pay:['COD',489000],to:'Rina Putri',ph:'+62 812-3456-7890',addr:'Jl. Raya Darmo 45, Wonokromo, Surabaya, Jawa Timur 60241',pod:1,
+    ev:[['Delivered, received by Rina Putri','Surabaya · 14 Oct 2026, 10:42','ok'],['Out for delivery','Surabaya · 14 Oct 2026, 08:12',''],['Arrived at sorting hub','Surabaya · 13 Oct 2026, 22:40',''],['Left sorting hub','Jakarta · 13 Oct 2026, 02:10',''],['Picked up by courier','Jakarta · 12 Oct 2026, 15:30','']]},
+  SPX8840:{c:'spx',svc:'Standard',st:'transit',sent:'13 Oct 2026, 16:05',eta:'16 Oct 2026',from:'Warehouse Jakarta',pay:['Non-COD',0],to:'Budi Santoso',ph:'+62 813-2210-5567',addr:'Jl. Dago 112, Coblong, Bandung, Jawa Barat 40135',
+    ev:[['Arrived at sorting hub','Bandung · 14 Oct 2026, 07:20','pu'],['Left sorting hub','Jakarta · 14 Oct 2026, 01:15',''],['Picked up by courier','Jakarta · 13 Oct 2026, 16:05','']]},
+  JNE0052201:{c:'jne',svc:'YES',st:'out',sent:'13 Oct 2026, 14:20',eta:'14 Oct 2026',from:'Warehouse Jakarta',pay:['COD',154000],to:'Dewi Lestari',ph:'+62 857-7781-2304',addr:'Jl. Kaliurang Km 5 No. 18, Depok, Sleman, DI Yogyakarta 55281',
+    ev:[['Out for delivery','Yogyakarta · 14 Oct 2026, 09:05','pu'],['Arrived at delivery hub','Yogyakarta · 14 Oct 2026, 05:40',''],['Picked up by courier','Jakarta · 13 Oct 2026, 14:20','']]},
+  SPX8815:{c:'spx',svc:'Standard',st:'returned',sent:'8 Oct 2026, 11:00',from:'Warehouse Jakarta',pay:['COD',210000],to:'Andi Pratama',ph:'+62 821-4456-1290',addr:'Jl. Pemuda 21, Semarang Tengah, Semarang, Jawa Tengah 50132',pod:1,
+    ev:[['Returned to sender','Jakarta · 14 Oct 2026, 13:30','bad'],['Return started: recipient refused the parcel','Semarang · 11 Oct 2026, 16:45','warn'],['Delivery attempt 2 failed: recipient not at home','Semarang · 11 Oct 2026, 10:20',''],['Delivery attempt 1 failed: recipient not at home','Semarang · 10 Oct 2026, 14:05',''],['Picked up by courier','Jakarta · 8 Oct 2026, 11:00','']]},
+  NJV0049921:{c:'ninja',svc:'Standard',st:'failed',sent:'12 Oct 2026, 10:10',eta:'15 Oct 2026',from:'Warehouse Bandung',pay:['COD',312500],to:'Sari Wulandari',ph:'+62 822-6610-4471',addr:'Jl. Gajah Mada 7, Medan Petisah, Medan, Sumatera Utara 20112',
+    ev:[['Delivery failed: address not found. Next attempt tomorrow','Medan · 14 Oct 2026, 15:50','warn'],['Out for delivery','Medan · 14 Oct 2026, 08:30',''],['Picked up by courier','Bandung · 12 Oct 2026, 10:10','']]}};
+const TST={done:['Delivered','ok'],transit:['In transit','gr'],out:['Out for delivery','pu'],failed:['Delivery failed','warn'],returned:['Returned to sender','bad']};
+let trkOpen=new Set();
+function trkCard(no){const t=TRK[no];
+  if(!t)return`<div class="sx-ship trk-card"><div class="sx-sh"><span class="awb">${no}</span><span class="st gr">Not found</span></div><div class="trk-none">We couldn't find this AWB. Check the number, or that it was booked with FLIK Shipping.</div></div>`;
+  const c=COURIERS.find(x=>x.k===t.c),open=trkOpen.has(no),stt=TST[t.st];
+  const grid=[['Status',`<span class="st ${stt[1]}">${stt[0]}</span>`],['Courier',`${cLogo(t.c)}${c.n} · ${t.svc}`],(t.st==='done'||t.st==='returned'?[t.st==='done'?'Delivered':'Returned',t.ev[0][1].split(' · ')[1]]:[t.st==='failed'?'Next attempt':'Estimated delivery',t.eta||'—']),
+    ['Shipped on',t.sent],['From',t.from],['Payment',t.pay[1]?`${t.pay[0]} · ${rp(t.pay[1])}`:t.pay[0]],
+    ['Recipient',t.to],['Phone',t.ph],['Address',t.addr,'wide']];
+  return`<div class="sx-ship trk-card${open?' open':''}" data-trk="${no}"><button class="sx-sh" data-trktog="${no}" aria-expanded="${open}">${cLogo(t.c)}<span class="awb">${no}</span><span class="st ${stt[1]}">${stt[0]}</span><span class="sum">${t.to} · ${t.addr.split(', ').slice(-2,-1)[0]}</span><span class="chev">${ic('chev',16)}</span></button>
+    <div class="sx-sb"><dl class="trk-grid">${grid.map(g=>`<div${g[2]?` class="${g[2]}"`:''}><dt>${g[0]}</dt><dd>${g[1]}</dd></div>`).join('')}</dl>
+    <div class="trk-sec trk-hist"><div><h5>Tracking history</h5><div class="tl">${t.ev.map(e=>`<div class="tli ${e[2]}"><i>${e[2]==='ok'?ic('check',11,3):''}</i><div><b>${e[0]}</b><span>${e[1]}</span></div></div>`).join('')}</div></div>
+      ${t.pod?`<div><h5>Proof of ${t.st==='done'?'delivery':'return'}</h5><div class="trk-pod"><button data-toast="Opens the photo from the courier">${ic('pkg',18)}Photo</button><button data-toast="Opens the recipient's signature">${ic('doc',18)}Signature</button></div></div>`:''}</div>
+    <div class="trk-acts"><button class="btn btn-o" data-toast="Opens shipment ${no}">${ic('ext',15)}Open shipment</button><button class="btn btn-o" data-copy="${no}">${ic('copy',15)}Copy AWB</button></div></div></div>`}
+function runTrk(){const q=document.getElementById('trk-q'),err=document.getElementById('trk-err'),res=document.getElementById('trk-res');
+  const nos=[...new Set(q.value.toUpperCase().split(/[\s,;]+/).filter(Boolean))];
+  const fail=m=>{err.textContent=m;err.hidden=false;q.setAttribute('aria-invalid','true');q.focus()};
+  if(!nos.length)return fail('Enter at least one AWB number.');
+  if(nos.length>20)return fail(`You entered ${nos.length} AWBs. Track up to 20 at a time.`);
+  err.hidden=true;q.removeAttribute('aria-invalid');
+  trkOpen=new Set(nos.length===1?nos:[]);
+  const found=nos.filter(n=>TRK[n]).length;
+  res.innerHTML=`<div class="trk-head"><b>${nos.length} ${nos.length===1?'shipment':'shipments'}${found<nos.length?` · ${nos.length-found} not found`:''}</b>${nos.length>1?'<button class="lnk" id="trk-all">Expand all</button>':''}</div>`+nos.map(trkCard).join('');
+}
+document.getElementById('trk-go').onclick=runTrk;
+document.getElementById('trk-q').addEventListener('keydown',e=>{if(e.key==='Enter')runTrk()});
+document.getElementById('trk-q').addEventListener('input',()=>{const err=document.getElementById('trk-err');if(!err.hidden){err.hidden=true;document.getElementById('trk-q').removeAttribute('aria-invalid')}});
+document.getElementById('trk-ex').onclick=()=>{document.getElementById('trk-q').value=Object.keys(TRK).join(', ');runTrk()};
+document.getElementById('trk-res').addEventListener('click',e=>{
+  const t=e.target.closest('[data-trktog]');if(t){const no=t.dataset.trktog;trkOpen.has(no)?trkOpen.delete(no):trkOpen.add(no);const card=t.closest('.sx-ship');card.classList.toggle('open',trkOpen.has(no));t.setAttribute('aria-expanded',trkOpen.has(no));return}
+  if(e.target.closest('#trk-all')){const cards=[...document.querySelectorAll('#trk-res [data-trk]')],all=cards.every(c=>c.classList.contains('open'));cards.forEach(c=>{c.classList.toggle('open',!all);all?trkOpen.delete(c.dataset.trk):trkOpen.add(c.dataset.trk);c.querySelector('.sx-sh').setAttribute('aria-expanded',!all)});e.target.textContent=all?'Expand all':'Collapse all';return}
+  const cp=e.target.closest('[data-copy]');if(cp){navigator.clipboard?.writeText(cp.dataset.copy).catch(()=>{});toast(`AWB ${cp.dataset.copy} copied`)}});
 
 /* ===== Invoices: list ===== */
 const IST={draft:['Draft','gr',null],open:['Open','pu',null],past:['Past due','bad',null],paid:['Paid','ok','check'],void:['Void','gr',null]};
@@ -1361,6 +1523,163 @@ const SERVICES=[ // [courier, service, group, eta, Rp per kg, list price per kg|
   ['spx','Standard','reg','2–4 days',7000,null],['spx','Sameday','exp','Same day',22000,null],
   ['jnt','EZ','reg','2–3 days',9000,null]];
 const WAREHOUSES=[{n:'Main warehouse',a:'Jl. Kemang Raya No. 12, Bangka, Mampang Prapatan, Jakarta Selatan, DKI Jakarta 12730'},{n:'Bandung warehouse',a:'Jl. Sekejati No. 3, Sukapada, Cibeunying Kidul, Kota Bandung, Jawa Barat 40125'}];
+/* ===== Couriers: which courier services can be used (settings, example data) ===== */
+/* [courier key, name, logo file, [[service, delivery time, speed]]]; speed: inst, same, next, reg, cargo */
+const CSET=[
+  ['anteraja','AnterAja','anteraja',[['Regular','2–3 days','reg'],['Next Day','1–2 days','next'],['Same Day','0–1 day','same'],['Cargo','2–4 days','cargo']]],
+  ['jne','JNE','jne',[['YES','1 day','next'],['Cargo JTR','3–4 days','cargo'],['Regular','2–3 days','reg']]],
+  ['sicepat','SiCepat','sicepat',[['Regular','2–4 days','reg'],['SiUntung','3–5 days','reg'],['BEST','1–2 days','next'],['GOKIL','1–3 days','cargo'],['KEPO','1–2 days','next']]],
+  ['deliveree','Deliveree','deliveree',[['Small Box','2–4 hours','inst'],['Van','2–4 hours','inst'],['Pick Up','2–4 hours','inst'],['Economy','2–4 hours','inst'],['CDD','6–8 hours','cargo'],['Engkel Box','6–8 hours','cargo'],['Fuso Lite','6–8 hours','cargo'],['Fuso Heavy','6–8 hours','cargo'],['Tronton','6–8 hours','cargo']]],
+  ['spx','SPX Express','spx',[['Standard','1–3 days','reg'],['Eco','2–14 days','reg'],['Sameday','Same day','same']]],
+  ['lion','Lion Parcel','lionparcel',[['Regular Pack','2–3 days','reg'],['Jago Pack','2–7 days','reg'],['Boss Pack','1–2 days','next'],['Big Pack','6–9 days','cargo'],['Oto Pack 150','7–10 days','cargo'],['Oto Pack 250','7–10 days','cargo']]],
+  ['idx','ID Express','idexpress',[['Standard','3–4 days','reg'],['iDlite','3–4 days','reg'],['Cargo','3–4 days','cargo']]],
+  ['grab','GrabExpress','grabexpress',[['Instant Delivery','1–3 hours','inst'],['Car Delivery','1–3 hours','inst']]],
+  ['rpx','RPX','rpx',[['Same Day Package','12 hours','same'],['Mid Day Package','1 day','next'],['Next Day Package','1 day','next'],['Regular Package','2–4 days','reg'],['Paket Ambil Suka Suka','2–4 days','reg']]],
+  ['ninja','Ninja Xpress','ninjaxpress',[['Standard','1–3 days','reg'],['Next Day','1 day','next'],['Same Day','6–8 hours','same'],['Cargo','1–3 days','cargo']]],
+  ['lalamove','Lalamove','lalamove',[['Bike','1–3 hours','inst'],['MPV','1–3 hours','inst'],['Van','2–4 hours','inst']]],
+  ['mrspeedy','Mr. Speedy','mrspeedy',[['Instant Bike','1–3 hours','inst'],['Instant Car','1–4 hours','inst']]],
+  ['gosend','GoSend','gosend',[['Instant','1–3 hours','inst'],['Same Day','6–8 hours','same']]],
+  ['jnt','J&T Express','jnt',[['Standard','3–4 days','reg'],['Next Day','1–2 days','next'],['Same Day','6–8 hours','same']]],
+  ['paxel','Paxel','paxel',[['Small Package · 20×11×7 cm','8–12 hours','same'],['Medium Package · 30×20×12 cm','8–12 hours','same'],['Large Package · 35×30×20 cm','8–12 hours','same']]],
+  ['sap','SAP Express','sap',[['Regular Service','3–4 days','reg'],['One Day Service','1 day','next'],['Same Day Service','Same day','same'],['Cargo','1 day','cargo']]],
+  ['tiki','TIKI','tiki',[['Regular','2–3 days','reg'],['Economy Service','3–4 days','reg'],['Over Night Service','1 day','next'],['Cargo','3–4 days','cargo']]]];
+const CSPEED={inst:['Instant','pu'],same:['Same day','pu'],next:['Next day','gr'],reg:['Regular','gr'],cargo:['Cargo','gr']};
+const COU_OFF0=['deliveree|CDD','deliveree|Engkel Box','deliveree|Fuso Lite','deliveree|Fuso Heavy','deliveree|Tronton','lion|Oto Pack 150','lion|Oto Pack 250','sicepat|SiUntung','spx|Eco'];
+let COU_SAVED;try{COU_SAVED=JSON.parse(localStorage.getItem('flik-couriers-off')||'null')}catch(e){}
+if(!Array.isArray(COU_SAVED))COU_SAVED=COU_OFF0;
+let couOff=new Set(COU_SAVED),couTab='all',couQ='',couOpen=new Set();
+/* Create shipment only offers services that are switched on here */
+const svcOn=(k,name)=>!COU_SAVED.some(x=>x.toLowerCase()===(k+'|'+name).toLowerCase());
+const couDirty=()=>couOff.size!==COU_SAVED.length||[...couOff].some(x=>!COU_SAVED.includes(x));
+const couTotal=CSET.reduce((s,c)=>s+c[3].length,0);
+function renderCou(){
+  const q=couQ.toLowerCase(),inTab=s=>couTab==='all'||s[2]===couTab;
+  const tabs=[['all','All'],['inst','Instant'],['same','Same day'],['next','Next day'],['reg','Regular'],['cargo','Cargo']];
+  document.getElementById('cou-tabs').innerHTML=tabs.map(t=>`<button class="tab${couTab===t[0]?' on':''}" data-ct="${t[0]}">${t[1]}<span class="ct">${CSET.reduce((s,c)=>s+c[3].filter(x=>t[0]==='all'||x[2]===t[0]).length,0)}</span></button>`).join('');
+  const onN=couTotal-couOff.size;
+  document.getElementById('cou-sum').innerHTML=`<b>${onN}</b> of ${couTotal} services on`;
+  const cards=CSET.map(c=>{const svcs=c[3].filter(s=>inTab(s)&&(!q||(c[1]+' '+s[0]).toLowerCase().includes(q)));if(!svcs.length)return'';
+    const id=k=>c[0]+'|'+k,on=c[3].filter(s=>!couOff.has(id(s[0]))).length,all=on===c[3].length,none=!on,open=couOpen.has(c[0])||!!q;
+    return`<div class="sx-ship cou-card${open?' open':''}${none?' off':''}" data-cou="${c[0]}"><div class="cou-h"><button class="cb${all?' on':none?'':' mixed'}" data-call="${c[0]}" role="checkbox" aria-checked="${all?'true':none?'false':'mixed'}" aria-label="All ${c[1]} services">${all?ic('check',12,3):''}</button><button class="cou-tog" data-ctog="${c[0]}" aria-expanded="${open}"><img class="clg" src="${IMG}courier/${c[2]}.png" alt=""><b>${c[1]}</b><span class="n-on">${on} of ${c[3].length} on</span><span class="chev">${ic('chev',16)}</span></button></div>
+      <div class="sx-sb"><div class="cou-svcs">${svcs.map(s=>{const off=couOff.has(id(s[0]));return`<button class="cou-svc${off?' off':''}" data-csv="${id(s[0])}" role="checkbox" aria-checked="${!off}"><span class="cb${off?'':' on'}">${off?'':ic('check',12,3)}</span><span class="n">${s[0]}</span><span class="eta">${s[1]}</span><span class="st ${CSPEED[s[2]][1]}">${CSPEED[s[2]][0]}</span></button>`}).join('')}</div></div></div>`}).join('');
+  document.getElementById('cou-list').innerHTML=cards||`<div class="empty"><b>No services match</b>Try another courier or service name.</div>`;
+  const dirty=couDirty(),save=document.getElementById('cou-save');
+  document.getElementById('cou-discard').disabled=!dirty;save.disabled=!dirty||onN===0;save.title=onN===0?'Keep at least one service on, or you can\'t create shipments':'';
+  document.getElementById('cou-all').textContent=CSET.every(c=>couOpen.has(c[0]))?'Collapse all':'Expand all';
+}
+document.getElementById('cou-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-ct]');if(b){couTab=b.dataset.ct;renderCou()}});
+document.getElementById('cou-q').oninput=e=>{couQ=e.target.value.trim();renderCou()};
+document.getElementById('cou-all').onclick=()=>{const all=CSET.every(c=>couOpen.has(c[0]));couOpen=new Set(all?[]:CSET.map(c=>c[0]));renderCou()};
+document.getElementById('cou-list').addEventListener('click',e=>{
+  const t=e.target.closest('[data-ctog]');if(t){const k=t.dataset.ctog;couOpen.has(k)?couOpen.delete(k):couOpen.add(k);renderCou();return}
+  const a=e.target.closest('[data-call]');if(a){const c=CSET.find(x=>x[0]===a.dataset.call),ids=c[3].map(s=>c[0]+'|'+s[0]),allOn=ids.every(i=>!couOff.has(i));ids.forEach(i=>allOn?couOff.add(i):couOff.delete(i));renderCou();return}
+  const s=e.target.closest('[data-csv]');if(s){const i=s.dataset.csv;couOff.has(i)?couOff.delete(i):couOff.add(i);renderCou()}});
+document.getElementById('cou-discard').onclick=()=>{couOff=new Set(COU_SAVED);renderCou();toast('Changes discarded')};
+document.getElementById('cou-save').onclick=()=>{COU_SAVED=[...couOff];try{localStorage.setItem('flik-couriers-off',JSON.stringify(COU_SAVED))}catch(e){}renderCou();toast(`Courier settings saved · ${couTotal-couOff.size} services on`)};
+
+/* ===== Warehouses: list, detail and the add/edit flow (example data) ===== */
+const DAYS7=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],DAYL={Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};
+const whHrs=(o,c,days)=>Object.fromEntries(DAYS7.map(d=>[d,days.includes(d)?[o,c]:null]));
+const WH=[
+  {code:'JKT-01',ext:'',n:'Main warehouse',pic:{first:'Rina',last:'Putri',email:'rina@arunastudio.co.id',phone:'812-3456-7890'},prov:'DKI Jakarta',city:'Jakarta Selatan',dist:'Mampang Prapatan',zip:'12730',street:'Jl. Kemang Raya No. 12, Bangka',note:'Gate next to the blue fence',days:whHrs('08:00','17:00',['Mon','Tue','Wed','Thu','Fri','Sat']),pickup:true,active:true,def:true},
+  {code:'BDG-01',ext:'',n:'Bandung warehouse',pic:{first:'Fajar',last:'Nugroho',email:'fajar@arunastudio.co.id',phone:'813-2210-5567'},prov:'Jawa Barat',city:'Kota Bandung',dist:'Cibeunying Kidul',zip:'40125',street:'Jl. Sekejati No. 3, Sukapada',note:'',days:whHrs('09:00','17:00',['Mon','Tue','Wed','Thu','Fri']),pickup:false,active:true,def:false},
+  {code:'SBY-01',ext:'ERP-SBY-77',n:'Surabaya hub',pic:{first:'Dewi',last:'Lestari',email:'dewi@arunastudio.co.id',phone:'857-7781-2304'},prov:'Jawa Timur',city:'Kota Surabaya',dist:'Wonokromo',zip:'60241',street:'Jl. Raya Darmo No. 45',note:'Loading bay at the back',days:whHrs('08:00','16:00',['Mon','Tue','Wed','Thu','Fri','Sat']),pickup:true,active:true,def:false},
+  {code:'TGR-01',ext:'',n:'Tangerang overflow',pic:{first:'Andi',last:'Pratama',email:'',phone:'821-4456-1290'},prov:'Banten',city:'Kota Tangerang',dist:'Cipondoh',zip:'15148',street:'Jl. KH Hasyim Ashari No. 88',note:'',days:whHrs('09:00','15:00',['Mon','Tue','Wed','Thu','Fri']),pickup:false,active:false,def:false},
+  {code:'MLG-01',ext:'',n:'Malang pop-up store',pic:{first:'Sari',last:'Wulandari',email:'sari@arunastudio.co.id',phone:'822-6610-4471'},prov:'Jawa Timur',city:'Kota Malang',dist:'Klojen',zip:'65111',street:'Jl. Ijen No. 22',note:'Inside the mall, level 1',days:whHrs('10:00','21:00',['Sat','Sun']),pickup:true,active:false,def:false}];
+const WH_ADDR=[['Jl. Jend. Sudirman Kav. 52-53, Senayan','Kebayoran Baru','Jakarta Selatan','DKI Jakarta','12190'],['Jl. Asia Afrika No. 8, Braga','Sumur Bandung','Kota Bandung','Jawa Barat','40111'],['Jl. Pemuda No. 21, Sekayu','Semarang Tengah','Kota Semarang','Jawa Tengah','50132'],['Jl. Malioboro No. 56, Sosromenduran','Gedong Tengen','Kota Yogyakarta','DI Yogyakarta','55271'],['Jl. Gajah Mada No. 7, Petisah Tengah','Medan Petisah','Kota Medan','Sumatera Utara','20112'],['Jl. Sunset Road No. 88, Seminyak','Kuta','Kabupaten Badung','Bali','80361'],['Jl. Pahlawan No. 10, Bubutan','Bubutan','Kota Surabaya','Jawa Timur','60174']];
+const whAddr=w=>`${w.street}, ${w.dist}, ${w.city}, ${w.prov} ${w.zip}`;
+const whHours=w=>{const open=DAYS7.filter(d=>w.days[d]);if(!open.length)return'Closed';
+  const same=open.every(d=>w.days[d].join()===w.days[open[0]].join()),idx=open.map(d=>DAYS7.indexOf(d)),run=idx.every((x,i)=>!i||x===idx[i-1]+1);
+  const span=open.length===1?open[0]:run?`${open[0]}–${open[open.length-1]}`:open.join(', ');return same?`${span}, ${w.days[open[0]][0]}–${w.days[open[0]][1]}`:`${open.length} days a week`};
+let whTab='all',whQ='';
+function renderWh(){
+  const tabs=[['all','All'],['active','Active'],['inactive','Inactive']],cnt=k=>WH.filter(w=>k==='all'||(k==='active')===w.active).length;
+  document.getElementById('wh-tabs').innerHTML=tabs.map(t=>`<button class="tab${whTab===t[0]?' on':''}" data-wht="${t[0]}">${t[1]}<span class="ct">${cnt(t[0])}</span></button>`).join('');
+  const q=whQ.toLowerCase(),rows=WH.filter(w=>(whTab==='all'||(whTab==='active')===w.active)&&(!q||[w.n,w.code,w.city,w.prov,w.ext].join(' ').toLowerCase().includes(q)));
+  document.getElementById('wh-body').innerHTML=rows.length?rows.map(w=>`<tr data-whc="${w.code}"><td><div class="wh-n"><b>${w.n}</b>${w.def?'<span class="st pu">Default</span>':''}</div><span class="src wh-code">${w.code}</span></td><td>${w.city}<span class="src">${w.prov}</span></td><td>${w.pic.first} ${w.pic.last}<span class="src">+62 ${w.pic.phone}</span></td><td>${whHours(w)}${w.pickup?'<span class="src">Store pickup</span>':''}</td><td>${w.active?'<span class="st ok">Active</span>':'<span class="st gr">Inactive</span>'}</td><td><button class="dots-b" data-whm="${w.code}" aria-label="Actions for ${w.n}">${ic('dots',16)}</button></td></tr>`).join('')
+    :`<tr><td colspan="6" style="height:auto;border:0;cursor:default"><div class="empty"><b>${WH.length?'No warehouses match':'No warehouses yet'}</b>${WH.length?'Try another name, code or city.':'Add the place couriers pick up from.'}</div></td></tr>`;
+  document.getElementById('wh-count').innerHTML=`<b>${rows.length}</b> ${rows.length===1?'warehouse':'warehouses'}`;
+}
+function whSetDefault(code){WH.forEach(w=>w.def=w.code===code);toast(`${WH.find(w=>w.code===code).n} is now the default warehouse`);renderWh()}
+function whToggle(code){const w=WH.find(x=>x.code===code);if(w.def&&w.active){toast('Set another default warehouse first');return}w.active=!w.active;whSync();toast(`${w.n} ${w.active?'activated':'deactivated'}`);renderWh()}
+/* Create shipment picks from the active warehouses */
+function whSync(){WAREHOUSES.length=0;WH.filter(w=>w.active).sort((a,b)=>b.def-a.def).forEach(w=>WAREHOUSES.push({n:w.n,a:whAddr(w)}))}
+function whDetail(code){const w=WH.find(x=>x.code===code);
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('wh',15)}Warehouse</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db">
+    <div class="d-amt"><b>${w.n}</b>${w.active?'<span class="st ok">Active</span>':'<span class="st gr">Inactive</span>'}${w.def?'<span class="st pu">Default</span>':''}</div>
+    <div class="d-acts"><button class="btn btn-p" data-whedit="${w.code}">Edit</button>${w.active&&!w.def?`<button class="btn btn-o" data-whdef="${w.code}">Set as default</button>`:''}</div>
+    <div class="dsec"><h5>Warehouse</h5><dl class="kv"><dt>Code</dt><dd class="wh-code">${w.code}</dd>${w.ext?`<dt>External ID</dt><dd class="wh-code">${w.ext}</dd>`:''}<dt>Address</dt><dd>${whAddr(w)}</dd>${w.note?`<dt>Note for the courier</dt><dd>${w.note}</dd>`:''}<dt>Store pickup</dt><dd>${w.pickup?'Customers can collect orders here':'Off'}</dd></dl></div>
+    <div class="dsec"><h5>Person in charge</h5><dl class="kv"><dt>Name</dt><dd>${w.pic.first} ${w.pic.last}</dd><dt>Phone</dt><dd>+62 ${w.pic.phone}</dd>${w.pic.email?`<dt>Email</dt><dd>${w.pic.email}</dd>`:''}</dl></div>
+    <div class="dsec"><h5>Operating hours</h5><dl class="kv">${DAYS7.map(d=>`<dt>${DAYL[d]}</dt><dd>${w.days[d]?w.days[d].join('–'):'Closed'}</dd>`).join('')}</dl></div></div>`;
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
+  drawer.querySelector('[data-dclose]').onclick=closeDetail;
+  drawer.querySelector('[data-whedit]').onclick=()=>{closeDetail();openWh(code)};
+  drawer.querySelector('[data-whdef]')?.addEventListener('click',()=>{whSetDefault(code);whDetail(code)});
+}
+document.getElementById('wh-new').onclick=()=>{location.hash='warehouses/new'};
+document.getElementById('wh-q').oninput=e=>{whQ=e.target.value.trim();renderWh()};
+document.getElementById('wh-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-wht]');if(b){whTab=b.dataset.wht;renderWh()}});
+document.getElementById('wh-body').addEventListener('click',e=>{
+  const m=e.target.closest('[data-whm]');
+  if(m){e.stopPropagation();if(popFor===m){closePop();return}popFor=m;const w=WH.find(x=>x.code===m.dataset.whm);
+    pop.innerHTML=`<div class="menu"><button class="opt" data-a="edit">${ic('doc',15)}Edit</button>${w.active&&!w.def?`<button class="opt" data-a="def">${ic('check',15)}Set as default</button>`:''}<button class="opt" data-a="tog">${ic(w.active?'x':'check',15)}${w.active?'Deactivate':'Activate'}</button></div>`;
+    pop.querySelector('[data-a="edit"]').onclick=()=>{closePop();openWh(w.code)};
+    pop.querySelector('[data-a="def"]')?.addEventListener('click',()=>{closePop();whSetDefault(w.code)});
+    pop.querySelector('[data-a="tog"]').onclick=()=>{closePop();whToggle(w.code)};placePop(m,true);return}
+  const tr=e.target.closest('tr[data-whc]');if(tr)whDetail(tr.dataset.whc)});
+
+/* add / edit flow */
+const wx=document.getElementById('wx'),wxBody=document.getElementById('wx-body'),wxFoot=document.getElementById('wx-foot');
+let F=null,whEdit=null;
+const WH_TIMES=Array.from({length:17},(_,i)=>String(6+i).padStart(2,'0')+':00');
+const blankWh=()=>({code:'',ext:'',n:'',pic:{first:'',last:'',email:'',phone:''},prov:'',city:'',dist:'',zip:'',street:'',note:'',days:whHrs('08:00','17:00',['Mon','Tue','Wed','Thu','Fri','Sat']),pickup:false,active:true,def:!WH.some(w=>w.def)});
+function openWh(code){whEdit=code||null;F=JSON.parse(JSON.stringify(code?WH.find(w=>w.code===code):blankWh()));wx.hidden=false;document.body.style.overflow='hidden';drawWx()}
+function closeWh(){wx.hidden=true;document.body.style.overflow='';F=null}
+const whDup=()=>F.code.trim()&&WH.some(w=>w.code.toLowerCase()===F.code.trim().toLowerCase()&&w.code!==whEdit);
+const whOk=()=>F.pic.first.trim()&&F.pic.phone.replace(/\D/g,'').length>=9&&(!F.pic.email||/^\S+@\S+\.\S+$/.test(F.pic.email))&&F.code.trim()&&!whDup()&&F.n.trim()&&F.prov.trim()&&F.city.trim()&&F.dist.trim()&&/^\d{5}$/.test(F.zip)&&F.street.trim()&&DAYS7.some(d=>F.days[d]);
+const getF=p=>p.split('.').reduce((o,k)=>o[k],F),setF=(p,v)=>{const k=p.split('.');k.slice(0,-1).reduce((o,x)=>o[x],F)[k[k.length-1]]=v};
+const wf=(p,lab,ph,o={})=>`<div class="sx-f${o.full?' full':''}"><label for="wf-${p}">${lab}${o.opt?' <span class="opt-l">(optional)</span>':''}</label>${o.area?`<textarea id="wf-${p}" data-wf="${p}" placeholder="${ph}">${getF(p)}</textarea>`:`<div class="${o.pre?'pre':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="wf-${p}" data-wf="${p}" value="${getF(p)}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''} ${o.max?`maxlength="${o.max}"`:''}></div>`}${o.err?`<p class="wh-err" id="wf-${p}-err" ${o.err()?'':'hidden'}>${o.errText}</p>`:''}</div>`;
+function drawWx(){const ed=!!whEdit;
+  document.getElementById('wx-title').textContent=ed?'Edit warehouse':'Add warehouse';wx.setAttribute('aria-label',ed?'Edit warehouse':'Add warehouse');
+  wxBody.innerHTML=`<div class="sx-in solo"><div class="sx-main"><h2>${ed?F.n||'Edit warehouse':'Add warehouse'}</h2><p class="sx-lead">Where couriers pick up your orders, and who they call when they arrive.</p>
+    <section class="sx-card"><div class="sx-h">Person in charge</div><div class="sx-g sx-g2">${wf('pic.first','First name','Rina')}${wf('pic.last','Last name','Putri',{opt:1})}${wf('pic.email','Email','name@company.com',{opt:1})}${wf('pic.phone','WhatsApp number','812-3456-7890',{pre:'+62',num:1})}</div></section>
+    <section class="sx-card"><div class="sx-h">Warehouse</div><div class="sx-g sx-g2">${wf('n','Warehouse name','Main warehouse',{full:1})}${wf('code','Warehouse code','JKT-01',{err:whDup,errText:'You already have a warehouse with this code.'})}${wf('ext','External ID','ERP-001',{opt:1})}</div></section>
+    <section class="sx-card"><div class="sx-h">Address</div>
+      <div class="wh-find"><div class="sx-f"><label for="wh-find">Find the address</label><input id="wh-find" placeholder="Street, building or area" autocomplete="off"></div><button class="btn btn-o" id="wh-loc">${ic('pin',15)}Use my location</button></div>
+      <div class="sx-g sx-g2">${wf('prov','Province','DKI Jakarta')}${wf('city','City','Jakarta Selatan')}${wf('dist','District','Kebayoran Baru')}${wf('zip','Postal code','12190',{num:1,max:5})}${wf('street','Street address','Street, building, number',{full:1,area:1})}${wf('note','Note for the courier','Gate next to the blue fence',{full:1,area:1,opt:1})}</div></section>
+    <section class="sx-card"><div class="sx-h">Operating hours</div><div class="wh-days">${DAYS7.map(d=>{const on=!!F.days[d];return`<div class="wh-day"><button class="wh-dayt" data-wday="${d}" role="checkbox" aria-checked="${on}"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span><b>${DAYL[d]}</b></button><div class="tm">${on?`<select class="sx-sel" data-wo="${d}" aria-label="${DAYL[d]} opens">${WH_TIMES.map(t=>`<option ${F.days[d][0]===t?'selected':''}>${t}</option>`).join('')}</select>to<select class="sx-sel" data-wc="${d}" aria-label="${DAYL[d]} closes">${WH_TIMES.map(t=>`<option ${F.days[d][1]===t?'selected':''}>${t}</option>`).join('')}</select>`:'Closed'}</div></div>`}).join('')}</div></section>
+    <section class="sx-card"><div class="sx-h">Settings</div>
+      <button class="wh-check" data-wck="pickup"><span class="cb${F.pickup?' on':''}" role="checkbox" aria-checked="${F.pickup}">${F.pickup?ic('check',12,3):''}</span><span><b>Store pickup</b><span class="src">Customers can collect their orders here</span></span></button>
+      <button class="wh-check" data-wck="def" ${F.active?'':'disabled title="Only an active warehouse can be the default"'}><span class="cb${F.def?' on':''}" role="checkbox" aria-checked="${F.def}">${F.def?ic('check',12,3):''}</span><span><b>Default warehouse</b><span class="src">Selected first when you create a shipment</span></span></button>
+      <div class="wh-status"><b>Status</b><div class="seg" role="tablist"><button class="${F.active?'on':''}" data-wact="1">Active</button><button class="${F.active?'':'on'}" data-wact="0">Inactive</button></div></div></section>
+  </div></div>`;
+  wxFoot.innerHTML=`<span class="sp"></span><button class="btn btn-o" id="wx-cancel">Cancel</button><button class="btn btn-p" id="wx-save" ${whOk()?'':'disabled'}>${ed?'Save changes':'Add warehouse'}</button>`;
+}
+const wxClose=()=>{if(location.hash==='#warehouses/new')location.hash='warehouses';else closeWh()};
+document.getElementById('wx-close').onclick=wxClose;
+wxFoot.addEventListener('click',e=>{if(e.target.closest('#wx-cancel'))wxClose();if(e.target.closest('#wx-save'))whSave()});
+wxBody.addEventListener('input',e=>{const t=e.target;
+  if(t.dataset.wf){setF(t.dataset.wf,t.dataset.wf==='zip'?t.value.replace(/\D/g,''):t.value);if(t.dataset.wf==='code'){const er=document.getElementById('wf-code-err');er.hidden=!whDup()}document.getElementById('wx-save').disabled=!whOk();return}
+  if(t.id==='wh-find'){const q=t.value.trim().toLowerCase();if(q.length<2){closePop();return}
+    const hits=WH_ADDR.filter(a=>a.join(' ').toLowerCase().includes(q)).slice(0,5);popFor=t;
+    pop.innerHTML=`<div class="menu" style="width:${Math.max(280,t.offsetWidth)}px">${hits.length?hits.map((a,i)=>`<button class="opt" style="align-items:flex-start" data-ad="${WH_ADDR.indexOf(a)}">${ic('pin',15)}<span style="flex:1"><b style="font-weight:500;display:block;color:var(--ink)">${a[0]}</b><span style="color:var(--muted);font-size:12.5px">${a[1]}, ${a[2]}, ${a[3]} ${a[4]}</span></span></button>`).join(''):'<p class="src" style="padding:8px 10px">No matching address. Fill in the fields below.</p>'}</div>`;
+    pop.querySelectorAll('[data-ad]').forEach(o=>o.onclick=()=>{whFill(WH_ADDR[+o.dataset.ad]);closePop()});placePop(t)}});
+wxBody.addEventListener('change',e=>{const t=e.target;if(t.dataset.wo){F.days[t.dataset.wo][0]=t.value}if(t.dataset.wc){F.days[t.dataset.wc][1]=t.value}});
+wxBody.addEventListener('click',e=>{
+  const d=e.target.closest('[data-wday]');if(d){const k=d.dataset.wday;F.days[k]=F.days[k]?null:['08:00','17:00'];drawWx();return}
+  const c=e.target.closest('[data-wck]');if(c&&!c.disabled){F[c.dataset.wck]=!F[c.dataset.wck];drawWx();return}
+  const a=e.target.closest('[data-wact]');if(a){F.active=a.dataset.wact==='1';if(!F.active)F.def=false;drawWx();return}
+  if(e.target.closest('#wh-loc')){whFill(WH_ADDR[0]);toast('Location found: Senayan, Jakarta Selatan')}});
+function whFill(a){Object.assign(F,{street:a[0],dist:a[1],city:a[2],prov:a[3],zip:a[4]});drawWx()}
+function whSave(){if(!whOk())return;const ed=!!whEdit;
+  F.code=F.code.trim();F.n=F.n.trim();
+  if(F.def)WH.forEach(w=>w.def=false);
+  if(ed){const i=WH.findIndex(w=>w.code===whEdit);WH[i]=F}else WH.unshift(F);
+  if(!WH.some(w=>w.def&&w.active)){const first=WH.find(w=>w.active);if(first)first.def=true}
+  const name=F.n;whSync();
+  if(location.hash==='#warehouses/new')location.hash='warehouses';else closeWh();
+  closeWh();whTab='all';renderWh();toast(ed?'Changes saved':`${name} added`)}
+
 const SST={pay:['Awaiting payment','warn',null],ready:['Ready for pickup','pu',null],transit:['In transit','gr',null],done:['Delivered','ok','check'],bad:['Invalid data','bad',null]};
 const sPill=s=>{const x=SST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
 const bid=()=>Math.floor(rnd()*0xFFFFFFFF).toString(16).toUpperCase().padStart(8,'0');
@@ -1433,7 +1752,7 @@ function drawSx(){
       :X.ships.map(shipCard).join('')+`<div class="sx-row"><button class="btn btn-o" data-addship>${ic('plus',15,2)}Add shipment</button><button class="btn btn-o" data-reset style="color:var(--muted)">Reset</button></div>`}</section>`}
   else if(st===1){
     main=`<h2>Choose a courier</h2><p class="sx-lead">Prices cover all ${X.ships.length} ${X.ships.length===1?'shipment':'shipments'} (${X.ships.reduce((a,s)=>a+kgOf(s),0)} kg in total).</p>`+
-    [['reg','Regular'],['exp','Express'],['cargo','Cargo']].map(g=>{const rows=COURIERS.map(c=>[c,SERVICES.map((v,i)=>[v,i]).filter(([v])=>v[0]===c.k&&v[2]===g[0])]).filter(r=>r[1].length);
+    [['reg','Regular'],['exp','Express'],['cargo','Cargo']].map(g=>{const rows=COURIERS.map(c=>[c,SERVICES.map((v,i)=>[v,i]).filter(([v])=>v[0]===c.k&&v[2]===g[0]&&svcOn(v[0],v[1]))]).filter(r=>r[1].length);
       return`<div class="sx-grp"><h3>${g[1]}</h3>${rows.map(([c,list])=>`<div class="sx-cr"><div class="nm">${cLogo(c.k)}${c.n}</div><div class="sx-svcs">${list.map(([v,i])=>{const p=svcPrice(v),l=svcList(v);return`<button class="sx-svc${X.svc===i?' on':''}" data-svc="${i}">${v[6]?`<span class="sx-tag${v[6]==='Cheapest'?' ch':''}">${v[6]}</span>`:''}<span class="n">${v[1]}<span class="rdo${X.svc===i?' on':''}"></span></span><span class="d">${v[3]}</span><span class="p num">${rp(p)}${l?`<s>${rp(l)}</s>`:''}</span></button>`}).join('')}</div></div>`).join('')}</div>`}).join('')}
   else if(st===2){const sv=SERVICES[X.svc],c=COURIERS.find(x=>x.k===sv[0]);
     main=`<h2>Schedule pickup</h2><p class="sx-lead">${c.n} will pick up ${X.ships.length} ${X.ships.length===1?'shipment':'shipments'} from ${WAREHOUSES[X.wh].n}.</p>
@@ -1891,11 +2210,12 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
   drawer.classList.add('open');dscrim.classList.add('open');drawer.querySelector('[data-dclose]').onclick=closeDetail};
 
 /* ===== Simple router: #home / #transactions ===== */
-const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance'],bal:['balances','Balances']};
-const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'?'shp':location.hash==='#merchant-cash-advance/apply'?'mca':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],cou:['couriers','Couriers']};
+const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
   if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
+  if(location.hash==='#warehouses/new'){view='wh';openWh()}else if(!wx.hidden&&!whEdit)closeWh();
   if(location.hash==='#merchant-cash-advance/apply'){view='mca';openMca()}else if(!mx.hidden)closeMca();
   const home=view==='home';
   Object.keys(VIEWS).forEach(k=>document.getElementById('view-'+k).hidden=k!==view);
@@ -1905,6 +2225,9 @@ function show(view){
   if(view==='mca')renderMca();
   if(view==='bal')renderBal();
   if(view==='shp'){renderShp();nav.querySelector('[data-view="shp"]').closest('.grp').classList.add('open')}
+  if(view==='cou'){renderCou();nav.querySelector('[data-view="cou"]').closest('.grp').classList.add('open')}
+  if(view==='wh'){renderWh();nav.querySelector('[data-view="wh"]').closest('.grp').classList.add('open')}
+  if(view==='trk'){nav.querySelector('[data-view="trk"]').closest('.grp').classList.add('open');setTimeout(()=>document.getElementById('trk-q').focus(),0)}
   if(view==='inv'){renderInv();nav.querySelector('[data-view="inv"]').closest('.grp').classList.add('open')}
   closeDetail();setSide(false);scrollTo(0,0);
 }
