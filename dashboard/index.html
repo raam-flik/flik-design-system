@@ -599,16 +599,28 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .whp .ie-dd .opt.on b{color:var(--primary)}
 .whp .ie-dd{z-index:20}
 /* risky shoppers dialog and WhatsApp preview */
-.rk-all{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
-.rk-all .selw{width:280px}
+.rk2 .rk-allrow td{background:var(--hover);border-bottom:0;padding-top:12px;padding-bottom:12px;vertical-align:middle;cursor:default;text-align:left}
+.rk2 .rk-allrow+tr th{padding-top:14px}
+.rk2 .rk-allrow b{display:block;color:var(--ink);font-weight:600}
+.rk2 .rk-allrow td{border-bottom:1px solid var(--line)}
+
+.rk2 .rk-allrow .src{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
+.rk2 tbody tr:first-child td{padding-top:14px}
 .rk2 td .src.num{display:block;margin-top:4px}
 .sp-tbl.rk2{table-layout:auto;min-width:0}
 .sp-tbl.rk2 td:first-child{min-width:140px;max-width:none}
 .sp-tbl.rk2 th:last-child,.sp-tbl.rk2 td:last-child{width:auto;min-width:200px}
 .sp-tbl.rk2 th,.sp-tbl.rk2 td{padding-right:8px}
-.rk-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
-.rk-main{display:grid;gap:14px;min-width:0}
-.rk-pv{background:var(--hover);border-radius:10px;padding:14px;display:grid;gap:12px;position:sticky;top:0}
+/* the table column takes its height from the preview box, so both end on the same line; the list scrolls inside */
+.rk-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:stretch}
+.rk-main{display:flex;flex-direction:column;gap:14px;min-width:0;contain:size}
+/* one bordered table: the all-orders band, the titles and the orders */
+.rk-main>.sp-wrap{flex:1;min-height:0;max-height:none;box-shadow:var(--sh);border-radius:10px;background:#fff}
+.sp-tbl.rk2 th:first-child,.sp-tbl.rk2 td:first-child{padding-left:16px}
+.sp-tbl.rk2 th:last-child,.sp-tbl.rk2 td:last-child{padding-right:14px}
+.sp-tbl.rk2 tbody tr:last-child td{border-bottom:0}
+.sp-tbl.rk2 th{border-bottom:1px solid var(--line)}
+.rk-pv{background:var(--hover);border-radius:10px;padding:14px;display:grid;gap:12px;align-content:start}
 .rk-pv .wa-b{max-width:none}
 .rk-pv-h{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .rk-pv-h b{color:var(--ink);font-weight:600;font-size:14px}
@@ -624,8 +636,8 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .wa-btns span{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;color:var(--primary);font-weight:500;font-size:13.5px}
 .wa-btns span+span{border-top:1px solid var(--line)}
 .sx-note.info{background:var(--pu-bg);color:var(--pu-tx);border-color:var(--pu-bd)}
-@media (max-width:860px){.rk-grid{grid-template-columns:minmax(0,1fr)}.rk-pv{position:static}}
-@media (max-width:700px){.rk-all{flex-wrap:wrap}.rk-all .selw{width:100%}}
+@media (max-width:860px){.rk-grid{grid-template-columns:minmax(0,1fr)}.rk-main{contain:none}.rk-main>.sp-wrap{max-height:none}}
+@media (max-width:820px){.sp-tbl.rk2 thead{display:block}.sp-tbl.rk2 thead tr:not(.rk-allrow){display:none}.sp-tbl.rk2 .rk-allrow{display:grid;gap:8px;padding:12px;border-radius:8px;background:var(--hover)}.sp-tbl.rk2 .rk-allrow td{display:block;padding:0;border-radius:0}}
 /* add-warehouse pop-up */
 .whq-g{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
 .whq-g .w2{grid-column:1/-1}
@@ -2658,9 +2670,8 @@ function riskyModal(L,go){const fmt=x=>x.toLocaleString('id-ID'),act={};let pv='
     const keep=modal.querySelector('.sp-wrap')?.scrollTop||0;
     modal.innerHTML=`<div class="mh"><h3>${fmt(L.length)} risky COD ${L.length===1?'order':'orders'} in this batch</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
     <div class="mb"><p class="bk-mp">These shoppers often refuse COD parcels or aren't home, so the parcel comes back and you pay shipping both ways. Choose what happens to each order. Orders you ask to confirm or pay wait for the shopper on WhatsApp, then ship as their own batch.</p>
-    <div class="rk-grid"><div class="rk-main"><div class="rk-all"><label for="rk-all">Set all to</label><span class="selw"><select id="rk-all" class="sx-sel sx-whsel"><option value="">Choose an action</option>${Object.keys(RK_ACT).map(k=>`<option value="${k}">${RK_ACT[k]}</option>`).join('')}</select></span></div>
-    <div class="tbl-wrap sp-wrap"><table class="sp-tbl rk2"><thead><tr><th>Shopper</th><th>Health score</th><th>Payment</th><th>Action</th></tr></thead><tbody>${L.map(([s,i,h])=>`<tr><td><b>${s.name}</b><span class="src">+62 ${s.phone}</span></td><td><span class="rk-sc ${h.band}" tabindex="0" data-tip="${h.why.join('. ')}."><b class="num">${h.sc}</b>Risky</span></td><td>${isCod(s)?`<span class="st pu">COD</span><span class="src num">${rp(codVal(s))}</span>`:'<span class="st gr">Non-COD</span>'}</td><td class="sel"><div class="sp-sw"><select data-rka="${i}" aria-label="Action for ${s.name}">${opts(s).map(k=>`<option value="${k}" ${act[i]===k?'selected':''}>${RK_ACT[k]}</option>`).join('')}</select></div></td></tr>`).join('')}</tbody></table></div>
-    <p class="bk-mp" id="rk-sum">${[['ship','ship anyway'],['remove','removed'],['wa','asked to confirm'],['pay','sent a payment link']].filter(([k])=>cnt[k]).map(([k,l])=>`${fmt(cnt[k])} ${l}`).join(' · ')}</p></div>
+    <div class="rk-grid"><div class="rk-main"><div class="tbl-wrap sp-wrap"><table class="sp-tbl rk2"><thead><tr class="rk-allrow"><td colspan="3"><b>All ${fmt(L.length)} orders</b><span class="src">Apply one action to every order in this list</span></td><td class="sel"><div class="sp-sw"><select id="rk-all" aria-label="Action for all orders">${(()=>{const same=L.every(([s,i])=>act[i]===act[L[0][1]])?act[L[0][1]]:'';return`${same?'':'<option value="" hidden selected>Mixed actions</option>'}${Object.keys(RK_ACT).map(k=>`<option value="${k}" ${same===k?'selected':''}>${RK_ACT[k]}</option>`).join('')}`})()}</select></div></td></tr><tr><th>Shopper</th><th>Health score</th><th>Payment</th><th>Action</th></tr></thead><tbody>${L.map(([s,i,h])=>`<tr><td><b>${s.name}</b><span class="src">+62 ${s.phone}</span></td><td><span class="rk-sc ${h.band}" tabindex="0" data-tip="${h.why.join('. ')}."><b class="num">${h.sc}</b>Risky</span></td><td>${isCod(s)?`<span class="st pu">COD</span><span class="src num">${rp(codVal(s))}</span>`:'<span class="st gr">Non-COD</span>'}</td><td class="sel"><div class="sp-sw"><select data-rka="${i}" aria-label="Action for ${s.name}">${opts(s).map(k=>`<option value="${k}" ${act[i]===k?'selected':''}>${RK_ACT[k]}</option>`).join('')}</select></div></td></tr>`).join('')}</tbody></table></div>
+</div>
     <aside class="rk-pv"><div class="rk-pv-h"><b>What the shopper gets on WhatsApp</b><div class="seg" role="tablist"><button role="tab" class="${pv==='wa'?'on':''}" data-rkpv="wa">Confirmation</button><button role="tab" class="${pv==='pay'?'on':''}" data-rkpv="pay">Payment link</button></div></div>${waPreview(pv,sample)}<p class="hint">Sent from FLIK's verified WhatsApp account under your business name. You'll see replies on the Shipments page.</p></aside></div></div>
     <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><span class="sp"></span><button class="btn btn-p" id="rk-go" ${now||cnt.wa||cnt.pay?'':'disabled'}>${now?`Continue with ${fmt(now)} ${now===1?'order':'orders'}`:cnt.wa||cnt.pay?`Send ${fmt(cnt.wa+cnt.pay)} on WhatsApp and finish`:'No orders left to ship'}</button></div>`;
     modal.querySelector('.sp-wrap').scrollTop=keep;
