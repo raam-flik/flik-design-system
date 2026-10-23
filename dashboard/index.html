@@ -34,7 +34,6 @@ svg{display:block;flex:none}
 .app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
 .side{border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;background:#fff;display:flex;flex-direction:column}
 .acct{display:flex;align-items:center;gap:10px;padding:18px 18px 16px;border-bottom:1px solid var(--line);width:100%;text-align:left}
-.acct:hover{background:var(--hover)}
 .acct .lg{width:28px;height:28px;border-radius:7px;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.04)}
 .acct b{font-weight:600;font-size:14.5px;color:var(--ink);flex:1}
 .nav{padding:16px 10px;display:grid;gap:2px}
@@ -590,6 +589,20 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .sk{display:block;height:12px;border-radius:4px;background:var(--line);animation:skp 1.2s ease-in-out infinite}
 @keyframes skp{50%{opacity:.45}}
 @media (prefers-reduced-motion:reduce){.sk{animation:none}}
+/* pickup warehouse picker (same list as the invoice customer field) */
+.whp-btn{width:100%;height:36px;border-radius:6px;box-shadow:var(--sh);background:#fff;display:flex;align-items:center;gap:8px;padding:0 12px 0 10px;text-align:left;color:var(--ink);font-size:14px}
+.whp-btn>svg{color:var(--faint);flex:none}
+.whp-btn>span:first-of-type{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.whp-btn .chev{display:flex;color:var(--muted);transition:transform .15s}
+.whp-btn.on{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
+.whp-btn.on .chev{transform:rotate(180deg)}
+.whp .ie-dd .opt.on b{color:var(--primary)}
+.whp .ie-dd{z-index:20}
+/* add-warehouse pop-up */
+.whq-g{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.whq-g .w2{grid-column:1/-1}
+.whq-g .sx-f input{width:100%}
+@media (max-width:700px){.whq-g{grid-template-columns:1fr}}
 /* manual shipment card: pickup, payment and quantity per shipment */
 .sx-seg{display:flex;width:100%;height:36px;padding:3px}
 .sx-seg button{flex:1;height:30px}
@@ -1026,11 +1039,10 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 <div class="app">
   <!-- ===== Sidebar ===== -->
   <aside class="side" id="side">
-    <button class="acct" data-toast="Switch business account">
+    <div class="acct">
       <span class="lg"><svg width="16" height="16" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M23.2088 17.4254C23.2088 13.1436 20.7668 11.9717 17.755 11.9717H12.1924V20.7969C12.1924 23.8087 13.5039 26.2507 17.6461 26.2507V17.4254H23.2088Z" fill="#F26324"/><path d="M26.442 9.00748C26.442 3.71863 24 3 20.9882 3H2.94434V20.7678C2.94434 23.7796 3.6806 26.2215 9.22868 26.2215V9.00748H26.4427H26.442Z" fill="#F26324"/></svg></span>
       <b>Aruna Studio</b>
-      <span data-ic="sel"></span>
-    </button>
+    </div>
     <nav class="nav" id="nav"></nav>
     <div class="side-foot">FLIK Dashboard · Prototype</div>
   </aside>
@@ -1046,7 +1058,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
         <button class="lang" id="lang" aria-label="Language: English" aria-haspopup="menu"><span data-ic="globe"></span><span id="langv">EN</span><span data-ic="chev"></span></button>
         <button class="ib hide-s" data-toast="Opens FLIK help center" aria-label="Help"><span data-ic="help"></span></button>
         <button class="ib" id="bell" aria-label="Notifications"><span data-ic="bell"></span><span class="dot"></span></button>
-        <button class="ib hide-s" data-toast="Opens Settings" aria-label="Settings"><span data-ic="gear"></span></button>
+        <button class="ib hide-s" id="gear" aria-label="Settings" aria-haspopup="menu"><span data-ic="gear"></span></button>
         <button class="plus" id="plus" aria-label="Create"><span data-ic="plus"></span></button>
       </div>
     </header>
@@ -1346,7 +1358,7 @@ const NAV=[
   {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customer',v:'cus'},{i:'box',t:'Product Catalog',v:'prd'},
   {h:'Products'},
   {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop','Payment Link','Checkout Personalization','Order Form']},
-  {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},{t:'Tracking',v:'trk'},{t:'Warehouses',v:'wh'},{t:'Couriers',v:'cou'},'Red Zone']},
+  {i:'truck',t:'Shipping',sub:[{t:'Shipments',v:'shp'},{t:'Tracking',v:'trk'},'Monitoring','Check Rate','Analytics']},
   {i:'coins',t:'Merchant Cash Advance',v:'mca'},
   {i:'tag',t:'Marketing',sub:['Chat Commerce','Leads Management','Voucher','Post Purchase Offer','Cashback']},
   {i:'chart',t:'Analytics',sub:['Checkout','Shipping']},
@@ -2303,7 +2315,7 @@ function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
   return`<div class="sx-ship${s.open?' open':''}"><button class="sx-sh" data-tog="${i}"><b>Shipment ${i+1}</b>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${s.addr&&s.phone.replace(/\D/g,'').length>=9&&health(s).band!=='ok'?`<span class="st ${health(s).band}" title="${health(s).why.join('. ')}">${HB[health(s).band]} number · ${health(s).sc}</span>`:''}<span class="sum">${!s.open?`${s.name?s.name+' · ':''}${whOf(s).n}${s.addr?` → ${s.addr.city.split(', ').slice(-2,-1)[0]||s.addr.city}`:''} · ${cod?'COD':'Non-COD'}`:''}</span><span class="chev">${ic('chev',16)}</span></button>
   <div class="sx-sb"><div class="sx-g sx-g2">${inp(i,'phone','Customer WhatsApp','812-3456-7890',{pre:'+62',num:1})}${inp(i,'name','Customer name','Full name')}</div>
   <div class="sx-g"><div class="sx-f"><label>Customer address</label><button class="sx-addr${s.addr?' set':''}" data-addr="${i}">${ic('pin',16)}<span>${s.addr?`${s.addr.street}, ${s.addr.city} ${s.addr.zip}`:'Search the address or drop a pin'}</span><span class="chev">${ic('chev',16)}</span></button></div></div>
-  <div class="sx-g sx-g2"><div class="sx-f"><label for="s${i}wh">Pickup from</label><span class="selw"><select class="sx-sel sx-whsel" id="s${i}wh" data-swh="${i}">${WH.filter(w=>w.active).map(w=>`<option value="${w.code}" ${s.whk===w.code?'selected':''}>${w.n} · ${w.code}</option>`).join('')}</select></span></div>
+  <div class="sx-g sx-g2"><div class="sx-f"><label id="s${i}whl">Pickup from</label>${(()=>{const w=WH.find(x=>x.code===s.whk)||{n:'Choose a warehouse',code:''},open=X.whOpen===i;return`<div class="ie-fld whp"><button class="whp-btn${open?' on':''}" data-whp="${i}" aria-haspopup="listbox" aria-expanded="${open}" aria-labelledby="s${i}whl">${ic('wh',16)}<span>${w.n}${w.code?` · ${w.code}`:''}</span><span class="chev">${ic('chev',14)}</span></button>${open?`<div class="ie-dd" role="listbox"><button class="opt add" data-whnew="${i}">${ic('plus',15,2)}Add new warehouse</button><h6>Warehouses</h6>${WH.filter(x=>x.active).map(x=>`<button class="opt${x.code===s.whk?' on':''}" role="option" aria-selected="${x.code===s.whk}" data-whpick="${i}" data-code="${x.code}"><b>${x.n}</b><span>${x.code} · ${x.city}</span></button>`).join('')}</div>`:''}</div>`})()}</div>
     <div class="sx-f"><label id="s${i}pl">Payment method</label><div class="seg sx-seg" role="radiogroup" aria-labelledby="s${i}pl"><button role="radio" aria-checked="${cod}" class="${cod?'on':''}" data-spay="${i}" data-v="cod">COD</button><button role="radio" aria-checked="${!cod}" class="${cod?'':'on'}" data-spay="${i}" data-v="non">Non-COD</button></div></div></div>
   <div class="sx-g sx-gpq">${inp(i,'items','Product name','e.g. Linen shirt · White')}<div class="sx-f"><label>Quantity</label><div class="qty sx-qty"><button data-sq="${i}" data-d="-1" aria-label="Less" ${(s.qty||1)<=1?'disabled':''}>${ic('minus',14,2)}</button><span class="num">${s.qty||1}</span><button data-sq="${i}" data-d="1" aria-label="More">${ic('plus',14,2)}</button></div></div></div>
   <div class="sx-g sx-g4">${inp(i,'l','Length','0',{unit:'cm',num:1})}${inp(i,'w','Width','0',{unit:'cm',num:1})}${inp(i,'h','Height','0',{unit:'cm',num:1})}${inp(i,'kg','Weight','0',{unit:'kg',num:1})}</div>
@@ -2331,7 +2343,7 @@ function drawSx(){
     main=`<h2>Choose a courier</h2><p class="sx-lead">Prices cover all ${fmt(N)} ${N===1?'shipment':'shipments'}. Delivery rates are from FLIK shipments to the same kecamatan over the last 90 days, or the city where a kecamatan has too few (${fmt(ST.fallback)} of ${fmt(N)}).</p>${ur?`<div class="sx-note">${ic('warn',16)}<span>${ur.toLocaleString('id-ID')} ${ur===1?'shipment':'shipments'} can't go with ${svName(X.svc)}.</span><button class="lnk" data-split style="margin-left:auto;font-weight:500">Review</button></div>`:sp?`<div class="sx-note ok">${ic('check',16,2.4)}<span>Split into ${groups().length} batches: ${sp.toLocaleString('id-ID')} ${sp===1?'shipment goes':'shipments go'} with ${[...new Set(Object.values(X.alt))].length===1?svName(Object.values(X.alt)[0]):`${[...new Set(Object.values(X.alt))].length} other couriers`}.</span><button class="lnk" data-split style="margin-left:auto;font-weight:500">View</button></div>`:''}${recBox}
     <div class="seg cr-tabs" role="tablist" aria-label="Service type">${[['reg','Regular'],['exp','Express'],['cargo','Cargo']].map(g=>`<button role="tab" aria-selected="${grp===g[0]}" class="${grp===g[0]?'on':''}" data-cgrp="${g[0]}">${g[1]}</button>`).join('')}</div>
     <div class="cr-list">${rows.map(([c,list])=>`<div class="sx-cr"><div class="nm">${cLogo(c.k)}${c.n}</div><div class="sx-svcs">${list.map(([v,i])=>{const p=svcPrice(v),l=svcList(v),t=ST[i],tag=i===rec?'<span class="sx-tag">Recommended</span>':v[4]===cheap?'<span class="sx-tag ch">Cheapest</span>':'';
-      return`<button class="sx-svc${X.svc===i?' on':''}${t.red?' rz':''}" data-svc="${i}">${tag}<span class="n">${v[1]}<span class="rdo${X.svc===i?' on':''}"></span></span><span class="d">${v[3]}</span><span class="p num">${rp(p)}${l?`<s>${rp(l)}</s>`:''}</span><span class="cr-bar" aria-hidden="true"><i style="width:${t.rate}%"></i></span><span class="cr-rate">${pct(t.rate)} delivered</span>${t.red?`<span class="cr-rz">${ic('warn',13)}${fmt(t.red)} ${t.red===1?'parcel':'parcels'} in red zone</span>`:''}</button>`}).join('')}</div></div>`).join('')||`<p class="bk-mp" style="padding:16px 0">No ${grp==='exp'?'express':'cargo'} services are switched on. Turn them on in Couriers.</p>`}</div>`}
+      return`<button class="sx-svc${X.svc===i?' on':''}${t.red?' rz':''}" data-svc="${i}">${tag}<span class="n">${v[1]}<span class="rdo${X.svc===i?' on':''}"></span></span><span class="d">${v[3]}</span><span class="p num">${rp(p)}${l?`<s>${rp(l)}</s>`:''}</span><span class="cr-bar" aria-hidden="true"><i style="width:${t.rate}%"></i></span><span class="cr-rate">${pct(t.rate)} delivered</span>${t.red?`<span class="cr-rz">${ic('warn',13)}${fmt(t.red)} ${t.red===1?'parcel':'parcels'} in red zone</span>`:''}</button>`}).join('')}</div></div>`).join('')||`<p class="bk-mp" style="padding:16px 0">No ${grp==='exp'?'express':'cargo'} services are available for this batch.</p>`}</div>`}
   else if(st===2){const G=groups(),n=X.ships.length;
     main=`<h2>Schedule pickup</h2><p class="sx-lead">${G.length===1?`${svName(G[0].v)} will pick up ${parcels(n)} from ${G[0].w.n}.`:`${G.length} pickups: one per courier and pickup address.`}</p>
     <section class="sx-card"><div class="sx-h" style="margin-bottom:4px">${ic('clock',17)}Pickup window</div>
@@ -2373,11 +2385,14 @@ sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.br!=null){if(t
   const card=t.closest('.sx-ship'),i=+t.dataset.si,ok=shipOk(X.ships[i]);const has=card.querySelector('.sx-sh .ok');
   if(ok&&!has)card.querySelector('.sx-sh b').insertAdjacentHTML('afterend',`<span class="ok">${ic('check',15,2.4)}</span>`);if(!ok&&has)has.remove();
   document.getElementById('sx-next').disabled=!stepOk()}});
-sxBody.addEventListener('change',e=>{if(e.target.dataset.swh!=null){X.ships[e.target.dataset.swh].whk=e.target.value;X.alt={};return}if(e.target.id==='sx-payout'){X.payout=e.target.value}else if(e.target.dataset.br!=null){const t=e.target;if(t.tagName==='SELECT')bPick(t);const rw=X.bulk[t.dataset.br];(rw&&rw.flag&&bDoneCheck())||bRefresh(+t.dataset.br,t.tagName==='SELECT'||t.dataset.bk==='phone'||t.dataset.bk==='name')}});
+sxBody.addEventListener('change',e=>{if(e.target.dataset.swh!=null){const i=+e.target.dataset.swh;if(e.target.value==='__new'){e.target.value=X.ships[i].whk;whQuickModal(nw=>{X.ships[i].whk=nw.code;X.alt={};drawSx();toast(`${nw.n} added. Shipment ${i+1} now ships from there.`)});return}X.ships[i].whk=e.target.value;X.alt={};return}if(e.target.id==='sx-payout'){X.payout=e.target.value}else if(e.target.dataset.br!=null){const t=e.target;if(t.tagName==='SELECT')bPick(t);const rw=X.bulk[t.dataset.br];(rw&&rw.flag&&bDoneCheck())||bRefresh(+t.dataset.br,t.tagName==='SELECT'||t.dataset.bk==='phone'||t.dataset.bk==='name')}});
 sxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;
   if(d.tog!=null)X.ships[d.tog].open=!X.ships[d.tog].open;
   else if(d.how){X.how=d.how;X.uploaded=false;X.uploading=null}
   else if(d.pay)X.pay=d.pay;
+  else if(d.whp!=null){X.whOpen=X.whOpen===+d.whp?null:+d.whp}
+  else if(d.whpick!=null){X.ships[d.whpick].whk=d.code;X.whOpen=null;X.alt={}}
+  else if(d.whnew!=null){const i=+d.whnew;X.whOpen=null;drawSx();whQuickModal(nw=>{X.ships[i].whk=nw.code;X.alt={};drawSx();toast(`${nw.n} added. Shipment ${i+1} now ships from there.`)});return}
   else if(d.spay!=null){X.ships[d.spay].pay=d.v;X.alt={}}
   else if(d.sq!=null){const s=X.ships[d.sq];s.qty=Math.max(1,(s.qty||1)+(+d.d))}
   else if('upload' in d){bUpload();return}
@@ -2566,6 +2581,25 @@ function svcStats(){const out={},N=X.ships.length;let fb=0;
   return out}
 /* recommend, within the open tab, the switched-on service with no red-zone parcels and the best delivery rate; cheaper wins a tie */
 function recSvc(ST,grp){let best=null;SERVICES.forEach((v,j)=>{if(v[2]!==grp||!svcOn(v[0],v[1])||ST[j].red)return;if(best==null||ST[j].rate>ST[best].rate||(ST[j].rate===ST[best].rate&&v[4]<SERVICES[best][4]))best=j});return best}
+/* top bar gear: settings, including Warehouses (no longer in the sidebar) */
+document.getElementById('gear').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  pop.innerHTML=`<div class="menu" style="width:220px" role="menu"><button class="opt" role="menuitem" data-gv="warehouses">${ic('wh',15)}Warehouses</button><button class="opt" role="menuitem" data-gt="Opens Settings">${ic('gear',15)}All settings</button></div>`;
+  pop.querySelector('[data-gv]').onclick=()=>{closePop();location.hash='warehouses'};pop.querySelector('[data-gt]').onclick=()=>{closePop();toast('Opens Settings')};placePop(b,true)};
+/* add a warehouse from Create shipment without leaving the flow */
+function whQuickModal(onSave){const w={n:'',code:'',ph:'',street:'',dist:'',city:'',prov:'',zip:''};
+  const F=[['n','Warehouse name','e.g. Medan warehouse'],['code','Warehouse code','e.g. MDN-01'],['ph','Contact WhatsApp','812-3456-7890',1],['street','Street address','Street, building, number',0,1],['dist','Kecamatan','e.g. Medan Petisah'],['city','City or regency','e.g. Kota Medan'],['prov','Province','e.g. Sumatera Utara'],['zip','Postcode','20112']];
+  modal.innerHTML=`<div class="mh"><h3>Add a warehouse</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb whq"><p class="bk-mp">Couriers pick up from here. You can add opening hours and other details later in Settings › Warehouses.</p>
+  <div class="whq-g">${F.map(([k,l,ph,pre,wide])=>`<div class="sx-f${wide?' w2':''}"><label for="wq-${k}">${l}</label>${pre?`<div class="pre"><em>+62</em><input id="wq-${k}" data-wq="${k}" placeholder="${ph}" inputmode="numeric"></div>`:`<input id="wq-${k}" data-wq="${k}" placeholder="${ph}" ${k==='zip'?'inputmode="numeric" maxlength="5"':''}>`}</div>`).join('')}</div>
+  <p class="wh-err" id="wq-err" hidden></p></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="wq-go" disabled>Add warehouse</button></div>`;
+  mscrim.classList.add('open');const go=document.getElementById('wq-go'),err=document.getElementById('wq-err');
+  const check=()=>{const taken=WH.some(x=>x.code.toUpperCase()===w.code.toUpperCase());const ok=Object.values(w).every(v=>v.trim())&&/^\d{5}$/.test(w.zip)&&w.ph.replace(/\D/g,'').length>=9&&!taken;
+    err.hidden=!taken;err.textContent=taken?`${w.code.toUpperCase()} is already used by another warehouse.`:'';go.disabled=!ok};
+  modal.oninput=e=>{const k=e.target.dataset.wq;if(!k)return;if(k==='code')e.target.value=e.target.value.toUpperCase();w[k]=e.target.value;check()};
+  go.onclick=()=>{const nw={code:w.code.trim().toUpperCase(),ext:'',n:w.n.trim(),pic:{first:'',last:'',email:'',phone:w.ph.trim()},prov:w.prov.trim(),city:w.city.trim(),dist:w.dist.trim(),zip:w.zip,street:w.street.trim(),note:'',days:whHrs('08:00','17:00',['Mon','Tue','Wed','Thu','Fri','Sat']),pickup:true,active:true,def:false};
+    WH.push(nw);whSync();modal.oninput=null;closeModal();onSave(nw)};
+  setTimeout(()=>document.getElementById('wq-n').focus(),0)}
 function splitModal(pre){const v=X.svc,N=X.ships.length,fmt=x=>x.toLocaleString('id-ID');
   /* every shipment the main courier can't take; the merchant picks a courier per shipment from those that deliver there */
   const B=X.ships.map((s,i)=>[s,i]).filter(([s])=>whyBlocked(v,s)),n=B.length,stay=N-n,SH=n===1?'shipment':'shipments';
@@ -2615,6 +2649,8 @@ const tipHide=()=>{gtip.hidden=true};
 document.addEventListener('mouseover',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');el?tipShow(el):tipHide()});
 document.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');el?tipShow(el):tipHide()});
 document.addEventListener('scroll',tipHide,true);
+document.addEventListener('click',e=>{if(typeof X!=='undefined'&&X&&X.whOpen!=null&&e.target.isConnected&&!e.target.closest('.whp')){X.whOpen=null;drawSx()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&typeof X!=='undefined'&&X&&X.whOpen!=null){X.whOpen=null;drawSx()}});
 function bDoneCheck(){if(!bCounts().left){X.bv='all';X.bpg=0;drawSx();toast(`All ${X.bulk.length} orders are ready`);return true}return false}
 function addrModal(i){const a=X.ships[i].addr||{street:'',city:'',zip:''};
   modal.innerHTML=`<div class="mh"><h3>Customer address</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
@@ -3016,7 +3052,7 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
   drawer.classList.add('open');dscrim.classList.add('open');drawer.querySelector('[data-dclose]').onclick=closeDetail};
 
 /* ===== Simple router: #home / #transactions ===== */
-const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],cou:['couriers','Couriers'],prd:['products','Product catalog']};
+const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog']};
 const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
@@ -3030,13 +3066,13 @@ function show(view){
   if(home)drawChart();
   if(view==='mca')renderMca();
   if(view==='bal')renderBal();
-  if(view==='shp'){shpRoute();nav.querySelector('[data-view="shp"]').closest('.grp').classList.add('open')}
+  if(view==='shp'){shpRoute();nav.querySelector('[data-view=\"shp\"]')?.closest('.grp')?.classList.add('open')}
   if(view==='cus')renderCus();
   if(view==='prd')renderPrd();
-  if(view==='cou'){renderCou();nav.querySelector('[data-view="cou"]').closest('.grp').classList.add('open')}
-  if(view==='wh'){renderWh();nav.querySelector('[data-view="wh"]').closest('.grp').classList.add('open')}
-  if(view==='trk'){nav.querySelector('[data-view="trk"]').closest('.grp').classList.add('open');setTimeout(()=>document.getElementById('trk-q').focus(),0)}
-  if(view==='inv'){renderInv();nav.querySelector('[data-view="inv"]').closest('.grp').classList.add('open')}
+  if(view==='cou'){renderCou();nav.querySelector('[data-view=\"cou\"]')?.closest('.grp')?.classList.add('open')}
+  if(view==='wh'){renderWh();nav.querySelector('[data-view=\"wh\"]')?.closest('.grp')?.classList.add('open')}
+  if(view==='trk'){nav.querySelector('[data-view=\"trk\"]')?.closest('.grp')?.classList.add('open');setTimeout(()=>document.getElementById('trk-q').focus(),0)}
+  if(view==='inv'){renderInv();nav.querySelector('[data-view=\"inv\"]')?.closest('.grp')?.classList.add('open')}
   closeDetail();setSide(false);scrollTo(0,0);
 }
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{location.hash=VIEWS[b.dataset.view][0]});
