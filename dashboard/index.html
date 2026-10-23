@@ -445,6 +445,20 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .sx-row{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:4px}
 /* AI fixing: progress strip, queued cells pulse, the working row gets a scan line, fixed cells flash */
 .bk-mp{color:var(--muted);font-size:13.5px;line-height:1.5}
+/* medium dialog: a short review list that needs table columns */
+.modal.md{max-width:480px}
+.fx-wrap{margin:4px 0 14px;max-height:440px}
+.sp-tbl.fx-tbl{min-width:0;table-layout:auto}
+/* the first three columns hug their content; the AI fix takes what is left */
+.sp-tbl.fx-tbl th:nth-child(-n+3),.sp-tbl.fx-tbl td:nth-child(-n+3){width:1%;padding-right:24px}.sp-tbl.fx-tbl th:nth-child(4),.sp-tbl.fx-tbl td:nth-child(4){width:auto;min-width:0;padding-right:14px}
+.sp-tbl.fx-tbl th:first-child,.sp-tbl.fx-tbl td:first-child{min-width:0;max-width:none}
+.fx-tbl th,.fx-tbl td{text-align:left;padding:10px 14px;height:auto;white-space:nowrap;cursor:default}
+.fx-tbl tbody tr:hover td{background:none}
+.fx-tbl td:first-child{color:var(--muted)}
+.fx-tbl .fx-old{color:var(--muted);text-decoration:line-through}
+.fx-tbl .fx-new{color:var(--ink);font-weight:600;white-space:nowrap}
+.fx-tbl .fx-new svg{display:inline-block;color:var(--primary);vertical-align:-2px;margin-right:6px}
+@media (max-width:700px){.modal.md{max-width:100%}.fx-wrap{overflow-x:auto}}
 .bk-mlist{max-height:240px;overflow-y:auto;padding:12px 14px;border-radius:8px;background:var(--hover)}
 .bk-mlist dt{color:var(--muted)}
 .bk-mlist dd{color:var(--text)}
@@ -1622,7 +1636,7 @@ dscrim.onclick=closeDetail;
 
 /* ===== Refund modal ===== */
 const mscrim=document.getElementById('mscrim'),modal=document.getElementById('modal');
-function closeModal(){mscrim.classList.remove('open');modal.classList.remove('wide')}
+function closeModal(){mscrim.classList.remove('open');modal.classList.remove('wide','md')}
 mscrim.onclick=e=>{if(e.target===mscrim||e.target.closest('[data-mclose]'))closeModal()};
 function refundModal(ids){
   const list=ids.map(id=>PAY.find(p=>p.id===id)).filter(p=>p&&p.status==='succeeded'&&p.mk!=='cod');
@@ -2453,6 +2467,7 @@ sxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)ret
   else if('reset' in d){X.ships=[newShip()];X.uploaded=false;X.bulk=null}
   else if(d.del!=null)X.ships.splice(+d.del,1);
   else if('topup' in d){shipTopup();return}
+  else if(d.brk!=null){X.ships=X.bulk.map(bShip);const L=riskyList();if(L.length)riskyModal(L,()=>drawSx());return}
   else if(d.brm!=null){const i=+d.brm,nm=X.bulk[i].name;X.bulk.splice(i,1);X.bulk.forEach((x,k)=>x.i=k);toast(`Row ${i+1} (${nm}) removed`)}
   else if(d.pkg!=null){X.pkOpen=X.pkOpen||{};X.pkOpen[d.pkg]=!X.pkOpen[d.pkg]}
   else if(d.cgrp){X.cgrp=d.cgrp}
@@ -2525,7 +2540,10 @@ function bApply(r){r.ai=Object.keys(r.fix);r.aiTx=r.ai.map(k=>`${r.bad[k]} → $
 function bCheck(r){
   if(r.fix)return`<div class="is-sm sug">${ic('bolt',13)}AI suggestion</div><div class="is sug full"><span class="msg" title="${r.msg}">${ic('bolt',13)}${r.msg}</span><button class="btn btn-o" data-bacc="${r.i}">Accept</button></div>`;
   if(bSt(r)==='err')return`<div class="is-sm err">${ic('warn',13)}Needs your input</div><div class="is err full"><span class="msg" title="${r.msg}">${r.msg}</span></div>`;
-  const h=hRow(r);if(h.band!=='ok')return`<div class="is-sm rk ${h.band}">${ic('warn',13)}${h.band==='bad'?'Risky number':'Check number'} · ${h.sc}</div><div class="is rk ${h.band} full"><span class="msg"><b>Health score ${h.sc}</b> · ${h.why.join('. ')}.</span><button class="btn btn-o" data-brm="${r.i}">Remove</button></div>`;
+  const h=hRow(r);
+  if(h.band!=='ok'&&r.rkShip)return`<div class="is-sm ok">${ic('check',13,2.4)}Shipping anyway</div><div class="is ok full"><span class="msg"><b>Health score ${h.sc}</b> · you chose to ship this order.</span><button class="btn btn-o" data-brk="${r.i}">Change</button></div>`;
+  /* flagged COD orders are handled in the risky orders dialog; flagged Non-COD orders are already paid, so the flag is information only */
+  if(h.band!=='ok')return`<div class="is-sm rk ${h.band}">${ic('warn',13)}${h.band==='bad'?'Risky number':'Check number'} · ${h.sc}</div><div class="is rk ${h.band} full"><span class="msg"><b>Health score ${h.sc}</b> · ${h.why.join('. ')}.${isCod(bShip(r))?'':' Paid up front, so it ships as normal.'}</span>${isCod(bShip(r))?`<button class="btn btn-o" data-brk="${r.i}">Take action</button>`:''}</div>`;
   const note=r.ai?`Fixed by AI: ${r.aiTx}`:r.need||r.you?'Chosen by you':'';
   return`<div class="is-sm ok">${ic('check',13,2.4)}Ready</div>${note?`<div class="is ok full"><span class="msg" title="${note}"><b>${ic('check',13,2.4)}Ready</b> · ${note}</span></div>`:''}`}
 function bCell(r,k,lab){const cls=bCls(r,k),need=r.need&&r.need.includes(k);
@@ -2561,10 +2579,10 @@ const aiDots='<span class="ai-dots" aria-hidden="true"><i></i><i></i><i></i></sp
 function bFixConfirm(){const rows=X.bulk.filter(r=>r.fix),n=rows.length,left=bCounts().err,rw=n===1?'row':'rows';
   modal.innerHTML=`<div class="mh"><h3>Fix ${n} ${rw} with AI?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="mb"><p class="bk-mp">AI will fix every flagged row using its suggestions from your address and warehouse data. You can still change any cell afterwards.</p>
-  <dl class="sum-kv bk-mlist">${rows.map(r=>`<dt>Row ${r.i+1}</dt><dd>${Object.keys(r.fix).map(k=>`${B_LBL[k]} ${r.bad[k]} → <b>${r.fix[k]}</b>`).join('<br>')}</dd>`).join('')}</dl>
+  <div class="tbl-wrap sp-wrap fx-wrap"><table class="sp-tbl fx-tbl"><thead><tr><th>Row</th><th>Field</th><th>In your file</th><th>AI fix</th></tr></thead><tbody>${rows.flatMap(r=>Object.keys(r.fix).map(k=>`<tr><td>${r.i+1}</td><td>${B_LBL[k]}</td><td class="fx-old">${r.bad[k]}</td><td class="fx-new">${ic('bolt',13)}${r.fix[k]}</td></tr>`)).join('')}</tbody></table></div>
   ${left?`<p class="bk-mp">${left} ${left===1?'row has':'rows have'} empty cells. AI can't guess those, so you'll choose them yourself.</p>`:''}</div>
   <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="bk-go">${ic('bolt',15)}Fix ${n} ${rw}</button></div>`;
-  mscrim.classList.add('open');document.getElementById('bk-go').onclick=()=>{closeModal();bFixRun()};setTimeout(()=>document.getElementById('bk-go').focus(),0)}
+  modal.classList.add('md');mscrim.classList.add('open');document.getElementById('bk-go').onclick=()=>{closeModal();bFixRun()};setTimeout(()=>document.getElementById('bk-go').focus(),0)}
 function bFixRun(){const rows=X.bulk.filter(r=>r.fix),n=rows.length;let k=0;
   X.bv='issues';X.bfix={done:0,n,tx:`Reading ${n} suggestions…`};drawSx();
   const g=id=>document.getElementById(id);
@@ -2655,8 +2673,8 @@ function whQuickModal(onSave){const w={n:'',code:'',ph:'',street:'',dist:'',city
 /* ===== Risky shoppers: decide before shipping. Ship anyway, remove, ask the shopper to confirm on WhatsApp, or send a payment link on WhatsApp.
    The last two wait for the shopper and ship later as their own batch. ===== */
 const RK_ACT={ship:'Ship anyway',remove:'Remove order',wa:'Confirm on WhatsApp',pay:'Payment link on WhatsApp'};
-/* only COD orders: a Non-COD order is already paid, so a failed delivery doesn't cost the merchant the goods */
-const riskyList=()=>X.ships.map((s,i)=>[s,i,health(s)]).filter(x=>x[2].band==='bad'&&isCod(x[0])).sort((a,b)=>a[2].sc-b[2].sc);
+/* every flagged COD order (Risky or Fair) goes through the dialog; flagged Non-COD orders are only shown as information */
+const riskyList=()=>X.ships.map((s,i)=>[s,i,health(s)]).filter(x=>x[2].band!=='ok'&&isCod(x[0])).sort((a,b)=>a[2].sc-b[2].sc);
 const cityOf=s=>s.addr?(s.addr.city.split(', ').slice(-2,-1)[0]||s.addr.city):'';
 function waPreview(kind,s){const first=(s.name||'there').split(' ')[0],amt=rp(codVal(s)||0);
   const t=kind==='pay'?`Hi ${first}, your order from Aruna Studio is ready: ${s.items}. Pay ${amt} so we can ship it to ${cityOf(s)}. This link works for 24 hours.`
@@ -2664,13 +2682,13 @@ function waPreview(kind,s){const first=(s.name||'there').split(' ')[0],amt=rp(co
   return`<div class="wa-b"><div class="wa-h"><span class="wa-av">AS</span><b>Aruna Studio</b><span class="wa-v">${ic('check',11,2.6)}</span></div><p>${t}</p><span class="wa-t">10:47</span>
     <div class="wa-btns">${kind==='pay'?`<span>${ic('ext',14,2)}Pay now</span>`:`<span>${ic('check',14,2)}Confirm order</span><span>Cancel order</span>`}</div></div>`}
 function riskyModal(L,go){const fmt=x=>x.toLocaleString('id-ID'),act={};let pv='wa';
-  L.forEach(([s,i])=>act[i]='wa');
+  L.forEach(([s,i])=>act[i]=X.bulk&&X.bulk[i]&&X.bulk[i].rkShip?'ship':'wa');
   const opts=s=>Object.keys(RK_ACT).filter(k=>k!=='pay'||isCod(s));
   const draw=()=>{const cnt={ship:0,remove:0,wa:0,pay:0};L.forEach(([s,i])=>cnt[act[i]]++);const now=X.ships.length-cnt.remove-cnt.wa-cnt.pay,sample=(L.find(([s,i])=>act[i]===pv)||L.find(([s])=>pv!=='pay'||isCod(s))||L[0])[0];
     const keep=modal.querySelector('.sp-wrap')?.scrollTop||0;
-    modal.innerHTML=`<div class="mh"><h3>${fmt(L.length)} risky COD ${L.length===1?'order':'orders'} in this batch</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-    <div class="mb"><p class="bk-mp">These shoppers often refuse COD parcels or aren't home, so the parcel comes back and you pay shipping both ways. Choose what happens to each order. Orders you ask to confirm or pay wait for the shopper on WhatsApp, then ship as their own batch.</p>
-    <div class="rk-grid"><div class="rk-main"><div class="tbl-wrap sp-wrap"><table class="sp-tbl rk2"><thead><tr class="rk-allrow"><td colspan="3"><b>All ${fmt(L.length)} orders</b><span class="src">Apply one action to every order in this list</span></td><td class="sel"><div class="sp-sw"><select id="rk-all" aria-label="Action for all orders">${(()=>{const same=L.every(([s,i])=>act[i]===act[L[0][1]])?act[L[0][1]]:'';return`${same?'':'<option value="" hidden selected>Mixed actions</option>'}${Object.keys(RK_ACT).map(k=>`<option value="${k}" ${same===k?'selected':''}>${RK_ACT[k]}</option>`).join('')}`})()}</select></div></td></tr><tr><th>Shopper</th><th>Health score</th><th>Payment</th><th>Action</th></tr></thead><tbody>${L.map(([s,i,h])=>`<tr><td><b>${s.name}</b><span class="src">+62 ${s.phone}</span></td><td><span class="rk-sc ${h.band}" tabindex="0" data-tip="${h.why.join('. ')}."><b class="num">${h.sc}</b>Risky</span></td><td>${isCod(s)?`<span class="st pu">COD</span><span class="src num">${rp(codVal(s))}</span>`:'<span class="st gr">Non-COD</span>'}</td><td class="sel"><div class="sp-sw"><select data-rka="${i}" aria-label="Action for ${s.name}">${opts(s).map(k=>`<option value="${k}" ${act[i]===k?'selected':''}>${RK_ACT[k]}</option>`).join('')}</select></div></td></tr>`).join('')}</tbody></table></div>
+    modal.innerHTML=`<div class="mh"><h3>${fmt(L.length)} COD ${L.length===1?'order needs':'orders need'} a check before shipping</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><p class="bk-mp">These numbers have failed deliveries before, or go to areas where fewer COD parcels are accepted. A COD parcel that comes back costs you shipping both ways. Choose what happens to each order. Orders you ask to confirm or pay wait for the shopper on WhatsApp, then ship as their own batch.</p>
+    <div class="rk-grid"><div class="rk-main"><div class="tbl-wrap sp-wrap"><table class="sp-tbl rk2"><thead><tr class="rk-allrow"><td colspan="3"><b>All ${fmt(L.length)} orders</b><span class="src">Apply one action to every order in this list</span></td><td class="sel"><div class="sp-sw"><select id="rk-all" aria-label="Action for all orders">${(()=>{const same=L.every(([s,i])=>act[i]===act[L[0][1]])?act[L[0][1]]:'';return`${same?'':'<option value="" hidden selected>Mixed actions</option>'}${Object.keys(RK_ACT).map(k=>`<option value="${k}" ${same===k?'selected':''}>${RK_ACT[k]}</option>`).join('')}`})()}</select></div></td></tr><tr><th>Shopper</th><th>Health score</th><th>Payment</th><th>Action</th></tr></thead><tbody>${L.map(([s,i,h])=>`<tr><td><b>${s.name}</b><span class="src">+62 ${s.phone}</span></td><td><span class="rk-sc ${h.band}" tabindex="0" data-tip="${h.why.join('. ')}."><b class="num">${h.sc}</b>${HB[h.band]}</span></td><td>${isCod(s)?`<span class="st pu">COD</span><span class="src num">${rp(codVal(s))}</span>`:'<span class="st gr">Non-COD</span>'}</td><td class="sel"><div class="sp-sw"><select data-rka="${i}" aria-label="Action for ${s.name}">${opts(s).map(k=>`<option value="${k}" ${act[i]===k?'selected':''}>${RK_ACT[k]}</option>`).join('')}</select></div></td></tr>`).join('')}</tbody></table></div>
 </div>
     <aside class="rk-pv"><div class="rk-pv-h"><b>What the shopper gets on WhatsApp</b><div class="seg" role="tablist"><button role="tab" class="${pv==='wa'?'on':''}" data-rkpv="wa">Confirmation</button><button role="tab" class="${pv==='pay'?'on':''}" data-rkpv="pay">Payment link</button></div></div>${waPreview(pv,sample)}<p class="hint">Sent from FLIK's verified WhatsApp account under your business name. You'll see replies on the Shipments page.</p></aside></div></div>
     <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><span class="sp"></span><button class="btn btn-p" id="rk-go" ${now||cnt.wa||cnt.pay?'':'disabled'}>${now?`Continue with ${fmt(now)} ${now===1?'order':'orders'}`:cnt.wa||cnt.pay?`Send ${fmt(cnt.wa+cnt.pay)} on WhatsApp and finish`:'No orders left to ship'}</button></div>`;
@@ -2678,7 +2696,7 @@ function riskyModal(L,go){const fmt=x=>x.toLocaleString('id-ID'),act={};let pv='
     modal.querySelectorAll('[data-rka]').forEach(el=>el.onchange=()=>{act[el.dataset.rka]=el.value;if(el.value==='wa'||el.value==='pay')pv=el.value;draw()});
     document.getElementById('rk-all').onchange=e=>{const v=e.target.value;if(!v)return;L.forEach(([s,i])=>act[i]=v==='pay'&&!isCod(s)?'wa':v);if(v==='wa'||v==='pay')pv=v;draw()};
     modal.querySelectorAll('[data-rkpv]').forEach(b=>b.onclick=()=>{pv=b.dataset.rkpv;draw()});
-    document.getElementById('rk-go').onclick=()=>{const rm=new Set(),held=[];L.forEach(([s,i])=>{if(act[i]==='remove')rm.add(i);if(act[i]==='wa'||act[i]==='pay'){rm.add(i);held.push({s,kind:act[i]})}});
+    document.getElementById('rk-go').onclick=()=>{const rm=new Set(),held=[];L.forEach(([s,i])=>{if(X.bulk&&X.bulk[i])X.bulk[i].rkShip=act[i]==='ship';if(act[i]==='remove')rm.add(i);if(act[i]==='wa'||act[i]==='pay'){rm.add(i);held.push({s,kind:act[i]})}});
       X.held=(X.held||[]).concat(held);X.ships=X.ships.filter((s,i)=>!rm.has(i));if(X.bulk){X.bulk=X.bulk.filter((r,i)=>!rm.has(i));X.bulk.forEach((r,i)=>r.i=i)}
       X.alt={};X.rkDone=true;closeModal();if(!X.ships.length){finishHeldOnly();toast(`${fmt(held.length)} ${held.length===1?'order':'orders'} sent to the shopper on WhatsApp`);return}go();
       const nr=[...rm].length-held.length;toast([held.length?`${fmt(held.length)} ${held.length===1?'order waits':'orders wait'} for the shopper`:'',nr?`${fmt(nr)} removed`:''].filter(Boolean).join(' · ')||'Shipping all orders')}};
