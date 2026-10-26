@@ -100,6 +100,8 @@ h1{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px;margin-t
 .btn-p{background:var(--primary);color:#fff}
 .btn-p:hover{background:var(--primary-h)}
 .btn-p:disabled{background:#C4B8FF;cursor:not-allowed}
+.btn-o:disabled{color:var(--faint);cursor:not-allowed}
+.btn-o:disabled svg{color:var(--faint)}
 .btn-d{background:#fff;box-shadow:var(--sh);color:#B3093C}
 
 /* Popovers */
@@ -616,6 +618,39 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .cmp-tbl .cmp-b{color:var(--ink);font-weight:500}
 .cmp-tbl tr.cmp-rm .cmp-b{color:var(--bad-tx)}
 .cmp-tbl tr.cmp-rm .cmp-a,.cmp-tbl tr.cmp-wait .cmp-a,.cmp-tbl tr.cmp-cour .cmp-a{text-decoration:none}
+/* refunds and disputes */
+.tab .tab-bd,.ni .tab-bd{margin-left:6px;padding:0 6px;min-width:18px;height:18px;line-height:18px;font-size:11.5px;justify-content:center}
+.ni .tab-bd{margin-left:auto}
+#rd-seg{margin-right:4px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+#rd-seg button{white-space:nowrap;flex:none}
+.rf-fund{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.rf-bar{display:block;width:72px;height:6px;border-radius:3px;background:var(--hover);overflow:hidden;flex:none}
+.rf-bar i{display:block;height:100%;background:var(--primary);border-radius:3px}
+.rf-fund.big{flex-direction:column;align-items:stretch;gap:8px;white-space:normal;font-size:13.5px;color:var(--text)}
+.rf-fund.big .rf-bar{width:100%;height:8px}
+.rf-pay{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;background:var(--hover);margin-bottom:12px}
+.rf-pay b{display:block;color:var(--ink);font-weight:600}
+.rf-pay span{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.rf-kv{margin-bottom:12px}
+.rf-h{margin:6px 0 8px}
+.rf-sel{max-width:none;margin-top:0}
+.fld textarea{width:100%;min-height:72px;border-radius:6px;border:0;box-shadow:var(--sh);padding:8px 10px;font:inherit;outline:none;resize:vertical;background:#fff}
+.fld textarea:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
+.fld .hint.err{color:var(--bad-tx)}
+.rf-code{letter-spacing:6px;max-width:180px}
+.modal .sx-note{margin:4px 0 0}
+.dp-why b{display:block;color:var(--ink);font-weight:500;margin-bottom:2px}
+.dp-why{margin:0;color:var(--muted);font-size:13.5px}
+.dp-files{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.dp-files li{display:flex;gap:8px;align-items:flex-start;color:var(--muted)}
+.dp-files b{display:block;color:var(--ink);font-weight:500;font-size:13.5px}
+.dp-note{margin:10px 0 0;padding:10px 12px;border-radius:8px;background:var(--hover);font-size:13.5px}
+.dp-drop{margin-top:12px;padding:18px;font-size:13px}
+.dp-f{margin-top:12px}
+.bl-go{margin-top:8px;color:var(--primary);font-weight:500;font-size:13px}
+.rf-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:8px 0;border-bottom:1px solid var(--line);text-align:left;font-size:13.5px;color:var(--text)}
+.rf-row:last-child{border-bottom:0}
+.rf-row:hover b{color:var(--primary)}
 /* payment cost breakdown */
 .pt-wrap{margin-top:4px}
 .pt{min-width:0}
@@ -1538,6 +1573,54 @@ for(let i=0;i<380;i++){
 }
 const SETTLE=Array.from({length:18},(_,i)=>{const d=new Date(NOW.getTime()-i*86400000);return{id:'st_'+(9000-i),amount:Math.round((800000+rnd()*2200000)/1000)*1000,status:i===0?'pending':'succeeded',created:d,ref:'MCA-0007'}});
 
+/* ===== Refunds and disputes (ledger D60 refunds, D61 disputes): records tied to real payments ===== */
+const dayMs=86400000;
+const addWD=(d,n)=>{const x=new Date(d);while(n>0){x.setDate(x.getDate()+1);if(x.getDay()%6)n--}return x};
+const wdLeft=d=>{let n=0;const x=new Date(NOW);x.setHours(0,0,0,0);const e=new Date(d);e.setHours(0,0,0,0);while(x<e){x.setDate(x.getDate()+1);if(x.getDay()%6)n++}return n};
+const fday2=d=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`;
+const RF_REASON={notrec:'Not received',damaged:'Damaged',wrong:'Wrong item',dup:'Duplicate charge',other:'Other'};
+const RF_ST={funding:['Pending funding','warn'],paused:['Paused','gr'],sent:['Sent','pu'],paid:['Paid to shopper','ok'],retry:['Failed, retrying','bad'],cancelled:['Cancelled','gr'],flik:['Paid by FLIK','bad']};
+const RF_OPEN=['funding','paused','retry','sent'];
+const RF_SRC={you:'Requested by you',support:'Requested by FLIK support',recorded:'Recorded by FLIK'};
+const DP_REASON={notrec:['Not received','The shopper says the order never arrived.'],damaged:['Not as described or damaged','The shopper says the item arrived damaged or isn\'t what the listing showed.'],unauth:['Didn\'t authorise','The cardholder says they didn\'t make this payment.'],refunded:['Already refunded','The shopper says they were promised a refund that never came.'],dup:['Duplicate charge','The shopper says they were charged twice for one order.']};
+const DP_ASK={notrec:'Shipping receipt, AWB tracking showing delivered, delivery photo',damaged:'Product photos, the listing, your chat with the shopper, your return policy',unauth:'Order details, the shopper\'s account history, previous orders with the same card',refunded:'The refund record (FLIK attaches it automatically)',dup:'Both payments and the orders they paid for'};
+const DP_ST={evidence:['Evidence needed','warn'],review:['Under review','pu'],submitted:['Submitted','pu'],won:['Won','ok'],lost:['Lost','bad'],accepted:['Accepted','bad'],reopened:['Reopened','warn']};
+const DP_OPEN=['evidence','review','submitted','reopened'];
+const DP_FEE=16650;
+/* what the wallets can pay a new refund from right now (dummy) */
+const RF_FUNDS={reserve:180000,active:640000};
+const rfCost=(p,amt)=>{const c=METHODS[p.mk].cat;return c==='Card'?[['Card network refund fee (incl. VAT)',2775]]:c==='Virtual account'?[['Bank transfer to the shopper (incl. VAT)',2775]]:[[`${c} fee on the original payment, not returned`,Math.round(amt*(c==='QRIS'?.007:.015))]]};
+const rfWindow=p=>({Card:180,QRIS:30,'E-wallet':30}[METHODS[p.mk].cat]||null);
+const rfOf=p=>REFUNDS.filter(r=>r.pay===p.id);
+const rfLeft=p=>p.amount-rfOf(p).filter(r=>r.st!=='cancelled').reduce((a,r)=>a+r.amount,0);
+function rfPlan(p,amt){let left=amt;const from=[],take=(l,avail)=>{const x=Math.min(left,Math.max(0,avail));if(x>0){from.push([l,x]);left-=x}};
+  if(NOW-p.created<2*dayMs)take('Pending: this payment isn\'t released to you yet',p.amount);
+  take('Reserve',RF_FUNDS.reserve);take('Active balance',RF_FUNDS.active);return{from,left}}
+const REFUNDS=[],DISPUTES=[];
+(()=>{const CARDS=PAY.filter(p=>p.status==='succeeded'&&(p.mk==='visa'||p.mk==='mc')),OKP=PAY.filter(p=>p.status==='succeeded'&&p.mk!=='cod'&&p.mk!=='visa'&&p.mk!=='mc');
+  const at=(d,h,m)=>new Date(2026,9,d,h,m),sep=(d,h,m)=>new Date(2026,8,d,h,m),half=n=>Math.round(n/2/500)*500;
+  const R=(id,p,o)=>{const r={id,pay:p.id,amount:p.amount,reason:'damaged',note:'',st:'paid',src:'you',ref:'',funded:null,by:'Raam (Owner)',dev:'Chrome on macOS',...o};
+    r.cost=rfCost(p,r.amount);if(r.funded==null)r.funded=r.amount;if(!r.from)r.from=[['Active balance',r.funded]];REFUNDS.push(r);return r};
+  R('R-2610-0021',OKP[2],{st:'funding',created:at(13,10,5),funded:Math.round(OKP[2].amount*.35/500)*500,from:[['Reserve',Math.round(OKP[2].amount*.35/500)*500]]});
+  R('R-2610-0020',OKP[4],{st:'sent',amount:half(OKP[4].amount),reason:'wrong',created:at(14,11,40)});
+  R('R-2610-0019',OKP[6],{st:'retry',reason:'notrec',src:'support',ref:'CS-2610-0418',created:at(12,15,0),by:'FLIK support',dev:'FLIK back office'});
+  R('R-2610-0018',CARDS[3],{st:'paused',amount:half(CARDS[3].amount),reason:'notrec',created:at(8,9,15)});
+  R('R-2610-0017',OKP[8],{st:'flik',reason:'damaged',created:sep(15,13,0),funded:60000,from:[['Active balance',60000]]});
+  R('R-2610-0016',OKP[10],{st:'cancelled',reason:'other',note:'The shopper changed their mind and kept the order.',created:at(6,16,30)});
+  R('R-2610-0015',OKP[12],{st:'paid',src:'recorded',reason:'dup',created:at(5,10,0),by:'FLIK (reconciled from the provider)',dev:'FLIK back office'});
+  OKP[8].status='refunded';OKP[8].refunded=addWD(sep(15,13,0),20);OKP[12].status='refunded';OKP[12].refunded=at(5,10,0);
+  const cnt={'2610':14},ym=d=>String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,'0'),nid=d=>{const k=ym(d);cnt[k]=cnt[k]??40;return`R-${k}-${String(cnt[k]--).padStart(4,'0')}`};
+  PAY.filter(p=>p.status==='refunded'&&p.mk!=='cod'&&!REFUNDS.some(r=>r.pay===p.id)).forEach((p,i)=>R(nid(p.refunded),p,{reason:['damaged','wrong','notrec','dup'][i%4],src:i%5===2?'support':'you',ref:i%5===2?'CS-2609-0'+(300+i):'',created:p.refunded,...(i%5===2?{by:'FLIK support',dev:'FLIK back office'}:{})}));
+  const D=(id,p,o)=>{const d={id,pay:p.id,amount:p.amount,from:'Active balance',files:[],note:'',last4:(p.method.match(/(\d{4})$/)||['','4242'])[1],by:'Raam (Owner)',...o};d.due=addWD(d.opened,7);DISPUTES.push(d);if(DP_OPEN.includes(d.st))p.disp=d.id;return d};
+  D('D-2610-0012',CARDS[0],{st:'evidence',reason:'notrec',opened:at(13,9,30),from:'Pending'});
+  D('D-2610-0011',CARDS[1],{st:'evidence',reason:'unauth',opened:at(7,14,0)});
+  D('D-2610-0010',CARDS[2],{st:'review',reason:'damaged',opened:at(6,11,20),files:[['Product photos.zip','2.4 MB',at(9,10,4)],['WhatsApp chat with the shopper.pdf','310 KB',at(9,10,5)]],note:'The shopper confirmed on WhatsApp the item arrived intact, then asked for a discount.',sent:at(9,10,6)});
+  D('D-2610-0009',CARDS[3],{st:'submitted',reason:'notrec',opened:at(9,8,40),files:[['AWB JNE0049912 delivered.pdf','180 KB',at(11,14,2)],['Delivery photo.jpg','1.1 MB',at(11,14,3)]],sent:at(11,14,4),submitted:at(12,10,0)});
+  D('D-2610-0008',CARDS[4],{st:'won',reason:'dup',opened:sep(15,9,0),files:[['Both payments and orders.pdf','240 KB',sep(18,11,0)]],sent:sep(18,11,1),submitted:sep(19,9,0),closed:at(10,13,0)});
+  D('D-2610-0007',CARDS[5],{st:'lost',reason:'unauth',opened:sep(10,10,0),closed:at(9,15,30)});
+})();
+const dpDue=()=>DISPUTES.filter(d=>d.st==='evidence'||d.st==='reopened').length;
+
 /* ===== Formatting ===== */
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const rp=n=>'Rp'+Math.abs(n).toLocaleString('id-ID');
@@ -1548,7 +1631,7 @@ const stPill=s=>{const x=ST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(
 const pmBadge=k=>{const m=METHODS[k];return m.lg?`<img class="plg" src="${IMG}payment/${m.lg}.png" alt="">`:`<span class="plg plg-i">${ic(m.icon,14)}</span>`};
 
 /* ===== State ===== */
-const TABS=[['payments','Payments'],['cod','COD payouts'],['refunds','Refunds'],['settle','Auto settlements']];
+const TABS=[['payments','All'],['cod','COD payouts'],['refunds','Refunds'],['disputes','Disputes'],['settle','Auto settlements']];
 const S={tab:'payments',q:'',date:null,status:new Set(),method:new Set(),source:new Set(['FLIK Checkout']),sort:{k:'created',dir:-1},page:0,sel:new Set()};
 const PER=15;
 
@@ -1568,11 +1651,44 @@ function rows(){
   return r;
 }
 
+
+/* Refunds and Disputes tabs: own columns, open items first */
+function renderRD(){const isR=S.tab==='refunds',f=document.getElementById('filters');
+  f.querySelectorAll('.chip').forEach(c=>c.style.display='none');
+  const segs=isR?[['all','All'],['open','Open'],['paid','Paid'],['cancelled','Cancelled']]:[['all','All'],['need','Needs response'],['progress','In progress'],['closed','Closed']];
+  if(!segs.some(x=>x[0]===S.rd))S.rd='all';
+  let sg=document.getElementById('rd-seg');if(!sg){sg=document.createElement('div');sg.id='rd-seg';sg.className='seg';sg.setAttribute('role','tablist');f.prepend(sg)}
+  sg.innerHTML=segs.map(x=>`<button class="${S.rd===x[0]?'on':''}" data-rd="${x[0]}" role="tab" aria-selected="${S.rd===x[0]}">${x[1]}</button>`).join('');
+  sg.querySelectorAll('[data-rd]').forEach(b=>b.onclick=()=>{S.rd=b.dataset.rd;S.page=0;render()});
+  document.getElementById('bulk').classList.remove('show');
+  const q=S.q.toLowerCase(),payOf=id=>PAY.find(p=>p.id===id)||{};
+  let L;
+  if(isR){L=REFUNDS.filter(r=>S.rd==='all'||(S.rd==='open'?RF_OPEN.includes(r.st):S.rd==='paid'?(r.st==='paid'||r.st==='flik'):r.st==='cancelled'));
+    L.sort((a,b)=>(RF_OPEN.includes(b.st)-RF_OPEN.includes(a.st))||(b.created-a.created))}
+  else{L=DISPUTES.filter(d=>S.rd==='all'||(S.rd==='need'?(d.st==='evidence'||d.st==='reopened'):S.rd==='progress'?(d.st==='review'||d.st==='submitted'):!DP_OPEN.includes(d.st)));
+    const rk=d=>d.st==='evidence'||d.st==='reopened'?0:DP_OPEN.includes(d.st)?1:2;L.sort((a,b)=>(rk(a)-rk(b))||(rk(a)<2?a.due-b.due:b.opened-a.opened))}
+  if(q)L=L.filter(x=>[x.id,x.pay,payOf(x.pay).customer,String(x.amount)].join(' ').toLowerCase().includes(q));
+  const pages=Math.max(1,Math.ceil(L.length/PER));S.page=Math.min(S.page,pages-1);const view=L.slice(S.page*PER,S.page*PER+PER);
+  document.getElementById('thead').innerHTML=isR?'<tr><th>Amount</th><th></th><th>Payment</th><th>Funded</th><th>Source</th><th>Requested</th></tr>':'<tr><th>Amount</th><th></th><th>Payment</th><th>Reason</th><th>Evidence due</th><th>Opened</th></tr>';
+  const tb=document.getElementById('tbody');
+  const empty=isR?['No refunds yet','Refund a shopper from the payment: open it and choose Refund.']:['No disputes','A dispute is when a shopper asks their bank or card issuer to reverse a payment. If one opens, it shows here with what to send and by when.'];
+  tb.innerHTML=view.length?view.map(x=>{const p=payOf(x.pay);
+    const pay=`<td><div class="pm">${p.mk?pmBadge(p.mk):''}<span class="pmd"><b style="font-weight:500">${p.customer||''}</b> · ${x.pay}</span></div></td>`;
+    if(isR){const fund=x.st==='funding'?`<td><div class="rf-fund"><span class="rf-bar"><i style="width:${Math.round(x.funded/x.amount*100)}%"></i></span><span class="src">${rp(x.amount-x.funded)} left</span></div></td>`:`<td class="src">${x.st==='cancelled'?'—':x.st==='flik'?`${rp(x.amount-x.funded)} owed`:'Funded'}</td>`;
+      return`<tr data-rf="${x.id}"><td class="amt num">${rp(x.amount)}</td><td class="c-st"><span class="st ${RF_ST[x.st][1]}">${RF_ST[x.st][0]}</span></td>${pay}${fund}<td class="src">${RF_SRC[x.src]}</td><td class="date">${fdate(x.created)}</td></tr>`}
+    const open=x.st==='evidence'||x.st==='reopened',left=wdLeft(x.due);
+    return`<tr data-dp="${x.id}"><td class="amt num">${rp(x.amount)}</td><td class="c-st"><span class="st ${DP_ST[x.st][1]}">${DP_ST[x.st][0]}</span></td>${pay}<td>${DP_REASON[x.reason][0]}</td><td class="date">${open?`${fday2(x.due)} <span class="st ${left<=3?'bad':'gr'}">${left} ${left===1?'day':'days'} left</span>`:'<span class="src">—</span>'}</td><td class="date">${fdate(x.opened)}</td></tr>`}).join('')
+    :`<tr><td colspan="6" style="height:auto;border:0;cursor:default"><div class="empty"><b>${q||S.rd!=='all'?'No matches':empty[0]}</b>${q||S.rd!=='all'?'Try another filter or search.':empty[1]}</div></td></tr>`;
+  document.getElementById('count').innerHTML=L.length?`Viewing <b>${S.page*PER+1}–${Math.min(L.length,S.page*PER+PER)}</b> of <b>${L.length}</b> results`:'Viewing <b>0</b> results';
+  const pv=document.getElementById('prev'),nx=document.getElementById('next');pv.disabled=S.page===0;nx.disabled=S.page>=pages-1;pv.style.opacity=S.page===0?.5:1;nx.style.opacity=S.page>=pages-1?.5:1;
+  tb.querySelectorAll('tr[data-rf]').forEach(tr=>tr.onclick=()=>refundDetail(tr.dataset.rf));
+  tb.querySelectorAll('tr[data-dp]').forEach(tr=>tr.onclick=()=>disputeDetail(tr.dataset.dp));
+}
 /* ===== Render ===== */
 const tabsEl=document.getElementById('tabs');
 function renderTabs(){
   const n={payments:PAY.length,cod:PAY.filter(p=>p.mk==='cod'&&p.status==='succeeded').length,refunds:PAY.filter(p=>p.status==='refunded').length,settle:SETTLE.length};
-  tabsEl.innerHTML=TABS.map(t=>`<button class="tab${S.tab===t[0]?' on':''}" data-t="${t[0]}" role="tab" aria-selected="${S.tab===t[0]}">${t[1]}</button>`).join('');
+  tabsEl.innerHTML=TABS.map(t=>`<button class="tab${S.tab===t[0]?' on':''}" data-t="${t[0]}" role="tab" aria-selected="${S.tab===t[0]}">${t[1]}${t[0]==='disputes'&&dpDue()?`<span class="st warn tab-bd">${dpDue()}</span>`:''}</button>`).join('');
   tabsEl.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{S.tab=b.dataset.t;S.page=0;S.sel.clear();if(S.tab==='refunds'&&S.sort.k==='created')S.sort={k:'refunded',dir:-1};if(S.tab!=='refunds'&&S.sort.k==='refunded'&&S.tab!=='payments')S.sort={k:'created',dir:-1};render()});
 }
 function cols(){
@@ -1582,6 +1698,8 @@ function cols(){
 }
 function render(){
   renderTabs();
+  if(S.tab==='refunds'||S.tab==='disputes'){renderRD();return}
+  document.getElementById('rd-seg')?.remove();
   const all=rows(),pages=Math.max(1,Math.ceil(all.length/PER));S.page=Math.min(S.page,pages-1);
   const view=all.slice(S.page*PER,S.page*PER+PER);
   const C=cols();
@@ -1674,7 +1792,7 @@ function rowMenu(btn,id){
   const p=PAY.find(x=>x.id===id)||SETTLE.find(x=>x.id===id);
   const canRefund=p&&p.mk&&p.status==='succeeded'&&p.mk!=='cod';
   pop.innerHTML=`<div class="menu"><button class="opt" data-a="view">${ic('tx',15)}View details</button><button class="opt" data-a="copy">${ic('copy',15)}Copy ID</button>${p.customer?`<button class="opt" data-a="cust">${ic('user',15)}View customer</button>`:''}${canRefund?`<hr><button class="opt danger" data-a="refund">${ic('refund',15)}Refund payment</button>`:''}</div>`;
-  pop.querySelectorAll('[data-a]').forEach(b=>b.onclick=e=>{e.stopPropagation();closePop();const a=b.dataset.a;if(a==='view')openDetail(id);if(a==='copy')copyId(id);if(a==='cust')toast(`Opens customer ${p.customer}`);if(a==='refund')refundModal([id])});
+  pop.querySelectorAll('[data-a]').forEach(b=>b.onclick=e=>{e.stopPropagation();closePop();const a=b.dataset.a;if(a==='view')openDetail(id);if(a==='copy')copyId(id);if(a==='cust')toast(`Opens customer ${p.customer}`);if(a==='refund')refundFlow(id)});
   placePop(btn,true);
 }
 function copyId(id){try{navigator.clipboard&&navigator.clipboard.writeText(id)}catch(e){}toast(`Copied ${id}`)}
@@ -1685,7 +1803,7 @@ function openDetail(id){
   const p=PAY.find(x=>x.id===id),s=!p&&SETTLE.find(x=>x.id===id);
   if(s){drawer.innerHTML=`<div class="dh"><span class="kind">${ic('coins',15)}Auto settlement</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><div class="d-amt"><b class="num">${rp(s.amount)}</b>${stPill(s.status)}</div><p class="d-sub">${s.id}</p><div class="dsec"><h5>Details</h5><dl class="kv"><dt>Cash advance</dt><dd>${s.ref}</dd><dt>Type</dt><dd>Deducted from sales</dd><dt>Date</dt><dd>${fdateY(s.created)}</dd><dt>Fees</dt><dd>No hidden fees</dd></dl></div></div>`}
   else{
-    const canRefund=p.status==='succeeded'&&p.mk!=='cod';
+    const left=rfLeft(p),dsp=p.disp&&DISPUTES.find(d=>d.id===p.disp),RF=rfOf(p),canRefund=p.mk!=='cod'&&left>0&&(p.status==='succeeded'||p.status==='refunded');
     const tl=[[p.created,'Payment started','',null]];
     if(p.status!=='pending'&&p.status!=='canceled'&&p.status!=='failed')tl.unshift([new Date(p.created.getTime()+28000),'Payment succeeded','ok','check']);
     if(p.status==='canceled')tl.unshift([new Date(p.created.getTime()+3600000),'Payment canceled','',null]);
@@ -1695,7 +1813,9 @@ function openDetail(id){
     <div class="db">
       <div class="d-amt"><b class="num">${rp(p.amount)}</b>${stPill(p.status)}</div>
       <p class="d-sub">Charged to ${p.customer} · ${p.id}</p>
-      <div class="d-acts">${canRefund?`<button class="btn btn-o" data-refund="${p.id}">${ic('refund',15)}Refund</button>`:''}<button class="btn btn-o" data-copy="${p.id}">${ic('copy',15)}Copy ID</button><button class="btn btn-o" data-toast="Opens order ${p.order}">${ic('cart',15)}View order</button></div>
+      <div class="d-acts">${canRefund?`<button class="btn btn-o" data-refund="${p.id}" ${dsp?'disabled title="A dispute is open on this payment"':''}>${ic('refund',15)}Refund</button>`:''}<button class="btn btn-o" data-copy="${p.id}">${ic('copy',15)}Copy ID</button><button class="btn btn-o" data-toast="Opens order ${p.order}">${ic('cart',15)}View order</button></div>
+      ${dsp?`<div class="sx-note">${ic('warn',16)}<span>A dispute is open on this payment, so it can't be refunded now.</span><button class="lnk" data-opendp="${dsp.id}">View dispute</button></div>`:''}
+      ${RF.length?`<div class="dsec"><h5>Refunds · ${rp(p.amount-left)} of ${rp(p.amount)} refunded</h5>${RF.map(r=>`<button class="rf-row" data-openrf="${r.id}"><span><b class="num">${rp(r.amount)}</b> · ${r.id} · ${fdate(r.created)}</span><span class="st ${RF_ST[r.st][1]}">${RF_ST[r.st][0]}</span></button>`).join('')}</div>`:''}
       <div class="dsec"><h5>Recent activity</h5><div class="tl">${tl.map(x=>`<div class="tli ${x[2]}"><i>${x[3]?ic(x[3],11,2.4):''}</i><div><b>${x[1]}</b><span>${fdateY(x[0])}</span></div></div>`).join('')}</div></div>
       <div class="dsec"><h5>Payment details</h5><dl class="kv"><dt>Amount</dt><dd class="num">${rp(p.amount)}</dd><dt>Payment method</dt><dd><div class="pm">${pmBadge(p.mk)}<span>${p.method}</span></div></dd><dt>Source</dt><dd>${p.source}</dd><dt>Order</dt><dd>${p.order}</dd><dt>Statement descriptor</dt><dd>ARUNA STUDIO</dd></dl></div>
       <div class="dsec"><h5>Customer</h5><dl class="kv"><dt>Name</dt><dd>${p.customer}</dd><dt>WhatsApp</dt><dd>+62 812-3456-7890</dd><dt>City</dt><dd>${p.city}</dd></dl></div>
@@ -1704,30 +1824,136 @@ function openDetail(id){
   }
   drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
   drawer.querySelector('[data-dclose]').onclick=closeDetail;
-  drawer.querySelectorAll('[data-refund]').forEach(b=>b.onclick=()=>refundModal([b.dataset.refund]));
-  drawer.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copyId(b.dataset.copy));
+  rdWire();
 }
 function closeDetail(){drawer.classList.remove('open');dscrim.classList.remove('open');drawer.setAttribute('aria-hidden','true')}
 dscrim.onclick=closeDetail;
 
-/* ===== Refund modal ===== */
+/* ===== Refund: started from the payment only; amount and reason, then a review of where the money comes from, then a one-time code ===== */
 const mscrim=document.getElementById('mscrim'),modal=document.getElementById('modal');
 function closeModal(){mscrim.classList.remove('open');modal.classList.remove('wide','md')}
 mscrim.onclick=e=>{if(e.target===mscrim||e.target.closest('[data-mclose]'))closeModal()};
-function refundModal(ids){
-  const list=ids.map(id=>PAY.find(p=>p.id===id)).filter(p=>p&&p.status==='succeeded'&&p.mk!=='cod');
-  if(!list.length){toast('Only succeeded, non-COD payments can be refunded');return}
-  const total=list.reduce((a,p)=>a+p.amount,0),single=list.length===1;
-  modal.innerHTML=`<div class="mh"><h3>Refund ${single?'payment':list.length+' payments'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb">${single?`<div class="fld"><label for="ramt">Refund amount</label><input id="ramt" class="num" value="${list[0].amount.toLocaleString('id-ID')}"><p class="hint">Up to ${rp(list[0].amount)}. Refunds go back to the original payment method.</p></div>`:`<p>${list.length} payments, ${rp(total)} in total, will be refunded in full.</p>`}
-  <div class="fld"><label for="rreason">Reason</label><input id="rreason" value="Requested by customer"></div></div>
-  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="rgo">Refund ${single?'':rp(total)}</button></div>`;
-  mscrim.classList.add('open');
-  const go=document.getElementById('rgo'),amt=document.getElementById('ramt');
-  if(amt){const v=()=>{const n=+amt.value.replace(/\D/g,'');go.disabled=!(n>0&&n<=list[0].amount);go.textContent=`Refund ${n?rp(n):''}`};amt.oninput=v;v()}
-  go.onclick=()=>{const when=new Date(NOW.getTime()+60000);list.forEach(p=>{p.status='refunded';p.refunded=when});S.sel.clear();closeModal();render();if(drawer.classList.contains('open')&&single)openDetail(list[0].id);toast(single?`Refunded ${amt?rp(+amt.value.replace(/\D/g,'')):rp(total)}`:`Refunded ${list.length} payments`)};
-}
-document.getElementById('bulk-refund').onclick=()=>refundModal([...S.sel]);
+const refundModal=ids=>refundFlow(ids[0]);
+function refundFlow(id){const p=PAY.find(x=>x.id===id);if(!p)return;
+  const left=rfLeft(p),win=rfWindow(p),age=Math.floor((NOW-p.created)/dayMs),cat=METHODS[p.mk].cat,dsp=p.disp&&DISPUTES.find(d=>d.id===p.disp);
+  const R={step:0,amt:left,why:'',note:'',code:''};
+  const out=win&&age>win,block=dsp?'dispute':out?'window':left<=0?'done':'';
+  const head=t=>`<div class="mh"><h3>${t}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>`;
+  const draw=()=>{const plan=rfPlan(p,R.amt),cost=rfCost(p,R.amt),costT=cost.reduce((a,c)=>a+c[1],0),d20=fday2(addWD(NOW,20));
+    if(R.step===0){modal.innerHTML=head('Refund payment')+`<div class="mb">
+      <div class="rf-pay">${pmBadge(p.mk)}<div><b class="num">${rp(p.amount)} · ${p.customer}</b><span>${p.method} · ${fdateY(p.created)} · ${p.id}</span></div></div>
+      <dl class="sum-kv rf-kv"><dt>Already refunded</dt><dd class="num">${rp(p.amount-left)}</dd><dt>Refundable remaining</dt><dd class="num"><b>${rp(left)}</b></dd></dl>
+      ${block==='dispute'?`<div class="sx-note bad">${ic('warn',16)}<span>A dispute is open on this payment (${dsp.id}), so it can't be refunded until the dispute closes.</span></div>`
+       :block==='window'?`<div class="sx-note bad">${ic('warn',16)}<span>${cat} payments can be refunded for ${win} days. This one was ${age} days ago, so FLIK support needs to handle it.</span></div>`
+       :block==='done'?`<div class="sx-note bad">${ic('warn',16)}<span>This payment is already fully refunded.</span></div>`
+       :`<div class="fld"><label for="rf-amt">Amount</label><input id="rf-amt" class="num" inputmode="numeric" value="${R.amt.toLocaleString('id-ID')}"><p class="hint" id="rf-amth">Full or partial, up to ${rp(left)}.</p></div>
+      <div class="fld"><label for="rf-why">Reason</label><select class="sx-sel rf-sel" id="rf-why"><option value="">Choose a reason</option>${Object.entries(RF_REASON).map(([k,l])=>`<option value="${k}" ${R.why===k?'selected':''}>${l}</option>`).join('')}</select></div>
+      <div class="fld" id="rf-notew" ${R.why==='other'?'':'hidden'}><label for="rf-note">Note</label><textarea id="rf-note" placeholder="Why you're refunding this payment">${R.note}</textarea></div>
+      ${cat==='Virtual account'?`<div class="sx-note info">${ic('help',16)}<span>Virtual account payments can't be refunded through the bank, so FLIK pays the shopper by bank transfer. You don't need to do anything else.</span></div>`:''}`}</div>
+      <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="rf-next" disabled>Review refund</button></div>`;
+      const go=document.getElementById('rf-next');if(block)return;
+      const amt=document.getElementById('rf-amt'),why=document.getElementById('rf-why'),note=document.getElementById('rf-note'),hint=document.getElementById('rf-amth');
+      const chk=()=>{const over=R.amt>left;hint.textContent=over?`That's more than the ${rp(left)} still refundable.`:`Full or partial, up to ${rp(left)}.`;hint.classList.toggle('err',over);go.disabled=!(R.amt>0&&!over&&R.why&&(R.why!=='other'||R.note.trim()))};
+      amt.oninput=()=>{R.amt=+amt.value.replace(/\D/g,'');amt.value=R.amt?R.amt.toLocaleString('id-ID'):'';chk()};
+      why.onchange=()=>{R.why=why.value;document.getElementById('rf-notew').hidden=R.why!=='other';chk()};note.oninput=()=>{R.note=note.value;chk()};
+      go.onclick=()=>{R.step=1;draw()};chk();return}
+    if(R.step===1){modal.innerHTML=head('Review refund')+`<div class="mb">
+      <dl class="sum-kv rf-kv"><dt>Refund to the shopper</dt><dd class="num"><b>${rp(R.amt)}</b></dd><dt>Paid back to</dt><dd>${cat==='Virtual account'?'Shopper\'s bank account, by FLIK transfer':p.method}</dd><dt>Reason</dt><dd>${RF_REASON[R.why]}${R.why==='other'?`: ${R.note}`:''}</dd></dl>
+      <div class="kpi-l rf-h">Where the money comes from</div>
+      <dl class="sum-kv rf-kv">${plan.from.map(f=>`<dt>${f[0]}</dt><dd class="num">${rp(f[1])}</dd>`).join('')}${plan.left?`<dt>Waits for funds</dt><dd class="num">${rp(plan.left)}</dd>`:''}</dl>
+      <div class="kpi-l rf-h">Costs you bear</div>
+      <dl class="sum-kv rf-kv">${cost.map(c=>`<dt>${c[0]}</dt><dd class="num">${rp(c[1])}</dd>`).join('')}<dt><b>Total from your balance</b></dt><dd class="num"><b>${rp(R.amt+costT)}</b></dd></dl>
+      ${plan.left?`<div class="sx-note">${ic('clock',16)}<span>${rp(plan.left)} waits for funds. It's taken from money coming in, ahead of financing repayment. If it's still short on ${d20} (working day 20), FLIK pays the shopper and the rest becomes a charge due.</span></div>`:''}</div>
+      <div class="mf"><button class="btn btn-o" id="rf-back">Back</button><button class="btn btn-p" id="rf-next">Continue</button></div>`;
+      document.getElementById('rf-back').onclick=()=>{R.step=0;draw()};document.getElementById('rf-next').onclick=()=>{R.step=2;draw()};return}
+    modal.innerHTML=head('Confirm with a code')+`<div class="mb"><p class="bk-mp">We sent a 6-digit code to your WhatsApp, +62 812-•••-7890. Refunds need a code, like withdrawals.</p>
+      <div class="fld"><label for="rf-code">Code</label><input id="rf-code" class="num rf-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" value="${R.code}"><p class="hint">Any 6 digits work in this prototype. <button class="lnk" data-toast="New code sent to your WhatsApp">Send a new code</button></p></div></div>
+      <div class="mf"><button class="btn btn-o" id="rf-back">Back</button><button class="btn btn-p" id="rf-go" disabled>Refund ${rp(R.amt)}</button></div>`;
+    const code=document.getElementById('rf-code'),go=document.getElementById('rf-go');
+    code.oninput=()=>{code.value=code.value.replace(/\D/g,'').slice(0,6);R.code=code.value;go.disabled=R.code.length!==6};code.oninput();setTimeout(()=>code.focus(),0);
+    document.getElementById('rf-back').onclick=()=>{R.step=1;draw()};
+    go.onclick=()=>{const id='R-2610-'+String(22+REFUNDS.filter(r=>r.mine).length).padStart(4,'0'),now=new Date(NOW.getTime()+60000);
+      const r={id,pay:p.id,amount:R.amt,reason:R.why,note:R.note,st:plan.left?'funding':'sent',src:'you',ref:'',funded:R.amt-plan.left,from:plan.from,cost,created:now,by:'Raam (Owner)',dev:'Chrome on macOS',mine:1};
+      REFUNDS.unshift(r);plan.from.forEach(f=>{if(f[0]==='Reserve')RF_FUNDS.reserve-=f[1];if(f[0]==='Active balance')RF_FUNDS.active-=f[1]});
+      if(rfLeft(p)<=0){p.status='refunded';p.refunded=now}
+      closeModal();render();refundDetail(id);toast(plan.left?`Refund ${id} waits for ${rp(plan.left)} of funds`:`Refund ${id} sent to the shopper`)}};
+  modal.classList.add('md');draw();mscrim.classList.add('open')}
+document.getElementById('bulk-refund').style.display='none';
+
+/* refund detail: status, funding, costs, the payment it refunds, and who did what */
+function refundDetail(id){const r=REFUNDS.find(x=>x.id===id);if(!r)return;const p=PAY.find(x=>x.id===r.pay)||{},d20=addWD(r.created,20),costT=r.cost.reduce((a,c)=>a+c[1],0),dsp=DISPUTES.find(d=>d.pay===r.pay&&DP_OPEN.includes(d.st));
+  const tl=[[r.created,`${r.src==='recorded'?'Recorded by FLIK':'Requested'} · ${rp(r.amount)}`,'',null]];
+  if(r.st==='funding'&&r.funded)tl.unshift([new Date(r.created.getTime()+60000),`${rp(r.funded)} funded from ${r.from.map(f=>f[0].toLowerCase()).join(' and ')}`,'',null]);
+  if(['sent','paid','retry'].includes(r.st))tl.unshift([new Date(r.created.getTime()+120000),'Sent to the payment provider','pu','refund']);
+  if(r.st==='retry')tl.unshift([new Date(r.created.getTime()+3600000),'Provider error, retrying automatically','',null]);
+  if(r.st==='paid')tl.unshift([new Date(r.created.getTime()+86400000),'Paid to the shopper','ok','check']);
+  if(r.st==='paused'&&dsp)tl.unshift([dsp.opened,`Paused: dispute ${dsp.id} opened on this payment`,'',null]);
+  if(r.st==='cancelled')tl.unshift([new Date(r.created.getTime()+7200000),'Cancelled · money returned to where it came from','',null]);
+  if(r.st==='flik')tl.unshift([d20,`Paid by FLIK on working day 20 · ${rp(r.amount-r.funded)} now a charge due`,'',null]);
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('refund',15)}Refund</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b class="num">${rp(r.amount)}</b><span class="st ${RF_ST[r.st][1]}">${RF_ST[r.st][0]}</span></div>
+    <p class="d-sub">${r.id} · ${RF_SRC[r.src]}${r.ref?` · complaint ${r.ref}`:''}</p>
+    <div class="d-acts"><button class="btn btn-o" data-openpay="${r.pay}">${ic('tx',15)}View payment</button>${r.st==='funding'||r.st==='paused'?`<button class="btn btn-o" data-rfcancel="${r.id}">Withdraw refund</button>`:''}<button class="btn btn-o" data-copy="${r.id}">${ic('copy',15)}Copy ID</button></div>
+    ${r.st==='funding'?`<div class="dsec"><h5>Funding</h5><div class="rf-fund big"><span class="rf-bar"><i style="width:${Math.round(r.funded/r.amount*100)}%"></i></span><span><b class="num">${rp(r.funded)}</b> of ${rp(r.amount)} covered · <b class="num">${rp(r.amount-r.funded)}</b> left</span></div><p class="d-sub">Your reserve and active balance couldn't cover it all, so the rest is taken automatically from money coming in, ahead of financing repayment. If it's still short on ${fday2(d20)} (working day 20), FLIK pays the shopper and the rest becomes a charge due.</p></div>`:''}
+    ${r.st==='paused'&&dsp?`<div class="sx-note">${ic('warn',16)}<span>Paused because dispute ${dsp.id} is open on this payment, so the shopper is never paid twice. It resumes or is cancelled when the dispute closes.</span><button class="lnk" data-opendp="${dsp.id}">View dispute</button></div>`:''}
+    ${r.st==='flik'?`<div class="sx-note bad">${ic('warn',16)}<span>Not funded by ${fday2(d20)}, so FLIK paid the shopper. ${rp(r.amount-r.funded)} is now a charge due, collected from money coming in.</span><button class="lnk" data-goto="#balances">Balances</button></div>`:''}
+    ${r.st==='retry'?`<div class="sx-note">${ic('clock',16)}<span>The payment provider had a temporary error. FLIK retries automatically; nothing is needed from you.</span></div>`:''}
+    <div class="dsec"><h5>Activity</h5><div class="tl">${tl.map(x=>`<div class="tli ${x[2]}"><i>${x[3]?ic(x[3],11,2.4):''}</i><div><b>${x[1]}</b><span>${fdateY(x[0])}</span></div></div>`).join('')}</div></div>
+    <div class="dsec"><h5>Money</h5><dl class="kv"><dt>To the shopper</dt><dd class="num">${rp(r.amount)}</dd><dt>Paid from</dt><dd>${r.st==='cancelled'?'Returned to where it came from':r.from.map(f=>`${f[0].split(':')[0]} <span class="num">${rp(f[1])}</span>`).join('<br>')||'—'}${r.st==='funding'?`<br>Waits for funds <span class="num">${rp(r.amount-r.funded)}</span>`:''}</dd>${r.cost.map(c=>`<dt>${c[0]}</dt><dd class="num">${rp(c[1])}</dd>`).join('')}<dt>Total cost to you</dt><dd class="num">${rp(r.st==='cancelled'?0:r.amount+costT)}</dd></dl></div>
+    <div class="dsec"><h5>Payment</h5><dl class="kv"><dt>Payment</dt><dd>${r.pay}</dd><dt>Date</dt><dd>${p.created?fdateY(p.created):'—'}</dd><dt>Amount</dt><dd class="num">${rp(p.amount||0)}</dd><dt>Method</dt><dd><div class="pm">${p.mk?pmBadge(p.mk):''}<span>${p.method||''}</span></div></dd><dt>Refunded so far</dt><dd class="num">${rp((p.amount||0)-(p.mk?rfLeft(p):0))} of ${rp(p.amount||0)}</dd></dl></div>
+    <div class="dsec"><h5>Reason</h5><dl class="kv"><dt>Reason</dt><dd>${RF_REASON[r.reason]}</dd>${r.note?`<dt>Note</dt><dd>${r.note}</dd>`:''}</dl></div>
+    <div class="dsec"><h5>Audit</h5><dl class="kv"><dt>By</dt><dd>${r.by}</dd><dt>Device</dt><dd>${r.dev}</dd><dt>When</dt><dd>${fdateY(r.created)} WIB</dd></dl></div></div>`;
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');rdWire()}
+
+/* dispute detail: deadline, what helps for this reason, evidence upload, outcome */
+function disputeDetail(id){const d=DISPUTES.find(x=>x.id===id);if(!d)return;const p=PAY.find(x=>x.id===d.pay)||{},open=d.st==='evidence'||d.st==='reopened',left=wdLeft(d.due),rf=REFUNDS.find(r=>r.pay===d.pay&&r.st==='paused');
+  const tl=[[d.opened,`Dispute opened · ${rp(d.amount)} held from ${d.from.toLowerCase()}`,'',null]];
+  if(d.sent)tl.unshift([d.sent,'Evidence sent to FLIK for review','pu',null]);
+  if(d.submitted)tl.unshift([d.submitted,'Submitted to the card network','pu',null]);
+  if(d.st==='won')tl.unshift([d.closed,`Won · ${rp(d.amount)} returned to your active balance`,'ok','check']);
+  if(d.st==='lost')tl.unshift([d.closed,`Lost · chargeback paid from the amount held, plus the dispute fee`,'',null]);
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('warn',15)}Dispute</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b class="num">${rp(d.amount)}</b><span class="st ${DP_ST[d.st][1]}">${DP_ST[d.st][0]}</span></div>
+    <p class="d-sub">${d.id} · opened ${fdateY(d.opened)}</p>
+    <div class="d-acts"><button class="btn btn-o" data-openpay="${d.pay}">${ic('tx',15)}View payment</button><button class="btn btn-o" data-copy="${d.id}">${ic('copy',15)}Copy ID</button></div>
+    ${open?`<div class="sx-note ${left<=3?'bad':''}">${ic('clock',16)}<span><b>Evidence due ${fday2(d.due)}, ${left} working ${left===1?'day':'days'} left.</b> We remind you 3 working days before and on the last day. If nothing arrives, most card networks treat it as accepting the chargeback.</span></div>`:''}
+    ${d.st==='submitted'?`<div class="sx-note info">${ic('check',16)}<span>Submitted on ${fday2(d.submitted)}. The card network usually decides within 30 to 75 days.</span></div>`:''}
+    <div class="dsec"><h5>What the shopper says</h5><p class="dp-why"><b>${DP_REASON[d.reason][0]}</b>${DP_REASON[d.reason][1]}</p></div>
+    <div class="dsec"><h5>Money held</h5><dl class="kv"><dt>Held</dt><dd class="num">${rp(d.amount)}</dd><dt>From</dt><dd>${d.from}</dd><dt>Until</dt><dd>${DP_OPEN.includes(d.st)?'The outcome. It can\'t be withdrawn until then.':d.st==='won'?`Returned on ${fday2(d.closed)}`:`Used for the chargeback on ${fday2(d.closed)}`}</dd>
+      ${d.st==='lost'||d.st==='accepted'?`<dt>Chargeback</dt><dd class="num">${rp(d.amount)}</dd><dt>Dispute fee (incl. VAT)</dt><dd class="num">${rp(DP_FEE)}</dd>`:''}</dl></div>
+    <div class="dsec"><h5>Evidence that helps</h5><p class="d-sub" style="margin:0">${DP_ASK[d.reason]}.</p>
+      ${d.files.length?`<ul class="dp-files">${d.files.map(f=>`<li>${ic('doc',15)}<span><b>${f[0]}</b><span class="src">${f[1]} · ${fdate(f[2])}</span></span></li>`).join('')}</ul>`:''}
+      ${d.note?`<p class="dp-note">${d.note}</p>`:''}
+      ${open||d.st==='review'?`<div class="sx-drop dp-drop"><span class="ic">${ic('upload',18)}</span><b>Add evidence</b>Photos, PDFs, chat screenshots or shipping proof, up to 10 MB each. You can add more until ${fday2(d.due)}.<div class="sx-row" style="justify-content:center;margin-top:12px"><button class="btn btn-o" data-dpfile>Choose files</button></div><input type="file" multiple hidden id="dp-in"></div>
+      ${open?`<div class="sx-f dp-f"><label for="dp-note">Explanation</label><textarea id="dp-note" placeholder="In a few lines, what happened with this order">${d.draft||''}</textarea></div><div class="d-acts"><button class="btn btn-p" data-dpsend ${d.files.length?'':'disabled'}>Send evidence to FLIK</button></div>`:''}`:''}
+      ${d.st==='submitted'||d.st==='won'?`<p class="d-sub">Submitted on ${fday2(d.submitted)}.</p>`:''}</div>
+    ${rf?`<div class="dsec"><h5>Refund on this payment</h5><p class="d-sub" style="margin:0">Refund ${rf.id} (${rp(rf.amount)}) is paused until this dispute closes. <button class="lnk" data-openrf="${rf.id}">View refund</button></p></div>`:''}
+    <div class="dsec"><h5>Activity</h5><div class="tl">${tl.map(x=>`<div class="tli ${x[2]}"><i>${x[3]?ic(x[3],11,2.4):''}</i><div><b>${x[1]}</b><span>${fdateY(x[0])}</span></div></div>`).join('')}</div></div>
+    <div class="dsec"><h5>Payment</h5><dl class="kv"><dt>Payment</dt><dd>${d.pay}</dd><dt>Date</dt><dd>${p.created?fdateY(p.created):'—'}</dd><dt>Amount</dt><dd class="num">${rp(p.amount||0)}</dd><dt>Card</dt><dd><div class="pm">${p.mk?pmBadge(p.mk):''}<span>${p.method||''}</span></div></dd><dt>Shopper</dt><dd>${p.customer||''}</dd></dl></div>
+    <div class="dsec"><h5>Audit</h5><dl class="kv"><dt>Evidence by</dt><dd>${d.files.length?`${d.by} · Chrome on macOS`:'Nothing sent yet'}</dd><dt>Reviewed by</dt><dd>${d.sent?'FLIK disputes team':'—'}</dd></dl></div></div>`;
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');rdWire();
+  const fin=document.getElementById('dp-in'),note=document.getElementById('dp-note');
+  if(note)note.oninput=()=>{d.draft=note.value};
+  drawer.querySelector('[data-dpfile]')?.addEventListener('click',()=>fin.click());
+  if(fin)fin.onchange=()=>{const add=[...fin.files].map(f=>[f.name,f.size>1e6?(f.size/1e6).toFixed(1)+' MB':Math.max(1,Math.round(f.size/1e3))+' KB',new Date(NOW.getTime()+60000)]);if(!add.length)return;d.files.push(...add);disputeDetail(d.id);toast(`${add.length} ${add.length===1?'file':'files'} added`)};
+  drawer.querySelector('[data-dpsend]')?.addEventListener('click',()=>{d.note=d.draft||d.note;d.st='review';d.sent=new Date(NOW.getTime()+60000);if(p.disp!==d.id)p.disp=d.id;render();disputeDetail(d.id);navBadge();toast('Evidence sent. FLIK reviews it and submits it to the card network')})}
+function rdWire(){drawer.querySelector('[data-dclose]').onclick=closeDetail;
+  drawer.querySelectorAll('[data-openpay]').forEach(b=>b.onclick=()=>openDetail(b.dataset.openpay));
+  drawer.querySelectorAll('[data-opendp]').forEach(b=>b.onclick=()=>disputeDetail(b.dataset.opendp));
+  drawer.querySelectorAll('[data-openrf]').forEach(b=>b.onclick=()=>refundDetail(b.dataset.openrf));
+  drawer.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copyId(b.dataset.copy));
+  drawer.querySelectorAll('[data-refund]').forEach(b=>b.onclick=()=>refundFlow(b.dataset.refund));
+  drawer.querySelectorAll('[data-rfcancel]').forEach(b=>b.onclick=()=>{const r=REFUNDS.find(x=>x.id===b.dataset.rfcancel);r.st='cancelled';const p=PAY.find(x=>x.id===r.pay);if(p&&p.status==='refunded'){p.status='succeeded';p.refunded=null}render();refundDetail(r.id);toast(`Refund ${r.id} withdrawn. The money goes back to where it came from`)})}
+/* the Disputes count shows on the menu while any dispute needs evidence */
+function navBadge(){const n=dpDue(),b=document.querySelector('#nav [data-view="tx"]')||document.querySelector('[data-view="tx"]');if(!b)return;b.querySelector('.tab-bd')?.remove();if(n)b.insertAdjacentHTML('beforeend',`<span class="st warn tab-bd" aria-label="${n} disputes need evidence">${n}</span>`)}
+navBadge();
+/* open a refund, a dispute or a tab straight from a link: #transactions/R-…, #transactions/D-…, #transactions/disputes */
+function txRoute(){const m=location.hash.match(/^#transactions\/(.+)$/);if(!m)return;const k=decodeURIComponent(m[1]);
+  if(k==='refunds'||k==='disputes'){S.tab=k;S.page=0;render();return}
+  if(/^R-/.test(k)){S.tab='refunds';S.page=0;render();setTimeout(()=>refundDetail(k),0)}
+  if(/^D-/.test(k)){S.tab='disputes';S.page=0;render();setTimeout(()=>disputeDetail(k),0)}}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-goto]');if(g){e.preventDefault();closeDetail();location.hash=g.dataset.goto}});
+
 
 /* ===== Export (CSV of current view) ===== */
 function exportCsv(onlySel){
@@ -3152,6 +3378,16 @@ let LEDGER=[
  {t:LD(14,14,45),b:'pending',d:'Top-up awaiting settlement · BCA virtual account',ref:['Top-up ID','TU-2610-0024'],a:300000},
  {t:LD(14,15,20),b:'active',d:'Return fee · parcel returned to sender',ref:['AWB','SPX8815'],a:-15000}];
 const CLOSE={active:4523800,reserve:1240000,charges:0,pending:2340500};
+/* refund and dispute movements (D60, D61): each a named line that links back to its refund or dispute */
+(()=>{const rf=id=>REFUNDS.find(r=>r.id===id),dp=id=>DISPUTES.find(d=>d.id===id),R=(t,b,d,id,a)=>LEDGER.push({t,b,d,ref:[id[0]==='R'?'Refund ID':'Dispute ID',id],a});
+  const r21=rf('R-2610-0021'),r20=rf('R-2610-0020'),r15=rf('R-2610-0015');
+  if(r21)R(LD(13,10,6),'reserve',`Refund R-2610-0021 to shopper, payment ${r21.pay} (part funded)`,'R-2610-0021',-r21.funded);
+  if(r15){R(LD(5,10,0),'active',`Refund R-2610-0015 to shopper, payment ${r15.pay}`,'R-2610-0015',-r15.amount);R(LD(5,10,0),'active','Refund fee, refund R-2610-0015 (incl. VAT)','R-2610-0015',-r15.cost[0][1])}
+  if(r20){R(LD(14,11,41),'active',`Refund R-2610-0020 to shopper, payment ${r20.pay}`,'R-2610-0020',-r20.amount);R(LD(14,11,41),'active','Refund fee, refund R-2610-0020 (incl. VAT)','R-2610-0020',-r20.cost[0][1])}
+  ['D-2610-0010','D-2610-0011','D-2610-0009','D-2610-0012'].forEach(id=>{const d=dp(id);if(d&&d.from!=='Pending')R(d.opened,'active',`Held for dispute ${id}`,id,-d.amount)});
+  const w=dp('D-2610-0008');if(w)R(w.closed,'active','Dispute D-2610-0008 won, released','D-2610-0008',w.amount);
+  const l=dp('D-2610-0007');if(l)R(l.closed,'active','Dispute fee D-2610-0007 (incl. VAT)','D-2610-0007',-DP_FEE);
+  LEDGER.sort((a,b)=>a.t-b.t)})();
 LEDGER.forEach((l,i)=>{l.i=i;l.id='LE-2610-'+String(4100+i);if(l.wf){l.a=Math.round(l.wf.reduce((s,r)=>s+r[1],0)*100)/100}});
 const OPEN={};Object.keys(CLOSE).forEach(k=>OPEN[k]=Math.round((CLOSE[k]-LEDGER.filter(l=>l.b===k).reduce((s,l)=>s+l.a,0))*100)/100);
 const RESERVE={target:1580000,vip:[['SPX8840','SPX Express','In transit',186000,'Delivered'],['JNE0052201','JNE','Out for delivery',154000,'Delivered'],['SPX8811','SPX Express','Delivered, invoice being checked',210000,'Invoice checked'],['LP1120934','Lion Parcel','In transit',525000,'Delivered'],['SPX8862','SPX Express','Picked up, not yet covered',340000,'Delivered']],
@@ -3179,7 +3415,7 @@ function bv(){const s=BS,z=s==='new',owed=s==='owed';
   const target=z||s==='noreserve'?0:s==='near'?3090000:s==='paused'?3290000:RESERVE.target;
   const lines=z?[]:owed?[...OWED_LINES,...LEDGER.filter(l=>l.b==='reserve')].sort((a,b)=>a.t-b.t):LEDGER.filter(l=>l.b!=='charges'&&(s!=='noreserve'||l.b!=='reserve'));
   return{active:z||owed?0:CLOSE.active,pending:z?0:CLOSE.pending,charges:owed?20400:0,chargesN:owed?CHARGES.open.length:0,
-    reserve:reserveHeld,target,short:Math.max(0,target-reserveHeld),policy:!(z||s==='noreserve'),frozen:s==='frozen',invoice:s==='invoice',early:s==='early',lines}}
+    reserve:reserveHeld,target,short:Math.max(0,target-reserveHeld),rfOwed:z?0:REFUNDS.filter(r=>r.st==='funding').reduce((a,r)=>a+r.amount-r.funded,0),rfOwedN:z?0:REFUNDS.filter(r=>r.st==='funding').length,disputed:z?0:DISPUTES.filter(d=>DP_OPEN.includes(d.st)).reduce((a,d)=>a+d.amount,0),disputedN:z?0:DISPUTES.filter(d=>DP_OPEN.includes(d.st)).length,dpDueN:z?0:dpDue(),policy:!(z||s==='noreserve'),frozen:s==='frozen',invoice:s==='invoice',early:s==='early',lines}}
 /* every wallet's lines with its running balance, worked back from today's closing balances */
 function stmt(v){const close={active:v.active,reserve:v.reserve,charges:v.charges},open={},run={};
   Object.keys(close).forEach(k=>{open[k]=Math.round((close[k]-v.lines.filter(l=>l.b===k).reduce((s,l)=>s+l.a,0))*100)/100;run[k]=open[k]});
@@ -3199,9 +3435,11 @@ function renderBal(){const v=bv();
   const t=[];
   t.push(`<div class="bl-tile main" role="button" tabindex="0" data-panel="active"><span class="kpi-l">Active balance<span class="src" title="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance" aria-label="Every credit passes fees, financing repayment, charges due and reserve top-up, in that order, before it reaches your active balance">${ic('help',14)}</span></span><div class="row"><div class="kpi-v"><b class="num">${rp(v.active)}</b></div><div class="bl-btns"><button class="btn btn-o" data-withdraw ${v.frozen||v.active<=0?'disabled':''} title="${v.frozen?'Withdrawals are paused on your account':''}">Withdraw</button><button class="btn btn-p" data-buy>Buy credits</button></div></div><span class="bl-acct">Withdraws to<button class="bl-acctb" data-chacct title="Change withdrawal account" aria-label="Withdrawal account ${acctL()}, change"><img class="plg" src="${IMG}payment/${ACCOUNTS[ACCT].k}.png" alt="">${acctL()}${ic('sel',14)}</button></span><span class="ex">Ready to withdraw or use</span>${LEDGER.some(l=>l.out)&&BS!=='new'&&BS!=='owed'?`<span class="bl-sub"><span>${rp(LEDGER.filter(l=>l.out).reduce((s,l)=>s-l.a,0))} being paid out</span></span>`:''}<span class="up">${UPD}</span></div>`);
   t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="reserve"><span class="kpi-l">Reserve${v.short>0?`<span class="st ${v.short>=VIP_LIMIT?'bad':'warn'}">Shortfall ${rp(v.short)}</span>`:''}</span><div class="kpi-v"><b class="num">${v.policy?rp(v.reserve):'Not required'}</b></div><span class="ex">${v.policy?`Your money set aside for VIP parcels and card payments; returns automatically. Target ${rp(v.target)}.`:'No reserve policy applies to your account.'}</span><span class="up">${UPD}</span></div>`);
+  if(v.disputed)t.push(`<div class="bl-tile" role="button" tabindex="0" data-panel="disputed"><span class="kpi-l">Disputed${v.dpDueN?`<span class="st warn">${v.dpDueN} need${v.dpDueN===1?'s':''} evidence</span>`:''}</span><div class="kpi-v"><b class="num">${rp(v.disputed)}</b></div><span class="ex">Held for ${v.disputedN} open ${v.disputedN===1?'dispute':'disputes'}; can't be withdrawn until the outcome.</span><span class="up">${UPD}</span></div>`);
   document.getElementById('bl-tiles').innerHTML=t.join('');
   /* information only: money on its way, and the monthly invoice for invoice clients */
-  let info=`<button class="bl-strip" data-panel="pending">${ic('clock',16)}<span class="l">Pending</span><b class="num">${rp(v.pending)}</b><span class="ex">${v.pending?`${PENDING.orders.length} orders not complete · ${PENDING.pay.length} payments awaiting settlement`:'Nothing pending'}</span><span class="lnk">View</span></button>`;
+  let info=v.rfOwed?`<button class="bl-strip" data-panel="rfowed">${ic('refund',16)}<span class="l">Refunds owed</span><b class="num">${rp(v.rfOwed)}</b><span class="ex">${v.rfOwedN} ${v.rfOwedN===1?'refund waits':'refunds wait'} for funds, taken from money coming in ahead of financing repayment</span><span class="lnk">View</span></button>`:'';
+  info+=`<button class="bl-strip" data-panel="pending">${ic('clock',16)}<span class="l">Pending</span><b class="num">${rp(v.pending)}</b><span class="ex">${v.pending?`${PENDING.orders.length} orders not complete · ${PENDING.pay.length} payments awaiting settlement`:'Nothing pending'}</span><span class="lnk">View</span></button>`;
   if(v.invoice)info+=`<button class="bl-strip" data-panel="invoice">${ic('invoice',16)}<span class="l">Monthly invoice</span><b class="num">${rp(1250000)}</b><span class="ex">Your charges go on this invoice instead of your wallet</span><span class="lnk">View</span></button>`;
   document.getElementById('bl-info').innerHTML=info;
   /* statement: one tab per wallet, each with its own running balance; incoming and charges due are lists */
@@ -3231,7 +3469,7 @@ function renderBal(){const v=bv();
     let x='';if(open){
       x=`<tr class="bl-x"><td colspan="5"><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl>
       ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{pg:'Opens the payment processing rate',flik:'Opens your FLIK agreement',fin:'Opens '+MCA_ID+' in Merchant Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
-      <div class="bl-acts"><button class="btn btn-o" data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}">${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
+      <div class="bl-acts"><button class="btn btn-o" ${/^(Refund|Dispute) ID$/.test(l.ref[0])?`data-goto="#transactions/${l.ref[1]}"`:`data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}"`}>${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
     return`<tr data-bl="${l.i}" class="${open?'open':''}"><td class="date">${fdate(l.t)}</td><td class="bl-desc"><b>${l.d}</b>${(p=>p?`<span class="src">${p}</span>`:'')(pill(l))}</td><td class="num dr">${l.a<0?rp2(-l.a):''}</td><td class="num cr">${l.a>=0?rp2(l.a):''}</td><td class="num">${rp2(l.after)}</td></tr>${x}`}).join('')
     :`<tr><td colspan="5" style="height:auto;border:0;cursor:default"><div class="empty"><b>${none[0]}</b>${none[1]}</div></td></tr>`;
 }
@@ -3254,6 +3492,10 @@ function balPanel(k){const v=bv();let h='';
     ${v.pending?`<div class="dsec"><h5>${PENDING.orders.length} orders not complete</h5>${PENDING.orders.map(o=>`<dl class="kv"><dt>${o[0]}</dt><dd><span class="num">${rp(o[2])}</span> · ${o[1]} · expected ${o[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>
     <div class="dsec"><h5>${PENDING.pay.length} payments awaiting settlement</h5>${PENDING.pay.map(o=>`<dl class="kv"><dt>${o[0]}</dt><dd><span class="num">${rp(o[2])}</span> · ${o[1]} · expected ${o[3]}</dd></dl>`).join('<div style="height:8px"></div>')}</div>`:'<div class="dsec"><p class="d-sub">Nothing pending.</p></div>'}</div>`}
   if(k==='invoice'){h=head('invoice','Monthly invoice')+`<div class="db"><div class="d-amt"><b class="num">${rp2(1250000)}</b></div><p class="d-sub">Your charges appear on the monthly invoice instead of as wallet deductions.</p><div class="dsec"><h5>This month</h5><dl class="kv"><dt>Invoice</dt><dd>INV-FLIK-2026-10, issued on 1 Nov</dd><dt>Receivable</dt><dd class="num">${rp2(1250000)}</dd><dt>Credit limit</dt><dd class="num">${rp2(10000000)}</dd></dl></div></div>`}
+  if(k==='disputed'){const L=DISPUTES.filter(d=>DP_OPEN.includes(d.st)).sort((a,b)=>a.due-b.due);h=head('warn','Disputed')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.disputed)}</b></div><p class="d-sub">Money held while a shopper's bank or card issuer reviews a payment. It can't be withdrawn until the outcome: won, it returns to your active balance; lost, it pays the chargeback and the dispute fee.</p>
+    ${L.map(d=>`<div class="dsec"><h5>${d.id} · ${DP_REASON[d.reason][0]}</h5><dl class="kv"><dt>Held</dt><dd class="num">${rp(d.amount)} from ${d.from.toLowerCase()}</dd><dt>Payment</dt><dd>${d.pay}</dd><dt>Status</dt><dd><span class="st ${DP_ST[d.st][1]}">${DP_ST[d.st][0]}</span></dd>${d.st==='evidence'||d.st==='reopened'?`<dt>Evidence due</dt><dd>${fday2(d.due)} · ${wdLeft(d.due)} working days left</dd>`:''}</dl><button class="lnk bl-go" data-goto="#transactions/${d.id}">Open dispute</button></div>`).join('')}</div>`}
+  if(k==='rfowed'){const L=REFUNDS.filter(r=>r.st==='funding');h=head('refund','Refunds owed')+`<div class="db"><div class="d-amt"><b class="num">${rp2(v.rfOwed)}</b></div><p class="d-sub">Refunds your reserve and active balance couldn't cover yet. They're taken automatically from money coming in, ahead of financing repayment. If one is still short after 20 working days, FLIK pays the shopper and the rest becomes a charge due.</p>
+    ${L.map(r=>`<div class="dsec"><h5>${r.id} · ${rp(r.amount)}</h5><div class="rf-fund big"><span class="rf-bar"><i style="width:${Math.round(r.funded/r.amount*100)}%"></i></span><span><b class="num">${rp(r.funded)}</b> funded · <b class="num">${rp(r.amount-r.funded)}</b> left · FLIK steps in on ${fday2(addWD(r.created,20))}</span></div><button class="lnk bl-go" data-goto="#transactions/${r.id}">Open refund</button></div>`).join('')}</div>`}
   drawer.innerHTML=h;drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
   drawer.querySelector('[data-dclose]').onclick=closeDetail;
 }
@@ -3315,7 +3557,7 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
 
 /* ===== Simple router: #home / #transactions ===== */
 const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog']};
-const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
   if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
@@ -3336,6 +3578,7 @@ function show(view){
   if(view==='trk'){nav.querySelector('[data-view=\"trk\"]')?.closest('.grp')?.classList.add('open');setTimeout(()=>document.getElementById('trk-q').focus(),0)}
   if(view==='inv'){renderInv();nav.querySelector('[data-view=\"inv\"]')?.closest('.grp')?.classList.add('open')}
   closeDetail();setSide(false);scrollTo(0,0);
+  if(view==='tx')txRoute();
 }
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{location.hash=VIEWS[b.dataset.view][0]});
 addEventListener('hashchange',()=>show(hashView()));
