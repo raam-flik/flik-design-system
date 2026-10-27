@@ -342,3 +342,25 @@
 .fl-plogo--icon{display:inline-flex;align-items:center;justify-content:center;background:var(--primary-soft);color:var(--primary);box-shadow:none}
 .fl-plogos{display:inline-flex;align-items:center;gap:4px}
 .fl-pm{display:flex;align-items:center;gap:10px;color:var(--app-text)}
+/* Filter bar (27 Oct): search, one Filter button that reads "2 filters" when on, Edit columns */
+.fl-filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fl-filterbar .fl-search{flex:1 1 280px;max-width:360px;height:32px}
+.fl-filterbar .end{margin-left:auto;display:flex;gap:8px}
+.fl-abtn.is-on{background:var(--primary-soft);color:var(--primary);box-shadow:none}
+.fl-abtn.is-on svg{color:var(--primary)}
+.fl-abtn--icon{width:32px;padding:0;justify-content:center}
+.fl-pop .foot{display:flex;padding:8px 6px 4px;border-top:1px solid var(--app-line);margin-top:6px}
+.fl-pop .foot .fl-abtn{flex:1;justify-content:center}
+/* Data table columns (27 Oct): drag a header; its menu sorts, pins or hides the column */
+.fl-table th.fl-colh{position:relative;padding-left:2px;padding-right:2px}
+.fl-colh .fl-grip{position:absolute;left:-6px;top:50%;transform:translateY(-50%);display:inline-flex;opacity:0;color:var(--app-faint);cursor:grab}
+.fl-colh:hover .fl-grip{opacity:1}
+.fl-colh button{display:inline-flex;align-items:center;gap:4px;font:inherit;font-weight:600;color:var(--app-ink);padding:4px 6px;border-radius:var(--radius-control);white-space:nowrap}
+.fl-colh button:hover{background:var(--app-hover)}
+.fl-colh button svg{color:var(--app-muted)}
+.fl-colh .pin,.fl-colh .pin svg{display:inline-flex;color:var(--primary)}
+.fl-table .is-pinned{position:sticky;left:0;z-index:1;background:var(--surface);box-shadow:inset -1px 0 0 var(--app-line)}
+.fl-colcfg .fl-opt{gap:8px;cursor:grab}
+.fl-colcfg .fl-opt .n{flex:1}
+.fl-colcfg .pinb{display:inline-flex;color:var(--app-faint)}
+.fl-colcfg .pinb.on{color:var(--primary)}

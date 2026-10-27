@@ -1,14 +1,20 @@
-<!-- @dsCard group="Product" height=260 -->
+<!-- @dsCard group="Product" height=440 -->
 <!doctype html>
 <html>
 <head><meta charset="utf-8"><style>body{margin:0;padding:16px;background:var(--surface)}</style></head>
 <body>
 <div class="fl fl-app">
-<div class="fl-tblwrap fl-app"><table class="fl-table"><thead><tr><th>Amount</th><th>Status</th><th>Payment method</th><th>Customer</th><th>Date</th></tr></thead><tbody>
-<tr><td class="amt">Rp349.000</td><td><span class="fl-badge fl-badge--ok">Succeeded</span></td><td>QRIS</td><td>rina.putri@gmail.com</td><td>14 Oct 2026, 10:42</td></tr>
-<tr class="sel"><td class="amt">Rp1.250.000</td><td><span class="fl-badge fl-badge--warn">Uncaptured</span></td><td>BCA Virtual Account</td><td>dimas@arunastudio.co.id</td><td>14 Oct 2026, 09:15</td></tr>
-<tr><td class="amt">Rp89.000</td><td><span class="fl-badge fl-badge--bad">Failed</span></td><td>Card •••• 4242</td><td>sari.w@yahoo.com</td><td>13 Oct 2026, 21:03</td></tr>
+<div class="fl-stack" style="gap:16px">
+<div class="fl-tblwrap fl-app"><table class="fl-table"><thead><tr><th class="fl-colh is-pinned"><span class="fl-grip"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.2"/><circle cx="15" cy="6" r="1.2"/><circle cx="9" cy="12" r="1.2"/><circle cx="15" cy="12" r="1.2"/><circle cx="9" cy="18" r="1.2"/><circle cx="15" cy="18" r="1.2"/></svg></span><button>Amount<span class="pin"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 17v5"/><path d="M9 4h6l-1 6 3 3v2H7v-2l3-3z"/></svg></span></button></th><th class="fl-colh"><span class="fl-grip"></span><button>Status</button></th><th class="fl-colh"><span class="fl-grip"></span><button>Payment method</button></th><th class="fl-colh"><span class="fl-grip"></span><button>Customer</button></th><th class="fl-colh"><span class="fl-grip"></span><button>Date<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></button></th></tr></thead><tbody>
+<tr><td class="amt is-pinned">Rp349.000</td><td><span class="fl-badge fl-badge--ok">Succeeded</span></td><td>QRIS</td><td>rina.putri@gmail.com</td><td>14 Oct 2026, 10:42</td></tr>
+<tr class="sel"><td class="amt is-pinned">Rp1.250.000</td><td><span class="fl-badge fl-badge--warn">Uncaptured</span></td><td>BCA Virtual Account</td><td>dimas@arunastudio.co.id</td><td>14 Oct 2026, 09:15</td></tr>
+<tr><td class="amt is-pinned">Rp89.000</td><td><span class="fl-badge fl-badge--bad">Failed</span></td><td>Card •••• 4242</td><td>sari.w@yahoo.com</td><td>13 Oct 2026, 21:03</td></tr>
 </tbody></table></div>
+<div class="fl-row" style="align-items:flex-start;gap:16px">
+<div class="fl-pop fl-app" style="max-width:220px"><h6>Date</h6><button class="fl-opt">Sort ascending</button><button class="fl-opt" style="color:var(--primary);font-weight:600">Sort descending</button><hr><button class="fl-opt">Pin column</button><button class="fl-opt">Hide column</button></div>
+<div class="fl-pop fl-colcfg fl-app" style="max-width:240px"><h6>Edit columns</h6><div class="fl-opt"><span class="fl-cb on"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><span class="n">Amount</span><span class="pinb on"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 17v5"/><path d="M9 4h6l-1 6 3 3v2H7v-2l3-3z"/></svg></span></div><div class="fl-opt"><span class="fl-cb on"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span><span class="n">Status</span><span class="pinb"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 17v5"/><path d="M9 4h6l-1 6 3 3v2H7v-2l3-3z"/></svg></span></div><div class="fl-opt"><span class="fl-cb"></span><span class="n">Customer</span><span class="pinb"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 17v5"/><path d="M9 4h6l-1 6 3 3v2H7v-2l3-3z"/></svg></span></div><div class="foot"><button class="fl-abtn fl-abtn--outline">Reset</button></div></div>
+</div>
+</div>
 </div>
 </body>
 </html>
