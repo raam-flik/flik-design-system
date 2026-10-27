@@ -4297,6 +4297,1127 @@ addEventListener('hashchange',()=>show(hashView()));
 /* Top bar balance */
 document.getElementById('balv').textContent=rp(BAL);
 document.getElementById('baladd').onclick=topupModal;
+/* Split prototype: each dashboard menu has its own file in its own folder (product/Dashboard/<menu>/prototype-v4.html).
+   This file is the Home menu; links to another menu open that menu's file. */
+/* FLIK API adapter (example data unless config sets mode 'api') */
+/* ===== FLIK API adapter =====
+ * Every screen asks for data through FLIK.api. In 'mock' mode (the default) each call answers
+ * from the example data in app/data.js. In 'api' mode it calls FLIK's API through the local
+ * server's /api proxy, which adds the secret key server-side, and falls back to the example
+ * data if the call fails. Endpoints and payloads are listed in docs/API.md.
+ */
+window.FLIK = window.FLIK || {};
+(function(){
+  const cfg = Object.assign({mode:'mock', apiBase:'/api', googleMapsKey:'', merchantId:'MRC-0007'}, window.FLIK_CONFIG || {});
+  const mocks = {};
+  const log = [];
+  async function call(name, method, path, body){
+    const t0 = performance.now();
+    if (cfg.mode === 'api') {
+      try {
+        const r = await fetch(cfg.apiBase + path, {method, headers:{'content-type':'application/json','x-merchant-id':cfg.merchantId}, body: body ? JSON.stringify(body) : undefined});
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+        log.unshift({name, method, path, source:'api', ms:Math.round(performance.now()-t0)});
+        return data;
+      } catch (e) { log.unshift({name, method, path, source:'example data (API failed: '+e.message+')'}); }
+    } else log.unshift({name, method, path, source:'example data'});
+    if (!mocks[name]) throw new Error('No example data for ' + name);
+    return mocks[name](body);
+  }
+  FLIK.config = cfg;
+  FLIK.apiLog = log;
+  /* data.js registers the example answers here */
+  FLIK.mock = (name, fn) => { mocks[name] = fn; };
+  FLIK.api = {
+    merchant:        ()      => call('merchant', 'GET', '/v1/merchant'),
+    pickupAddresses: ()      => call('pickupAddresses', 'GET', '/v1/shipping/pickup-addresses'),
+    rates:           (q)     => call('rates', 'POST', '/v1/shipping/rates', q),
+    recommend:       (q)     => call('recommend', 'POST', '/v1/shipping/recommendations', q),
+    shopperScore:    (q)     => call('shopperScore', 'POST', '/v1/shipping/customer-score', q),
+    validateRows:    (q)     => call('validateRows', 'POST', '/v1/shipping/bulk/validate', q),
+    createShipments: (q)     => call('createShipments', 'POST', '/v1/shipping/shipments', q),
+    shipments:       (q)     => call('shipments', 'GET', '/v1/shipping/shipments' + (q ? '?' + new URLSearchParams(q) : '')),
+    tracking:        (awbs)  => call('tracking', 'GET', '/v1/shipping/tracking?awb=' + encodeURIComponent(awbs.join(','))),
+    createTicket:    (q)     => call('createTicket', 'POST', '/v1/support/tickets', q),
+    verifyShopper:   (q)     => call('verifyShopper', 'POST', '/v1/shipping/customer-verifications', q),
+    geocode:         (q)     => call('geocode', 'POST', '/v1/maps/geocode', q)
+  };
+})();
+
+/* ===== Shipping › Monitoring, Check rate and Analytics: ported from rzadwicahyo/flik-merchant-dashboard (v3.7) ===== */
+/* ===== FLIK Shipping Phase 1 prototype: shared helpers, merchant state, navigation =====
+ * Loaded after Raam's reference dashboard (index.html). Function declarations here replace
+ * Raam's functions of the same name; everything else is new.
+ */
+Object.assign(P,{
+  sparkle:'<path d="M12 3.5l1.8 4.7 4.7 1.8-4.7 1.8L12 16.5l-1.8-4.7L5.5 10l4.7-1.8z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
+  shield:'<path d="M12 3.5 5 6v5.5c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/>',
+  route:'<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16"/>',
+  percent:'<path d="M18 6 6 18"/><circle cx="7.5" cy="7.5" r="2"/><circle cx="16.5" cy="16.5" r="2"/>',
+  pulse:'<path d="M3 12h4l2.5-6 5 12 2.5-6h4"/>',
+  book:'<path d="M5 4.5h10a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z"/><path d="M5 16.5a3 3 0 0 1 3-3h10"/>',
+  ticket:'<path d="M4 7.5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1V10a2 2 0 0 0 0 4v2.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V14a2 2 0 0 0 0-4z"/><path d="M14 6.5v11" stroke-dasharray="2 2"/>',
+  map:'<path d="M9 4.5 3.5 6.5v13L9 17.5l6 2 5.5-2v-13L15 6.5z"/><path d="M9 4.5v13M15 6.5v13"/>',
+  gauge:'<path d="M4.5 16a7.5 7.5 0 1 1 15 0"/><path d="m12 16 3.5-4.5"/><circle cx="12" cy="16" r="1.2"/>',
+  api:'<path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5.5l-3 13"/>',
+  person:'<circle cx="12" cy="8" r="3.5"/><path d="M5 19.5c1.2-3.3 3.8-5 7-5s5.8 1.7 7 5"/>',
+  phone2:'<path d="M6.5 3.5h3l1.5 4-2 1.5a10 10 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>',
+  chat2:'<path d="M4.5 5.5h15v10h-9l-4 3.5v-3.5h-2z"/>',
+  split:'<path d="M5 5h4l5 7-5 7H5M14 12h5M16.5 9.5 19 12l-2.5 2.5"/>',
+  bulb:'<path d="M9 17.5h6M10 20.5h4M12 3.5a6 6 0 0 0-3.5 10.9V15.5h7v-1.1A6 6 0 0 0 12 3.5z"/>'
+});
+const DAY=864e5,HOUR=36e5;
+const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ago=d=>{const h=(NOW-d)/HOUR;if(h<1)return'Just now';if(h<24)return`${Math.floor(h)}h ago`;const n=Math.floor(h/24);return n===1?'1 day ago':`${n} days ago`};
+const normPhone=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('0'))d='62'+d.slice(1);else if(d.startsWith('8'))d='62'+d;return d};
+const phoneOk=p=>/^62\d{9,12}$/.test(String(p||'').replace(/\D/g,''));
+const fphone=p=>{const d=normPhone(p).slice(2);return'+62 '+d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7)};
+const pct=(a,b)=>b?Math.round(a/b*1000)/10:0;
+const fpct=v=>(Math.round(v*10)/10).toLocaleString('id-ID')+'%';
+const sum=(a,f=x=>x)=>a.reduce((s,x)=>s+f(x),0);
+const by=(a,f)=>a.reduce((m,x)=>{const k=f(x);(m[k]=m[k]||[]).push(x);return m},{});
+const cName=k=>(COURIERS.find(c=>c.k===k)||{n:k}).n;
+const plural=(n,a,b)=>`${n.toLocaleString('id-ID')} ${n===1?a:(b||a+'s')}`;
+/* seeded random numbers that don't disturb Raam's own seed */
+const mkRng=s=>()=>(s=(s*16807)%2147483647)/2147483647;
+const hsh=s=>{let h=7;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return h};
+
+/* ===== Merchant state (the prototype bar changes it) ===== */
+const PS={mode:'new',flags:'payship',verified:false,vd:{},vStep:0,vLater:false,first:{addr:false,created:false,paid:false},ckClosed:false,events:[]};
+const FLAGS={pay:{l:'Payments only (default until the first transaction)',w:['pay']},ship:{l:'Shipping only',w:['ship']},payship:{l:'Payments + Shipping',w:['pay','ship']},all:{l:'Payments, Shipping, Funding',w:['pay','ship']}};
+const has=p=>FLAGS[PS.flags].w.includes(p);
+const WH_ALL=WH.map(w=>({...w}));
+
+/* ===== Event tracker: first-party, no customer data ===== */
+function track(name,props={}){PS.events.unshift({name,props,at:new Date()});const n=document.getElementById('pt-evn');if(n)n.textContent=PS.events.length}
+
+/* ===== Direct download to the device (no Download Centre) ===== */
+function dlCsv(file,head,rows,section){
+  const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const csv='﻿'+[head.map(q).join(',')].concat(rows.map(r=>r.map(q).join(','))).join('\n');
+  try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`${file}-${fdayISO(NOW)}.csv`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}catch(e){}
+  track('export_downloaded',{section:section||file,rows:rows.length});toast(`${file}-${fdayISO(NOW)}.csv downloaded (${plural(rows.length,'row')})`)}
+const dlBtn=(id,label='Export')=>`<button class="btn btn-o" data-dl="${id}">${ic('export',15)}${label}</button>`;
+const DL={};  // section id → () => [file, head, rows]
+document.addEventListener('click',e=>{const b=e.target.closest('[data-dl]');if(!b)return;e.stopPropagation();const f=DL[b.dataset.dl];if(f){const [file,head,rows]=f();dlCsv(file,head,rows,b.dataset.dl)}});
+
+function openDrawer(){drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');drawer.querySelector('[data-dclose]').onclick=closeDetail}
+const _closeModal=closeModal;closeModal=function(){_closeModal();modal.classList.remove('wide','md','nw','lg','xl');modal.onclick=modal.oninput=modal.onchange=null};
+const openGrp=v=>{const b=nav.querySelector(`[data-view="${v}"]`);if(b&&b.closest('.grp'))b.closest('.grp').classList.add('open')};
+{const _cd=closeDetail;closeDetail=function(){_cd();drawer.classList.remove('chat')}}
+const go=h=>{if(location.hash==='#'+h)show(hashView());else location.hash=h};
+
+/* ===== Example data and the smart courier engine =====
+ * Everything here is made up and seeded, so it is the same on every load. In production these
+ * answers come from FLIK's API (see app/api.js and docs/API.md).
+ */
+
+/* --- Destinations: Raam's address list plus a few outside Java --- */
+ADDR_DB.push(['Pandang','Panakkukang','Kota Makassar','Sulawesi Selatan','90231'],['Darat','Medan Baru','Kota Medan','Sumatera Utara','20153'],['Airlangga','Gubeng','Kota Surabaya','Jawa Timur','60286'],
+  ['Sidokare','Sidoarjo','Kabupaten Sidoarjo','Jawa Timur','61214'],['Cisauk','Cisauk','Kabupaten Tangerang','Banten','15341'],['Braga','Sumur Bandung','Kota Bandung','Jawa Barat','40111'],['Kuta','Kuta','Kabupaten Badung','Bali','80361']);
+const AREA=ADDR_DB.map(a=>({kel:a[0],kec:a[1],city:a[2],prov:a[3],zip:a[4]}));
+const areaTx=a=>`${a.kel}, ${a.kec}, ${a.city}`;
+const ISLAND={'DKI Jakarta':'jawa','Jawa Barat':'jawa','Jawa Tengah':'jawa','DI Yogyakarta':'jawa','Jawa Timur':'jawa','Banten':'jawa','Bali':'bali','Sumatera Utara':'sumatera','Sulawesi Selatan':'sulawesi'};
+const whArea=w=>({kel:'',kec:w.dist,city:w.city,prov:w.prov,zip:w.zip});
+const whByCode=c=>WH.find(w=>w.code===c)||WH_ALL.find(w=>w.code===c);
+
+/* --- Rates: FLIK's discounted price per kg is SERVICES[4]; the published price is the courier's own --- */
+const PUBX={'anteraja|Regular':12500,'sicepat|Regular':8000,'sicepat|GOKIL':40000,'jne|YES':21000,'spx|Standard':8500,'spx|Sameday':25000,'jnt|EZ':10500};
+const pubKg=sv=>sv[5]||PUBX[sv[0]+'|'+sv[1]]||sv[4];
+function zoneMul(o,d){if(o.city===d.city)return .7;if(o.prov===d.prov)return .85;const a=ISLAND[o.prov],b=ISLAND[d.prov];if(a===b)return 1;
+  const far={bali:1.35,sumatera:1.7,sulawesi:2};return far[a==='jawa'?b:a]||1.8}
+const r100=n=>Math.round(n/100)*100;
+/* price of one parcel: published, discounted (what FLIK charges) */
+function rateOf(svIdx,origin,dest,kg){const sv=SERVICES[svIdx],m=zoneMul(origin,dest),k=Math.max(1,Math.ceil(kg||1));
+  const pub=r100(pubKg(sv)*m)*k,net=r100(sv[4]*m)*k;return{pub,net,disc:pub-net,eta:etaOf(sv,m)}}
+function etaOf(sv,m){if(m<1.3||/Same/i.test(sv[3]))return sv[3];const n=sv[3].match(/\d+/g);if(!n)return sv[3];const add=m>=1.6?2:1;return n.length>1?`${+n[0]+add}–${+n[1]+add} days`:`${+n[0]+add} days`}
+/* Sameday only runs inside a province */
+const reach=(i,o,d)=>!/Same/i.test(SERVICES[i][3])||zoneMul(o,d)<=.85;
+const etaMax=sv=>{const n=String(sv[3]).match(/\d+/g);return n?+n[n.length-1]:1};
+
+/* --- Delivery success by area: kecamatan when there are enough shipments, otherwise the city --- */
+const SR_BASE={jne:93,jnt:92,spx:91,ninja:90,lion:89,sicepat:91,anteraja:90};
+const SR_CITY={'Kota Bandung':{jne:4,spx:-5},'Jakarta Selatan':{spx:5,jnt:2,anteraja:2},'Kota Surabaya':{jnt:4,ninja:-5},'Kota Denpasar':{spx:-11,ninja:-8,jne:3},'Kabupaten Badung':{spx:-9,jne:2},
+  'Kota Medan':{jnt:4,spx:-10,anteraja:-7},'Kota Yogyakarta':{sicepat:4,ninja:-5},'Kota Semarang':{jne:2,lion:2},'Kota Malang':{anteraja:-7,jne:2},'Kota Tangerang':{jnt:-6,spx:2},'Kota Makassar':{jne:4,spx:-5,jnt:-3,ninja:-6},'Kabupaten Sidoarjo':{jnt:3},'Kabupaten Tangerang':{spx:1}};
+const clampSr=v=>Math.max(68,Math.min(98.6,v));
+function srOf(k,a){const c=clampSr(SR_BASE[k]+((SR_CITY[a.city]||{})[k]||0)+((hsh(a.city+k)%30)/10-1.5));
+  const n=hsh(a.kec+'|'+k)%260;if(n<45)return{sr:Math.round(c*10)/10,level:'city',n:900+hsh(a.city+k)%2400};
+  return{sr:Math.round(clampSr(c+(hsh(a.kec+k)%80)/10-4)*10)/10,level:'kecamatan',n}}
+/* --- Red zones: 'cod' means the courier won't take COD there, 'all' means it doesn't deliver there --- */
+const RZ={spx:{'Denpasar Barat':'cod','Kuta':'cod','Medan Petisah':'all','Medan Baru':'cod'},jnt:{'Cipondoh':'cod'},ninja:{'Denpasar Barat':'cod','Gedongtengen':'cod','Panakkukang':'cod'},anteraja:{'Medan Petisah':'cod','Klojen':'cod'},sicepat:{'Gayungan':'cod'},lion:{'Panakkukang':'all'},jne:{}};
+const rzOf=(k,a)=>(RZ[k]||{})[a.kec]||null;
+const rzBlocks=(k,a,pay)=>{const z=rzOf(k,a);return z==='all'||(z==='cod'&&pay==='cod')};
+const RZ_TX={cod:'Red zone for COD',all:'Not delivered'};
+
+/* --- Customer score: phone delivery history across FLIK plus the area's success rate. Higher is safer.
+   Example data only; Legal still has to confirm how phone history may be used. --- */
+function phist(p){const h=hsh(normPhone(p));if(h%13===0)return{fails:0,deliveries:0,isNew:true};return{fails:h%23===0?3:h%11===0?2:h%6===0?1:0,deliveries:1+h%9,isNew:false}}
+/* inputs: the phone's COD history across FLIK, the area's COD delivery rate, order value and how complete the address is */
+function shopperScore(p,a,o={}){const h=phist(p),asr=sum(COURIERS,c=>srOf(c.k,a).sr)/COURIERS.length,ok=VERIFIED.has(normPhone(p));
+  const ph=h.isNew?80:Math.max(10,100-h.fails*26),val=+String(o.val||0).replace(/\D/g,''),st=String(o.street||'');
+  const vPen=val>3000000?10:val>1500000?5:0,aPen=o.street!=null&&!/\d/.test(st)?8:0;
+  const s=Math.max(1,Math.min(99,Math.round(.6*ph+.4*asr)-vPen-aPen+(ok?28:0)));
+  const band=s>=80?['Safe','ok']:s>=60?['Watch','warn']:['Risky','bad'];
+  const f=[['Phone history',h.isNew?'New to FLIK: no history yet':h.fails?`${h.fails} of ${h.deliveries+h.fails} COD parcels to this number came back`:`${h.deliveries} of ${h.deliveries} delivered`,h.fails>=2?'bad':h.fails?'warn':'ok'],
+    ['Area',`${Math.round(asr)} in 100 COD parcels to ${a.kec} arrive`,asr<85?'warn':'ok']];
+  if(o.val!=null)f.push(['Order value',vPen?`${rp(val)} is high for COD`:'Usual for COD',vPen?'warn':'ok']);
+  if(o.street!=null)f.push(['Address',aPen?'No house number':'Complete',aPen?'warn':'ok']);
+  if(ok)f.unshift(['WhatsApp','Customer confirmed this order','ok']);
+  const why=f.filter(x=>x[2]!=='ok'||x[0]==='WhatsApp').map(x=>x[1]).join('. ')||f[0][1];
+  return{score:s,band:band[0],cls:band[1],why,f,fails:h.fails,verified:ok}}
+const scorePill=sc=>`<span class="st ${sc.cls} sm" title="${esc(sc.why)}">${sc.score} · ${sc.band}</span>`;
+
+/* --- Courier recommendation for a set of parcels: best delivery rate where they go, no red zones --- */
+function recommend(ships,group='reg'){const out=[];
+  SERVICES.forEach((sv,i)=>{if(sv[2]!==group||!svcOn(sv[0],sv[1])||ships.some(s=>!reach(i,s.origin,s.area)))return;
+    const srs=ships.map(s=>srOf(sv[0],s.area)),red=ships.filter(s=>rzBlocks(sv[0],s.area,s.pay));
+    out.push({i,k:sv[0],sr:Math.round(sum(srs,x=>x.sr)/Math.max(1,srs.length)*10)/10,city:srs.filter(x=>x.level==='city').length,red,
+      net:sum(ships,s=>rateOf(i,s.origin,s.area,s.kg).net),pub:sum(ships,s=>rateOf(i,s.origin,s.area,s.kg).pub)})});
+  const clean=out.filter(o=>!o.red.length),pool=clean.length?clean:out;
+  const best=pool.slice().sort((a,b)=>b.sr-a.sr||a.net-b.net)[0],cheap=out.slice().sort((a,b)=>a.net-b.net)[0];
+  return{list:out,best:best&&best.i,cheap:cheap&&cheap.i}}
+/* for one parcel the chosen courier can't take: the best courier in the same group that can */
+function bestFor(s,group,prefer){const ok=SERVICES.map((sv,i)=>[sv,i]).filter(([sv,i])=>sv[2]===group&&svcOn(sv[0],sv[1])&&(!s.origin||reach(i,s.origin,s.area))&&!rzBlocks(sv[0],s.area,s.pay));
+  if(prefer!=null&&ok.some(([,i])=>i===prefer))return prefer;ok.sort((a,b)=>srOf(b[0][0],s.area).sr-srOf(a[0][0],s.area).sr);return ok.length?ok[0][1]:null}
+
+/* ===== Shipments of the active merchant ===== */
+const SST3={pickup:['Wait pickup','gr'],picked:['Picked up','gr'],transit:['In transit','gr'],ofd:['Out for delivery','pu'],delivered:['Delivered','ok'],failed:['Delivery failed','warn'],returning:['Returning','warn'],returned:['Returned','gr'],lost:['Lost or damaged','bad']};
+const MON3={ontrack:['On track','pu'],delayed:['Delayed','warn'],risk:['At risk','or'],problem:['Problem','bad'],safe:['Safe','ok']};
+const SEV3={problem:['Critical','bad',0],risk:['High','or',1],delayed:['Medium','warn',2]};
+const stPill3=s=>`<span class="st ${SST3[s][1]} sm">${SST3[s][0]}</span>`;
+const monPill=m=>`<span class="st ${MON3[m][1]} sm">${MON3[m][0]}</span>`;
+const sevPill3=m=>SEV3[m]?`<span class="st ${SEV3[m][1]} sm">${SEV3[m][0]}</span>`:'';
+const SH=[],BATCH=[],TK=[],CL=[],PEND=[],VERIFIED=new Set();
+const FN=['Rina','Budi','Sari','Andi','Dewi','Fajar','Maya','Rizky','Putri','Agus','Nadia','Yoga','Intan','Bayu','Citra','Dimas','Eka','Gita','Hendra','Indah','Joko','Kartika','Lukman','Mega'],LN=['Putri','Santoso','Wulandari','Pratama','Lestari','Nugroho','Sari','Ramadhan','Ayu','Setiawan','Rahma','Saputra','Permata','Hidayat','Kusuma','Wijaya'];
+const PRODUCTS=[['Linen shirt · White',289000,.4],['Canvas tote bag',149000,.3],['Wide-leg trousers',219000,.5],['Basic tee · Black',99000,.2],['Voile scarf · Floral',125000,.1],['Leather sneakers',459000,1.2],['Batik dress · Indigo',375000,.5]];
+const STREETS=['Jl. Melati','Jl. Kenanga','Jl. Mawar','Jl. Anggrek','Jl. Cempaka','Jl. Flamboyan','Jl. Merdeka','Jl. Sudirman','Jl. Diponegoro','Jl. Gajah Mada'];
+const AWBP={spx:'SPXID0',jnt:'JP',jne:'JNE0',ninja:'NLIDAP',lion:'99LP',sicepat:'0045',anteraja:'1000'};
+let awbSeq=0;const mkAwb=k=>AWBP[k]+String(4100000000+(++awbSeq)*7919);
+const ageOf=s=>(NOW-s.created)/DAY;
+/* SLA: the courier's promised days for this route (from the warehouse to the customer's area). Waiting for pickup has its own SLA of 1 day */
+const PICKUP_SLA=1;
+const slaOf=s=>{if(s.st==='pickup')return PICKUP_SLA;const w=whByCode(s.wh),n=String(etaOf(SERVICES[s.svc],w?zoneMul(whArea(w),s.area):1)).match(/\d+/g);return n?+n[n.length-1]:1};
+/* age: days since pickup (since booking while it waits for pickup); the clock stops when the parcel is delivered, returned or lost */
+const pickAt=s=>new Date(s.created.getTime()+.3*DAY);
+const DONE3=new Set(['delivered','returned','lost']);
+const ageDays=s=>s.st==='pickup'?(NOW-s.created)/DAY:Math.max(0,((DONE3.has(s.st)?s.upd:NOW)-pickAt(s))/DAY);
+const overSla=s=>ageDays(s)>slaOf(s);
+const ageTx=d=>d<1?`${Math.max(1,Math.round(d*24))}h`:`${Math.floor(d)}d ${Math.round((d%1)*24)}h`;
+/* why a delivery failed or came back (example data) */
+const WHY={notfound:'address not found',nothome:'customer not at home',rejected:'customer rejected the parcel',notordered:"customer says they didn't order"};
+/* monitoring status (AG, 25 Oct):
+   Safe: delivered, or returned with your confirmation · On track: on the way within SLA · Delayed: on the way past SLA
+   At risk: delivery failed, address not found, customer rejected or didn't order · Problem: lost or damaged, returned without your confirmation */
+function monOf(s){
+  if(s.st==='lost'||s.dmg||(s.st==='returned'&&s.noConf))return'problem';
+  if(s.st==='delivered'||s.st==='returned')return'safe';
+  if(s.st==='failed'||s.st==='returning')return'risk';
+  return overSla(s)?'delayed':'ontrack'}
+/* what the issue is, in the merchant's words, and the action that fits */
+function issueOf(s){const m=monOf(s);if(m==='safe'||m==='ontrack')return null;
+  /* the issue in two words at most; the detail (attempt, reason, how late) goes in the hint */
+  if(s.st==='lost')return{t:'Lost',act:'claim',next:'Lost by the courier. File a claim; FLIK handles it with the courier.'};
+  if(s.dmg)return{t:'Damaged',act:'claim',next:'Delivered damaged. File a claim with photos of the parcel.'};
+  if(s.st==='returned')return{t:'Unconfirmed return',act:'claim',next:'Returned without your confirmation. Claim the shipping both ways back.'};
+  if(s.st==='failed'){const w=s.why||'nothome',n=s.tries>=2?`Attempt ${s.tries}. `:'';
+    return w==='notordered'?{t:'Not ordered',act:'support',next:`${n}The customer says they didn't order. Check the order, then ask FLIK to return it or try again.`}
+      :w==='rejected'?{t:'Rejected',act:'customer',next:`${n}The customer rejected the parcel. Ask them why before the next attempt.`}
+      :w==='notfound'?{t:'Wrong address',act:'customer',next:`${n}The courier couldn't find the address. Get the house number or a landmark from the customer.`}
+      :{t:'Not home',act:'customer',next:`${n}The customer wasn't at home. Agree a good time with them.`}}
+  if(s.st==='returning')return{t:'Returning',act:'customer',next:`Returning: ${WHY[s.why]||WHY.rejected}. Contact the customer to save the order.`};
+  const over=ageDays(s)-slaOf(s);
+  if(s.st==='pickup')return{t:'Late pickup',act:'support',next:`Pickup late by ${ageTx(over)}. Ask FLIK support to reschedule the pickup.`};
+  return{t:'Past SLA',act:'support',next:`Past SLA by ${ageTx(over)}. Ask FLIK support to chase the courier.`}}
+/* needs resolving: not Safe or On track, and no ticket yet. Taking an action creates a ticket and moves it to Tickets */
+const needsAct=s=>!!issueOf(s)&&!s.tk;
+const rstate=s=>{const m=monOf(s);if(needsAct(s))return'open';if(s.tk&&m!=='safe')return'ack';if((s.tk||s.had)&&m==='safe')return'resolved';return null};
+
+function genActive(){const R=mkRng(4242),pk=a=>a[Math.floor(R()*a.length)];SH.length=0;BATCH.length=0;TK.length=0;CL.length=0;PEND.length=0;VERIFIED.clear();awbSeq=0;clSeq=0;
+  const codes=['JKT-01','JKT-01','BDG-01','SBY-01'],mix=['spx','spx','jnt','jnt','jne','jne','ninja','ninja','sicepat','lion','anteraja'];
+  const regOf=k=>SERVICES.findIndex(v=>v[0]===k&&v[2]==='reg');
+  const dests=AREA.map((a,i)=>[a,i<14?3:1]).flatMap(([a,w])=>Array(w).fill(a));
+  let bseq=0;
+  for(let b=0;b<64;b++){
+    const created=new Date(NOW-(b<5?[1.3,0,.55,2.2,3.4][b]+R()*.1:b*2.85-10.5+R()*1.2)*DAY-R()*6*HOUR),k=pk(mix),svc=regOf(k),wh=pk(codes),n=[0,5,6][b]||(b%4===0?30+Math.floor(R()*46):4+Math.floor(R()*23));
+    const id=`B-${String(created.getFullYear()).slice(2)}${String(created.getMonth()+1).padStart(2,'0')}${String(created.getDate()).padStart(2,'0')}-${String(++bseq).padStart(3,'0')}`;
+    BATCH.push({id,created,k,svc,wh});
+    for(let j=0;j<n;j++){const a=pk(dests),p=pk(PRODUCTS),qty=1+Math.floor(R()*3),pay=R()<.8?'cod':'non',kg=Math.max(.1,Math.round(p[2]*qty*10)/10);
+      const s={id:'S'+(SH.length+1),batch:id,created:new Date(created.getTime()+j*60000),svc,k,wh,area:a,street:`${pk(STREETS)} No. ${1+Math.floor(R()*120)}`,
+        name:pk(FN)+' '+pk(LN),phone:'628'+(1+Math.floor(R()*8))+String(Math.floor(1e8+R()*8.9e8)),items:p[0],qty,kg,pay,val:p[1]*qty,tries:0,tk:null,had:null};
+      const r=rateOf(svc,whArea(whByCode(wh)),a,kg);s.pub=r.pub;s.cost=r.net;s.codFee=pay==='cod'?Math.round(s.val*.03):0;
+      const age=ageOf(s),eta=etaMax(SERVICES[svc]),sr=srOf(k,a).sr-(pay==='cod'?2+phist(s.phone).fails*13:0),x=R();
+      if(age<.35){s.st='pickup';s.upd=s.created}
+      else if(age<1){s.st='picked';s.upd=new Date(s.created.getTime()+.3*DAY)}
+      else if(age<eta+.5){s.st=x<.75?'transit':'ofd';s.upd=new Date(NOW-R()*20*HOUR)}
+      else if(age<eta+5&&x>sr/100){s.st=x>.995?'lost':R()<.75?'failed':'returning';s.tries=s.st==='failed'?(R()<.6?1:2):2;s.upd=new Date(NOW-(2+R()*30)*HOUR)}
+      else if(x>sr/100){s.st=x>.997?'lost':'returned';s.tries=2;s.upd=new Date(s.created.getTime()+(eta+3+R()*3)*DAY)}
+      else{s.st='delivered';s.upd=new Date(s.created.getTime()+(Math.max(1,eta-1)+R()*1.6)*DAY)}
+      if(s.upd>NOW)s.upd=new Date(NOW-HOUR*(1+R()*3));
+      s.awb=s.st==='pickup'&&R()<.3?null:mkAwb(k);SH.push(s)}}
+  /* why a delivery failed or came back, and which returns you never agreed to */
+  SH.forEach(s=>{if(s.st==='failed')s.why=['nothome','notfound','rejected','notordered'][hsh(s.id)%4];if(s.st==='returning'||s.st==='returned')s.why=hsh(s.id)%3?'rejected':'notordered';if(s.st==='returned'&&hsh(s.id)%7===0)s.noConf=true});
+  /* parcels still on the way: most within the SLA for their route, some past it, so Monitoring has delays to show */
+  SH.filter(s=>s.st==='delivered'&&ageOf(s)<10).forEach((s,i)=>{const late=ageOf(s)-.3>slaOf({...s,st:'transit'});if(late&&i%3)return;
+    s.st=i%4===0?'ofd':'transit';s.upd=new Date(NOW-(1+hsh(s.id)%30)*HOUR)});
+  SH.filter(s=>s.st==='pickup').slice(0,2).forEach(s=>{s.created=new Date(NOW-1.6*DAY);s.upd=s.created});
+  /* some issues already handled: tickets in progress, and earlier delays that ended well */
+  const iss=SH.filter(s=>issueOf(s)&&issueOf(s).act!=='claim');iss.filter((s,i)=>i%4===1).forEach((s,i)=>{const t=addTicket(s,issueOf(s).act,'Merchant',new Date(NOW-(3+i*5)*HOUR));
+    if(i%2===0){t.st='progress';t.log.unshift(['FLIK support picked it up',new Date(t.created.getTime()+30*60000),'progress']);agentSay(t,'flik',`Hi, Dewi from FLIK support. I have asked ${cName(s.k)} for an update on this parcel.`,new Date(t.created.getTime()+30*60000))}});
+  SH.filter(s=>s.st==='delivered'||s.st==='returned').filter((s,i)=>i%41===3).slice(0,14).forEach((s,i)=>{s.had={t:i%3?'No update for 48 hours':'Delivery attempt failed',act:i%3?'support':'customer'};
+    const t=addTicket(s,s.had.act,'Merchant',new Date(s.upd.getTime()-2*DAY));t.st='resolved';
+    t.log.unshift([s.st==='delivered'?'Delivered. Ticket closed':'Returned to sender. Ticket closed',s.upd,'resolved'],[t.type==='customer'?'Customer replied on WhatsApp and confirmed the address':'FLIK support is chasing '+cName(s.k),new Date(t.created.getTime()+4*HOUR),'progress']);
+    const t1=new Date(t.created.getTime()+25*60000),t2=new Date(t.created.getTime()+4*HOUR);
+    agentSay(t,'flik',t.type==='customer'?'Hi! The customer replied on WhatsApp and confirmed the address. I have passed it to the courier.':`Hi, Dewi here from FLIK support. I have asked ${cName(s.k)} to check this parcel and will update you here.`,t1);
+    agentSay(t,'3pl',s.st==='delivered'?'Our hub found the parcel. It is out for delivery today.':'The customer refused the parcel at the door, so we are sending it back to the warehouse.',t2);
+    agentSay(t,'sys',s.st==='delivered'?'Delivered. Ticket closed':'Returned to sender. Ticket closed',s.upd)});
+  /* a few fresh failed deliveries, so the failed-delivery queue has both kinds */
+  SH.filter(s=>s.st==='delivered'&&!s.tk&&!s.had&&ageOf(s)>2&&ageOf(s)<8).slice(0,10).forEach((s,j)=>{s.st='failed';s.tries=j%3===2?2:1;s.why=['nothome','notfound','rejected','nothome','notordered'][j%5];s.upd=new Date(NOW-(3+j*4)*HOUR)});
+  SH.sort((a,b)=>b.created-a.created);seedClaims();seedPend(R,pk)}
+
+/* ===== Tickets: claims, follow-ups with FLIK support, contacting the customer on WhatsApp from FLIK =====
+ * A ticket's category is the monitoring status when it was opened: Delayed, At risk or Problem. Claims are the Problem tickets. */
+const TKT={claim:['Claim','File a claim','FLIK claims team'],support:['Follow-up','Contact support','FLIK support'],customer:['Contact customer','Contact customer','WhatsApp from FLIK']};
+const TKST={open:['Open','warn'],progress:['In progress','pu'],resolved:['Resolved','ok']};
+let tkSeq=4180;
+const TKCAT=['problem','risk','delayed'];
+const catOf=s=>{const m=monOf(s);return TKCAT.includes(m)?m:s.had&&s.had.act==='customer'?'risk':'delayed'};
+function addTicket(s,type,by='Merchant',at=NOW,note='',cat=catOf(s)){const t={id:'TK-'+(++tkSeq),type,cat,sid:s.id,awb:s.awb,created:at,st:type==='customer'?'progress':'open',ch:TKT[type][2],note,by,
+  log:[[type==='customer'?'WhatsApp sent to the customer from FLIK':type==='claim'?'Claim filed with '+cName(s.k):'Sent to FLIK support',at,type==='customer'?'progress':'open']]};
+  /* the ticket is a conversation: the merchant on one side, FLIK support and the courier's team on the other (they reply from FLIK's ticketing platform) */
+  t.chat=[{from:'me',text:note||(type==='claim'?'I want to file a claim for this parcel.':type==='support'?'Can you check on this parcel?'+(issueOf(s)?' '+issueOf(s).t+'.':''):'Please help me reach the customer about this parcel.'),at}];
+  if(type==='customer')t.chat.push({from:'sys',text:'WhatsApp sent to '+s.name.split(' ')[0]+' from FLIK',at});
+  TK.unshift(t);s.tk=t.id;return t}
+const AGENT={flik:['Dewi','FLIK support'],k:k=>[({jne:'Rudi',jnt:'Hendra',spx:'Wulan',ninja:'Sinta',lion:'Arif',sicepat:'Yudi',anteraja:'Lina'})[k]||'Agent',cName(k)+' team']};
+function agentSay(t,who,text,at=NOW){t.chat.push({from:who,text,at});return t}
+
+/* ===== Orders waiting for a Risky COD customer (WhatsApp from FLIK's number) =====
+ * When a Risky customer is found, the merchant picks per order: confirm on WhatsApp, send a payment link (the order becomes
+ * non-COD), remove it, or ship it anyway. Customers without WhatsApp skip the check: the merchant ships or removes them.
+ * An order sent a check waits as its own batch (one warehouse, one courier service, one order). When the customer confirms
+ * or pays, FLIK books it automatically and the AWB is created. BATAL cancels the order, free. With no answer it stays in Monitoring
+ * until the merchant ships it anyway or cancels it (AG, 25 Oct). "Decide later" parks the order here without sending anything.
+ */
+const DRK={wa:['Confirm on WhatsApp','chat2'],pay:['Payment link','wallet'],later:['Decide later','clock']};
+/* short labels, two words at most (27 Oct) */
+const DRST={later:[()=>'Needs decision','gr'],sent:[p=>p.kind==='pay'?'Wait payment':'Wait confirmation','warn'],booked:[p=>p.kind==='pay'?'Paid':'Confirmed','ok'],shipped:[()=>'Shipped anyway','pu'],declined:[()=>'Declined','bad'],expired:[()=>'No answer','gr'],cancelled:[()=>'Cancelled','gr']};
+const drLab=p=>DRST[p.st][0](p);
+const WA_HOURS=24;let pendSeq=0;
+const MERCHANT='Aruna Studio';
+/* the merchant edits the wording; {{…}} are filled per order. WhatsApp (Meta) approves each wording before its first use */
+const TPL_VARS=[['merchant_name','Store name'],['customer_name','Customer name'],['product_name','Product'],['amount','Amount'],['full_address','Full address'],['payment_link','Payment link']];
+const TPL_DEF={wa:'Halo {{customer_name}}, {{merchant_name}} sedang mengirim {{product_name}} ({{amount}}, bayar di tempat) ke {{full_address}}. Apakah Anda akan menerimanya? Balas YA untuk konfirmasi atau BATAL jika tidak jadi.',
+  pay:'Halo {{customer_name}}, {{merchant_name}} sedang mengirim {{product_name}} ke {{full_address}}. Bayar {{amount}} sekarang di {{payment_link}} agar tidak perlu bayar di tempat. Link berlaku 24 jam.'};
+const TPL={wa:TPL_DEF.wa,pay:TPL_DEF.pay};
+const TPL_NEED={wa:['merchant_name','product_name','full_address'],pay:['merchant_name','amount','payment_link']};
+const fullAddr=s=>`${s.addr.street}, ${s.addr.area.kel}, ${s.addr.area.kec}, ${s.addr.area.city}`;
+const payLink=id=>'flik.id/p/'+(hsh(id||'x')%0xfffff).toString(36);
+function fillTpl(t,s,id){const v={merchant_name:MERCHANT,customer_name:s.name.split(' ')[0],product_name:s.items,amount:rp(+String(s.val).replace(/\D/g,'')||0),full_address:fullAddr(s),payment_link:payLink(id)};
+  return t.replace(/\{\{(\w+)\}\}/g,(m,k)=>k in v?v[k]:m)}
+const waText=p=>fillTpl(p.tpl||TPL[p.kind],p.ship,p.id);
+/* customers whose number isn't on WhatsApp skip the check (example data) */
+const hasWa=p=>hsh(normPhone(p))%5!==0;
+const draftId=at=>`W-${String(at.getFullYear()).slice(2)}${String(at.getMonth()+1).padStart(2,'0')}${String(at.getDate()).padStart(2,'0')}-${String(5100+(++pendSeq)).slice(1)}`;
+function addPend(ship,kind,svc,at=NOW){const p={id:draftId(at),ship:{...ship,addr:{...ship.addr},open:false},kind,svc,tpl:TPL[kind]||'',sent:at,exp:new Date(at.getTime()+WA_HOURS*HOUR),st:kind==='later'?'later':'sent',
+  log:[[kind==='later'?'You chose to decide later. Nothing was sent to the customer':kind==='pay'?'Payment link sent on WhatsApp from FLIK':'Confirmation sent on WhatsApp from FLIK',at],[`Waiting as its own batch: ${cName(SERVICES[svc][0])} ${SERVICES[svc][1]} from ${ship.wh}`,at]]};PEND.unshift(p);return p}
+/* book the waiting order with the courier the merchant chose; the batch keeps the waiting ID */
+function sendPend(p,at=NOW,anyway=false){const s=p.ship,svc=p.svc,k=SERVICES[svc][0],b={id:p.id,created:at,k,svc,wh:s.wh,auto:!anyway};BATCH.unshift(b);
+  const q={area:s.addr.area,kg:Math.max(1,Math.ceil(+s.kg||1)),val:+String(s.val).replace(/\D/g,'')},r=rateOf(svc,whArea(whByCode(s.wh)),q.area,q.kg);
+  const sh={id:'S'+(SH.length+1),batch:p.id,created:at,svc,k,wh:s.wh,area:q.area,street:s.addr.street,name:s.name,phone:normPhone(s.phone),items:s.items,qty:+s.qty,kg:q.kg,pay:s.pay,val:q.val,pub:r.pub,cost:r.net,codFee:s.pay==='cod'?Math.round(q.val*CODFEE):0,tries:0,st:'pickup',upd:at,awb:mkAwb(k),tk:null,had:null};
+  SH.unshift(sh);p.st=anyway?'shipped':'booked';p.sid=sh.id;p.awb=sh.awb;p.log.unshift([(anyway?'You shipped it without waiting':'Booked automatically into the next pickup')+` · ${cName(k)} ${SERVICES[svc][1]} · ${sh.awb}`,at]);return sh}
+/* the customer confirmed (score goes up) or paid (the order becomes non-COD): FLIK books it straight away */
+function confirmPend(p,at=NOW){VERIFIED.add(normPhone(p.ship.phone));
+  if(p.kind==='pay'){p.ship.pay='non';p.log.unshift([`Customer paid ${rp(+String(p.ship.val).replace(/\D/g,''))}. The order is now non-COD; shipping is charged from your balance`,at])}
+  else p.log.unshift(['Customer replied YA. Phone confirmed, score raised',at]);return sendPend(p,at)}
+function riskyPhone(seed){for(let i=0;i<5000;i++){const ph='628'+(1+(seed+i)%8)+String(100000000+((seed*7919+i*104729)%899999999));const h=hsh(normPhone(ph));if(h%13!==0&&h%23===0&&h%5!==0)return ph}return'6281200000000'}
+function seedPend(R,pk){pendSeq=0;
+  const mk=(i)=>{const p=pk(PRODUCTS),a=AREA[(i*5+3)%AREA.length];return{phone:riskyPhone(i*31+7),name:pk(FN)+' '+pk(LN),addr:{street:`${pk(STREETS)} No. ${1+Math.floor(R()*120)}`,area:a},wh:i%2?'BDG-01':'JKT-01',pay:'cod',items:p[0],qty:1,kg:String(Math.max(.1,p[2])),l:'',w:'',h:'',val:String(p[1])}};
+  const svc=SERVICES.findIndex(v=>v[0]==='jnt'&&v[2]==='reg');
+  [[30,'wa','sent'],[20,'wa','booked'],[9,'wa','declined'],[6,'pay','booked'],[5,'later','later'],[3.2,'pay','sent'],[1.4,'wa','sent'],[.6,'wa','sent']].forEach(([h,kind,st],i)=>{const p=addPend(mk(i),kind,svc,new Date(NOW-h*HOUR));
+    if(st==='booked')confirmPend(p,new Date(p.sent.getTime()+1.5*HOUR));
+    else if(st==='declined'){p.st='declined';p.log.unshift(['Customer replied BATAL. Order cancelled, nothing charged',new Date(p.sent.getTime()+40*60000)])}
+  })}
+
+/* ===== Claims: what the merchant is owed by the courier ===== */
+/* claims: lost or damaged and returned without your confirmation (Problem tickets), and delivered over the courier's SLA (Delayed tickets) */
+const CLCAT={lost:['Lost or damaged','Courier pays the goods value'],ret:['Returned without confirmation','Courier refunds shipping both ways'],sla:['Over SLA','Courier refunds the shipping cost']};
+const CLST={submitted:['Submitted','warn'],review:['In review','pu'],approved:['Approved','ok'],paid:['Paid out','ok'],rejected:['Rejected','bad']};
+const CL_FLOW=['submitted','review','approved','paid'];
+const clAmount=(s,cat)=>cat==='lost'?s.val:cat==='ret'?s.cost*2:s.cost;
+let clSeq=0;
+function addClaim(s,cat,at=NOW,st='submitted',by='Merchant'){
+  const c={id:'CL-'+String(24100+(++clSeq)),sid:s.id,awb:s.awb,k:s.k,cat,st,filed:at,amount:clAmount(s,cat),by,log:[['Claim filed by '+by.toLowerCase(),at,'submitted']]};
+  /* walk the claim through its steps up to its status, a day or two apart */
+  const stop=st==='rejected'?1:CL_FLOW.indexOf(st);let t=at.getTime();
+  for(let i=1;i<=stop;i++){t+=(1+hsh(c.id+i)%2)*DAY;if(t>NOW.getTime())break;c.log.unshift([({review:cName(s.k)+' is reviewing the claim',approved:'Approved by '+cName(s.k),paid:'Paid out to your FLIK balance'})[CL_FLOW[i]],new Date(t),CL_FLOW[i]])}
+  if(st==='rejected'){t+=2*DAY;c.log.unshift([cName(s.k)+' rejected it: '+({lost:'the photo does not show the damage',ret:'the return was asked for by the customer',sla:'the delivery was held up by an incomplete address'})[cat],new Date(Math.min(t,NOW.getTime()-HOUR)),'rejected'])}
+  c.st=c.log[0][2];CL.unshift(c);
+  /* every claim is also a ticket in the Problem category; its status follows the claim */
+  if(s.st==='delivered')s.dmg=true;const tk=addTicket(s,'claim',by,at,'',cat==='sla'?'delayed':'problem');tk.claim=c.id;c.tk=tk.id;return c}
+const CL2TK={submitted:'open',review:'progress',approved:'progress',paid:'resolved',rejected:'resolved'};
+const tkSt=t=>t.claim?CL2TK[(CL.find(c=>c.id===t.claim)||{}).st]||t.st:t.st;
+function seedClaims(){
+  /* a claim older than ten days has been settled one way or the other */
+  const pick=(l,f,cat)=>l.filter(s=>!CL.some(c=>c.sid===s.id)).forEach((s,i)=>{let st=f(i,s);const at=new Date(Math.min(s.upd.getTime()+6*HOUR,NOW.getTime()-2*HOUR));if((NOW-at)/DAY>10&&st!=='rejected')st='paid';addClaim(s,cat,at,st)});
+  pick(SH.filter(s=>s.st==='lost').slice(1),i=>['review','approved','submitted','paid'][i%4],'lost');
+  pick(SH.filter(s=>s.st==='delivered'&&hsh(s.id)%53===0).slice(0,5),i=>['paid','rejected','review','approved','paid'][i%5],'lost');
+  pick(SH.filter(s=>s.st==='returned'&&s.noConf).slice(0,9),i=>['paid','approved','review','submitted','paid','rejected','approved','paid','review'][i%9],'ret');
+  pick(SH.filter(s=>s.st==='delivered'&&ageDays(s)>slaOf(s)&&(NOW-s.upd)/DAY>7).slice(0,6),i=>['review','paid','submitted','approved','paid','rejected'][i%6],'sla');
+  CL.sort((a,b)=>b.filed-a.filed)}
+
+/* ===== Example answers for FLIK.api (app/api.js) ===== */
+FLIK.mock('merchant',()=>({id:FLIK.config.merchantId,name:'Aruna Studio',products:FLAGS[PS.flags].w,verified:PS.verified}));
+FLIK.mock('pickupAddresses',()=>WH.filter(w=>w.active));
+FLIK.mock('rates',q=>{const o=whArea(whByCode(q.from)),d=q.to;return SERVICES.map((sv,i)=>({i,courier:sv[0],service:sv[1],group:sv[2],...rateOf(i,o,d,q.kg),...srOf(sv[0],d),redZone:rzOf(sv[0],d)})).filter(r=>svcOn(r.courier,r.service)&&reach(r.i,o,d))});
+FLIK.mock('recommend',q=>recommend(q.ships,q.group));
+FLIK.mock('shopperScore',q=>shopperScore(q.phone,q.area));
+FLIK.mock('tracking',awbs=>awbs.map(a=>SH.find(s=>s.awb===a)||null));
+FLIK.mock('createShipments',q=>({batches:q.batches.map(b=>({id:b.ref,awbs:b.shipments.map(()=>null)}))}));
+FLIK.mock('createTicket',q=>({id:'TK-'+(tkSeq+1),status:'open'}));
+FLIK.mock('geocode',q=>{const t=String(q.query||'').toLowerCase();return AREA.filter(a=>[a.kel,a.kec,a.city,a.zip].join(' ').toLowerCase().includes(t)).slice(0,8)});
+FLIK.mock('shipments',()=>SH);
+FLIK.mock('verifyShopper',q=>({id:q.draft,status:'sent',kind:q.kind,channel:'whatsapp',expires_in_hours:WA_HOURS,payment_url:q.kind==='payment_link'?'https://flik.id/p/…':null}));
+
+
+/* ===== Shipping › Monitoring: what needs action, at the level of detail of AG's Loanbook =====
+ * Tabs: Summary (batches, needs resolving), Health, All shipments, Claims, Tickets. Courier performance moved to Analytics (27 Oct).
+ * Every section exports straight to the device.
+ */
+document.querySelector('.main').insertAdjacentHTML('beforeend','<main class="content" id="view-mon" hidden></main>');
+const MS={cl:{st:'',cat:''},tab:'resolve',days:'month',f:{wh:[],k:[],pay:[]},rt:'open',open:new Set(),allB:false,perf:'city',hArea:'city',
+  l:{q:'',st:[],mon:[],pg:0,sel:new Set(),days:0,k:[],wh:[],pay:[]},r:{q:'',days:0,mon:[],k:[],wh:[],pay:[],pg:0},w:{q:'',days:0,rst:[],k:[],wh:[],pay:[],pg:0},c:{q:'',days:0,cst:[],ccat:[],k:[],wh:[],pay:[],pg:0},t:{q:'',days:0,tst:[],tcat:[],k:[],wh:[],pay:[],pg:0},reset(){this.cl={st:'',cat:''};this.tab='resolve';this.r={q:'',days:0,mon:[],k:[],wh:[],pay:[],pg:0};this.w={q:'',days:0,rst:[],k:[],wh:[],pay:[],pg:0};this.c={q:'',days:0,cst:[],ccat:[],k:[],wh:[],pay:[],pg:0};this.t={q:'',days:0,tst:[],tcat:[],k:[],wh:[],pay:[],pg:0};this.f={wh:[],k:[],pay:[]};this.rt='open';this.open=new Set();this.allB=false;this.l={q:'',st:[],mon:[],pg:0,sel:new Set(),days:0,k:[],wh:[],pay:[]}}};
+/* named for what the merchant does (27 Oct): the to-do tabs first, then what they follow, then the views */
+const MTABS=[['resolve','Needs action'],['risky','On hold'],['tickets','Tickets'],['claims','Claims'],['health','Live'],['list','All shipments']];
+/* a ticket waits on the merchant when FLIK support or the courier answered last */
+const tkWait=t=>{if(tkSt(t)==='resolved'||t.claim)return false;const c=t.chat.filter(m=>m.from!=='sys');return!!c.length&&c[c.length-1].from!=='me'};
+/* period: 'today', 'week', 'month', 'year', 'custom' (MS.from to MS.to), or 0 for all time */
+const dayStart=(o=0)=>{const d=new Date(NOW);d.setHours(0,0,0,0);return new Date(d-o*DAY)};
+const perStart=k=>{const d=dayStart();if(k==='week')d.setDate(d.getDate()-(d.getDay()+6)%7);if(k==='month')d.setDate(1);if(k==='year')d.setMonth(0,1);return d};
+/* All shipments keeps its own date filter, empty by default (as in Stripe); the other tabs share the Monitoring period */
+const FT=()=>({list:MS.l,resolve:MS.r,risky:MS.w,claims:MS.c,tickets:MS.t})[MS.tab],pg0=()=>{const F=FT();if(F)F.pg=0};
+const PD=()=>FT()||MS;
+const inPeriod=d=>{const p=PD();return!p.days||(p.days==='custom'?d>=p.from&&d<new Date(p.to.getTime()+DAY):d>=perStart(p.days))};
+const periodTx=()=>{const p=PD();return({today:'Today',week:'This week',month:'This month',year:'This year'})[p.days]||(p.days==='custom'?`${fday(p.from)} – ${fday(p.to)}`:'All time')};
+const msBase=()=>{const F=FT()||MS.f;return SH.filter(s=>inPeriod(s.created)&&(!F.wh.length||F.wh.includes(s.wh))&&(!F.k.length||F.k.includes(s.k))&&(!F.pay.length||F.pay.includes(s.pay)))};
+const finL=l=>l.filter(s=>s.st==='delivered'||s.st==='returned'||s.st==='lost');
+const srL=l=>{const f=finL(l);return f.length?pct(f.filter(s=>s.st==='delivered').length,f.length):null};
+const sevRank=s=>{const m=monOf(s);return SEV3[m]?SEV3[m][2]:9};
+const awbTd=s=>`<td class="mono">${s.awb||'<span class="inv-sub">After pickup</span>'}</td>`;
+const cTd=s=>`<td><div class="sx-cl">${cLogo(s.k)}<span>${cName(s.k)}</span></div></td>`;
+const secH=(t,sub,dl,extra='')=>`<div class="sec-h"><div class="sec-t"><h2 class="sec">${t}</h2>${sub?`<span class="sec-help" tabindex="0" role="note" aria-label="${esc(sub)}" data-tip="${esc(sub)}">${ic('help',15)}</span>`:''}</div><div class="sec-a">${extra}${dl?dlBtn(dl):''}</div></div>`;
+const SHIP_HEAD=['AWB','Batch','Created','Status','Monitoring','Courier','Service','Updated','Customer name','Customer phone','Street','Kelurahan','Kecamatan','City','Province','Postcode','Pickup from','Payment','COD / goods value','Published rate','Shipping cost','COD fee','Product','Qty','Weight (kg)','Ticket'];
+const shipRow=s=>[s.awb||'',s.batch,fdateY(s.created),SST3[s.st][0],MON3[monOf(s)][0],cName(s.k),SERVICES[s.svc][1],fdateY(s.upd),s.name,'+'+s.phone,s.street,s.area.kel,s.area.kec,s.area.city,s.area.prov,s.area.zip,s.wh,s.pay==='cod'?'COD':'Non-COD',s.val,s.pub,s.cost,s.codFee,s.items,s.qty,s.kg,s.tk||''];
+
+/* Summary: status filter, show all, and a batch opens in the drawer */
+document.getElementById('view-mon').addEventListener('click',e=>{const t=e.target.closest('[data-rf],[data-allr2],tr[data-btd]');if(!t)return;
+  if(t.dataset.rf){MS.rf=t.dataset.rf;MS.allR2=false;renderMon();return}
+  if('allr2' in t.dataset){MS.allR2=!MS.allR2;renderMon();return}
+  if(t.dataset.btd)batchDrawer(t.dataset.btd)});
+function batchDrawer(id){const b=BATCH.find(x=>x.id===id);if(!b)return;const x={b,...batchStats(id,msBase())},L=x.s.filter(s=>s.awb);drawer.classList.remove('chat');
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('truck',15)}Batch</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b class="mono">${id}</b>${x.issues?`<span class="st warn">${x.issues} to resolve</span>`:b.auto?'<span class="st gr">Auto-booked</span>':''}</div>
+    <p class="d-sub">${cName(b.k)} ${SERVICES[b.svc][1]} · ${fdateY(b.created)}</p>
+    <div class="d-acts">${L.length?`<button class="btn btn-o" data-prbd>${ic('print',15)}Print ${plural(L.length,'label')}</button>`:''}${dlBtn('m-bd')}</div>
+    <div class="dsec"><h5>Summary</h5><dl class="kv"><dt>Shipments</dt><dd class="num">${x.n}</dd><dt>Delivered</dt><dd class="num">${x.del}</dd><dt>Returned</dt><dd class="num">${x.ret}</dd><dt>Success</dt><dd class="num">${x.sr==null?'—':fpct(x.sr)}</dd></dl></div>
+    <div class="dsec"><h5>Shipments</h5><div class="tbl-wrap"><table class="bd-tbl"><thead><tr><th>AWB</th><th></th><th>Customer</th></tr></thead><tbody>${x.s.map(s=>`<tr data-sid="${s.id}">${awbTd(s)}<td class="c-st"><span class="st ${SST3[s.st][1]}">${SST3[s.st][0]}</span></td><td>${esc(s.name)}</td></tr>`).join('')}</tbody></table></div></div></div>`;
+  DL['m-bd']=()=>['flik-'+id,SHIP_HEAD,x.s.map(shipRow)];
+  openDrawer();drawer.querySelectorAll('tr[data-sid]').forEach(tr=>tr.onclick=()=>openShipment(tr.dataset.sid));const pb=drawer.querySelector('[data-prbd]');if(pb)pb.onclick=()=>printLabels(L,id)}
+/* a stat opens what it counts: the queue on this page, or All shipments with that status */
+document.getElementById('view-mon').addEventListener('click',e=>{const c=e.target.closest('[data-fclr]');if(!c)return;e.stopPropagation();e.preventDefault();const k=c.dataset.fclr;if(k==='days')PD().days=0;else mfSet(k).length=0;pg0();closePop();renderMon()},true);
+const monGo=k=>{if(/^(cl|cat|tk|tkc):/.test(k)){const[a,v]=k.split(':'),T=MS.tk||(MS.tk={st:'',cat:''});if(a==='cl')MS.cl.st=v;else if(a==='cat')MS.cl.cat=MS.cl.cat===v?'':v;else if(a==='tk')T.st=v;else T.cat=T.cat===v?'':v;
+    renderMon();document.getElementById(a[0]==='c'?'cl-list':'tk-list')?.scrollIntoView({behavior:'smooth',block:'start'});return}
+  if(k==='res'||k==='wa'){MS.tab=k==='res'?'resolve':'risky';renderMon();scrollTo(0,0);return}
+  MS.tab='list';Object.assign(MS.l,{days:MS.days,from:MS.from,to:MS.to});MS.l.st=[k];MS.l.mon=[];MS.l.q='';MS.l.pg=0;renderMon();scrollTo(0,0)};
+document.getElementById('view-mon').addEventListener('click',e=>{const t=e.target.closest('[data-mgo]');if(t)monGo(t.dataset.mgo)});
+document.getElementById('view-mon').addEventListener('keydown',e=>{const t=e.target.closest('[data-mgo]');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();monGo(t.dataset.mgo)}});
+/* Monitoring tabs: drag to reorder, pin one as the tab Monitoring opens on (kept on this device) */
+Object.assign(P,{pushpin:'<path d="M12 17v5"/><path d="M9 10.8a2 2 0 0 1-1.1 1.8l-1.8.9A2 2 0 0 0 5 15.2V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.8a2 2 0 0 0-1.1-1.8l-1.8-.9a2 2 0 0 1-1.1-1.8V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/>'});
+try{MS.order=JSON.parse(localStorage.getItem('flik-mon-tabs-v2')||'null');MS.pin=localStorage.getItem('flik-mon-pin')||''}catch(e){}
+const monSave=()=>{try{localStorage.setItem('flik-mon-tabs-v2',JSON.stringify(MS.order||[]));localStorage.setItem('flik-mon-pin',MS.pin||'')}catch(e){}};
+const monTabs=()=>{const o=MS.order||[],ix=k=>{const i=o.indexOf(k);return i<0?99:i};return MTABS.slice().sort((a,b)=>ix(a[0])-ix(b[0]))};
+{const v=document.getElementById('view-mon');let drag=null;
+  /* smooth reorder: the dragged tab moves live and the others slide out of the way (FLIP), the order is saved on drop */
+  const flip=(bar,move)=>{const T=[...bar.querySelectorAll('.tab[data-mt]')],r0=new Map(T.map(t=>[t,t.getBoundingClientRect().left]));move();T.forEach(t=>{const dx=r0.get(t)-t.getBoundingClientRect().left;if(!dx)return;t.style.transition='none';t.style.transform=`translateX(${dx}px)`;requestAnimationFrame(()=>{t.style.transition='transform .2s cubic-bezier(.2,.8,.2,1)';t.style.transform=''})})};
+  v.addEventListener('click',e=>{const p=e.target.closest('[data-pin]');if(!p)return;e.stopPropagation();e.preventDefault();const k=p.dataset.pin,t=MTABS.find(x=>x[0]===k)[1];MS.pin=MS.pin===k?'':k;monSave();renderMon();toast(MS.pin?`${t} opens first in Monitoring`:'Monitoring opens on Summary again')},true);
+  v.addEventListener('keydown',e=>{const p=e.target.closest('[data-pin]');if(p&&(e.key==='Enter'||e.key===' ')){e.preventDefault();p.click()}});
+  v.addEventListener('dragstart',e=>{const t=e.target.closest('.tab[data-mt]');if(!t)return;drag=t;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',t.dataset.mt)}catch(x){}requestAnimationFrame(()=>t.classList.add('dragging'))});
+  v.addEventListener('dragover',e=>{const t=e.target.closest('.tab[data-mt]');if(!t||!drag)return;e.preventDefault();e.dataTransfer.dropEffect='move';if(t===drag)return;
+    const r=t.getBoundingClientRect(),after=e.clientX>r.left+r.width/2,ref=after?t.nextElementSibling:t;if(ref===drag||ref===drag.nextElementSibling&&!after&&false)return;
+    if((after&&t.nextElementSibling===drag)||(!after&&t.previousElementSibling===drag))return;flip(t.parentElement,()=>t.parentElement.insertBefore(drag,ref))});
+  v.addEventListener('drop',e=>{if(!drag)return;e.preventDefault();MS.order=[...drag.parentElement.querySelectorAll('.tab[data-mt]')].map(x=>x.dataset.mt);drag.classList.remove('dragging');drag=null;monSave();renderMon()});
+  v.addEventListener('dragend',()=>{if(drag){drag.classList.remove('dragging');drag=null;renderMon()}})}
+/* All shipments keeps its filters in one row: search, then up to five chips, the rest under More filters */
+document.getElementById('view-mon').addEventListener('click',e=>{const m=e.target.closest('[data-fmore]');if(m){e.stopPropagation();if(popFor===m){closePop();return}popFor=m;
+    pop.innerHTML=`<div class="menu"><h6>More filters</h6>${['wh','pay'].map(k=>`<button class="opt" data-fmk="${k}">${MF_L[k]}${mfVal(k)?` <span class="src">· ${esc(mfVal(k))}</span>`:''}</button>`).join('')}</div>`;
+    pop.querySelectorAll('[data-fmk]').forEach(o=>o.onclick=x=>{x.stopPropagation();const k=o.dataset.fmk;closePop();fpop(m,k)});placePop(m,false)}});
+function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on the pinned tab */if(location.hash!==MS._h){if(location.hash==='#monitoring')MS.tab=MTABS.some(t=>t[0]===MS.pin)?MS.pin:'resolve';MS._h=location.hash}
+  if(!SH.length){el.innerHTML=`<div class="ph"><h1>Monitoring</h1></div>`+monEmpty('Nothing to monitor yet','After your first shipment, this page shows each batch, anything delayed or at risk, and how each courier performs for you.');return}
+  const base=msBase(),open=SH.filter(s=>rstate(s)==='open').length;
+  el.innerHTML=`<div class="ph"><h1>Monitoring</h1><div class="fright" style="margin-left:auto">${MS.tab==='list'?`<button class="chip set" id="ms-state" title="Prototype control: preview the states of All shipments">${ic('sel',14)}Preview state: <span class="val">${LSC.find(x=>x[0]===(MS.lsc||'normal'))[1]}</span></button>`:''}</div></div>
+  <div class="tabs mon-tabs" role="tablist">${monTabs().map(t=>`<button class="tab${MS.tab===t[0]?' on':''}${MS.pin===t[0]?' pinned':''}" data-mt="${t[0]}" draggable="true" title="Drag to reorder">${t[1]}${t[0]==='resolve'&&open?`<span class="ct">${open}</span>`:t[0]==='risky'&&waOpen().length?`<span class="ct">${waOpen().length}</span>`:t[0]==='tickets'&&TK.filter(tkWait).length?`<span class="ct" data-tip="New replies waiting for you">${TK.filter(tkWait).length}</span>`:''}<span class="tab-pin" data-pin="${t[0]}" role="button" tabindex="0" aria-label="${MS.pin===t[0]?'Unpin':'Pin'} ${t[1]} as the tab Monitoring opens on" data-tip="${MS.pin===t[0]?'Opens first · click to unpin':'Pin: open Monitoring on this tab'}">${ic('pushpin',13)}</span></button>`).join('')}</div>
+  ${FT()||MS.tab==='health'?'':`<div class="filters">${['days','wh','k','pay'].map(fchip).join('')}<div class="fright"><span class="ms-n">${plural(base.length,'shipment')}</span></div></div>`}
+  <div id="mon-body">${({resolve:monResolve,risky:monRisky,health:monHealth,list:monList,claims:monClaims,tickets:monTickets})[MS.tab](base)}</div>`;
+  track('monitoring_viewed',{tab:MS.tab})}
+/* filters work like Transactions: a dashed chip adds one; set, it shows the value and an × to clear.
+   Created is one choice and applies at once; the rest are checkboxes with Clear and Apply */
+const MF_L={days:'Date created',wh:'Warehouse',k:'Courier',pay:'Payment',st:'Status',mon:'Monitoring',rst:'Status',cst:'Status',ccat:'Category',tst:'Status',tcat:'Monitoring'};
+const mfOpts=k=>k==='wh'?WH.map(w=>[w.code,`${w.n} · ${w.code}`]):k==='k'?COURIERS.map(c=>[c.k,c.n]):k==='pay'?[['cod','COD'],['non','Non-COD']]:k==='st'?[['way','On the way'],['ret','Returned or returning'],...Object.entries(SST3).map(([a,v])=>[a,v[0]])]:k==='rst'?[['later','Needs decision'],['wa','Wait confirmation'],['pay','Wait payment']]:k==='cst'?Object.entries(CLST).map(([a,v])=>[a,v[0]]):k==='ccat'?Object.entries(CLCAT).map(([a,v])=>[a,v[0]]):k==='tst'?Object.entries(TKST).map(([a,v])=>[a,v[0]]):k==='tcat'?TKCAT.map(a=>[a,MON3[a][0]]):MS.tab==='resolve'?['problem','risk','delayed'].map(a=>[a,MON3[a][0]]):Object.entries(MON3).map(([a,v])=>[a,v[0]]);
+const mfSet=k=>{const F=FT();return F?(F[k]||(F[k]=[])):MS.f[k]};
+const mfVal=k=>{if(k==='days')return PD().days?periodTx():'';const v=mfSet(k);if(!v.length)return'';const O=mfOpts(k);return v.map(x=>(O.find(o=>o[0]===x)||[x,x])[1].split(' · ')[0]).join(', ')};
+const fchip=k=>{const v=mfVal(k),l=MF_L[k];return v?`<button class="chip set" data-fc="${k}"><span class="clr" data-fclr="${k}" aria-label="Clear ${l.toLowerCase()}">${ic('x',14,2)}</span>${l} <span class="val">${esc(v.length>28?v.slice(0,26)+'…':v)}</span></button>`:`<button class="chip" data-fc="${k}">${ic('pluscirc',15)}${l}</button>`};
+function fpop(b,k){if(popFor===b){closePop();return}popFor=b;const apply=()=>{pg0();closePop();track('monitoring_filtered',{filter:k});renderMon()};
+  if(k==='days'){const O=[['today','Today'],['week','This week'],['month','This month'],['year','This year'],['custom','Custom']];const p=PD();let cur=p.days;
+    const draw=()=>{pop.innerHTML=`<h6>Filter by date created</h6>${O.map(o=>`<button class="opt" data-o="${o[0]}"><span class="rdo${cur===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}${cur==='custom'?`<div class="dr-f"><label>From<input type="date" id="dr-a" value="${fdayISO(p.from||perStart('month'))}" max="${fdayISO(NOW)}"></label><label>To<input type="date" id="dr-b" value="${fdayISO(p.to||dayStart())}" max="${fdayISO(NOW)}"></label></div>`:''}<div class="pop-f"><button class="btn btn-o" data-clear>Clear</button>${cur==='custom'?'<button class="btn btn-p" data-apply>Apply</button>':''}</div>`;
+      pop.querySelectorAll('[data-o]').forEach(x=>x.onclick=e=>{e.stopPropagation();const v=x.dataset.o;if(v==='custom'){cur=v;draw();return}p.days=v;apply()});
+      pop.querySelector('[data-clear]').onclick=()=>{p.days=0;apply()};
+      const ap=pop.querySelector('[data-apply]');if(ap)ap.onclick=()=>{const a=document.getElementById('dr-a').value,z=document.getElementById('dr-b').value;if(!a||!z)return;let f=new Date(a+'T00:00:00'),t=new Date(z+'T00:00:00');if(f>t)[f,t]=[t,f];p.from=f;p.to=t;p.days='custom';apply()}};
+    draw();placePop(b,false);return}
+  const O=mfOpts(k),set=mfSet(k),temp=new Set(set);
+  const draw=()=>{pop.innerHTML=`<h6>Filter by ${MF_L[k].toLowerCase()}</h6>${O.map(o=>`<button class="opt" data-v="${o[0]}"><span class="cb${temp.has(o[0])?' on':''}">${temp.has(o[0])?ic('check',12,3):''}</span>${o[1]}</button>`).join('')}<div class="pop-f"><button class="btn btn-o" data-clear>Clear</button><button class="btn btn-p" data-apply>Apply</button></div>`;
+    pop.querySelectorAll('[data-v]').forEach(x=>x.onclick=e=>{e.stopPropagation();temp.has(x.dataset.v)?temp.delete(x.dataset.v):temp.add(x.dataset.v);draw()});
+    pop.querySelector('[data-apply]').onclick=()=>{set.length=0;temp.forEach(v=>set.push(v));apply()};pop.querySelector('[data-clear]').onclick=()=>{set.length=0;apply()}};
+  draw();placePop(b,false)}
+
+function batchStats(id,l){const s=l.filter(x=>x.batch===id),f=finL(s);return{s,n:s.length,del:s.filter(x=>x.st==='delivered').length,ret:s.filter(x=>x.st==='returned').length,sr:f.length?pct(f.filter(x=>x.st==='delivered').length,f.length):null,issues:s.filter(x=>rstate(x)==='open').length}}
+/* section title with the same help icon as the Balances tiles */
+const secT=(t,tip)=>`<h2 class="sec">${t}${tip?` <span class="src" tabindex="0" role="note" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ic('help',14)}</span>`:''}</h2>`;
+/* each list on the Summary sits in its own card, the table running edge to edge inside */
+const monCard=h=>h?`<section class="card mon-card">${h}</section>`:'';
+const MSTAT={problem:['Problem','bad'],risk:['At risk','warn'],delayed:['Delayed','gr']};
+/* ---- Orders waiting for a Risky customer to confirm or pay on WhatsApp; each books itself when they answer ---- */
+const drAct=p=>p.st==='later'?`<button class="btn btn-o rk-cta" data-waship="${p.id}">Ship anyway</button><button class="dots-b" data-wam="${p.id}" aria-label="Other actions">${ic('dots',16)}</button>`
+  :p.st==='sent'?`<button class="btn btn-o rk-cta" data-wasim="${p.id}" title="Prototype: the customer's answer">${p.kind==='pay'?'Customer pays':'Customer confirms'}</button><button class="dots-b" data-wam="${p.id}" aria-label="Other actions">${ic('dots',16)}</button>`:'';
+const DRORD={later:0,sent:1};
+const waOpen=()=>PEND.filter(p=>p.st==='sent'||p.st==='later');
+function monRisky(){const F=MS.w,q=F.q.trim().toLowerCase(),A0=waOpen();
+  DL['m-wa']=()=>['flik-waiting-for-customer',['Batch','Customer','Phone','City','Amount','Check','Courier','Status','Since'],A0.map(p=>[p.id,p.ship.name,'+'+normPhone(p.ship.phone),p.ship.addr.area.city,+String(p.ship.val).replace(/\D/g,''),DRK[p.kind][0],cName(SERVICES[p.svc][0])+' '+SERVICES[p.svc][1],drLab(p),fdateY(p.sent)])];
+  const wait=p=>{const h=(NOW-p.sent)/HOUR;return h<1?`${Math.max(1,Math.round(h*60))}m`:h<48?`${Math.round(h)}h`:`${Math.floor(h/24)}d`};
+  dtUse('mon-risky',{amt:['Amount',p=>+p.ship.val,p=>`<td class="amt num">${rp(+p.ship.val)}</td>`,{fixed:1}],st:['Status',p=>DRORD[p.st]??9,p=>`<td class="c-st"><span class="st ${DRST[p.st][1]}">${drLab(p)}</span></td>`],
+    cust:['Customer',p=>p.ship.name.toLowerCase(),p=>`<td><span data-tip="${p.id} · ${fphone(p.ship.phone)}">${esc(p.ship.name)}</span></td>`],city:['City',p=>p.ship.addr.area.city,p=>`<td>${esc(p.ship.addr.area.city)}</td>`],
+    k:['Courier',p=>cName(SERVICES[p.svc][0]),p=>`<td><div class="sx-cl">${cLogo(SERVICES[p.svc][0])}<span>${cName(SERVICES[p.svc][0])}</span></div></td>`],
+    wait:['Waiting',p=>NOW-p.sent,p=>{const qq=p.st==='sent'&&NOW-p.sent>=WA_HOURS*HOUR;return`<td class="date">${qq?`<span class="mon-over">${wait(p)} · no answer</span>`:wait(p)}</td>`}]},null,()=>renderMon());
+  const A=dtSort('mon-risky',A0.filter(p=>inPeriod(p.sent)&&(!F.rst.length||F.rst.includes(p.st==='later'?'later':p.kind))&&(!F.k.length||F.k.includes(SERVICES[p.svc][0]))&&(!q||[p.id,p.ship.name,p.ship.phone,p.ship.addr.area.city].join(' ').toLowerCase().includes(q))).sort((a,b)=>DRORD[a.st]-DRORD[b.st]||a.sent-b.sent));
+  const pages=Math.max(1,Math.ceil(A.length/PERL));F.pg=Math.min(F.pg,pages-1);const L=A.slice(F.pg*PERL,F.pg*PERL+PERL);
+  return msBar('Customer, phone, city or batch',`<button class="btn btn-o" data-wset>WhatsApp settings</button>${dlBtn('m-wa')}`)+
+  `<div class="tbl-wrap"><table data-dtt="mon-risky"><thead><tr>${dtHead('mon-risky')}<th></th></tr></thead><tbody>
+  ${L.length?L.map(p=>`<tr data-wa="${p.id}">${dtCells('mon-risky',p)}<td class="r act">${drAct(p)}</td></tr>`).join(''):`<tr><td colspan="${dtN('mon-risky')+1}" style="height:auto;border:0;cursor:default">${msNone(A0.length,'No risky orders waiting','COD orders from Risky customers wait here for your decision or for the customer\'s answer on WhatsApp.')}</td></tr>`}</tbody></table></div>`+msFoot(A.length,pages,F.pg,'order')}
+function waAct(p,a){if(a==='ya'){const sh=confirmPend(p);track(p.kind==='pay'?'shopper_paid':'shopper_confirmed',{});track('waiting_order_booked',{courier:sh.k});toast(`${p.kind==='pay'?'Paid':'Confirmed'}. ${sh.awb} booked automatically`)}
+  else if(a==='batal'){p.st='declined';p.log.unshift(['Customer replied BATAL. Order cancelled, nothing charged',NOW]);track('shopper_declined',{});toast('The customer cancelled. The order is cancelled and nothing was charged')}
+  else if(a==='ship'){const sh=sendPend(p,NOW,true);track('waiting_order_shipped_anyway',{from:p.kind});toast(`${sh.awb} booked`)}
+  else if(a==='resend'){p.sent=NOW;p.log.unshift([(p.kind==='pay'?'Payment link':'Confirmation')+' sent again',NOW]);p.resent=(p.resent||0)+1;track('risky_resent',{kind:p.kind});toast('Sent again on WhatsApp')}
+  else if(a==='sendwa'||a==='sendpay'){p.kind=a==='sendwa'?'wa':'pay';p.tpl=TPL[p.kind];p.st='sent';p.sent=NOW;p.log.unshift([p.kind==='pay'?'Payment link sent on WhatsApp from FLIK':'Confirmation sent on WhatsApp from FLIK',NOW]);track('risky_check_sent',{kind:p.kind,from:'later'});toast('Sent on WhatsApp')}
+  else if(a==='cancel'){p.st='cancelled';p.log.unshift(['Cancelled by you. Nothing charged',NOW]);track('risky_cancelled',{from:p.kind});toast('Cancelled. Nothing was charged')}
+  closeDetail();renderMon()}
+function waDrawer(id){drawer.classList.remove('chat');const p=PEND.find(x=>x.id===id),s=p.ship,sc=shopperScore(s.phone,s.addr.area,{val:s.val,street:s.addr.street}),ok=p.st==='booked';
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('chat2',15)}Risky order</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b class="num">${rp(+s.val)}</b><span class="st ${DRST[p.st][1]}">${drLab(p)}</span></div>
+    <p class="d-sub">${p.id} · ${esc(s.name)} · ${s.pay==='cod'?'COD':'Paid by the customer'}</p>
+    ${p.st==='later'?`<div class="d-acts"><button class="btn btn-o" data-waa="ship">Ship anyway</button><button class="btn btn-o" data-waa="sendwa">Confirm on WhatsApp</button><button class="btn btn-o" data-waa="sendpay">Send a payment link</button><button class="btn btn-o" data-waa="cancel">Cancel order</button></div>
+    <div class="sx-note">${ic('clock',16)}<span>Nothing was sent to the customer yet. Choose how to handle this order.</span></div>`:''}
+    ${p.st==='sent'?`<div class="d-acts"><button class="btn btn-o" data-waa="ship">Ship without waiting</button>${p.resent?'':'<button class="btn btn-o" data-waa="resend">Send again</button>'}<button class="btn btn-o" data-waa="cancel">Cancel order</button></div>`:''}
+    ${p.st==='later'?'':`<div class="dsec"><h5>WhatsApp</h5><div class="wa-chat"><div class="wa-m out"><span>${esc(waText(p))}</span><em>${fdateY(p.sent)} · from FLIK for ${MERCHANT}</em></div>
+      ${ok?`<div class="wa-m in"><span>${p.kind==='pay'?'Pembayaran berhasil ✓':'YA'}</span><em>${p.kind==='pay'?'Payment':'Customer'}</em></div>`:p.st==='declined'?`<div class="wa-m in"><span>BATAL</span><em>Customer</em></div>`:''}</div></div>`}
+    <div class="dsec"><h5>Order details</h5><dl class="kv"><dt>Customer score</dt><dd><span class="st ${sc.cls}">${sc.score} · ${sc.band}</span><span class="src">${esc(sc.why)}</span></dd><dt>WhatsApp</dt><dd>${fphone(s.phone)}</dd><dt>Ships from</dt><dd>${esc(whByCode(s.wh).n)} · ${s.wh}</dd><dt>Courier</dt><dd><div class="pm">${cLogo(SERVICES[p.svc][0])}<span>${cName(SERVICES[p.svc][0])} ${SERVICES[p.svc][1]}</span></div></dd><dt>Address</dt><dd>${esc(s.addr.street)}, ${esc(areaTx(s.addr.area))}</dd>${p.sid?`<dt>Shipment</dt><dd><button class="lnk mono" data-sid2="${p.sid}">${p.awb}</button></dd>`:''}</dl></div>
+    <div class="dsec"><h5>Activity</h5><div class="tl">${p.log.map((l,i)=>`<div class="tli ${i===0&&(p.st==='booked'||p.st==='shipped')?'ok':''}"><i>${i===0&&(p.st==='booked'||p.st==='shipped')?ic('check',11,3):''}</i><div><b>${esc(l[0])}</b><span>${fdateY(l[1])}</span></div></div>`).join('')}</div></div>
+    ${p.st==='sent'?`<div class="dsec proto"><h5>Prototype</h5><p class="d-sub">Simulate the customer's answer.</p><div class="d-acts"><button class="btn btn-o" data-waa="ya">${p.kind==='pay'?'Customer pays':'Customer replies YA'}</button><button class="btn btn-o" data-waa="batal">Customer replies BATAL</button></div></div>`:''}</div>`;
+  openDrawer();drawer.onclick=e=>{const b=e.target.closest('[data-waa]');if(b)waAct(p,b.dataset.waa)};track('draft_opened',{status:p.st,kind:p.kind})}
+function batchList(x){const id='m-b-'+x.b.id;DL[id]=()=>['flik-'+x.b.id,SHIP_HEAD,x.s.map(shipRow)];
+  return`<div class="bt-l"><div class="sec-h"><b>${plural(x.n,'shipment')} in ${x.b.id}</b><div class="sec-a"><button class="btn btn-o" data-prbt="${x.b.id}">${ic('print',15)}Print ${plural(x.s.filter(s=>s.awb).length,'label')}</button>${dlBtn(id)}</div></div><div class="tbl-wrap"><table class="mt"><thead><tr><th>AWB</th><th>Created</th><th>Shipment status</th><th>Monitoring</th><th>Courier</th><th>Updated</th><th>Customer</th><th>Phone</th></tr></thead><tbody>
+  ${x.s.map(s=>`<tr data-sid="${s.id}">${awbTd(s)}<td class="date">${fdate(s.created)}</td><td>${stPill3(s.st)}</td><td>${monPill(monOf(s))}</td>${cTd(s)}<td class="upd">${ago(s.upd)}</td><td>${esc(s.name)}</td><td class="mono">${fphone(s.phone)}</td></tr>`).join('')}</tbody></table></div></div>`}
+/* ---- Needs resolving: every shipment that isn't Safe or On track and has no ticket yet, grouped by monitoring status.
+   Taking an action opens a ticket, and the shipment moves to the Tickets tab (AG, 25 Oct) ---- */
+const RGRP=[['problem','Lost or damaged, or returned without your confirmation. File a claim.'],['risk','Delivery failed, or the customer rejected the parcel or says they never ordered. Act before the next attempt.'],['delayed','Still on the way, but past the courier\'s SLA for this route.']];
+const slaTd=s=>`<td class="num">${s.st==='pickup'?`Pickup ${PICKUP_SLA} d`:`${slaOf(s)} d`}</td>`;
+const ageTd=s=>{const d=ageDays(s),o=d-slaOf(s);return`<td class="age${o>0?' over':''}"><b class="num">${ageTx(d)}</b>${o>0?`<span>${ageTx(o)} over</span>`:`<span>${ageTx(slaOf(s)-d)} left</span>`}</td>`};
+/* ---- Needs resolving and Risky customers: each its own tab, straight to the table, with the All shipments search and Filter (27 Oct) ---- */
+const msBar=(ph,right)=>{const F=FT(),nf=fkeys().filter(k=>mfVal(k)).length;return`<div class="filters ms-lf"><label class="search bl-search"><span>${ic('search',16)}</span><input id="ms-q" value="${esc(F.q)}" placeholder="${ph}" autocomplete="off" aria-label="${ph}"></label><button class="btn btn-o${nf?' on':''}" data-ffil aria-haspopup="menu">${ic('filter',15)}${nf?plural(nf,'filter'):'Filter'}</button><button class="btn btn-o dt-ic" data-colcfg="mon-${MS.tab}" aria-label="Edit columns" data-tip="Edit columns">${ic('sliders',16)}</button><div class="fright">${right}</div></div>`};
+const msFoot=(n,pages,pg,word)=>`<div class="foot"><span><b>${n.toLocaleString('id-ID')}</b> ${n===1?word:word+'s'}</span><div class="pager"><button class="btn btn-o" data-lpg="-1" ${pg?'':'disabled'}>Previous</button><button class="btn btn-o" data-lpg="1" ${pg<pages-1?'':'disabled'}>Next</button></div></div>`;
+const msNone=(any,b,p)=>`<div class="empty"><b>${any?'Nothing matches':b}</b>${any?'Try another search, or clear the search and filters.':p}${any?'<button class="btn btn-o ms-eb" data-lclr>Clear search and filters</button>':''}</div>`;
+function monResolve(base){const F=MS.r,q=F.q.trim().toLowerCase(),pool=base.filter(needsAct),ord={problem:0,risk:1,delayed:2};
+  DL['m-resolve']=()=>['flik-needs-resolving',['AWB','Courier','Status','Monitoring','Issue','SLA (days)','Age (days)','Over SLA (days)','Customer name','Customer phone','City'],pool.map(s=>[s.awb||'',cName(s.k),SST3[s.st][0],MON3[monOf(s)][0],issueOf(s).t,slaOf(s),Math.round(ageDays(s)*10)/10,Math.max(0,Math.round((ageDays(s)-slaOf(s))*10)/10),s.name,'+'+s.phone,s.area.city])];
+  dtUse('mon-resolve',{awb:['AWB',s=>s.awb||'~',awbTd,{fixed:1}],mon:['Monitoring',s=>ord[monOf(s)],s=>`<td class="c-st"><span class="st ${MSTAT[monOf(s)][1]}">${MSTAT[monOf(s)][0]}</span></td>`],k:['Courier',s=>cName(s.k),cTd],
+    issue:['Issue',s=>issueOf(s).t,s=>{const is=issueOf(s);return`<td><span data-tip="${esc(is.next)}">${esc(is.t)}</span></td>`}],age:['Age',s=>ageDays(s),s=>{const d=ageDays(s),o=d-slaOf(s);return`<td class="date">${ageTx(d)}${o>0?` · <span class="mon-over">${ageTx(o)} over</span>`:''}</td>`}]},null,()=>renderMon());
+  const L=dtSort('mon-resolve',pool.filter(s=>(!F.mon.length||F.mon.includes(monOf(s)))&&(!q||[s.awb,s.name,s.phone,s.batch,s.area.city,s.area.kec,issueOf(s).t].join(' ').toLowerCase().includes(q))).sort((a,b)=>(ord[monOf(a)]-ord[monOf(b)])||((ageDays(b)-slaOf(b))-(ageDays(a)-slaOf(a)))));
+  const pages=Math.max(1,Math.ceil(L.length/PERL));F.pg=Math.min(F.pg,pages-1);const V=L.slice(F.pg*PERL,F.pg*PERL+PERL);
+  const row=s=>{const is=issueOf(s);return`<tr data-sid="${s.id}">${dtCells('mon-resolve',s)}<td class="r act">${s.st==='failed'?`<button class="btn btn-o" data-ndrgo="${s.id}">Reattempt</button>`:`<button class="btn btn-o" data-act="${s.id}" data-a="${is.act}">${TKT[is.act][1]}</button>`}<button class="dots-b" data-actm="${s.id}" aria-label="Other actions">${ic('dots',16)}</button></td></tr>`};
+  return msBar('AWB, customer, phone or issue',`<button class="btn btn-o" data-wset>Delivery Boost: ${PS.boost?'on':'off'}</button>${dlBtn('m-resolve')}`)+
+  `<div class="tbl-wrap"><table data-dtt="mon-resolve"><thead><tr>${dtHead('mon-resolve')}<th></th></tr></thead><tbody>
+  ${V.length?V.map(row).join(''):`<tr><td colspan="${dtN('mon-resolve')+1}" style="height:auto;border:0;cursor:default">${msNone(pool.length,'Nothing needs resolving','Delayed, at-risk and problem shipments without a ticket show up here.')}</td></tr>`}</tbody></table></div>`+msFoot(L.length,pages,F.pg,'shipment')}
+/* Health uses the StatusBadge tones of the Summary: safe ok, on track info, delayed neutral, at risk warn, problem bad */
+const HCOLS=['safe','ontrack','delayed','risk','problem'];
+const HTONE={safe:'ok',ontrack:'pu',delayed:'gr',risk:'warn',problem:'bad'};
+const healthRow=l=>{const c={};HCOLS.forEach(k=>c[k]=0);l.forEach(s=>c[monOf(s)]++);return{n:l.length,c,h:pct(c.ontrack+c.safe,l.length)}};
+const hTip=(k,v,n)=>`${MON3[k][0]}: ${v.toLocaleString('id-ID')} ${v===1?'shipment':'shipments'} · ${fpct(pct(v,n))}`;
+const hBar=(c,big)=>`<span class="hb2${big?' big':''}" role="img" aria-label="${HCOLS.filter(k=>c.c[k]).map(k=>hTip(k,c.c[k],c.n)).join(', ')}">${HCOLS.map(k=>c.c[k]?`<i class="t-${HTONE[k]}" style="flex:${c.c[k]}" data-tip="${hTip(k,c.c[k],c.n)}"></i>`:'').join('')}</span>`;
+const hTable=(rows,first)=>`<div class="tbl-wrap"><table class="h-tbl"><thead><tr><th>${first}</th><th class="r">Shipments</th>${HCOLS.map(k=>`<th class="r">${MON3[k][0]}</th>`).join('')}<th>Mix</th><th class="r">Healthy</th></tr></thead><tbody>${rows.map(([lab,r])=>`<tr class="nohover"><td>${lab}</td><td class="r num">${r.n.toLocaleString('id-ID')}</td>${HCOLS.map(k=>`<td class="r num${r.c[k]&&k==='problem'?' mon-over':''}">${r.c[k]?r.c[k].toLocaleString('id-ID'):'<span class="src">0</span>'}</td>`).join('')}<td class="h-mix">${hBar(r)}</td><td class="r num"><b>${fpct(r.h)}</b></td></tr>`).join('')}</tbody></table></div>`;
+const hRowsCsv=(rows,first)=>[first,'Shipments',...HCOLS.map(k=>MON3[k][0]),'Healthy %'];
+/* Health: a live report of today, like a control panel. What is on the move now, how it is doing, and today's courier updates hour by hour (27 Oct) */
+const HL_ACTIVE=['pickup','picked','transit','ofd','failed','returning'];
+function monHealth(){const t0=dayStart(),act=SH.filter(s=>HL_ACTIVE.includes(s.st)),tot=healthRow(act),today=s=>s.upd>=t0,at=MS.hAt||new Date();
+  const stages=[['pickup','Wait pickup'],['picked','Picked up'],['transit','In transit'],['ofd','Out for delivery']].map(([k,l])=>{const L=act.filter(s=>s.st===k),late=L.filter(s=>monOf(s)==='delayed').length;return[k,l,L.length,late]});
+  const byC=COURIERS.map(c=>[c,act.filter(s=>s.k===c.k)]).filter(x=>x[1].length).map(([c,l])=>[c,healthRow(l)]).sort((a,b)=>a[1].h-b[1].h);
+  const on=tot.n?pct(tot.c.ontrack,tot.n):100,LEG=['ontrack','delayed','risk','problem'];
+  return`<div class="hl-live" role="status"><span class="hl-dot" aria-hidden="true"></span><b>Live</b><span>Today, ${fday(NOW)} · updated ${at.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span><button class="btn btn-o" data-hrefresh>Refresh</button></div>`+
+  monCard(`<div class="mon-h">${secT('Shipping condition','Shipments on the move right now: waiting for pickup, on the way, failed attempts and returns. On track means within the courier\'s SLA.')}</div>
+    <div class="h-tot"><b class="num${on<80?' mon-over':''}">${fpct(on)}</b><span>on track · ${plural(tot.n,'shipment')} on the move</span></div>${hBar(tot,true)}
+    <div class="h-leg">${LEG.map(k=>{const v=tot.c[k],go=k!=='ontrack'&&v;return`<${go?`button class="hl-go" data-hgo="${k}"`:'span'} data-tip="${hTip(k,v,tot.n)}${go?' · open in Needs action':''}"><span class="st ${HTONE[k]}">${MON3[k][0]}</span><b class="num">${v.toLocaleString('id-ID')}</b><span class="src">${fpct(pct(v,tot.n))}</span></${go?'button':'span'}>`}).join('')}</div>`)+
+  secT('On the move now')+`<div class="bl-tiles mon-tiles hl-tiles">${stages.map(([k,l,n,late])=>`<div class="bl-tile" role="button" tabindex="0" data-mgo="${k}"><span class="kpi-l">${l}</span><div class="kpi-v"><b class="num">${n.toLocaleString('id-ID')}</b></div><span class="ex">${late?`<span class="mon-over">${late} past SLA</span>`:'All within SLA'}</span></div>`).join('')}</div>`+
+  monCard(`<div class="mon-h">${secT('By courier now','Shipments on the move per courier, least on track first.')}</div>`+hTable(byC.map(([c,r])=>[`<div class="sx-cl">${cLogo(c.k)}<span>${c.n}</span></div>`,r]),'Courier'))}
+
+/* ---- Courier performance: by city and by service ---- */
+function monPerf(base){
+  if(MS.perf==='city'){const cities=Object.entries(by(base,s=>s.area.city)).sort((a,b)=>b[1].length-a[1].length),cs=COURIERS.filter(c=>base.some(s=>s.k===c.k));
+    const cell=l=>{const f=finL(l);return f.length>=5?pct(f.filter(s=>s.st==='delivered').length,f.length):null};
+    DL['m-perf']=()=>['flik-courier-performance-by-city',['City','Shipments',...cs.map(c=>c.n+' success %'),...cs.map(c=>c.n+' shipments')],cities.map(([city,l])=>[city,l.length,...cs.map(c=>{const v=cell(l.filter(s=>s.k===c.k));return v==null?'':v}),...cs.map(c=>l.filter(s=>s.k===c.k).length)])];
+    return perfH('Courier performance by city','Delivered as a share of finished shipments. Cells with fewer than 5 finished shipments are left out. Best marks the top courier in each city; below 80% is shown in red.')+
+    `<div class="tbl-wrap"><table class="mt hm"><thead><tr><th>City</th><th class="r">Shipments</th>${cs.map(c=>`<th class="c">${cLogo(c.k)}<span>${c.n}</span></th>`).join('')}</tr></thead><tbody>
+    ${cities.map(([city,l])=>{const v=cs.map(c=>[c,cell(l.filter(s=>s.k===c.k)),l.filter(s=>s.k===c.k).length]),best=Math.max(...v.map(x=>x[1]||0));
+      return`<tr class="nohover"><td>${esc(city)}</td><td class="r num">${l.length}</td>${v.map(([c,x,n])=>x==null?`<td class="c inv-sub">${n?`${n} sent`:'—'}</td>`:`<td class="c"><span class="hmc"><b class="num${x<80?' mon-over':''}">${fpct(x)}</b>${x===best&&v.filter(y=>y[1]!=null).length>1?'<span class="st ok">Best</span>':''}</span><span class="src">${n} sent</span></td>`).join('')}</tr>`}).join('')}</tbody></table></div>`}
+  const rows=SERVICES.map((sv,i)=>[sv,i,base.filter(s=>s.svc===i)]).filter(x=>x[2].length).map(([sv,i,l])=>{const f=finL(l),dl=l.filter(s=>s.st==='delivered');
+    return{sv,i,n:l.length,del:dl.length,ret:l.filter(s=>s.st==='returned').length,sr:f.length?pct(dl.length,f.length):null,days:dl.length?Math.round(sum(dl,s=>(s.upd-s.created)/DAY)/dl.length*10)/10:null,cost:Math.round(sum(l,s=>s.cost)/l.length),late:pct(l.filter(s=>monOf(s)==='delayed'||(s.st==='delivered'&&(s.upd-s.created)/DAY>etaMax(sv)+.5)).length,l.length)}}).sort((a,b)=>(b.sr||0)-(a.sr||0));
+  DL['m-perf']=()=>['flik-courier-performance-by-service',['Courier','Service','Shipments','Delivered','Returned','Success %','Avg days to deliver','Avg shipping cost','Late %'],rows.map(r=>[cName(r.sv[0]),r.sv[1],r.n,r.del,r.ret,r.sr??'',r.days??'',r.cost,r.late])];
+  return perfH('Courier performance by service','Success is delivered as a share of finished shipments. Late counts delayed shipments and deliveries after the estimate.')+
+  `<div class="tbl-wrap"><table class="mt"><thead><tr><th>Service</th><th class="r">Shipments</th><th class="r">Delivered</th><th class="r">Returned</th><th>Success rate</th><th class="r">Avg days</th><th class="r">Late</th><th class="r">Avg shipping cost</th></tr></thead><tbody>
+  ${rows.map(r=>`<tr class="nohover"><td><div class="sx-cl">${cLogo(r.sv[0])}<span>${cName(r.sv[0])} ${r.sv[1]}</span></div></td><td class="r num">${r.n}</td><td class="r num">${r.del}</td><td class="r num">${r.ret}</td><td style="min-width:160px">${r.sr==null?'—':`<span class="srb"><i style="width:${Math.max(0,(r.sr-60)/40*100)}%"></i></span><b class="num">${fpct(r.sr)}</b>`}</td><td class="r num">${r.days??'—'}</td><td class="r num">${fpct(r.late)}</td><td class="r num">${rp(r.cost)}</td></tr>`).join('')}</tbody></table></div>`}
+const perfSeg=()=>`<div class="seg" role="tablist" aria-label="Group by">${[['city','By city'],['service','By service']].map(t=>`<button class="${MS.perf===t[0]?'on':''}" data-perf="${t[0]}" role="tab" aria-selected="${MS.perf===t[0]}">${t[1]}</button>`).join('')}</div>`;
+const perfH=(t,help)=>`<div class="mon-h">${secT(t,help)}<div class="fright">${perfSeg()}${dlBtn('m-perf')}</div></div>`;
+
+/* ---- All shipments columns, on the Lists kit ---- */
+const LCOLS={awb:['AWB',s=>s.awb||'~',awbTd,{fixed:1}],created:['Created',s=>+s.created,s=>`<td class="date">${fdate(s.created)}</td>`],
+  cust:['Customer',s=>s.name.toLowerCase(),s=>`<td class="cust"><b>${esc(s.name)}</b><span>${fphone(s.phone)}</span></td>`],
+  dest:['Destination',s=>(s.area.kec+' '+s.area.city).toLowerCase(),s=>`<td>${esc(s.area.kec)}<span class="src">${esc(s.area.city)}</span></td>`],
+  k:['Courier',s=>cName(s.k),cTd],pay:['Payment',s=>s.pay,s=>`<td>${s.pay==='cod'?'<span class="st pu sm">COD</span>':'<span class="st gr sm">Non-COD</span>'}</td>`],
+  val:['Value',s=>s.val,s=>`<td class="num">${rp(s.val)}</td>`],st:['Status',s=>Object.keys(SST3).indexOf(s.st),s=>`<td>${stPill3(s.st)}</td>`],
+  mon:['Monitoring',s=>HCOLS.indexOf(monOf(s)),s=>`<td>${monPill(monOf(s))}</td>`],upd:['Updated',s=>+s.upd,s=>`<td class="upd">${ago(s.upd)}</td>`]};
+dtUse('mon-list',LCOLS,{k:'created',dir:-1},()=>renderMon());
+document.getElementById('view-mon').addEventListener('click',e=>{const g=e.target.closest('[data-hgo]');if(g){MS.tab='resolve';MS.r.mon=[g.dataset.hgo];MS.r.pg=0;renderMon();scrollTo(0,0);return}
+  if(e.target.closest('[data-hrefresh]')){MS.hAt=new Date();renderMon();toast('Updated')}});
+const FK={list:['days','st','mon','k','wh','pay'],resolve:['days','mon','k','wh','pay'],risky:['days','rst','k'],claims:['days','cst','ccat','k'],tickets:['days','tst','tcat','k']},fkeys=()=>FK[MS.tab]||[];
+/* several AWBs pasted at once (one per line, or separated by spaces or commas) are matched exactly */
+const awbToks=q=>{const t=q.trim().toLowerCase().split(/[\s,;]+/).filter(Boolean);return t.length>1&&t.every(x=>/\d/.test(x)&&x.length>=8)?t:null};
+{const v=document.getElementById('view-mon');
+  v.addEventListener('click',e=>{
+    const f=e.target.closest('[data-ffil]');if(f){e.stopPropagation();if(popFor===f){closePop();return}popFor=f;
+      pop.innerHTML=`<div class="menu"><h6>Filter by</h6>${fkeys().map(k=>`<button class="opt" data-fk="${k}">${MF_L[k]}${mfVal(k)?` <span class="src">· ${esc(mfVal(k))}</span>`:''}</button>`).join('')}${fkeys().some(k=>mfVal(k))?'<div class="pop-f"><button class="btn btn-o" data-fclrall>Clear all</button></div>':''}</div>`;
+      pop.querySelectorAll('[data-fk]').forEach(o=>o.onclick=x=>{x.stopPropagation();const k=o.dataset.fk;closePop();fpop(f,k)});const ca=pop.querySelector('[data-fclrall]');if(ca)ca.onclick=()=>{closePop();const F=FT();F.days=0;fkeys().filter(k=>k!=='days').forEach(k=>mfSet(k).length=0);F.pg=0;renderMon()};placePop(f,false)}});
+  v.addEventListener('paste',e=>{if(e.target.id!=='ms-q')return;const t=(e.clipboardData||window.clipboardData).getData('text');if(!/[\r\n\t]/.test(t))return;e.preventDefault();const q=e.target;q.setRangeText(t.split(/[\r\n\t,;]+/).map(x=>x.trim()).filter(Boolean).join(', '),q.selectionStart,q.selectionEnd,'end');q.dispatchEvent(new Event('input',{bubbles:true}))})}
+
+/* ---- All shipments: filters and a raw export ---- */
+const PERL=25;
+function listRows(base){const L=MS.l,q=L.q.trim().toLowerCase(),toks=awbToks(q),many=!!toks;
+  const G={way:s=>!['delivered','returned','lost'].includes(s.st),ret:s=>s.st==='returned'||s.st==='returning'};
+  return base.filter(s=>(!L.st.length||L.st.some(k=>G[k]?G[k](s):s.st===k))&&(!L.mon.length||L.mon.includes(monOf(s)))&&(!q||(many?toks.includes((s.awb||'').toLowerCase()):[s.awb,s.name,s.phone,s.batch,s.area.city,s.area.kec].join(' ').toLowerCase().includes(q))))}
+/* All shipments preview states (prototype only), picked from the Preview state chip */
+const LSC=[['normal','Normal'],['new','New merchant, no shipments'],['few','A few shipments'],['loading','Loading'],['error',"Couldn't load"],['nomatch','No matches'],['selected','Rows selected'],['long','Long content']];
+const LONG={name:'Muhammad Rizky Pratama Wijayakusuma',kec:'Kebayoran Baru Selatan',city:'Kota Administrasi Jakarta Selatan',val:1250000000};
+function lscSet(v){const L=MS.l;MS.lsc=v;L.pg=0;L.sel=new Set();
+  if(v==='nomatch'){L.q='JNE0000000000';L.st=[];L.mon=[]}else if(L.q==='JNE0000000000')L.q='';
+  if(v==='selected')listRows(msBase()).filter(s=>s.awb).slice(0,3).forEach(s=>L.sel.add(s.id));renderMon()}
+function monList(base){const P=MS.lsc||'normal';
+  if(P==='new')return monEmpty('Your shipments show up here','Each shipment you create is listed with its status, courier and payment, so you can search, filter and print labels in one place.');
+  let rows=listRows(base);if(P==='few')rows=rows.slice(0,3);if(P==='long')rows=rows.map((s,i)=>i<3?{...s,name:LONG.name,pay:'cod',val:LONG.val,area:{...s.area,kec:LONG.kec,city:LONG.city}}:s);
+  rows=dtSort('mon-list',rows);
+  const L=MS.l,pages=Math.max(1,Math.ceil(rows.length/PERL));L.pg=Math.min(L.pg,pages-1);
+  if(P==='loading'||P==='error')return monListWait(P);
+  DL['m-list']=()=>['flik-shipments',SHIP_HEAD,rows.map(shipRow)];
+  const V=dtVis('mon-list'),toks=awbToks(L.q),miss=toks?toks.filter(t=>!rows.some(s=>(s.awb||'').toLowerCase()===t)):[],nf=fkeys().filter(k=>mfVal(k)).length;
+  /* rows selected: the search and filters make way for what you can do with the selection, so the toolbar stays on one row */
+  return`<div class="filters ms-lf">${L.sel.size?`<span class="ms-seln" role="status"><b class="num">${L.sel.size}</b> selected</span><button class="btn btn-p" data-prsel>${ic('print',15)}Print ${plural(L.sel.size,'label')}</button><button class="lnk" data-prclr>Clear selection</button>`
+    :`<label class="search bl-search"><span>${ic('search',16)}</span><input id="ms-q" value="${esc(L.q)}" placeholder="Search, or paste several AWBs" autocomplete="off" aria-label="Search shipments by AWB, customer, phone or batch. Paste several AWBs to find them at once"></label>
+    <button class="btn btn-o${nf?' on':''}" data-ffil aria-haspopup="menu">${ic('filter',15)}${nf?plural(nf,'filter'):'Filter'}</button><button class="btn btn-o dt-ic" data-colcfg="mon-list" aria-label="Edit columns" data-tip="Edit columns">${ic('sliders',16)}</button>`}
+    <div class="fright"><button class="btn btn-o" data-prb>${ic('print',15)}Print by batch</button>${dlBtn('m-list')}</div></div>
+  ${toks?`<p class="ms-awbs" role="status">Found <b class="num">${toks.length-miss.length}</b> of <b class="num">${toks.length}</b> AWBs${miss.length?`. Not found: <span class="mono">${miss.map(x=>esc(x.toUpperCase())).join(', ')}</span>`:''}</p>`:''}
+  <div class="tbl-wrap"><table class="mt ms-pt" data-dtt="mon-list"><thead><tr><th class="selc">${(()=>{const pg=rows.slice(L.pg*PERL,L.pg*PERL+PERL).filter(s=>s.awb),on=pg.length&&pg.every(s=>L.sel.has(s.id));return`<button class="ie-chk" data-lselall aria-pressed="${on}" aria-label="Select this page"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span></button>`})()}</th>${dtHead('mon-list')}<th></th></tr></thead><tbody>
+  ${rows.length?rows.slice(L.pg*PERL,L.pg*PERL+PERL).map(s=>`<tr data-sid="${s.id}"><td class="selc">${s.awb?`<button class="ie-chk" data-lsel="${s.id}" aria-pressed="${L.sel.has(s.id)}" aria-label="Select ${s.awb}"><span class="cb${L.sel.has(s.id)?' on':''}">${L.sel.has(s.id)?ic('check',12,3):''}</span></button>`:''}</td>${dtCells('mon-list',s)}<td class="r">${s.awb?`<button class="ib tt" data-prs="${s.id}" data-tt="Print label" aria-label="Print the label for ${s.awb}">${ic('print',16)}</button>`:''}</td></tr>`).join('')
+    :`<tr><td colspan="${V.length+2}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No shipments match</b>Try another AWB, or clear the search and filters.<button class="btn btn-o ms-eb" data-lclr>Clear search and filters</button></div></td></tr>`}</tbody></table></div>
+  <div class="foot"><span><b>${rows.length.toLocaleString('id-ID')}</b> ${rows.length===1?'shipment':'shipments'}</span><div class="pager"><button class="btn btn-o" data-lpg="-1" ${L.pg?'':'disabled'}>Previous</button><button class="btn btn-o" data-lpg="1" ${L.pg<pages-1?'':'disabled'}>Next</button></div></div>`}
+
+/* first run: the EmptyState of Shipments, with its art */
+const monEmpty=(h,p)=>`<section class="es-hero mon-es"><div class="es-copy"><h2>${h}</h2><p>${p}</p><button class="btn btn-p es-cta" data-newshp>Create shipment</button></div><div class="es-art" aria-hidden="true">${(document.getElementById('es-art-shp')||{}).innerHTML||''}</div></section>`;
+/* loading: the table's skeleton rows (as in Create shipment's upload); error: what happened and Try again */
+function monListWait(P){const H=dtVis('mon-list').map(k=>LCOLS[k][0]),w=[70,85,60,75,55,80,65,90];
+  return`<div class="filters ms-lf"><label class="search bl-search"><span>${ic('search',16)}</span><input id="ms-q" placeholder="Search, or paste several AWBs" aria-label="Search shipments" disabled></label><button class="btn btn-o" disabled>${ic('filter',15)}Filter</button><button class="btn btn-o dt-ic" disabled aria-label="Edit columns">${ic('sliders',16)}</button><div class="fright"><button class="btn btn-o" disabled>${ic('print',15)}Print by batch</button><button class="btn btn-o" disabled>${ic('export',15)}Export</button></div></div>
+  <div class="tbl-wrap"><table class="mt ms-pt"${P==='loading'?' aria-busy="true"':''}><thead><tr><th class="selc"></th>${H.map(h=>`<th>${h}</th>`).join('')}<th></th></tr></thead><tbody>
+  ${P==='loading'?Array.from({length:8},(_,r)=>`<tr class="nohover"><td class="selc"></td>${H.map((h,k)=>`<td><span class="sk" style="width:${w[(r+k)%8]}%;animation-delay:${r*.08}s"></span></td>`).join('')}<td></td></tr>`).join('')
+    :`<tr><td colspan="${H.length+2}" style="height:auto;border:0;cursor:default"><div class="empty" role="alert"><b>Couldn't load your shipments</b>Something went wrong on our side. Your shipments are safe; try again in a moment.<button class="btn btn-o ms-eb" data-lsc="normal">Try again</button></div></td></tr>`}</tbody></table></div>
+  <div class="foot"><span role="status">${P==='loading'?'Loading shipments…':'—'}</span><div class="pager"><button class="btn btn-o" disabled>Previous</button><button class="btn btn-o" disabled>Next</button></div></div>`}
+
+function printLabels(L,scope){if(!L.length)return;track('labels_printed',{scope,labels:L.length});toast(`Printing ${plural(L.length,'label')} (PDF, 10×10 cm, one per parcel)`)}
+
+/* ---- Claims: what couriers owe the merchant ---- */
+const clOpen=c=>c.st==='submitted'||c.st==='review';
+function monClaims(){const F=MS.c,q=F.q.trim().toLowerCase();
+  dtUse('mon-claims',{id:['Claim ID',c=>c.id,c=>`<td class="mono">${c.id}</td>`,{fixed:1}],tk:['Ticket',c=>c.tk||'',c=>`<td class="mono">${c.tk||'—'}</td>`],awb:['AWB',c=>c.awb||'',c=>`<td class="mono">${c.awb||'—'}</td>`],k:['Courier',c=>cName(c.k),cTd],
+    cat:['Category',c=>CLCAT[c.cat][0],c=>`<td>${CLCAT[c.cat][0]}</td>`],st:['Status',c=>Object.keys(CLST).indexOf(c.st),c=>`<td><span class="st ${CLST[c.st][1]} sm">${CLST[c.st][0]}</span></td>`],filed:['Filed',c=>+c.filed,c=>`<td class="date">${fdate(c.filed)}</td>`],
+    val:['Claim value',c=>c.amount,c=>`<td class="num">${rp(c.amount)}</td>`],upd:['Last update',c=>+c.log[0][1],c=>`<td class="upd">${ago(c.log[0][1])}</td>`]},null,()=>renderMon());
+  const rows=dtSort('mon-claims',CL.filter(c=>inPeriod(c.filed)&&(!F.cst.length||F.cst.includes(c.st))&&(!F.ccat.length||F.ccat.includes(c.cat))&&(!F.k.length||F.k.includes(c.k))&&(!q||[c.id,c.tk,c.awb,cName(c.k),CLCAT[c.cat][0]].join(' ').toLowerCase().includes(q))).sort((a,b)=>b.log[0][1]-a.log[0][1]));
+  DL['m-claims']=()=>['flik-claims',['Claim ID','Ticket','AWB','Courier','Claim category','Claim status','Filed','Claim value','Last update'],rows.map(c=>[c.id,c.tk||'',c.awb||'',cName(c.k),CLCAT[c.cat][0],CLST[c.st][0],fdateY(c.filed),c.amount,fdateY(c.log[0][1])])];
+  const pages=Math.max(1,Math.ceil(rows.length/PERL));F.pg=Math.min(F.pg,pages-1);const V=rows.slice(F.pg*PERL,F.pg*PERL+PERL);
+  return msBar('Claim ID, ticket or AWB',`${dlBtn('m-claims')}<button class="btn btn-p" data-clnew>${ic('plus',15,2)}File a claim</button>`)+
+  `<div class="tbl-wrap"><table class="mt" data-dtt="mon-claims"><thead><tr>${dtHead('mon-claims')}</tr></thead><tbody>
+  ${V.length?V.map(c=>`<tr data-cl="${c.id}">${dtCells('mon-claims',c)}</tr>`).join('')
+    :`<tr><td colspan="${dtN('mon-claims')}" style="height:auto;border:0;cursor:default">${msNone(CL.length,'No claims yet','File a claim when a parcel is lost, damaged, returned without your confirmation, or delivered late.')}</td></tr>`}</tbody></table></div>`+msFoot(rows.length,pages,F.pg,'claim')}
+function stepper(flow,lab,cur,bad){const at=flow.indexOf(cur);return`<div class="tstp">${flow.map((k,i)=>`<div class="stp-i ${i<at||(i===at&&!bad)?'done':''}${i===at?' cur':''}${i===at&&bad?' bad':''}"><i>${i<at||(i===at&&!bad)?ic('check',10,3):''}</i>${lab[k][0]}</div>`).join('')}</div>`}
+const logTl=(log,LAB)=>`<div class="tl">${log.map((l,i)=>{const cl=l[2]&&LAB[l[2]]?LAB[l[2]][1]:'';return`<div class="tli ${i===0?(cl==='ok'?'ok':cl==='bad'?'bad':''):''}"><i>${i===0&&cl==='ok'?ic('check',11,3):''}</i><div><b>${esc(l[0])}</b><span>${l[2]&&LAB[l[2]]?`<em class="st ${LAB[l[2]][1]} sm">${LAB[l[2]][0]}</em> `:''}${fdateY(l[1])}</span></div></div>`}).join('')}</div>`;
+/* ---- Filing a claim: which cases this shipment can be claimed for, and why not ---- */
+function claimCases(s){const dup=cat=>CL.find(c=>c.sid===s.id&&c.cat===cat&&c.st!=='rejected'),days=(s.upd-s.created)/DAY,eta=etaMax(SERVICES[s.svc]),since=(NOW-s.upd)/DAY;
+  const out=[];
+  {let ok=false,why,need='Photos of the parcel and the item, and the order invoice';
+    if(s.st==='lost'){ok=true;why=`${cName(s.k)} reported the parcel lost.`;need='The order invoice'}
+    else if(s.st==='delivered'&&since<=2){ok=true;why='Delivered less than 2 days ago, so damage can still be reported.'}
+    else if(s.st==='delivered'){why=`Damage has to be reported within 2 days of delivery. This one was delivered ${Math.floor(since)} days ago.`}
+    else if(['transit','picked','ofd'].includes(s.st)&&since>=7){ok=true;why='No tracking update for 7 days, so it counts as lost.';need='The order invoice'}
+    else if(['transit','picked','ofd','pickup'].includes(s.st)){why=`The parcel is still on its way. It can be claimed as lost after 7 days with no update (last update ${ago(s.upd)}).`}
+    else why='Only lost parcels, or parcels damaged on delivery, can be claimed.';
+    out.push({cat:'lost',ok,why,need})}
+  {let ok=false,why,need='';
+    if(s.st!=='returned'&&s.st!=='returning')why='The parcel was not returned.';
+    else if(!s.noConf){why='You agreed to this return, so it was not without confirmation.'}
+    else{ok=true;why=`${cName(s.k)} returned it without asking you first.`}
+    out.push({cat:'ret',ok,why,need})}
+  {let ok=false,why,need='';const late=ageDays(s)-slaOf(s);
+    if(s.st==='delivered'&&late>0&&since<=7){ok=true;why=`Delivered in ${ageTx(ageDays(s))}, ${ageTx(late)} over the ${slaOf(s)}-day SLA.`}
+    else if(s.st==='delivered'&&late>0){why=`Late deliveries have to be claimed within 7 days. This one was delivered ${Math.floor(since)} days ago.`}
+    else if(s.st==='delivered')why=`Delivered within the ${slaOf(s)}-day SLA.`;
+    else if(!DONE3.has(s.st)&&late>0)why=`It's ${ageTx(late)} over the SLA. You can claim the shipping cost once it's delivered.`;
+    else why='Only delivered parcels can be claimed as late.';
+    out.push({cat:'sla',ok,why,need})}
+  out.forEach(c=>{const d=dup(c.cat);if(d&&c.ok){c.ok=false;c.why=`Already claimed in ${d.id} (${CLST[d.st][0].toLowerCase()}).`}});return out}
+function claimExamples(){const f=(fn)=>SH.find(fn);return[['Lost parcel',f(s=>s.st==='lost'&&!CL.some(c=>c.sid===s.id))],['Returned, not asked',f(s=>s.st==='returned'&&!s.tk&&!CL.some(c=>c.sid===s.id))],
+  ['Just delivered',f(s=>s.st==='delivered'&&(NOW-s.upd)/DAY<=2)],['Delivered late',f(s=>s.st==='delivered'&&ageDays(s)>slaOf(s)&&(NOW-s.upd)/DAY<=7&&!CL.some(c=>c.sid===s.id))],['Delivered on time, J&T',f(s=>s.st==='delivered'&&s.k==='jnt'&&(NOW-s.upd)/DAY>3)],['Still on the way',f(s=>['transit','picked','ofd'].includes(s.st))]].filter(x=>x[1])}
+function claimModal(sid){const C={sid:sid||null,cat:null,proof:false,q:''};modal.classList.add('nw');
+  const draw=()=>{const s=C.sid&&SH.find(x=>x.id===C.sid),cases=s?claimCases(s):[];if(s&&(!C.cat||!cases.find(c=>c.cat===C.cat&&c.ok)))C.cat=(cases.find(c=>c.ok)||{}).cat||null;
+    const cur=cases.find(c=>c.cat===C.cat),amt=s&&C.cat?clAmount(s,C.cat):0,can=s&&cur&&cur.ok&&(!cur.need||C.proof);
+    modal.innerHTML=`<div class="mh"><h3>File a claim</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb">${s?`<div class="rf-pay nd-card">${cLogo(s.k)}<div class="nd-tx"><b><span class="mono">${s.awb||'—'}</span> · ${esc(s.name)}</b><span>${cName(s.k)} ${SERVICES[s.svc][1]} · ${esc(s.area.city)}</span></div>${stPill3(s.st)}${sid?'':'<button class="lnk" id="cl-chg">Change</button>'}</div>
+      <div class="fld"><label id="cl-wl">What happened</label><div class="cl-rl" role="radiogroup" aria-labelledby="cl-wl">${cases.map(c=>`<button class="ie-r" data-cc="${c.cat}" role="radio" aria-checked="${c.cat===C.cat}" ${c.ok?'':'disabled'}><span class="rdo${c.cat===C.cat?' on':''}"></span><div><b>${CLCAT[c.cat][0]}</b><span class="d">${esc(c.why)}</span></div>${c.ok?'':'<span class="st gr">Not eligible</span>'}</button>`).join('')}</div></div>
+      ${cur&&cur.ok?`<div class="fld"><label>Claim value</label><div class="cl-amt"><b class="num">${rp(amt)}</b><span class="src">${CLCAT[C.cat][1]}</span></div></div>
+      ${cur.need?`<div class="fld"><label>Proof · ${cur.need}</label><button class="vf-up${C.proof?' done':''}" id="cl-proof">${ic(C.proof?'check':'upload',16)}${C.proof?'3 files added':'Add files'}</button></div>`:''}
+      <div class="fld"><label for="cl-n">Note</label><input id="cl-n" placeholder="Optional"></div>`:cases.length&&!cases.some(c=>c.ok)?`<div class="sx-note">${ic('bulb',16)}<span>This shipment can't be claimed right now. If something else went wrong, contact FLIK support from the shipment.</span></div>`:''}`
+    :`<div class="fld"><label for="cl-q">Tracking number (AWB)</label><input id="cl-q" placeholder="Type or paste an AWB" value="${esc(C.q)}" autocomplete="off"></div><div id="cl-res">${clRes(C.q)}</div>
+      <div class="fld"><label>Try a case</label><div class="cl-ex">${claimExamples().map(([l,x])=>`<button class="chip" data-clpick="${x.id}">${l}</button>`).join('')}</div></div>`}</div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="cl-go" ${can?'':'disabled'}>Submit claim${amt&&can?` · ${rp(amt)}`:''}</button></div>`;
+    mscrim.classList.add('open');
+    const q=document.getElementById('cl-q');if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);q.oninput=()=>{C.q=q.value;document.getElementById('cl-res').innerHTML=clRes(C.q)}}}
+  const clRes=v=>{v=v.trim().toUpperCase();if(v.length<4)return'';const l=SH.filter(s=>s.awb&&s.awb.includes(v)).slice(0,5);
+    return l.length?`<div class="cl-res">${l.map(s=>`<button class="opt" data-clpick="${s.id}">${cLogo(s.k)}<span class="mono">${s.awb}</span><span class="src">${esc(s.area.city)}</span>${stPill3(s.st)}</button>`).join('')}</div>`:'<p class="sec-sub">No shipment with that AWB.</p>'};
+  modal.onclick=e=>{const t=e.target.closest('button');if(!t)return;
+    if(t.dataset.clpick){C.sid=t.dataset.clpick;C.cat=null;C.proof=false;draw();return}
+    if(t.id==='cl-chg'){C.sid=null;draw();return}
+    if(t.dataset.cc){C.cat=t.dataset.cc;C.proof=false;draw();return}
+    if(t.id==='cl-proof'){C.proof=true;draw();return}
+    if(t.id==='cl-go'){const s=SH.find(x=>x.id===C.sid),n=(document.getElementById('cl-n')||{}).value||'';
+      FLIK.api.createTicket({awb:s.awb,type:'claim',reason:CLCAT[C.cat][0],note:n});const c=addClaim(s,C.cat);track('claim_filed',{category:C.cat,courier:s.k});
+      closeModal();closeDetail();MS.tab='claims';Object.assign(MS.c,{q:'',cst:[],ccat:[],pg:0});renderMon();toast(`${c.id} submitted to ${cName(s.k)}`);claimDrawer(c.id)}};
+  draw()}
+function claimDrawer(id){drawer.classList.remove('chat');const c=CL.find(x=>x.id===id),s=SH.find(x=>x.id===c.sid);
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('shield',15)}Claim</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b class="num">${rp(c.amount)}</b><span class="st ${CLST[c.st][1]}">${CLST[c.st][0]}</span></div>
+    <p class="d-sub">${c.id} · ${CLCAT[c.cat][0]} · filed ${fdateY(c.filed)}</p>
+    <div class="d-acts"><button class="btn btn-o" data-sid2="${s.id}">${ic('truck',15)}View shipment</button><button class="btn btn-o" data-copy="${c.id}">${ic('copy',15)}Copy ID</button></div>
+    ${c.st==='rejected'?`<div class="sx-note bad">${ic('warn',16)}<span><b>Rejected.</b> ${esc(c.log[0][0].replace(/^.*?rejected it: /,'').replace(/^./,x=>x.toUpperCase()))}. Contact FLIK support if you'd like to appeal.</span></div>`
+      :clOpen(c)?`<div class="sx-note info">${ic('clock',16)}<span>${cName(c.k)} usually decides within 5 working days. FLIK follows up for you.</span></div>`
+      :c.st==='approved'?`<div class="sx-note info">${ic('wallet',16)}<span>Approved. ${rp(c.amount)} goes to your FLIK balance with the next courier payout.</span></div>`:''}
+    <div class="dsec"><h5>Status history</h5><div class="tl">${c.log.map((l,i)=>`<div class="tli ${i===0&&l[2]==='paid'?'ok':''}"><i>${i===0&&l[2]==='paid'?ic('check',11,3):''}</i><div><b>${esc(l[0])}</b><span>${fdateY(l[1])}</span></div></div>`).join('')}</div></div>
+    <div class="dsec"><h5>Claim details</h5><dl class="kv"><dt>Category</dt><dd>${CLCAT[c.cat][0]}</dd><dt>What you get</dt><dd>${CLCAT[c.cat][1]}</dd><dt>Claim value</dt><dd class="num">${rp(c.amount)}</dd><dt>Courier</dt><dd><div class="pm">${cLogo(c.k)}<span>${cName(c.k)}</span></div></dd><dt>AWB</dt><dd class="mono">${c.awb||'—'}</dd><dt>Ticket</dt><dd class="mono">${c.tk||'—'}</dd><dt>Filed by</dt><dd>${esc(c.by)}</dd></dl></div></div>`;
+  openDrawer();drawer.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{try{navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy)}catch(e){}toast(`Copied ${b.dataset.copy}`)});track('claim_opened',{category:c.cat,status:c.st})}
+/* ---- Tickets ---- */
+const tkSubj=t=>{const s=SH.find(x=>x.id===t.sid),is=s&&(issueOf(s)||s.had);return is?is.t:TKT[t.type][0]};
+const TKCAT_D={problem:'Lost, damaged, or returned without your confirmation',risk:'Delivery failed, or the customer may refuse the parcel',delayed:"Past the courier's SLA"};
+function monTickets(){const F=MS.t,q=F.q.trim().toLowerCase(),kOf=t=>(SH.find(x=>x.id===t.sid)||{}).k;
+  dtUse('mon-tickets',{id:['Ticket ID',t=>t.id,t=>`<td><span class="mono">${t.id}</span><span class="src">${esc(tkSubj(t))}</span></td>`,{fixed:1}],type:['Type',t=>TKT[t.type][0],t=>`<td>${TKT[t.type][0]}</td>`],mon:['Monitoring',t=>TKCAT.indexOf(t.cat),t=>`<td>${monPill(t.cat)}</td>`],
+    awb:['AWB',t=>t.awb||'',t=>`<td class="mono">${t.awb||'—'}</td>`],k:['Courier',t=>kOf(t)?cName(kOf(t)):'',t=>{const s=SH.find(x=>x.id===t.sid)||{};return s.k?cTd(s):'<td>—</td>'}],
+    st:['Status',t=>Object.keys(TKST).indexOf(tkSt(t)),t=>`<td><span class="st ${TKST[tkSt(t)][1]} sm">${TKST[tkSt(t)][0]}</span>${tkWait(t)?'<span class="tk-new">New reply</span>':''}</td>`],
+    opened:['Opened',t=>+t.created,t=>`<td class="date">${fdate(t.created)}</td>`],upd:['Last update',t=>+t.log[0][1],t=>`<td class="upd">${ago(t.log[0][1])}</td>`]},null,()=>renderMon());
+  const rows=dtSort('mon-tickets',TK.filter(t=>{const k=kOf(t);return inPeriod(t.created)&&(!F.tst.length||F.tst.includes(tkSt(t)))&&(!F.tcat.length||F.tcat.includes(t.cat))&&(!F.k.length||F.k.includes(k))&&(!q||[t.id,tkSubj(t),t.awb,k?cName(k):''].join(' ').toLowerCase().includes(q))}).sort((a,b)=>b.log[0][1]-a.log[0][1]));
+  DL['m-tickets']=()=>['flik-tickets',['Ticket ID','Subject','Type','Monitoring','AWB','Courier','Ticket status','Ticket created at','Last update'],rows.map(t=>{const k=kOf(t);return[t.id,tkSubj(t),TKT[t.type][0],MON3[t.cat][0],t.awb||'',k?cName(k):'',TKST[tkSt(t)][0],fdateY(t.created),fdateY(t.log[0][1])]})];
+  const pages=Math.max(1,Math.ceil(rows.length/PERL));F.pg=Math.min(F.pg,pages-1);const V=rows.slice(F.pg*PERL,F.pg*PERL+PERL);
+  return msBar('Ticket ID, subject or AWB',`${dlBtn('m-tickets')}<button class="btn btn-p" data-tknew>${ic('plus',15,2)}Create ticket</button>`)+
+  `<div class="tbl-wrap"><table class="mt" data-dtt="mon-tickets"><thead><tr>${dtHead('mon-tickets')}</tr></thead><tbody>
+  ${V.length?V.map(t=>`<tr data-tk="${t.id}">${dtCells('mon-tickets',t)}</tr>`).join('')
+    :`<tr><td colspan="${dtN('mon-tickets')}" style="height:auto;border:0;cursor:default">${msNone(TK.length,'No tickets yet','Actions you take in Needs action open tickets here.')}</td></tr>`}</tbody></table></div>`+msFoot(rows.length,pages,F.pg,'ticket')}
+
+/* ---- Shipment drawer: details, issue, tracking history ---- */
+function timeline(s){const sv=SERVICES[s.svc],w=whByCode(s.wh),at=f=>new Date(s.created.getTime()+(s.upd-s.created)*f),from=w?w.city:'Warehouse',to=s.area.city;
+  const ev=[['Booked with FLIK Shipping',from,s.created,'']];if(s.st==='pickup')return ev.reverse();
+  ev.push(['Picked up by '+cName(s.k),from,at(.12),''],['Left sorting hub',from,at(.3),''],['Arrived at delivery hub',to,at(.62),'']);
+  if(['ofd','delivered','failed','returning','returned'].includes(s.st))ev.push(['Out for delivery',to,at(.82),'']);
+  if(s.st==='delivered')ev.push([`Delivered, received by ${s.name.split(' ')[0]}`,to,s.upd,'ok']);
+  if(s.st==='failed'){ev.push([`Delivery attempt ${s.tries} failed: ${WHY[s.why]||WHY.nothome}`,to,s.upd,'warn']);if(PS.boost&&s.pay==='cod')ev.push([`Delivery Boost: FLIK asked ${s.name.split(' ')[0]} on WhatsApp for a good time. ${rp(boostFee(s))} if it's delivered`,to,new Date(s.upd.getTime()+10*60000),''])}
+  if(s.st==='returning'||s.st==='returned')ev.push(['Delivery attempt 2 failed: customer refused the parcel',to,at(.88),'warn'],['Return started',to,at(.92),'warn']);
+  if(s.st==='returned')ev.push(['Returned to sender',from,s.upd,'bad']);if(s.st==='lost')ev.push(['Reported lost at the sorting hub',to,s.upd,'bad']);
+  return ev.reverse()}
+function openShipment(id){drawer.classList.remove('chat');const s=SH.find(x=>x.id===id);if(!s)return;const is=issueOf(s),m=monOf(s),t=s.tk&&TK.find(k=>k.id===s.tk),open=is&&rstate(s)==='open';
+  /* the same panel as a payment in Transactions: headline, one line of context, actions, notes, then sections */
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('truck',15)}Shipment</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b class="mono">${s.awb||'AWB after pickup'}</b><span class="st ${SST3[s.st][1]}">${SST3[s.st][0]}</span></div>
+    <p class="d-sub">${cName(s.k)} ${SERVICES[s.svc][1]} · batch ${s.batch} · ${fdateY(s.created)}</p>
+    <div class="d-acts">${open?`<button class="btn btn-o" data-act="${s.id}" data-a="${is.act}">${TKT[is.act][1]}</button>`:''}${s.awb?`<button class="btn btn-o" data-copy="${s.awb}">${ic('copy',15)}Copy AWB</button>`:''}${s.st==='pickup'?`<button class="btn btn-o" data-plabel="${s.id}">${ic('doc',15)}Print label</button>`:''}${open?`<button class="btn btn-o d-more" data-dmore aria-label="Other actions" aria-haspopup="menu">${ic('dots',16)}</button>`:''}</div>
+    ${open?`<div class="sx-note ${m==='problem'?'bad':''}">${ic('warn',16)}<span><b>${esc(is.t)}.</b> ${esc(is.next)}</span></div>`:''}
+    ${t?`<div class="sx-note info">${ic('ticket',16)}<span>Ticket ${t.id} · ${TKT[t.type][0]} · ${TKST[tkSt(t)][0]}</span><button class="lnk" data-tk="${t.id}">View ticket</button></div>`:''}
+    <div class="dsec"><h5>Tracking history</h5><div class="tl">${timeline(s).map(e=>`<div class="tli ${e[3]}"><i>${e[3]==='ok'?ic('check',11,3):''}</i><div><b>${e[0]}</b><span>${e[1]} · ${fdateY(e[2])}</span></div></div>`).join('')}</div>
+    ${s.st==='delivered'||s.st==='returned'?`<div class="d-acts" style="margin-top:12px"><button class="btn btn-o" data-podm="photo">${ic('pkg',15)}Proof photo</button><button class="btn btn-o" data-podm="sign">${ic('doc',15)}Signature</button></div>`:''}</div>
+    <div class="dsec"><h5>Shipment details</h5><dl class="kv"><dt>Monitoring</dt><dd><span class="st ${MON3[m][1]==='or'?'warn':MON3[m][1]}">${MON3[m][0]}</span></dd><dt>Courier</dt><dd><div class="pm">${cLogo(s.k)}<span>${cName(s.k)} ${SERVICES[s.svc][1]}</span></div></dd><dt>Pickup from</dt><dd>${esc((whByCode(s.wh)||{}).n||s.wh)} · ${s.wh}</dd><dt>Product</dt><dd>${esc(s.items)} ×${s.qty} · ${s.kg} kg</dd><dt>Payment</dt><dd>${s.pay==='cod'?`COD · ${rp(s.val)}`:`Non-COD · goods ${rp(s.val)}`}</dd><dt>Shipping</dt><dd class="num">${rp(s.cost)}${s.codFee?` · COD fee ${rp(s.codFee)}`:''}</dd></dl></div>
+    <div class="dsec"><h5>Customer</h5><dl class="kv"><dt>Name</dt><dd>${esc(s.name)}</dd><dt>WhatsApp</dt><dd>${fphone(s.phone)}</dd><dt>Address</dt><dd>${esc(s.street)}, ${esc(areaTx(s.area))}, ${esc(s.area.prov)} ${s.area.zip}</dd><dt>Customer score</dt><dd>${(sc=>`<span class="st ${sc.cls}" data-tip="${esc(sc.why)}">${sc.score} · ${sc.band}</span>`)(shopperScore(s.phone,s.area))}</dd></dl></div>
+</div>`;
+  openDrawer();drawer.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{try{navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy)}catch(e){}toast(`Copied ${b.dataset.copy}`)});const pl=drawer.querySelector('[data-plabel]');if(pl)pl.onclick=()=>printLabels([s],'drawer');
+  drawer.querySelectorAll('[data-podm]').forEach(b=>b.onclick=()=>{const e=timeline(s)[0];podModal({awb:s.awb,k:s.k,ret:s.st==='returned',who:s.st==='returned'?((whByCode(s.wh)||{}).n||s.wh):s.name.split(' ')[0],where:e[1],at:fdateY(e[2])},b.dataset.podm)});
+  const mo=drawer.querySelector('[data-dmore]');if(mo)mo.onclick=e=>{e.stopPropagation();if(popFor===mo){closePop();return}popFor=mo;pop.classList.add('in-d');
+    pop.innerHTML=`<div class="menu">${['claim','support','customer'].filter(a=>a!==is.act).map(a=>`<button class="opt" data-pa="${a}">${ic(a==='claim'?'shield':a==='support'?'chat2':'phone2',15)}${TKT[a][1]}</button>`).join('')}</div>`;
+    pop.querySelectorAll('[data-pa]').forEach(o=>o.onclick=()=>{closePop();actionModal(s.id,o.dataset.pa)});placePop(mo,false)};track('shipment_opened',{monitoring:m})}
+/* ---- Actions → tickets ---- */
+function ndrModal(id){const s=SH.find(x=>x.id===id),left=Math.max(1,3-s.tries);let how='again',wa=true,when='next',h='',ph='';
+  /* the reattempt pop-up from our pieces: the payment card at the top, SegmentedControl, FormField, ChoicePills (pickup slots), Checkbox row, note */
+  const draw=()=>{modal.classList.add('md');modal.innerHTML=`<div class="mh"><h3>Delivery failed</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="rf-pay nd-card">${cLogo(s.k)}<div class="nd-tx"><b><span class="mono">${s.awb}</span> · ${esc(s.name)}</b><span>${cName(s.k)} · ${esc(s.area.kec)}, ${esc(s.area.city)}</span></div><span class="st ${s.tries>=2?'bad':'warn'}">Attempt ${s.tries} failed</span></div>
+    ${left===1?`<div class="sx-note bad">${ic('warn',16)}<span>This is the last attempt. If it fails, the parcel comes back and you pay shipping both ways.</span></div>`:`<p class="bk-mp">${cName(s.k)} tried ${s.tries===1?'once':s.tries+' times'}; ${left} attempts left before it comes back to you. FLIK sends your answer to ${cName(s.k)} before the next attempt.</p>`}
+    <div class="seg nd-seg" role="tablist" aria-label="What to do"><button class="${how==='again'?'on':''}" data-how2="again" role="tab" aria-selected="${how==='again'}">Try again</button><button class="${how==='ret'?'on':''}" data-how2="ret" role="tab" aria-selected="${how==='ret'}">Return to me</button></div>
+    ${how==='again'?`<div class="fld"><label for="nd-h">House number or landmark</label><input id="nd-h" value="${esc(h)}" placeholder="No. 19, green gate next to the mosque"></div>
+    <div class="fld"><label for="nd-p">Other phone number (optional)</label><div class="pre"><em>+62</em><input id="nd-p" value="${esc(ph)}" placeholder="812-3456-7890" inputmode="numeric"></div></div>
+    <div class="fld"><label id="nd-wl">When</label><div class="sx-slots" role="radiogroup" aria-labelledby="nd-wl">${[['next','Next attempt'],['tomorrow','Tomorrow']].map(([k,l])=>`<button type="button" class="${when===k?'on':''}" data-when="${k}" role="radio" aria-checked="${when===k}">${l}</button>`).join('')}</div></div>
+    <button class="ie-chk ws-c" id="nd-wa" role="checkbox" aria-checked="${wa}"><span class="cb${wa?' on':''}">${wa?ic('check',12,3):''}</span><span><b>Also ask the customer for a good time</b><span class="src">FLIK sends a WhatsApp for ${MERCHANT}.</span></span></button>
+    <p class="hint nd-hint">The courier can change the house number, landmark and phone. A new kecamatan, city or postcode needs a new shipment.</p>`
+    :`<div class="sx-note">${ic('warn',16)}<span>The parcel comes back to ${esc((whByCode(s.wh)||{}).n||s.wh)}. Return shipping is charged from your balance and the COD isn't collected.</span></div>`}</div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="nd-go">${how==='again'?'Send to courier':'Return to me'}</button></div>`;
+  modal.querySelectorAll('[data-how2]').forEach(b=>b.onclick=()=>{how=b.dataset.how2;draw()});
+  modal.querySelectorAll('[data-when]').forEach(b=>b.onclick=()=>{when=b.dataset.when;draw()});
+  const hi=document.getElementById('nd-h'),pi=document.getElementById('nd-p'),c=document.getElementById('nd-wa');if(hi)hi.oninput=()=>{h=hi.value};if(pi)pi.oninput=()=>{ph=pi.value};if(c)c.onclick=()=>{wa=!wa;draw()};
+  document.getElementById('nd-go').onclick=()=>{
+    const note=how==='again'?`Please try delivering again${when==='tomorrow'?' tomorrow':''}.${h?' House number or landmark: '+h+'.':''}${ph?' Other phone: +62 '+ph+'.':''}`:'Please return this parcel to me.';
+    const t=addTicket(s,'support','Merchant',NOW,note);if(how==='again'&&wa)t.chat.push({from:'sys',text:'WhatsApp sent to '+s.name.split(' ')[0]+' from FLIK, asking for a good time',at:NOW});
+    track('ndr_action',{action:how==='again'?'reattempt':'return',attempt:s.tries,whatsapp:how==='again'&&wa,critical:s.tries>=2});closeModal();renderMon();toast(`${t.id} created. ${how==='again'?`Sent to ${cName(s.k)} for the next attempt`:'Return requested'}. Follow it in Tickets`)}};
+  draw();mscrim.classList.add('open')}
+/* Create a ticket from the Tickets tab: find the shipment, pick what you need, then the same form as the Needs resolving actions (27 Oct) */
+function ticketModal(){const C={sid:null,type:'support',q:''},done=s=>['delivered','returned','lost'].includes(s.st);modal.classList.add('nw');
+  const TYP=[['support','Ask FLIK support','Chase the courier, reschedule the pickup, change the address, or hold and return the parcel.'],['customer','Contact the customer','FLIK sends the customer a WhatsApp from its number for you.'],['claim','File a claim','A parcel lost, damaged, returned without your confirmation, or delivered late.']];
+  const ex=()=>{const f=fn=>SH.find(fn);return[['Still on the way',f(s=>['transit','picked','ofd'].includes(s.st)&&!s.tk)],['Past SLA',f(s=>monOf(s)==='delayed'&&!s.tk)],['Failed delivery',f(s=>s.st==='failed'&&!s.tk)],['Just delivered',f(s=>s.st==='delivered'&&(NOW-s.upd)/DAY<=2)]].filter(x=>x[1])};
+  const res=v=>{v=v.trim().toUpperCase();if(v.length<4)return'';const l=SH.filter(s=>s.awb&&s.awb.includes(v)).slice(0,5);
+    return l.length?`<div class="cl-res">${l.map(s=>`<button class="opt" data-tkpick="${s.id}">${cLogo(s.k)}<span class="mono">${s.awb}</span><span class="src">${esc(s.area.city)}</span>${stPill3(s.st)}</button>`).join('')}</div>`:'<p class="sec-sub">No shipment with that AWB.</p>'};
+  const draw=()=>{const s=C.sid&&SH.find(x=>x.id===C.sid);if(s&&C.type==='customer'&&done(s))C.type='support';
+    modal.innerHTML=`<div class="mh"><h3>Create a ticket</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb">${s?`<div class="rf-pay nd-card">${cLogo(s.k)}<div class="nd-tx"><b><span class="mono">${s.awb||'—'}</span> · ${esc(s.name)}</b><span>${cName(s.k)} ${SERVICES[s.svc][1]} · ${esc(s.area.city)}</span></div>${stPill3(s.st)}<button class="lnk" id="tkm-chg">Change</button></div>
+      <div class="fld"><label id="tkm-wl">What do you need</label><div class="cl-rl" role="radiogroup" aria-labelledby="tkm-wl">${TYP.map(([k,l,d])=>{const off=k==='customer'&&done(s);return`<button class="ie-r" data-tkt="${k}" role="radio" aria-checked="${C.type===k}" ${off?'disabled':''}><span class="rdo${C.type===k?' on':''}"></span><div><b>${l}</b><span class="d">${d}</span></div>${off?'<span class="st gr">Not needed</span>':''}</button>`}).join('')}</div></div>`
+    :`<div class="fld"><label for="tkm-q">Tracking number (AWB)</label><input id="tkm-q" placeholder="Type or paste an AWB" value="${esc(C.q)}" autocomplete="off"></div><div id="tkm-res">${res(C.q)}</div>
+      <div class="fld"><label>Try a case</label><div class="cl-ex">${ex().map(([l,x])=>`<button class="chip" data-tkpick="${x.id}">${l}</button>`).join('')}</div></div>`}</div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="tkm-next" ${s?'':'disabled'}>Continue</button></div>`;
+    mscrim.classList.add('open');
+    const q=document.getElementById('tkm-q');if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);q.oninput=()=>{C.q=q.value;document.getElementById('tkm-res').innerHTML=res(C.q)}}};
+  modal.onclick=e=>{const t=e.target.closest('button');if(!t)return;
+    if(t.dataset.tkpick){C.sid=t.dataset.tkpick;draw();return}
+    if(t.id==='tkm-chg'){C.sid=null;draw();return}
+    if(t.dataset.tkt){C.type=t.dataset.tkt;draw();return}
+    if(t.id==='tkm-next'&&C.sid){modal.onclick=null;track('ticket_started',{type:C.type,from:'tickets'});C.type==='claim'?claimModal(C.sid):actionModal(C.sid,C.type)}};
+  draw()}
+function actionModal(id,type){if(type==='claim'){claimModal(id);return}const s=SH.find(x=>x.id===id),is=issueOf(s)||{t:''};let note='';
+  const def=s.st==='returned'||s.st==='returning'?'ret':'lost';
+  const body=type==='claim'?`<div class="fld"><label for="tk-c">Claim category</label><span class="sp-sw rf-sw"><select id="tk-c" class="rf-sel">${Object.entries(CLCAT).map(([k,v])=>`<option value="${k}"${k===def?' selected':''}>${v[0]}</option>`).join('')}</select></span><span class="src" id="tk-cs" style="margin-top:6px">${CLCAT[def][1]}</span></div><div class="fld"><label for="tk-v">Claim value</label><div class="pre"><em>Rp</em><input id="tk-v" value="${clAmount(s,def).toLocaleString('id-ID')}"></div></div><div class="fld"><label>Proof</label><button class="vf-up" data-toast="Opens file picker">${ic('upload',16)}Add photos or the invoice</button></div>`
+    :type==='support'?`<div class="fld"><label for="tk-r">What should FLIK do</label><span class="sp-sw rf-sw"><select id="tk-r" class="rf-sel"><option>Chase the courier for an update</option><option>Reschedule the pickup</option><option>Change the delivery address</option><option>Hold and return the parcel</option></select></span></div>`
+    :`<div class="fld"><label>To</label><div class="tk-to">${ic('chat2',16)}<span><b>${esc(s.name)}</b> · ${fphone(s.phone)} · WhatsApp from FLIK</span></div></div><div class="fld"><label for="tk-m">Message</label><textarea id="tk-m" rows="5">Halo ${esc(s.name.split(' ')[0])}, ini Aruna Studio. Kurir ${cName(s.k)} belum berhasil mengantar paket Anda (${s.awb}). Boleh konfirmasi alamat dan waktu yang pas untuk pengantaran? Terima kasih.</textarea></div>`;
+  modal.innerHTML=`<div class="mh"><h3>${TKT[type][1]}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="tk-s">${cLogo(s.k)}<span><b class="mono">${s.awb||'—'}</b> · ${esc(is.t)}</span>${monPill(monOf(s))}</div>${body}<div class="fld"><label for="tk-n">Note ${type==='customer'?'(internal)':''}</label><input id="tk-n" placeholder="Optional"></div></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="tk-go">${type==='customer'?'Send on WhatsApp':type==='claim'?'File claim':'Send to FLIK support'}</button></div>`;
+  mscrim.classList.add('open');
+  const cs=document.getElementById('tk-c');if(cs)cs.onchange=()=>{document.getElementById('tk-cs').textContent=CLCAT[cs.value][1];document.getElementById('tk-v').value=clAmount(s,cs.value).toLocaleString('id-ID')};
+  document.getElementById('tk-go').onclick=async()=>{note=document.getElementById('tk-n').value;const r=document.getElementById('tk-r')||(cs&&{value:CLCAT[cs.value][0]});
+    if(cs){const c=addClaim(s,cs.value);track('claim_filed',{category:cs.value,courier:s.k})}await FLIK.api.createTicket({awb:s.awb,type,reason:r?r.value:'',note});
+    const t=addTicket(s,type,'Merchant',NOW,(r?r.value+'. ':'')+note);closeModal();closeDetail();track('issue_action_taken',{action:type,monitoring:monOf(s)});
+    toast(`${t.id} created. Follow it in Tickets`);renderMon();if(type!=='claim')ticketDrawer(t.id)}}
+/* a ticket opens as a chat with FLIK support, like Intercom; FLIK and the courier's team answer from FLIK's ticketing platform */
+function chatHtml(t,s){const who=m=>m.from==='me'?['You','']:m.from==='flik'?AGENT.flik:AGENT.k(s.k);
+  return t.chat.map(m=>m.from==='sys'?`<div class="ch-sys">${esc(m.text)} · ${fdateY(m.at)}</div>`:`<div class="ch-m ${m.from==='me'?'me':'them'}">${m.from==='me'?'':`<span class="ch-av ${m.from}">${m.from==='flik'?'F':cLogo(s.k)}</span>`}<div><em>${who(m)[0]}${who(m)[1]?` · ${who(m)[1]}`:''}</em><span>${esc(m.text)}</span><small>${ago(m.at)}</small></div></div>`).join('')}
+function ticketDrawer(id){const t=TK.find(k=>k.id===id),s=SH.find(x=>x.id===t.sid);if(t.claim){claimDrawer(t.claim);return}
+  drawer.classList.add('chat');
+  const st=tkSt(t);
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('ticket',15)}Ticket</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db ch-body" id="ch-body"><div class="d-amt"><b class="mono">${t.id}</b><span class="st ${TKST[st][1]}">${TKST[st][0]}</span></div>
+    <p class="d-sub">${TKT[t.type][0]} · ${esc(tkSubj(t))} · opened ${fdateY(t.created)}</p>
+    <div class="d-acts"><button class="btn btn-o" data-sid2="${s.id}">${ic('truck',15)}View shipment</button><button class="btn btn-o" data-copy="${t.id}">${ic('copy',15)}Copy ID</button></div>
+    ${st!=='resolved'?`<div class="sx-note info">${ic('clock',16)}<span>FLIK support and ${cName(s.k)} usually reply within an hour, 08:00–21:00.</span></div>`:''}
+    <div class="dsec ch-sec"><h5>Conversation</h5><button class="ib ch-big" data-chbig aria-label="Open the conversation in a bigger window" data-tip="Bigger window">${ic('expand',16)}</button><div class="ch-conv">${chatHtml(t,s)}</div></div>
+    <div class="dsec"><h5>Status history</h5><div class="tl">${t.log.map((l,i)=>`<div class="tli ${i===0&&l[2]==='resolved'?'ok':''}"><i>${i===0&&l[2]==='resolved'?ic('check',11,3):''}</i><div><b>${esc(l[0])}</b><span>${fdateY(l[1])}</span></div></div>`).join('')}</div></div>
+    <div class="dsec"><h5>Ticket details</h5><dl class="kv"><dt>Type</dt><dd>${TKT[t.type][0]}</dd><dt>Monitoring status</dt><dd>${monPill(t.cat)}</dd><dt>Courier</dt><dd><div class="pm">${cLogo(s.k)}<span>${cName(s.k)} ${SERVICES[s.svc][1]}</span></div></dd><dt>AWB</dt><dd class="mono">${s.awb||'AWB after pickup'}</dd><dt>Customer</dt><dd>${esc(s.name)} · ${esc(s.area.kec)}, ${esc(s.area.city)}</dd><dt>Opened by</dt><dd>${esc(t.by||'Merchant')}</dd></dl></div>
+  </div>
+  ${t.st==='resolved'?`<div class="ch-closed">This ticket is resolved. <button class="lnk" data-tkre>Reopen</button></div>`:`<div class="ch-in"><textarea id="ch-t" rows="2" placeholder="Write a message to FLIK support"></textarea><div class="ch-acts"><button class="ib" data-toast="Opens file picker" aria-label="Attach">${ic('upload',16)}</button><span class="sp"></span><button class="btn btn-o sm-b" id="ch-sim" title="Prototype">${cName(s.k)} replies</button><button class="btn btn-o sm-b" id="tk-sim" title="Prototype">${s.st==='returning'?'Parcel returned':'Courier delivers'}</button><button class="btn btn-p" id="ch-send">Send</button></div></div>`}`;
+  openDrawer();track('ticket_opened',{type:t.type,status:t.st});
+  drawer.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{try{navigator.clipboard&&navigator.clipboard.writeText(b.dataset.copy)}catch(e){}toast(`Copied ${b.dataset.copy}`)});
+  const redraw=()=>{ticketDrawer(id);renderMon();chatBigSync(t,s)};
+  drawer.querySelector('[data-chbig]').onclick=()=>chatBig(t,s);
+  const send=document.getElementById('ch-send');if(send){const ta=document.getElementById('ch-t');
+    ta.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send.click()}};
+    send.onclick=()=>{const v=ta.value.trim();if(!v)return;t.chat.push({from:'me',text:v,at:new Date()});track('ticket_message_sent',{type:t.type});ticketDrawer(id);chatBigSync(t,s);
+      /* prototype: FLIK support picks it up */
+      setTimeout(()=>{if(!drawer.classList.contains('open'))return;if(t.st==='open'){t.st='progress';t.log.unshift(['FLIK support picked it up',new Date(),'progress'])}
+        agentSay(t,'flik',`Thanks! I've passed this to ${cName(s.k)} and will update you here as soon as they reply.`,new Date());if(document.getElementById('ch-body'))redraw()},1800)}}
+  const cs=document.getElementById('ch-sim');if(cs)cs.onclick=()=>{if(t.st==='open'){t.st='progress';t.log.unshift(['FLIK support picked it up',new Date(),'progress'])}
+    agentSay(t,'3pl',s.st==='returning'?'The customer refused the parcel, so it is on its way back to your warehouse.':'We checked with our hub: the parcel is out for delivery today.',new Date());redraw()};
+  const b=document.getElementById('tk-sim');if(b)b.onclick=()=>{s.st=s.st==='returning'?'returned':'delivered';s.upd=new Date(NOW.getTime()+5*60000);t.st='resolved';
+    t.log.unshift([s.st==='delivered'?`${cName(s.k)}: delivered. Ticket closed`:'Returned to sender. Ticket closed',s.upd,'resolved']);agentSay(t,'sys',s.st==='delivered'?'Delivered. Ticket closed':'Returned to sender. Ticket closed',new Date());toast(`${t.id} resolved: the shipment is safe`);redraw()};
+  const re=drawer.querySelector('[data-tkre]');if(re)re.onclick=()=>{t.st='open';t.log.unshift(['Reopened by you',new Date(),'open']);agentSay(t,'sys','Reopened',new Date());redraw()}}
+/* the conversation in a bigger window (Modal, wide); it sends through the side panel's box so both stay in step */
+function chatBig(t,s){const res=tkSt(t)==='resolved';modal.classList.add('wide');
+  modal.innerHTML=`<div class="mh"><h3>${t.id} · ${esc(tkSubj(t))}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb ch-mb" id="chm-mb"><div class="ch-conv big" id="chm-conv">${chatHtml(t,s)}</div></div>
+  ${res?`<div class="ch-closed">This ticket is resolved. Reopen it from the side panel to send a message.</div>`:`<div class="ch-in"><textarea id="chm-t" rows="3" placeholder="Write a message to FLIK support" aria-label="Message"></textarea><div class="ch-acts"><button class="ib" data-toast="Opens file picker" aria-label="Attach">${ic('upload',16)}</button><span class="sp"></span><button class="btn btn-p" id="chm-send">Send</button></div></div>`}`;
+  mscrim.classList.add('open');const mb=document.getElementById('chm-mb');mb.scrollTop=mb.scrollHeight;track('ticket_chat_expanded',{type:t.type});
+  const ta=document.getElementById('chm-t'),go=document.getElementById('chm-send');if(!ta)return;ta.focus();
+  ta.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go.click()}};
+  go.onclick=()=>{const v=ta.value.trim(),dt=document.getElementById('ch-t'),ds=document.getElementById('ch-send');if(!v||!dt||!ds)return;dt.value=v;ds.click();ta.value='';ta.focus()}}
+function chatBigSync(t,s){const c=document.getElementById('chm-conv');if(!c||!mscrim.classList.contains('open'))return;c.innerHTML=chatHtml(t,s);const mb=document.getElementById('chm-mb');mb.scrollTop=mb.scrollHeight}
+const tstepHtml=t=>stepper(['open','progress','resolved'],TKST,t.st);
+
+/* ---- events ---- */
+document.getElementById('view-mon').addEventListener('click',e=>{const t=e.target.closest('button,tr,select');if(!t)return;const d=t.dataset;
+  if(t.tagName==='SELECT')return;
+  if(d.mt){MS.tab=d.mt;renderMon();return}
+  if(d.fc){e.stopPropagation();fpop(t,d.fc);return}
+  if('fclear' in d){MS.f={wh:'',k:'',pay:''};renderMon();return}
+  if(d.bt){MS.open.has(d.bt)?MS.open.delete(d.bt):MS.open.add(d.bt);track('batch_expanded',{});renderMon();return}
+  if('allb' in d){MS.allB=!MS.allB;renderMon();return}
+  if('alld' in d){MS.allD=!MS.allD;renderMon();return}
+  if(d.allr){MS.allR=MS.allR||{};MS.allR[d.allr]=!MS.allR[d.allr];renderMon();return}
+  if(d.ndrgo){e.stopPropagation();ndrModal(d.ndrgo);return}
+  if(d.act){e.stopPropagation();actionModal(d.act,d.a);return}
+  if(d.actm){e.stopPropagation();if(popFor===t){closePop();return}popFor=t;const s=SH.find(x=>x.id===d.actm);
+    pop.innerHTML=`<div class="menu">${['claim','support','customer'].map(a=>`<button class="opt" data-pa="${a}">${ic(a==='claim'?'shield':a==='support'?'chat2':'phone2',15)}${TKT[a][1]}</button>`).join('')}<button class="opt" data-pa="open">${ic('ext',15)}Open shipment</button></div>`;
+    pop.querySelectorAll('[data-pa]').forEach(o=>o.onclick=()=>{closePop();o.dataset.pa==='open'?openShipment(s.id):actionModal(s.id,o.dataset.pa)});placePop(t,true);return}
+  if(d.tk){e.stopPropagation();ticketDrawer(d.tk);return}
+  if(d.wasim){e.stopPropagation();waAct(PEND.find(p=>p.id===d.wasim),'ya');return}
+  if(d.waship){e.stopPropagation();waAct(PEND.find(p=>p.id===d.waship),'ship');return}
+  if(d.wam){e.stopPropagation();if(popFor===t){closePop();return}popFor=t;const p=PEND.find(x=>x.id===d.wam);
+    pop.innerHTML=p.st==='later'?`<div class="menu"><button class="opt" data-pw="sendwa">${ic('chat2',15)}Confirm on WhatsApp</button><button class="opt" data-pw="sendpay">${ic('wallet',15)}Send a payment link</button><button class="opt" data-pw="cancel">${ic('x',15)}Cancel order</button><button class="opt" data-pw="open">${ic('ext',15)}Open</button></div>`
+      :`<div class="menu"><button class="opt" data-pw="ship">${ic('truck',15)}Ship now without waiting</button>${p.resent?'':`<button class="opt" data-pw="resend">${ic('chat2',15)}Send again</button>`}<button class="opt" data-pw="cancel">${ic('x',15)}Cancel order</button><button class="opt" data-pw="batal">${ic('chat2',15)}Customer cancels (prototype)</button><button class="opt" data-pw="open">${ic('ext',15)}Open</button></div>`;
+    pop.querySelectorAll('[data-pw]').forEach(o=>o.onclick=()=>{closePop();o.dataset.pw==='open'?waDrawer(p.id):waAct(p,o.dataset.pw)});placePop(t,true);return}
+  if(d.wa){waDrawer(d.wa);return}
+  if(d.cl){claimDrawer(d.cl);return}
+  if('clnew' in d){claimModal();return}
+  if('tknew' in d){ticketModal();return}
+  if('clcat' in d){MS.cl.cat=MS.cl.cat===d.clcat?'':d.clcat;renderMon();return}
+  if('clst' in d){MS.cl.st=d.clst;renderMon();return}
+  if('tkst' in d){(MS.tk||(MS.tk={st:'',cat:''})).st=d.tkst;renderMon();return}
+  if('tkcat' in d){MS.tk.cat='';renderMon();return}
+  if(d.ha){MS.hArea=d.ha;renderMon();return}
+  if(d.lpg){FT().pg+=+d.lpg;renderMon();return}
+  if(t.id==='ms-state'){e.stopPropagation();if(popFor===t){closePop();return}popFor=t;const cur=MS.lsc||'normal';
+    pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${LSC.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${cur===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{closePop();lscSet(o.dataset.v)});placePop(t,true);return}
+  if(d.lsc){lscSet(d.lsc);return}
+  if('lclr' in d){const L=FT();L.q='';L.days=0;fkeys().filter(k=>k!=='days').forEach(k=>mfSet(k).length=0);L.pg=0;if(MS.lsc==='nomatch')MS.lsc='normal';renderMon();return}
+  /* labels: per row, the selected rows, or a whole batch (one 10×10 cm label per parcel) */
+  if(d.lsel){e.stopPropagation();const S=MS.l.sel;S.has(d.lsel)?S.delete(d.lsel):S.add(d.lsel);renderMon();return}
+  if('lselall' in d){const L=MS.l,pg=listRows(msBase()).slice(L.pg*PERL,L.pg*PERL+PERL).filter(s=>s.awb),on=pg.every(s=>L.sel.has(s.id));pg.forEach(s=>on?L.sel.delete(s.id):L.sel.add(s.id));renderMon();return}
+  if('prclr' in d){MS.l.sel.clear();renderMon();return}
+  if(d.prs){e.stopPropagation();printLabels([SH.find(s=>s.id===d.prs)],'row');return}
+  if('prsel' in d){printLabels(SH.filter(s=>MS.l.sel.has(s.id)),'selected');MS.l.sel.clear();renderMon();return}
+  if(d.prbt){e.stopPropagation();printLabels(SH.filter(s=>s.batch===d.prbt&&s.awb),'batch');return}
+  if('prb' in d){e.stopPropagation();if(popFor===t){closePop();return}popFor=t;const B=BATCH.filter(b=>SH.some(s=>s.batch===b.id&&s.awb&&s.st==='pickup')).slice(0,12);
+    pop.innerHTML=`<div class="menu" style="width:300px"><h6>Batches waiting for pickup</h6>${B.length?B.map(b=>{const n=SH.filter(s=>s.batch===b.id&&s.awb).length;return`<button class="opt" data-pbt="${b.id}">${cLogo(b.k)}<span style="flex:1"><b class="mono">${b.id}</b><span class="src" style="display:block">${esc((whByCode(b.wh)||{n:b.wh}).n)} · ${fdate(b.created)}</span></span><span class="num">${plural(n,'label')}</span></button>`}).join(''):'<p class="src" style="padding:4px 10px 8px">No batch is waiting for pickup</p>'}</div>`;
+    pop.querySelectorAll('[data-pbt]').forEach(o=>o.onclick=()=>{closePop();printLabels(SH.filter(s=>s.batch===o.dataset.pbt&&s.awb),'batch')});placePop(t,true);return}
+  if(d.sid){openShipment(d.sid)}});
+document.getElementById('view-mon').addEventListener('change',e=>{const k=e.target.dataset.lf;if(k){MS.l[k]=e.target.value;MS.l.pg=0;renderMon()}});
+let msT;document.getElementById('view-mon').addEventListener('input',e=>{if(e.target.id!=='ms-q')return;const F=FT();F.q=e.target.value;F.pg=0;clearTimeout(msT);msT=setTimeout(()=>{renderMon();const q=document.getElementById('ms-q');q.focus();q.setSelectionRange(q.value.length,q.value.length)},250)});
+drawer.addEventListener('click',e=>{const a=e.target.closest('[data-act]');if(a){actionModal(a.dataset.act,a.dataset.a);return}const k=e.target.closest('[data-tk]');if(k){ticketDrawer(k.dataset.tk);return}const s=e.target.closest('[data-sid2]');if(s)openShipment(s.dataset.sid2)});
+
+
+/* ===== Shipping › Check rate: every courier for one route, with discount, success rate and red zones ===== */
+document.querySelector('.main').insertAdjacentHTML('beforeend','<main class="content" id="view-cr" hidden></main>');
+const CR={from:'',to:null,q:'',sug:[],kg:'1',l:'',w:'',h:'',pay:'cod',res:null,sort:'rec',grp:'all'};
+const CR_CITIES=[['c:Jakarta Selatan','Jakarta Selatan'],['c:Kota Bandung','Kota Bandung'],['c:Kota Surabaya','Kota Surabaya'],['c:Kota Semarang','Kota Semarang'],['c:Kota Medan','Kota Medan']];
+const crOrigin=v=>{if(v.startsWith('c:')){const a=AREA.find(x=>x.city===v.slice(2));return{name:a.city,area:a}}const w=whByCode(v);return{name:`${w.n} (${w.code})`,area:whArea(w)}};
+function renderCr(){const el=document.getElementById('view-cr');if(!CR.from)CR.from=defWh()||CR_CITIES[0][0];
+  el.innerHTML=`<div class="ph"><h1>Check rate</h1></div>
+  <section class="card cr-f"><div class="cr-g">
+    <div class="fld"><label for="cr-from">From</label><span class="sp-sw rf-sw"><select id="cr-from" class="rf-sel">${WH.filter(w=>w.active).length?`<optgroup label="Your pickup addresses">${WH.filter(w=>w.active).map(w=>`<option value="${w.code}" ${CR.from===w.code?'selected':''}>${esc(w.n)} · ${w.code}</option>`).join('')}</optgroup>`:''}<optgroup label="Other cities">${CR_CITIES.map(c=>`<option value="${c[0]}" ${CR.from===c[0]?'selected':''}>${c[1]}</option>`).join('')}</optgroup></select></span></div>
+    <div class="fld"><label for="cr-q">To</label><div class="ad-s"><input id="cr-q" value="${esc(CR.q)}" placeholder="City, kecamatan, kelurahan or postcode" autocomplete="off">${CR.sug.length?`<div class="ie-dd">${CR.sug.map((x,k)=>`<button class="opt" data-crs="${k}"><b>${x.kel}, ${x.kec}</b><span>${x.city}, ${x.prov} ${x.zip}</span></button>`).join('')}</div>`:''}</div></div>
+    <div class="fld"><label for="cr-kg">Weight</label><div class="unit"><input id="cr-kg" data-cr="kg" value="${CR.kg}" inputmode="decimal"><em>kg</em></div></div>
+    <div class="fld cr-dims"><label>Size <span class="src">optional</span></label><div class="cr-d">${['l','w','h'].map(k=>`<div class="unit"><input data-cr="${k}" value="${CR[k]}" placeholder="${k==='l'?'L':k==='w'?'W':'H'}" inputmode="numeric" aria-label="${k==='l'?'Length':k==='w'?'Width':'Height'}"><em>cm</em></div>`).join('')}</div></div>
+    <div class="fld"><label>Payment</label><div class="seg sx-seg">${[['cod','COD'],['non','Non-COD']].map(p=>`<button class="${CR.pay===p[0]?'on':''}" data-crp="${p[0]}">${p[1]}</button>`).join('')}</div></div>
+    <div class="fld cr-go"><label>&nbsp;</label><button class="btn btn-p" id="cr-go" ${CR.to?'':'disabled'}>Check rate</button></div></div>
+    ${CR.to?'':`<p class="trk-ex">Try <button class="lnk" data-crex="80113">80113 Denpasar</button>, <button class="lnk" data-crex="Coblong">Coblong, Bandung</button> or <button class="lnk" data-crex="Medan Petisah">Medan Petisah</button>.</p>`}</section>
+  <div id="cr-res">${CR.res?crResults():`<div class="es-cards c3">
+    <section class="es-card"><h3>Every courier in one search</h3><p>Compare JNE, J&amp;T, SiCepat and more on the same route, with your FLIK discount already taken off.</p></section>
+    <section class="es-card"><h3>Success rates for your route</h3><p>See how often each courier really delivers to that kecamatan, from FLIK shipments in the last 90 days.</p></section>
+    <section class="es-card"><h3>Red zones flagged first</h3><p>Couriers that won't take COD there, or don't deliver at all, are marked before you ship.</p></section></div>`}</div>`}
+const crKg=()=>Math.max(+String(CR.kg).replace(',','.')||0,(+CR.l||0)*(+CR.w||0)*(+CR.h||0)/6000);
+async function crRun(){const o=crOrigin(CR.from),kg=crKg();
+  const list=await FLIK.api.rates({from:CR.from.startsWith('c:')?WH_ALL[0].code:CR.from,to:CR.to,kg});
+  const ofs=list.map(r=>({...r,...rateOf(r.i,o.area,CR.to,kg),z:rzOf(r.courier,CR.to)}));
+  CR.res={o,to:CR.to,kg,list:ofs};track('rate_checked',{to_city:CR.to.city,kg:Math.ceil(kg),pay:CR.pay});renderCr()}
+function crResults(){const R=CR.res,blk=r=>r.z==='all'||(r.z==='cod'&&CR.pay==='cod');
+  let L=R.list.filter(r=>CR.grp==='all'||r.group===CR.grp);
+  const ok=R.list.filter(r=>!blk(r)),best=ok.slice().sort((a,b)=>b.sr-a.sr||a.net-b.net)[0],cheap=ok.slice().sort((a,b)=>a.net-b.net)[0],fast=ok.slice().sort((a,b)=>etaMax(SERVICES[a.i])-etaMax(SERVICES[b.i])||a.net-b.net)[0];
+  const sorter={rec:(a,b)=>b.sr-a.sr||a.net-b.net,cheap:(a,b)=>a.net-b.net,fast:(a,b)=>etaMax(SERVICES[a.i])-etaMax(SERVICES[b.i])||a.net-b.net,sr:(a,b)=>b.sr-a.sr}[CR.sort];
+  L=L.filter(r=>!blk(r)).sort(sorter).concat(L.filter(blk).sort(sorter));
+  const zs=z=>z==='all'?'<span class="st bad sm">Not delivered</span>':z==='cod'?'<span class="st bad sm">Red zone</span>':'<span class="st ok sm">Delivers</span>';
+  DL['cr']=()=>['flik-rates-'+R.to.zip,['Courier','Service','Group','Estimate','Published rate','FLIK rate','Discount','Delivery success %','Based on','COD','Non-COD'],L.map(r=>[cName(r.courier),r.service,r.group,r.eta,r.pub,r.net,r.disc,r.sr,r.level==='kecamatan'?`${R.to.kec} (${r.n} shipments)`:`${R.to.city} (city)`,r.z==='all'||r.z==='cod'?'Red zone':'Delivers',r.z==='all'?'Not delivered':'Delivers'])];
+  const reds=R.list.filter(blk).map(r=>r.courier).filter((v,i,a)=>a.indexOf(v)===i);
+  /* one Coverage column: what the courier takes here (StatusBadge, soft in tables) */
+  const cov=z=>z==='all'?'<span class="st bad">Not delivered</span>':z==='cod'?'<span class="st warn">Non-COD only</span>':'<span class="st ok">COD and non-COD</span>';
+  const tag=r=>[r===best&&['Recommended','pu'],r===cheap&&['Cheapest','gr'],r===fast&&['Fastest','gr']].filter(Boolean).map(t=>`<span class="st ${t[1]}">${t[0]}</span>`).join('');
+  return`<div class="mon-h cr-h">${secT(`${plural(ok.length,'service')} to ${esc(R.to.kel)}, ${esc(R.to.kec)}`,`Success rates come from FLIK shipments to ${R.to.kec} over the last 90 days, or ${R.to.city} where there are too few.`)}</div>
+  <p class="sec-sub cr-meta">From ${esc(R.o.name)} · ${R.kg<1?R.kg.toFixed(1):Math.ceil(R.kg).toLocaleString('id-ID')} kg · ${CR.pay==='cod'?'COD':'Non-COD'}</p>
+  ${reds.length?`<div class="sx-note warn cr-note">${ic('warn',16)}<span><b>${reds.map(cName).join(', ')} ${reds.length===1?'doesn’t':'don’t'} deliver${CR.pay==='cod'?' COD':''} here.</b> ${CR.pay==='cod'?'Customers in red zones often refuse or can’t be reached, so the courier won’t take COD.':''}</span></div>`:''}
+  <div class="cr-tabrow"><div class="tabs sm cr-tabs2" role="tablist" aria-label="Service type">${[['all','All'],['reg','Regular'],['exp','Express'],['cargo','Cargo']].map(g=>`<button class="tab${CR.grp===g[0]?' on':''}" data-crg="${g[0]}" role="tab" aria-selected="${CR.grp===g[0]}">${g[1]}<span class="ct">${ok.filter(r=>g[0]==='all'||r.group===g[0]).length}</span></button>`).join('')}</div><div class="fright"><span class="src" id="cr-sl">Sort by</span><div class="seg" role="tablist" aria-labelledby="cr-sl">${[['rec','Recommended'],['cheap','Cheapest'],['fast','Fastest'],['sr','Success rate']].map(g=>`<button class="${CR.sort===g[0]?'on':''}" data-crsort="${g[0]}" role="tab" aria-selected="${CR.sort===g[0]}">${g[1]}</button>`).join('')}</div>${dlBtn('cr')}</div></div>
+  <div class="tbl-wrap"><table class="mt cr-t"><thead><tr><th>Courier</th><th>Estimate</th><th>Rate</th><th>Delivery success</th><th>Coverage</th><th></th></tr></thead><tbody>
+  ${L.map(r=>{const b=blk(r),t=b?'':tag(r);return`<tr class="nohover${b?' off':''}"><td><div class="sx-cl">${cLogo(r.courier)}<span><b>${cName(r.courier)} ${r.service}</b>${t?`<span class="cr-tags">${t}</span>`:''}</span></div></td>
+    <td>${r.eta}<span class="src">${({reg:'Regular',exp:'Express',cargo:'Cargo'})[r.group]}</span></td>
+    <td><b class="num cr-p">${rp(r.net)}</b><span class="src">${r.pub>r.net?`<s class="num">${rp(r.pub)}</s> · save ${Math.round(r.disc/r.pub*100)}%`:'Published rate'}</span></td>
+    <td><span class="cr-srw" tabindex="0" data-tip="${esc(r.level==='kecamatan'?`${fpct(r.sr)} of the ${r.n.toLocaleString('id-ID')} FLIK shipments with ${cName(r.courier)} to ${R.to.kec} in the last 90 days were delivered.`:`Fewer than 45 FLIK shipments with ${cName(r.courier)} went to ${R.to.kec} in the last 90 days, so this is the rate for all of ${R.to.city}: ${fpct(r.sr)} of ${r.n.toLocaleString('id-ID')} shipments delivered.`)}"><b class="num">${fpct(r.sr)}</b><span class="src">${r.level==='kecamatan'?`${r.n.toLocaleString('id-ID')} shipments to ${esc(R.to.kec)}`:`City rate · ${esc(R.to.city)}`}</span></span></td>
+    <td>${cov(r.z)}</td>
+    <td class="r">${b?'':`<button class="btn btn-o" data-crship="${r.i}">Ship</button>`}</td></tr>`}).join('')}</tbody></table></div>`}
+const vCr=document.getElementById('view-cr');
+vCr.addEventListener('input',async e=>{const t=e.target;
+  if(t.id==='cr-q'){CR.q=t.value;CR.to=null;CR.sug=t.value.trim().length>1?await FLIK.api.geocode({query:t.value.trim()}):[];const p=t.selectionStart;renderCr();const n=document.getElementById('cr-q');n.focus();n.setSelectionRange(p,p);return}
+  if(t.dataset.cr){CR[t.dataset.cr]=t.value}});
+vCr.addEventListener('change',e=>{if(e.target.id==='cr-from'){CR.from=e.target.value;if(CR.res)crRun()}});
+vCr.addEventListener('click',async e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;
+  if(d.crs!=null){CR.to=CR.sug[+d.crs];CR.q=areaTx(CR.to);CR.sug=[];crRun();return}
+  if(d.crex){const r=await FLIK.api.geocode({query:d.crex});CR.to=r[0];CR.q=areaTx(CR.to);CR.sug=[];crRun();return}
+  if(d.crp){CR.pay=d.crp;renderCr();return}
+  if(t.id==='cr-go'){crRun();return}
+  if(d.crg){CR.grp=d.crg;renderCr();return}
+  if(d.crsort){CR.sort=d.crsort;renderCr();return}
+  if(d.crship!=null){track('rate_ship_clicked',{courier:SERVICES[+d.crship][0]});go('shipments/create')}});
+
+
+/* ===== Shipping › Analytics: how the merchant's shipments perform, to learn from (Monitoring is for action) ===== */
+/* "What to learn" is the only part written by an LLM. To keep the token cost down it is written once a day per period, the first
+   time the merchant opens Analytics that day, and kept until the next day. The prototype computes the text and keeps it the same way. */
+function learnCache(per,fresh){const day=new Date().toISOString().slice(0,10),key='flik-learn-'+per;let c=null;
+  try{c=JSON.parse(localStorage.getItem(key)||'null')}catch(e){}
+  if(c&&c.day===day)return{...c,fresh:false};
+  c={day,at:new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}),ins:fresh.slice()};
+  try{localStorage.setItem(key,JSON.stringify(c))}catch(e){}track('learn_generated',{period:per,items:c.ins.length});return{...c,fresh:true}}
+document.querySelector('.main').insertAdjacentHTML('beforeend','<main class="content" id="view-ana" hidden></main>');
+const AN={per:'month',m:'ships'};
+const ANP=[['month','This month'],['lmonth','Last month'],['30','Last 30 days'],['90','Last 90 days'],['180','Last 180 days']],anTx=k=>ANP.find(p=>p[0]===k)[1];
+const RREASON=['Customer refused the parcel','Customer not at home','Phone unreachable','Address not found','Customer cancelled the order'];
+const reasonOf=s=>RREASON[[0,0,0,1,1,1,2,2,3,4][hsh(s.id)%10]];
+const ANM={ships:['Shipments',l=>l.length,v=>plural(Math.round(v),'shipment'),v=>Math.round(v)],sr:['Delivery success',l=>srL(l)||0,v=>fpct(v),v=>Math.round(v)+'%'],cost:['Avg shipping cost',l=>l.length?sum(l,s=>s.cost)/l.length:0,v=>rp(Math.round(v)),v=>compact(Math.round(v))]};
+function anStats(l){const f=finL(l),d=l.filter(s=>s.st==='delivered');
+  return{n:l.length,fin:f.length,sr:f.length?pct(d.length,f.length):0,ret:f.length?pct(l.filter(s=>s.st==='returned').length,f.length):0,days:d.length?sum(d,s=>(s.upd-s.created)/DAY)/d.length:0,cost:l.length?sum(l,s=>s.cost)/l.length:0,save:sum(l,s=>s.pub-s.cost),codv:sum(l.filter(s=>s.pay==='cod'&&s.st==='delivered'),s=>s.val)}}
+/* success, returns and days; "Not delivered yet" until a parcel in the group has finished */
+const anCells=(st,b)=>{const w=x=>b?`<b>${x}</b>`:x;return st.fin?`<td class="r num${st.sr<80?' mon-over':''}">${w(fpct(st.sr))}</td><td class="r num">${w(fpct(st.ret))}</td><td class="r num">${w((Math.round(st.days*10)/10).toLocaleString('id-ID'))}</td>`:`<td class="r inv-sub" title="No parcel has been delivered or returned yet">On the way</td><td class="r inv-sub">—</td><td class="r inv-sub">—</td>`};
+function renderAna(){const el=document.getElementById('view-ana');
+  if(!SH.length){el.innerHTML=`<div class="ph"><h1>Shipping analytics</h1></div>`+monEmpty('Insights show up after your first shipments','Delivery success by courier and area, why parcels come back, and what you saved.');return}
+  const R=perRange(AN.per),L=SH.filter(s=>inR(s.created,R.d0,R.d1)),PV=SH.filter(s=>inR(s.created,R.p0,R.p1)),a=anStats(L),b=anStats(PV);
+  const dl=(v,p,pts,inv)=>{if(!PV.length)return'';const d=pts?v-p:p?(v-p)/p*100:0,good=inv?d<=0:d>=0;return`<span class="delta ${good?'up':'down'}">${d>=0?'+':''}${(Math.round(d*10)/10).toLocaleString('id-ID')}${pts?' pts':'%'}</span>`};
+  const T=[['Shipments',a.n.toLocaleString('id-ID'),dl(a.n,b.n)],['Delivery success',fpct(a.sr),dl(a.sr,b.sr,1)],['Return rate',fpct(a.ret),dl(a.ret,b.ret,1,1)],['Days to deliver',(Math.round(a.days*10)/10).toLocaleString('id-ID'),dl(a.days,b.days,0,1)],['Avg shipping cost',rp(Math.round(a.cost)),dl(a.cost,b.cost,0,1)],['Saved with FLIK rates',compact(a.save),'','Against public courier rates']];
+  const cod=anStats(L.filter(s=>s.pay==='cod')),non=anStats(L.filter(s=>s.pay==='non'));
+  const rets=L.filter(s=>s.st==='returned'||s.st==='returning'),rr=Object.entries(by(rets,reasonOf)).sort((x,y)=>y[1].length-x[1].length);
+  const cities=Object.entries(by(L,s=>s.area.city)).map(([c,l])=>[c,l,anStats(l)]).sort((x,y)=>y[1].length-x[1].length).slice(0,8);
+  const cour=COURIERS.map(c=>[c,L.filter(s=>s.k===c.k)]).filter(x=>x[1].length).map(([c,l])=>[c,l,anStats(l)]).sort((x,y)=>y[2].sr-x[2].sr);
+  /* warehouse × courier: how each courier performs from each pickup warehouse */
+  const whc=Object.entries(by(L,s=>s.wh)).map(([w,l])=>[w,l,anStats(l),Object.entries(by(l,s=>s.k)).map(([k,m])=>[k,m,anStats(m)]).sort((x,y)=>y[1].length-x[1].length)]).sort((x,y)=>y[1].length-x[1].length);
+  const whN=w=>(whByCode(w)||{n:w}).n;
+  const bands=[['Safe','ok'],['Watch','warn'],['Risky','bad']].map(([bn,cl])=>{const l=L.filter(s=>s.pay==='cod'&&shopperScore(s.phone,s.area).band===bn);return[bn,cl,l,anStats(l)]});
+  /* insights, computed from the same shipments */
+  const ins=[];
+  const tops=cities.slice(0,6).map(([c,l])=>{const used=Object.entries(by(l,s=>s.k)).sort((x,y)=>y[1].length-x[1].length)[0];const area=l[0].area;const bestK=COURIERS.slice().sort((x,y)=>srOf(y.k,area).sr-srOf(x.k,area).sr)[0];return{c,l,used,bestK,area}}).filter(x=>x.used[0]!==x.bestK.k&&srOf(x.bestK.k,x.area).sr-srL(x.used[1])>=3&&x.used[1].length>=5).sort((x,y)=>y.l.length-x.l.length);
+  if(tops[0]){const t=tops[0];ins.push(['route',`Use ${cName(t.bestK.k)} for ${t.c}`,`${cName(t.used[0])} delivered ${fpct(srL(t.used[1])||0)} of your ${t.used[1].length} parcels there. ${cName(t.bestK.k)} delivers ${fpct(srOf(t.bestK.k,t.area).sr)} in ${t.c} across FLIK. The courier step recommends it automatically.`])}
+  if(cod.n&&non.n)ins.push(['coins','COD comes back more often',`${fpct(cod.ret)} of COD parcels were returned, against ${fpct(non.ret)} for non-COD. Each return costs you the shipping there and back.`]);
+  const rk=bands[2],sf=bands[0];if(rk[2].length>=5)ins.push(['shield','Customer score predicts returns',`COD customers scored Risky were returned ${fpct(rk[3].ret)} of the time, against ${fpct(sf[3].ret)} for Safe ones. Ask Risky customers to pay first, or confirm on WhatsApp before you ship.`]);
+  if(rr[0])ins.push(['chat2',`${rr[0][0]}: the top return reason`,`${fpct(pct(rr[0][1].length,rets.length))} of returns. A WhatsApp confirmation before delivery saves many of them.`]);
+  DL['ana-report']=()=>['flik-shipping-report',SHIP_HEAD.concat(['Return reason','Customer score']),L.map(s=>shipRow(s).concat([s.st==='returned'||s.st==='returning'?reasonOf(s):'',shopperScore(s.phone,s.area).score]))];
+  DL['ana-courier']=()=>['flik-courier-scorecard',['Courier','Shipments','Share %','Delivery success %','Return rate %','Avg days','Avg cost'],cour.map(([c,l,s])=>[c.n,l.length,pct(l.length,L.length),s.sr,s.ret,Math.round(s.days*10)/10,Math.round(s.cost)])];
+  DL['ana-whc']=()=>['flik-warehouse-courier',['Warehouse','Courier','Shipments','Delivery success %','Return rate %','Avg days','Avg cost'],whc.flatMap(([w,l,ws,cs])=>cs.map(([k,m,st])=>[whN(w),cName(k),m.length,st.sr,st.ret,Math.round(st.days*10)/10,Math.round(st.cost)]))];
+  DL['ana-city']=()=>['flik-destinations',['City','Shipments','Delivery success %','Return rate %','Avg days'],cities.map(([c,l,s])=>[c,l.length,s.sr,s.ret,Math.round(s.days*10)/10])];
+  DL['ana-reasons']=()=>['flik-return-reasons',['Reason','Returns','Share %'],rr.map(([r,l])=>[r,l.length,pct(l.length,rets.length)])];
+  const wh=(t,dl,extra='',tip='')=>`<div class="mon-h">${secT(t,tip)}<div class="fright">${extra}${dl?dlBtn(dl):''}</div></div>`;
+  const days=v=>(Math.round(v*10)/10).toLocaleString('id-ID'),best=cour.filter(x=>x[2].fin).length>1?cour[0][0].k:null;
+  const ws=whc.find(x=>x[0]===AN.wh)||whc[0];
+  el.innerHTML=`<div class="ph"><h1>Shipping analytics</h1><div class="ph-acts">${dlBtn('ana-report','Download full report')}</div></div>
+  <div class="filters"><div class="seg">${ANP.map(([k,t])=>`<button class="${AN.per===k?'on':''}" data-and="${k}">${t}</button>`).join('')}</div></div>
+  <div class="bl-tiles mon-tiles">${T.map(t=>`<div class="bl-tile"><span class="kpi-l">${t[0]}</span><div class="kpi-v"><b class="num">${t[1]}</b></div><span class="ex">${t[2]||t[3]||''}</span></div>`).join('')}</div>
+  <div class="an-g">
+    <section class="an-w s2">${wh('Trend','',`<div class="seg">${Object.entries(ANM).map(([k,m])=>`<button class="${AN.m===k?'on':''}" data-anm="${k}">${m[0]}</button>`).join('')}</div>`,'This period against the previous one. Delivery success always runs from 0 to 100%, so a small dip does not look like a fall.')}
+      <div class="chart" id="anchart"></div><div class="w-leg an-leg"><i class="ln"></i>This period <i class="ln dash"></i>Previous period</div></section>
+    <section class="an-w">${(()=>{const c=learnCache(AN.per,ins);ins.length=0;ins.push(...c.ins);return wh('What to learn','','','Written by AI from your shipments. It updates once a day, the first time you open Analytics.')+`<p class="ai-by">Written by AI, ${c.fresh?'just now':`today at ${c.at}`}</p>`})()}${ins.length?`<div class="ins-l">${ins.map(i=>`<div class="ins-i"><span class="qic">${ic(i[0],15,1.6)}</span><div><b>${i[1]}</b><p>${i[2]}</p></div></div>`).join('')}</div>`:'<p class="sec-sub">Nothing stands out in this period.</p>'}</section>
+    <section class="an-w">${wh('COD and non-COD','','','Cash on delivery against parcels paid up front.')}<div class="tbl-wrap"><table class="mt cmp"><thead><tr><th></th><th class="r"><i class="sw" style="background:var(--primary)"></i>COD</th><th class="r"><i class="sw" style="background:var(--ink)"></i>Non-COD</th></tr></thead><tbody>
+      <tr class="nohover"><td>Shipments</td><td class="r num">${cod.n.toLocaleString('id-ID')}</td><td class="r num">${non.n.toLocaleString('id-ID')}</td></tr>
+      <tr class="nohover"><td>Delivery success</td><td class="r num">${fpct(cod.sr)}</td><td class="r num">${fpct(non.sr)}</td></tr>
+      <tr class="nohover"><td>Return rate</td><td class="r num">${fpct(cod.ret)}</td><td class="r num">${fpct(non.ret)}</td></tr>
+      <tr class="nohover"><td>Days to deliver</td><td class="r num">${days(cod.days)}</td><td class="r num">${days(non.days)}</td></tr>
+      <tr class="nohover"><td>Collected</td><td class="r num">${compact(cod.codv)}</td><td class="r num inv-sub">Paid up front</td></tr></tbody></table></div></section>
+    <section class="an-w">${wh('Why parcels come back','ana-reasons','',`${plural(rets.length,'return')} in this period, from the courier's last tracking update.`)}${rr.length?rr.map(([r,l])=>`<div class="hbar"><span>${r}</span><div><i style="width:${pct(l.length,rr[0][1].length)}%"></i></div><b class="num">${l.length}</b><span class="src">${fpct(pct(l.length,rets.length))}</span></div>`).join(''):'<p class="sec-sub">No returns in this period.</p>'}</section>
+    <section class="an-w">${wh('COD by customer score','','','Beta, example data. Legal to confirm the use of phone history.')}<div class="tbl-wrap"><table class="mt cmp"><thead><tr><th>Score</th><th class="r">Parcels</th><th class="r">Success</th><th class="r">Returns</th></tr></thead><tbody>${bands.map(([bn,cl,l,s])=>`<tr class="nohover"><td><span class="st ${cl}">${bn}</span></td><td class="r num">${l.length}</td><td class="r num">${l.length?fpct(s.sr):'—'}</td><td class="r num">${l.length?fpct(s.ret):'—'}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="an-w s2">${wh('Courier scorecard','ana-courier','','Delivery success is delivered as a share of finished shipments. Best marks your top courier; below 80% is shown in red.')}<div class="tbl-wrap"><table class="mt"><thead><tr><th>Courier</th><th class="r">Shipments</th><th class="r">Share</th><th class="r">Delivery success</th><th class="r">Return rate</th><th class="r">Avg days</th><th class="mny">Avg cost</th></tr></thead><tbody>
+      ${cour.map(([c,l,s])=>`<tr class="nohover"><td><div class="sx-cl">${cLogo(c.k)}<span>${c.n}</span>${c.k===best?'<span class="st ok">Best</span>':''}</div></td><td class="r num">${l.length}</td><td class="r num">${fpct(pct(l.length,L.length))}</td>${anCells(s)}<td class="num mny">${rp(Math.round(s.cost))}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="an-w">${wh('Top destinations','ana-city')}<div class="tbl-wrap"><table class="mt cmp"><thead><tr><th>City</th><th class="r">Parcels</th><th class="r">Success</th><th class="r">Returns</th></tr></thead><tbody>${cities.slice(0,7).map(([c,l,s])=>`<tr class="nohover"><td>${esc(c.replace(/^Kota |^Kabupaten /,''))}</td><td class="r num">${l.length}</td><td class="r num">${fpct(s.sr)}</td><td class="r num">${fpct(s.ret)}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="an-w s3">${monPerf(L)}</section>
+    <section class="an-w s3">${wh('Warehouse and courier','ana-whc',whc.length>1?`<div class="seg" role="tablist" aria-label="Warehouse">${whc.map(([w])=>`<button class="${ws[0]===w?'on':''}" data-anw="${esc(w)}" role="tab" aria-selected="${ws[0]===w}">${esc(whN(w))}</button>`).join('')}</div>`:'',"How each courier performs from this pickup warehouse. A low rate here points to that courier's local pickup and sorting, not the courier everywhere.")}<div class="tbl-wrap"><table class="mt"><thead><tr><th>Courier</th><th class="r">Shipments</th><th class="r">Delivery success</th><th class="r">Return rate</th><th class="r">Avg days</th><th class="mny">Avg cost</th></tr></thead><tbody>
+      ${ws[3].map(([k,m,st])=>`<tr class="nohover"><td><div class="sx-cl">${cLogo(k)}<span>${cName(k)}</span></div></td><td class="r num">${m.length}</td>${anCells(st)}<td class="num mny">${rp(Math.round(st.cost))}</td></tr>`).join('')}
+      <tr class="nohover an-tot"><td><b>All couriers</b></td><td class="r num"><b>${ws[1].length}</b></td>${anCells(ws[2],1)}<td class="num mny"><b>${rp(Math.round(ws[2].cost))}</b></td></tr></tbody></table></div></section>
+  </div>`;
+  requestAnimationFrame(drawAnChart);track('analytics_viewed',{period:AN.per})}
+/* delivery success always runs from 0 to 100%, so a small dip doesn't look like a fall */
+function drawAnChart(){const el=document.getElementById('anchart');if(!el)return;const M=ANM[AN.m],R=perRange(AN.per);
+  /* a bucket with no finished parcel has no delivery rate: it carries the last known rate instead of dropping to 0 */
+  const val=(a,b)=>{const l=SH.filter(s=>inR(s.created,a,b));return AN.m==='sr'&&!finL(l).length?null:M[1](l)};
+  const fill=A=>{let last=A.find(v=>v!=null)??0;return A.map(v=>v==null?last:(last=v))};
+  const cv=fill(R.B.map(b=>val(b.a,b.b))),pv=fill(R.B.map((b,i)=>i<R.pn?val(b.pa,b.pb):null));
+  const cur=R.B.map((b,i)=>({l:b.l,tl:b.tl,v:cv[i]})),prev=pv.map(v=>({v}));
+  areaChart(el,cur,prev,{ax:M[3],min:0,max:AN.m==='sr'?100:0,aria:`${M[0]}, ${anTx(AN.per).toLowerCase()}`},M[2])}
+document.getElementById('view-ana').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if(t.dataset.and){AN.per=t.dataset.and;renderAna()}if(t.dataset.anw){AN.wh=t.dataset.anw;renderAna()}if(t.dataset.perf){MS.perf=t.dataset.perf;renderAna()}if(t.dataset.anm){AN.m=t.dataset.anm;renderAna()}});
+addEventListener('resize',()=>{if(!document.getElementById('view-ana').hidden)drawAnChart()});
+
+
+/* helpers the ported pages use from the same prototype's Home and Create shipment */
+const CODFEE=.03,BOOST={pct:.02,min:2000};
+const boostFee=s=>Math.max(BOOST.min,Math.round(s.val*BOOST.pct));
+function areaChart(el,data,prev,fmt,tip){const W=el.clientWidth,Hh=el.clientHeight;if(!W)return;
+  const L=56,R=12,T=12,B=28,iw=W-L-R,ih=Hh-T-B;
+  const mx=Math.max(...data.map(x=>x.v),...prev.map(x=>x.v),0);const nice=v=>{if(v<=0)return 1;const p=Math.pow(10,Math.floor(Math.log10(v)));for(const m of[1,1.2,1.5,2,2.5,3,4,5,6,8,10])if(m*p>=v)return m*p;return 10*p};
+  const max=fmt.max||nice(mx),min=fmt.min||0,ticks=4;
+  const X=i=>L+(data.length===1?iw/2:i*iw/(data.length-1)),Y=v=>T+ih-((v-min)/(max-min))*ih;
+  let g='';for(let i=0;i<=ticks;i++){const v=min+(max-min)*i/ticks,y=Y(v);g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${y}" y2="${y}"/><text class="ax" x="${L-8}" y="${y+4}" text-anchor="end">${fmt.ax(v)}</text>`}
+  const step=Math.ceil(data.length/7);data.forEach((x,i)=>{if(i%step===0||i===data.length-1)g+=`<text class="ax" x="${X(i)}" y="${Hh-6}" text-anchor="middle">${x.l}</text>`});
+  const smooth=pts=>pts.map((p,i)=>{if(!i)return`M${p[0].toFixed(1)},${p[1].toFixed(1)}`;const p0=pts[i-2]||pts[i-1],p1=pts[i-1],p3=pts[i+1]||p;const c1=[p1[0]+(p[0]-p0[0])/6,Math.min(T+ih,p1[1]+(p[1]-p0[1])/6)],c2=[p[0]-(p3[0]-p1[0])/6,Math.min(T+ih,p[1]-(p3[1]-p1[1])/6)];return`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p[0].toFixed(1)},${p[1].toFixed(1)}`}).join(' ');
+  const line=smooth(data.map((x,i)=>[X(i),Y(x.v)])),pline=smooth(prev.map((x,i)=>[X(i),Y(x.v)]));
+  const gid='g'+Math.random().toString(36).slice(2,7);
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${esc(fmt.aria||'')}"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A4BFF" stop-opacity=".18"/><stop offset="1" stop-color="#6A4BFF" stop-opacity="0"/></linearGradient></defs>${g}
+    <path d="${pline}" fill="none" stroke="#C0C8D2" stroke-width="1.5" stroke-dasharray="4 4"/><path d="${line} L${X(data.length-1)},${T+ih} L${X(0)},${T+ih} Z" fill="url(#${gid})"/><path d="${line}" fill="none" stroke="#6A4BFF" stroke-width="2"/>
+    <line class="cur-line" y1="${T}" y2="${T+ih}" style="display:none"/><circle r="4.5" fill="#fff" stroke="#6A4BFF" stroke-width="2" style="display:none"/>
+    <rect x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent"/></svg><div class="tip"></div>`;
+  const svg=el.querySelector('svg'),hit=svg.querySelector('rect:last-of-type'),hl=svg.querySelector('.cur-line'),hp=svg.querySelector('circle'),tp=el.querySelector('.tip');
+  const mv=e=>{const r=el.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;const i=Math.max(0,Math.min(data.length-1,Math.round((x-L)/(iw/Math.max(1,data.length-1)))));const d=data[i],px=X(i),py=Y(d.v);
+    hl.setAttribute('x1',px);hl.setAttribute('x2',px);hl.style.display='';hp.setAttribute('cx',px);hp.setAttribute('cy',py);hp.style.display='';
+    tp.innerHTML=`<b>${tip(d.v)}</b><span>${d.tl||d.l} · prev. ${tip(prev[i]?prev[i].v:0)}</span>`;tp.style.display='block';tp.style.left=Math.max(70,Math.min(W-70,px))+'px';tp.style.top=py+'px'};
+  hit.addEventListener('mousemove',mv);hit.addEventListener('touchstart',mv,{passive:true});hit.addEventListener('mouseleave',()=>{hl.style.display=hp.style.display='none';tp.style.display='none'})}
+
+/* daily buckets up to 30 days, weekly beyond */
+function perRange(k){const t0=new Date(NOW);t0.setHours(0,0,0,0);const t1=new Date(t0.getTime()+DAY);
+  let d0,d1,p0;
+  if(k==='today'){d0=t0;d1=t1;p0=new Date(t0-DAY)}
+  else if(k==='month'){d0=new Date(t0.getFullYear(),t0.getMonth(),1);d1=t1;p0=new Date(t0.getFullYear(),t0.getMonth()-1,1)}
+  else if(k==='lmonth'){d0=new Date(t0.getFullYear(),t0.getMonth()-1,1);d1=new Date(t0.getFullYear(),t0.getMonth(),1);p0=new Date(t0.getFullYear(),t0.getMonth()-2,1)}
+  else{d0=new Date(t1-(+k)*DAY);d1=t1;p0=new Date(d0-(+k)*DAY)}
+  const span=(d1-d0)/DAY,step=k==='today'?2*3600000:span<=31?DAY:7*DAY,n=Math.ceil((d1-d0)/step),pn=Math.min(n,Math.ceil((d0-p0)/step));
+  const B=Array.from({length:n},(_,i)=>{const a=new Date(d0.getTime()+i*step),b=new Date(Math.min(d1,a.getTime()+step));
+    return{a,b,pa:new Date(p0.getTime()+i*step),pb:new Date(p0.getTime()+(i+1)*step),l:k==='today'?`${String(a.getHours()).padStart(2,'0')}:00`:`${a.getDate()} ${MON[a.getMonth()]}`,
+      tl:k==='today'?`${String(a.getHours()).padStart(2,'0')}:00–${String(b.getHours()||24).padStart(2,'0')}:00`:step===DAY?fday(a):`${fday(a)} – ${fday(new Date(b-DAY))}`}});
+  return{d0,d1,p0,p1:new Date(p0.getTime()+(d1-d0)),B,pn,prevTx:k==='today'?'yesterday':k==='month'?'the same days last month':k==='lmonth'?'the month before':`the ${k} days before`}}
+const inR=(d,a,b)=>d>=a&&d<b;
+
+/* ---- WhatsApp to customers: VIP check for risky COD orders and Delivery Boost (defaults, 25 Oct), opened from WhatsApp settings and Delivery Boost ---- */
+const VIP_FEE=500,COD_RESERVE={vip:10000000,std:2000000},WA_CAP=50,WA_PAUSE=.2;
+const waNo=()=>{const L=PEND.filter(p=>p.kind!=='later'&&p.st!=='sent');return{n:L.length,no:L.filter(p=>p.st==='declined').length}};
+if(PS.vip===undefined){PS.vip=true;PS.boost=false;PS.waUsed=12}
+function waSettings(){const r=waNo();modal.classList.add('md');
+  const row=(k,t,d)=>`<button class="ie-chk ws-c" data-ws="${k}" role="checkbox" aria-checked="${!!PS[k]}"><span class="cb${PS[k]?' on':''}">${PS[k]?ic('check',12,3):''}</span><span><b>${t}</b><span class="src">${d}</span></span></button>`;
+  const draw=()=>{modal.innerHTML=`<div class="mh"><h3>WhatsApp to customers</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb">${row('vip','Confirm risky customers',`Ask a Risky COD customer to confirm or pay on WhatsApp before you ship. ${rp(VIP_FEE)} more platform fee per shipment, and your COD reserve goes from ${rp(COD_RESERVE.std)} to ${rp(COD_RESERVE.vip)}.`)}
+    ${row('boost','Delivery Boost',`After a failed delivery, FLIK asks the customer on WhatsApp for a good time before the next attempt. ${Math.round(BOOST.pct*100)}% of the COD amount, at least ${rp(BOOST.min)}, charged only if the parcel is then delivered.`)}
+    <div class="rf-sec"><div class="kpi-l">Limits</div><dl class="bl-wf rf-wf"><dt>Who can get a check</dt><dd>Risky COD orders</dd><dt>Checks a day</dt><dd>${WA_CAP}${PS.vip?` · ${PS.waUsed} used today`:''}</dd><dt>Resends per order</dt><dd>1</dd><dt>Checks pause when "didn't order" passes</dt><dd>${Math.round(WA_PAUSE*100)}% · now ${r.no} of ${r.n}${r.n?` (${Math.round(r.no/r.n*100)}%)`:''}</dd></dl></div></div>
+  <div class="mf"><button class="btn btn-p" data-mclose>Done</button></div>`;
+  modal.querySelectorAll('[data-ws]').forEach(b=>b.onclick=()=>{const k=b.dataset.ws;PS[k]=!PS[k];track(k==='vip'?'vip_toggled':'delivery_boost_toggled',{on:PS[k]});draw();if(!document.getElementById('view-mon').hidden)renderMon();toast(`${k==='vip'?'Confirm risky customers':'Delivery Boost'} ${PS[k]?'on':'off'}`)})};
+  draw();mscrim.classList.add('open')}
+document.addEventListener('click',e=>{if(e.target.closest('[data-wset]')){e.stopPropagation();waSettings()}});
+
+/* start as an active shipper with six months of example shipments */
+PS.mode='active';PS.verified=true;PS.flags='payship';PS.first={addr:true,created:true,paid:true};genActive();
+
 show(hashView());
 
 </script>
