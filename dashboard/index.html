@@ -1424,7 +1424,11 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 .dr-f input{height:34px;border-radius:6px;border:0;box-shadow:var(--sh);padding:0 8px;font:inherit;font-size:13px;color:var(--ink);background:#fff;outline:none}
 .dr-f input:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
 /* Health, live today (27 Oct): a pulsing Live dot and stage tiles */
-#view-mon .tk-new{margin-left:8px;color:var(--primary);font-size:12.5px;font-weight:600}
+/* a ticket with a new reply from FLIK or the courier: an unread dot and a bold ID, like an inbox */
+#view-mon .tk-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+#view-mon .tk-dot.on{background:var(--primary)}
+#view-mon .tk-unread{font-weight:600;color:var(--ink)}
+#view-mon .tk-idc .src{padding-left:14px}
 #view-mon .hl-live{display:flex;align-items:center;gap:8px;margin-top:20px;font-size:13.5px;color:var(--muted)}
 #view-mon .hl-live b{color:var(--ok-tx);font-weight:600}
 #view-mon .hl-live .btn{margin-left:auto}
@@ -5026,9 +5030,9 @@ function claimDrawer(id){drawer.classList.remove('chat');const c=CL.find(x=>x.id
 const tkSubj=t=>{const s=SH.find(x=>x.id===t.sid),is=s&&(issueOf(s)||s.had);return is?is.t:TKT[t.type][0]};
 const TKCAT_D={problem:'Lost, damaged, or returned without your confirmation',risk:'Delivery failed, or the customer may refuse the parcel',delayed:"Past the courier's SLA"};
 function monTickets(){const F=MS.t,q=F.q.trim().toLowerCase(),kOf=t=>(SH.find(x=>x.id===t.sid)||{}).k;
-  dtUse('mon-tickets',{id:['Ticket ID',t=>t.id,t=>`<td><span class="mono">${t.id}</span><span class="src">${esc(tkSubj(t))}</span></td>`,{fixed:1}],type:['Type',t=>TKT[t.type][0],t=>`<td>${TKT[t.type][0]}</td>`],mon:['Monitoring',t=>TKCAT.indexOf(t.cat),t=>`<td>${monPill(t.cat)}</td>`],
+  dtUse('mon-tickets',{id:['Ticket ID',t=>t.id,t=>{const n=tkWait(t);return`<td class="tk-idc"><span class="tk-dot${n?' on':''}"${n?' role="img" aria-label="New reply" title="New reply"':''}></span><span class="mono${n?' tk-unread':''}">${t.id}</span><span class="src">${esc(tkSubj(t))}</span></td>`},{fixed:1}],type:['Type',t=>TKT[t.type][0],t=>`<td>${TKT[t.type][0]}</td>`],mon:['Monitoring',t=>TKCAT.indexOf(t.cat),t=>`<td>${monPill(t.cat)}</td>`],
     awb:['AWB',t=>t.awb||'',t=>`<td class="mono">${t.awb||'—'}</td>`],k:['Courier',t=>kOf(t)?cName(kOf(t)):'',t=>{const s=SH.find(x=>x.id===t.sid)||{};return s.k?cTd(s):'<td>—</td>'}],
-    st:['Status',t=>Object.keys(TKST).indexOf(tkSt(t)),t=>`<td><span class="st ${TKST[tkSt(t)][1]} sm">${TKST[tkSt(t)][0]}</span>${tkWait(t)?'<span class="tk-new">New reply</span>':''}</td>`],
+    st:['Status',t=>Object.keys(TKST).indexOf(tkSt(t)),t=>`<td><span class="st ${TKST[tkSt(t)][1]} sm">${TKST[tkSt(t)][0]}</span></td>`],
     opened:['Opened',t=>+t.created,t=>`<td class="date">${fdate(t.created)}</td>`],upd:['Last update',t=>+t.log[0][1],t=>`<td class="upd">${ago(t.log[0][1])}</td>`]},null,()=>renderMon());
   const rows=dtSort('mon-tickets',TK.filter(t=>{const k=kOf(t);return inPeriod(t.created)&&(!F.tst.length||F.tst.includes(tkSt(t)))&&(!F.tcat.length||F.tcat.includes(t.cat))&&(!F.k.length||F.k.includes(k))&&(!q||[t.id,tkSubj(t),t.awb,k?cName(k):''].join(' ').toLowerCase().includes(q))}).sort((a,b)=>b.log[0][1]-a.log[0][1]));
   DL['m-tickets']=()=>['flik-tickets',['Ticket ID','Subject','Type','Monitoring','AWB','Courier','Ticket status','Ticket created at','Last update'],rows.map(t=>{const k=kOf(t);return[t.id,tkSubj(t),TKT[t.type][0],MON3[t.cat][0],t.awb||'',k?cName(k):'',TKST[tkSt(t)][0],fdateY(t.created),fdateY(t.log[0][1])]})];
