@@ -226,6 +226,8 @@ td .st svg{display:none}
 .src{font-size:12.5px;color:var(--muted)}
 .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;color:var(--muted);font-size:13.5px}
 .foot b{color:var(--text);font-weight:600}
+.foot .lnk{color:var(--primary);font-weight:500}
+.foot .lnk:hover{text-decoration:underline}
 .pager{display:flex;gap:8px}
 .empty{padding:56px 0;text-align:center;color:var(--muted)}
 .empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
@@ -1281,11 +1283,6 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 /* ===== Shipping › Monitoring, Check rate and Analytics (ported, scoped to their pages) ===== */
 /* Monitoring Summary rebuilt from existing components (26 Oct): KPI strip, h2.sec, DataTable, SegmentedControl, StatusBadge, EmptyState */
 .mon-tabs .tab{display:inline-flex;align-items:center;gap:4px}
-.mon-tabs .tab-pin{display:inline-flex;margin-left:4px;color:var(--faint);opacity:0;transition:opacity .12s;border-radius:4px;outline:none}
-.mon-tabs .tab:hover .tab-pin,.mon-tabs .tab.on .tab-pin,.mon-tabs .tab-pin:focus-visible{opacity:1}
-.mon-tabs .tab.pinned .tab-pin{opacity:1;color:var(--primary)}
-.mon-tabs .tab-pin:hover{color:var(--ink)}
-.mon-tabs .tab-pin:focus-visible{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
 #view-mon .ms-lf{flex-wrap:wrap}
 #view-mon .ms-lf .bl-search{flex:0 1 220px;min-width:120px;max-width:220px}
 @media (max-width:600px){#view-mon>.ph{flex-wrap:wrap;gap:12px}#view-mon>.ph .fright{flex-wrap:wrap;gap:8px;margin-left:0!important}#view-mon .mon-es{padding:32px 20px}#view-mon .mon-es h2{font-size:26px;line-height:34px}}
@@ -1293,9 +1290,6 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 #view-mon .ms-lf .ms-seln b{color:var(--ink);font-weight:600}
 #view-mon .ms-lf .fright{flex:none}
 @media (max-width:1180px){#view-mon .ms-lf{flex-wrap:wrap}}
-.mon-tabs .tab{cursor:grab;will-change:transform}
-.mon-tabs .tab:active{cursor:grabbing}
-.mon-tabs .tab.dragging{opacity:.35}
 /* Health: our StatusBadge tones as bar fills, hover a segment for its numbers */
 #view-mon .hb2{display:flex;gap:2px;height:10px;border-radius:5px;overflow:hidden;background:var(--line);min-width:120px}
 #view-mon .hb2.big{height:16px;border-radius:8px;margin-top:12px}
@@ -1309,6 +1303,21 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 #view-mon .h-leg>span{display:inline-flex;align-items:center;gap:8px;cursor:default}
 #view-mon .h-leg b{color:var(--ink);font-weight:600}
 #view-mon table.h-tbl td.h-mix{min-width:160px}
+.h-ring{display:flex;align-items:center;gap:32px;margin-top:14px}
+.h-ring-g{position:relative;width:140px;height:140px;flex:none}
+.h-ring-g>svg{width:140px;height:140px;transform:rotate(-90deg)}
+.h-ring circle{fill:none;stroke-width:14}
+.h-ring .trk{stroke:var(--line)}
+.h-ring .t-ok{stroke:var(--ok)}.h-ring .t-gr{stroke:var(--faint)}.h-ring .t-warn{stroke:var(--warn)}.h-ring .t-bad{stroke:var(--bad)}
+.h-ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.h-ring-c b{font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.3px}
+.h-ring-c span{font-size:12.5px;color:var(--muted)}
+.h-ring-l{display:grid;gap:10px;font-size:13.5px;justify-items:start}
+.h-ring-l>span:not(.src),.h-ring-l .hl-go{display:inline-flex;align-items:center;gap:8px}
+.h-ring-l b{color:var(--ink);font-weight:600}
+.h-list{margin-top:12px}
+.hl-tiles .bl-tile.nohover{cursor:default}
+@media (max-width:600px){.h-ring{flex-direction:column;align-items:flex-start;gap:16px}}
 #view-mon .mon-h .fright .seg{margin-right:4px}
 .ws-c{align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
 .ws-c .cb{margin-top:2px;flex:none}
@@ -2073,7 +2082,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
       <div class="es-cards c3">
         <section class="es-card"><h3>Transparent terms</h3><p>You see the amount, the fee and the repayment before you sign. No hidden costs.</p></section>
         <section class="es-card"><h3>Assessed on your sales</h3><p>We look at your store's sales and history, not only at collateral.</p></section>
-        <section class="es-card"><h3>Repay as you sell</h3><p>A share of each sale settles the funding automatically, so repayments follow your sales.</p></section>
+        <section class="es-card"><h3>Repay as you sell</h3><p>A share of each sale repays the funding automatically, so repayments follow your sales.</p></section>
       </div>
       <h2 class="sec">Applications</h2>
       <div class="tbl-wrap"><table><thead><tr><th>Funding</th><th></th><th>Project</th><th>Tenor</th><th>Remaining to repay</th><th>Applied</th><th></th></tr></thead><tbody id="mca-body"></tbody></table></div>
@@ -2258,7 +2267,7 @@ for(let i=0;i<380;i++){
     order:'FLK-'+(20480-i),created,refunded:st==='refunded'?new Date(t+Math.floor((1+rnd()*48)*3600*1000)):null,
     courier:pick(['Regular','Same day','Next day','Instant']),awb:'FLK'+created.getFullYear().toString().slice(2)+String(created.getMonth()+1).padStart(2,'0')+String(created.getDate()).padStart(2,'0')+String(1000+i)});
 }
-const SETTLE=Array.from({length:18},(_,i)=>{const d=new Date(NOW.getTime()-i*86400000);return{id:'st_'+(9000-i),amount:Math.round((800000+rnd()*2200000)/1000)*1000,status:i===0?'pending':'succeeded',created:d,ref:'MCA-0007'}});
+const SETTLE=Array.from({length:18},(_,i)=>{const d=new Date(NOW.getTime()-i*86400000);return{id:'st_'+(9000-i),amount:Math.round((800000+rnd()*2200000)/1000)*1000,status:i===0?'pending':'succeeded',created:d,ref:'MCA-2026-0011'}});
 
 /* ===== Refunds and disputes (ledger D60 refunds, D61 disputes): records tied to real payments ===== */
 const dayMs=86400000;
@@ -2277,6 +2286,10 @@ const DP_FEE=16650;
 /* what the wallets can pay a new refund from right now (dummy) */
 const RF_FUNDS={reserve:180000,active:640000};
 const rfCost=(p,amt)=>{const c=METHODS[p.mk].cat;return c==='Card'?[['Card network refund fee (incl. VAT)',2775]]:c==='Virtual account'?[['Bank transfer to the shopper (incl. VAT)',2775]]:[[`${c} fee on the original payment, not returned`,Math.round(amt*(c==='QRIS'?.007:.015))]]};
+const RF_BANKS=[['bca','BCA'],['mandiri','Mandiri'],['bni','BNI'],['bri','BRI'],['bsi','BSI'],['permata','Permata']];
+const rfAcct=b=>`${b.bank} •••• ${b.no.slice(-4)}`;
+/* a refund paid by FLIK bank transfer comes out of the real active balance; the top bar and Create shipment read the same number */
+const rfSpend=x=>{CLOSE.active-=x;BAL-=x;const bv=document.getElementById('balv');if(bv)bv.textContent=rp(CLOSE.active)};
 const rfWindow=p=>({Card:180,QRIS:30,'E-wallet':30}[METHODS[p.mk].cat]||null);
 const rfOf=p=>REFUNDS.filter(r=>r.pay===p.id);
 const rfLeft=p=>p.amount-rfOf(p).filter(r=>r.st!=='cancelled').reduce((a,r)=>a+r.amount,0);
@@ -2318,7 +2331,7 @@ const stPill=s=>{const x=ST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(
 const pmBadge=k=>{const m=METHODS[k];return m.lg?`<img class="plg" src="${IMG}payment/${m.lg}.png" alt="">`:`<span class="plg plg-i">${ic(m.icon,14)}</span>`};
 
 /* ===== State ===== */
-const TABS=[['payments','All'],['cod','COD payouts'],['refunds','Refunds'],['disputes','Disputes'],['settle','Auto settlements']];
+const TABS=[['payments','All'],['cod','COD payouts'],['refunds','Refunds'],['disputes','Disputes'],['settle','Auto collections']];
 /* ===== Lists kit (27 Oct): the All shipments toolbar and column settings, shared by every list (Monitoring, Transactions, Balances).
    Columns: drag a header to reorder; its menu sorts, pins or hides the column; Edit columns lists them all. Kept per list on this device.
    Filters: one Filter button that reads "2 filters" when some are on; its menu lists each filter and ends with Clear all. ===== */
@@ -2454,9 +2467,9 @@ function cols(){
   if(S.tab==='cod')return[['amount','Amount',1],['status','',0],['fee','COD fee (3%)',0],['net','Added to balance',0],['created','Delivered',1]];
   return[['amount','Amount',1],['status','',0],['method','Payment method',0],['created','Date',1],['refunded','Refunded date',1]];
 }
-/* the kit's columns and filters for the Payments, COD and Auto settlement tabs */
+/* the kit's columns and filters for the Payments, COD and Auto collection tabs */
 function txCols(){const T={amount:['Amount',r=>r.amount,r=>`<td class="amt num">${rp(r.amount)}</td>`,{fixed:1}],status:['Status',r=>r.status,r=>`<td class="c-st">${stPill(r.status)}</td>`]},D=l=>[l,r=>+r.created,r=>`<td class="date">${fdate(r.created)}</td>`];
-  if(S.tab==='settle')return{...T,ref:['Cash advance',r=>r.ref,r=>`<td><span class="pmd">${r.ref}</span> <span class="src">· Auto settlement</span></td>`],created:D('Date')};
+  if(S.tab==='settle')return{...T,ref:['Cash advance',r=>r.ref,r=>`<td><span class="pmd">${r.ref}</span> <span class="src">· Auto collection</span></td>`],created:D('Date')};
   if(S.tab==='cod')return{...T,fee:['COD fee (3%)',r=>r.amount,r=>`<td class="num">−${rp(Math.round(r.amount*.03))}</td>`],net:['Added to balance',r=>r.amount,r=>`<td class="num" style="font-weight:500">${rp(r.amount-Math.round(r.amount*.03))}</td>`],created:D('Delivered')};
   return{...T,method:['Payment method',r=>r.method,r=>`<td><div class="pm">${pmBadge(r.mk)}<span class="pmd">${r.method}</span></div></td>`],created:D('Date'),refunded:['Refunded date',r=>r.refunded?+r.refunded:0,r=>`<td class="rdate${r.refunded?'':' none'}">${r.refunded?fdate(r.refunded):'—'}</td>`]}}
 function txFilters(){const D={k:'date',l:'Date',type:'date',get:()=>S,set:o=>{S.days=o.days||0;S.from=o.from;S.to=o.to;S.page=0}};
@@ -2528,7 +2541,7 @@ function copyId(id){try{navigator.clipboard&&navigator.clipboard.writeText(id)}c
 const drawer=document.getElementById('drawer'),dscrim=document.getElementById('dscrim');
 function openDetail(id){
   const p=PAY.find(x=>x.id===id),s=!p&&SETTLE.find(x=>x.id===id);
-  if(s){drawer.innerHTML=`<div class="dh"><span class="kind">${ic('coins',15)}Auto settlement</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><div class="d-amt"><b class="num">${rp(s.amount)}</b>${stPill(s.status)}</div><p class="d-sub">${s.id}</p><div class="dsec"><h5>Details</h5><dl class="kv"><dt>Cash advance</dt><dd>${s.ref}</dd><dt>Type</dt><dd>Deducted from sales</dd><dt>Date</dt><dd>${fdateY(s.created)}</dd><dt>Fees</dt><dd>No hidden fees</dd></dl></div></div>`}
+  if(s){drawer.innerHTML=`<div class="dh"><span class="kind">${ic('coins',15)}Auto collection</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><div class="d-amt"><b class="num">${rp(s.amount)}</b>${stPill(s.status)}</div><p class="d-sub">${s.id}</p><div class="d-acts"><button class="btn btn-o" data-goto="#merchant-cash-advance">${ic('ext',15)}View cash advance</button></div><div class="dsec"><h5>Details</h5><dl class="kv"><dt>Cash advance</dt><dd>${s.ref}</dd><dt>Type</dt><dd>Repayment taken from the day's sales, before the payout to your bank</dd><dt>Date</dt><dd>${fdateY(s.created)}</dd><dt>Fees</dt><dd>No hidden fees</dd></dl></div></div>`}
   else{
     const left=rfLeft(p),dsp=p.disp&&DISPUTES.find(d=>d.id===p.disp),RF=rfOf(p),canRefund=p.mk!=='cod'&&left>0&&(p.status==='succeeded'||p.status==='refunded');
     const tl=[[p.created,'Payment started','',null]];
@@ -2575,7 +2588,7 @@ mscrim.onclick=e=>{if(e.target===mscrim||e.target.closest('[data-mclose]'))close
 const refundModal=ids=>refundFlow(ids[0]);
 function refundFlow(id){const p=PAY.find(x=>x.id===id);if(!p)return;
   const left=rfLeft(p),win=rfWindow(p),age=Math.floor((NOW-p.created)/dayMs),cat=METHODS[p.mk].cat,dsp=p.disp&&DISPUTES.find(d=>d.id===p.disp);
-  const R={step:0,amt:left,why:'',note:'',code:''};
+  const R={step:0,amt:left,why:'',note:'',code:'',bk:'',no:'',acct:null,chk:0},va=cat==='Virtual account';
   const out=win&&age>win,block=dsp?'dispute':out?'window':left<=0?'done':'';
   const head=t=>`<div class="mh"><h3>${t}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>`;
   const draw=()=>{const plan=rfPlan(p,R.amt),cost=rfCost(p,R.amt),costT=cost.reduce((a,c)=>a+c[1],0),d20=fday2(addWD(NOW,20));
@@ -2588,14 +2601,44 @@ function refundFlow(id){const p=PAY.find(x=>x.id===id);if(!p)return;
        :`<div class="fld"><label for="rf-amt">Amount</label><input id="rf-amt" class="num" inputmode="numeric" value="${R.amt.toLocaleString('id-ID')}"><p class="hint" id="rf-amth">Full or partial, up to ${rp(left)}.</p></div>
       <div class="fld"><label for="rf-why">Reason</label><span class="sp-sw rf-sw"><select class="rf-sel" id="rf-why"><option value="">Choose a reason</option>${Object.entries(RF_REASON).map(([k,l])=>`<option value="${k}" ${R.why===k?'selected':''}>${l}</option>`).join('')}</select></span></div>
       <div class="fld" id="rf-notew" ${R.why==='other'?'':'hidden'}><label for="rf-note">Note</label><textarea id="rf-note" placeholder="Why you're refunding this payment">${R.note}</textarea></div>
-      ${cat==='Virtual account'?`<div class="sx-note info">${ic('help',16)}<span>Virtual account payments can't be refunded through the bank, so FLIK pays the shopper by bank transfer. You don't need to do anything else.</span></div>`:''}`}</div>
-      <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="rf-next" disabled>Review refund</button></div>`;
+      ${va?`<div class="sx-note info">${ic('help',16)}<span>Virtual account payments can't be refunded through the bank. FLIK sends the money by bank transfer to the shopper's account, which you add next, and takes it from your active balance.</span></div>`:''}`}</div>
+      <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="rf-next" disabled>${va?'Continue':'Review refund'}</button></div>`;
       const go=document.getElementById('rf-next');if(block)return;
       const amt=document.getElementById('rf-amt'),why=document.getElementById('rf-why'),note=document.getElementById('rf-note'),hint=document.getElementById('rf-amth');
       const chk=()=>{const over=R.amt>left;hint.textContent=over?`That's more than the ${rp(left)} still refundable.`:`Full or partial, up to ${rp(left)}.`;hint.classList.toggle('err',over);go.disabled=!(R.amt>0&&!over&&R.why&&(R.why!=='other'||R.note.trim()))};
       amt.oninput=()=>{R.amt=+amt.value.replace(/\D/g,'');amt.value=R.amt?R.amt.toLocaleString('id-ID'):'';chk()};
       why.onchange=()=>{R.why=why.value;document.getElementById('rf-notew').hidden=R.why!=='other';chk()};note.oninput=()=>{R.note=note.value;chk()};
-      go.onclick=()=>{R.step=1;draw()};chk();return}
+      go.onclick=()=>{R.step=va?'acct':1;draw()};chk();return}
+    if(R.step==='acct'){
+      modal.innerHTML=head('Shopper\'s bank account')+`<div class="mb"><p class="bk-mp">FLIK sends ${rp(R.amt)} to this account. Ask ${p.customer} for it.</p>
+      <div class="fld"><label for="rf-bank">Bank</label><span class="sp-sw rf-sw"><select class="rf-sel" id="rf-bank"><option value="">Choose a bank</option>${RF_BANKS.map(b=>`<option value="${b[0]}" ${R.bk===b[0]?'selected':''}>${b[1]}</option>`).join('')}</select></span></div>
+      <div class="fld"><label for="rf-no">Account number</label><div class="trk-row"><input id="rf-no" class="num" inputmode="numeric" maxlength="16" placeholder="1234567890" value="${R.no}" autocomplete="off"><button class="btn btn-o" id="rf-chk" ${R.chk?'disabled':''}>${R.chk?'Checking…':'Check account'}</button></div><p class="hint" id="rf-noh">FLIK checks the account and shows the holder's name.</p></div>
+      ${R.acct?`<div class="rf-pay nd-card"><img class="plg" src="${IMG}payment/${R.acct.k}.png" alt=""><span style="flex:1;min-width:0"><b>${R.acct.name}</b><span class="rf-sub">${R.acct.bank} · <span class="num">${R.acct.no}</span></span></span><span class="st ok">Account found</span></div>
+      <p class="hint">Make sure this is the shopper's name. A bank transfer can't be pulled back once it's sent.</p>`:''}</div>
+      <div class="mf"><button class="btn btn-o" id="rf-back">Back</button><button class="btn btn-p" id="rf-next" ${R.acct?'':'disabled'}>Review refund</button></div>`;
+      const bk=document.getElementById('rf-bank'),no=document.getElementById('rf-no'),cb=document.getElementById('rf-chk'),h=document.getElementById('rf-noh');
+      const ok=()=>R.bk&&R.no.length>=8;const reset=()=>{if(R.acct){R.acct=null;draw();return true}};
+      const okH=()=>{h.classList.remove('err');h.textContent='FLIK checks the account and shows the holder\'s name.'};
+      bk.onchange=()=>{R.bk=bk.value;if(!reset())okH()};
+      no.oninput=()=>{const v=no.value.replace(/\D/g,'').slice(0,16);no.value=v;R.no=v;if(reset()){const n=document.getElementById('rf-no');n.focus();n.setSelectionRange(v.length,v.length);return}okH()};
+      no.onkeydown=e=>{if(e.key==='Enter'&&!cb.disabled)cb.click()};
+      cb.onclick=()=>{if(!ok()){h.textContent=!R.bk?'Choose the shopper\'s bank first.':!R.no?'Enter the account number.':'Enter 8 to 16 digits.';h.classList.add('err');(R.bk?no:bk).focus();return}R.chk=1;draw();
+        setTimeout(()=>{R.chk=0;R.acct={k:R.bk,bank:RF_BANKS.find(b=>b[0]===R.bk)[1],no:R.no,name:p.customer};if(R.step==='acct'&&modal.isConnected)draw()},900)};
+      document.getElementById('rf-back').onclick=()=>{R.step=0;draw()};document.getElementById('rf-next').onclick=()=>{R.step=1;draw()};return}
+    if(R.step===1&&va){const tot=R.amt+costT,bal=CLOSE.active,short=Math.max(0,tot-bal);
+      modal.innerHTML=head('Review refund')+`<div class="mb">
+      <div class="rf-pay"><b class="num">${rp(R.amt)} back to ${p.customer}</b><span class="rf-sub"><span class="rf-m">Bank transfer to ${rfAcct(R.acct)}<img class="plg" src="${IMG}payment/${R.acct.k}.png" alt=""></span></span><span class="rf-sub">${R.acct.name} · ${RF_REASON[R.why]}${R.why==='other'?`: ${R.note}`:''}</span></div>
+      <div class="rf-sec"><div class="kpi-l">What it costs you</div>
+      <dl class="bl-wf rf-wf"><dt>Refund to the shopper</dt><dd>${rp(R.amt)}</dd>${cost.map(c=>`<dt>${c[0]}</dt><dd>${rp(c[1])}</dd>`).join('')}<dt class="t">Total from your active balance</dt><dd class="t">${rp(tot)}</dd></dl></div>
+      <div class="rf-sec"><div class="kpi-l">Your active balance</div>
+      <dl class="bl-wf rf-wf"><dt>Now</dt><dd>${rp(bal)}</dd><dt class="t">After this refund</dt><dd class="t">${short?'—':rp(bal-tot)}</dd></dl></div>
+      ${short?`<div class="sx-note bad">${ic('warn',16)}<span>Your active balance is ${rp(short)} short. Top up first, then send the refund.</span><button class="lnk" id="rf-top">Top up ${rp(short)}</button></div>`:''}</div>
+      <div class="mf"><button class="btn btn-o" id="rf-back">Back</button><button class="btn btn-p" id="rf-next" ${short?'disabled':''}>Continue</button></div>`;
+      document.getElementById('rf-back').onclick=()=>{R.step='acct';draw()};document.getElementById('rf-next').onclick=()=>{R.step=2;draw()};
+      if(short)document.getElementById('rf-top').onclick=()=>topupModal('Top up balance',{amt:short,min:short,onPaid:a=>{const now=new Date(NOW.getTime()+30000);
+        LEDGER.push({t:now,b:'active',d:'Top up by virtual account',ref:['Top up ID','TU-2610-'+(300+LEDGER.length)],a,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
+        rfSpend(-a);modal.classList.add('md');draw();mscrim.classList.add('open');toast(`${rp(a)} added to your active balance`)}});
+      return}
     if(R.step===1){modal.innerHTML=head('Review refund')+`<div class="mb">
       <div class="rf-pay"><b class="num">${rp(R.amt)} back to ${p.customer}</b><span class="rf-sub"><span class="rf-m">${cat==='Virtual account'?'Bank transfer by FLIK':p.method}${pmBadge(p.mk)}</span><span>· ${RF_REASON[R.why]}${R.why==='other'?`: ${R.note}`:''}</span></span></div>
       <div class="rf-sec"><div class="kpi-l">Where the money comes from</div>
@@ -2618,6 +2661,11 @@ function refundFlow(id){const p=PAY.find(x=>x.id===id);if(!p)return;
     document.getElementById('rf-back').onclick=()=>{R.step=1;draw()};
     go.onclick=()=>{const id='R-2610-'+String(22+REFUNDS.filter(r=>r.mine).length).padStart(4,'0'),now=new Date(NOW.getTime()+60000);
       const r={id,pay:p.id,amount:R.amt,reason:R.why,note:R.note,st:plan.left?'funding':'sent',src:'you',ref:'',funded:R.amt-plan.left,from:plan.from,cost,created:now,by:'Raam (Owner)',dev:'Chrome on macOS',mine:1};
+      if(va){Object.assign(r,{st:'paid',funded:R.amt,from:[['Active balance',R.amt]],bank:R.acct});
+        LEDGER.push({t:now,b:'active',d:`Refund ${id} to the shopper by bank transfer, payment ${p.id}`,ref:['Refund ID',id],a:-R.amt,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
+        LEDGER.push({t:now,b:'active',d:`Refund fee, refund ${id} (incl. VAT)`,ref:['Refund ID',id],a:-costT,i:LEDGER.length,id:'LE-2610-'+(4100+LEDGER.length)});
+        rfSpend(R.amt+costT);REFUNDS.unshift(r);if(rfLeft(p)<=0){p.status='refunded';p.refunded=now}
+        closeModal();render();refundDetail(id);toast(`Refund ${id} sent to ${rfAcct(R.acct)}`);return}
       REFUNDS.unshift(r);plan.from.forEach(f=>{if(f[0]==='Reserve')RF_FUNDS.reserve-=f[1];if(f[0]==='Active balance')RF_FUNDS.active-=f[1]});
       if(rfLeft(p)<=0){p.status='refunded';p.refunded=now}
       closeModal();render();refundDetail(id);toast(plan.left?`Refund ${id} waits for ${rp(plan.left)} of funds`:`Refund ${id} sent to the shopper`)}};
@@ -2628,9 +2676,9 @@ document.getElementById('bulk-refund').style.display='none';
 function refundDetail(id){const r=REFUNDS.find(x=>x.id===id);if(!r)return;const p=PAY.find(x=>x.id===r.pay)||{},d20=addWD(r.created,20),costT=r.cost.reduce((a,c)=>a+c[1],0),dsp=DISPUTES.find(d=>d.pay===r.pay&&DP_OPEN.includes(d.st));
   const tl=[[r.created,`${r.src==='recorded'?'Recorded by FLIK':'Requested'} · ${rp(r.amount)}`,'',null]];
   if(r.st==='funding'&&r.funded)tl.unshift([new Date(r.created.getTime()+60000),`${rp(r.funded)} funded from ${r.from.map(f=>f[0].toLowerCase()).join(' and ')}`,'',null]);
-  if(['sent','paid','retry'].includes(r.st))tl.unshift([new Date(r.created.getTime()+120000),'Sent to the payment provider','pu','refund']);
+  if(['sent','paid','retry'].includes(r.st))tl.unshift([new Date(r.created.getTime()+120000),r.bank?`Sent by bank transfer to ${rfAcct(r.bank)}`:'Sent to the payment provider','pu','refund']);
   if(r.st==='retry')tl.unshift([new Date(r.created.getTime()+3600000),'Provider error, retrying automatically','',null]);
-  if(r.st==='paid')tl.unshift([new Date(r.created.getTime()+86400000),'Paid to the shopper','ok','check']);
+  if(r.st==='paid')tl.unshift([new Date(r.created.getTime()+(r.bank?180000:86400000)),'Paid to the shopper','ok','check']);
   if(r.st==='paused'&&dsp)tl.unshift([dsp.opened,`Paused: dispute ${dsp.id} opened on this payment`,'',null]);
   if(r.st==='cancelled')tl.unshift([new Date(r.created.getTime()+7200000),'Cancelled · money returned to where it came from','',null]);
   if(r.st==='flik')tl.unshift([d20,`Paid by FLIK on working day 20 · ${rp(r.amount-r.funded)} now a charge due`,'',null]);
@@ -2643,7 +2691,7 @@ function refundDetail(id){const r=REFUNDS.find(x=>x.id===id);if(!r)return;const 
     ${r.st==='flik'?`<div class="sx-note bad">${ic('warn',16)}<span>Not funded by ${fday2(d20)}, so FLIK paid the shopper. ${rp(r.amount-r.funded)} is now a charge due, collected from money coming in.</span><button class="lnk" data-goto="#balances">Balances</button></div>`:''}
     ${r.st==='retry'?`<div class="sx-note">${ic('clock',16)}<span>The payment provider had a temporary error. FLIK retries automatically; nothing is needed from you.</span></div>`:''}
     <div class="dsec"><h5>Activity</h5><div class="tl">${tl.map(x=>`<div class="tli ${x[2]}"><i>${x[3]?ic(x[3],11,2.4):''}</i><div><b>${x[1]}</b><span>${fdateY(x[0])}</span></div></div>`).join('')}</div></div>
-    <div class="dsec"><h5>Money</h5><dl class="kv"><dt>To the shopper</dt><dd class="num">${rp(r.amount)}</dd><dt>Paid from</dt><dd>${r.st==='cancelled'?'Returned to where it came from':r.from.map(f=>`${f[0].split(':')[0]} <span class="num">${rp(f[1])}</span>`).join('<br>')||'—'}${r.st==='funding'?`<br>Waits for funds <span class="num">${rp(r.amount-r.funded)}</span>`:''}</dd>${r.cost.map(c=>`<dt>${c[0]}</dt><dd class="num">${rp(c[1])}</dd>`).join('')}<dt>Total cost to you</dt><dd class="num">${rp(r.st==='cancelled'?0:r.amount+costT)}</dd></dl></div>
+    <div class="dsec"><h5>Money</h5><dl class="kv"><dt>To the shopper</dt><dd class="num">${rp(r.amount)}</dd>${r.bank?`<dt>Paid to</dt><dd><div class="pm"><img class="plg" src="${IMG}payment/${r.bank.k}.png" alt=""><span>${rfAcct(r.bank)} · ${r.bank.name}</span></div></dd>`:''}<dt>Paid from</dt><dd>${r.st==='cancelled'?'Returned to where it came from':r.from.map(f=>`${f[0].split(':')[0]} <span class="num">${rp(f[1])}</span>`).join('<br>')||'—'}${r.st==='funding'?`<br>Waits for funds <span class="num">${rp(r.amount-r.funded)}</span>`:''}</dd>${r.cost.map(c=>`<dt>${c[0]}</dt><dd class="num">${rp(c[1])}</dd>`).join('')}<dt>Total cost to you</dt><dd class="num">${rp(r.st==='cancelled'?0:r.amount+costT)}</dd></dl></div>
     <div class="dsec"><h5>Payment</h5><dl class="kv"><dt>Payment</dt><dd>${r.pay}</dd><dt>Date</dt><dd>${p.created?fdateY(p.created):'—'}</dd><dt>Amount</dt><dd class="num">${rp(p.amount||0)}</dd><dt>Method</dt><dd><div class="pm">${p.mk?pmBadge(p.mk):''}<span>${p.method||''}</span></div></dd><dt>Refunded so far</dt><dd class="num">${rp((p.amount||0)-(p.mk?rfLeft(p):0))} of ${rp(p.amount||0)}</dd></dl></div>
     <div class="dsec"><h5>Reason</h5><dl class="kv"><dt>Reason</dt><dd>${RF_REASON[r.reason]}</dd>${r.note?`<dt>Note</dt><dd>${r.note}</dd>`:''}</dl></div>
     <div class="dsec"><h5>Audit</h5><dl class="kv"><dt>By</dt><dd>${r.by}</dd><dt>Device</dt><dd>${r.dev}</dd><dt>When</dt><dd>${fdateY(r.created)} WIB</dd></dl></div></div>`;
@@ -2694,6 +2742,7 @@ navBadge();
 /* open a refund, a dispute or a tab straight from a link: #transactions/R-…, #transactions/D-…, #transactions/disputes */
 function txRoute(){const m=location.hash.match(/^#transactions\/(.+)$/);if(!m)return;const k=decodeURIComponent(m[1]);
   if(k==='refunds'||k==='disputes'){S.tab=k;S.page=0;render();return}
+  if(k==='auto-collections'){S.tab='settle';S.page=0;render();return}
   if(/^R-/.test(k)){S.tab='refunds';S.page=0;render();setTimeout(()=>refundDetail(k),0)}
   if(/^D-/.test(k)){S.tab='disputes';S.page=0;render();setTimeout(()=>disputeDetail(k),0)}}
 document.addEventListener('click',e=>{const g=e.target.closest('[data-goto]');if(g){e.preventDefault();closeDetail();location.hash=g.dataset.goto}});
@@ -2703,7 +2752,7 @@ document.addEventListener('click',e=>{const g=e.target.closest('[data-goto]');if
 function exportCsv(onlySel){
   let r=rows();if(onlySel)r=r.filter(x=>S.sel.has(x.id));
   const head=['id','amount','currency','status','payment_method','customer','date','refunded_date'];
-  const csv=[head.join(',')].concat(r.map(x=>[x.id,x.amount,'IDR',x.status,x.mk?METHODS[x.mk].cat:'Auto settlement',x.customer||'',fdateY(x.created),x.refunded?fdateY(x.refunded):''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','))).join('\n');
+  const csv=[head.join(',')].concat(r.map(x=>[x.id,x.amount,'IDR',x.status,x.mk?METHODS[x.mk].cat:'Auto collection',x.customer||'',fdateY(x.created),x.refunded?fdateY(x.refunded):''].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','))).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`flik-${S.tab}-${NOW.toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
 document.getElementById('export').onclick=()=>requestExport('Transactions · '+(TABS.find(t=>t[0]===S.tab)||['',''])[1],'Transactions · this view','CSV',()=>exportCsv(false));
@@ -3617,11 +3666,11 @@ sxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)ret
   else if(d.addr!=null){addrModal(+d.addr);return}
   else if('wh' in d){whModal();return}
   else if('again' in d){X=blankX()}
-  else if('viewShp' in d){location.hash='shipments';return}
-  else if('viewHold' in d){stab='hold';location.hash='shipments';return}
+  else if('viewShp' in d){toMon('list');return}
+  else if('viewHold' in d){toMon('risky');return}
   else return;
   drawSx()});
-sxFoot.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;if('again' in t.dataset){X=blankX();drawSx();sxBody.scrollTop=0;return}if('viewShp' in t.dataset){location.hash='shipments';return}if('topup' in t.dataset){shipTopup();return}
+sxFoot.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;if('again' in t.dataset){X=blankX();drawSx();sxBody.scrollTop=0;return}if('viewShp' in t.dataset){toMon('list');return}if('topup' in t.dataset){shipTopup();return}
   if('back' in t.dataset){X.step--;drawSx();sxBody.scrollTop=0;return}
   if(t.id==='sx-next'&&!t.disabled){if(X.step<4){if(X.step===0&&X.how==='bulk')X.ships=X.bulk.map(bShip);
     if(X.step===0&&!X.rkDone){const L=riskyList();if(L.length){riskyModal(L,()=>{X.step=1;X.bpg=0;drawSx();sxBody.scrollTop=0});return}}
@@ -3636,7 +3685,9 @@ sxFoot.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)ret
     const c=costs();BAL-=c.now;const bv=document.getElementById('balv');if(bv)bv.textContent=rp(BAL);
     const held=makeHeld(SERVICES[X.svc]);
     X.done={held,id:ids[0],ids,n:X.ships.length,courier:cs.length===1?COURIERS.find(x=>x.k===cs[0]).n:'The couriers',when:pickupTx().replace(' · ',', '),paid:c.now,later:c.later,c,ship:c.ship,cod:c.codTot,nb:ids.length,rows:G.map(g=>({id:bOf.get(g.v),v:g.v,w:g.w,n:g.ships.length})),batches:[...byV].map(([v,gs])=>({id:bOf.get(v),v,n:gs.reduce((a,g)=>a+g.ships.length,0),wh:gs.map(g=>g.w.n)}))};stab='all';drawSx();sxBody.scrollTop=0}});
-document.getElementById('sx-close').onclick=()=>{location.hash='shipments'};
+/* leaving Create shipment lands on Monitoring (the old Shipments list is no longer in the menu) */
+const toMon=t=>{try{sessionStorage.setItem('flik-mon-open',t+'|'+Date.now())}catch(e){}location.hash='monitoring'};
+document.getElementById('sx-close').onclick=()=>toMon('list');
 /* ===== Bulk upload: check the spreadsheet rows, AI fixes typos, the merchant fills what's missing ===== */
 const AREAS=[['Dago','Coblong','Kota Bandung','Jawa Barat','40135'],['Lebak Siliwangi','Coblong','Kota Bandung','Jawa Barat','40132'],['Sukapada','Cibeunying Kidul','Kota Bandung','Jawa Barat','40125'],['Sekayu','Semarang Tengah','Kota Semarang','Jawa Tengah','50132'],['Sosromenduran','Gedongtengen','Kota Yogyakarta','DI Yogyakarta','55271'],['Bangka','Mampang Prapatan','Jakarta Selatan','DKI Jakarta','12730'],['Cilandak Barat','Cilandak','Jakarta Selatan','DKI Jakarta','12430'],['Senayan','Kebayoran Baru','Jakarta Selatan','DKI Jakarta','12190'],['Tebet Timur','Tebet','Jakarta Selatan','DKI Jakarta','12820'],['Darmo','Wonokromo','Kota Surabaya','Jawa Timur','60241'],['Oro-oro Dowo','Klojen','Kota Malang','Jawa Timur','65119'],['Dauh Puri','Denpasar Barat','Kota Denpasar','Bali','80113'],['Petisah Tengah','Medan Petisah','Kota Medan','Sumatera Utara','20112'],['Cipondoh','Cipondoh','Kota Tangerang','Banten','15148']];
 const ADDR_DB=AREAS.concat([['Pandang','Panakkukang','Kota Makassar','Sulawesi Selatan','90231'],['Tamalanrea','Tamalanrea','Kota Makassar','Sulawesi Selatan','90245'],['Sekeloa','Coblong','Kota Bandung','Jawa Barat','40134'],['Cipaganti','Coblong','Kota Bandung','Jawa Barat','40131'],['Pringgokusuman','Gedongtengen','Kota Yogyakarta','DI Yogyakarta','55272'],['Ngagel','Wonokromo','Kota Surabaya','Jawa Timur','60246'],['Jagir','Wonokromo','Kota Surabaya','Jawa Timur','60244'],['Pekunden','Semarang Tengah','Kota Semarang','Jawa Tengah','50134'],['Kauman','Klojen','Kota Malang','Jawa Timur','65119'],['Kuningan Barat','Mampang Prapatan','Jakarta Selatan','DKI Jakarta','12710'],['Tegal Parang','Mampang Prapatan','Jakarta Selatan','DKI Jakarta','12790'],['Lebak Bulus','Cilandak','Jakarta Selatan','DKI Jakarta','12440'],['Pondok Labu','Cilandak','Jakarta Selatan','DKI Jakarta','12450'],['Gandaria Selatan','Cilandak','Jakarta Selatan','DKI Jakarta','12420'],['Gunung','Kebayoran Baru','Jakarta Selatan','DKI Jakarta','12120'],['Tebet Barat','Tebet','Jakarta Selatan','DKI Jakarta','12810'],['Menteng Dalam','Tebet','Jakarta Selatan','DKI Jakarta','12870'],['Kebon Baru','Tebet','Jakarta Selatan','DKI Jakarta','12830'],['Sukaluyu','Cibeunying Kaler','Kota Bandung','Jawa Barat','40123'],['Ketintang','Gayungan','Kota Surabaya','Jawa Timur','60231']]);
@@ -3997,7 +4048,7 @@ const MCA=[
 const mcaNo=()=>'MCA-2026-'+String(12+MCA.filter(a=>a.created).length).padStart(4,'0');
 function renderMca(){
   document.getElementById('mca-body').innerHTML=MCA.map((a,i)=>`<tr data-mca="${i}"><td class="amt num">${rp(a.amount)}</td><td class="c-st">${mPill(a.st)}</td><td class="inv-no">${a.id}</td><td>${a.tenor?a.tenor+' months':'<span class="inv-sub">—</span>'}</td><td class="num">${a.left==null?'<span class="inv-sub">—</span>':rp(a.left)}</td><td class="date">${fdate(a.applied)}</td><td><button class="dots-b" data-toast="Opens application actions" aria-label="More">${ic('dots',16)}</button></td></tr>`).join('');
-  document.getElementById('mca-count').innerHTML=`<b>${MCA.length}</b> ${MCA.length===1?'application':'applications'}`;
+  document.getElementById('mca-count').innerHTML=`<b>${MCA.length}</b> ${MCA.length===1?'application':'applications'}`+(MCA.some(a=>a.st==='active')?` · <button class="lnk" data-goto="#transactions/auto-collections">See repayments taken from your sales</button>`:'');
 }
 document.getElementById('mca-body').addEventListener('click',e=>{if(e.target.closest('.dots-b'))return;const tr=e.target.closest('tr[data-mca]');if(!tr)return;const a=MCA[tr.dataset.mca];
   if(a.st==='draft'){MCA_RESUME=a;location.hash='merchant-cash-advance/apply'}else toast(`Opens ${a.id}`)});
@@ -4621,7 +4672,7 @@ function bestFor(s,group,prefer){const ok=SERVICES.map((sv,i)=>[sv,i]).filter(([
 
 /* ===== Shipments of the active merchant ===== */
 const SST3={pickup:['Wait pickup','gr'],picked:['Picked up','gr'],transit:['In transit','gr'],ofd:['Out for delivery','pu'],delivered:['Delivered','ok'],failed:['Delivery failed','warn'],returning:['Returning','warn'],returned:['Returned','gr'],lost:['Lost or damaged','bad']};
-const MON3={ontrack:['On track','pu'],delayed:['Delayed','warn'],risk:['At risk','or'],problem:['Problem','bad'],safe:['Safe','ok']};
+const MON3={ontrack:['On track','ok'],delayed:['Delayed','gr'],risk:['At risk','warn'],problem:['Problem','bad'],safe:['Safe','ok']};
 const SEV3={problem:['Critical','bad',0],risk:['High','or',1],delayed:['Medium','warn',2]};
 const stPill3=s=>`<span class="st ${SST3[s][1]} sm">${SST3[s][0]}</span>`;
 const monPill=m=>`<span class="st ${MON3[m][1]} sm">${MON3[m][0]}</span>`;
@@ -4822,10 +4873,10 @@ FLIK.mock('verifyShopper',q=>({id:q.draft,status:'sent',kind:q.kind,channel:'wha
  * Every section exports straight to the device.
  */
 document.querySelector('.main').insertAdjacentHTML('beforeend','<main class="content" id="view-mon" hidden></main>');
-const MS={cl:{st:'',cat:''},tab:'resolve',days:'month',f:{wh:[],k:[],pay:[]},rt:'open',open:new Set(),allB:false,perf:'city',hArea:'city',
+const MS={cl:{st:'',cat:''},tab:'health',days:'month',f:{wh:[],k:[],pay:[]},rt:'open',open:new Set(),allB:false,perf:'city',hArea:'city',
   l:{q:'',st:[],mon:[],pg:0,sel:new Set(),days:0,k:[],wh:[],pay:[]},r:{q:'',days:0,mon:[],k:[],wh:[],pay:[],pg:0},w:{q:'',days:0,rst:[],k:[],wh:[],pay:[],pg:0},c:{q:'',days:0,cst:[],ccat:[],k:[],wh:[],pay:[],pg:0},t:{q:'',days:0,tst:[],tcat:[],k:[],wh:[],pay:[],pg:0},reset(){this.cl={st:'',cat:''};this.tab='resolve';this.r={q:'',days:0,mon:[],k:[],wh:[],pay:[],pg:0};this.w={q:'',days:0,rst:[],k:[],wh:[],pay:[],pg:0};this.c={q:'',days:0,cst:[],ccat:[],k:[],wh:[],pay:[],pg:0};this.t={q:'',days:0,tst:[],tcat:[],k:[],wh:[],pay:[],pg:0};this.f={wh:[],k:[],pay:[]};this.rt='open';this.open=new Set();this.allB=false;this.l={q:'',st:[],mon:[],pg:0,sel:new Set(),days:0,k:[],wh:[],pay:[]}}};
 /* named for what the merchant does (27 Oct): the to-do tabs first, then what they follow, then the views */
-const MTABS=[['resolve','Needs action'],['risky','On hold'],['tickets','Tickets'],['claims','Claims'],['health','Live'],['list','All shipments']];
+const MTABS=[['health','Live'],['resolve','Needs action'],['risky','On hold'],['tickets','Tickets'],['claims','Claims'],['list','All shipments']];
 /* a ticket waits on the merchant when FLIK support or the courier answered last */
 const tkWait=t=>{if(tkSt(t)==='resolved'||t.claim)return false;const c=t.chat.filter(m=>m.from!=='sys');return!!c.length&&c[c.length-1].from!=='me'};
 /* period: 'today', 'week', 'month', 'year', 'custom' (MS.from to MS.to), or 0 for all time */
@@ -4868,31 +4919,15 @@ const monGo=k=>{if(/^(cl|cat|tk|tkc):/.test(k)){const[a,v]=k.split(':'),T=MS.tk|
   MS.tab='list';Object.assign(MS.l,{days:MS.days,from:MS.from,to:MS.to});MS.l.st=[k];MS.l.mon=[];MS.l.q='';MS.l.pg=0;renderMon();scrollTo(0,0)};
 document.getElementById('view-mon').addEventListener('click',e=>{const t=e.target.closest('[data-mgo]');if(t)monGo(t.dataset.mgo)});
 document.getElementById('view-mon').addEventListener('keydown',e=>{const t=e.target.closest('[data-mgo]');if(t&&(e.key==='Enter'||e.key===' ')){e.preventDefault();monGo(t.dataset.mgo)}});
-/* Monitoring tabs: drag to reorder, pin one as the tab Monitoring opens on (kept on this device) */
-Object.assign(P,{pushpin:'<path d="M12 17v5"/><path d="M9 10.8a2 2 0 0 1-1.1 1.8l-1.8.9A2 2 0 0 0 5 15.2V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.8a2 2 0 0 0-1.1-1.8l-1.8-.9a2 2 0 0 1-1.1-1.8V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/>'});
-try{MS.order=JSON.parse(localStorage.getItem('flik-mon-tabs-v2')||'null');MS.pin=localStorage.getItem('flik-mon-pin')||''}catch(e){}
-const monSave=()=>{try{localStorage.setItem('flik-mon-tabs-v2',JSON.stringify(MS.order||[]));localStorage.setItem('flik-mon-pin',MS.pin||'')}catch(e){}};
-const monTabs=()=>{const o=MS.order||[],ix=k=>{const i=o.indexOf(k);return i<0?99:i};return MTABS.slice().sort((a,b)=>ix(a[0])-ix(b[0]))};
-{const v=document.getElementById('view-mon');let drag=null;
-  /* smooth reorder: the dragged tab moves live and the others slide out of the way (FLIP), the order is saved on drop */
-  const flip=(bar,move)=>{const T=[...bar.querySelectorAll('.tab[data-mt]')],r0=new Map(T.map(t=>[t,t.getBoundingClientRect().left]));move();T.forEach(t=>{const dx=r0.get(t)-t.getBoundingClientRect().left;if(!dx)return;t.style.transition='none';t.style.transform=`translateX(${dx}px)`;requestAnimationFrame(()=>{t.style.transition='transform .2s cubic-bezier(.2,.8,.2,1)';t.style.transform=''})})};
-  v.addEventListener('click',e=>{const p=e.target.closest('[data-pin]');if(!p)return;e.stopPropagation();e.preventDefault();const k=p.dataset.pin,t=MTABS.find(x=>x[0]===k)[1];MS.pin=MS.pin===k?'':k;monSave();renderMon();toast(MS.pin?`${t} opens first in Monitoring`:'Monitoring opens on Summary again')},true);
-  v.addEventListener('keydown',e=>{const p=e.target.closest('[data-pin]');if(p&&(e.key==='Enter'||e.key===' ')){e.preventDefault();p.click()}});
-  v.addEventListener('dragstart',e=>{const t=e.target.closest('.tab[data-mt]');if(!t)return;drag=t;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',t.dataset.mt)}catch(x){}requestAnimationFrame(()=>t.classList.add('dragging'))});
-  v.addEventListener('dragover',e=>{const t=e.target.closest('.tab[data-mt]');if(!t||!drag)return;e.preventDefault();e.dataTransfer.dropEffect='move';if(t===drag)return;
-    const r=t.getBoundingClientRect(),after=e.clientX>r.left+r.width/2,ref=after?t.nextElementSibling:t;if(ref===drag||ref===drag.nextElementSibling&&!after&&false)return;
-    if((after&&t.nextElementSibling===drag)||(!after&&t.previousElementSibling===drag))return;flip(t.parentElement,()=>t.parentElement.insertBefore(drag,ref))});
-  v.addEventListener('drop',e=>{if(!drag)return;e.preventDefault();MS.order=[...drag.parentElement.querySelectorAll('.tab[data-mt]')].map(x=>x.dataset.mt);drag.classList.remove('dragging');drag=null;monSave();renderMon()});
-  v.addEventListener('dragend',()=>{if(drag){drag.classList.remove('dragging');drag=null;renderMon()}})}
 /* All shipments keeps its filters in one row: search, then up to five chips, the rest under More filters */
 document.getElementById('view-mon').addEventListener('click',e=>{const m=e.target.closest('[data-fmore]');if(m){e.stopPropagation();if(popFor===m){closePop();return}popFor=m;
     pop.innerHTML=`<div class="menu"><h6>More filters</h6>${['wh','pay'].map(k=>`<button class="opt" data-fmk="${k}">${MF_L[k]}${mfVal(k)?` <span class="src">· ${esc(mfVal(k))}</span>`:''}</button>`).join('')}</div>`;
     pop.querySelectorAll('[data-fmk]').forEach(o=>o.onclick=x=>{x.stopPropagation();const k=o.dataset.fmk;closePop();fpop(m,k)});placePop(m,false)}});
-function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on the pinned tab */if(location.hash!==MS._h){if(location.hash==='#monitoring'){/* a Home to-do asked for a tab: good for 10 s, since the menu file that hands over renders Monitoring once too */let o=null;try{const v=(sessionStorage.getItem('flik-mon-open')||'').split('|');if(Date.now()-(+v[1]||0)<1e4)o=v[0]}catch(e){}MS.tab=MTABS.some(t=>t[0]===o)?o:MTABS.some(t=>t[0]===MS.pin)?MS.pin:'resolve'}MS._h=location.hash}
+function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on Live */if(location.hash!==MS._h){if(location.hash==='#monitoring'){/* a Home to-do asked for a tab: good for 10 s, since the menu file that hands over renders Monitoring once too */let o=null;try{const v=(sessionStorage.getItem('flik-mon-open')||'').split('|');if(Date.now()-(+v[1]||0)<1e4)o=v[0]}catch(e){}MS.tab=MTABS.some(t=>t[0]===o)?o:'health'}MS._h=location.hash}
   if(!SH.length){el.innerHTML=`<div class="ph"><h1>Monitoring</h1></div>`+monEmpty('Nothing to monitor yet','After your first shipment, this page shows each batch, anything delayed or at risk, and how each courier performs for you.');return}
   const base=msBase(),open=SH.filter(s=>rstate(s)==='open').length;
-  el.innerHTML=`<div class="ph"><h1>Monitoring</h1><div class="fright" style="margin-left:auto">${MS.tab==='list'?`<button class="chip set" id="ms-state" title="Prototype control: preview the states of All shipments">${ic('sel',14)}Preview state: <span class="val">${LSC.find(x=>x[0]===(MS.lsc||'normal'))[1]}</span></button>`:''}</div></div>
-  <div class="tabs mon-tabs" role="tablist">${monTabs().map(t=>`<button class="tab${MS.tab===t[0]?' on':''}${MS.pin===t[0]?' pinned':''}" data-mt="${t[0]}" draggable="true" title="Drag to reorder">${t[1]}${t[0]==='resolve'&&open?`<span class="ct">${open}</span>`:t[0]==='risky'&&waOpen().length?`<span class="ct">${waOpen().length}</span>`:t[0]==='tickets'&&TK.filter(tkWait).length?`<span class="ct" data-tip="New replies waiting for you">${TK.filter(tkWait).length}</span>`:''}<span class="tab-pin" data-pin="${t[0]}" role="button" tabindex="0" aria-label="${MS.pin===t[0]?'Unpin':'Pin'} ${t[1]} as the tab Monitoring opens on" data-tip="${MS.pin===t[0]?'Opens first · click to unpin':'Pin: open Monitoring on this tab'}">${ic('pushpin',13)}</span></button>`).join('')}</div>
+  el.innerHTML=`<div class="ph"><h1>Monitoring</h1><div class="fright" style="margin-left:auto">${MS.tab==='health'?`<button class="chip set" id="hl-view" title="Prototype control: compare layouts for Shipping condition">${ic('sel',14)}Preview layout: <span class="val">${HVIEW.find(x=>x[0]===(MS.hv||'bar'))[1]}</span></button>`:''}${MS.tab==='list'?`<button class="chip set" id="ms-state" title="Prototype control: preview the states of All shipments">${ic('sel',14)}Preview state: <span class="val">${LSC.find(x=>x[0]===(MS.lsc||'normal'))[1]}</span></button>`:''}</div></div>
+  <div class="tabs mon-tabs" role="tablist">${MTABS.map(t=>`<button class="tab${MS.tab===t[0]?' on':''}" data-mt="${t[0]}" role="tab" aria-selected="${MS.tab===t[0]}">${t[1]}${t[0]==='resolve'&&open?`<span class="ct">${open}</span>`:t[0]==='risky'&&waOpen().length?`<span class="ct">${waOpen().length}</span>`:t[0]==='tickets'&&TK.filter(tkWait).length?`<span class="ct" data-tip="New replies waiting for you">${TK.filter(tkWait).length}</span>`:''}</button>`).join('')}</div>
   ${FT()||MS.tab==='health'?'':`<div class="filters">${['days','wh','k','pay'].map(fchip).join('')}<div class="fright"><span class="ms-n">${plural(base.length,'shipment')}</span></div></div>`}
   <div id="mon-body">${({resolve:monResolve,risky:monRisky,health:monHealth,list:monList,claims:monClaims,tickets:monTickets})[MS.tab](base)}</div>`;
   track('monitoring_viewed',{tab:MS.tab})}
@@ -4981,14 +5016,27 @@ function monResolve(base){const F=MS.r,q=F.q.trim().toLowerCase(),pool=base.filt
   return msBar('AWB, customer, phone or issue',`<button class="btn btn-o" data-wset>Delivery Boost: ${PS.boost?'on':'off'}</button>${dlBtn('m-resolve')}`)+
   `<div class="tbl-wrap"><table data-dtt="mon-resolve"><thead><tr>${dtHead('mon-resolve')}<th></th></tr></thead><tbody>
   ${V.length?V.map(row).join(''):`<tr><td colspan="${dtN('mon-resolve')+1}" style="height:auto;border:0;cursor:default">${msNone(pool.length,'Nothing needs resolving','Delayed, at-risk and problem shipments without a ticket show up here.')}</td></tr>`}</tbody></table></div>`+msFoot(L.length,pages,F.pg,'shipment')}
-/* Health uses the StatusBadge tones of the Summary: safe ok, on track info, delayed neutral, at risk warn, problem bad */
+/* Health uses the StatusBadge tones: safe and on track ok (green, like Succeeded), delayed neutral, at risk warn, problem bad */
 const HCOLS=['safe','ontrack','delayed','risk','problem'];
-const HTONE={safe:'ok',ontrack:'pu',delayed:'gr',risk:'warn',problem:'bad'};
+const HTONE={safe:'ok',ontrack:'ok',delayed:'gr',risk:'warn',problem:'bad'};
 const healthRow=l=>{const c={};HCOLS.forEach(k=>c[k]=0);l.forEach(s=>c[monOf(s)]++);return{n:l.length,c,h:pct(c.ontrack+c.safe,l.length)}};
 const hTip=(k,v,n)=>`${MON3[k][0]}: ${v.toLocaleString('id-ID')} ${v===1?'shipment':'shipments'} · ${fpct(pct(v,n))}`;
 const hBar=(c,big)=>`<span class="hb2${big?' big':''}" role="img" aria-label="${HCOLS.filter(k=>c.c[k]).map(k=>hTip(k,c.c[k],c.n)).join(', ')}">${HCOLS.map(k=>c.c[k]?`<i class="t-${HTONE[k]}" style="flex:${c.c[k]}" data-tip="${hTip(k,c.c[k],c.n)}"></i>`:'').join('')}</span>`;
 const hTable=(rows,first)=>`<div class="tbl-wrap"><table class="h-tbl"><thead><tr><th>${first}</th><th class="r">Shipments</th>${HCOLS.map(k=>`<th class="r">${MON3[k][0]}</th>`).join('')}<th>Mix</th><th class="r">Healthy</th></tr></thead><tbody>${rows.map(([lab,r])=>`<tr class="nohover"><td>${lab}</td><td class="r num">${r.n.toLocaleString('id-ID')}</td>${HCOLS.map(k=>`<td class="r num${r.c[k]&&k==='problem'?' mon-over':''}">${r.c[k]?r.c[k].toLocaleString('id-ID'):'<span class="src">0</span>'}</td>`).join('')}<td class="h-mix">${hBar(r)}</td><td class="r num"><b>${fpct(r.h)}</b></td></tr>`).join('')}</tbody></table></div>`;
 const hRowsCsv=(rows,first)=>[first,'Shipments',...HCOLS.map(k=>MON3[k][0]),'Healthy %'];
+/* Shipping condition, four layouts to compare (prototype control "Preview layout"): bar, cards, ring, list */
+const HVIEW=[['bar','Bar'],['cards','Cards'],['ring','Ring'],['list','List']];
+function hView(tot,on,LEG){const v=MS.hv||'bar',go=k=>k!=='ontrack'&&tot.c[k],
+    totL=`<div class="h-tot"><b class="num${on<80?' mon-over':''}">${fpct(on)}</b><span>on track · ${plural(tot.n,'shipment')} on the move</span></div>`;
+  if(v==='cards')return totL+`<div class="bl-tiles mon-tiles hl-tiles">${LEG.map(k=>`<${go(k)?`button class="bl-tile" data-hgo="${k}"`:'div class="bl-tile nohover"'}><span><span class="st ${HTONE[k]}">${MON3[k][0]}</span></span><div class="kpi-v"><b class="num">${tot.c[k].toLocaleString('id-ID')}</b></div><span class="ex">${fpct(pct(tot.c[k],tot.n))} of shipments${go(k)?' · View':''}</span></${go(k)?'button':'div'}>`).join('')}</div>`;
+  if(v==='ring'){const R=54,C=2*Math.PI*R;let a=0;const segs=LEG.filter(k=>tot.c[k]).map(k=>{const l=tot.c[k]/tot.n*C,g=LEG.filter(x=>tot.c[x]).length>1?2:0,el=`<circle class="t-${HTONE[k]}" r="${R}" cx="70" cy="70" stroke-dasharray="${Math.max(0,l-g)} ${C}" stroke-dashoffset="${-a}"><title>${hTip(k,tot.c[k],tot.n)}</title></circle>`;a+=l;return el}).join('');
+    return`<div class="h-ring"><div class="h-ring-g"><svg viewBox="0 0 140 140" role="img" aria-label="${LEG.map(k=>hTip(k,tot.c[k],tot.n)).join(', ')}"><circle class="trk" r="${R}" cx="70" cy="70"/>${segs}</svg><div class="h-ring-c"><b class="num">${fpct(on)}</b><span>on track</span></div></div>
+      <div class="h-ring-l"><span class="src">${plural(tot.n,'shipment')} on the move</span>${LEG.map(k=>`<${go(k)?`button class="hl-go" data-hgo="${k}"`:'span'}><span class="st ${HTONE[k]}">${MON3[k][0]}</span><b class="num">${tot.c[k].toLocaleString('id-ID')}</b><span class="src">${fpct(pct(tot.c[k],tot.n))}</span></${go(k)?'button':'span'}>`).join('')}</div></div>`}
+  if(v==='list')return totL+`<div class="tbl-wrap"><table class="h-tbl h-list"><thead><tr><th>Status</th><th class="r">Shipments</th><th class="r">Share</th><th></th></tr></thead><tbody>${LEG.map(k=>`<tr class="nohover"><td><span class="st ${HTONE[k]}">${MON3[k][0]}</span></td><td class="r num">${tot.c[k].toLocaleString('id-ID')}</td><td class="r num">${fpct(pct(tot.c[k],tot.n))}</td><td class="r">${go(k)?`<button class="lnk" data-hgo="${k}">View in Needs action</button>`:''}</td></tr>`).join('')}</tbody></table></div>`;
+  return totL+hBar(tot,true)+`<div class="h-leg">${LEG.map(k=>{const v=tot.c[k];return`<${go(k)?`button class="hl-go" data-hgo="${k}"`:'span'} data-tip="${hTip(k,v,tot.n)}${go(k)?' · open in Needs action':''}"><span class="st ${HTONE[k]}">${MON3[k][0]}</span><b class="num">${v.toLocaleString('id-ID')}</b><span class="src">${fpct(pct(v,tot.n))}</span></${go(k)?'button':'span'}>`}).join('')}</div>`}
+document.addEventListener('click',e=>{const t=e.target.closest('#hl-view');if(!t)return;e.stopPropagation();if(popFor===t){closePop();return}popFor=t;const cur=MS.hv||'bar';
+  pop.innerHTML=`<h6>Preview a layout (prototype only)</h6>${HVIEW.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${cur===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+  pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{closePop();MS.hv=o.dataset.v;renderMon()});placePop(t,true)},true);
 /* Health: a live report of today, like a control panel. What is on the move now, how it is doing, and today's courier updates hour by hour (27 Oct) */
 const HL_ACTIVE=['pickup','picked','transit','ofd','failed','returning'];
 function monHealth(){const t0=dayStart(),act=SH.filter(s=>HL_ACTIVE.includes(s.st)),tot=healthRow(act),today=s=>s.upd>=t0,at=MS.hAt||new Date();
@@ -4996,9 +5044,7 @@ function monHealth(){const t0=dayStart(),act=SH.filter(s=>HL_ACTIVE.includes(s.s
   const byC=COURIERS.map(c=>[c,act.filter(s=>s.k===c.k)]).filter(x=>x[1].length).map(([c,l])=>[c,healthRow(l)]).sort((a,b)=>a[1].h-b[1].h);
   const on=tot.n?pct(tot.c.ontrack,tot.n):100,LEG=['ontrack','delayed','risk','problem'];
   return`<div class="hl-live" role="status"><span class="hl-dot" aria-hidden="true"></span><b>Live</b><span>Today, ${fday(NOW)} · updated ${at.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span><button class="btn btn-o" data-hrefresh>Refresh</button></div>`+
-  monCard(`<div class="mon-h">${secT('Shipping condition','Shipments on the move right now: waiting for pickup, on the way, failed attempts and returns. On track means within the courier\'s SLA.')}</div>
-    <div class="h-tot"><b class="num${on<80?' mon-over':''}">${fpct(on)}</b><span>on track · ${plural(tot.n,'shipment')} on the move</span></div>${hBar(tot,true)}
-    <div class="h-leg">${LEG.map(k=>{const v=tot.c[k],go=k!=='ontrack'&&v;return`<${go?`button class="hl-go" data-hgo="${k}"`:'span'} data-tip="${hTip(k,v,tot.n)}${go?' · open in Needs action':''}"><span class="st ${HTONE[k]}">${MON3[k][0]}</span><b class="num">${v.toLocaleString('id-ID')}</b><span class="src">${fpct(pct(v,tot.n))}</span></${go?'button':'span'}>`}).join('')}</div>`)+
+  monCard(`<div class="mon-h">${secT('Shipping condition','Shipments on the move right now: waiting for pickup, on the way, failed attempts and returns. On track means within the courier\'s SLA.')}</div>${hView(tot,on,LEG)}`)+
   secT('On the move now')+`<div class="bl-tiles mon-tiles hl-tiles">${stages.map(([k,l,n,late])=>`<div class="bl-tile" role="button" tabindex="0" data-mgo="${k}"><span class="kpi-l">${l}</span><div class="kpi-v"><b class="num">${n.toLocaleString('id-ID')}</b></div><span class="ex">${late?`<span class="mon-over">${late} past SLA</span>`:'All within SLA'}</span></div>`).join('')}</div>`+
   monCard(`<div class="mon-h">${secT('By courier now','Shipments on the move per courier, least on track first.')}</div>`+hTable(byC.map(([c,r])=>[`<div class="sx-cl">${cLogo(c.k)}<span>${c.n}</span></div>`,r]),'Courier'))}
 
