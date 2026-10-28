@@ -379,8 +379,10 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .ie-in{width:100%;height:36px;border-radius:6px;border:0;box-shadow:var(--sh);padding:0 10px 0 34px;outline:none;font-size:14px;background:#fff}
 .ie-in:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
 .ie-fld>svg{position:absolute;left:10px;top:10px;color:var(--faint)}
-.sx-f .sx-pf .ie-in{padding-left:34px}
-.sx-pf .ie-dd{top:40px;z-index:20}
+.sx-f :is(.sx-pf,.sx-cf) .ie-in{padding-left:34px}
+:is(.sx-pf,.sx-cf) .ie-dd{top:40px;z-index:20}
+.sx-cf .ie-dd .opt b{display:inline-flex;align-items:center;gap:6px}
+.sx-cf .ie-dd .opt:not(.add){flex-direction:column;align-items:flex-start;gap:1px}.sx-cf .ie-dd .opt:not(.add)>span{margin-left:0;font-size:12.5px}.sx-cf .ie-dd .opt b span{margin:0}
 .drawer.over-sx{z-index:89}.scrim.over-sx{z-index:88}
 .drawer .mf{border-top:1px solid var(--line);padding:14px 20px}
 .ie-dd{position:absolute;left:0;right:0;top:42px;z-index:5;background:#fff;border-radius:10px;box-shadow:var(--pop);padding:6px;max-height:300px;overflow-y:auto}
@@ -1158,9 +1160,24 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .sx-g.pf-dims{grid-template-columns:repeat(3,minmax(0,1fr))}
 .pf-own{align-items:flex-start;margin-top:14px;cursor:pointer}.pf-own>span{display:grid;gap:2px}.pf-own b{font-weight:500;color:var(--ink)}
 .pf-vol{margin-top:14px}
+/* product panel: hints sit a little below their field, and an empty hint takes no space */
+.sx-g.sx-g2.pf-2{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+:is(.pf-f,.ce-f) .hint{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.45}:is(.pf-f,.ce-f) .hint.err{color:var(--bad-tx)}.pf-f .hint:empty{display:none}.pf-f .pf-imgs{margin-bottom:0}
+.prd-tile img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.pf-imgs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.pf-th{position:relative;width:76px;height:76px;border-radius:8px;overflow:hidden;box-shadow:var(--sh)}
+.pf-th img{width:100%;height:100%;object-fit:cover;display:block}
+.pf-th .st{position:absolute;left:4px;bottom:4px;height:18px;font-size:11px;padding:0 5px}
+.pf-rm{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:var(--surface,#fff);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--sh)}
+.pf-add{width:76px;height:76px;border-radius:8px;border:1.5px dashed var(--line-2);color:var(--muted);display:inline-flex;align-items:center;justify-content:center}.pf-add:hover,.pf-rm:hover{color:var(--primary)}
 .sx-note.warn{background:var(--warn-bg);color:var(--warn-tx);border-color:var(--warn-bd)}
 .pi-file{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13.5px}.pi-file b{color:var(--ink);font-weight:500}.pi-file .lnk{margin-left:auto}
-.pi-tbl td{height:auto;padding-top:9px;padding-bottom:9px}.pi-tbl .pi-msg td{padding-top:0;border-top:0;font-size:12.5px;color:var(--muted);white-space:normal}
+/* import check: the body scrolls as one; rows keep their height; a row's message reads as part of that row */
+.pi-mb{align-content:start;grid-auto-rows:max-content;gap:12px}.pi-file{flex-wrap:wrap;row-gap:4px}.pi-file b{white-space:nowrap}@media (max-width:600px){.pi-file .lnk{margin-left:0;flex-basis:100%;text-align:left}}.pi-mb .pi-file{margin-bottom:0}.pi-mb>.tbl-wrap{margin-top:0;overflow-y:visible}.pi-mb>.sx-note{margin-top:0!important}
+.pi-tbl td{height:auto;padding-top:10px;padding-bottom:10px}.pi-tbl th{padding-top:8px;padding-bottom:8px}
+.pi-tbl tr:hover td{background:transparent}
+.pi-tbl .pi-msg td{padding-top:0;padding-bottom:10px;border-top:0;font-size:12.5px;line-height:1.45;color:var(--muted);white-space:normal}
+.pi-tbl td.r.src{color:var(--faint)}
 .pi-tbl tr:has(+.pi-msg) td{border-bottom:0}.pi-err,.pi-bad{color:var(--bad-tx)!important}
 .cu-flag{display:inline-flex;color:var(--warn-tx)}
 .cu-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px}.cu-stats>div{display:grid;gap:2px}.cu-stats b{color:var(--ink);font-weight:600;font-size:15px}
@@ -1174,6 +1191,8 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .cu-adh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cu-adh b{color:var(--ink);font-weight:600}.cu-adh .sp{flex:1}
 .cu-pin{display:inline-flex;align-items:center;gap:4px;justify-self:start;margin-top:2px}
 .cu-w2{grid-column:1/-1}
+.ce-f .hint{margin-top:6px}.ce-f .hint:empty{display:none}.ce-f>.hint{margin-top:8px}
+.ce-adr{margin:18px 0 0}.ce-adr .sx-sh{padding:12px 14px;gap:6px}.ce-adr .sx-sb{padding:2px 14px 14px}.ce-adr .sx-g:first-child{margin-top:12px}
 @media (max-width:600px){.cu-stats{grid-template-columns:1fr 1fr}.sx-g.pf-dims{grid-template-columns:1fr 1fr 1fr}#view-prd>.ph,#view-cus>.ph{flex-wrap:wrap;gap:12px}#view-prd>.ph .fright,#view-cus>.ph .fright{margin-left:0!important}}
 /* ===== Couriers (reuses PageHeader, Tabs, SearchField, CollapsibleCard, Checkbox, PartnerLogo, StatusBadge) ===== */
 .cou-sum{font-size:13px;color:var(--muted)}
@@ -2069,7 +2088,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
       <div id="prd-main"></div>
     </main>
     <main class="content" id="view-mca" hidden>
-      <div class="ph"><h1>Merchant Cash Advance</h1><button class="btn btn-p" data-newmca><span data-ic="plus"></span>Apply for funding</button></div>
+      <div class="ph"><h1>Merchant Cash Advance</h1></div>
       <section class="es-hero">
         <div class="es-copy">
           <h2>Funding for the stock you sell</h2>
@@ -2752,9 +2771,15 @@ document.getElementById('export').onclick=()=>requestExport('Transactions · '+(
 document.getElementById('bulk-export').onclick=()=>{const n=S.sel.size;requestExport(`Transactions · ${n} selected`,'Transactions · selected rows','CSV',()=>exportCsv(true))};
 
 /* ===== Top bar menus ===== */
-document.getElementById('plus').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+/* the Create menu opens on hover (and still on click, for touch and keyboard); it closes a moment after the pointer leaves both */
+const plusB=document.getElementById('plus');let plusT=null;
+const plusOpen=()=>{clearTimeout(plusT);if(popFor===plusB)return;const b=plusB;popFor=b;
   pop.innerHTML=`<div class="menu"><h6>Create</h6><button class="opt" data-c="Payment link">${ic('link',15)}Payment link</button><button class="opt" data-c="Shipment">${ic('truck',15)}Shipment</button><button class="opt" data-c="Invoice">${ic('tx',15)}Invoice</button><button class="opt" data-c="Funding request">${ic('coins',15)}Funding request</button></div>`;
   pop.querySelectorAll('[data-c]').forEach(o=>o.onclick=()=>{closePop();if(o.dataset.c==='Invoice'){location.hash='invoices/create';return}if(o.dataset.c==='Shipment'){location.hash='shipments/create';return}toast(`Opens the new ${o.dataset.c.toLowerCase()} form`)});placePop(b,true)};
+const plusLeave=()=>{clearTimeout(plusT);plusT=setTimeout(()=>{if(popFor===plusB)closePop()},250)};
+plusB.onclick=e=>{e.stopPropagation();if(popFor===plusB&&!e.detail){closePop();return}plusOpen()};
+if(matchMedia('(hover:hover)').matches){plusB.addEventListener('mouseenter',plusOpen);plusB.addEventListener('mouseleave',plusLeave);
+  pop.addEventListener('mouseenter',()=>{if(popFor===plusB)clearTimeout(plusT)});pop.addEventListener('mouseleave',()=>{if(popFor===plusB)plusLeave()})}
 /* Language (English first, Bahasa Indonesia second). The prototype copy is English; the choice is remembered. */
 const LANGS=[['en','English','EN'],['id','Bahasa Indonesia','ID']];
 let LANG='en';try{LANG=localStorage.getItem('flik-lang')||'en'}catch(e){}
@@ -3037,7 +3062,7 @@ const fday=d=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`;
 const phone=()=>`+62 ${pick(['812','813','821','822','852','857','878','895'])}-${1000+Math.floor(rnd()*8999)}-${1000+Math.floor(rnd()*8999)}`;
 const ICUST=CUST.map(n=>({name:n,phone:phone(),email:n.toLowerCase().replace(' ','.')+'@gmail.com',city:pick(CITY)}));
 /* the Product catalog: weight in grams, size in cm; ship = shipments in the last 30 days (example data) */
-const mkProd=(name,sku,price,g,l,w,h,o={})=>({id:'prod_'+Math.abs([...name].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7)).toString(36),name,sku,price,g,l,w,h,dv:o.dv||0,own:!!o.own,active:o.active!==false,ship:o.ship||0,img:o.img??1,at:o.at||0});
+const mkProd=(name,sku,price,g,l,w,h,o={})=>({id:'prod_'+Math.abs([...name].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7)).toString(36),name,sku,price,g,l,w,h,dv:o.dv||0,own:!!o.own,active:o.active!==false,ship:o.ship||0,imgs:o.imgs||[],at:o.at||0});
 const PROD=[mkProd('Linen shirt · White','LS-WHT-M',289000,400,30,25,4,{ship:61}),mkProd('Canvas tote bag','',149000,300,40,35,3,{ship:44}),mkProd('Wide-leg trousers','WLT-BLK-L',219000,500,35,28,5,{ship:29}),
   mkProd('Basic tee · Black','TEE-BLK-M',99000,200,28,22,3,{ship:88}),mkProd('Voile scarf · Floral','SCF-VOI-FL',125000,100,20,20,2,{ship:17}),mkProd('Leather sneakers','SNK-LTH-42',459000,1200,33,22,12,{own:true,ship:23}),
   mkProd('Batik dress · Indigo','DRS-BTK-IND',375000,500,35,28,5,{ship:12,dv:350000}),mkProd('Gift wrapping','GIFT-WRAP',15000,0,0,0,0,{ship:0,img:0}),mkProd('Ceramic mug · Sage','MUG-SAGE',89000,450,12,12,11,{ship:9}),
@@ -3057,7 +3082,7 @@ const pdSync=()=>{CATALOG.length=0;Object.keys(PDIM).forEach(k=>delete PDIM[k]);
 NEW_PROD.forEach(p=>{if(!PROD.some(x=>x.name===p.name))PROD.unshift(mkProd(p.name,p.sku||'',p.price,p.g!=null?p.g:p.d?Math.round(p.d[3]*1000):0,p.d?p.d[0]:p.l||0,p.d?p.d[1]:p.w||0,p.d?p.d[2]:p.h||0,{at:p.at,img:0}))});pdSync();
 function addCustomer(c){c.at=Date.now();c.src='Invoice';NEW_CUST.unshift(c);ICUST.unshift(c);LSK('flik-customers',NEW_CUST);return c}
 function addProduct(name,price,d,o={}){const g=o.g!=null?o.g:d?Math.round(d[3]*1000):0,v={sku:o.sku||'',g,l:o.l!=null?o.l:d?d[0]:0,w:o.w!=null?o.w:d?d[1]:0,h:o.h!=null?o.h:d?d[2]:0};
-  const p=mkProd(name,v.sku,price,v.g,v.l,v.w,v.h,{at:Date.now(),img:o.img||0,own:o.own,dv:o.dv});PROD.unshift(p);NEW_PROD.push({name,price,at:p.at,...v});LSK('flik-products',NEW_PROD);pdSync();return p}
+  const p=mkProd(name,v.sku,price,v.g,v.l,v.w,v.h,{at:Date.now(),imgs:o.imgs||[],own:o.own,dv:o.dv});PROD.unshift(p);NEW_PROD.push({name,price,at:p.at,...v});LSK('flik-products',NEW_PROD);pdSync();return p}
 const validEmail=v=>/^\S+@\S+\.\S+$/.test(v);
 function custModal(name,onSave,needEmail){let c={name:name||'',phone:'',email:''};
   modal.innerHTML=`<div class="mh"><h3>Add customer</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
@@ -3259,7 +3284,7 @@ function renderPrd(){const el=document.getElementById('prd-main'),empty=PRDS.sta
     <section class="es-card"><h3>Import your list</h3><p>Upload a CSV with SKU, name, weight and size. Rows with a SKU update that product, so importing again never makes duplicates.</p></section>
     <section class="es-card"><h3>Save as you ship</h3><p>Typed a new item in a shipment? Add it to your catalog from there, and it's ready for the next order.</p></section></div>`;esArt('es-art-prd','box',[['truck',0],['pkg',1],['tag',2],['sheet',3],['upload',4],['link',.5,1],['invoice',1.5,1],['cart',2.5,1],['wh',3.5,1]]);return}
   const K='prd';
-  dtUse(K,{name:['Product',p=>p.name.toLowerCase(),p=>`<td><div class="cus-n"><span class="prd-tile">${ic('box',16)}</span><b>${esc(p.name)}</b></div></td>`,{fixed:1}],
+  dtUse(K,{name:['Product',p=>p.name.toLowerCase(),p=>`<td><div class="cus-n"><span class="prd-tile">${p.imgs&&p.imgs[0]?`<img src="${p.imgs[0]}" alt="">`:ic('box',16)}</span><b>${esc(p.name)}</b></div></td>`,{fixed:1}],
     sku:['SKU',p=>p.sku.toLowerCase(),p=>`<td class="mono">${p.sku?esc(p.sku):'<span class="src">—</span>'}</td>`],
     wt:['Weight',p=>p.g,p=>`<td class="num">${p.g?fmtG(p.g):'<span class="src">—</span>'}</td>`],
     dim:['Dimensions',p=>p.l*p.w*p.h,p=>`<td class="num">${prdDim(p)||'<span class="src">—</span>'}</td>`],
@@ -3296,36 +3321,46 @@ document.getElementById('view-prd').addEventListener('click',e=>{const t=e.targe
   const tr=c('tr[data-prd]');if(tr)productDrawer(PROD.find(p=>p.id===tr.dataset.prd),{onSave:p=>{renderPrd();toast(`${p.name} saved`)}})});
 
 /* one product drawer for every route (catalog, Create shipment): name, SKU, photos, price, then the shipping data */
-function productDrawer(p,o={}){const edit=!!p,P=p?{...p}:{name:o.name||'',sku:'',price:0,g:0,l:0,w:0,h:0,dv:0,own:false,img:0},orig=p&&p.price;
+/* a SKU made from the name: up to two words, consonants first, plus a short random code (unique in the catalog) */
+const skuFrom=(n,suf)=>{const w=n.toUpperCase().normalize('NFD').replace(/[^A-Z0-9 ]/g,' ').split(/\s+/).filter(Boolean).slice(0,2).map(x=>(x[0]+x.slice(1).replace(/[AEIOU]/g,'')).slice(0,3));return w.length?`${w.join('-')}-${suf}`:''};
+/* one short product form everywhere (catalog and Create shipment): name, SKU, price, photos, then weight and height, length and width.
+   Declared value and "ships in its own box" aren't asked; values a product already has are kept */
+function productDrawer(p,o={}){const lite=true,edit=!!p,P=p?{...p,imgs:[...(p.imgs||[])]}:{name:o.name||'',sku:'',price:0,g:0,l:0,w:0,h:0,dv:0,own:false,imgs:[]},orig=p&&p.price;
+  let skuAuto=!edit,suf='';const newSuf=()=>{do{suf=Math.random().toString(36).slice(2,5).toUpperCase()}while(/[^A-Z0-9]/.test(suf)||PROD.some(x=>x.sku===skuFrom(P.name||'x',suf)))};newSuf();if(skuAuto)P.sku=skuFrom(P.name,suf);
+  const imgsHtml=()=>P.imgs.length?`<div class="pf-imgs">${P.imgs.map((u,i)=>`<div class="pf-th"><img src="${u}" alt="Photo ${i+1}">${i?'':'<span class="st gr">Thumbnail</span>'}<button class="pf-rm" data-pfrm="${i}" aria-label="Remove photo ${i+1}">${ic('x',12,2.4)}</button></div>`).join('')}${P.imgs.length<5?`<button class="pf-add" data-pfimg aria-label="Add photos">${ic('plus',18)}</button>`:''}</div>`
+    :`<button class="vf-up" data-pfimg>${ic('upload',16)}<span>Add photos</span></button>`;
   const num=v=>v?String(v):'',fld=(k,l,u,opt)=>`<div class="sx-f"><label for="pf-${k}">${l}${opt?' <span class="opt-l">(optional)</span>':''}</label><div class="unit"><input id="pf-${k}" data-pf="${k}" inputmode="numeric" value="${num(P[k])}" placeholder="0"><em>${u}</em></div></div>`;
   const draw=()=>{drawer.innerHTML=`<div class="dh"><span class="kind">${ic('box',15)}${edit?'Product':'New product'}</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="db">${edit&&!P.active?`<div class="sx-note">${ic('help',16)}<span>Archived. It can't be picked in new shipments; past shipments keep their details.</span></div>`:''}
+  <div class="db pf-f">${edit&&!P.active?`<div class="sx-note">${ic('help',16)}<span>Archived. It can't be picked in new shipments; past shipments keep their details.</span></div>`:''}
     <div class="sx-f"><label for="pf-name">Product name</label><input id="pf-name" data-pf="name" value="${esc(P.name)}" placeholder="e.g. Linen shirt · White"></div>
-    <div class="sx-g sx-g2"><div class="sx-f"><label for="pf-sku">SKU <span class="opt-l">(optional)</span></label><input id="pf-sku" data-pf="sku" class="mono" value="${esc(P.sku)}" placeholder="LS-WHT-M" autocomplete="off"><p class="hint" id="pf-skuh"></p></div>
-      <div class="sx-f"><label for="pf-price">Price</label><div class="pre"><em>Rp</em><input id="pf-price" data-pf="price" inputmode="numeric" value="${P.price?P.price.toLocaleString('id-ID'):''}" placeholder="150.000"></div><p class="hint" id="pf-priceh"></p></div></div>
-    <div class="sx-g"><div class="sx-f"><label>Photos <span class="opt-l">(optional)</span></label><button class="vf-up" data-pfimg>${ic('upload',16)}<span>${P.img?`${plural(P.img,'photo')} added · add more`:'Add photos'}</span></button><p class="hint">Up to 5. The first is the thumbnail.</p></div></div>
+    <div class="sx-g sx-g2"><div class="sx-f"><label for="pf-sku">SKU <span class="opt-l">(optional)</span></label><input id="pf-sku" data-pf="sku" class="mono" value="${esc(P.sku)}" placeholder="${lite?'':'Fills in from the name'}" autocomplete="off"><p class="hint" id="pf-skuh"></p></div>
+      <div class="sx-f"><label for="pf-price">Price</label><div class="pre"><em>Rp</em><input id="pf-price" data-pf="price" inputmode="numeric" value="${P.price?P.price.toLocaleString('id-ID'):''}" placeholder="${lite?'':'150.000'}"></div><p class="hint" id="pf-priceh"></p></div></div>
+    <div class="sx-g"><div class="sx-f"><label>Photos <span class="opt-l">(optional)</span></label><div id="pf-imgw">${imgsHtml()}</div><input type="file" id="pf-file" accept="image/*" multiple hidden><p class="hint">Up to 5. The first is the thumbnail.</p></div></div>
     <h5 class="pf-h">Shipping</h5>
-    <div class="sx-g sx-g2" style="margin-top:0">${fld('g','Weight','g')}<div class="sx-f"><label for="pf-dv">Declared value <span class="opt-l">(optional)</span></label><div class="pre"><em>Rp</em><input id="pf-dv" data-pf="dv" inputmode="numeric" value="${P.dv?P.dv.toLocaleString('id-ID'):''}" placeholder="Uses the price"></div></div></div>
-    <div class="sx-g pf-dims">${fld('l','Length','cm',1)}${fld('w','Width','cm',1)}${fld('h','Height','cm',1)}</div><p class="hint" id="pf-dimh"></p>
-    <label class="ck pf-own"><button class="cb${P.own?' on':''}" data-pfown role="checkbox" aria-checked="${P.own}" aria-label="Ships in its own box">${P.own?ic('check',12,3):''}</button><span><b>Ships in its own box</b><span class="src">Its size is the outer box, so no packaging weight is added.</span></span></label>
+    ${lite?`<div class="sx-g sx-g2 pf-2" style="margin-top:0">${fld('g','Weight','g')}${fld('h','Height','cm')}</div><div class="sx-g sx-g2 pf-2">${fld('l','Length','cm')}${fld('w','Width','cm')}</div>`:`<div class="sx-g sx-g2" style="margin-top:0">${fld('g','Weight','g')}`}${lite?'':`<div class="sx-f"><label for="pf-dv">Declared value <span class="opt-l">(optional)</span></label><div class="pre"><em>Rp</em><input id="pf-dv" data-pf="dv" inputmode="numeric" value="${P.dv?P.dv.toLocaleString('id-ID'):''}" placeholder="Uses the price"></div></div></div>`}
+    ${lite?'':`<div class="sx-g pf-dims">${fld('l','Length','cm')}${fld('w','Width','cm')}${fld('h','Height','cm')}</div>`}<p class="hint" id="pf-dimh"></p>
+    ${lite?'':`<label class="ck pf-own"><button class="cb${P.own?' on':''}" data-pfown role="checkbox" aria-checked="${P.own}" aria-label="Ships in its own box">${P.own?ic('check',12,3):''}</button><span><b>Ships in its own box</b><span class="src">Its size is the outer box, so no packaging weight is added.</span></span></label>`}
     <div class="sx-note info pf-vol" id="pf-vol" hidden></div>
     <p class="hint" id="pf-wth"></p></div>
   <div class="mf">${edit?`<button class="btn btn-o" data-pfarch style="margin-right:auto">${P.active?'Archive':'Restore'}</button>`:''}<button class="btn btn-o" data-dclose>Cancel</button><button class="btn btn-p" id="pf-go">${edit?'Save changes':'Add product'}</button></div>`;
     const g=id=>document.getElementById(id),go=g('pf-go'),close=()=>{drawer.oninput=null;closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx')};
     const chk=()=>{const sku=P.sku.trim().toLowerCase(),dup=sku&&PROD.find(x=>x.sku.toLowerCase()===sku&&(!p||x.id!==p.id)),dims=[P.l,P.w,P.h].filter(x=>x>0).length,dimBad=dims>0&&dims<3;
-      g('pf-skuh').textContent=dup?`Already used by ${dup.name}.`:'';g('pf-skuh').classList.toggle('err',!!dup);
-      g('pf-dimh').textContent=dimBad?'Fill length, width and height, or leave all three empty.':'';g('pf-dimh').classList.toggle('err',dimBad);
+      g('pf-skuh').textContent=dup?`Already used by ${dup.name}.`:skuAuto&&P.sku&&!lite?'Made from the name.':'';g('pf-skuh').classList.toggle('err',!!dup);
+      g('pf-dimh').textContent=dimBad?'Fill length, width and height, or leave all three empty.':lite?'':'Size is optional: fill all three, or leave them empty.';g('pf-dimh').classList.toggle('err',dimBad);
       g('pf-priceh').textContent=edit&&P.price&&P.price!==orig?'Past orders keep the old price.':'';
       const kg=P.g/1000,vol=dims===3?P.l*P.w*P.h/6000:0,v=g('pf-vol');v.hidden=!(kg||vol);
-      if(kg||vol){const x=Math.max(kg,vol);v.innerHTML=`${ic('pkg',16)}<span>About ${(Math.round(x*10)/10).toLocaleString('id-ID')} kg if shipped alone${vol>kg?`, because its size counts more than its weight (L × W × H ÷ 6.000)`:''}.</span>`}
-      const needW=o.needWeight&&!(P.g>0);g('pf-wth').textContent=!(P.g>0)?(o.needWeight?'Add a weight to use it in this shipment.':'Without a weight it shows Missing shipping data and can\'t be picked in Create shipment.'):'';
+      if(kg||vol){const x=Math.max(kg,vol);v.innerHTML=`${ic('pkg',16)}<span>About ${x<1?`${Math.max(1,Math.round(x*1000)).toLocaleString('id-ID')} g`:`${(Math.round(x*10)/10).toLocaleString('id-ID')} kg`} if shipped alone${vol>kg?`, because its size counts more than its weight (L × W × H ÷ 6.000)`:''}.</span>`}
+      const needW=o.needWeight&&!(P.g>0);g('pf-wth').textContent=lite?'':!(P.g>0)?(o.needWeight?'Add a weight to use it in this shipment.':'Without a weight it shows Missing shipping data and can\'t be picked in Create shipment.'):'';
       go.disabled=!(P.name.trim()&&P.price>0&&!dup&&!dimBad&&!needW)};
     drawer.querySelectorAll('[data-dclose]').forEach(b=>b.onclick=close);dscrim.onclick=close;
-    drawer.oninput=e=>{const t=e.target,k=t.dataset.pf;if(!k)return;if(k==='name'||k==='sku')P[k]=t.value;else{const n=+t.value.replace(/\D/g,'');P[k]=n;t.value=n?(k==='price'||k==='dv'?n.toLocaleString('id-ID'):String(n)):''}chk()};
-    drawer.querySelector('[data-pfimg]').onclick=()=>{if(P.img>=5){toast('Up to 5 photos');return}P.img++;const s=drawer.querySelector('[data-pfimg] span');s.textContent=`${plural(P.img,'photo')} added · add more`};
-    drawer.querySelector('[data-pfown]').onclick=e=>{e.preventDefault();P.own=!P.own;const b=e.currentTarget;b.classList.toggle('on',P.own);b.setAttribute('aria-checked',P.own);b.innerHTML=P.own?ic('check',12,3):''};
+    drawer.oninput=e=>{const t=e.target,k=t.dataset.pf;if(!k)return;if(k==='name'){P.name=t.value;if(skuAuto){P.sku=skuFrom(P.name,suf);g('pf-sku').value=P.sku}}else if(k==='sku'){P.sku=t.value;skuAuto=false}else{const n=+t.value.replace(/\D/g,'');P[k]=n;t.value=n?(k==='price'||k==='dv'?n.toLocaleString('id-ID'):String(n)):''}chk()};
+    /* photos: pick images, see them at once; the first is the thumbnail, any can be removed */
+    const fi=g('pf-file'),imgW=g('pf-imgw'),imgDraw=()=>{imgW.innerHTML=imgsHtml()};
+    imgW.onclick=e=>{const rm=e.target.closest('[data-pfrm]');if(rm){P.imgs.splice(+rm.dataset.pfrm,1);imgDraw();return}if(e.target.closest('[data-pfimg]'))fi.click()};
+    fi.onchange=()=>{const F=[...fi.files].filter(x=>x.type.startsWith('image/')),room=5-P.imgs.length;F.slice(0,room).forEach(x=>P.imgs.push(URL.createObjectURL(x)));if(F.length>room)toast('Up to 5 photos. The rest weren\'t added.');fi.value='';imgDraw()};
+    const ow=drawer.querySelector('[data-pfown]');if(ow)ow.onclick=e=>{e.preventDefault();P.own=!P.own;const b=e.currentTarget;b.classList.toggle('on',P.own);b.setAttribute('aria-checked',P.own);b.innerHTML=P.own?ic('check',12,3):''};
     const ar=drawer.querySelector('[data-pfarch]');if(ar)ar.onclick=()=>{close();prdArchive([p.id],!p.active)};
-    go.onclick=()=>{const v={name:P.name.trim(),sku:P.sku.trim(),price:P.price,g:P.g,l:P.l,w:P.w,h:P.h,dv:P.dv,own:P.own,img:P.img};
+    go.onclick=()=>{const v={name:P.name.trim(),sku:P.sku.trim(),price:P.price,g:P.g,l:P.l,w:P.w,h:P.h,dv:P.dv,own:P.own,imgs:P.imgs};
       if(edit)Object.assign(p,v);const saved=edit?p:addProduct(v.name,v.price,null,v);pdSync();close();if(o.onSave)o.onSave(saved)};
     chk()};
   draw();drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
@@ -3346,7 +3381,7 @@ function prdImport(){let step=0,pick={4:'update'};
     document.getElementById('pi-file').onclick=()=>{step=1;draw()};return}
     const add=R.filter(r=>r[6]==='new'||(r[6]==='same'&&pick[r[0]]==='new')).length+10,upd=R.filter(r=>r[6]==='update'||(r[6]==='same'&&pick[r[0]]==='update')).length+28,bad=R.filter(r=>r[6]==='err').length;
     modal.innerHTML=`<div class="mh"><h3>Check before importing</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-    <div class="mb"><div class="pi-file">${ic('sheet',16)}<b>products-oct.csv</b><span class="src">46 rows · showing the rows to check first</span><button class="lnk" id="pi-re">Choose another file</button></div>
+    <div class="mb pi-mb"><div class="pi-file">${ic('sheet',16)}<b>products-oct.csv</b><span class="src">46 rows · showing the rows to check first</span><button class="lnk" id="pi-re">Choose another file</button></div>
       <div class="tbl-wrap"><table class="pi-tbl"><thead><tr><th class="r">Row</th><th>SKU</th><th>Name</th><th class="r">Weight (g)</th><th>L×W×H (cm)</th><th class="r">Price</th><th>Result</th></tr></thead><tbody>
       ${R.map(r=>`<tr class="nohover"><td class="r num src">${r[0]}</td><td class="mono">${r[1]||'<span class="src">—</span>'}</td><td>${esc(r[2])}</td><td class="r num${r[6]==='err'&&/Weight/.test(r[7])?' pi-bad':''}">${r[3]||'—'}</td><td class="num${/length/.test(r[7])?' pi-bad':''}">${r[4]}</td><td class="r num">Rp${r[5]}</td><td class="c-st">${r[6]==='same'?(pick[r[0]]==='new'?'<span class="st ok">New</span>':'<span class="st pu">Update</span>'):`<span class="st ${RS[r[6]][1]}">${RS[r[6]][0]}</span>`}</td></tr>
         ${r[7]?`<tr class="nohover pi-msg"><td></td><td colspan="6"><span class="${r[6]==='err'?'pi-err':''}">${r[7]}</span>${r[6]==='same'?` <button class="lnk" data-pis="${r[0]}" data-v="update">${pick[r[0]]==='update'?'<b>Same product</b>':'Same product'}</button> · <button class="lnk" data-pis="${r[0]}" data-v="new">${pick[r[0]]==='new'?'<b>Add as new</b>':'Add as new'}</button>`:''}</td></tr>`:''}`).join('')}</tbody></table></div>
@@ -3395,10 +3430,11 @@ function renderCus(){cusInit();const el=document.getElementById('cus-main'),empt
     <section class="es-card"><h3>Leads live here too</h3><p>Contacts from forms and QR campaigns show as leads, and become customers when they first buy.</p></section>
     <section class="es-card"><h3>One record per phone</h3><p>The same phone number from any channel adds to one customer, so totals stay right.</p></section></div>`;esArt('es-art','user',[['chat',0],['ig',1],['cart',2],['store',3],['link',4],['invoice',.5,1],['pin',1.5,1],['upload',2.5,1],['tx',3.5,1]]);return}
   const K='cus';
-  dtUse(K,{name:['Name',c=>c.name.toLowerCase(),c=>`<td><div class="cus-n"><span class="ie-av">${initials(c.name)}</span><div><b>${esc(c.name)}</b>${c.other.length?`<span class="src">Also ${esc(c.other.join(', '))}</span>`:''}</div></div></td>`,{fixed:1}],
+  dtUse(K,{name:['Name',c=>c.name.toLowerCase(),c=>`<td><div class="cus-n"><div><b>${esc(c.name)}</b>${c.other.length?`<span class="src">Also ${esc(c.other.join(', '))}</span>`:''}</div></div></td>`,{fixed:1}],
     phone:['Phone',c=>c.phones[0]||'',c=>`<td class="num">${c.phones[0]||'<span class="src">—</span>'}</td>`],
     city:['City',c=>c.city,c=>`<td>${c.city?esc(c.city):'<span class="src">—</span>'}</td>`],
     life:['Lifecycle',c=>['lead','recipient','customer'].indexOf(c.life),c=>`<td class="c-st"><span class="st ${LIFE[c.life][1]}">${LIFE[c.life][0]}</span></td>`],
+    ch:['Channel',c=>cuStats(c).chs.length,c=>{const K=Object.keys(CU_CH),L=cuStats(c).chs.slice().sort((a,b)=>K.indexOf(a)-K.indexOf(b)).map(x=>CU_CH[x]);return`<td>${L.length?(L.length>2?`${L.slice(0,2).join(', ')} <span class="src" data-tip="${L.slice(2).join(', ')}">+${L.length-2}</span>`:L.join(', ')):'<span class="src">—</span>'}</td>`}],
     orders:['Orders',c=>cuStats(c).orders,c=>`<td class="num">${cuStats(c).orders}</td>`],
     total:['Total paid',c=>cuStats(c).total,c=>`<td class="num">${cuStats(c).total?rp(cuStats(c).total):'<span class="src">—</span>'}</td>`],
     last:['Last purchase',c=>+(cuStats(c).last||0),c=>`<td class="date">${cuStats(c).last?fday(cuStats(c).last):'<span class="src">—</span>'}</td>`],
@@ -3463,24 +3499,42 @@ function cuDetail(id){cusInit();const c=CUS.find(x=>x.id===id);if(!c)return;cons
   on('[data-cuship]',()=>{const a=c.addrs.find(x=>x.def)||c.addrs[0];try{sessionStorage.setItem('flik-ship-to',JSON.stringify({t:Date.now(),name:a.name,phone:a.phone,addr:{street:a.street,city:`${a.kec}, ${a.city}`,zip:a.zip}}))}catch(x){}closeDetail();location.hash='shipments/create'})}
 
 /* new or edit: name, phones, email, tags, notes. A name you type yourself is never changed by auto-capture */
-function cuEdit(c){const C=c?{name:c.name,ph:c.phones[0]?c.phones[0].replace(/^\+62\s?/,''):'',ph2:c.phones[1]?c.phones[1].replace(/^\+62\s?/,''):'',em:c.emails[0]||'',tags:c.tags.join(', '),notes:c.notes}:{name:'',ph:'',ph2:'',em:'',tags:'',notes:''};
-  modal.innerHTML=`<div class="mh"><h3>${c?'Edit customer':'New customer'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><div class="sx-f"><label for="ce-name">Name</label><input id="ce-name" data-ce="name" value="${esc(C.name)}" placeholder="Rina Putri">${c?'<p class="hint">Names you edit stay as you typed them. New names from orders are kept as other names.</p>':''}</div>
-    <div class="sx-g sx-g2"><div class="sx-f"><label for="ce-ph">WhatsApp</label><div class="pre"><em>+62</em><input id="ce-ph" data-ce="ph" inputmode="numeric" value="${esc(C.ph)}" placeholder="812-3456-7890"></div></div>
-      <div class="sx-f"><label for="ce-ph2">Other phone <span class="opt-l">(optional)</span></label><div class="pre"><em>+62</em><input id="ce-ph2" data-ce="ph2" inputmode="numeric" value="${esc(C.ph2)}" placeholder="813-0000-0000"></div></div></div>
-    <div class="sx-g"><div class="sx-f"><label for="ce-em">Email${c?'':' <span class="opt-l">(optional if there\'s a phone)</span>'}</label><input id="ce-em" data-ce="em" type="email" value="${esc(C.em)}" placeholder="rina@gmail.com"><p class="hint" id="ce-err"></p></div></div>
+/* the customer form opens in the side panel everywhere (it's long, like the product form) */
+function cuEdit(c,o={}){o={panel:true,...o};const C=c?{name:c.name,ph:c.phones[0]?c.phones[0].replace(/^\+62\s?/,''):'',ph2:c.phones[1]?c.phones[1].replace(/^\+62\s?/,''):'',em:c.emails[0]||'',tags:c.tags.join(', '),notes:c.notes}:{name:o.name||'',ph:'',ph2:'',em:'',tags:'',notes:''};
+  /* a new customer can carry one address (optional); later ones are added in the Addresses tab */
+  const A={street:'',kel:'',kec:'',city:'',prov:'',zip:''},AF=[['street','Street address','Street, building, house number',1],['kel','Kelurahan','Cilandak Barat'],['kec','Kecamatan','Cilandak'],['city','City','Jakarta Selatan'],['prov','Province','DKI Jakarta'],['zip','Postcode','12430']];
+  const box=o.panel?drawer:modal,title=c?'Edit customer':'New customer';
+  const adr=c?'':`<div class="sx-ship ce-adr"><button class="sx-sh" data-ceadr aria-expanded="false" aria-controls="ce-adrb"><b>Address</b><span class="opt-l">(optional)</span><span class="sum" id="ce-asum"></span><span class="chev">${ic('chev',16)}</span></button>
+      <div class="sx-sb" id="ce-adrb"><div class="sx-g sx-g2">${AF.map(([k,l,ph,w])=>`<div class="sx-f${w?' cu-w2':''}"><label for="ce-a-${k}">${l}</label><input id="ce-a-${k}" data-cea="${k}" placeholder="${ph}" ${k==='zip'?'inputmode="numeric" maxlength="5"':''}></div>`).join('')}</div><p class="hint" id="ce-aerr"></p></div></div>`;
+  /* name and WhatsApp on one row; each message sits under its own field; the address comes last */
+  const body=`<div class="ce-f"><div class="sx-g sx-g2" style="margin-top:0"><div class="sx-f"><label for="ce-name">Name</label><input id="ce-name" data-ce="name" value="${esc(C.name)}" placeholder="${o.needPhone?'':'Rina Putri'}"></div>
+      <div class="sx-f"><label for="ce-ph">Phone number</label><div class="pre"><em>+62</em><input id="ce-ph" data-ce="ph" inputmode="numeric" value="${esc(C.ph)}" placeholder="${o.needPhone?'':'812-3456-7890'}"></div><p class="hint" id="ce-pherr"></p></div></div>
+    ${c?'<p class="hint">Names you edit stay as you typed them. New names from orders are kept as other names.</p>':''}
+    <div class="sx-g"><div class="sx-f"><label for="ce-em">Email <span class="opt-l">(optional${c||o.needPhone?'':' if there\'s a phone number'})</span></label><input id="ce-em" data-ce="em" type="email" value="${esc(C.em)}" placeholder="${o.needPhone?'':'rina@gmail.com'}"><p class="hint" id="ce-err"></p></div></div>
     <div class="sx-g"><div class="sx-f"><label for="ce-tags">Tags <span class="opt-l">(optional)</span></label><input id="ce-tags" data-ce="tags" value="${esc(C.tags)}" placeholder="VIP, Reseller"></div></div>
-    <div class="sx-g"><div class="sx-f"><label for="ce-notes">Notes <span class="opt-l">(optional)</span></label><textarea id="ce-notes" data-ce="notes" rows="2" placeholder="Anything your team should know">${esc(C.notes)}</textarea></div></div></div>
-  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ce-go">${c?'Save changes':'Add customer'}</button></div>`;
-  modal.classList.add('md');mscrim.classList.add('open');const g=x=>document.getElementById(x),go=g('ce-go');
+    <div class="sx-g"><div class="sx-f"><label for="ce-notes">Notes <span class="opt-l">(optional)</span></label><textarea id="ce-notes" data-ce="notes" rows="2" placeholder="Anything your team should know">${esc(C.notes)}</textarea></div></div>
+    ${adr}</div>`;
+  const foot=`<div class="mf"><button class="btn btn-o" data-ceclose>Cancel</button><button class="btn btn-p" id="ce-go">${c?'Save changes':'Add customer'}</button></div>`;
+  if(o.panel){drawer.innerHTML=`<div class="dh"><span class="kind">${ic('user',15)}${title}</span><button class="ib" data-ceclose aria-label="Close">${ic('x',18)}</button></div><div class="db">${body}</div>${foot}`;
+    drawer.classList.add('open','over-sx');dscrim.classList.add('open','over-sx');drawer.setAttribute('aria-hidden','false')}
+  else{modal.innerHTML=`<div class="mh"><h3>${title}</h3><button class="ib" data-ceclose aria-label="Close">${ic('x',18)}</button></div><div class="mb">${body}</div>${foot}`;modal.classList.add('md');mscrim.classList.add('open')}
+  const g=x=>document.getElementById(x),go=g('ce-go'),close=()=>{box.oninput=null;if(o.panel){closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx')}else closeModal()};
+  const cancel=()=>{close();if(c)cuDetail(c.id)};
+  const at=box.querySelector('[data-ceadr]');if(at)at.onclick=()=>{const w=at.parentElement,op=!w.classList.contains('open');w.classList.toggle('open',op);at.setAttribute('aria-expanded',op);
+    const bad=g('ce-aerr').textContent,sm=g('ce-asum');sm.textContent=op?'':bad?'Finish or clear the address':[A.street,A.city].filter(x=>x.trim()).join(', ');sm.style.color=bad&&!op?'var(--bad-tx)':'';if(op)setTimeout(()=>g('ce-a-street').focus(),0)};box.querySelectorAll('[data-ceclose]').forEach(b=>b.onclick=cancel);if(o.panel)dscrim.onclick=cancel;
   const chk=()=>{const d=C.ph.replace(/\D/g,''),dup=d.length>=9&&CUS.find(x=>x!==c&&x.phones.some(p=>p.replace(/\D/g,'').endsWith(d))),emOk=!C.em||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(C.em);
-    g('ce-err').textContent=dup?`This phone already belongs to ${dup.name}. Merge them instead.`:!emOk?'Check the email address.':!d&&!C.em?'Add a WhatsApp number or an email.':'';g('ce-err').classList.toggle('err',!!(dup||!emOk));
-    go.disabled=!(C.name.trim()&&(d.length>=9||(C.em&&emOk))&&!dup&&emOk)};
-  modal.oninput=e=>{const k=e.target.dataset.ce;if(k)C[k]=e.target.value;chk()};chk();setTimeout(()=>g('ce-name').focus(),0);
-  go.onclick=()=>{modal.oninput=null;const v={name:C.name.trim(),phones:[C.ph,C.ph2].filter(x=>x.replace(/\D/g,'').length>=9).map(x=>'+62 '+x.trim()),emails:C.em?[C.em.trim()]:[],tags:C.tags.split(',').map(x=>x.trim()).filter(Boolean),notes:C.notes.trim()};
-    if(c){if(v.name!==c.name){c.other=[...new Set([c.name,...c.other])].filter(x=>x!==v.name);c.locked=true}Object.assign(c,v);closeModal();renderCus();cuDetail(c.id);toast('Customer saved');return}
-    const n={id:'ctc_'+(1300+CUS.length),...v,other:[],city:'',life:'lead',src:'manual',flag:null,act:[],addrs:[],created:new Date(NOW),locked:true};CUS.unshift(n);
-    if(n.phones[0])addCustomer({name:n.name,phone:n.phones[0],email:n.emails[0]||'',city:''});closeModal();CUSV.state='normal';renderCus();cuDetail(n.id);toast(`${n.name} added as a lead`)}}
+    const aAny=Object.values(A).some(v=>v.trim()),aOk=!aAny||(A.street.trim()&&A.kec.trim()&&A.city.trim()&&/^\d{5}$/.test(A.zip));
+    const phMsg=dup?`This number already belongs to ${dup.name}. Merge them instead.`:!o.needPhone&&!d&&!C.em?'Add a phone number or an email.':'';
+    g('ce-pherr').textContent=phMsg;g('ce-pherr').classList.toggle('err',!!dup);g('ce-err').textContent=emOk?'':'Check the email address.';g('ce-err').classList.toggle('err',!emOk);
+    if(g('ce-aerr')){g('ce-aerr').textContent=aOk?'':'Fill the street, kecamatan, city and a 5-digit postcode, or leave the address empty.';g('ce-aerr').classList.toggle('err',!aOk)}
+    go.disabled=!(C.name.trim()&&(d.length>=9||(!o.needPhone&&C.em&&emOk))&&!dup&&emOk&&aOk)};
+  box.oninput=e=>{const k=e.target.dataset.ce,a=e.target.dataset.cea;if(k)C[k]=e.target.value;if(a){if(a==='zip')e.target.value=e.target.value.replace(/\D/g,'');A[a]=e.target.value}chk()};chk();setTimeout(()=>g(C.name?'ce-ph':'ce-name').focus(),o.panel?250:0);
+  go.onclick=()=>{const v={name:C.name.trim(),phones:[...(C.ph.replace(/\D/g,'').length>=9?['+62 '+C.ph.trim()]:[]),...(c?c.phones.slice(1):[])],emails:C.em?[C.em.trim()]:[],tags:C.tags.split(',').map(x=>x.trim()).filter(Boolean),notes:C.notes.trim()};close();
+    if(c){if(v.name!==c.name){c.other=[...new Set([c.name,...c.other])].filter(x=>x!==v.name);c.locked=true}Object.assign(c,v);renderCus();cuDetail(c.id);toast('Customer saved');return}
+    const ad=A.street.trim()?[{label:'Home',def:true,name:v.name,phone:v.phones[0]||'',street:A.street.trim(),kel:A.kel.trim(),kec:A.kec.trim(),city:A.city.trim(),prov:A.prov.trim(),zip:A.zip}]:[];
+    const n={id:'ctc_'+(1300+CUS.length),...v,other:[],city:ad[0]?ad[0].city:'',life:'lead',src:'manual',flag:null,act:[],addrs:ad,created:new Date(NOW),locked:true};CUS.unshift(n);
+    if(n.phones[0])addCustomer({name:n.name,phone:n.phones[0],email:n.emails[0]||'',city:n.city});
+    if(o.onSave){o.onSave(n);return}CUSV.state='normal';renderCus();cuDetail(n.id);toast(`${n.name} added as a lead`)}}
 
 /* address add and edit, down to kelurahan and postcode */
 function cuAddr(c,i){const a=i>=0?{...c.addrs[i]}:{label:c.addrs.length?'Office':'Home',name:c.name,phone:c.phones[0]||'',street:'',kel:'',kec:'',city:'',prov:'',zip:'',def:!c.addrs.length};
@@ -3812,7 +3866,7 @@ function closeShip(){sx.hidden=true;document.body.style.overflow=''}
 const inp=(i,k,lab,ph,o={})=>`<div class="sx-f"><label for="s${i}${k}">${lab}</label><div class="${o.pre?'pre':o.unit?'unit':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="s${i}${k}" data-si="${i}" data-k="${k}" value="${X.ships[i][k]}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`;
 function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
   return`<div class="sx-ship${s.open?' open':''}"><button class="sx-sh" data-tog="${i}"><b>Shipment ${i+1}</b>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${s.addr&&s.phone.replace(/\D/g,'').length>=9&&health(s).band!=='ok'?`<span class="st ${health(s).band}" title="${health(s).why.join('. ')}">${HB[health(s).band]} number · ${health(s).sc}</span>`:''}<span class="sum">${!s.open?`${s.name?s.name+' · ':''}${whOf(s).n}${s.addr?` → ${s.addr.city.split(', ').slice(-2,-1)[0]||s.addr.city}`:''} · ${cod?'COD':'Non-COD'}`:''}</span><span class="chev">${ic('chev',16)}</span></button>
-  <div class="sx-sb"><div class="sx-g sx-g2">${inp(i,'phone','Customer WhatsApp','812-3456-7890',{pre:'+62',num:1})}${inp(i,'name','Customer name','Full name')}</div>
+  <div class="sx-sb"><div class="sx-g sx-g2"><div class="sx-f"><label for="s${i}name">Customer name</label><div class="ie-fld sx-cf">${ic('search',16)}<input class="ie-in" id="s${i}name" data-si="${i}" data-k="name" value="${esc(s.name||'')}" placeholder="Find or add a customer…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false"></div></div>${inp(i,'phone','Customer WhatsApp','812-3456-7890',{pre:'+62',num:1})}</div>
   <div class="sx-g"><div class="sx-f"><label>Customer address</label><button class="sx-addr${s.addr?' set':''}" data-addr="${i}">${ic('pin',16)}<span>${s.addr?`${s.addr.street}, ${s.addr.city} ${s.addr.zip}`:'Search the address or drop a pin'}</span><span class="chev">${ic('chev',16)}</span></button></div></div>
   <div class="sx-g sx-g2"><div class="sx-f"><label id="s${i}whl">Pickup from</label>${(()=>{const w=WH.find(x=>x.code===s.whk)||{n:'Choose a warehouse',code:''},open=X.whOpen===i;return`<div class="ie-fld whp"><button class="whp-btn${open?' on':''}" data-whp="${i}" aria-haspopup="listbox" aria-expanded="${open}" aria-labelledby="s${i}whl">${ic('wh',16)}<span>${w.n}${w.code?` · ${w.code}`:''}</span><span class="chev">${ic('chev',14)}</span></button>${open?`<div class="ie-dd" role="listbox"><button class="opt add" data-whnew="${i}">${ic('plus',15,2)}Add new warehouse</button><h6>Warehouses</h6>${WH.filter(x=>x.active).map(x=>`<button class="opt${x.code===s.whk?' on':''}" role="option" aria-selected="${x.code===s.whk}" data-whpick="${i}" data-code="${x.code}"><b>${x.n}</b><span>${x.code} · ${x.city}</span></button>`).join('')}</div>`:''}</div>`})()}</div>
     <div class="sx-f"><label id="s${i}pl">Payment method</label><div class="seg sx-seg" role="radiogroup" aria-labelledby="s${i}pl"><button role="radio" aria-checked="${cod}" class="${cod?'on':''}" data-spay="${i}" data-v="cod">COD</button><button role="radio" aria-checked="${!cod}" class="${cod?'':'on'}" data-spay="${i}" data-v="non">Non-COD</button></div></div></div>
@@ -3826,6 +3880,20 @@ const pdHtml=(i,q)=>{q=(q||'').trim();const L=CATALOG.filter(p=>!q||p[0].toLower
 const pdOpen=t=>{const box=t.closest('.sx-pf');box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',pdHtml(+t.dataset.si,t.value));t.setAttribute('aria-expanded','true')};
 const pdClose=t=>{const box=t&&t.closest('.sx-pf');if(!box)return;box.querySelector('.ie-dd')?.remove();t.setAttribute('aria-expanded','false')};
 const pdFill=(i,name,price,d)=>{const s=X.ships[i],q=s.qty||1;s.items=name;if(d){[s.l,s.w,s.h]=d.slice(0,3).map(String);s.kg=String(Math.round(d[3]*q*100)/100)}/* an amount the catalog filled follows the product; one the merchant typed stays */if(!s.cod||s.cod===s.codAuto){s.cod=(price*q).toLocaleString('id-ID');s.codAuto=s.cod}drawSx()};
+/* Customer name is a Combobox over Customers: picking fills name, WhatsApp and the default address; "Add new customer" opens the customer form in a side panel */
+const cfHtml=(i,raw)=>{cusInit();const q=(raw||'').trim().toLowerCase(),L=CUS.filter(c=>!q||[c.name,...c.other].join(' ').toLowerCase().includes(q)).slice(0,6);
+  return`<div class="ie-dd" role="listbox"><button class="opt add" data-cnew="${i}">${ic('plus',15,2)}Add new customer${q&&!CUS.some(c=>c.name.toLowerCase()===q)?` “${esc(raw.trim())}”`:''}</button><h6>Customers</h6>${L.map(c=>{const a=c.addrs.find(x=>x.def)||c.addrs[0];return`<button class="opt" role="option" data-cpick="${i}" data-cid="${c.id}"><b>${esc(c.name)}${c.flag?` <span class="cu-flag" data-tip="Shopper delivery risk: ${c.flag.level}">${ic('warn',13)}</span>`:''}</b><span>${c.phones[0]||'No phone'}${a?` · ${esc(a.city)}`:''}</span></button>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}</div>`};
+const cfOpen=t=>{const box=t.closest('.sx-cf');box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',cfHtml(+t.dataset.si,t.value));t.setAttribute('aria-expanded','true')};
+const cfClose=t=>{const box=t&&t.closest('.sx-cf');if(!box)return;box.querySelector('.ie-dd')?.remove();t.setAttribute('aria-expanded','false')};
+const cfFill=(i,c)=>{const s=X.ships[i],a=c.addrs.find(x=>x.def)||c.addrs[0];s.name=c.name;if(c.phones[0])s.phone=c.phones[0].replace(/^\+62\s?/,'');if(a)s.addr={street:a.street,city:a.kec?`${a.kec}, ${a.city}`:a.city,zip:a.zip};drawSx()};
+sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='name'&&t.closest('.sx-cf'))cfOpen(t)});
+sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==='name'&&t.closest('.sx-cf'))cfOpen(t)});
+sxBody.addEventListener('focusout',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='name'&&t.closest('.sx-cf'))setTimeout(()=>{if(document.activeElement!==t)cfClose(t)},150)});
+sxBody.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Escape'&&t.dataset.k==='name'&&t.closest('.sx-cf')?.querySelector('.ie-dd')){e.stopPropagation();cfClose(t)}},true);
+sxBody.addEventListener('mousedown',e=>{const b=e.target.closest('[data-cpick],[data-cnew]');if(!b)return;e.preventDefault();e.stopPropagation();
+  if(b.dataset.cnew!=null){const i=+b.dataset.cnew,t=document.getElementById(`s${i}name`),q=t?t.value.trim():'';cfClose(t);
+    cuEdit(null,{panel:true,needPhone:true,name:CUS.some(c=>c.name.toLowerCase()===q.toLowerCase())?'':q,onSave:n=>{cfFill(i,n);toast(`${n.name} added to your Customers`)}});return}
+  const c=CUS.find(x=>x.id===b.dataset.cid);cfFill(+b.dataset.cpick,c);toast(c.addrs.length?'Name, WhatsApp and address filled in from Customers':'Name and WhatsApp filled in from Customers')},true);
 function prodDrawer(i,q){productDrawer(null,{name:q,over:true,needWeight:true,onSave:p=>{pdFill(i,p.name,p.price,PDIM[p.name]);toast(`${p.name} added to your Product catalog`)}})}
 sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
 sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
@@ -5379,14 +5447,14 @@ function monList(base){const P=MS.lsc||'normal';
   if(P==='loading'||P==='error')return monListWait(P);
   DL['m-list']=()=>['flik-shipments',SHIP_HEAD,rows.map(shipRow)];
   const V=dtVis('mon-list'),toks=awbToks(L.q),miss=toks?toks.filter(t=>!rows.some(s=>(s.awb||'').toLowerCase()===t)):[],nf=fkeys().filter(k=>mfVal(k)).length;
-  /* rows selected: the search and filters make way for what you can do with the selection, so the toolbar stays on one row */
-  return`<div class="filters ms-lf">${L.sel.size?`<span class="ms-seln" role="status"><b class="num">${L.sel.size}</b> selected</span><button class="btn btn-p" data-prsel>${ic('print',15)}Print ${plural(L.sel.size,'label')}</button><button class="lnk" data-prclr>Clear selection</button>`
-    :`<label class="search bl-search"><span>${ic('search',16)}</span><input id="ms-q" value="${esc(L.q)}" placeholder="Search, or paste several AWBs" autocomplete="off" aria-label="Search shipments by AWB, customer, phone or batch. Paste several AWBs to find them at once"></label>
-    <button class="btn btn-o${nf?' on':''}" data-ffil aria-haspopup="menu">${ic('filter',15)}${nf?plural(nf,'filter'):'Filter'}</button><button class="btn btn-o dt-ic" data-colcfg="mon-list" aria-label="Edit columns" data-tip="Edit columns">${ic('sliders',16)}</button>`}
+  /* rows selected: the toolbar stays; a selection bar under it holds what you can do with them, like Customers and Transactions */
+  return`<div class="filters ms-lf"><label class="search bl-search"><span>${ic('search',16)}</span><input id="ms-q" value="${esc(L.q)}" placeholder="Search, or paste several AWBs" autocomplete="off" aria-label="Search shipments by AWB, customer, phone or batch. Paste several AWBs to find them at once"></label>
+    <button class="btn btn-o${nf?' on':''}" data-ffil aria-haspopup="menu">${ic('filter',15)}${nf?plural(nf,'filter'):'Filter'}</button><button class="btn btn-o dt-ic" data-colcfg="mon-list" aria-label="Edit columns" data-tip="Edit columns">${ic('sliders',16)}</button>
     <div class="fright"><button class="btn btn-o" data-prb>${ic('print',15)}Print by batch</button>${dlBtn('m-list')}</div></div>
+  <div class="bulk${L.sel.size?' show':''}" role="status"><span>${L.sel.size} selected</span><span class="sp"></span><button class="btn btn-o" data-prsel>${ic('print',15)}Print ${plural(L.sel.size,'label')}</button><button class="btn" data-prclr style="color:var(--primary)">Clear</button></div>
   ${toks?`<p class="ms-awbs" role="status">Found <b class="num">${toks.length-miss.length}</b> of <b class="num">${toks.length}</b> AWBs${miss.length?`. Not found: <span class="mono">${miss.map(x=>esc(x.toUpperCase())).join(', ')}</span>`:''}</p>`:''}
-  <div class="tbl-wrap"><table class="mt ms-pt" data-dtt="mon-list"><thead><tr><th class="selc">${(()=>{const pg=rows.slice(L.pg*PERL,L.pg*PERL+PERL).filter(s=>s.awb),on=pg.length&&pg.every(s=>L.sel.has(s.id));return`<button class="ie-chk" data-lselall aria-pressed="${on}" aria-label="Select this page"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span></button>`})()}</th>${dtHead('mon-list')}<th></th></tr></thead><tbody>
-  ${rows.length?rows.slice(L.pg*PERL,L.pg*PERL+PERL).map(s=>`<tr data-sid="${s.id}"><td class="selc">${s.awb?`<button class="ie-chk" data-lsel="${s.id}" aria-pressed="${L.sel.has(s.id)}" aria-label="Select ${s.awb}"><span class="cb${L.sel.has(s.id)?' on':''}">${L.sel.has(s.id)?ic('check',12,3):''}</span></button>`:''}</td>${dtCells('mon-list',s)}<td class="r">${s.awb?`<button class="ib tt" data-prs="${s.id}" data-tt="Print label" aria-label="Print the label for ${s.awb}">${ic('print',16)}</button>`:''}</td></tr>`).join('')
+  <div class="tbl-wrap"><table class="mt ms-pt" data-dtt="mon-list"><thead><tr><th class="selc">${(()=>{const pg=rows.slice(L.pg*PERL,L.pg*PERL+PERL).filter(s=>s.awb),on=pg.length&&pg.every(s=>L.sel.has(s.id)),some=pg.some(s=>L.sel.has(s.id));return`<button class="ie-chk" data-lselall aria-pressed="${on}" aria-label="Select this page"><span class="cb${on?' on':some?' mixed':''}">${on?ic('check',12,3):''}</span></button>`})()}</th>${dtHead('mon-list')}<th></th></tr></thead><tbody>
+  ${rows.length?rows.slice(L.pg*PERL,L.pg*PERL+PERL).map(s=>`<tr data-sid="${s.id}" class="${L.sel.has(s.id)?'sel':''}"><td class="selc">${s.awb?`<button class="ie-chk" data-lsel="${s.id}" aria-pressed="${L.sel.has(s.id)}" aria-label="Select ${s.awb}"><span class="cb${L.sel.has(s.id)?' on':''}">${L.sel.has(s.id)?ic('check',12,3):''}</span></button>`:''}</td>${dtCells('mon-list',s)}<td class="r">${s.awb?`<button class="ib tt" data-prs="${s.id}" data-tt="Print label" aria-label="Print the label for ${s.awb}">${ic('print',16)}</button>`:''}</td></tr>`).join('')
     :`<tr><td colspan="${V.length+2}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No shipments match</b>Try another AWB, or clear the search and filters.<button class="btn btn-o ms-eb" data-lclr>Clear search and filters</button></div></td></tr>`}</tbody></table></div>
   <div class="foot"><span><b>${rows.length.toLocaleString('id-ID')}</b> ${rows.length===1?'shipment':'shipments'}</span><div class="pager"><button class="btn btn-o" data-lpg="-1" ${L.pg?'':'disabled'}>Previous</button><button class="btn btn-o" data-lpg="1" ${L.pg<pages-1?'':'disabled'}>Next</button></div></div>`}
 
