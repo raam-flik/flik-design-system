@@ -207,7 +207,8 @@ tbody tr.sel td{background:#F8F6FF}
 /* in tables the status is a soft pill: tint only, no border or icon, a little smaller, so it doesn't pull the eye from the row (CEO, 26 Oct) */
 td .st,td .st:is(.ok,.warn,.bad,.gr,.pu){border-color:transparent;height:20px;padding:0 6px;border-radius:4px;font-size:12px}
 td .st svg{display:none}
-.st{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 7px;border-radius:5px;font-size:12.5px;font-weight:500;border:1px solid;white-space:nowrap}
+/* StatusBadge: fill and text only, no outline, everywhere (28 Oct) */
+.st{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 7px;border-radius:5px;font-size:12.5px;font-weight:500;border:0;white-space:nowrap}
 .st.ok{background:var(--ok-bg);color:var(--ok-tx);border-color:var(--ok-bd)}
 .st.gr{background:var(--gr-bg);color:var(--gr-tx);border-color:var(--gr-bd)}
 .st.warn{background:var(--warn-bg);color:var(--warn-tx);border-color:var(--warn-bd)}
@@ -309,9 +310,11 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .kpi-v{display:flex;align-items:center;gap:10px}
 .kpi-v b{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px}
 .kpi-l{color:var(--muted);font-size:13.5px}
-.delta{font-size:12.5px;font-weight:500;padding:2px 7px;border-radius:5px}
-.delta.up{background:var(--ok-bg);color:var(--ok-tx)}
-.delta.down{background:var(--bad-bg);color:var(--bad-tx)}
+/* KPI changes (Home, Shipping Analytics): coloured text only, no pill */
+.delta{font-size:12.5px;font-weight:500}
+.delta.up,.bl-tile .delta.up{color:var(--ok-tx)}
+.delta.down,.bl-tile .delta.down{color:var(--bad-tx)}
+.bl-tile .delta{font-size:12.5px;margin:0;padding:0}
 .kpi-ctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .seg{display:inline-flex;background:var(--search);border-radius:8px;padding:3px}
 .seg button{height:28px;padding:0 12px;border-radius:6px;font-weight:500;color:var(--muted);font-size:13.5px}
@@ -375,6 +378,10 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .ie-in{width:100%;height:36px;border-radius:6px;border:0;box-shadow:var(--sh);padding:0 10px 0 34px;outline:none;font-size:14px;background:#fff}
 .ie-in:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
 .ie-fld>svg{position:absolute;left:10px;top:10px;color:var(--faint)}
+.sx-f .sx-pf .ie-in{padding-left:34px}
+.sx-pf .ie-dd{top:40px;z-index:20}
+.drawer.over-sx{z-index:89}.scrim.over-sx{z-index:88}
+.drawer .mf{border-top:1px solid var(--line);padding:14px 20px}
 .ie-dd{position:absolute;left:0;right:0;top:42px;z-index:5;background:#fff;border-radius:10px;box-shadow:var(--pop);padding:6px;max-height:300px;overflow-y:auto}
 .ie-dd h6{font-size:12px;font-weight:600;color:var(--muted);padding:8px 10px 4px;text-transform:uppercase;letter-spacing:.4px}
 .ie-dd .opt b{font-weight:500;color:var(--ink)}
@@ -1039,7 +1046,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .sx-svc .d{font-size:12.5px;color:var(--muted)}
 .sx-svc .p{font-weight:600;color:var(--ink);margin-top:6px}
 .sx-svc .p s{display:block;font-weight:400;color:var(--faint);font-size:12.5px;margin-top:1px}
-.sx-tag{position:absolute;top:-9px;left:10px;height:18px;padding:0 7px;border-radius:999px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;background:var(--ok-bg);color:var(--ok-tx);border:1px solid var(--ok-bd)}
+.sx-tag{position:absolute;top:-9px;left:10px;height:18px;padding:0 7px;border-radius:999px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;background:var(--ok-bg);color:var(--ok-tx)}
 .sx-tag.ch{background:var(--pu-bg);color:var(--pu-tx);border-color:var(--pu-bd)}
 .sx-slots{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .sx-slots button{height:34px;padding:0 14px;border-radius:999px;box-shadow:var(--sh);font-size:13.5px;font-weight:500}
@@ -1295,7 +1302,7 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 #view-mon .hb2.big{height:16px;border-radius:8px;margin-top:12px}
 #view-mon .hb2 i{display:block;min-width:3px;cursor:default;transition:filter .12s}
 #view-mon .hb2 i:hover{filter:brightness(.88)}
-#view-mon .hb2 .t-ok{background:var(--ok)}#view-mon .hb2 .t-pu{background:var(--primary)}#view-mon .hb2 .t-gr{background:var(--faint)}#view-mon .hb2 .t-warn{background:var(--warn)}#view-mon .hb2 .t-bad{background:var(--bad)}
+#view-mon .hb2 .t-ok{background:var(--ok-bd)}#view-mon .hb2 .t-pu{background:var(--primary)}#view-mon .hb2 .t-gr{background:var(--gr-bd)}#view-mon .hb2 .t-warn{background:var(--warn-bd)}#view-mon .hb2 .t-bad{background:var(--bad-bd)}
 #view-mon .h-tot{display:flex;align-items:baseline;gap:8px;margin-top:14px}
 #view-mon .h-tot b{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px}
 #view-mon .h-tot span{color:var(--muted);font-size:13.5px}
@@ -1308,7 +1315,8 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .h-ring-g>svg{width:140px;height:140px;transform:rotate(-90deg)}
 .h-ring circle{fill:none;stroke-width:14}
 .h-ring .trk{stroke:var(--line)}
-.h-ring .t-ok{stroke:var(--ok)}.h-ring .t-gr{stroke:var(--faint)}.h-ring .t-warn{stroke:var(--warn)}.h-ring .t-bad{stroke:var(--bad)}
+/* dashboard status colours are the badge-* sets; fills use the badge border tone */
+.h-ring .t-ok{stroke:var(--ok-bd)}.h-ring .t-pu{stroke:var(--primary)}.h-ring .t-gr{stroke:var(--gr-bd)}.h-ring .t-warn{stroke:var(--warn-bd)}.h-ring .t-bad{stroke:var(--bad-bd)}
 .h-ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
 .h-ring-c b{font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.3px}
 .h-ring-c span{font-size:12.5px;color:var(--muted)}
@@ -1499,8 +1507,8 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 #view-mon .hl-live{display:flex;align-items:center;gap:8px;margin-top:20px;font-size:13.5px;color:var(--muted)}
 #view-mon .hl-live b{color:var(--ok-tx);font-weight:600}
 #view-mon .hl-live .btn{margin-left:auto}
-#view-mon .hl-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
-#view-mon .hl-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ok);animation:hl-pulse 1.6s ease-out infinite}
+#view-mon .hl-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--ok-tx);flex:none}
+#view-mon .hl-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ok-tx);animation:hl-pulse 1.6s ease-out infinite}
 @keyframes hl-pulse{from{transform:scale(1);opacity:.6}to{transform:scale(3);opacity:0}}
 @media (prefers-reduced-motion:reduce){#view-mon .hl-dot::after{animation:none}}
 #view-mon .hl-live+.mon-card{margin-top:12px}
@@ -3049,9 +3057,11 @@ const CATALOG=[['Linen shirt · White',289000],['Canvas tote bag',149000],['Wide
 const LSK=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
 const NEW_CUST=LSK('flik-customers')||[],NEW_PROD=LSK('flik-products')||[];
 NEW_CUST.slice().reverse().forEach(c=>ICUST.unshift(c));
-NEW_PROD.forEach(p=>CATALOG.push([p.name,p.price,p.at]));
+/* size (cm) and weight (kg) per catalog product, used to fill a shipment (example data) */
+const PDIM={'Linen shirt · White':[30,25,4,.4],'Canvas tote bag':[40,35,3,.3],'Wide-leg trousers':[35,28,5,.5],'Basic tee · Black':[28,22,3,.2],'Voile scarf · Floral':[20,20,2,.1],'Leather sneakers':[33,22,12,1.2],'Batik dress · Indigo':[35,28,5,.5],'Gift wrapping':[10,10,2,.05]};
+NEW_PROD.forEach(p=>{CATALOG.push([p.name,p.price,p.at]);if(p.d)PDIM[p.name]=p.d});
 function addCustomer(c){c.at=Date.now();c.src='Invoice';NEW_CUST.unshift(c);ICUST.unshift(c);LSK('flik-customers',NEW_CUST);return c}
-function addProduct(name,price){const p={name,price,at:Date.now()};NEW_PROD.push(p);CATALOG.push([name,price,p.at]);LSK('flik-products',NEW_PROD);return p}
+function addProduct(name,price,d){const p={name,price,at:Date.now()};if(d){p.d=d;PDIM[name]=d}NEW_PROD.push(p);CATALOG.push([name,price,p.at]);LSK('flik-products',NEW_PROD);return p}
 const validEmail=v=>/^\S+@\S+\.\S+$/.test(v);
 function custModal(name,onSave,needEmail){let c={name:name||'',phone:'',email:''};
   modal.innerHTML=`<div class="mh"><h3>Add customer</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
@@ -3553,10 +3563,36 @@ function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
   <div class="sx-g"><div class="sx-f"><label>Customer address</label><button class="sx-addr${s.addr?' set':''}" data-addr="${i}">${ic('pin',16)}<span>${s.addr?`${s.addr.street}, ${s.addr.city} ${s.addr.zip}`:'Search the address or drop a pin'}</span><span class="chev">${ic('chev',16)}</span></button></div></div>
   <div class="sx-g sx-g2"><div class="sx-f"><label id="s${i}whl">Pickup from</label>${(()=>{const w=WH.find(x=>x.code===s.whk)||{n:'Choose a warehouse',code:''},open=X.whOpen===i;return`<div class="ie-fld whp"><button class="whp-btn${open?' on':''}" data-whp="${i}" aria-haspopup="listbox" aria-expanded="${open}" aria-labelledby="s${i}whl">${ic('wh',16)}<span>${w.n}${w.code?` · ${w.code}`:''}</span><span class="chev">${ic('chev',14)}</span></button>${open?`<div class="ie-dd" role="listbox"><button class="opt add" data-whnew="${i}">${ic('plus',15,2)}Add new warehouse</button><h6>Warehouses</h6>${WH.filter(x=>x.active).map(x=>`<button class="opt${x.code===s.whk?' on':''}" role="option" aria-selected="${x.code===s.whk}" data-whpick="${i}" data-code="${x.code}"><b>${x.n}</b><span>${x.code} · ${x.city}</span></button>`).join('')}</div>`:''}</div>`})()}</div>
     <div class="sx-f"><label id="s${i}pl">Payment method</label><div class="seg sx-seg" role="radiogroup" aria-labelledby="s${i}pl"><button role="radio" aria-checked="${cod}" class="${cod?'on':''}" data-spay="${i}" data-v="cod">COD</button><button role="radio" aria-checked="${!cod}" class="${cod?'':'on'}" data-spay="${i}" data-v="non">Non-COD</button></div></div></div>
-  <div class="sx-g sx-gpq">${inp(i,'items','Product name','e.g. Linen shirt · White')}<div class="sx-f"><label>Quantity</label><div class="qty sx-qty"><button data-sq="${i}" data-d="-1" aria-label="Less" ${(s.qty||1)<=1?'disabled':''}>${ic('minus',14,2)}</button><span class="num">${s.qty||1}</span><button data-sq="${i}" data-d="1" aria-label="More">${ic('plus',14,2)}</button></div></div></div>
+  <div class="sx-g sx-gpq"><div class="sx-f"><label for="s${i}items">Product name</label><div class="ie-fld sx-pf">${ic('search',16)}<input class="ie-in" id="s${i}items" data-si="${i}" data-k="items" value="${esc(s.items||'')}" placeholder="Find or add a product…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false"></div></div><div class="sx-f"><label>Quantity</label><div class="qty sx-qty"><button data-sq="${i}" data-d="-1" aria-label="Less" ${(s.qty||1)<=1?'disabled':''}>${ic('minus',14,2)}</button><span class="num">${s.qty||1}</span><button data-sq="${i}" data-d="1" aria-label="More">${ic('plus',14,2)}</button></div></div></div>
   <div class="sx-g sx-g4">${inp(i,'l','Length','0',{unit:'cm',num:1})}${inp(i,'w','Width','0',{unit:'cm',num:1})}${inp(i,'h','Height','0',{unit:'cm',num:1})}${inp(i,'kg','Weight','0',{unit:'kg',num:1})}</div>
   <div class="sx-g sx-g2 sx-cod">${inp(i,'cod',cod?'COD amount':'Item value','0',{pre:'Rp',num:1})}<p class="hint">${cod?'What the courier collects from the shopper. FLIK charges a COD fee on it after delivery.':'The value of the goods, used if the parcel is lost or damaged.'}</p></div>
   ${X.ships.length>1?`<div class="sx-row" style="margin-top:14px;justify-content:flex-end"><button class="btn btn-d" data-del="${i}">${ic('trash',15)}Remove</button></div>`:''}</div></div>`}
+/* Product name is a Combobox: pick from the Product catalog (fills size, weight and price) or add a new product in a side panel */
+const pdHtml=(i,q)=>{q=(q||'').trim();const L=CATALOG.filter(p=>!q||p[0].toLowerCase().includes(q.toLowerCase())).slice(0,6);
+  return`<div class="ie-dd" role="listbox"><button class="opt add" data-pnew="${i}">${ic('plus',15,2)}Add new product${q&&!CATALOG.some(p=>p[0].toLowerCase()===q.toLowerCase())?` “${esc(q)}”`:''}</button><h6>Product catalog</h6>${L.map(p=>{const d=PDIM[p[0]];return`<button class="opt" role="option" data-ppick="${i}" data-pn="${esc(p[0])}"><b>${esc(p[0])}</b><span class="num">${rp(p[1])}${d?` · ${String(d[3]).replace('.',',')} kg`:''}</span></button>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}</div>`};
+const pdOpen=t=>{const box=t.closest('.sx-pf');box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',pdHtml(+t.dataset.si,t.value));t.setAttribute('aria-expanded','true')};
+const pdClose=t=>{const box=t&&t.closest('.sx-pf');if(!box)return;box.querySelector('.ie-dd')?.remove();t.setAttribute('aria-expanded','false')};
+const pdFill=(i,name,price,d)=>{const s=X.ships[i],q=s.qty||1;s.items=name;if(d){[s.l,s.w,s.h]=d.slice(0,3).map(String);s.kg=String(Math.round(d[3]*q*100)/100)}/* an amount the catalog filled follows the product; one the merchant typed stays */if(!s.cod||s.cod===s.codAuto){s.cod=(price*q).toLocaleString('id-ID');s.codAuto=s.cod}drawSx()};
+function prodDrawer(i,q){const P={n:q||'',p:'',l:'',w:'',h:'',kg:''};
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('box',15)}New product</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="sx-f"><label for="pd-n">Product name</label><input id="pd-n" data-pd="n" value="${esc(P.n)}" placeholder="e.g. Linen shirt · White"></div>
+    <div class="sx-g"><div class="sx-f"><label for="pd-p">Price</label><div class="pre"><em>Rp</em><input id="pd-p" data-pd="p" inputmode="numeric" placeholder="150.000"></div></div></div>
+    <div class="sx-g sx-g2">${[['l','Length','cm'],['w','Width','cm'],['h','Height','cm'],['kg','Weight','kg']].map(([k,l,u])=>`<div class="sx-f"><label for="pd-${k}">${l}${k==='kg'?'':' <span class="opt-l">(optional)</span>'}</label><div class="unit"><input id="pd-${k}" data-pd="${k}" inputmode="decimal" placeholder="0"><em>${u}</em></div></div>`).join('')}</div>
+    <p class="hint" style="margin-top:14px">Saved to your Product catalog, so next time you can pick it with its size and weight.</p></div>
+  <div class="mf"><button class="btn btn-o" data-dclose>Cancel</button><button class="btn btn-p" id="pd-go" disabled>Add product</button></div>`;
+  const g=id=>document.getElementById(id),go=g('pd-go'),close=()=>{closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx')};
+  drawer.querySelectorAll('[data-dclose]').forEach(b=>b.onclick=close);dscrim.onclick=close;
+  drawer.oninput=e=>{const t=e.target,k=t.dataset.pd;if(!k)return;if(k==='p'){const n=+t.value.replace(/\D/g,'');t.value=n?n.toLocaleString('id-ID'):'';P.p=n}else if(k==='n')P.n=t.value;else{t.value=t.value.replace(/[^\d.,]/g,'');P[k]=+t.value.replace(',','.')||0}
+    go.disabled=!(P.n.trim()&&P.p>0&&P.kg>0)};
+  go.onclick=()=>{const name=P.n.trim(),d=[P.l||0,P.w||0,P.h||0,P.kg];drawer.oninput=null;addProduct(name,P.p,d);close();pdFill(i,name,P.p,d);toast(`${name} added to your Product catalog`)};
+  drawer.classList.add('open','over-sx');dscrim.classList.add('open','over-sx');drawer.setAttribute('aria-hidden','false');setTimeout(()=>g(P.n?'pd-p':'pd-n').focus(),250)}
+sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
+sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
+sxBody.addEventListener('focusout',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items')setTimeout(()=>{if(document.activeElement!==t)pdClose(t)},150)});
+sxBody.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Escape'&&t.dataset.k==='items'&&t.closest('.sx-pf')?.querySelector('.ie-dd')){e.stopPropagation();pdClose(t)}},true);
+sxBody.addEventListener('mousedown',e=>{const b=e.target.closest('[data-ppick],[data-pnew]');if(!b)return;e.preventDefault();e.stopPropagation();
+  if(b.dataset.pnew!=null){const i=+b.dataset.pnew,t=document.getElementById(`s${i}items`),q=t?t.value.trim():'';pdClose(t);prodDrawer(i,CATALOG.some(p=>p[0].toLowerCase()===q.toLowerCase())?'':q);return}
+  const p=CATALOG.find(x=>x[0]===b.dataset.pn);pdFill(+b.dataset.ppick,p[0],p[1],PDIM[p[0]]);toast(PDIM[p[0]]?'Size, weight and price filled in from Product catalog':'Price filled in from Product catalog')},true);
 function drawSx(){
   const st=X.step;
   document.getElementById('sx-steps').innerHTML=X.done?'':SSTEPS.map((t,i)=>`${i?'<span class="stp-l"></span>':''}<span class="stp${i===st?' on':i<st?' done':''}"><i>${i<st?ic('check',11,3):i+1}</i><span>${t}</span></span>`).join('');
@@ -4672,7 +4708,7 @@ function bestFor(s,group,prefer){const ok=SERVICES.map((sv,i)=>[sv,i]).filter(([
 
 /* ===== Shipments of the active merchant ===== */
 const SST3={pickup:['Wait pickup','gr'],picked:['Picked up','gr'],transit:['In transit','gr'],ofd:['Out for delivery','pu'],delivered:['Delivered','ok'],failed:['Delivery failed','warn'],returning:['Returning','warn'],returned:['Returned','gr'],lost:['Lost or damaged','bad']};
-const MON3={ontrack:['On track','ok'],delayed:['Delayed','gr'],risk:['At risk','warn'],problem:['Problem','bad'],safe:['Safe','ok']};
+const MON3={ontrack:['On track','pu'],delayed:['Delayed','gr'],risk:['At risk','warn'],problem:['Problem','bad'],safe:['Safe','ok']};
 const SEV3={problem:['Critical','bad',0],risk:['High','or',1],delayed:['Medium','warn',2]};
 const stPill3=s=>`<span class="st ${SST3[s][1]} sm">${SST3[s][0]}</span>`;
 const monPill=m=>`<span class="st ${MON3[m][1]} sm">${MON3[m][0]}</span>`;
@@ -4876,7 +4912,7 @@ document.querySelector('.main').insertAdjacentHTML('beforeend','<main class="con
 const MS={cl:{st:'',cat:''},tab:'health',days:'month',f:{wh:[],k:[],pay:[]},rt:'open',open:new Set(),allB:false,perf:'city',hArea:'city',
   l:{q:'',st:[],mon:[],pg:0,sel:new Set(),days:0,k:[],wh:[],pay:[]},r:{q:'',days:0,mon:[],k:[],wh:[],pay:[],pg:0},w:{q:'',days:0,rst:[],k:[],wh:[],pay:[],pg:0},c:{q:'',days:0,cst:[],ccat:[],k:[],wh:[],pay:[],pg:0},t:{q:'',days:0,tst:[],tcat:[],k:[],wh:[],pay:[],pg:0},reset(){this.cl={st:'',cat:''};this.tab='resolve';this.r={q:'',days:0,mon:[],k:[],wh:[],pay:[],pg:0};this.w={q:'',days:0,rst:[],k:[],wh:[],pay:[],pg:0};this.c={q:'',days:0,cst:[],ccat:[],k:[],wh:[],pay:[],pg:0};this.t={q:'',days:0,tst:[],tcat:[],k:[],wh:[],pay:[],pg:0};this.f={wh:[],k:[],pay:[]};this.rt='open';this.open=new Set();this.allB=false;this.l={q:'',st:[],mon:[],pg:0,sel:new Set(),days:0,k:[],wh:[],pay:[]}}};
 /* named for what the merchant does (27 Oct): the to-do tabs first, then what they follow, then the views */
-const MTABS=[['health','Live'],['resolve','Needs action'],['risky','On hold'],['tickets','Tickets'],['claims','Claims'],['list','All shipments']];
+const MTABS=[['health','Live'],['list','All shipments'],['resolve','Needs action'],['risky','On hold'],['tickets','Tickets'],['claims','Claims']];
 /* a ticket waits on the merchant when FLIK support or the courier answered last */
 const tkWait=t=>{if(tkSt(t)==='resolved'||t.claim)return false;const c=t.chat.filter(m=>m.from!=='sys');return!!c.length&&c[c.length-1].from!=='me'};
 /* period: 'today', 'week', 'month', 'year', 'custom' (MS.from to MS.to), or 0 for all time */
@@ -4927,7 +4963,7 @@ function renderMon(){const el=document.getElementById('view-mon');/* opening Mon
   if(!SH.length){el.innerHTML=`<div class="ph"><h1>Monitoring</h1></div>`+monEmpty('Nothing to monitor yet','After your first shipment, this page shows each batch, anything delayed or at risk, and how each courier performs for you.');return}
   const base=msBase(),open=SH.filter(s=>rstate(s)==='open').length;
   el.innerHTML=`<div class="ph"><h1>Monitoring</h1><div class="fright" style="margin-left:auto">${MS.tab==='health'?`<button class="chip set" id="hl-view" title="Prototype control: compare layouts for Shipping condition">${ic('sel',14)}Preview layout: <span class="val">${HVIEW.find(x=>x[0]===(MS.hv||'bar'))[1]}</span></button>`:''}${MS.tab==='list'?`<button class="chip set" id="ms-state" title="Prototype control: preview the states of All shipments">${ic('sel',14)}Preview state: <span class="val">${LSC.find(x=>x[0]===(MS.lsc||'normal'))[1]}</span></button>`:''}</div></div>
-  <div class="tabs mon-tabs" role="tablist">${MTABS.map(t=>`<button class="tab${MS.tab===t[0]?' on':''}" data-mt="${t[0]}" role="tab" aria-selected="${MS.tab===t[0]}">${t[1]}${t[0]==='resolve'&&open?`<span class="ct">${open}</span>`:t[0]==='risky'&&waOpen().length?`<span class="ct">${waOpen().length}</span>`:t[0]==='tickets'&&TK.filter(tkWait).length?`<span class="ct" data-tip="New replies waiting for you">${TK.filter(tkWait).length}</span>`:''}</button>`).join('')}</div>
+  <div class="tabs mon-tabs" role="tablist">${MTABS.map(t=>`<button class="tab${MS.tab===t[0]?' on':''}" data-mt="${t[0]}" role="tab" aria-selected="${MS.tab===t[0]}">${t[1]}${t[0]==='resolve'&&open?`<span class="st warn tab-bd">${open}</span>`:t[0]==='tickets'&&TK.filter(tkWait).length?`<span class="st warn tab-bd" data-tip="New replies waiting for you">${TK.filter(tkWait).length}</span>`:''}</button>`).join('')}</div>
   ${FT()||MS.tab==='health'?'':`<div class="filters">${['days','wh','k','pay'].map(fchip).join('')}<div class="fright"><span class="ms-n">${plural(base.length,'shipment')}</span></div></div>`}
   <div id="mon-body">${({resolve:monResolve,risky:monRisky,health:monHealth,list:monList,claims:monClaims,tickets:monTickets})[MS.tab](base)}</div>`;
   track('monitoring_viewed',{tab:MS.tab})}
@@ -5016,9 +5052,9 @@ function monResolve(base){const F=MS.r,q=F.q.trim().toLowerCase(),pool=base.filt
   return msBar('AWB, customer, phone or issue',`<button class="btn btn-o" data-wset>Delivery Boost: ${PS.boost?'on':'off'}</button>${dlBtn('m-resolve')}`)+
   `<div class="tbl-wrap"><table data-dtt="mon-resolve"><thead><tr>${dtHead('mon-resolve')}<th></th></tr></thead><tbody>
   ${V.length?V.map(row).join(''):`<tr><td colspan="${dtN('mon-resolve')+1}" style="height:auto;border:0;cursor:default">${msNone(pool.length,'Nothing needs resolving','Delayed, at-risk and problem shipments without a ticket show up here.')}</td></tr>`}</tbody></table></div>`+msFoot(L.length,pages,F.pg,'shipment')}
-/* Health uses the StatusBadge tones: safe and on track ok (green, like Succeeded), delayed neutral, at risk warn, problem bad */
+/* Health uses the StatusBadge tones: safe ok, on track info (violet), delayed neutral, at risk warn, problem bad */
 const HCOLS=['safe','ontrack','delayed','risk','problem'];
-const HTONE={safe:'ok',ontrack:'ok',delayed:'gr',risk:'warn',problem:'bad'};
+const HTONE={safe:'ok',ontrack:'pu',delayed:'gr',risk:'warn',problem:'bad'};
 const healthRow=l=>{const c={};HCOLS.forEach(k=>c[k]=0);l.forEach(s=>c[monOf(s)]++);return{n:l.length,c,h:pct(c.ontrack+c.safe,l.length)}};
 const hTip=(k,v,n)=>`${MON3[k][0]}: ${v.toLocaleString('id-ID')} ${v===1?'shipment':'shipments'} · ${fpct(pct(v,n))}`;
 const hBar=(c,big)=>`<span class="hb2${big?' big':''}" role="img" aria-label="${HCOLS.filter(k=>c.c[k]).map(k=>hTip(k,c.c[k],c.n)).join(', ')}">${HCOLS.map(k=>c.c[k]?`<i class="t-${HTONE[k]}" style="flex:${c.c[k]}" data-tip="${hTip(k,c.c[k],c.n)}"></i>`:'').join('')}</span>`;

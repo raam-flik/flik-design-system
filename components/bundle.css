@@ -102,7 +102,7 @@
 .fl-iconbtn--create:hover{background:var(--primary-hover);color:var(--on-primary)}
 .fl-iconbtn .dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--bad);border:1.5px solid var(--surface)}
 /* Status badge */
-.fl-badge{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 7px;border-radius:var(--radius-badge);font-size:12.5px;font-weight:500;border:1px solid}
+.fl-badge{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 7px;border-radius:var(--radius-badge);font-size:12.5px;font-weight:500;border:0}
 .fl-badge--ok{background:var(--badge-ok-bg);color:var(--badge-ok-text);border-color:var(--badge-ok-border)}
 .fl-badge--neutral{background:var(--badge-neutral-bg);color:var(--badge-neutral-text);border-color:var(--badge-neutral-border)}
 .fl-badge--warn{background:var(--badge-warn-bg);color:var(--badge-warn-text);border-color:var(--badge-warn-border)}
