@@ -107,7 +107,8 @@ h1{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px;margin-t
 .btn-d{background:#fff;box-shadow:var(--sh);color:#B3093C}
 
 /* Popovers */
-.pop{position:absolute;z-index:60;background:#fff;border-radius:10px;box-shadow:var(--pop);min-width:230px;padding:6px;display:none}
+/* menus open above drawers (80) and modals (90), so a menu inside a drawer is never hidden */
+.pop{position:absolute;z-index:95;background:#fff;border-radius:10px;box-shadow:var(--pop);min-width:230px;padding:6px;display:none}
 .pop.open{display:block}
 .pop.in-d{z-index:85}
 /* Check rate: the payment toggle hugs its options, the To list opens under its field, results tidied */
@@ -1149,6 +1150,31 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .cus-n .ie-av{width:32px;height:32px;font-size:12px;flex:none}
 .cus-src{width:32px;height:32px;border-radius:50%;background:var(--primary-soft);color:var(--primary);display:inline-flex;align-items:center;justify-content:center}
 .prd-tile{width:32px;height:32px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:inline-flex;align-items:center;justify-content:center;flex:none}
+/* Product catalog and Customers (28 Oct): Lists kit pages, product drawer, customer drawer */
+#view-prd>.ph .fright,#view-cus>.ph .fright{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#view-prd .tabs,#view-cus .tabs{margin-top:8px}
+.pd-off{opacity:1;cursor:default;display:flex;align-items:center;gap:8px}.pd-off b{color:var(--muted)!important}.pd-off .st{margin-left:auto}
+.pf-h{font-size:14.5px;font-weight:600;color:var(--ink);margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line)}
+.sx-g.pf-dims{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pf-own{align-items:flex-start;margin-top:14px;cursor:pointer}.pf-own>span{display:grid;gap:2px}.pf-own b{font-weight:500;color:var(--ink)}
+.pf-vol{margin-top:14px}
+.sx-note.warn{background:var(--warn-bg);color:var(--warn-tx);border-color:var(--warn-bd)}
+.pi-file{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13.5px}.pi-file b{color:var(--ink);font-weight:500}.pi-file .lnk{margin-left:auto}
+.pi-tbl td{height:auto;padding-top:9px;padding-bottom:9px}.pi-tbl .pi-msg td{padding-top:0;border-top:0;font-size:12.5px;color:var(--muted);white-space:normal}
+.pi-tbl tr:has(+.pi-msg) td{border-bottom:0}.pi-err,.pi-bad{color:var(--bad-tx)!important}
+.cu-flag{display:inline-flex;color:var(--warn-tx)}
+.cu-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px}.cu-stats>div{display:grid;gap:2px}.cu-stats b{color:var(--ink);font-weight:600;font-size:15px}
+.cu-tabs{margin-top:22px}
+.cu-act{display:grid}
+.cu-ar{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line);text-align:left;width:100%;border-radius:0}.cu-ar:hover{background:var(--hover)}
+.cu-ai{width:30px;height:30px;border-radius:8px;background:var(--hover);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.cu-am{flex:1;min-width:0;display:grid;gap:1px}.cu-am b{font-weight:500;color:var(--ink)}.cu-am .src{font-size:12.5px}
+.cu-av{display:grid;justify-items:end;gap:1px;text-align:right}.cu-av b{color:var(--ink);font-weight:500}.cu-av b.neg{color:var(--bad-tx)}.cu-av .src{font-size:12.5px}
+.cu-ad{display:grid;gap:3px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--text)}
+.cu-adh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cu-adh b{color:var(--ink);font-weight:600}.cu-adh .sp{flex:1}
+.cu-pin{display:inline-flex;align-items:center;gap:4px;justify-self:start;margin-top:2px}
+.cu-w2{grid-column:1/-1}
+@media (max-width:600px){.cu-stats{grid-template-columns:1fr 1fr}.sx-g.pf-dims{grid-template-columns:1fr 1fr 1fr}#view-prd>.ph,#view-cus>.ph{flex-wrap:wrap;gap:12px}#view-prd>.ph .fright,#view-cus>.ph .fright{margin-left:0!important}}
 /* ===== Couriers (reuses PageHeader, Tabs, SearchField, CollapsibleCard, Checkbox, PartnerLogo, StatusBadge) ===== */
 .cou-sum{font-size:13px;color:var(--muted)}
 .cou-sum b{color:var(--ink);font-weight:600}
@@ -1951,38 +1977,8 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
       <div id="home-brief"></div>
     </main>
     <main class="content" id="view-cus" hidden>
-      <div class="ph"><h1>Customers</h1><button class="btn btn-p" data-newcust id="cus-new"><span data-ic="plus"></span>Add customer</button></div>
-      <div id="cus-list">
-        <div class="filters">
-          <label class="search bl-search"><span data-ic="search"></span><input id="cus-q" placeholder="Name, phone or email" autocomplete="off" aria-label="Search customers"></label>
-          <div class="fright"><button class="btn btn-o" data-export="Customers|Customers · all|CSV"><span data-ic="export"></span>Export</button></div>
-        </div>
-        <div class="tbl-wrap"><table class="cus-tbl"><thead><tr><th>Customer</th><th>Source</th><th>Last transaction</th><th>Orders</th><th>Total spend</th><th style="width:40px"></th></tr></thead><tbody id="cus-body"></tbody></table></div>
-        <div class="foot"><span id="cus-count"></span></div>
-      </div>
-      <div id="cus-empty" hidden>
-      <section class="es-hero">
-        <div class="es-copy">
-          <h2>All your customers in one place</h2>
-          <p>Shoppers who pay through Checkout, chat or your storefront are saved here automatically, with their contact details, address and order history.</p>
-          <button class="btn btn-p es-cta" data-newcust>Add customer</button>
-        </div>
-        <div class="es-art" aria-hidden="true" id="es-art"></div>
-      </section>
-      <div class="es-cards">
-        <section class="es-card">
-          <h3>Import your customer list</h3>
-          <p>Moving from a spreadsheet or another platform? Upload your list and match the columns. Duplicate phone numbers are merged for you.</p>
-          <span class="es-tag"><span data-ic="tag"></span>Supports CSV and Excel</span>
-          <button class="es-link" data-toast="Opens Import customers">Import customers</button>
-        </section>
-        <section class="es-card">
-          <h3>Customers sync from every sale</h3>
-          <p>Every order from Checkout, Payment Link or Invoice creates or updates a customer profile, so you never type the same address twice.</p>
-          <button class="es-link" data-toast="Opens Checkout settings">Set up Checkout <span data-ic="ext"></span></button>
-        </section>
-      </div>
-      </div>
+      <div class="ph"><h1>Customers</h1><div class="fright" style="margin-left:auto"><button class="chip set" id="cus-state" title="Prototype control: preview the states of Customers"></button><button class="btn btn-o" id="cus-imp"><span data-ic="upload"></span>Import</button><button class="btn btn-p" id="cus-new"><span data-ic="plus"></span>New customer</button></div></div>
+      <div id="cus-main"></div>
     </main>
     <main class="content" id="view-inv" hidden>
       <div class="ph"><h1>Invoices</h1><button class="btn btn-p" data-newinv><span data-ic="plus"></span>Create invoice</button></div>
@@ -2069,13 +2065,8 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
       <div id="cou-list"></div>
     </main>
     <main class="content" id="view-prd" hidden>
-      <div class="ph"><h1>Product catalog</h1><button class="btn btn-p" id="prd-new"><span data-ic="plus"></span>Add product</button></div>
-      <div class="filters">
-        <label class="search bl-search"><span data-ic="search"></span><input id="prd-q" placeholder="Product name" autocomplete="off" aria-label="Search products"></label>
-        <div class="fright"><button class="btn btn-o" data-export="Products|Product catalog · all|CSV"><span data-ic="export"></span>Export</button></div>
-      </div>
-      <div class="tbl-wrap"><table class="cus-tbl"><thead><tr><th>Product</th><th>Type</th><th>Price</th><th>Category</th><th>Stock</th><th>Sold</th><th style="width:40px"></th></tr></thead><tbody id="prd-body"></tbody></table></div>
-      <div class="foot"><span id="prd-count"></span></div>
+      <div class="ph"><h1>Product catalog</h1><div class="fright" style="margin-left:auto"><button class="chip set" id="prd-state" title="Prototype control: preview the states of the catalog"></button><button class="btn btn-o" id="prd-imp"><span data-ic="upload"></span>Import</button><button class="btn btn-p" id="prd-new"><span data-ic="plus"></span>New product</button></div></div>
+      <div id="prd-main"></div>
     </main>
     <main class="content" id="view-mca" hidden>
       <div class="ph"><h1>Merchant Cash Advance</h1><button class="btn btn-p" data-newmca><span data-ic="plus"></span>Apply for funding</button></div>
@@ -2225,7 +2216,7 @@ paintIcons(document);
 
 /* ===== Sidebar ===== */
 const NAV=[
-  {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customer',v:'cus'},{i:'box',t:'Product Catalog',v:'prd'},
+  {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customers',v:'cus'},{i:'box',t:'Product Catalog',v:'prd'},
   {h:'Products'},
   {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop','Payment Link','Checkout Personalization','Order Form']},
   {i:'truck',t:'Shipping',sub:[{t:'Shipment',v:'shp',h:'shipments/create'},{t:'Monitoring',v:'mon'},{t:'Check rate',v:'cr'},{t:'Analytics',v:'ana'}]},
@@ -2617,25 +2608,19 @@ function refundFlow(id){const p=PAY.find(x=>x.id===id);if(!p)return;
       amt.oninput=()=>{R.amt=+amt.value.replace(/\D/g,'');amt.value=R.amt?R.amt.toLocaleString('id-ID'):'';chk()};
       why.onchange=()=>{R.why=why.value;document.getElementById('rf-notew').hidden=R.why!=='other';chk()};note.oninput=()=>{R.note=note.value;chk()};
       go.onclick=()=>{R.step=va?'acct':1;draw()};chk();return}
-    if(R.step==='acct'){
+    /* the shopper's account: bank and number only. FLIK doesn't check the holder; getting the account right is the merchant's job */
+    if(R.step==='acct'){const ok=()=>R.bk&&R.no.length>=8;
       modal.innerHTML=head('Shopper\'s bank account')+`<div class="mb"><p class="bk-mp">FLIK sends ${rp(R.amt)} to this account. Ask ${p.customer} for it.</p>
       <div class="fld"><label for="rf-bank">Bank</label><span class="sp-sw rf-sw"><select class="rf-sel" id="rf-bank"><option value="">Choose a bank</option>${RF_BANKS.map(b=>`<option value="${b[0]}" ${R.bk===b[0]?'selected':''}>${b[1]}</option>`).join('')}</select></span></div>
-      <div class="fld"><label for="rf-no">Account number</label><div class="trk-row"><input id="rf-no" class="num" inputmode="numeric" maxlength="16" placeholder="1234567890" value="${R.no}" autocomplete="off"><button class="btn btn-o" id="rf-chk" ${R.chk?'disabled':''}>${R.chk?'Checking…':'Check account'}</button></div><p class="hint" id="rf-noh">FLIK checks the account and shows the holder's name.</p></div>
-      ${R.acct?`<div class="rf-pay nd-card"><img class="plg" src="${IMG}payment/${R.acct.k}.png" alt=""><span style="flex:1;min-width:0"><b>${R.acct.name}</b><span class="rf-sub">${R.acct.bank} · <span class="num">${R.acct.no}</span></span></span><span class="st ok">Account found</span></div>
-      <p class="hint">Make sure this is the shopper's name. A bank transfer can't be pulled back once it's sent.</p>`:''}</div>
-      <div class="mf"><button class="btn btn-o" id="rf-back">Back</button><button class="btn btn-p" id="rf-next" ${R.acct?'':'disabled'}>Review refund</button></div>`;
-      const bk=document.getElementById('rf-bank'),no=document.getElementById('rf-no'),cb=document.getElementById('rf-chk'),h=document.getElementById('rf-noh');
-      const ok=()=>R.bk&&R.no.length>=8;const reset=()=>{if(R.acct){R.acct=null;draw();return true}};
-      const okH=()=>{h.classList.remove('err');h.textContent='FLIK checks the account and shows the holder\'s name.'};
-      bk.onchange=()=>{R.bk=bk.value;if(!reset())okH()};
-      no.oninput=()=>{const v=no.value.replace(/\D/g,'').slice(0,16);no.value=v;R.no=v;if(reset()){const n=document.getElementById('rf-no');n.focus();n.setSelectionRange(v.length,v.length);return}okH()};
-      no.onkeydown=e=>{if(e.key==='Enter'&&!cb.disabled)cb.click()};
-      cb.onclick=()=>{if(!ok()){h.textContent=!R.bk?'Choose the shopper\'s bank first.':!R.no?'Enter the account number.':'Enter 8 to 16 digits.';h.classList.add('err');(R.bk?no:bk).focus();return}R.chk=1;draw();
-        setTimeout(()=>{R.chk=0;R.acct={k:R.bk,bank:RF_BANKS.find(b=>b[0]===R.bk)[1],no:R.no,name:p.customer};if(R.step==='acct'&&modal.isConnected)draw()},900)};
-      document.getElementById('rf-back').onclick=()=>{R.step=0;draw()};document.getElementById('rf-next').onclick=()=>{R.step=1;draw()};return}
+      <div class="fld"><label for="rf-no">Account number</label><input id="rf-no" class="num" inputmode="numeric" maxlength="16" placeholder="1234567890" value="${R.no}" autocomplete="off"><p class="hint">Check it with the shopper. A bank transfer can't be pulled back once it's sent.</p></div></div>
+      <div class="mf"><button class="btn btn-o" id="rf-back">Back</button><button class="btn btn-p" id="rf-next">Review refund</button></div>`;
+      const bk=document.getElementById('rf-bank'),no=document.getElementById('rf-no'),go=document.getElementById('rf-next'),upd=()=>{go.disabled=!ok()};
+      bk.onchange=()=>{R.bk=bk.value;upd()};no.oninput=()=>{const v=no.value.replace(/\D/g,'').slice(0,16);no.value=v;R.no=v;upd()};no.onkeydown=e=>{if(e.key==='Enter'&&!go.disabled)go.click()};
+      go.onclick=()=>{R.acct={k:R.bk,bank:RF_BANKS.find(b=>b[0]===R.bk)[1],no:R.no};R.step=1;draw()};upd();
+      document.getElementById('rf-back').onclick=()=>{R.step=0;draw()};return}
     if(R.step===1&&va){const tot=R.amt+costT,bal=CLOSE.active,short=Math.max(0,tot-bal);
       modal.innerHTML=head('Review refund')+`<div class="mb">
-      <div class="rf-pay"><b class="num">${rp(R.amt)} back to ${p.customer}</b><span class="rf-sub"><span class="rf-m">Bank transfer to ${rfAcct(R.acct)}<img class="plg" src="${IMG}payment/${R.acct.k}.png" alt=""></span></span><span class="rf-sub">${R.acct.name} · ${RF_REASON[R.why]}${R.why==='other'?`: ${R.note}`:''}</span></div>
+      <div class="rf-pay"><b class="num">${rp(R.amt)} back to ${p.customer}</b><span class="rf-sub"><span class="rf-m">Bank transfer to ${R.acct.bank} <span class="num">${R.acct.no}</span><img class="plg" src="${IMG}payment/${R.acct.k}.png" alt=""></span></span><span class="rf-sub">${RF_REASON[R.why]}${R.why==='other'?`: ${R.note}`:''}</span></div>
       <div class="rf-sec"><div class="kpi-l">What it costs you</div>
       <dl class="bl-wf rf-wf"><dt>Refund to the shopper</dt><dd>${rp(R.amt)}</dd>${cost.map(c=>`<dt>${c[0]}</dt><dd>${rp(c[1])}</dd>`).join('')}<dt class="t">Total from your active balance</dt><dd class="t">${rp(tot)}</dd></dl></div>
       <div class="rf-sec"><div class="kpi-l">Your active balance</div>
@@ -2699,7 +2684,7 @@ function refundDetail(id){const r=REFUNDS.find(x=>x.id===id);if(!r)return;const 
     ${r.st==='flik'?`<div class="sx-note bad">${ic('warn',16)}<span>Not funded by ${fday2(d20)}, so FLIK paid the shopper. ${rp(r.amount-r.funded)} is now a charge due, collected from money coming in.</span><button class="lnk" data-goto="#balances">Balances</button></div>`:''}
     ${r.st==='retry'?`<div class="sx-note">${ic('clock',16)}<span>The payment provider had a temporary error. FLIK retries automatically; nothing is needed from you.</span></div>`:''}
     <div class="dsec"><h5>Activity</h5><div class="tl">${tl.map(x=>`<div class="tli ${x[2]}"><i>${x[3]?ic(x[3],11,2.4):''}</i><div><b>${x[1]}</b><span>${fdateY(x[0])}</span></div></div>`).join('')}</div></div>
-    <div class="dsec"><h5>Money</h5><dl class="kv"><dt>To the shopper</dt><dd class="num">${rp(r.amount)}</dd>${r.bank?`<dt>Paid to</dt><dd><div class="pm"><img class="plg" src="${IMG}payment/${r.bank.k}.png" alt=""><span>${rfAcct(r.bank)} · ${r.bank.name}</span></div></dd>`:''}<dt>Paid from</dt><dd>${r.st==='cancelled'?'Returned to where it came from':r.from.map(f=>`${f[0].split(':')[0]} <span class="num">${rp(f[1])}</span>`).join('<br>')||'—'}${r.st==='funding'?`<br>Waits for funds <span class="num">${rp(r.amount-r.funded)}</span>`:''}</dd>${r.cost.map(c=>`<dt>${c[0]}</dt><dd class="num">${rp(c[1])}</dd>`).join('')}<dt>Total cost to you</dt><dd class="num">${rp(r.st==='cancelled'?0:r.amount+costT)}</dd></dl></div>
+    <div class="dsec"><h5>Money</h5><dl class="kv"><dt>To the shopper</dt><dd class="num">${rp(r.amount)}</dd>${r.bank?`<dt>Paid to</dt><dd><div class="pm"><img class="plg" src="${IMG}payment/${r.bank.k}.png" alt=""><span>${r.bank.bank} <span class="num">${r.bank.no}</span></span></div></dd>`:''}<dt>Paid from</dt><dd>${r.st==='cancelled'?'Returned to where it came from':r.from.map(f=>`${f[0].split(':')[0]} <span class="num">${rp(f[1])}</span>`).join('<br>')||'—'}${r.st==='funding'?`<br>Waits for funds <span class="num">${rp(r.amount-r.funded)}</span>`:''}</dd>${r.cost.map(c=>`<dt>${c[0]}</dt><dd class="num">${rp(c[1])}</dd>`).join('')}<dt>Total cost to you</dt><dd class="num">${rp(r.st==='cancelled'?0:r.amount+costT)}</dd></dl></div>
     <div class="dsec"><h5>Payment</h5><dl class="kv"><dt>Payment</dt><dd>${r.pay}</dd><dt>Date</dt><dd>${p.created?fdateY(p.created):'—'}</dd><dt>Amount</dt><dd class="num">${rp(p.amount||0)}</dd><dt>Method</dt><dd><div class="pm">${p.mk?pmBadge(p.mk):''}<span>${p.method||''}</span></div></dd><dt>Refunded so far</dt><dd class="num">${rp((p.amount||0)-(p.mk?rfLeft(p):0))} of ${rp(p.amount||0)}</dd></dl></div>
     <div class="dsec"><h5>Reason</h5><dl class="kv"><dt>Reason</dt><dd>${RF_REASON[r.reason]}</dd>${r.note?`<dt>Note</dt><dd>${r.note}</dd>`:''}</dl></div>
     <div class="dsec"><h5>Audit</h5><dl class="kv"><dt>By</dt><dd>${r.by}</dd><dt>Device</dt><dd>${r.dev}</dd><dt>When</dt><dd>${fdateY(r.created)} WIB</dd></dl></div></div>`;
@@ -3051,17 +3036,28 @@ const iPill=s=>{const x=IST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(
 const fday=d=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`;
 const phone=()=>`+62 ${pick(['812','813','821','822','852','857','878','895'])}-${1000+Math.floor(rnd()*8999)}-${1000+Math.floor(rnd()*8999)}`;
 const ICUST=CUST.map(n=>({name:n,phone:phone(),email:n.toLowerCase().replace(' ','.')+'@gmail.com',city:pick(CITY)}));
-const CATALOG=[['Linen shirt · White',289000],['Canvas tote bag',149000],['Wide-leg trousers',219000],['Basic tee · Black',99000],['Voile scarf · Floral',125000],['Leather sneakers',459000],['Batik dress · Indigo',375000],['Gift wrapping',15000]];
+/* the Product catalog: weight in grams, size in cm; ship = shipments in the last 30 days (example data) */
+const mkProd=(name,sku,price,g,l,w,h,o={})=>({id:'prod_'+Math.abs([...name].reduce((a,c)=>a*31+c.charCodeAt(0)|0,7)).toString(36),name,sku,price,g,l,w,h,dv:o.dv||0,own:!!o.own,active:o.active!==false,ship:o.ship||0,img:o.img??1,at:o.at||0});
+const PROD=[mkProd('Linen shirt · White','LS-WHT-M',289000,400,30,25,4,{ship:61}),mkProd('Canvas tote bag','',149000,300,40,35,3,{ship:44}),mkProd('Wide-leg trousers','WLT-BLK-L',219000,500,35,28,5,{ship:29}),
+  mkProd('Basic tee · Black','TEE-BLK-M',99000,200,28,22,3,{ship:88}),mkProd('Voile scarf · Floral','SCF-VOI-FL',125000,100,20,20,2,{ship:17}),mkProd('Leather sneakers','SNK-LTH-42',459000,1200,33,22,12,{own:true,ship:23}),
+  mkProd('Batik dress · Indigo','DRS-BTK-IND',375000,500,35,28,5,{ship:12,dv:350000}),mkProd('Gift wrapping','GIFT-WRAP',15000,0,0,0,0,{ship:0,img:0}),mkProd('Ceramic mug · Sage','MUG-SAGE',89000,450,12,12,11,{ship:9}),
+  mkProd('Rattan bag · Natural','BAG-RTN',329000,0,0,0,0,{ship:0}),mkProd('Denim jacket · Blue','JKT-DNM-L',499000,900,40,32,8,{ship:15}),mkProd('Bucket hat · Olive','HAT-BKT-OL',119000,150,0,0,0,{ship:7}),
+  mkProd('Wool cardigan · Grey','CRD-WOL-GR',349000,600,35,30,6,{active:false}),mkProd('Sarong · Batik Parang','SRG-BTK-PR',189000,250,30,20,2,{active:false})];
+const CATALOG=[];
 
 /* Customers and products created anywhere (e.g. while making an invoice) are saved and shared by every page */
 const LSK=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
 const NEW_CUST=LSK('flik-customers')||[],NEW_PROD=LSK('flik-products')||[];
 NEW_CUST.slice().reverse().forEach(c=>ICUST.unshift(c));
 /* size (cm) and weight (kg) per catalog product, used to fill a shipment (example data) */
-const PDIM={'Linen shirt · White':[30,25,4,.4],'Canvas tote bag':[40,35,3,.3],'Wide-leg trousers':[35,28,5,.5],'Basic tee · Black':[28,22,3,.2],'Voile scarf · Floral':[20,20,2,.1],'Leather sneakers':[33,22,12,1.2],'Batik dress · Indigo':[35,28,5,.5],'Gift wrapping':[10,10,2,.05]};
-NEW_PROD.forEach(p=>{CATALOG.push([p.name,p.price,p.at]);if(p.d)PDIM[p.name]=p.d});
+const PDIM_OLD={'Linen shirt · White':[30,25,4,.4],'Canvas tote bag':[40,35,3,.3],'Wide-leg trousers':[35,28,5,.5],'Basic tee · Black':[28,22,3,.2],'Voile scarf · Floral':[20,20,2,.1],'Leather sneakers':[33,22,12,1.2],'Batik dress · Indigo':[35,28,5,.5],'Gift wrapping':[10,10,2,.05]};
+const PDIM={};
+/* the pickers read active products: CATALOG for name and price, PDIM for size and weight (kg); no weight, no pick */
+const pdSync=()=>{CATALOG.length=0;Object.keys(PDIM).forEach(k=>delete PDIM[k]);PROD.filter(p=>p.active).forEach(p=>{CATALOG.push([p.name,p.price,p.at]);if(p.g>0)PDIM[p.name]=[p.l||0,p.w||0,p.h||0,p.g/1000]})};
+NEW_PROD.forEach(p=>{if(!PROD.some(x=>x.name===p.name))PROD.unshift(mkProd(p.name,p.sku||'',p.price,p.g!=null?p.g:p.d?Math.round(p.d[3]*1000):0,p.d?p.d[0]:p.l||0,p.d?p.d[1]:p.w||0,p.d?p.d[2]:p.h||0,{at:p.at,img:0}))});pdSync();
 function addCustomer(c){c.at=Date.now();c.src='Invoice';NEW_CUST.unshift(c);ICUST.unshift(c);LSK('flik-customers',NEW_CUST);return c}
-function addProduct(name,price,d){const p={name,price,at:Date.now()};if(d){p.d=d;PDIM[name]=d}NEW_PROD.push(p);CATALOG.push([name,price,p.at]);LSK('flik-products',NEW_PROD);return p}
+function addProduct(name,price,d,o={}){const g=o.g!=null?o.g:d?Math.round(d[3]*1000):0,v={sku:o.sku||'',g,l:o.l!=null?o.l:d?d[0]:0,w:o.w!=null?o.w:d?d[1]:0,h:o.h!=null?o.h:d?d[2]:0};
+  const p=mkProd(name,v.sku,price,v.g,v.l,v.w,v.h,{at:Date.now(),img:o.img||0,own:o.own,dv:o.dv});PROD.unshift(p);NEW_PROD.push({name,price,at:p.at,...v});LSK('flik-products',NEW_PROD);pdSync();return p}
 const validEmail=v=>/^\S+@\S+\.\S+$/.test(v);
 function custModal(name,onSave,needEmail){let c={name:name||'',phone:'',email:''};
   modal.innerHTML=`<div class="mh"><h3>Add customer</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
@@ -3248,28 +3244,285 @@ const SERVICES=[ // [courier, service, group, eta, Rp per kg, list price per kg|
 const WAREHOUSES=[{n:'Main warehouse',a:'Jl. Kemang Raya No. 12, Bangka, Mampang Prapatan, Jakarta Selatan, DKI Jakarta 12730'},{n:'Bandung warehouse',a:'Jl. Sekejati No. 3, Sukapada, Cibeunying Kidul, Kota Bandung, Jawa Barat 40125'}];
 
 /* ===== Customers list and Product catalog list ===== */
-const CUS_SRC={Invoice:['invoice','Invoice'],Checkout:['cart','FLIK Checkout'],'Payment Link':['link','Payment Link'],Chat:['chat','Chat Commerce']};
-const cusMeta=(c,i)=>c.src?{src:c.src,last:null,orders:0,spend:0}:{src:['Checkout','Payment Link','Invoice','Chat'][i%4],last:new Date(NOW.getTime()-(i*2.3+1)*86400000),orders:1+(i*7)%9,spend:(1+(i*7)%9)*(150000+((i*37)%10)*45000)};
-let cusQ='';
-function renderCus(){const q=cusQ.toLowerCase();
-  document.getElementById('cus-list').hidden=!ICUST.length;document.getElementById('cus-empty').hidden=!!ICUST.length;
-  const rows=ICUST.map((c,i)=>[c,cusMeta(c,i)]).filter(([c])=>!q||[c.name,c.phone,c.email].join(' ').toLowerCase().includes(q));
-  document.getElementById('cus-body').innerHTML=rows.length?rows.map(([c,m])=>`<tr data-cusn="${c.name}"><td><div class="cus-n"><span class="ie-av">${initials(c.name)}</span><div><b>${c.name}</b><span class="src">${c.phone||c.email||'No contact yet'}</span></div>${c.src?'<span class="st pu">New</span>':''}</div></td><td><span class="cus-src" title="${CUS_SRC[m.src][1]}" aria-label="${CUS_SRC[m.src][1]}">${ic(CUS_SRC[m.src][0],15)}</span></td><td class="date">${m.last?fday(m.last):'<span class="src">—</span>'}</td><td class="num">${m.orders}</td><td class="num">${rp(m.spend)}</td><td><button class="dots-b" data-toast="Opens actions for ${c.name}" aria-label="Actions for ${c.name}">${ic('dots',16)}</button></td></tr>`).join('')
-    :`<tr><td colspan="6" style="height:auto;border:0;cursor:default"><div class="empty"><b>No customers match</b>Try another name, phone or email.</div></td></tr>`;
-  document.getElementById('cus-count').innerHTML=`Showing <b>1–${rows.length}</b> of <b>${rows.length}</b>`}
-const PRD_META={'Linen shirt · White':['Goods','Apparel',24,61],'Canvas tote bag':['Goods','Bags',3,44],'Wide-leg trousers':['Goods','Apparel',12,29],'Basic tee · Black':['Goods','Apparel',0,88],'Voile scarf · Floral':['Goods','Accessories',18,17],'Leather sneakers':['Goods','Shoes',4,9],'Batik dress · Indigo':['Goods','Apparel',7,23],'Gift wrapping':['Service','Services',null,52]};
-let prdQ='';
-function renderPrd(){const q=prdQ.toLowerCase();
-  const rows=CATALOG.map(p=>[p,PRD_META[p[0]]||['Goods','—',undefined,0]]).filter(([p])=>!q||p[0].toLowerCase().includes(q)).sort((a,b)=>(b[0][2]||0)-(a[0][2]||0));
-  const stock=m=>m[0]==='Service'?'<span class="src">No stock</span>':m[2]===undefined?'<span class="st gr">Not set</span>':m[2]===0?'<span class="st bad">Out of stock</span>':m[2]<5?`<span class="st warn">Low · ${m[2]}</span>`:`<span class="st ok">In stock · ${m[2]}</span>`;
-  document.getElementById('prd-body').innerHTML=rows.length?rows.map(([p,m])=>`<tr><td><div class="cus-n"><span class="prd-tile">${ic(m[0]==='Service'?'tag':'box',16)}</span><b>${p[0]}</b>${p[2]?'<span class="st pu">New</span>':''}</div></td><td>${m[0]}</td><td class="num">${rp(p[1])}</td><td>${m[1]}</td><td>${stock(m)}</td><td class="num">${m[3]}</td><td><button class="dots-b" data-toast="Opens actions for ${p[0]}" aria-label="Actions for ${p[0]}">${ic('dots',16)}</button></td></tr>`).join('')
-    :`<tr><td colspan="7" style="height:auto;border:0;cursor:default"><div class="empty"><b>No products match</b>Try another product name.</div></td></tr>`;
-  document.getElementById('prd-count').innerHTML=`Showing <b>1–${rows.length}</b> of <b>${rows.length}</b>`}
-document.getElementById('cus-q').oninput=e=>{cusQ=e.target.value.trim();renderCus()};
-document.getElementById('prd-q').oninput=e=>{prdQ=e.target.value.trim();renderPrd()};
-document.addEventListener('click',e=>{if(e.target.closest('[data-newcust]'))custModal('',c=>{addCustomer(c);renderCus();toast(`${c.name} added`)})});
-document.getElementById('prd-new').onclick=()=>prodModal('',(name,price)=>{addProduct(name,price);renderPrd();toast(`${name} added`)});
-document.getElementById('cus-body').addEventListener('click',e=>{if(e.target.closest('.dots-b'))return;const tr=e.target.closest('tr[data-cusn]');if(tr)toast(`Opens ${tr.dataset.cusn}'s profile`)});
+/* ===== Product catalog (spec 28 Oct 2026): products carry SKU, weight and size so Create shipment fills them; archive, never delete ===== */
+const fmtG=g=>g>=1000?`${(Math.round(g/100)/10).toLocaleString('id-ID')} kg`:`${g} g`;
+const prdDim=p=>p.l&&p.w&&p.h?`${p.l} × ${p.w} × ${p.h} cm`:'';
+const prdMissing=p=>!(p.g>0);
+let PRDS={tab:'active',q:'',ship:[],dim:[],sel:new Set(),state:'normal'};
+const prdRows=()=>PROD.filter(p=>(PRDS.tab==='active')===p.active).filter(p=>{const q=PRDS.q.toLowerCase();return!q||[p.name,p.sku].join(' ').toLowerCase().includes(q)})
+  .filter(p=>!PRDS.ship.length||PRDS.ship.includes(prdMissing(p)?'missing':'ok')).filter(p=>!PRDS.dim.length||PRDS.dim.includes(prdDim(p)?'set':'none'));
+const prdStatus=p=>!p.active?'<span class="st gr">Archived</span>':prdMissing(p)?'<span class="st warn" data-tip="Add a weight to pick it in Create shipment">Missing shipping data</span>':'<span class="st ok">Active</span>';
+function renderPrd(){const el=document.getElementById('prd-main'),empty=PRDS.state==='empty'||!PROD.length;
+  document.getElementById('prd-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${empty?'Empty':'Normal'}</span>`;
+  if(empty){el.innerHTML=`<section class="es-hero"><div class="es-copy"><h2>Your products, ready to ship</h2><p>Save each product once with its weight and size. When you create a shipment, pick it and the weight, size and item value fill in.</p><div class="es-ctas"><button class="btn btn-p es-cta" data-prdnew>New product</button><button class="btn btn-o es-cta" data-prdimp>Import a CSV</button></div></div><div class="es-art" aria-hidden="true" id="es-art-prd"></div></section>
+    <div class="es-cards c3"><section class="es-card"><h3>Pick, don't retype</h3><p>In Create shipment, search a product by name or SKU. Weight, size and item value fill in, and you can still change them.</p></section>
+    <section class="es-card"><h3>Import your list</h3><p>Upload a CSV with SKU, name, weight and size. Rows with a SKU update that product, so importing again never makes duplicates.</p></section>
+    <section class="es-card"><h3>Save as you ship</h3><p>Typed a new item in a shipment? Add it to your catalog from there, and it's ready for the next order.</p></section></div>`;esArt('es-art-prd','box',[['truck',0],['pkg',1],['tag',2],['sheet',3],['upload',4],['link',.5,1],['invoice',1.5,1],['cart',2.5,1],['wh',3.5,1]]);return}
+  const K='prd';
+  dtUse(K,{name:['Product',p=>p.name.toLowerCase(),p=>`<td><div class="cus-n"><span class="prd-tile">${ic('box',16)}</span><b>${esc(p.name)}</b></div></td>`,{fixed:1}],
+    sku:['SKU',p=>p.sku.toLowerCase(),p=>`<td class="mono">${p.sku?esc(p.sku):'<span class="src">—</span>'}</td>`],
+    wt:['Weight',p=>p.g,p=>`<td class="num">${p.g?fmtG(p.g):'<span class="src">—</span>'}</td>`],
+    dim:['Dimensions',p=>p.l*p.w*p.h,p=>`<td class="num">${prdDim(p)||'<span class="src">—</span>'}</td>`],
+    price:['Price',p=>p.price,p=>`<td class="num">${rp(p.price)}</td>`],
+    ship:['Shipments (30 days)',p=>p.ship,p=>`<td class="num">${p.ship.toLocaleString('id-ID')}</td>`],
+    st:['Status',p=>!p.active?2:prdMissing(p)?0:1,p=>`<td class="c-st">${prdStatus(p)}</td>`]},{k:'ship',dir:-1},renderPrd);
+  fbUse(K,[{k:'ship',l:'Shipping data',type:'many',opts:[['missing','Missing shipping data'],['ok','Complete']],get:()=>PRDS.ship,set:v=>{PRDS.ship=v}},
+    {k:'dim',l:'Dimensions',type:'many',opts:[['set','Set'],['none','Not set']],get:()=>PRDS.dim,set:v=>{PRDS.dim=v}}],renderPrd);
+  const all=dtSort(K,prdRows()),n=t=>PROD.filter(p=>(t==='active')===p.active).length,sel=[...PRDS.sel].filter(id=>all.some(p=>p.id===id));
+  const allSel=all.length&&all.every(p=>PRDS.sel.has(p.id)),someSel=all.some(p=>PRDS.sel.has(p.id));
+  el.innerHTML=`<div class="tabs" role="tablist">${[['active','Active'],['archived','Archived']].map(t=>`<button class="tab${PRDS.tab===t[0]?' on':''}" data-prdtab="${t[0]}" role="tab" aria-selected="${PRDS.tab===t[0]}">${t[1]}<span class="ct">${n(t[0])}</span></button>`).join('')}</div>
+    <div class="filters dt-bar"><label class="search bl-search">${ic('search',16)}<input id="prd-q" value="${esc(PRDS.q)}" placeholder="Name or SKU" autocomplete="off" aria-label="Search products"></label><span class="dt-btns">${fbBtns(K,K)}</span>
+      <div class="fright"><button class="btn btn-o" data-export="Products|Product catalog · ${PRDS.tab}|CSV">${ic('export',15)}Export</button></div></div>
+    <div class="bulk${sel.length?' show':''}"><span>${sel.length} selected</span><span class="sp"></span><button class="btn btn-o" data-export="Products|Product catalog · ${sel.length} selected|CSV">Export</button><button class="btn btn-o" data-prdarch="${PRDS.tab==='active'?'off':'on'}">${PRDS.tab==='active'?'Archive':'Restore'}</button><button class="btn" data-prdclr style="color:var(--primary)">Clear</button></div>
+    <div class="tbl-wrap"><table data-dtt="${K}"><thead><tr><th class="c-chk"><button class="cb ${allSel?'on':someSel?'mixed':''}" data-prdall aria-label="Select all">${allSel?ic('check',12,3):''}</button></th>${dtHead(K)}</tr></thead><tbody>
+    ${all.length?all.map(p=>{const on=PRDS.sel.has(p.id);return`<tr data-prd="${p.id}" class="${on?'sel':''}"><td class="c-chk"><button class="cb ${on?'on':''}" data-prdchk="${p.id}" aria-label="Select ${esc(p.name)}">${on?ic('check',12,3):''}</button></td>${dtCells(K,p)}</tr>`}).join('')
+      :`<tr><td colspan="${dtN(K)+1}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${PRDS.tab==='archived'&&!n('archived')?'No archived products':'No products match'}</b>${PRDS.tab==='archived'&&!n('archived')?'Products you archive show up here. You can restore them any time.':'Try another name or SKU, or clear the filters.'}</div></td></tr>`}</tbody></table></div>
+    <div class="foot"><span>${all.length?`Viewing <b>1–${all.length}</b> of <b>${all.length}</b> products`:'Viewing <b>0</b> products'}</span></div>`;
+  const q=document.getElementById('prd-q');q.oninput=()=>{PRDS.q=q.value;const p=q.selectionStart;renderPrd();const n2=document.getElementById('prd-q');n2.focus();n2.setSelectionRange(p,p)}}
+const prdArchive=(ids,on)=>{ids.forEach(id=>{const p=PROD.find(x=>x.id===id);if(p)p.active=on});pdSync();PRDS.sel.clear();renderPrd();
+  toast(on?`${plural(ids.length,'product')} restored`:`${plural(ids.length,'product')} archived. Past shipments keep their details.`)};
+document.getElementById('view-prd').addEventListener('click',e=>{const t=e.target,c=s=>t.closest(s);
+  if(c('[data-prdtab]')){PRDS.tab=c('[data-prdtab]').dataset.prdtab;PRDS.sel.clear();renderPrd();return}
+  if(c('[data-prdchk]')){e.stopPropagation();const id=c('[data-prdchk]').dataset.prdchk;PRDS.sel.has(id)?PRDS.sel.delete(id):PRDS.sel.add(id);renderPrd();return}
+  if(c('[data-prdall]')){const L=prdRows(),all=L.every(p=>PRDS.sel.has(p.id));L.forEach(p=>all?PRDS.sel.delete(p.id):PRDS.sel.add(p.id));renderPrd();return}
+  if(c('[data-prdclr]')){PRDS.sel.clear();renderPrd();return}
+  if(c('[data-prdarch]')){prdArchive([...PRDS.sel],c('[data-prdarch]').dataset.prdarch==='on');return}
+  if(c('[data-prdnew]')||c('#prd-new')){productDrawer(null,{onSave:p=>{renderPrd();toast(`${p.name} added`)}});return}
+  if(c('[data-prdimp]')||c('#prd-imp')){prdImport();return}
+  if(c('#prd-state')){const b=c('#prd-state');e.stopPropagation();if(popFor===b){closePop();return}popFor=b;
+    pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${[['normal','Normal'],['empty','Empty catalog']].map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${PRDS.state===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{closePop();PRDS.state=o.dataset.v;renderPrd()});placePop(b,true);return}
+  if(c('.dt-th,.dt-btns,.bulk,a,button'))return;
+  const tr=c('tr[data-prd]');if(tr)productDrawer(PROD.find(p=>p.id===tr.dataset.prd),{onSave:p=>{renderPrd();toast(`${p.name} saved`)}})});
+
+/* one product drawer for every route (catalog, Create shipment): name, SKU, photos, price, then the shipping data */
+function productDrawer(p,o={}){const edit=!!p,P=p?{...p}:{name:o.name||'',sku:'',price:0,g:0,l:0,w:0,h:0,dv:0,own:false,img:0},orig=p&&p.price;
+  const num=v=>v?String(v):'',fld=(k,l,u,opt)=>`<div class="sx-f"><label for="pf-${k}">${l}${opt?' <span class="opt-l">(optional)</span>':''}</label><div class="unit"><input id="pf-${k}" data-pf="${k}" inputmode="numeric" value="${num(P[k])}" placeholder="0"><em>${u}</em></div></div>`;
+  const draw=()=>{drawer.innerHTML=`<div class="dh"><span class="kind">${ic('box',15)}${edit?'Product':'New product'}</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db">${edit&&!P.active?`<div class="sx-note">${ic('help',16)}<span>Archived. It can't be picked in new shipments; past shipments keep their details.</span></div>`:''}
+    <div class="sx-f"><label for="pf-name">Product name</label><input id="pf-name" data-pf="name" value="${esc(P.name)}" placeholder="e.g. Linen shirt · White"></div>
+    <div class="sx-g sx-g2"><div class="sx-f"><label for="pf-sku">SKU <span class="opt-l">(optional)</span></label><input id="pf-sku" data-pf="sku" class="mono" value="${esc(P.sku)}" placeholder="LS-WHT-M" autocomplete="off"><p class="hint" id="pf-skuh"></p></div>
+      <div class="sx-f"><label for="pf-price">Price</label><div class="pre"><em>Rp</em><input id="pf-price" data-pf="price" inputmode="numeric" value="${P.price?P.price.toLocaleString('id-ID'):''}" placeholder="150.000"></div><p class="hint" id="pf-priceh"></p></div></div>
+    <div class="sx-g"><div class="sx-f"><label>Photos <span class="opt-l">(optional)</span></label><button class="vf-up" data-pfimg>${ic('upload',16)}<span>${P.img?`${plural(P.img,'photo')} added · add more`:'Add photos'}</span></button><p class="hint">Up to 5. The first is the thumbnail.</p></div></div>
+    <h5 class="pf-h">Shipping</h5>
+    <div class="sx-g sx-g2" style="margin-top:0">${fld('g','Weight','g')}<div class="sx-f"><label for="pf-dv">Declared value <span class="opt-l">(optional)</span></label><div class="pre"><em>Rp</em><input id="pf-dv" data-pf="dv" inputmode="numeric" value="${P.dv?P.dv.toLocaleString('id-ID'):''}" placeholder="Uses the price"></div></div></div>
+    <div class="sx-g pf-dims">${fld('l','Length','cm',1)}${fld('w','Width','cm',1)}${fld('h','Height','cm',1)}</div><p class="hint" id="pf-dimh"></p>
+    <label class="ck pf-own"><button class="cb${P.own?' on':''}" data-pfown role="checkbox" aria-checked="${P.own}" aria-label="Ships in its own box">${P.own?ic('check',12,3):''}</button><span><b>Ships in its own box</b><span class="src">Its size is the outer box, so no packaging weight is added.</span></span></label>
+    <div class="sx-note info pf-vol" id="pf-vol" hidden></div>
+    <p class="hint" id="pf-wth"></p></div>
+  <div class="mf">${edit?`<button class="btn btn-o" data-pfarch style="margin-right:auto">${P.active?'Archive':'Restore'}</button>`:''}<button class="btn btn-o" data-dclose>Cancel</button><button class="btn btn-p" id="pf-go">${edit?'Save changes':'Add product'}</button></div>`;
+    const g=id=>document.getElementById(id),go=g('pf-go'),close=()=>{drawer.oninput=null;closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx')};
+    const chk=()=>{const sku=P.sku.trim().toLowerCase(),dup=sku&&PROD.find(x=>x.sku.toLowerCase()===sku&&(!p||x.id!==p.id)),dims=[P.l,P.w,P.h].filter(x=>x>0).length,dimBad=dims>0&&dims<3;
+      g('pf-skuh').textContent=dup?`Already used by ${dup.name}.`:'';g('pf-skuh').classList.toggle('err',!!dup);
+      g('pf-dimh').textContent=dimBad?'Fill length, width and height, or leave all three empty.':'';g('pf-dimh').classList.toggle('err',dimBad);
+      g('pf-priceh').textContent=edit&&P.price&&P.price!==orig?'Past orders keep the old price.':'';
+      const kg=P.g/1000,vol=dims===3?P.l*P.w*P.h/6000:0,v=g('pf-vol');v.hidden=!(kg||vol);
+      if(kg||vol){const x=Math.max(kg,vol);v.innerHTML=`${ic('pkg',16)}<span>About ${(Math.round(x*10)/10).toLocaleString('id-ID')} kg if shipped alone${vol>kg?`, because its size counts more than its weight (L × W × H ÷ 6.000)`:''}.</span>`}
+      const needW=o.needWeight&&!(P.g>0);g('pf-wth').textContent=!(P.g>0)?(o.needWeight?'Add a weight to use it in this shipment.':'Without a weight it shows Missing shipping data and can\'t be picked in Create shipment.'):'';
+      go.disabled=!(P.name.trim()&&P.price>0&&!dup&&!dimBad&&!needW)};
+    drawer.querySelectorAll('[data-dclose]').forEach(b=>b.onclick=close);dscrim.onclick=close;
+    drawer.oninput=e=>{const t=e.target,k=t.dataset.pf;if(!k)return;if(k==='name'||k==='sku')P[k]=t.value;else{const n=+t.value.replace(/\D/g,'');P[k]=n;t.value=n?(k==='price'||k==='dv'?n.toLocaleString('id-ID'):String(n)):''}chk()};
+    drawer.querySelector('[data-pfimg]').onclick=()=>{if(P.img>=5){toast('Up to 5 photos');return}P.img++;const s=drawer.querySelector('[data-pfimg] span');s.textContent=`${plural(P.img,'photo')} added · add more`};
+    drawer.querySelector('[data-pfown]').onclick=e=>{e.preventDefault();P.own=!P.own;const b=e.currentTarget;b.classList.toggle('on',P.own);b.setAttribute('aria-checked',P.own);b.innerHTML=P.own?ic('check',12,3):''};
+    const ar=drawer.querySelector('[data-pfarch]');if(ar)ar.onclick=()=>{close();prdArchive([p.id],!p.active)};
+    go.onclick=()=>{const v={name:P.name.trim(),sku:P.sku.trim(),price:P.price,g:P.g,l:P.l,w:P.w,h:P.h,dv:P.dv,own:P.own,img:P.img};
+      if(edit)Object.assign(p,v);const saved=edit?p:addProduct(v.name,v.price,null,v);pdSync();close();if(o.onSave)o.onSave(saved)};
+    chk()};
+  draw();drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');
+  if(o.over){drawer.classList.add('over-sx');dscrim.classList.add('over-sx')}setTimeout(()=>{const f=document.getElementById(P.name?'pf-price':'pf-name');if(f&&!edit)f.focus()},250)}
+
+/* CSV import: template, upload, a preview with plain-English errors per cell, then the summary */
+function prdImport(){let step=0,pick={4:'update'};
+  const R=[[2,'LS-WHT-M','Linen shirt · White','400','30×25×4','289.000','update',''],[3,'MUG-SAGE','Ceramic mug · Sage','450','12×12×11','95.000','update','Price changes from Rp89.000. Past orders keep the old price.'],
+    [4,'','Canvas tote bag','300','40×35×3','149.000','same','Same product? “Canvas tote bag” is already in your catalog without a SKU.'],[5,'PLW-SLK-W','Silk pillowcase · White','300','50×30×2','185.000','new',''],
+    [6,'TEE-WHT-M','Basic tee · White','0','28×22×3','99.000','err','Weight must be more than 0 g.'],[7,'SCK-CTN-3P','Cotton socks · 3 pack','','20×12','79.000','err','Fill length, width and height, or leave all three empty.'],
+    [8,'BAG-MINI','Mini crossbody bag','350','22×15×6','245.000','err','SKU BAG-MINI is in this file twice (rows 8 and 9). Neither row imports.'],[9,'BAG-MINI','Mini crossbody bag · Tan','350','22×15×6','245.000','err','SKU BAG-MINI is in this file twice (rows 8 and 9). Neither row imports.']];
+  const RS={new:['New','ok'],update:['Update','pu'],same:['Check','warn'],err:['Error','bad']};
+  const draw=()=>{if(step===0){modal.innerHTML=`<div class="mh"><h3>Import products</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><p class="bk-mp">Upload a CSV with one product per row. A row with a SKU updates that product, or adds it if it's new. Rows without a SKU are added as new products.</p>
+      <button class="vf-up" id="pi-file">${ic('upload',16)}<span>Choose a CSV file</span><span class="src" style="margin-left:auto">Up to 5.000 rows</span></button>
+      <p class="hint">Columns: sku, name, price, weight_grams, length_cm, width_cm, height_cm, declared_value, ships_in_own_box. <button class="lnk" data-toast="Downloading flik-products-template.csv">Download the template</button></p></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button></div>`;modal.classList.add('md');
+    document.getElementById('pi-file').onclick=()=>{step=1;draw()};return}
+    const add=R.filter(r=>r[6]==='new'||(r[6]==='same'&&pick[r[0]]==='new')).length+10,upd=R.filter(r=>r[6]==='update'||(r[6]==='same'&&pick[r[0]]==='update')).length+28,bad=R.filter(r=>r[6]==='err').length;
+    modal.innerHTML=`<div class="mh"><h3>Check before importing</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><div class="pi-file">${ic('sheet',16)}<b>products-oct.csv</b><span class="src">46 rows · showing the rows to check first</span><button class="lnk" id="pi-re">Choose another file</button></div>
+      <div class="tbl-wrap"><table class="pi-tbl"><thead><tr><th class="r">Row</th><th>SKU</th><th>Name</th><th class="r">Weight (g)</th><th>L×W×H (cm)</th><th class="r">Price</th><th>Result</th></tr></thead><tbody>
+      ${R.map(r=>`<tr class="nohover"><td class="r num src">${r[0]}</td><td class="mono">${r[1]||'<span class="src">—</span>'}</td><td>${esc(r[2])}</td><td class="r num${r[6]==='err'&&/Weight/.test(r[7])?' pi-bad':''}">${r[3]||'—'}</td><td class="num${/length/.test(r[7])?' pi-bad':''}">${r[4]}</td><td class="r num">Rp${r[5]}</td><td class="c-st">${r[6]==='same'?(pick[r[0]]==='new'?'<span class="st ok">New</span>':'<span class="st pu">Update</span>'):`<span class="st ${RS[r[6]][1]}">${RS[r[6]][0]}</span>`}</td></tr>
+        ${r[7]?`<tr class="nohover pi-msg"><td></td><td colspan="6"><span class="${r[6]==='err'?'pi-err':''}">${r[7]}</span>${r[6]==='same'?` <button class="lnk" data-pis="${r[0]}" data-v="update">${pick[r[0]]==='update'?'<b>Same product</b>':'Same product'}</button> · <button class="lnk" data-pis="${r[0]}" data-v="new">${pick[r[0]]==='new'?'<b>Add as new</b>':'Add as new'}</button>`:''}</td></tr>`:''}`).join('')}</tbody></table></div>
+      <div class="sx-note info" style="margin-top:12px">${ic('help',16)}<span><b>${add} new, ${upd} updated, ${bad} with errors (skipped).</b> Fix the errors in your file and import it again to add those rows.</span></div></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="pi-go">Import ${add+upd} products</button></div>`;modal.classList.add('wide');
+    document.getElementById('pi-re').onclick=()=>{step=0;modal.classList.remove('wide');draw()};
+    modal.querySelectorAll('[data-pis]').forEach(b=>b.onclick=()=>{pick[b.dataset.pis]=b.dataset.v;draw()});
+    document.getElementById('pi-go').onclick=()=>{const m=PROD.find(p=>p.sku==='MUG-SAGE');if(m)m.price=95000;if(!PROD.some(p=>p.sku==='PLW-SLK-W'))addProduct('Silk pillowcase · White',185000,null,{sku:'PLW-SLK-W',g:300,l:50,w:30,h:2});
+      if(pick[4]==='new')addProduct('Canvas tote bag',149000,null,{sku:'',g:300,l:40,w:35,h:3});else{const t=PROD.find(p=>p.name==='Canvas tote bag');if(t)Object.assign(t,{g:300,l:40,w:35,h:3})}
+      pdSync();closeModal();PRDS.state='normal';PRDS.tab='active';renderPrd();toast(`${add} new, ${upd} updated, ${bad} with errors (skipped)`)}};
+  draw();mscrim.classList.add('open')}
+
+/* ===== Customers (spec 28 Oct 2026): one list per merchant, fed by every FLIK channel; leads, recipients and customers in one place ===== */
+const LIFE={customer:['Customer','ok'],recipient:['Recipient','pu'],lead:['Lead','gr']};
+const CU_SRC={shipment:'Shipment',checkout:'Checkout',payment_link:'Payment link',shopper_invoice:'Invoice',in_store:'In-store payment',lead_form:'Lead form',qr:'QR campaign',manual:'Added by you',import:'Import'};
+const CU_CH={checkout:'Checkout',payment_link:'Payment link',shopper_invoice:'Invoice',qris:'QRIS',shipping:'Shipping'};
+const ACT_T={order:['Order','cart'],in_store_payment:['In-store payment','store'],legacy_payment:['Payment','link'],shipment:['Shipment','truck'],refund:['Refund','refund'],return:['Returned to you','pkg']};
+let CUS=null,CUSV={tab:'all',q:'',ch:[],tag:[],ret:[],flag:[],src:[],sel:new Set(),state:'normal',dtab:'act'};
+/* built on first open: AREA and STREETS are defined further down the file */
+function cusInit(){if(CUS)return;const day=864e5,at=d=>new Date(NOW.getTime()-d*day-((d*37)%11)*36e5);
+  const mkAddr=(c,i,label,def)=>{const a=AREA[(i*7+3)%AREA.length];return{label,def,name:c.name,phone:c.phone,street:`${STREETS[(i*3)%STREETS.length]} No. ${3+(i*11)%90}`,kel:a.kel,kec:a.kec,city:a.city,prov:a.prov,zip:a.zip}};
+  const TAGS=[['VIP'],[],['Reseller'],[],['VIP','Wholesale'],[],[],['Reseller'],[],[],['VIP'],[]];
+  CUS=ICUST.map((c,i)=>{const nOrd=c.src?0:1+(i*5+2)%6,chs=['checkout','payment_link','shopper_invoice','qris'],act=[];
+    for(let k=0;k<nOrd;k++){const ch=chs[(i+k)%4],amt=(150000+((i*37+k*53)%10)*45000),d=2+i*2.3+k*9;
+      act.push({type:ch==='qris'?'in_store_payment':'order',obj:ch==='qris'?`pay_${8800+i*10+k}`:`ord_${4100+i*10+k}`,amount:amt,channel:ch,status:'Paid',at:at(d)});
+      if(ch!=='qris')act.push({type:'shipment',obj:`FLK26${10+i}${40+k}${(i*k)%9}`,amount:null,channel:'shipping',status:k===1&&i%5===2?'Returned':'Delivered',at:at(d-.5)})}
+    if(i%5===2&&nOrd>1)act.push({type:'return',obj:`FLK26${10+i}41${i%9}`,amount:null,channel:'shipping',status:'Returned to sender',at:at(2+i*2.3+8)});
+    if(i%6===1&&nOrd>1){const o=act.find(a=>a.type==='order');act.push({type:'refund',obj:`R-2610-${String(40+i).padStart(4,'0')}`,amount:-Math.round(o.amount/2),channel:o.channel,status:'Paid to shopper',at:at(1+i)})}
+    const r={id:'ctc_'+(1000+i),name:c.name,other:c.name==='Budi Santoso'?['Budi']:c.name==='Putri Ayu'?['Putri A.']:[],phones:[c.phone],emails:c.email?[c.email]:[],city:c.city||'',
+      life:c.src?'lead':i===9?'recipient':'customer',src:c.src?'manual':['checkout','payment_link','shopper_invoice','shipment','in_store'][i%5],tags:TAGS[i%12]||[],notes:i===0?'Prefers delivery after 5 pm.':'',
+      flag:i===7?{level:'High',reason:'Past failed delivery: address not found'}:null,act:act.sort((a,b)=>b.at-a.at),created:at(40+i*3),ref:c};
+    /* the first source is where the earliest activity came from */const first=r.act.filter(a=>a.type==='order'||a.type==='in_store_payment').pop();if(first)r.src={checkout:'checkout',payment_link:'payment_link',shopper_invoice:'shopper_invoice',qris:'in_store'}[first.channel];
+    if(r.life==='recipient')r.act=[{type:'shipment',obj:'FLK2614409',amount:null,channel:'shipping',status:'In transit',at:at(1)}];
+    r.addrs=r.life==='lead'?[]:[mkAddr(c,i,'Home',true),...(i%3===0?[mkAddr(c,i+5,'Office',false)]:[])];if(r.addrs[0])r.city=r.addrs[0].city;return r});
+  [['Lina Marlina','lead_form',['Instagram']],['Hendra Wijaya','qr',[]],['Tika Anggraini','manual',['Wholesale']]].forEach(([n,s,t],k)=>CUS.push({id:'ctc_'+(1100+k),name:n,other:[],phones:[phone()],emails:k===1?[]:[n.toLowerCase().replace(' ','.')+'@gmail.com'],city:pick(CITY),life:'lead',src:s,tags:t,notes:'',flag:null,act:[],addrs:[],created:at(3+k*4)}));
+  [['Bayu Prakoso',2],['Citra Kirana',5]].forEach(([n,d],k)=>{const c={name:n,phone:phone()},a=mkAddr(c,20+k,'Home',true);CUS.push({id:'ctc_'+(1200+k),name:n,other:[],phones:[c.phone],emails:[],city:a.city,life:'recipient',src:'shipment',tags:k?['Gift']:[],notes:k?'Gift recipient for Maya Sari.':'',flag:k===0?{level:'High',reason:'Past failed delivery: address not found'}:null,act:[{type:'shipment',obj:`FLK26${50+k}118`,amount:null,channel:'shipping',status:k?'Delivered':'Out for delivery',at:at(d)}],addrs:[a],created:at(d)})})}
+const cuStats=c=>{const pay=c.act.filter(a=>a.amount!=null),paid=pay.filter(a=>a.amount>0),tot=pay.reduce((s,a)=>s+a.amount,0),buy=c.act.filter(a=>a.type==='order'||a.type==='in_store_payment');
+  return{orders:buy.length,total:tot,avg:buy.length?Math.round(tot/buy.length):0,first:buy.length?buy[buy.length-1].at:null,last:buy.length?buy[0].at:null,del:c.act.filter(a=>a.type==='shipment'&&a.status==='Delivered').length,ret:c.act.filter(a=>a.type==='return'||a.status==='Returned').length,chs:[...new Set(c.act.map(a=>a.channel))]}};
+const cuRows=()=>{const q=CUSV.q.toLowerCase().trim(),qd=q.replace(/\D/g,'');return CUS.filter(c=>CUSV.tab==='all'||c.life===CUSV.tab).filter(c=>!q||[c.name,...c.other,...c.emails,c.city].join(' ').toLowerCase().includes(q)||(qd.length>=3&&c.phones.some(p=>p.replace(/\D/g,'').includes(qd))))
+  .filter(c=>{const s=cuStats(c);return(!CUSV.ch.length||CUSV.ch.some(x=>s.chs.includes(x)))&&(!CUSV.tag.length||CUSV.tag.some(x=>c.tags.includes(x)))&&(!CUSV.ret.length||s.ret>0)&&(!CUSV.flag.length||!!c.flag)&&(!CUSV.src.length||CUSV.src.includes(c.src))})};
+const cuFlag=c=>c.flag?`<span class="cu-flag" data-tip="Shopper delivery risk: ${c.flag.level} · ${c.flag.reason}" aria-label="Shopper delivery risk ${c.flag.level}">${ic('warn',15)}</span>`:'';
+function renderCus(){cusInit();const el=document.getElementById('cus-main'),empty=CUSV.state==='empty'||!CUS.length;
+  document.getElementById('cus-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${empty?'Empty':'Normal'}</span>`;
+  if(empty){el.innerHTML=`<section class="es-hero"><div class="es-copy"><h2>Everyone who buys from you, in one list</h2><p>Shoppers from Checkout, payment links, invoices, in-store payments and shipments are saved here automatically, with their addresses and purchase history.</p><div class="es-ctas"><button class="btn btn-p es-cta" data-cunew>New customer</button><button class="btn btn-o es-cta" data-cuimp>Import a CSV</button></div></div><div class="es-art" aria-hidden="true" id="es-art"></div></section>
+    <div class="es-cards c3"><section class="es-card"><h3>Ship again in two taps</h3><p>Pick a saved customer in Create shipment and their address fills in. You can still change anything.</p></section>
+    <section class="es-card"><h3>Leads live here too</h3><p>Contacts from forms and QR campaigns show as leads, and become customers when they first buy.</p></section>
+    <section class="es-card"><h3>One record per phone</h3><p>The same phone number from any channel adds to one customer, so totals stay right.</p></section></div>`;esArt('es-art','user',[['chat',0],['ig',1],['cart',2],['store',3],['link',4],['invoice',.5,1],['pin',1.5,1],['upload',2.5,1],['tx',3.5,1]]);return}
+  const K='cus';
+  dtUse(K,{name:['Name',c=>c.name.toLowerCase(),c=>`<td><div class="cus-n"><span class="ie-av">${initials(c.name)}</span><div><b>${esc(c.name)}</b>${c.other.length?`<span class="src">Also ${esc(c.other.join(', '))}</span>`:''}</div></div></td>`,{fixed:1}],
+    phone:['Phone',c=>c.phones[0]||'',c=>`<td class="num">${c.phones[0]||'<span class="src">—</span>'}</td>`],
+    city:['City',c=>c.city,c=>`<td>${c.city?esc(c.city):'<span class="src">—</span>'}</td>`],
+    life:['Lifecycle',c=>['lead','recipient','customer'].indexOf(c.life),c=>`<td class="c-st"><span class="st ${LIFE[c.life][1]}">${LIFE[c.life][0]}</span></td>`],
+    orders:['Orders',c=>cuStats(c).orders,c=>`<td class="num">${cuStats(c).orders}</td>`],
+    total:['Total paid',c=>cuStats(c).total,c=>`<td class="num">${cuStats(c).total?rp(cuStats(c).total):'<span class="src">—</span>'}</td>`],
+    last:['Last purchase',c=>+(cuStats(c).last||0),c=>`<td class="date">${cuStats(c).last?fday(cuStats(c).last):'<span class="src">—</span>'}</td>`],
+    flag:['Flag',c=>c.flag?1:0,c=>`<td>${cuFlag(c)}</td>`]},{k:'last',dir:-1},renderCus);
+  const tags=[...new Set(CUS.flatMap(c=>c.tags))].sort();
+  fbUse(K,[{k:'ch',l:'Channel',type:'many',opts:Object.entries(CU_CH),get:()=>CUSV.ch,set:v=>{CUSV.ch=v}},{k:'tag',l:'Tag',type:'many',opts:tags.map(t=>[t,t]),get:()=>CUSV.tag,set:v=>{CUSV.tag=v}},
+    {k:'ret',l:'Returns',type:'many',opts:[['yes','Has returns']],get:()=>CUSV.ret,set:v=>{CUSV.ret=v}},{k:'flag',l:'Flag',type:'many',opts:[['yes','Flagged']],get:()=>CUSV.flag,set:v=>{CUSV.flag=v}},
+    {k:'src',l:'Source',type:'many',opts:Object.entries(CU_SRC),get:()=>CUSV.src,set:v=>{CUSV.src=v}}],renderCus);
+  const all=dtSort(K,cuRows()),n=t=>CUS.filter(c=>t==='all'||c.life===t).length,sel=[...CUSV.sel].filter(id=>CUS.some(c=>c.id===id));
+  const allSel=all.length&&all.every(c=>CUSV.sel.has(c.id)),someSel=all.some(c=>CUSV.sel.has(c.id));
+  el.innerHTML=`<div class="tabs" role="tablist">${[['all','All'],['customer','Customers'],['recipient','Recipients'],['lead','Leads']].map(t=>`<button class="tab${CUSV.tab===t[0]?' on':''}" data-cutab="${t[0]}" role="tab" aria-selected="${CUSV.tab===t[0]}">${t[1]}<span class="ct">${n(t[0])}</span></button>`).join('')}</div>
+    <div class="filters dt-bar"><label class="search bl-search">${ic('search',16)}<input id="cu-q" value="${esc(CUSV.q)}" placeholder="Name, phone, email or city" autocomplete="off" aria-label="Search customers"></label><span class="dt-btns">${fbBtns(K,K)}</span>
+      <div class="fright"><button class="btn btn-o" data-export="Customers|Customers · ${CUSV.tab==='all'?'all':CUSV.tab+'s'}|CSV" data-tip="Owners only. Every export is logged.">${ic('export',15)}Export</button></div></div>
+    <div class="bulk${sel.length?' show':''}"><span>${sel.length} selected</span><span class="sp"></span><button class="btn btn-o" data-cumerge ${sel.length===2?'':'disabled'} ${sel.length===2?'':'data-tip="Select 2 customers to merge"'}>${ic('split',15)}Merge</button><button class="btn" data-cuclr style="color:var(--primary)">Clear</button></div>
+    <div class="tbl-wrap"><table data-dtt="${K}"><thead><tr><th class="c-chk"><button class="cb ${allSel?'on':someSel?'mixed':''}" data-cuall aria-label="Select all">${allSel?ic('check',12,3):''}</button></th>${dtHead(K)}</tr></thead><tbody>
+    ${all.length?all.map(c=>{const on=CUSV.sel.has(c.id);return`<tr data-cu="${c.id}" class="${on?'sel':''}"><td class="c-chk"><button class="cb ${on?'on':''}" data-cuchk="${c.id}" aria-label="Select ${esc(c.name)}">${on?ic('check',12,3):''}</button></td>${dtCells(K,c)}</tr>`}).join('')
+      :`<tr><td colspan="${dtN(K)+1}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No customers match</b>Try another name, phone or city, or clear the filters.</div></td></tr>`}</tbody></table></div>
+    <div class="foot"><span>${all.length?`Viewing <b>1–${all.length}</b> of <b>${all.length}</b> customers`:'Viewing <b>0</b> customers'}</span></div>`;
+  const q=document.getElementById('cu-q');q.oninput=()=>{CUSV.q=q.value;const p=q.selectionStart;renderCus();const n2=document.getElementById('cu-q');n2.focus();n2.setSelectionRange(p,p)}}
+document.getElementById('view-cus').addEventListener('click',e=>{const t=e.target,c=s=>t.closest(s);
+  if(c('[data-cutab]')){CUSV.tab=c('[data-cutab]').dataset.cutab;CUSV.sel.clear();renderCus();return}
+  if(c('[data-cuchk]')){e.stopPropagation();const id=c('[data-cuchk]').dataset.cuchk;CUSV.sel.has(id)?CUSV.sel.delete(id):CUSV.sel.add(id);renderCus();return}
+  if(c('[data-cuall]')){const L=cuRows(),all=L.every(x=>CUSV.sel.has(x.id));L.forEach(x=>all?CUSV.sel.delete(x.id):CUSV.sel.add(x.id));renderCus();return}
+  if(c('[data-cuclr]')){CUSV.sel.clear();renderCus();return}
+  if(c('[data-cumerge]')){const ids=[...CUSV.sel];if(ids.length===2)cuMerge(ids.map(id=>CUS.find(x=>x.id===id)));return}
+  if(c('[data-cunew]')||c('#cus-new')){cuEdit(null);return}
+  if(c('[data-cuimp]')||c('#cus-imp')){cuImport();return}
+  if(c('#cus-state')){const b=c('#cus-state');e.stopPropagation();if(popFor===b){closePop();return}popFor=b;
+    pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${[['normal','Normal'],['empty','No customers yet']].map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${CUSV.state===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{closePop();CUSV.state=o.dataset.v;renderCus()});placePop(b,true);return}
+  if(c('.dt-th,.dt-btns,.bulk,a,button'))return;
+  const tr=c('tr[data-cu]');if(tr)cuDetail(tr.dataset.cu)});
+
+/* customer detail: header, flag, contact, stats, then Activity and Addresses */
+function cuDetail(id){cusInit();const c=CUS.find(x=>x.id===id);if(!c)return;const s=cuStats(c),d=x=>x?fdateY(x).replace(/, \d\d:\d\d$/,''):'—';
+  const act=c.act.length?`<div class="cu-act">${c.act.map((a,i)=>`<button class="cu-ar" data-cuact="${i}"><span class="cu-ai">${ic(ACT_T[a.type][1],15)}</span><span class="cu-am"><b>${ACT_T[a.type][0]}${a.channel&&a.type!=='shipment'&&a.type!=='return'?` · ${CU_CH[a.channel]}`:''}</b><span class="src">${a.obj} · ${fday(a.at)}</span></span><span class="cu-av">${a.amount!=null?`<b class="num${a.amount<0?' neg':''}">${a.amount<0?'−':''}${rp(Math.abs(a.amount))}</b>`:''}<span class="src">${a.status}</span></span></button>`).join('')}</div>`
+    :`<div class="empty" style="padding:24px 0"><b>No activity yet</b>${c.life==='lead'?'Orders, payments and shipments show here once this lead buys or receives a parcel.':'Nothing recorded with you yet.'}</div>`;
+  const adr=`${c.addrs.map((a,i)=>`<div class="cu-ad"><div class="cu-adh"><b>${esc(a.label)}</b>${a.def?'<span class="st gr">Default</span>':''}<span class="sp"></span>${a.def?'':`<button class="lnk" data-cuadef="${i}">Set as default</button>`}<button class="lnk" data-cuaed="${i}">Edit</button><button class="lnk" data-cuadel="${i}">Delete</button></div>
+      <span>${esc(a.name)} · ${a.phone}</span><span>${esc(a.street)}, ${esc(a.kel)}, ${esc(a.kec)}, ${esc(a.city)}, ${esc(a.prov)} ${a.zip}</span><button class="lnk cu-pin" data-toast="Opens the map pin for ${esc(a.label)}">${ic('pin',14)}View on map</button></div>`).join('')}
+    ${c.addrs.length<10?`<button class="btn btn-o" data-cuanew style="margin-top:12px">${ic('plus',15)}Add address</button>`:'<p class="hint">Up to 10 addresses per customer.</p>'}`;
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('user',15)}Customer</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b>${esc(c.name)}</b><span class="st ${LIFE[c.life][1]}">${LIFE[c.life][0]}</span></div>
+    <p class="d-sub">${c.other.length?`Also known as ${esc(c.other.join(', '))} · `:''}Since ${d(c.created)} · ${CU_SRC[c.src]}</p>
+    <div class="d-acts"><button class="btn btn-p" data-cuship ${c.addrs.length?'':'disabled data-tip="Add an address first"'}>${ic('truck',15)}Ship to this customer</button><button class="btn btn-o" data-cued>Edit</button><button class="btn btn-o dt-ic" data-cumore aria-label="More actions" aria-haspopup="menu">${ic('dots',16)}</button><button data-cumg hidden></button></div>
+    ${c.flag?`<div class="sx-note warn">${ic('warn',16)}<span><b>Shopper delivery risk: ${c.flag.level}</b> · ${c.flag.reason}. Based on deliveries across FLIK. It's advice only; they can still buy and receive shipments.</span></div>`:''}
+    <div class="dsec"><h5>Contact</h5><dl class="kv"><dt>Phone</dt><dd>${c.phones.map(p=>`<span class="num">${p}</span>`).join('<br>')||'—'}</dd><dt>Email</dt><dd>${c.emails.join('<br>')||'—'}</dd>
+      <dt>Tags</dt><dd>${c.tags.length?c.tags.map(t=>`<span class="st gr">${esc(t)}</span>`).join(' '):'—'}</dd><dt>Notes</dt><dd>${c.notes?esc(c.notes):'—'}</dd></dl></div>
+    <div class="dsec"><h5>With you</h5><div class="cu-stats">${[['Orders',s.orders],['Total paid',s.total?rp(s.total):'—'],['Average order',s.avg?rp(s.avg):'—'],['First purchase',d(s.first)],['Last purchase',d(s.last)],['Delivered',s.del],['Returned',s.ret]].map(x=>`<div><span class="kpi-l">${x[0]}</span><b class="num">${x[1]}</b></div>`).join('')}</div></div>
+    <div class="tabs cu-tabs" role="tablist">${[['act','Activity',c.act.length],['adr','Addresses',c.addrs.length]].map(x=>`<button class="tab${CUSV.dtab===x[0]?' on':''}" data-cudt="${x[0]}" role="tab" aria-selected="${CUSV.dtab===x[0]}">${x[1]}<span class="ct">${x[2]}</span></button>`).join('')}</div>
+    <div class="cu-tb">${CUSV.dtab==='act'?act:adr}</div></div>`;
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');dscrim.onclick=closeDetail;
+  const on=(s,f)=>drawer.querySelectorAll(s).forEach(b=>b.onclick=f);
+  on('[data-dclose]',closeDetail);on('[data-cudt]',e=>{CUSV.dtab=e.currentTarget.dataset.cudt;cuDetail(id)});
+  on('[data-cuact]',e=>{const a=c.act[+e.currentTarget.dataset.cuact];toast(`Opens ${ACT_T[a.type][0].toLowerCase()} ${a.obj}`)});
+  on('[data-cued]',()=>cuEdit(c));on('[data-cumg]',()=>{const o=CUS.find(x=>x.id!==c.id&&x.name.split(' ')[0]===c.name.split(' ')[0])||CUS.find(x=>x.id!==c.id);cuMerge([c,o])});
+  on('[data-cumore]',e=>{const b=e.currentTarget;e.stopPropagation();if(popFor===b){closePop();return}popFor=b;
+    pop.innerHTML=`<div class="menu"><button class="opt" data-m="mg">${ic('split',15)}Merge with another customer</button><button class="opt" disabled data-tip="Comes with the payment links update">${ic('link',15)}Create payment link</button><button class="opt" data-m="del" style="color:var(--bad-tx)">${ic('trash',15)}Delete customer</button></div>`;
+    pop.querySelector('[data-m="mg"]').onclick=()=>{closePop();drawer.querySelector('[data-cumg]').click()};pop.querySelector('[data-m="del"]').onclick=()=>{closePop();cuDelete(c)};placePop(b,true)});
+  on('[data-cudel]',()=>cuDelete(c));on('[data-cuanew]',()=>cuAddr(c,-1));on('[data-cuaed]',e=>cuAddr(c,+e.currentTarget.dataset.cuaed));
+  on('[data-cuadef]',e=>{c.addrs.forEach((a,i)=>a.def=i===+e.currentTarget.dataset.cuadef);c.addrs.sort((a,b)=>b.def-a.def);c.city=c.addrs[0].city;cuDetail(id);renderCus();toast('Default address changed')});
+  on('[data-cuadel]',e=>{const i=+e.currentTarget.dataset.cuadel,w=c.addrs[i].def;c.addrs.splice(i,1);if(w&&c.addrs[0])c.addrs[0].def=true;cuDetail(id);toast('Address deleted')});
+  on('[data-cuship]',()=>{const a=c.addrs.find(x=>x.def)||c.addrs[0];try{sessionStorage.setItem('flik-ship-to',JSON.stringify({t:Date.now(),name:a.name,phone:a.phone,addr:{street:a.street,city:`${a.kec}, ${a.city}`,zip:a.zip}}))}catch(x){}closeDetail();location.hash='shipments/create'})}
+
+/* new or edit: name, phones, email, tags, notes. A name you type yourself is never changed by auto-capture */
+function cuEdit(c){const C=c?{name:c.name,ph:c.phones[0]?c.phones[0].replace(/^\+62\s?/,''):'',ph2:c.phones[1]?c.phones[1].replace(/^\+62\s?/,''):'',em:c.emails[0]||'',tags:c.tags.join(', '),notes:c.notes}:{name:'',ph:'',ph2:'',em:'',tags:'',notes:''};
+  modal.innerHTML=`<div class="mh"><h3>${c?'Edit customer':'New customer'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="sx-f"><label for="ce-name">Name</label><input id="ce-name" data-ce="name" value="${esc(C.name)}" placeholder="Rina Putri">${c?'<p class="hint">Names you edit stay as you typed them. New names from orders are kept as other names.</p>':''}</div>
+    <div class="sx-g sx-g2"><div class="sx-f"><label for="ce-ph">WhatsApp</label><div class="pre"><em>+62</em><input id="ce-ph" data-ce="ph" inputmode="numeric" value="${esc(C.ph)}" placeholder="812-3456-7890"></div></div>
+      <div class="sx-f"><label for="ce-ph2">Other phone <span class="opt-l">(optional)</span></label><div class="pre"><em>+62</em><input id="ce-ph2" data-ce="ph2" inputmode="numeric" value="${esc(C.ph2)}" placeholder="813-0000-0000"></div></div></div>
+    <div class="sx-g"><div class="sx-f"><label for="ce-em">Email${c?'':' <span class="opt-l">(optional if there\'s a phone)</span>'}</label><input id="ce-em" data-ce="em" type="email" value="${esc(C.em)}" placeholder="rina@gmail.com"><p class="hint" id="ce-err"></p></div></div>
+    <div class="sx-g"><div class="sx-f"><label for="ce-tags">Tags <span class="opt-l">(optional)</span></label><input id="ce-tags" data-ce="tags" value="${esc(C.tags)}" placeholder="VIP, Reseller"></div></div>
+    <div class="sx-g"><div class="sx-f"><label for="ce-notes">Notes <span class="opt-l">(optional)</span></label><textarea id="ce-notes" data-ce="notes" rows="2" placeholder="Anything your team should know">${esc(C.notes)}</textarea></div></div></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ce-go">${c?'Save changes':'Add customer'}</button></div>`;
+  modal.classList.add('md');mscrim.classList.add('open');const g=x=>document.getElementById(x),go=g('ce-go');
+  const chk=()=>{const d=C.ph.replace(/\D/g,''),dup=d.length>=9&&CUS.find(x=>x!==c&&x.phones.some(p=>p.replace(/\D/g,'').endsWith(d))),emOk=!C.em||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(C.em);
+    g('ce-err').textContent=dup?`This phone already belongs to ${dup.name}. Merge them instead.`:!emOk?'Check the email address.':!d&&!C.em?'Add a WhatsApp number or an email.':'';g('ce-err').classList.toggle('err',!!(dup||!emOk));
+    go.disabled=!(C.name.trim()&&(d.length>=9||(C.em&&emOk))&&!dup&&emOk)};
+  modal.oninput=e=>{const k=e.target.dataset.ce;if(k)C[k]=e.target.value;chk()};chk();setTimeout(()=>g('ce-name').focus(),0);
+  go.onclick=()=>{modal.oninput=null;const v={name:C.name.trim(),phones:[C.ph,C.ph2].filter(x=>x.replace(/\D/g,'').length>=9).map(x=>'+62 '+x.trim()),emails:C.em?[C.em.trim()]:[],tags:C.tags.split(',').map(x=>x.trim()).filter(Boolean),notes:C.notes.trim()};
+    if(c){if(v.name!==c.name){c.other=[...new Set([c.name,...c.other])].filter(x=>x!==v.name);c.locked=true}Object.assign(c,v);closeModal();renderCus();cuDetail(c.id);toast('Customer saved');return}
+    const n={id:'ctc_'+(1300+CUS.length),...v,other:[],city:'',life:'lead',src:'manual',flag:null,act:[],addrs:[],created:new Date(NOW),locked:true};CUS.unshift(n);
+    if(n.phones[0])addCustomer({name:n.name,phone:n.phones[0],email:n.emails[0]||'',city:''});closeModal();CUSV.state='normal';renderCus();cuDetail(n.id);toast(`${n.name} added as a lead`)}}
+
+/* address add and edit, down to kelurahan and postcode */
+function cuAddr(c,i){const a=i>=0?{...c.addrs[i]}:{label:c.addrs.length?'Office':'Home',name:c.name,phone:c.phones[0]||'',street:'',kel:'',kec:'',city:'',prov:'',zip:'',def:!c.addrs.length};
+  const F=[['label','Label','Home'],['name','Recipient name','Full name'],['street','Street address','Street, building, house number'],['kel','Kelurahan','Cilandak Barat'],['kec','Kecamatan','Cilandak'],['city','City','Jakarta Selatan'],['prov','Province','DKI Jakarta'],['zip','Postcode','12430']];
+  modal.innerHTML=`<div class="mh"><h3>${i>=0?'Edit address':'Add address'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="sx-g sx-g2" style="margin-top:0">${F.map(([k,l,ph])=>`<div class="sx-f${k==='street'?' cu-w2':''}"><label for="ca-${k}">${l}</label><input id="ca-${k}" data-ca="${k}" value="${esc(a[k]||'')}" placeholder="${ph}" ${k==='zip'?'inputmode="numeric"':''}></div>`).join('')}</div>
+    <button class="lnk cu-pin" data-toast="Opens the map to drop a pin" style="margin-top:12px">${ic('pin',14)}Drop a pin on the map</button></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ca-go">${i>=0?'Save address':'Add address'}</button></div>`;
+  modal.classList.add('md');mscrim.classList.add('open');const go=document.getElementById('ca-go'),chk=()=>{go.disabled=!(a.street.trim()&&a.kec.trim()&&a.city.trim()&&/^\d{5}$/.test(a.zip))};
+  modal.oninput=e=>{const k=e.target.dataset.ca;if(k)a[k]=e.target.value;chk()};chk();
+  go.onclick=()=>{modal.oninput=null;if(i>=0)c.addrs[i]=a;else c.addrs.push(a);if(a.def||c.addrs.length===1){c.addrs.forEach(x=>x.def=x===a);c.city=a.city}if(c.life==='lead'&&false)c.life='recipient';closeModal();renderCus();CUSV.dtab='adr';cuDetail(c.id);toast(i>=0?'Address saved':'Address added')}}
+
+/* merge two customers: pick the name to keep; phones, emails, addresses and activity combine */
+function cuMerge(L){let keep=0;const ord=['lead','recipient','customer'];
+  const draw=()=>{const k=L[keep],o=L[1-keep],act=k.act.length+o.act.length,ad=k.addrs.length+o.addrs.length;
+    modal.innerHTML=`<div class="mh"><h3>Merge customers</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><p class="bk-mp">Keep one name. Phones, emails, addresses, tags and activity from both come together in one customer.</p>
+      <div class="bl-accts">${L.map((c,i)=>`<button class="payopt${keep===i?' on':''}" data-mk="${i}"><span class="ie-av">${initials(c.name)}</span><span style="flex:1"><b>${esc(c.name)}</b><span class="src" style="display:block">${c.phones[0]||c.emails[0]||'No contact'} · ${LIFE[c.life][0]} · ${plural(c.act.length,'activity','activities')}</span></span><span class="rdo${keep===i?' on':''}"></span></button>`).join('')}</div>
+      <dl class="sum-kv" style="margin-top:14px"><dt>Name</dt><dd>${esc(k.name)}</dd><dt>Other names</dt><dd>${esc([o.name,...k.other,...o.other].join(', '))}</dd><dt>Phones</dt><dd>${[...new Set([...k.phones,...o.phones])].join(', ')||'—'}</dd><dt>Addresses</dt><dd>${ad}</dd><dt>Activity</dt><dd>${act}</dd></dl>
+      <p class="hint">Past orders and shipments keep the details they were made with. This is logged.</p></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="mg-go">Merge customers</button></div>`;
+    modal.querySelectorAll('[data-mk]').forEach(b=>b.onclick=()=>{keep=+b.dataset.mk;draw()});
+    document.getElementById('mg-go').onclick=()=>{k.other=[...new Set([o.name,...k.other,...o.other])].filter(x=>x!==k.name);k.phones=[...new Set([...k.phones,...o.phones])];k.emails=[...new Set([...k.emails,...o.emails])];
+      k.tags=[...new Set([...k.tags,...o.tags])];k.addrs=[...k.addrs,...o.addrs.map(a=>({...a,def:false}))].slice(0,10);k.act=[...k.act,...o.act].sort((a,b)=>b.at-a.at);if(ord.indexOf(o.life)>ord.indexOf(k.life))k.life=o.life;if(!k.flag)k.flag=o.flag;
+      CUS.splice(CUS.indexOf(o),1);CUSV.sel.clear();closeModal();closeDetail();renderCus();cuDetail(k.id);toast(`Merged into ${k.name}`)}};
+  modal.classList.add('md');draw();mscrim.classList.add('open')}
+function cuDelete(c){modal.innerHTML=`<div class="mh"><h3>Delete ${esc(c.name)}?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><p class="bk-mp">Their phone and email go on your do-not-save list, so new orders won't add them again. Past orders and shipments keep their details. This can't be undone.</p></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-d" id="cd-go">Delete customer</button></div>`;modal.classList.add('md');mscrim.classList.add('open');
+  document.getElementById('cd-go').onclick=()=>{CUS.splice(CUS.indexOf(c),1);closeModal();closeDetail();renderCus();toast(`${c.name} deleted`)}}
+function cuImport(){let step=0;const draw=()=>{modal.innerHTML=step===0?`<div class="mh"><h3>Import customers</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><p class="bk-mp">Upload a CSV with name, phone, email, address and tags. Rows match your customers on phone, then email, so importing again never makes duplicates.</p>
+      <button class="vf-up" id="ci-file">${ic('upload',16)}<span>Choose a CSV file</span><span class="src" style="margin-left:auto">Up to 5.000 rows</span></button>
+      <p class="hint"><button class="lnk" data-toast="Downloading flik-customers-template.csv">Download the template</button></p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button></div>`
+    :`<div class="mh"><h3>Check before importing</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><div class="pi-file">${ic('sheet',16)}<b>customers-oct.csv</b><span class="src">52 rows</span></div>
+      <dl class="sum-kv"><dt>New customers</dt><dd class="num">38</dd><dt>Matched on phone or email</dt><dd class="num">12</dd><dt>Skipped: no phone or email</dt><dd class="num">2</dd></dl>
+      <p class="hint">New rows without a purchase are added as leads. Contacts on your do-not-save list are skipped.</p></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ci-go">Import 50 customers</button></div>`;
+    const f=document.getElementById('ci-file');if(f)f.onclick=()=>{step=1;draw()};const g=document.getElementById('ci-go');if(g)g.onclick=()=>{closeModal();toast('38 new, 12 updated, 2 skipped (no phone or email)')}};
+  modal.classList.add('md');draw();mscrim.classList.add('open')}
+
 
 /* ===== Couriers: which courier services can be used (settings, example data) ===== */
 /* [courier key, name, logo file, [[service, delivery time, speed]]]; speed: inst, same, next, reg, cargo */
@@ -3554,7 +3807,7 @@ const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const SLOTS=['09:00–12:00','12:00–15:00','15:00–18:00'];
 const pickupTx=()=>X.day==null?'—':`${DOW[DAYS[X.day].getDay()]}, ${fday(DAYS[X.day])} · ${SLOTS[X.slot]}`;
 function stepOk(){if(X.step===0)return X.how==='bulk'?!!(X.uploaded&&X.bulk&&!X.bfix&&!bCounts().left):X.ships.length&&X.ships.every(shipOk);if(X.step===1)return X.svc!=null&&!unresolved().length;if(X.step===2)return X.day!=null&&X.slot!=null;if(X.step===4)return BAL>=costs().now;return true}
-function openShip(){X=blankX();sx.hidden=false;document.body.style.overflow='hidden';drawSx()}
+function openShip(){X=blankX();try{const v=JSON.parse(sessionStorage.getItem('flik-ship-to')||'null');/* only the menu file that owns Create shipment uses it up; another file only passes it on */if(v&&Date.now()-v.t<1e4){if(typeof MENU_FILE==='undefined'||MENU_FILE[OWN]===MENU_FILE.shp)sessionStorage.removeItem('flik-ship-to');Object.assign(X.ships[0],{name:v.name,phone:v.phone.replace(/^\+62\s?/,''),addr:v.addr})}}catch(e){}sx.hidden=false;document.body.style.overflow='hidden';drawSx()}
 function closeShip(){sx.hidden=true;document.body.style.overflow=''}
 const inp=(i,k,lab,ph,o={})=>`<div class="sx-f"><label for="s${i}${k}">${lab}</label><div class="${o.pre?'pre':o.unit?'unit':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="s${i}${k}" data-si="${i}" data-k="${k}" value="${X.ships[i][k]}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`;
 function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
@@ -3569,23 +3822,11 @@ function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
   ${X.ships.length>1?`<div class="sx-row" style="margin-top:14px;justify-content:flex-end"><button class="btn btn-d" data-del="${i}">${ic('trash',15)}Remove</button></div>`:''}</div></div>`}
 /* Product name is a Combobox: pick from the Product catalog (fills size, weight and price) or add a new product in a side panel */
 const pdHtml=(i,q)=>{q=(q||'').trim();const L=CATALOG.filter(p=>!q||p[0].toLowerCase().includes(q.toLowerCase())).slice(0,6);
-  return`<div class="ie-dd" role="listbox"><button class="opt add" data-pnew="${i}">${ic('plus',15,2)}Add new product${q&&!CATALOG.some(p=>p[0].toLowerCase()===q.toLowerCase())?` “${esc(q)}”`:''}</button><h6>Product catalog</h6>${L.map(p=>{const d=PDIM[p[0]];return`<button class="opt" role="option" data-ppick="${i}" data-pn="${esc(p[0])}"><b>${esc(p[0])}</b><span class="num">${rp(p[1])}${d?` · ${String(d[3]).replace('.',',')} kg`:''}</span></button>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}</div>`};
+  return`<div class="ie-dd" role="listbox"><button class="opt add" data-pnew="${i}">${ic('plus',15,2)}Add new product${q&&!CATALOG.some(p=>p[0].toLowerCase()===q.toLowerCase())?` “${esc(q)}”`:''}</button><h6>Product catalog</h6>${L.map(p=>{const d=PDIM[p[0]];return d?`<button class="opt" role="option" data-ppick="${i}" data-pn="${esc(p[0])}"><b>${esc(p[0])}</b><span class="num">${rp(p[1])} · ${String(d[3]).replace('.',',')} kg</span></button>`:`<div class="opt pd-off" aria-disabled="true"><b>${esc(p[0])}</b><span class="st warn">Missing shipping data</span></div>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}</div>`};
 const pdOpen=t=>{const box=t.closest('.sx-pf');box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',pdHtml(+t.dataset.si,t.value));t.setAttribute('aria-expanded','true')};
 const pdClose=t=>{const box=t&&t.closest('.sx-pf');if(!box)return;box.querySelector('.ie-dd')?.remove();t.setAttribute('aria-expanded','false')};
 const pdFill=(i,name,price,d)=>{const s=X.ships[i],q=s.qty||1;s.items=name;if(d){[s.l,s.w,s.h]=d.slice(0,3).map(String);s.kg=String(Math.round(d[3]*q*100)/100)}/* an amount the catalog filled follows the product; one the merchant typed stays */if(!s.cod||s.cod===s.codAuto){s.cod=(price*q).toLocaleString('id-ID');s.codAuto=s.cod}drawSx()};
-function prodDrawer(i,q){const P={n:q||'',p:'',l:'',w:'',h:'',kg:''};
-  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('box',15)}New product</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="db"><div class="sx-f"><label for="pd-n">Product name</label><input id="pd-n" data-pd="n" value="${esc(P.n)}" placeholder="e.g. Linen shirt · White"></div>
-    <div class="sx-g"><div class="sx-f"><label for="pd-p">Price</label><div class="pre"><em>Rp</em><input id="pd-p" data-pd="p" inputmode="numeric" placeholder="150.000"></div></div></div>
-    <div class="sx-g sx-g2">${[['l','Length','cm'],['w','Width','cm'],['h','Height','cm'],['kg','Weight','kg']].map(([k,l,u])=>`<div class="sx-f"><label for="pd-${k}">${l}${k==='kg'?'':' <span class="opt-l">(optional)</span>'}</label><div class="unit"><input id="pd-${k}" data-pd="${k}" inputmode="decimal" placeholder="0"><em>${u}</em></div></div>`).join('')}</div>
-    <p class="hint" style="margin-top:14px">Saved to your Product catalog, so next time you can pick it with its size and weight.</p></div>
-  <div class="mf"><button class="btn btn-o" data-dclose>Cancel</button><button class="btn btn-p" id="pd-go" disabled>Add product</button></div>`;
-  const g=id=>document.getElementById(id),go=g('pd-go'),close=()=>{closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx')};
-  drawer.querySelectorAll('[data-dclose]').forEach(b=>b.onclick=close);dscrim.onclick=close;
-  drawer.oninput=e=>{const t=e.target,k=t.dataset.pd;if(!k)return;if(k==='p'){const n=+t.value.replace(/\D/g,'');t.value=n?n.toLocaleString('id-ID'):'';P.p=n}else if(k==='n')P.n=t.value;else{t.value=t.value.replace(/[^\d.,]/g,'');P[k]=+t.value.replace(',','.')||0}
-    go.disabled=!(P.n.trim()&&P.p>0&&P.kg>0)};
-  go.onclick=()=>{const name=P.n.trim(),d=[P.l||0,P.w||0,P.h||0,P.kg];drawer.oninput=null;addProduct(name,P.p,d);close();pdFill(i,name,P.p,d);toast(`${name} added to your Product catalog`)};
-  drawer.classList.add('open','over-sx');dscrim.classList.add('open','over-sx');drawer.setAttribute('aria-hidden','false');setTimeout(()=>g(P.n?'pd-p':'pd-n').focus(),250)}
+function prodDrawer(i,q){productDrawer(null,{name:q,over:true,needWeight:true,onSave:p=>{pdFill(i,p.name,p.price,PDIM[p.name]);toast(`${p.name} added to your Product catalog`)}})}
 sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
 sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
 sxBody.addEventListener('focusout',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items')setTimeout(()=>{if(document.activeElement!==t)pdClose(t)},150)});
@@ -4503,13 +4744,10 @@ document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{location.hash
 addEventListener('hashchange',()=>show(hashView()));
 
 /* Customers empty-state art: FLIK customers hub wired to the channels customers come from */
-(()=>{
-  const A=[['chat',0],['ig',1],['cart',2],['store',3],['link',4],['invoice',.5,1],['pin',1.5,1],['upload',2.5,1],['tx',3.5,1]];
-  const x=(c)=>16+c*54,y=r=>r?150:94;
+/* drawn when an empty state renders: Customers (channels in) and Product catalog (where products are used) */
+function esArt(id,hub,A){const el=document.getElementById(id);if(!el)return;const x=(c)=>16+c*54,y=r=>r?150:94;
   const wire=`<svg class="wire" width="360" height="210"><path d="M62 43H84M104 43H137Q145 43 145 51V94"/></svg>`;
-  document.getElementById('es-art').innerHTML=wire+`<div class="es-t hub">${ic('user',22,1.8)}</div><div class="es-node">${ic('bolt',11,2)}</div>`+
-    A.map(([n,c,r])=>`<div class="es-t" style="left:${x(c)}px;top:${y(r)}px">${ic(n,19,1.7)}</div>`).join('');
-})();
+  el.innerHTML=wire+`<div class="es-t hub">${ic(hub,22,1.8)}</div><div class="es-node">${ic('bolt',11,2)}</div>`+A.map(([n,c,r])=>`<div class="es-t" style="left:${x(c)}px;top:${y(r)}px">${ic(n,19,1.7)}</div>`).join('')}
 /* Shipments empty-state art: FLIK Shipping hub wired to the couriers (row 1) and what each shipment needs (row 2) */
 (()=>{
   const x=c=>16+c*54,y=r=>r?150:94;
