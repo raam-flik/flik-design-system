@@ -1176,6 +1176,11 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 .pi-mb{align-content:start;grid-auto-rows:max-content;gap:12px}.pi-file{flex-wrap:wrap;row-gap:4px}.pi-file b{white-space:nowrap}@media (max-width:600px){.pi-file .lnk{margin-left:0;flex-basis:100%;text-align:left}}.pi-mb .pi-file{margin-bottom:0}.pi-mb>.tbl-wrap{margin-top:0;overflow-y:visible}.pi-mb>.sx-note{margin-top:0!important}
 .pi-tbl td{height:auto;padding-top:10px;padding-bottom:10px}.pi-tbl th{padding-top:8px;padding-bottom:8px}
 .pi-tbl tr:hover td{background:transparent}
+.pi-sum{display:flex;gap:6px;flex-wrap:wrap}
+.pi-sec h5{display:flex;align-items:baseline;gap:8px;margin:6px 0 4px;font-size:14px;font-weight:600;color:var(--ink)}.pi-sec h5 .src{font-weight:400;font-size:12.5px}
+.pi-sec .pi-tbl td{white-space:nowrap}.pi-sec .pi-tbl td.pi-err,.pi-sec .pi-tbl td.src{white-space:normal}
+.pi-was{font-size:12px;margin-left:6px}
+.pi-seg{display:inline-flex;width:auto}.pi-seg button{padding:0 10px;white-space:nowrap}
 .pi-tbl .pi-msg td{padding-top:0;padding-bottom:10px;border-top:0;font-size:12.5px;line-height:1.45;color:var(--muted);white-space:normal}
 .pi-tbl td.r.src{color:var(--faint)}
 .pi-tbl tr:has(+.pi-msg) td{border-bottom:0}.pi-err,.pi-bad{color:var(--bad-tx)!important}
@@ -3380,12 +3385,17 @@ function prdImport(){let step=0,pick={4:'update'};
     <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button></div>`;modal.classList.add('md');
     document.getElementById('pi-file').onclick=()=>{step=1;draw()};return}
     const add=R.filter(r=>r[6]==='new'||(r[6]==='same'&&pick[r[0]]==='new')).length+10,upd=R.filter(r=>r[6]==='update'||(r[6]==='same'&&pick[r[0]]==='update')).length+28,bad=R.filter(r=>r[6]==='err').length;
+    /* grouped: what needs a decision, what's skipped and why, then what's ready; one line per row, totals on top */
+    const FIX={6:'Weight is 0 g. Use more than 0 g.',7:'Size has two values (20×12). Fill all three, or none.',8:'SKU BAG-MINI is also in row 9. Neither row imports.',9:'SKU BAG-MINI is also in row 8. Neither row imports.'},WAS={3:'Rp89.000'};
+    const same=R.filter(r=>r[6]==='same'),errs=R.filter(r=>r[6]==='err'),ok=R.filter(r=>r[6]==='new'||r[6]==='update');
+    const sec=(t,n,body)=>`<section class="pi-sec"><h5>${t}<span class="src">${n}</span></h5><div class="tbl-wrap"><table class="pi-tbl">${body}</table></div></section>`;
     modal.innerHTML=`<div class="mh"><h3>Check before importing</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-    <div class="mb pi-mb"><div class="pi-file">${ic('sheet',16)}<b>products-oct.csv</b><span class="src">46 rows · showing the rows to check first</span><button class="lnk" id="pi-re">Choose another file</button></div>
-      <div class="tbl-wrap"><table class="pi-tbl"><thead><tr><th class="r">Row</th><th>SKU</th><th>Name</th><th class="r">Weight (g)</th><th>L×W×H (cm)</th><th class="r">Price</th><th>Result</th></tr></thead><tbody>
-      ${R.map(r=>`<tr class="nohover"><td class="r num src">${r[0]}</td><td class="mono">${r[1]||'<span class="src">—</span>'}</td><td>${esc(r[2])}</td><td class="r num${r[6]==='err'&&/Weight/.test(r[7])?' pi-bad':''}">${r[3]||'—'}</td><td class="num${/length/.test(r[7])?' pi-bad':''}">${r[4]}</td><td class="r num">Rp${r[5]}</td><td class="c-st">${r[6]==='same'?(pick[r[0]]==='new'?'<span class="st ok">New</span>':'<span class="st pu">Update</span>'):`<span class="st ${RS[r[6]][1]}">${RS[r[6]][0]}</span>`}</td></tr>
-        ${r[7]?`<tr class="nohover pi-msg"><td></td><td colspan="6"><span class="${r[6]==='err'?'pi-err':''}">${r[7]}</span>${r[6]==='same'?` <button class="lnk" data-pis="${r[0]}" data-v="update">${pick[r[0]]==='update'?'<b>Same product</b>':'Same product'}</button> · <button class="lnk" data-pis="${r[0]}" data-v="new">${pick[r[0]]==='new'?'<b>Add as new</b>':'Add as new'}</button>`:''}</td></tr>`:''}`).join('')}</tbody></table></div>
-      <div class="sx-note info" style="margin-top:12px">${ic('help',16)}<span><b>${add} new, ${upd} updated, ${bad} with errors (skipped).</b> Fix the errors in your file and import it again to add those rows.</span></div></div>
+    <div class="mb pi-mb"><div class="pi-file">${ic('sheet',16)}<b>products-oct.csv</b><span class="src">46 rows</span><button class="lnk" id="pi-re">Choose another file</button></div>
+      <div class="pi-sum"><span class="st ok">${add} new</span><span class="st pu">${upd} updated</span><span class="st bad">${bad} with errors, skipped</span></div>
+      ${sec('Check',plural(same.length,'row'),`<thead><tr><th class="r">Row</th><th>Name</th><th>Why</th><th>Import as</th></tr></thead><tbody>${same.map(r=>`<tr class="nohover"><td class="r num src">${r[0]}</td><td>${esc(r[2])}</td><td class="src">Already in your catalog without a SKU</td><td><div class="seg pi-seg" role="radiogroup" aria-label="Import row ${r[0]} as">${[['update','Same product'],['new','New product']].map(([v,l])=>`<button role="radio" aria-checked="${pick[r[0]]===v}" class="${pick[r[0]]===v?'on':''}" data-pis="${r[0]}" data-v="${v}">${l}</button>`).join('')}</div></td></tr>`).join('')}</tbody>`)}
+      ${sec('Errors, skipped',plural(errs.length,'row'),`<thead><tr><th class="r">Row</th><th>SKU</th><th>Name</th><th>What to fix</th></tr></thead><tbody>${errs.map(r=>`<tr class="nohover"><td class="r num src">${r[0]}</td><td class="mono">${r[1]||'—'}</td><td>${esc(r[2])}</td><td class="pi-err">${FIX[r[0]]}</td></tr>`).join('')}</tbody>`)}
+      ${sec('Ready to import',`${plural(add+upd,'row')} · first ${ok.length} shown`,`<thead><tr><th class="r">Row</th><th>SKU</th><th>Name</th><th class="r">Weight (g)</th><th>L×W×H (cm)</th><th class="r">Price</th><th>Result</th></tr></thead><tbody>${ok.map(r=>`<tr class="nohover"><td class="r num src">${r[0]}</td><td class="mono">${r[1]||'—'}</td><td>${esc(r[2])}</td><td class="r num">${r[3]}</td><td class="num">${r[4]}</td><td class="r num">Rp${r[5]}${WAS[r[0]]?`<span class="src pi-was">was ${WAS[r[0]]}</span>`:''}</td><td class="c-st"><span class="st ${RS[r[6]][1]}">${RS[r[6]][0]}</span></td></tr>`).join('')}</tbody>`)}
+      <p class="hint">Fix the errors in your file and import it again to add those rows. Past orders keep their old prices.</p></div>
     <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="pi-go">Import ${add+upd} products</button></div>`;modal.classList.add('wide');
     document.getElementById('pi-re').onclick=()=>{step=0;modal.classList.remove('wide');draw()};
     modal.querySelectorAll('[data-pis]').forEach(b=>b.onclick=()=>{pick[b.dataset.pis]=b.dataset.v;draw()});
