@@ -14,6 +14,7 @@
   --ink:#002D5D; --text:#353A44; --muted:#687385; --faint:#8C95A3;
   --line:#EBEEF1; --line-2:#D8DEE4; --hover:#F6F8FA; --search:#F5F6F8;
   --primary:#6A4BFF; --primary-h:#5536E6; --primary-soft:#F2EFFF;
+  --flik-orange:#F26324; /* design-system token: the second series in a chart (Non-COD) */
   --ok:#1EA672; --warn:#C4862D; --bad:#DF1B41; /* design-system status marks (chart points, dots) */
   --ok-bg:#D7F7C2; --ok-tx:#05690D; --ok-bd:#A6EB84;
   --gr-bg:#EBEEF1; --gr-tx:#545969; --gr-bd:#D5DBE1;
@@ -1380,6 +1381,63 @@ h2.sec{font-size:18px;font-weight:600;color:var(--ink);margin-top:28px;letter-sp
 #view-ana .an-w table.mt .sx-cl .st{margin-left:2px}
 #view-ana .an-w table.mt .mny{padding-left:40px}
 #view-ana .ai-by{color:var(--muted);font-size:12.5px;margin:-6px 0 12px}
+/* Home (28 Oct): the Payments and Shipping summaries side by side, then Today and Yesterday */
+.brief{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:16px;margin:16px 0 8px}
+@media (max-width:900px){.brief{grid-template-columns:1fr}}
+.brief .card{padding:16px 18px;margin-top:0}
+.br-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+.br-h .sec{margin:0}
+.br-l{list-style:none;margin:0;padding:0}
+.br-l li+li{border-top:1px solid var(--line)}
+.br-l button{display:flex;align-items:center;gap:12px;width:100%;padding:10px 4px;text-align:left;color:var(--muted);border-radius:8px}
+.br-l button:hover{background:var(--hover)}
+.br-l button>svg:last-child{transform:rotate(-90deg);flex:none}
+.br-x{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.br-x b{color:var(--ink);font-weight:500;font-size:14px}
+.br-x span{font-size:12.5px;color:var(--muted)}
+.br-i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex:none;background:var(--hover);color:var(--ink)}
+.br-i.bad{background:var(--bad-bg);color:var(--bad-tx)}
+.br-i.warn{background:var(--warn-bg);color:var(--warn-tx)}
+.br-i.ok{background:var(--ok-bg);color:var(--ok-tx)}
+.br-more{display:inline-flex;align-items:center;gap:4px;margin:8px 4px 0;color:var(--primary);font-weight:500;font-size:13.5px}
+.br-more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.br-ok{display:flex;align-items:center;gap:8px;color:var(--ok-tx);margin:8px 0}
+.br-y p{margin:0 0 10px;color:var(--text);font-size:14px;line-height:1.55}
+.br-y p b{color:var(--ink);font-weight:600}
+/* one gap between every Home card, across and down: the 16px between Today and Yesterday */
+.home-g{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.home-g.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:1180px){.home-g.two{grid-template-columns:minmax(0,1fr)}}
+.home-g.two>div:not([hidden]){display:flex;flex-direction:column}
+.home-g .sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
+.home-g .sec-h .sec{margin:0}
+.home-g .sec-h .lnk{display:inline-flex;align-items:center;gap:4px;color:var(--primary);font-weight:500}
+.home-g .sec-h .lnk svg,.w-flag>svg:last-child{transform:rotate(-90deg)}
+.home-g>div>.w-card{flex:1;display:flex;flex-direction:column;padding:18px 18px 16px}
+.w-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.w-k{display:flex;gap:16px 56px;flex-wrap:wrap}.w-k>div{display:grid;gap:2px;align-content:start}.w-k span{color:var(--muted);font-size:12.5px}
+.w-k b{font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.3px;line-height:1.2}
+/* Home KPI changes: coloured text only, no pill */
+.rp-h{cursor:default;border-bottom:1px dotted var(--line-2)}
+.w-k b .rp-h,.w-stats b .rp-h,.br-x .rp-h{font-size:inherit;color:inherit;font-weight:inherit}
+.w-k .delta{justify-self:start;font-size:12.5px;font-weight:500;background:none;padding:0;border-radius:0}
+.w-card .w-ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.w-card .chart.sm{flex:1;min-height:200px;height:auto;margin-top:12px}
+/* the stats row: the same space above and below its text; the items scroll sideways, the period stays at the end */
+.w-card .w-stats{display:flex;align-items:center;gap:16px;border-top:1px solid var(--line);margin-top:10px;padding:16px 0 0;color:var(--muted);font-size:12.5px}
+.w-card .w-sc{flex:1;min-width:0;display:flex;align-items:center;gap:14px;overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+.w-card .w-sc::-webkit-scrollbar{display:none}
+.w-card .w-sc>span{flex:none}
+.w-card .w-per{flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:12.5px;padding:2px 4px;margin-right:-4px;border-radius:6px}
+.w-card .w-per:hover{color:var(--ink);background:var(--hover)}
+.w-card .w-stats b{color:var(--ink);font-weight:600;margin-left:4px}.w-card .w-stats .sp{flex:1}
+.w-card .w-flag{display:flex;align-items:center;gap:10px;width:100%;margin:10px 0 0;padding:8px 10px;border-radius:8px;background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-tx);font-size:13.5px;text-align:left}
+.w-card .w-flag b{color:var(--ink);font-weight:600}.w-card .w-flag .sp{flex:1}
+.w-card .w-flag.zero{background:var(--hover);border-color:var(--line);color:var(--muted)}
+.w-card .w-flag.zero b{color:var(--text)}
+.w-card .ln2{display:inline-block;width:14px;height:0;border-top:2px solid;margin-right:6px;vertical-align:3px}
+.w-card .ln2.dash{border-top-style:dashed;border-color:var(--faint)}
+.chart .tip .tr{display:flex;align-items:center;gap:6px}.chart .tip .tr i{width:8px;height:8px;border-radius:2px}.chart .tip .tr em{font-style:normal;margin-left:auto;padding-left:10px;color:var(--ink);font-weight:600}
 /* Lists kit (27 Oct): Filter and Edit columns buttons, column headers you can drag, sort, pin and hide */
 .dt-btns{display:contents}
 .filters .dt-ic{width:32px;padding:0;justify-content:center}
@@ -1871,20 +1929,9 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
     </header>
 
     <main class="content" id="view-home" hidden>
-      <h1>Home</h1>
-      <h2 class="sec">Quick access</h2>
-      <div class="qa-grid" id="qa"></div>
-      <h2 class="sec">Sales summary</h2>
-      <section class="card">
-        <div class="kpi-row">
-          <div class="kpi"><div class="kpi-v"><b class="num" id="kpi">0</b><span class="delta" id="delta"></span></div><span class="kpi-l" id="kpi-l">Last 7 days</span></div>
-          <div class="kpi-ctl">
-            <button class="chip set" id="range"><span>Period</span> <span class="val" id="range-v">Last 7 days</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button>
-            <div class="seg" role="tablist"><button class="on" data-m="count">Transactions</button><button data-m="gmv">Total GMV</button></div>
-          </div>
-        </div>
-        <div class="chart" id="chart"></div>
-      </section>
+      <div class="ph"><h1>Home</h1><div class="fright" style="margin-left:auto"><button class="chip set" id="home-state" title="Prototype control: preview which products this merchant uses"></button></div></div>
+      <div class="home-g two"><div id="w-pay"></div><div id="w-ship"></div></div>
+      <div id="home-brief"></div>
     </main>
     <main class="content" id="view-cus" hidden>
       <div class="ph"><h1>Customers</h1><button class="btn btn-p" data-newcust id="cus-new"><span data-ic="plus"></span>Add customer</button></div>
@@ -2738,50 +2785,136 @@ Object.assign(P,{
   wallet:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 9.5h18M16 14h2"/>',
   track:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M11 8v3l2 1.5"/>'
 });
-document.getElementById('qa').innerHTML=QA.map((q,i)=>`<div class="qa"><span class="qic">${ic(q[0],20,1.6)}</span><span class="qt"><b>${q[1]}</b><span>${q[2]}</span></span><button class="btn btn-o" data-qa="${i}">${q[3]}</button></div>`).join('');
-document.querySelectorAll('[data-qa]').forEach(b=>b.onclick=e=>{e.stopPropagation();QA[+b.dataset.qa][4]()});
 
-/* Sales summary chart (from the same dummy payments as Transactions) */
-const H={metric:'count',days:7};
-function series(days,offset=0){
-  const out=[];for(let i=days-1;i>=0;i--){const d0=new Date(NOW);d0.setHours(0,0,0,0);d0.setDate(d0.getDate()-i-offset);const d1=new Date(d0);d1.setDate(d1.getDate()+1);
-    const ps=PAY.filter(p=>p.status==='succeeded'&&p.created>=d0&&p.created<d1);out.push({d:d0,count:ps.length,gmv:ps.reduce((a,p)=>a+p.amount,0)})}
-  return out;
-}
 const compact=n=>n>=1e9?'Rp'+(n/1e9).toLocaleString('id-ID',{maximumFractionDigits:1})+' M':n>=1e6?'Rp'+(n/1e6).toLocaleString('id-ID',{maximumFractionDigits:1})+' jt':n>=1e3?'Rp'+Math.round(n/1e3)+' rb':'Rp'+n;
-function niceMax(v){if(v<=0)return H.metric==='count'?6:1000000;const p=Math.pow(10,Math.floor(Math.log10(v)));for(const m of[1,1.2,1.5,2,2.5,3,4,5,6,8,10])if(m*p>=v)return m*p;return 10*p}
-function drawChart(){
-  const el=document.getElementById('chart');const W=el.clientWidth,Hh=el.clientHeight;if(!W)return;
-  const data=series(H.days),prev=series(H.days,H.days),key=H.metric;
-  const total=data.reduce((a,x)=>a+x[key],0),ptotal=prev.reduce((a,x)=>a+x[key],0);
-  document.getElementById('kpi').textContent=key==='count'?total.toLocaleString('id-ID'):rp(total);
-  document.getElementById('kpi-l').textContent=`Last ${H.days} days`;document.getElementById('range-v').textContent=`Last ${H.days} days`;
-  const dl=document.getElementById('delta');if(ptotal){const pc=(total-ptotal)/ptotal*100;dl.className='delta '+(pc>=0?'up':'down');dl.textContent=(pc>=0?'+':'')+pc.toLocaleString('id-ID',{maximumFractionDigits:1})+'%';dl.title='Compared with the previous '+H.days+' days'}else{dl.className='delta';dl.textContent=''}
-  const L=key==='count'?28:64,R=12,T=12,B=28,iw=W-L-R,ih=Hh-T-B;
-  const max=niceMax(Math.max(...data.map(x=>x[key]),...prev.map(x=>x[key]))),ticks=6;
-  const X=i=>L+(data.length===1?iw/2:i*iw/(data.length-1)),Y=v=>T+ih-(v/max)*ih;
-  let g='';for(let i=0;i<=ticks;i++){const v=max*i/ticks,y=Y(v);g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${y}" y2="${y}"/><text class="ax" x="${L-8}" y="${y+4}" text-anchor="end">${key==='count'?Math.round(v):compact(v)}</text>`}
-  const step=Math.ceil(data.length/8);data.forEach((x,i)=>{if(i%step===0||i===data.length-1)g+=`<text class="ax" x="${X(i)}" y="${Hh-6}" text-anchor="middle">${x.d.getDate()} ${MON[x.d.getMonth()]}</text>`});
-  // smooth curve through the points (Catmull-Rom to Bezier, clamped so it never dips below 0)
+/* ===== Home (28 Oct, after the reference dashboard): what to do today and what happened yesterday, in words, then a Payments and
+   a Shipping summary side by side. Quick access lives in the + menu. Both are written from rules over the same data, no AI. ===== */
+/* money on Home is shortened (Rp35.683.000 shows as Rp36jt, Rp1.406.000 as Rp1,4jt); hovering it shows the full amount */
+const rpS=n=>{const a=Math.abs(n),u=a>=1e9?[1e9,'M']:a>=1e6?[1e6,'jt']:a>=1e3?[1e3,'rb']:null;if(!u)return rp(Math.round(n));const v=n/u[0];return'Rp'+(Math.abs(v)<10?Math.round(v*10)/10:Math.round(v)).toLocaleString('id-ID')+u[1]};
+const rpH=n=>`<span class="rp-h" data-tip="${rp(Math.round(n))}" tabindex="0">${rpS(n)}</span>`;
+/* prototype: which products the merchant uses, from the Preview state chip. With one, its summary takes the full width */
+const HPV=[['both','Payments and Shipping'],['pay','Payments only'],['ship','Shipping only']];let hpv='both';
+const hasH=p=>has(p)&&(hpv==='both'||hpv===p);
+const HPER=[['today','Today'],['yday','Yesterday'],['7','Last 7 days'],['month','This month'],['lmonth','Last month'],['30','Last 30 days'],['90','Last 90 days']];
+const perTx=k=>HPER.find(p=>p[0]===k)[1];
+/* both summaries show this month against the same days last month; no filters (the Today list carries what needs action) */
+const HS={per:'month',m:'ships'},HP={per:'month',m:'count'};
+/* --- Payments: transactions or GMV, by payment method, channel and outlet --- */
+const payRows=()=>PAY;
+const shipF=()=>SH;
+const PM={count:['Transactions',l=>l.length,v=>Math.round(v).toLocaleString('id-ID'),v=>`${Math.round(v).toLocaleString('id-ID')} transactions`],gmv:['Total GMV',l=>sum(l,p=>p.amount),v=>rpH(v),v=>rp(Math.round(v))]};
+const hDelta=(d,R,u='%')=>d==null?'':`<span class="delta ${d>=0?'up':'down'}" title="Compared with ${R.prevTx}">${d>=0?'+':''}${(Math.round(d*10)/10).toLocaleString('id-ID')}${u}</span>`;
+function payWidget(){const R=perRange(HP.per),ok=payRows().filter(p=>p.status==='succeeded'),M=PM[HP.m];
+  const cur=ok.filter(p=>inR(p.created,R.d0,R.d1)),prev=ok.filter(p=>inR(p.created,R.p0,R.p1)),v=M[1](cur),pv=M[1](prev);
+  const all=payRows().filter(p=>inR(p.created,R.d0,R.d1));
+  return`<div class="sec-h"><h2 class="sec">Payments summary</h2><button class="lnk" data-goto="transactions">Open Transactions ${ic('chev',13)}</button></div>
+  <section class="card w-card">
+    <div class="w-top"><div class="w-k"><div><span>${M[0]}</span><b class="num">${M[2](v)}</b>${hDelta(pv?(v-pv)/pv*100:null,R)}</div><div><span>Success rate</span><b class="num">${all.length?fpct(pct(cur.length,all.length)):'—'}</b></div></div>
+      <div class="seg sm">${Object.entries(PM).map(([k,m])=>`<button class="${HP.m===k?'on':''}" data-hpm="${k}">${m[0]}</button>`).join('')}</div></div>
+    <div class="chart sm" id="paychart"></div>
+    <div class="w-stats"><div class="w-sc">${PMETH.map(c=>`<span>${c} <b class="num">${M[2](M[1](cur.filter(p=>METHODS[p.mk].cat===c)))}</b></span>`).join('')}</div><button class="w-per" data-hper="pay" aria-haspopup="menu">${perTx(HP.per)}${ic('chev',13)}</button></div>
+  </section>`}
+/* this period as a filled line against the same days before it, dashed; the payment methods are plain numbers under it */
+const PMETH=['QRIS','E-wallet','Virtual account','Card','COD'];
+function drawPayChart(){const el=document.getElementById('paychart');if(!el)return;const R=perRange(HP.per),ok=payRows().filter(p=>p.status==='succeeded'),M=PM[HP.m];
+  const data=R.B.map(b=>({v:M[1](ok.filter(p=>inR(p.created,b.a,b.b))),l:b.l,tl:b.tl})),prev=R.B.map((b,i)=>({v:i<R.pn?M[1](ok.filter(p=>inR(p.created,b.pa,b.pb))):0}));
+  const mx=Math.max(...data.map(x=>x.v),...prev.map(x=>x.v));
+  areaChart(el,data,prev,{max:HP.m==='count'?Math.max(4,Math.ceil(mx/4)*4):0,ax:v=>HP.m==='count'?Math.round(v):rpS(v),aria:`${M[0]}, ${perTx(HP.per).toLowerCase()}`},M[3])}
+/* --- Shipping: COD and non-COD as two lines, by courier and warehouse --- */
+const SER=[['cod','COD','var(--primary)',s=>s.pay==='cod'],['non','Non-COD','var(--flik-orange)',s=>s.pay==='non']];
+/* [label, value, shown, axis, full (chart tooltip)] */
+const HSM={ships:['Shipments',l=>l.length,v=>Math.round(v).toLocaleString('id-ID'),v=>Math.round(v),v=>Math.round(v).toLocaleString('id-ID')],val:['Value',l=>sum(l,s=>s.val),v=>rpH(v),v=>rpS(v),v=>rp(Math.round(v))]};
+function shipRows(){const R=perRange(HS.per),l=shipF();return R.B.map(b=>{const x=l.filter(s=>inR(s.created,b.a,b.b)),r={l:b.l,tl:b.tl};SER.forEach(o=>r[o[0]]=HSM[HS.m][1](x.filter(o[3])));return r})}
+/* lines per series: o = {ax: axis format, ser: [[key, label, colour token, match]], full: tooltip format, aria, fill: shade under each line, int: whole-number axis} */
+function multiArea(el,rows,o){const W=el.clientWidth,Hh=el.clientHeight,S=o.ser,fmt=o.ax;if(!W)return;
+  const R=10,T=10,B=24,ih=Hh-T-B,n=rows.length;
+  const nice=v=>{if(v<=0)return 4;const p=Math.pow(10,Math.floor(Math.log10(v)));for(const m of[1,1.2,1.5,2,2.5,3,4,5,6,8,10])if(m*p>=v)return m*p;return 10*p};
+  /* three equal steps of a round size, so every tick reads cleanly (1, 2, 3 or Rp2jt, Rp4jt, Rp6jt) */
+  const raw=Math.max(...rows.flatMap(r=>S.map(s=>r[s[0]]))),stp=o.int&&raw<=6?Math.max(1,Math.ceil(raw/3)):o.int?Math.ceil(nice(raw/3)):nice(raw/3),max=stp*3;
+  /* the left margin fits the widest axis label, so short counts leave no empty band */
+  const L=Math.max(28,Math.ceil(Math.max(...[0,1,2,3].map(i=>String(fmt(max*i/3)).length))*6.4)+12),iw=W-L-R,X=i=>L+(n===1?iw/2:i*iw/(n-1)),Y=v=>T+ih-v/max*ih;
+  let g='';for(let i=0;i<=3;i++){const v=max*i/3,y=Y(v);g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${y}" y2="${y}"/><text class="ax" x="${L-6}" y="${y+4}" text-anchor="end">${fmt(v)}</text>`}
+  const step=Math.ceil(n/(W<500?4:6));rows.forEach((r,i)=>{if((i%step===0&&n-1-i>=step*.7)||i===n-1)g+=`<text class="ax" x="${X(i)}" y="${Hh-6}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}">${r.l}</text>`});
   const smooth=pts=>pts.map((p,i)=>{if(!i)return`M${p[0].toFixed(1)},${p[1].toFixed(1)}`;const p0=pts[i-2]||pts[i-1],p1=pts[i-1],p3=pts[i+1]||p;const c1=[p1[0]+(p[0]-p0[0])/6,Math.min(T+ih,p1[1]+(p[1]-p0[1])/6)],c2=[p[0]-(p3[0]-p1[0])/6,Math.min(T+ih,p[1]-(p3[1]-p1[1])/6)];return`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p[0].toFixed(1)},${p[1].toFixed(1)}`}).join(' ');
-  const line=smooth(data.map((x,i)=>[X(i),Y(x[key])]));
-  const pline=smooth(prev.map((x,i)=>[X(i),Y(x[key])]));
-  const area=line+` L${X(data.length-1)},${T+ih} L${X(0)},${T+ih} Z`;
-  el.innerHTML=`<svg viewBox="0 0 ${W} ${Hh}"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A4BFF" stop-opacity=".18"/><stop offset="1" stop-color="#6A4BFF" stop-opacity="0"/></linearGradient></defs>${g}
-    <path d="${pline}" fill="none" stroke="#C0C8D2" stroke-width="1.5" stroke-dasharray="4 4"/><path d="${area}" fill="url(#ag)"/><path d="${line}" fill="none" stroke="#6A4BFF" stroke-width="2"/>
-    <line class="cur-line" id="hl" y1="${T}" y2="${T+ih}" style="display:none"/><circle id="hp" r="4.5" fill="#fff" stroke="#6A4BFF" stroke-width="2" style="display:none"/>
-    <rect x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
-  const hit=el.querySelector('#hit'),hl=el.querySelector('#hl'),hp=el.querySelector('#hp'),tip=el.querySelector('#tip');
-  const show=e=>{const r=el.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;const i=Math.max(0,Math.min(data.length-1,Math.round((x-L)/(iw/(Math.max(1,data.length-1))))));const d=data[i],px=X(i),py=Y(d[key]);
-    hl.setAttribute('x1',px);hl.setAttribute('x2',px);hl.style.display='';hp.setAttribute('cx',px);hp.setAttribute('cy',py);hp.style.display='';
-    tip.innerHTML=`<b>${key==='count'?d.count+' transactions':rp(d.gmv)}</b><span>${d.d.getDate()} ${MON[d.d.getMonth()]} ${d.d.getFullYear()} · prev. ${key==='count'?prev[i].count:compact(prev[i].gmv)}</span>`;tip.style.display='block';tip.style.left=Math.max(70,Math.min(W-70,px))+'px';tip.style.top=py+'px'};
-  hit.addEventListener('mousemove',show);hit.addEventListener('touchstart',show,{passive:true});hit.addEventListener('mouseleave',()=>{hl.style.display=hp.style.display='none';tip.style.display='none'});
-}
-document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x===b));H.metric=b.dataset.m;drawChart()});
-document.getElementById('range').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
-  pop.innerHTML=`<h6>Period</h6>${[7,14,30].map(n=>`<button class="opt" data-n="${n}"><span class="rdo${H.days===n?' on':''}"></span>Last ${n} days</button>`).join('')}`;
-  pop.querySelectorAll('[data-n]').forEach(o=>o.onclick=()=>{H.days=+o.dataset.n;closePop();drawChart()});placePop(b,true)};
-addEventListener('resize',()=>{if(!document.getElementById('view-home').hidden)drawChart()});
+  /* flat fills in the series' own token, no gradients (design system) */
+  const areas=S.map(s=>{const d=smooth(rows.map((r,i)=>[X(i),Y(r[s[0]])]));return{fill:o.fill?`<path d="${d} L${X(n-1)},${T+ih} L${X(0)},${T+ih} Z" fill="${s[2]}" fill-opacity=".06"/>`:'',line:`<path d="${d}" fill="none" stroke="${s[2]}" stroke-width="2"/>`}});
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${esc(o.aria)}">${g}
+    ${areas.map(a=>a.fill).join('')}${areas.map(a=>a.line).join('')}<line class="cur-line" y1="${T}" y2="${T+ih}" style="display:none"/>${S.map(s=>`<circle r="4" fill="var(--surface)" stroke="${s[2]}" stroke-width="2" style="display:none"/>`).join('')}
+    <rect x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent"/></svg><div class="tip"></div>`;
+  const svg=el.querySelector('svg'),hit=svg.querySelector('rect:last-of-type'),hl=svg.querySelector('.cur-line'),dots=[...svg.querySelectorAll('circle')],tp=el.querySelector('.tip');
+  const mv=e=>{const r=el.getBoundingClientRect(),x=(e.touches?e.touches[0].clientX:e.clientX)-r.left,i=Math.max(0,Math.min(n-1,Math.round((x-L)/(iw/Math.max(1,n-1))))),row=rows.at(i),px=X(i);
+    hl.setAttribute('x1',px);hl.setAttribute('x2',px);hl.style.display='';S.forEach((s,k)=>{const dt=dots.at(k);dt.setAttribute('cx',px);dt.setAttribute('cy',Y(row[s[0]]));dt.style.display=''});
+    tp.innerHTML=`<b>${row.tl}</b>${S.map(s=>`<span class="tr"><i style="background:${s[2]}"></i>${s[1]}<em class="num">${o.full(row[s[0]])}</em></span>`).join('')}`;
+    tp.style.display='block';tp.style.left=Math.max(80,Math.min(W-80,px))+'px';tp.style.top=Math.min(...S.map(s=>Y(row[s[0]])))+'px'};
+  hit.addEventListener('mousemove',mv);hit.addEventListener('touchstart',mv,{passive:true});hit.addEventListener('mouseleave',()=>{hl.style.display='none';dots.forEach(d=>d.style.display='none');tp.style.display='none'})}
+function shipWidget(){const R=perRange(HS.per),l=shipF(),all=l.filter(s=>inR(s.created,R.d0,R.d1)),prev=l.filter(s=>inR(s.created,R.p0,R.p1));
+  const sr=x=>{const f=x.filter(s=>['delivered','returned','lost'].includes(s.st));return f.length?pct(f.filter(s=>s.st==='delivered').length,f.length):0};
+  const dl=(v,p,pts)=>prev.length?hDelta(pts?v-p:p?(v-p)/p*100:0,R,pts?' pts':'%'):'';
+  const K=[['Shipments',all.length.toLocaleString('id-ID'),dl(all.length,prev.length)],['Delivery success',all.some(s=>['delivered','returned','lost'].includes(s.st))?fpct(sr(all)):'—',all.some(s=>['delivered','returned','lost'].includes(s.st))?dl(sr(all),sr(prev),1):'']];
+  return`<div class="sec-h"><h2 class="sec">Shipping summary</h2><button class="lnk" data-goto="monitoring" data-mtab="resolve">Open Monitoring ${ic('chev',13)}</button></div>
+  <section class="card w-card">
+    <div class="w-top"><div class="w-k">${K.map(k=>`<div><span>${k[0]}</span><b class="num">${k[1]}</b>${k[2]}</div>`).join('')}</div>
+      <div class="seg sm">${Object.entries(HSM).map(([k,m])=>`<button class="${HS.m===k?'on':''}" data-hsm="${k}">${m[0]}</button>`).join('')}</div></div>
+    <div class="chart sm" id="shipchart"></div>
+    <div class="w-stats"><div class="w-sc">${SER.map(o=>`<span><i class="ln2" style="border-color:${o[2]}"></i>${o[1]} <b class="num">${HSM[HS.m][2](HSM[HS.m][1](all.filter(o[3])))}</b></span>`).join('')}</div><button class="w-per" data-hper="ship" aria-haspopup="menu">${perTx(HS.per)}${ic('chev',13)}</button></div>
+  </section>`}
+function drawShipChart(){const el=document.getElementById('shipchart');if(el)multiArea(el,shipRows(),{ax:HSM[HS.m][3],ser:SER,full:HSM[HS.m][4],aria:`COD and non-COD ${HSM[HS.m][0].toLowerCase()}, ${perTx(HS.per).toLowerCase()}`,fill:true,int:HS.m==='ships'})}
+/* --- Today and yesterday, in words: a merchant skips a plain chart, so Home leads with what to do --- */
+const dayAt=o=>{const d=new Date(NOW);d.setHours(0,0,0,0);return new Date(d-o*DAY)};
+function todoList(){const T=[],n=x=>x.toLocaleString('id-ID');
+  if(hasH('ship')&&SH.length){
+    const later=PEND.filter(p=>p.st==='later').length,quiet=PEND.filter(p=>p.st==='sent'&&NOW-p.sent>=WA_HOURS*HOUR).length,need=SH.filter(needsAct),by=m=>need.filter(s=>monOf(s)===m);
+    const fail=need.filter(s=>s.st==='failed'),prob=by('problem'),late=by('delayed'),pick=SH.filter(s=>s.st==='pickup'&&s.awb),pb=new Set(pick.map(s=>s.batch)).size;
+    if(fail.length)T.push(['bad','truck',`Answer ${n(fail.length)} failed ${fail.length===1?'delivery':'deliveries'}`,'Tell the courier how to try again before the next attempt.','monitoring','resolve']);
+    if(later)T.push(['warn','clock',`Decide on ${n(later)} risky ${later===1?'order':'orders'}`,'Ship anyway or cancel. They are not in any batch yet.','monitoring','risky']);
+    if(quiet)T.push(['warn','chat2',`${n(quiet)} ${quiet===1?'customer hasn\'t':'customers haven\'t'} answered for ${WA_HOURS} hours`,'Ship without waiting, or cancel the order.','monitoring','risky']);
+    if(prob.length)T.push(['bad','shield',`Sort out ${n(prob.length)} lost, damaged or returned ${prob.length===1?'parcel':'parcels'}`,'File a claim with the courier.','monitoring','resolve']);
+    if(late.length)T.push(['warn','clock',`Chase ${n(late.length)} late ${late.length===1?'shipment':'shipments'}`,'Past the courier\'s SLA for the route. Ask FLIK support to follow up.','monitoring','resolve']);
+    if(pick.length)T.push(['','print',`Print labels for ${n(pick.length)} ${pick.length===1?'parcel':'parcels'}`,`${plural(pb,'batch is','batches are')} waiting for pickup.`,'monitoring','list'])}
+  if(hasH('pay')&&PS.mode!=='new'){const pend=PAY.filter(p=>p.status==='pending').length;if(pend)T.push(['','wallet',`Follow up ${n(pend)} pending ${pend===1?'payment':'payments'}`,'Customers who haven\'t paid yet.','transactions'])}
+  return T}
+/* yesterday, as the same kind of list as Today: one row per fact, each opening where it came from */
+function yesterdayLines(){const a=dayAt(1),b=dayAt(0),c=dayAt(2),L=[],inY=d=>d>=a&&d<b,inP=d=>d>=c&&d<a,n=x=>x.toLocaleString('id-ID');
+  const cmp=(v,p)=>p?` · ${v>=p?'up':'down'} from ${n(p)} the day before`:'';
+  if(hasH('ship')&&SH.length){const made=SH.filter(s=>inY(s.created)),pm=SH.filter(s=>inP(s.created)),del=SH.filter(s=>s.st==='delivered'&&inY(s.upd)),ret=SH.filter(s=>s.st==='returned'&&inY(s.upd)),fl=SH.filter(s=>s.st==='failed'&&inY(s.upd));
+    const cod=sum(del.filter(s=>s.pay==='cod'),s=>s.val),bs=new Set(made.map(s=>s.batch)).size;
+    L.push(made.length?['','truck',`Shipped ${plural(made.length,'parcel')}`,`In ${plural(bs,'batch','batches')}${cmp(made.length,pm.length)}`,'monitoring','list']:['','truck','Shipped nothing','No new shipments yesterday','monitoring','list']);
+    if(del.length||ret.length)L.push(['ok','check',`${n(del.length)} delivered`,[ret.length?`${n(ret.length)} came back`:'',cod?`${rpH(cod)} of COD collected`:''].filter(Boolean).join(' · ')||'Nothing came back','monitoring','list']);
+    if(fl.length)L.push(['bad','warn',`${plural(fl.length,'delivery','deliveries')} failed`,`${fl.length===1?'It needs':'They need'} an answer today`,'monitoring','resolve']);
+    const best=COURIERS.map(x=>[x,del.filter(s=>s.k===x.k).length]).sort((x,y)=>y[1]-x[1])[0];if(best&&best[1]>1)L.push(['','chart',`${best[0].n} delivered the most`,`${plural(best[1],'parcel')} delivered for you`,'shipping/analytics'])}
+  if(hasH('pay')&&PS.mode!=='new'){const ok=PAY.filter(p=>p.status==='succeeded'),y=ok.filter(p=>inY(p.created)),p=ok.filter(p=>inP(p.created));
+    L.push(y.length?['','wallet',`Paid ${rpH(sum(y,x=>x.amount))}`,`In ${plural(y.length,'transaction')}${cmp(y.length,p.length)}`,'transactions']:['','wallet','No payments','Nothing came in yesterday','transactions'])}
+  return L}
+const brRow=t=>`<li><button data-goto="${t[4]}"${t[5]?` data-mtab="${t[5]}"`:''}><span class="br-i ${t[0]}">${ic(t[1],15)}</span><span class="br-x"><b>${t[2]}</b><span>${t[3]}</span></span>${ic('chev',14)}</button></li>`;
+/* each list shows 5 rows; the rest open in place, under them */
+const HBX={t:false,y:false};
+const brList=(L,k)=>`<ul class="br-l">${(HBX[k]?L:L.slice(0,5)).map(brRow).join('')}</ul>${L.length>5?`<button class="lnk br-more" data-brmore="${k}" aria-expanded="${HBX[k]}">${HBX[k]?'Show fewer':`Show ${L.length-5} more`}${ic('chev',14)}</button>`:''}`;
+function briefHtml(){if(PS.mode==='new'&&!SH.length)return'';const T=todoList(),Y=yesterdayLines(),d=dayAt(1);
+  return`<div class="brief"><section class="card br-t"><div class="br-h"><h2 class="sec">Today</h2><span class="src">${plural(T.length,'thing','things')} to do</span></div>
+    ${T.length?brList(T,'t'):`<p class="br-ok">${ic('check',15,2.4)}Nothing needs you today.</p>`}</section>
+  <section class="card br-y"><div class="br-h"><h2 class="sec">Yesterday</h2><span class="src">${fday(d)}</span></div>${brList(Y,'y')}</section></div>`}
+function renderHome(){const wp=document.getElementById('w-pay'),ws=document.getElementById('w-ship');if(!wp)return;
+  wp.hidden=!hasH('pay');ws.hidden=!hasH('ship');document.querySelector('#view-home .home-g').classList.toggle('two',hasH('pay')&&hasH('ship'));
+  const newPay=PS.mode==='new';
+  wp.innerHTML=newPay?`<h2 class="sec">Payments summary</h2><section class="card w-empty"><span class="qic">${ic('cart',22,1.6)}</span><div><b>Your sales summary shows up after your first transaction</b><span>Transactions and GMV, compared with the period before.</span></div><button class="btn btn-p" data-goto="invoices/create">Create invoice</button></section>`:payWidget();
+  if(hasH('ship'))ws.innerHTML=!SH.length?`<h2 class="sec">Shipping summary</h2><section class="card w-empty"><span class="qic">${ic('truck',22,1.6)}</span><div><b>Your shipping summary shows up after your first shipment</b><span>COD and non-COD shipments, delivery success and COD value, compared with the period before.</span></div><button class="btn btn-p" data-newshp>Create shipment</button></section>`:shipWidget();
+  document.getElementById('home-brief').innerHTML=briefHtml();
+  document.getElementById('home-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${HPV.find(x=>x[0]===hpv)[1]}</span>`;
+  requestAnimationFrame(()=>{if(hasH('pay')&&!newPay)drawPayChart();drawShipChart()})}
+/* a to-do or link that opens Monitoring on its tab, also when Monitoring lives in another menu file */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-mtab]');if(b){try{sessionStorage.setItem('flik-mon-open',b.dataset.mtab+'|'+Date.now())}catch(x){}if(typeof MS!=='undefined')MS.tab=b.dataset.mtab}},true);
+document.getElementById('view-home').addEventListener('click',e=>{
+  const hs=e.target.closest('#home-state');if(hs){e.stopPropagation();if(popFor===hs){closePop();return}popFor=hs;
+    pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${HPV.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${hpv===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{hpv=o.dataset.v;closePop();renderHome()});placePop(hs,true);return}
+  const pr=e.target.closest('[data-hper]');if(pr){e.stopPropagation();if(popFor===pr){closePop();return}popFor=pr;const S=pr.dataset.hper==='pay'?HP:HS;
+    pop.innerHTML=`<div class="menu" style="width:180px"><h6>Period</h6>${[['today','Today'],['yday','Yesterday'],['month','This month']].map(([k,t])=>`<button class="opt" data-n="${k}"><span class="rdo${S.per===k?' on':''}"></span>${t}</button>`).join('')}</div>`;
+    pop.querySelectorAll('[data-n]').forEach(o=>o.onclick=()=>{S.per=o.dataset.n;closePop();renderHome()});placePop(pr,true);return}
+  const bm=e.target.closest('[data-brmore]');if(bm){const k=bm.dataset.brmore;HBX[k]=!HBX[k];document.getElementById('home-brief').innerHTML=briefHtml();return}
+  const m=e.target.closest('[data-hsm]');if(m){HS.m=m.dataset.hsm;renderHome();return}
+  const pm=e.target.closest('[data-hpm]');if(pm){HP.m=pm.dataset.hpm;renderHome();return}
+});
+addEventListener('resize',()=>{if(!document.getElementById('view-home').hidden){drawShipChart();drawPayChart()}});
 
 /* Top up balance */
 function topupModal(title,o={}){if(typeof title!=='string')title='Top up balance';
@@ -4265,7 +4398,7 @@ function show(view){
   Object.keys(VIEWS).forEach(k=>document.getElementById('view-'+k).hidden=k!==view);
   document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===view));
   document.title=VIEWS[view][1]+' | FLIK Dashboard';
-  if(home)drawChart();
+  if(home)renderHome();
   if(view==='mca')renderMca();
   if(view==='bal')renderBal();
   if(view==='shp'){shpRoute();nav.querySelector('[data-view=\"shp\"]')?.closest('.grp')?.classList.add('open')}
@@ -4755,7 +4888,7 @@ const monTabs=()=>{const o=MS.order||[],ix=k=>{const i=o.indexOf(k);return i<0?9
 document.getElementById('view-mon').addEventListener('click',e=>{const m=e.target.closest('[data-fmore]');if(m){e.stopPropagation();if(popFor===m){closePop();return}popFor=m;
     pop.innerHTML=`<div class="menu"><h6>More filters</h6>${['wh','pay'].map(k=>`<button class="opt" data-fmk="${k}">${MF_L[k]}${mfVal(k)?` <span class="src">· ${esc(mfVal(k))}</span>`:''}</button>`).join('')}</div>`;
     pop.querySelectorAll('[data-fmk]').forEach(o=>o.onclick=x=>{x.stopPropagation();const k=o.dataset.fmk;closePop();fpop(m,k)});placePop(m,false)}});
-function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on the pinned tab */if(location.hash!==MS._h){if(location.hash==='#monitoring')MS.tab=MTABS.some(t=>t[0]===MS.pin)?MS.pin:'resolve';MS._h=location.hash}
+function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on the pinned tab */if(location.hash!==MS._h){if(location.hash==='#monitoring'){/* a Home to-do asked for a tab: good for 10 s, since the menu file that hands over renders Monitoring once too */let o=null;try{const v=(sessionStorage.getItem('flik-mon-open')||'').split('|');if(Date.now()-(+v[1]||0)<1e4)o=v[0]}catch(e){}MS.tab=MTABS.some(t=>t[0]===o)?o:MTABS.some(t=>t[0]===MS.pin)?MS.pin:'resolve'}MS._h=location.hash}
   if(!SH.length){el.innerHTML=`<div class="ph"><h1>Monitoring</h1></div>`+monEmpty('Nothing to monitor yet','After your first shipment, this page shows each batch, anything delayed or at risk, and how each courier performs for you.');return}
   const base=msBase(),open=SH.filter(s=>rstate(s)==='open').length;
   el.innerHTML=`<div class="ph"><h1>Monitoring</h1><div class="fright" style="margin-left:auto">${MS.tab==='list'?`<button class="chip set" id="ms-state" title="Prototype control: preview the states of All shipments">${ic('sel',14)}Preview state: <span class="val">${LSC.find(x=>x[0]===(MS.lsc||'normal'))[1]}</span></button>`:''}</div></div>
@@ -5371,17 +5504,19 @@ addEventListener('resize',()=>{if(!document.getElementById('view-ana').hidden)dr
 const CODFEE=.03,BOOST={pct:.02,min:2000};
 const boostFee=s=>Math.max(BOOST.min,Math.round(s.val*BOOST.pct));
 function areaChart(el,data,prev,fmt,tip){const W=el.clientWidth,Hh=el.clientHeight;if(!W)return;
-  const L=56,R=12,T=12,B=28,iw=W-L-R,ih=Hh-T-B;
+  const R=12,T=12,B=28,ih=Hh-T-B;
   const mx=Math.max(...data.map(x=>x.v),...prev.map(x=>x.v),0);const nice=v=>{if(v<=0)return 1;const p=Math.pow(10,Math.floor(Math.log10(v)));for(const m of[1,1.2,1.5,2,2.5,3,4,5,6,8,10])if(m*p>=v)return m*p;return 10*p};
   const max=fmt.max||nice(mx),min=fmt.min||0,ticks=4;
+  /* the left margin fits the widest axis label, so short counts leave no empty band */
+  const L=Math.max(28,Math.ceil(Math.max(...Array.from({length:ticks+1},(_,i)=>String(fmt.ax(min+(max-min)*i/ticks)).length))*6.4)+14),iw=W-L-R;
   const X=i=>L+(data.length===1?iw/2:i*iw/(data.length-1)),Y=v=>T+ih-((v-min)/(max-min))*ih;
   let g='';for(let i=0;i<=ticks;i++){const v=min+(max-min)*i/ticks,y=Y(v);g+=`<line class="gl" x1="${L}" x2="${W-R}" y1="${y}" y2="${y}"/><text class="ax" x="${L-8}" y="${y+4}" text-anchor="end">${fmt.ax(v)}</text>`}
-  const step=Math.ceil(data.length/7);data.forEach((x,i)=>{if(i%step===0||i===data.length-1)g+=`<text class="ax" x="${X(i)}" y="${Hh-6}" text-anchor="middle">${x.l}</text>`});
+  const step=Math.ceil(data.length/(W<500?4:7));data.forEach((x,i)=>{if((i%step===0&&data.length-1-i>=step*.7)||i===data.length-1)g+=`<text class="ax" x="${X(i)}" y="${Hh-6}" text-anchor="${i===0?'start':i===data.length-1?'end':'middle'}">${x.l}</text>`});
   const smooth=pts=>pts.map((p,i)=>{if(!i)return`M${p[0].toFixed(1)},${p[1].toFixed(1)}`;const p0=pts[i-2]||pts[i-1],p1=pts[i-1],p3=pts[i+1]||p;const c1=[p1[0]+(p[0]-p0[0])/6,Math.min(T+ih,p1[1]+(p[1]-p0[1])/6)],c2=[p[0]-(p3[0]-p1[0])/6,Math.min(T+ih,p[1]-(p3[1]-p1[1])/6)];return`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p[0].toFixed(1)},${p[1].toFixed(1)}`}).join(' ');
   const line=smooth(data.map((x,i)=>[X(i),Y(x.v)])),pline=smooth(prev.map((x,i)=>[X(i),Y(x.v)]));
   const gid='g'+Math.random().toString(36).slice(2,7);
   el.innerHTML=`<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${esc(fmt.aria||'')}"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A4BFF" stop-opacity=".18"/><stop offset="1" stop-color="#6A4BFF" stop-opacity="0"/></linearGradient></defs>${g}
-    <path d="${pline}" fill="none" stroke="#C0C8D2" stroke-width="1.5" stroke-dasharray="4 4"/><path d="${line} L${X(data.length-1)},${T+ih} L${X(0)},${T+ih} Z" fill="url(#${gid})"/><path d="${line}" fill="none" stroke="#6A4BFF" stroke-width="2"/>
+    <path d="${pline}" fill="none" stroke="var(--faint)" stroke-width="1.5" stroke-dasharray="4 4"/><path d="${line} L${X(data.length-1)},${T+ih} L${X(0)},${T+ih} Z" fill="url(#${gid})"/><path d="${line}" fill="none" stroke="#6A4BFF" stroke-width="2"/>
     <line class="cur-line" y1="${T}" y2="${T+ih}" style="display:none"/><circle r="4.5" fill="#fff" stroke="#6A4BFF" stroke-width="2" style="display:none"/>
     <rect x="${L}" y="${T}" width="${iw}" height="${ih}" fill="transparent"/></svg><div class="tip"></div>`;
   const svg=el.querySelector('svg'),hit=svg.querySelector('rect:last-of-type'),hl=svg.querySelector('.cur-line'),hp=svg.querySelector('circle'),tp=el.querySelector('.tip');
@@ -5394,14 +5529,15 @@ function areaChart(el,data,prev,fmt,tip){const W=el.clientWidth,Hh=el.clientHeig
 function perRange(k){const t0=new Date(NOW);t0.setHours(0,0,0,0);const t1=new Date(t0.getTime()+DAY);
   let d0,d1,p0;
   if(k==='today'){d0=t0;d1=t1;p0=new Date(t0-DAY)}
+  else if(k==='yday'){d0=new Date(t0-DAY);d1=t0;p0=new Date(t0-2*DAY)}
   else if(k==='month'){d0=new Date(t0.getFullYear(),t0.getMonth(),1);d1=t1;p0=new Date(t0.getFullYear(),t0.getMonth()-1,1)}
   else if(k==='lmonth'){d0=new Date(t0.getFullYear(),t0.getMonth()-1,1);d1=new Date(t0.getFullYear(),t0.getMonth(),1);p0=new Date(t0.getFullYear(),t0.getMonth()-2,1)}
   else{d0=new Date(t1-(+k)*DAY);d1=t1;p0=new Date(d0-(+k)*DAY)}
-  const span=(d1-d0)/DAY,step=k==='today'?2*3600000:span<=31?DAY:7*DAY,n=Math.ceil((d1-d0)/step),pn=Math.min(n,Math.ceil((d0-p0)/step));
+  const hr=k==='today'||k==='yday',span=(d1-d0)/DAY,step=hr?2*3600000:span<=31?DAY:7*DAY,n=Math.ceil((d1-d0)/step),pn=Math.min(n,Math.ceil((d0-p0)/step));
   const B=Array.from({length:n},(_,i)=>{const a=new Date(d0.getTime()+i*step),b=new Date(Math.min(d1,a.getTime()+step));
-    return{a,b,pa:new Date(p0.getTime()+i*step),pb:new Date(p0.getTime()+(i+1)*step),l:k==='today'?`${String(a.getHours()).padStart(2,'0')}:00`:`${a.getDate()} ${MON[a.getMonth()]}`,
-      tl:k==='today'?`${String(a.getHours()).padStart(2,'0')}:00–${String(b.getHours()||24).padStart(2,'0')}:00`:step===DAY?fday(a):`${fday(a)} – ${fday(new Date(b-DAY))}`}});
-  return{d0,d1,p0,p1:new Date(p0.getTime()+(d1-d0)),B,pn,prevTx:k==='today'?'yesterday':k==='month'?'the same days last month':k==='lmonth'?'the month before':`the ${k} days before`}}
+    return{a,b,pa:new Date(p0.getTime()+i*step),pb:new Date(p0.getTime()+(i+1)*step),l:hr?`${String(a.getHours()).padStart(2,'0')}:00`:`${a.getDate()} ${MON[a.getMonth()]}`,
+      tl:hr?`${String(a.getHours()).padStart(2,'0')}:00–${String(b.getHours()||24).padStart(2,'0')}:00`:step===DAY?fday(a):`${fday(a)} – ${fday(new Date(b-DAY))}`}});
+  return{d0,d1,p0,p1:new Date(p0.getTime()+(d1-d0)),B,pn,prevTx:k==='today'?'yesterday':k==='yday'?'the day before':k==='month'?'the same days last month':k==='lmonth'?'the month before':`the ${k} days before`}}
 const inR=(d,a,b)=>d>=a&&d<b;
 
 /* ---- WhatsApp to customers: VIP check for risky COD orders and Delivery Boost (defaults, 25 Oct), opened from WhatsApp settings and Delivery Boost ---- */
