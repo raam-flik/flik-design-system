@@ -1965,6 +1965,56 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 :is(#view-mon,#view-cr,#view-ana,#drawer,#modal) td.age span{display:block;font-size:12px;color:var(--muted)}
 :is(#view-mon,#view-cr,#view-ana,#drawer,#modal) td.age.over b,:is(#view-mon,#view-cr,#view-ana,#drawer,#modal) td.age.over span{color:var(--bad-tx)}
 :is(#view-mon,#view-cr,#view-ana,#drawer,#modal) .wa-q{color:var(--warn-tx)!important}
+/* Merchant Cash Advance page (28 Oct): states, placement and return, application; built from cards, Stepper, DataTable, SegmentedControl, StatusBadge */
+.mc-card{margin-top:16px;padding:20px}
+.mc-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.mc-h .sec{margin:0}
+.mc-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}.mc-two>.mc-card{margin-top:16px}
+.mc-two.r{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.mc-top{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.mc-chk{display:grid;gap:10px;margin-top:12px}
+.mc-q{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--text)}.mc-q .seg{flex:none}
+.mc-chk+.sx-note{margin-top:14px}
+.mc-tier{margin-top:12px;display:inline-flex;flex-wrap:wrap}
+.mc-docs{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px;font-size:13.5px;color:var(--text)}.mc-docs li{display:flex;gap:8px;align-items:flex-start}.mc-docs li svg{color:var(--muted);flex:none;margin-top:2px}
+.mc-res{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}.mc-res h3{margin:8px 0 2px;font-size:18px;color:var(--ink)}
+.mc-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.mc-res .mc-acts{margin-top:0}
+.mc-steps{margin:4px 0 0;flex-wrap:wrap;row-gap:8px}
+.mc-h5{margin:20px 0 8px;font-size:14px;font-weight:600;color:var(--ink)}
+.mc-task{display:grid;gap:6px;justify-items:start}.mc-task b{color:var(--ink);font-weight:600}.mc-task .btn{margin-top:6px}
+.mc-sum{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px;align-items:start}
+.mc-big{display:grid;gap:8px}.mc-big>b{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px}
+.mc-bar{display:block;height:10px;border-radius:5px;background:var(--line);overflow:hidden}.mc-bar i{display:block;height:100%;background:var(--primary);border-radius:5px}.mc-bar.sm{height:8px;margin-top:10px}
+.mc-kv{margin:0}
+.mc-card .sx-note{margin-top:16px}.mc-card .sx-note .btn{margin-left:auto;flex:none}
+.mc-side p{margin:0;font-size:13.5px;color:var(--text)}
+.mc-chart{height:240px;margin-top:4px}
+.mc-leg{display:flex;gap:16px;margin:8px 0 12px;font-size:12.5px;color:var(--muted)}.mc-leg span{display:inline-flex;align-items:center;gap:6px}.mc-leg i{width:10px;height:3px;border-radius:2px}
+.mc-tbl td{height:auto;padding-top:10px;padding-bottom:10px}.mc-tbl td .src{display:block;font-size:12.5px}
+.mc-tbl tr.mc-cur td{background:var(--pu-bg)}.mc-tbl .st.sm{margin-left:8px}.mc-neg{color:var(--bad-tx)!important}
+.mc-day{border-top:1px solid var(--line);padding:10px 0}.mc-day:first-of-type{border-top:0}
+.mc-dh{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:4px}.mc-dh b{color:var(--ink);font-weight:600}.mc-dh .num{color:var(--ink);font-weight:600}
+.mc-g{display:grid;grid-template-columns:minmax(0,1fr) auto auto 20px;gap:12px;align-items:center;width:100%;text-align:left;padding:7px 8px;border-radius:6px;font-size:13.5px;color:var(--text)}.mc-g:hover{background:var(--hover)}
+.mc-g b{color:var(--ink);font-weight:500}.mc-g .chev{display:flex;color:var(--muted);transition:transform .15s}.mc-g .chev.up{transform:rotate(180deg)}
+.mc-lines{display:grid;gap:2px;padding:2px 8px 6px 20px}.mc-ln{display:flex;justify-content:space-between;width:100%;font-size:12.5px;color:var(--text);padding:4px 0}.mc-ln:hover .mono{color:var(--primary)}
+.mc-pre{margin-left:6px;font-size:11.5px;font-weight:500;color:var(--pu-tx);background:var(--pu-bg);border-radius:4px;padding:1px 5px}
+#mx .hint{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.45}#mx .hint.err{color:var(--bad-tx)}#mx .hint:empty{display:none}#mx .sx-card>.hint{margin-top:8px}
+.sx-in.solo.mc-wide{max-width:1120px}.sx-in.solo.mc-wide .sx-main{max-width:none}
+.mc-saved{margin-left:12px;font-size:12.5px;white-space:nowrap}
+.mc-card .lnk,.sx-main .lnk{color:var(--primary);font-weight:500}.mc-tw .lnk{flex:none}
+.steps button.stp{background:none;border:0;font:inherit;padding:0;cursor:pointer;color:inherit}.steps button.stp:disabled{cursor:default}
+.mc-tw{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.mc-tw .vf-up{width:auto}
+.mc-st td{height:auto;padding:6px 4px}.mc-st td input{width:68px;height:34px;border-radius:8px;border:0;box-shadow:var(--sh);padding:0 10px;text-align:left;font:inherit;font-size:13.5px;background:var(--surface)}.mc-st td input:focus{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-st th{white-space:nowrap}.mc-st td.mc-avg{color:var(--ink);font-weight:500}
+.mc-st .rf-sw{min-width:150px}.mc-st th:nth-child(n+2):nth-child(-n+7){width:96px;min-width:96px}.mc-st .mc-jt{display:flex;align-items:center;gap:4px;height:34px;min-width:64px;padding:0 10px;border-radius:8px;box-shadow:var(--sh);background:var(--surface);cursor:text}.mc-st .mc-jt:focus-within{box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-st .mc-jt input{flex:1;width:0;min-width:0;height:auto;padding:0;border:0;box-shadow:none;background:none}.mc-st .mc-jt input:focus{box-shadow:none}.mc-jt em{font-style:normal;font-size:12.5px;color:var(--muted)}.mc-chn{display:flex;align-items:center;gap:8px;white-space:nowrap}.mc-flg{background:var(--surface);box-shadow:var(--sh)}.mc-acc{display:inline-flex;align-items:center;gap:8px;height:34px;font-size:13.5px;color:var(--ink);white-space:nowrap}#mx .mc-ro{display:flex;align-items:center;min-height:36px}#mx .mc-fromd{margin-top:8px;width:100%}#mx .mc-rov{font-size:14px;font-weight:600;color:var(--ink)}.mc-acc .plg{width:20px;height:20px;border-radius:5px}.mc-addacc{white-space:nowrap}.mc-chm{max-height:340px;overflow-y:auto;min-width:240px}.mc-chm .opt{gap:10px}.mc-oth{display:flex;gap:8px;padding:4px 6px 6px}.mc-oth input{flex:1;min-width:0;height:36px;border-radius:8px;border:0;box-shadow:var(--sh);padding:0 10px;font:inherit;font-size:13.5px}.mc-oth input:focus{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-oth .hint{margin:0 6px 6px}.mc-st tr.mc-tot td{font-weight:600;color:var(--ink);border-top:1px solid var(--line)}
+.mc-split td{padding-top:0}.mc-st tr.mc-tot td{height:51px;vertical-align:middle}.mc-st .mc-avgl{font:inherit;font-weight:600;color:var(--primary);text-decoration:underline dotted;text-underline-offset:3px}.mc-dt{font-size:16px;font-weight:600;color:var(--ink);margin:0 0 6px}.mc-dp{margin:0 0 16px;font-size:13.5px;line-height:1.5}.mc-spt{display:flex;justify-content:space-between;margin-top:18px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--text)}.mc-spt b{color:var(--ink);font-weight:600}.mc-spt .err{color:var(--bad-tx)}.mc-st tr.mc-hasp td{border-bottom:0}.mc-st td input{width:100%;min-width:64px}.mc-split td{vertical-align:middle}.mc-split td.src{line-height:34px;white-space:nowrap}.mc-split .mc-spi{display:flex;width:100%;min-width:64px;gap:4px;padding:0 8px;font-size:12px}.mc-st .mc-split .mc-spi input{flex:1;width:0;min-width:14px;text-align:right}.mc-sp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mc-spi{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 10px;border-radius:8px;box-shadow:var(--sh);background:var(--surface);font-size:12.5px;color:var(--muted);cursor:text}.mc-spi:focus-within{box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-st .mc-spi input{width:28px;height:auto;padding:0;border:0;box-shadow:none;background:none;text-align:right;font-size:13.5px;color:var(--ink)}.mc-st .mc-spi input:focus{box-shadow:none}.mc-spi em{font-style:normal}.mc-sp-t{margin-left:8px}.mc-split label{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}.mc-sp-t{font-size:12.5px;color:var(--muted)}.mc-sp-t.err{color:var(--bad-tx)}.mc-split .unit input{width:52px}
+#mx .vf-up{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;border:1.5px dashed var(--line-2);color:var(--text);width:100%;text-align:left;font-size:13.5px}#mx .vf-up:hover{border-color:var(--primary);color:var(--primary)}#mx .vf-up:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-unit{margin-left:auto;font-size:12.5px;font-weight:400}.mc-addch{margin-top:14px}
+.mc-dec{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--text);line-height:1.5;cursor:pointer}.sx-h+.mc-dec{border-top:0;padding-top:0}.mc-dec+.hint{margin-top:4px}.mc-dec .cb{margin-top:2px;flex:none}
+.mc-person{padding:14px 0;border-bottom:1px solid var(--line)}.mc-person:first-child{padding-top:0}.mc-obl{margin-top:16px}.mc-obl .sx-g2{grid-template-columns:repeat(3,minmax(0,1fr))}.mc-obl .sx-h .lnk{font-size:13.5px;font-weight:500}@media (max-width:760px){.mc-obl .sx-g2{grid-template-columns:minmax(0,1fr)}}
+.mc-files{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.mc-file{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text);padding:4px 4px 4px 8px;border-radius:6px;background:var(--hover)}.mc-file .ib{width:22px;height:22px}
+.mc-doc{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}.mc-doc .btn{flex:none}
+.mc-dl{display:flex;gap:8px;align-items:flex-start;flex:1;min-width:0;color:var(--text)}.mc-dl svg{color:var(--muted);flex:none;margin-top:2px}
+@media (max-width:1000px){.mc-two,.mc-two.r,.mc-top,.mc-sum{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){#view-mca>.ph{flex-wrap:wrap;gap:12px}#view-mca>.ph .fright{margin-left:0!important;max-width:100%}#view-mca>.ph .chip{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mc-q{flex-direction:column;align-items:flex-start}.mc-doc{flex-wrap:wrap}.mc-saved{display:none}.mc-g{grid-template-columns:minmax(0,1fr) auto 20px}.mc-g .src{display:none}}
 </style>
 </head>
 <body>
@@ -2092,25 +2142,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
       <div class="ph"><h1>Product catalog</h1><div class="fright" style="margin-left:auto"><button class="chip set" id="prd-state" title="Prototype control: preview the states of the catalog"></button><button class="btn btn-o" id="prd-imp"><span data-ic="upload"></span>Import</button><button class="btn btn-p" id="prd-new"><span data-ic="plus"></span>New product</button></div></div>
       <div id="prd-main"></div>
     </main>
-    <main class="content" id="view-mca" hidden>
-      <div class="ph"><h1>Merchant Cash Advance</h1></div>
-      <section class="es-hero">
-        <div class="es-copy">
-          <h2>Funding for the stock you sell</h2>
-          <p>Get Rp100 million to Rp5 billion upfront for inventory, and repay it from your sales. Applying takes under 10 minutes.</p>
-          <div class="es-ctas"><button class="btn btn-p es-cta" data-newmca>Apply for funding</button><button class="btn btn-o es-cta" data-toast="Opens the Merchant Cash Advance guide">Learn more</button></div>
-        </div>
-        <div class="es-art" aria-hidden="true" id="es-art-mca"></div>
-      </section>
-      <div class="es-cards c3">
-        <section class="es-card"><h3>Transparent terms</h3><p>You see the amount, the fee and the repayment before you sign. No hidden costs.</p></section>
-        <section class="es-card"><h3>Assessed on your sales</h3><p>We look at your store's sales and history, not only at collateral.</p></section>
-        <section class="es-card"><h3>Repay as you sell</h3><p>A share of each sale repays the funding automatically, so repayments follow your sales.</p></section>
-      </div>
-      <h2 class="sec">Applications</h2>
-      <div class="tbl-wrap"><table><thead><tr><th>Funding</th><th></th><th>Project</th><th>Tenor</th><th>Remaining to repay</th><th>Applied</th><th></th></tr></thead><tbody id="mca-body"></tbody></table></div>
-      <div class="foot"><span id="mca-count"></span></div>
-    </main>
+    <main class="content" id="view-mca" hidden></main>
     <main class="content" id="view-bal" hidden>
       <div class="ph"><h1>Balances</h1><div class="fright" style="margin-left:auto"><button class="chip" id="bl-state" title="Prototype control: preview the states the spec asks for"></button><button class="btn btn-o" id="bl-monthly"><span data-ic="doc"></span>Monthly statements</button></div></div>
       <div id="bl-banners"></div>
@@ -2158,8 +2190,8 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
   <div class="sx-body" id="wx-body"></div>
   <div class="sx-foot" id="wx-foot"></div>
 </div>
-<div class="sx" id="mx" hidden role="dialog" aria-label="Apply for funding">
-  <div class="sx-top"><button class="ib" id="mx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Apply for funding</b><div class="steps" id="mx-steps"></div></div>
+<div class="sx" id="mx" hidden role="dialog" aria-label="Apply for Uang Jaminan">
+  <div class="sx-top"><button class="ib" id="mx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Apply for Uang Jaminan</b><div class="steps" id="mx-steps"></div></div>
   <div class="sx-body" id="mx-body"></div>
   <div class="sx-foot" id="mx-foot"></div>
 </div>
@@ -4392,187 +4424,331 @@ function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh"
   modal.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{sel=+b.dataset.w;draw()});
   document.getElementById('whsave').onclick=()=>{X.wh=sel;closeModal();drawSx()}};draw();mscrim.classList.add('open')}
 
-/* ===== Merchant Cash Advance: page ===== */
-const MST={active:['Active','ok','check'],review:['In review','warn',null],draft:['Unfinished','gr',null],paid:['Paid off','pu',null]};
-const mPill=s=>{const x=MST[s];return`<span class="st ${x[1]}">${x[0]}${x[2]?ic(x[2],13,2.2):''}</span>`};
-const MCA=[
-  {id:'MCA-2026-0011',st:'active',amount:350000000,tenor:6,left:335680000,applied:new Date(2026,8,26,15,45)},
-  {id:'MCA-2026-0010',st:'review',amount:250000000,tenor:3,left:null,applied:new Date(2026,9,8,10,12)},
-  {id:'MCA-2026-0009',st:'draft',amount:150000000,tenor:6,left:null,applied:new Date(2026,9,12,9,30),data:null},
-  {id:'MCA-2026-0007',st:'paid',amount:200000000,tenor:6,left:0,applied:new Date(2026,2,3,14,5)}];
-const mcaNo=()=>'MCA-2026-'+String(12+MCA.filter(a=>a.created).length).padStart(4,'0');
-function renderMca(){
-  document.getElementById('mca-body').innerHTML=MCA.map((a,i)=>`<tr data-mca="${i}"><td class="amt num">${rp(a.amount)}</td><td class="c-st">${mPill(a.st)}</td><td class="inv-no">${a.id}</td><td>${a.tenor?a.tenor+' months':'<span class="inv-sub">—</span>'}</td><td class="num">${a.left==null?'<span class="inv-sub">—</span>':rp(a.left)}</td><td class="date">${fdate(a.applied)}</td><td><button class="dots-b" data-toast="Opens application actions" aria-label="More">${ic('dots',16)}</button></td></tr>`).join('');
-  document.getElementById('mca-count').innerHTML=`<b>${MCA.length}</b> ${MCA.length===1?'application':'applications'}`+(MCA.some(a=>a.st==='active')?` · <button class="lnk" data-goto="#transactions/auto-collections">See repayments taken from your sales</button>`:'');
-}
-document.getElementById('mca-body').addEventListener('click',e=>{if(e.target.closest('.dots-b'))return;const tr=e.target.closest('tr[data-mca]');if(!tr)return;const a=MCA[tr.dataset.mca];
-  if(a.st==='draft'){MCA_RESUME=a;location.hash='merchant-cash-advance/apply'}else toast(`Opens ${a.id}`)});
-let MCA_RESUME=null,MCA_PREFILL=false;
-const SAVED={nik:'3171 •••• •••• 0012',ktp:'ktp-owner.jpg',npwp:'91.924.721.9-471.618',npwpFile:'npwp.pdf',nib:'9120 0021 4455 6',nibFile:'nib.pdf'};
-document.addEventListener('click',e=>{if(!e.target.closest('[data-newmca]'))return;closePop();
-  if(!MCA.some(a=>a.st!=='draft')){MCA_PREFILL=false;location.hash='merchant-cash-advance/apply';return}
-  modal.innerHTML=`<div class="mh"><h3>Use your saved business data?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><p style="color:var(--muted)">You've applied before. Use the business data we already have, or submit new data.</p>
-  <dl class="sum-kv"><dt>Owner NIK</dt><dd class="num">${SAVED.nik}</dd><dt>Owner KTP</dt><dd>${SAVED.ktp}</dd><dt>Owner NPWP</dt><dd class="num">${SAVED.npwp}</dd><dt>NPWP file</dt><dd>${SAVED.npwpFile}</dd><dt>NIB</dt><dd class="num">${SAVED.nib}</dd><dt>NIB file</dt><dd>${SAVED.nibFile}</dd></dl></div>
-  <div class="mf"><button class="btn btn-o" id="mx-new">Submit new data</button><button class="btn btn-p" id="mx-use">Use saved data</button></div>`;
-  mscrim.classList.add('open');
-  document.getElementById('mx-new').onclick=()=>{closeModal();MCA_PREFILL=false;location.hash='merchant-cash-advance/apply'};
-  document.getElementById('mx-use').onclick=()=>{closeModal();MCA_PREFILL=true;location.hash='merchant-cash-advance/apply'};
-});
+/* ===== Merchant Cash Advance (spec 28 Oct 2026): one page from first look to the last return.
+   Credit owns the form and tracker, the financing service the schedule and status, the ledger the money; this page only shows them.
+   Wording: "return", never "repayment"; Uang Jaminan, Biaya Platform and PKS stay in Bahasa ===== */
+const MC_STATES=[['none','No application'],['unverified','No application · not verified'],['draft','Draft'],['review','Application in review'],['offer','Offer'],['preparing','Approved · preparing placement'],['transfer','Transfer pending'],['live','Placement live · on track'],['behind','Placement live · behind'],['history','History only']];
+let MC={st:'live',chk:{},tier:0,open:{},app:null};
+const UJ={id:'MCA-2026-0011',tahap:1,placed:350e6,admin:3.5e6,fee:21e6,start:new Date(2026,8,27),paidAt:new Date(2026,8,26,15,10),end:new Date(2026,11,25),pct:10,
+  seg:[[1,30,3.5e6],[31,60,4.2e6],[61,89,4.65e6],[90,90,5.15e6]]};
+const ujTotal=()=>UJ.placed+UJ.fee,ujDay=n=>new Date(UJ.start.getTime()+(n-1)*864e5),ujToday=Math.round((NOW-UJ.start)/864e5)+1;
+/* collected per day so far (the financing service's postings; example data). Behind = about 3 days short */
+const ujDaily=()=>{const behind=MC.st==='behind',a=[];for(let d=1;d<=ujToday;d++){const base=3.5e6*(1+(((d*37)%9)-4)/45)*(behind?.82:1.012);a.push(Math.round(base/100)*100)}return a};
+const ujSched=d=>{const s=UJ.seg.find(x=>d>=x[0]&&d<=x[1]);return s?s[2]:0},ujExpTo=d=>{let t=0;for(let i=1;i<=d;i++)t+=ujSched(i);return t};
+const ujFig=()=>{const D=ujDaily(),ret=D.reduce((a,b)=>a+b,0),exp=ujExpTo(ujToday),tot=ujTotal();return{D,ret,exp,tot,rem:tot-ret,pct:ret/tot*100,behind:MC.st==='behind'?3:0,arrears:Math.max(0,exp-ret)}};
+const mcStat=f=>f.behind?`<span class="st warn">Behind by ${f.behind} days</span>`:'<span class="st ok">On track</span>';
+const mcBar=(p,cls='')=>`<span class="mc-bar${cls}"><i style="width:${Math.min(100,p).toFixed(1)}%"></i></span>`;
+const mcCard=(h,body,o={})=>`<section class="card mc-card${o.cls?' '+o.cls:''}">${h?`<div class="mc-h">${h}</div>`:''}${body}</section>`;
+const mcStepper=at=>{const S=['Submitted','In review','Offer','Placement'];return`<div class="steps mc-steps">${S.map((t,i)=>`${i?'<span class="stp-l"></span>':''}<span class="stp${i===at?' on':i<at?' done':''}"><i>${i<at?ic('check',11,3):i+1}</i><span>${t}</span></span>`).join('')}</div>`};
+/* applications and placements known to this merchant, by state (example data) */
+const mcApps=()=>{const st=MC.st,L=[];
+  if(st==='draft')L.push({no:'FLIKCM-2026-0042',sub:null,amt:500e6,out:'Draft · step 3 of 6',tone:'gr'});
+  if(st==='review')L.push({no:'FLIKCM-2026-0042',sub:new Date(2026,9,2),amt:500e6,out:'In review',tone:'warn'});
+  if(st==='offer')L.push({no:'FLIKCM-2026-0042',sub:new Date(2026,9,2),amt:500e6,out:'Offer',tone:'pu'});
+  if(['preparing','transfer','live','behind'].includes(st))L.push({no:'FLIKCM-2026-0031',sub:new Date(2026,8,2),amt:350e6,out:'Placement',tone:'ok'});
+  if(st==='history')L.push({no:'FLIKCM-2026-0024',sub:new Date(2026,6,14),amt:750e6,out:'Declined · new application from 1 Jan 2027',tone:'gr'});
+  if(!['none','unverified'].includes(st))L.push({no:'FLIKCM-2026-0009',sub:new Date(2026,2,3),amt:200e6,out:'Placement',tone:'ok'});
+  return L};
+const mcPlacements=()=>{const st=MC.st,L=[];
+  if(['live','behind'].includes(st)){const f=ujFig();L.push({id:UJ.id,t:'Cash Advance 2',placed:UJ.placed,st:mcStat(f),ret:f.ret,rem:f.rem})}
+  if(['preparing','transfer'].includes(st))L.push({id:UJ.id,t:'Cash Advance 2',placed:UJ.placed,st:`<span class="st pu">${st==='transfer'?'Started':'Starts 27 Sep'}</span>`,ret:0,rem:ujTotal()});
+  if(!['none','unverified'].includes(st))L.push({id:'MCA-2026-0007',t:'Cash Advance 1',placed:200e6,st:'<span class="st gr">Fully returned</span>',ret:212e6,rem:0});
+  return L};
+const mcLists=()=>{const A=mcApps(),P=mcPlacements();return(P.length?`<h2 class="sec">Your placements</h2><div class="tbl-wrap"><table class="mc-tbl"><thead><tr><th>Placement</th><th>Uang Jaminan placed</th><th>Status</th><th>Returned</th><th>Remaining</th></tr></thead><tbody>${P.map(p=>`<tr class="nohover"><td><b>${p.t}</b><span class="src mono">${p.id}</span></td><td class="num">${rp(p.placed)}</td><td class="c-st">${p.st}</td><td class="num">${rp(p.ret)}</td><td class="num">${rp(p.rem)}</td></tr>`).join('')}</tbody></table></div>`:'')
+  +(A.length?`<h2 class="sec">Your applications</h2><div class="tbl-wrap"><table class="mc-tbl"><thead><tr><th>Application</th><th>Submitted</th><th>Uang Jaminan requested</th><th>Where it is</th><th></th></tr></thead><tbody>${A.map(a=>`<tr class="nohover"><td class="mono">${a.no}</td><td class="date">${a.sub?fdateY(a.sub).replace(/, .*/,''):'<span class="src">Not yet</span>'}</td><td class="num">${rp(a.amt)}</td><td class="c-st"><span class="st ${a.tone}">${a.out}</span></td><td class="r"><button class="lnk" data-toast="Opens application ${a.no}">View</button></td></tr>`).join('')}</tbody></table></div>`:'')};
 
-/* ===== Merchant Cash Advance: application flow ===== */
+/* state 1: explainer, eligibility self-check, documents to prepare */
+const MC_CHK=[['type','Do you sell to consumers every day, in retail, F&B or a similar business?','daily consumer sales'],['entity','Is your business a PT or CV? Needed for more than Rp50.000.000.','a PT or CV for more than Rp50.000.000'],['age','Have you been operating for at least 12 months?','12 months operating'],['flik','Can your sales settle into FLIK-controlled accounts?','sales settling through FLIK'],['gmv','Are your digital sales at least Rp100.000.000 a month?','Rp100.000.000 a month in digital sales']];
+const MC_TIER=[['Up to Rp250.000.000',['KTP and NPWP of each director and owner above 25%','Company NPWP','Akta pendirian and amendments','SK Kemenkumham','NIB','6 months of bank statements','Platform exports for channels that don\'t settle through FLIK']],
+  ['Rp250.000.000 to Rp1.000.000.000',['Everything for smaller amounts','12 months of bank statements','Internal financial statements']],
+  ['Above Rp1.000.000.000',['Everything for smaller amounts','12 months of financial statements, plus the year before','Company profile','FLIK visits your site and meets your management']]];
+function mcNone(){const ans=MC_CHK.map(c=>MC.chk[c[0]]),done=ans.every(Boolean),no=MC_CHK.filter(c=>MC.chk[c[0]]==='no');
+  return`<section class="es-hero"><div class="es-copy"><h2>Uang Jaminan for the stock you sell</h2><p>FLIK places Uang Jaminan with your business for stock and growth. You return it from your daily sales: a share of each settlement, so returns follow how you sell.</p>
+    <div class="es-ctas"><button class="btn btn-p es-cta" data-mcstart>Start application</button><button class="btn btn-o es-cta" data-mcjump="mc-chk">Check if you qualify</button></div></div><div class="es-art" aria-hidden="true" id="es-art-mca"></div></section>
+  <div class="es-cards c3"><section class="es-card"><h3>Returned from your sales</h3><p>A set share of each settlement goes back automatically, or a daily amount. You see every return, day by day.</p></section>
+    <section class="es-card"><h3>Biaya Platform</h3><p>One fee for the placement, set after FLIK reviews your application. You see it in the offer before you sign the PKS.</p></section>
+    <section class="es-card"><h3>Apply in one go</h3><p>About an hour with your documents ready. Your business details come from your FLIK profile.</p></section></div>
+  <div class="mc-two">${mcCard(`<h2 class="sec">Check if you qualify</h2>`,`<p class="src">A quick guide before you start. FLIK makes the decision after review.</p>
+    <div class="mc-chk" id="mc-chk">${MC_CHK.map(([k,q])=>`<div class="mc-q"><span>${q}</span><div class="seg" role="radiogroup" aria-label="${esc(q)}">${[['yes','Yes'],['no','No']].map(([v,l])=>`<button role="radio" aria-checked="${MC.chk[k]===v}" class="${MC.chk[k]===v?'on':''}" data-mcq="${k}" data-v="${v}">${l}</button>`).join('')}</div></div>`).join('')}</div>
+    ${done?(no.length?`<div class="sx-note">${ic('help',16)}<span>Worth checking before you apply: ${no.map(c=>c[2]).join(', ')}. It's a guide, not a decision; you can still apply.</span></div>`:`<div class="sx-note ok">${ic('check',16)}<span>You look like a fit. FLIK decides after reviewing your application.</span></div>`):''}`)}
+  ${mcCard(`<h2 class="sec">Documents to prepare</h2>`,`<p class="src">What you'll upload depends on the amount plus anything you already have with FLIK.</p>
+    <div class="seg mc-tier" role="tablist">${MC_TIER.map((t,i)=>`<button class="${MC.tier===i?'on':''}" data-mctier="${i}" role="tab" aria-selected="${MC.tier===i}">${t[0].replace('Rp250.000.000 to Rp1.000.000.000','Rp250 jt to Rp1 M').replace('Up to Rp250.000.000','Up to Rp250 jt').replace('Above Rp1.000.000.000','Above Rp1 M')}</button>`).join('')}</div>
+    <ul class="mc-docs">${MC_TIER[MC.tier][1].map(d=>`<li>${ic('doc',15)}<span>${d}</span></li>`).join('')}</ul>
+    <div class="kpi-l" style="margin-top:12px">At signing</div><ul class="mc-docs"><li>${ic('doc',15)}<span>Personal guarantee and post-dated cheques or giro</span></li></ul>`)}</div>`}
+function mcDraft(){return mcCard('',`<div class="mc-res"><div><span class="st gr">Draft</span><h3>Application FLIKCM-2026-0042</h3><p class="src">Step 3 of 6: Sales by channel · saved 12 Oct 2026, 16:40</p>
+    <div class="kpi-l" style="margin-top:12px">Still to fill in</div><ul class="mc-docs"><li>${ic('chart',15)}<span>Sales for August and September</span></li><li>${ic('link',15)}<span>Channel commitments and the three declarations</span></li><li>${ic('user',15)}<span>People and documents</span></li></ul></div>
+    <div class="mc-acts"><button class="btn btn-p" data-mcresume>Continue application</button><button class="btn btn-o" data-mcdeldraft>Delete draft</button></div></div><p class="hint">Drafts don't expire. We remind you after 7 days untouched.</p>`)}
+const mcTimeline=L=>`<div class="tl">${L.map(x=>`<div class="tli${x[2]?' '+x[2]:''}"><i>${x[3]?ic(x[3],11,2.4):''}</i><div><b>${x[1]}</b><span>${fdateY(x[0])}</span></div></div>`).join('')}</div>`;
+function mcReview(offer){const days=Math.round((NOW-new Date(2026,9,2,10,20))/864e5),task=!offer&&!MC.taskDone;
+  const tl=[[new Date(2026,9,2,10,20),'Application FLIKCM-2026-0042 submitted','',null],[new Date(2026,9,3,9,0),'Your application is in review','pu',null]];
+  if(!offer)tl.push([new Date(2026,9,9,14,5),'FLIK asked for 12 months of bank statements','',null]);
+  if(MC.taskDone)tl.push([new Date(NOW),'You uploaded 12 months of bank statements','ok','check']);
+  if(offer)tl.push([new Date(2026,9,13,11,30),'Approved. Offering letter sent','ok','check']);
+  return`<div class="mc-two r">${mcCard(`<h2 class="sec">Application FLIKCM-2026-0042</h2><span class="src">Rp500.000.000 · 90 days</span>`,`${mcStepper(offer?2:1)}
+      <div class="sx-note${offer?' ok':''}" style="margin-top:16px">${ic(offer?'check':'clock',16)}<span>${offer?'Approved. Commercial will contact you about the offer and the PKS.':`We're reviewing your application. ${plural(days,'day')} since you submitted.`}</span></div>
+      ${offer?`<dl class="kv" style="margin-top:14px"><dt>Offering letter</dt><dd><span class="st ok">Sent</span> 13 Oct 2026</dd><dt>PKS</dt><dd><span class="st gr">Not signed yet</span></dd></dl>`:''}
+      <h5 class="mc-h5">What happened</h5>${mcTimeline(tl.reverse())}
+      <p class="hint">You can withdraw until the PKS is signed. <button class="lnk" data-mcwithdraw>Withdraw application</button></p>`)}
+    ${mcCard(`<h2 class="sec">To do</h2>`,task?`<div class="mc-task"><b>Upload 12 months of bank statements</b><span class="src">From FLIK: "Please add October 2025 to September 2026 for the BCA account sales settle into."</span><button class="btn btn-p" data-mctask>${ic('upload',15)}Upload files</button></div>`:`<div class="empty" style="padding:18px 0"><b>Nothing to do</b>${offer?'Commercial will contact you about the offer.':'We\'ll tell you here and by email if FLIK needs anything.'}</div>`)}</div>`}
+function mcPrep(transfer){return mcCard(`<h2 class="sec">Cash Advance 2</h2>${transfer?'<span class="st pu">Started</span>':'<span class="st pu">Preparing</span>'}`,`${mcStepper(3)}
+  <div class="sx-note" style="margin-top:16px">${ic(transfer?'clock':'check',16)}<span>${transfer?'Your placement has started. The transfer to your account is on its way.':'Your PKS is signed. Your placement is being set up and starts 27 Sep 2026.'}</span>${transfer?'<button class="lnk" data-toast="Opens a message to Commercial">Contact Commercial</button>':''}</div>
+  <dl class="kv" style="margin-top:14px"><dt>Uang Jaminan placed</dt><dd class="num">${rp(UJ.placed)}</dd><dt>Paid to you</dt><dd class="num">${rp(UJ.placed-UJ.admin)} <span class="src">after the ${rp(UJ.admin)} admin fee</span></dd><dt>How returns are taken</dt><dd>${UJ.pct}% of each settlement</dd></dl>
+  ${transfer?'<p class="hint">Returns may already be taken from today\'s settlements. They show here once the transfer is recorded.</p>':''}`)}
+
+/* state 5: placement and return. Every figure is the financing service's or the ledger's */
+function mcLive(){const f=ujFig(),last=Math.min(5,ujToday);
+  const segs=UJ.seg.map(([a,b,amt],i)=>{const got=f.D.slice(a-1,Math.min(b,ujToday)).reduce((x,y)=>x+y,0),cur=ujToday>=a&&ujToday<=b,past=ujToday>b,diff=ujToday>=a?f.D.slice(0,Math.min(b,ujToday)).reduce((x,y)=>x+y,0)-ujExpTo(Math.min(b,ujToday)):null;
+    return`<tr class="nohover${cur?' mc-cur':''}"><td>${a===b?'Last payment':`Days ${a}–${b}`}<span class="src">${fday(ujDay(a))}${a===b?'':' – '+fday(ujDay(b))}</span></td><td class="num">${rp(amt)}${cur?'<span class="st pu sm">Today</span>':''}</td><td class="num">${ujToday>=a?rp(got):'<span class="src">—</span>'}</td><td class="num${diff<0?' mc-neg':''}">${diff==null?'<span class="src">—</span>':(diff<0?'−':'+')+rp(Math.abs(diff))}</td></tr>`}).join('');
+  const days=[];for(let d=ujToday;d>ujToday-last;d--){const amt=f.D[d-1],sales=Math.round(amt*.62/100)*100,food=Math.round(amt*.23/100)*100,added=d===ujToday-2&&MC.st!=='behind'?0:0,qris=amt-sales-food-added;
+    days.push({d,amt,g:[['sales','From your FLIK sales',31+(d*7)%40,sales,'order'],['food','From GoFood settlement',2,food,'bank'],['qris','From outlet QRIS settlement',1,qris,'bank']]})}
+  return`<div class="mc-top">${mcCard(`<h2 class="sec">Cash Advance 2</h2>${mcStat(f)}<span class="src mono">${UJ.id}</span>`,`
+    <div class="mc-sum"><div class="mc-big"><span class="kpi-l">Remaining</span><b class="num">${rp(f.rem)}</b>${mcBar(f.pct)}<span class="src"><b class="num">${f.pct.toFixed(1).replace('.',',')}%</b> returned · ${rp(f.ret)} of ${rp(f.tot)}</span></div>
+      <dl class="kv mc-kv"><dt>Uang Jaminan placed</dt><dd class="num">${rp(UJ.placed)}</dd><dt>Admin fee</dt><dd class="num">${rp(UJ.admin)}</dd><dt>Paid to you</dt><dd class="num">${rp(UJ.placed-UJ.admin)} <span class="src">${fdateY(UJ.paidAt).replace(/, .*/,'')}</span></dd><dt>Biaya Platform</dt><dd class="num">${rp(UJ.fee)}</dd><dt>Total to return</dt><dd class="num">${rp(f.tot)}</dd><dt>Expected end</dt><dd>${fdateY(UJ.end).replace(/, .*/,'')}</dd><dt>How returns are taken</dt><dd>${UJ.pct}% of each settlement</dd></dl></div>
+    ${f.behind?`<div class="sx-note warn">${ic('warn',16)}<span><b>Behind by ${f.behind} days · ${rp(f.arrears)} behind.</b> Your settlements were lower than the schedule. Add funds to catch up.</span><button class="btn btn-p" data-mcadd="catch">Catch up</button></div>`:''}
+    <div class="mc-acts"><button class="btn btn-o" data-mcadd>${ic('wallet',15)}Add funds</button><button class="btn btn-o" data-goto="#transactions/auto-collections">See returns in Transactions</button></div>`)}
+    ${mcCard(`<h2 class="sec">Additional placement</h2>`,`<p>You've returned <b class="num">${f.pct.toFixed(0)}%</b> of your current Uang Jaminan. Additional placements open at <b>50%</b>.</p>${mcBar(f.pct/50*100,' sm')}
+      <button class="btn btn-o" disabled data-tip="Opens at 50% returned" style="margin-top:14px">Apply for an additional placement</button>
+      <p class="hint" style="margin-top:14px">Possible later, subject to a new review: Cash Advance 3.</p>`,{cls:'mc-side'})}</div>
+  ${mcCard(`<h2 class="sec">Schedule and returns</h2><span class="src">Expected returned to date against what's been returned</span>`,`<div class="chart mc-chart" id="mc-chart"></div>
+    <div class="mc-leg"><span><i style="background:var(--faint)"></i>Expected</span><span><i style="background:var(--primary)"></i>Returned</span></div>
+    <div class="tbl-wrap"><table class="mc-tbl"><thead><tr><th>Period</th><th>Per day</th><th>Returned in period</th><th>Difference to date</th></tr></thead><tbody>${segs}</tbody></table></div>`)}
+  ${mcCard(`<h2 class="sec">Daily returns</h2><span class="src">Taken from each settlement, grouped by where it came from</span>`,days.map(x=>`<div class="mc-day"><div class="mc-dh"><b>${fdateY(ujDay(x.d)).replace(/, .*/,'')}</b><span class="num">${rp(x.amt)}</span></div>
+    ${x.g.map(g=>{const k=x.d+g[0],op=MC.open[k];return`<button class="mc-g" data-mcg="${k}" aria-expanded="${!!op}"><span>${g[1]}</span><span class="src">${plural(g[2],'line')}</span><b class="num">${rp(g[3])}</b><span class="chev${op?' up':''}">${ic('chev',14)}</span></button>
+      ${op?`<div class="mc-lines">${Array.from({length:Math.min(4,g[2])},(_,i)=>{const ref=g[4]==='order'?`ORD-2026-${10400+x.d*13+i}`:`BT-2610-${(x.d*7+i)%900+100}`,a=g[4]==='order'?Math.round(g[3]/g[2]/100)*100:Math.round(g[3]/g[2]);return`<button class="mc-ln" data-toast="Opens ${g[4]==='order'?'order':'bank line'} ${ref}"><span class="mono">${ref}</span><span class="num">${rp(a)}</span></button>`}).join('')}${g[2]>4?`<span class="src">and ${g[2]-4} more</span>`:''}</div>`:''}`}).join('')}</div>`).join(''))}`}
+function mcHistory(){return mcCard('',`<div class="mc-res"><div><h3>No open application</h3><p class="src">Your earlier placement is fully returned. You can apply again any time.</p></div><div class="mc-acts"><button class="btn btn-p" data-mcstart>Start a new application</button></div></div>`)}
+function renderMca(){const el=document.getElementById('view-mca'),st=MC.st;
+  el.innerHTML=`<div class="ph"><h1>Cash Advance</h1><div class="fright" style="margin-left:auto"><button class="chip set" id="mc-state" title="Prototype control: preview the states of this page">${ic('sel',14)}Preview state: <span class="val">${MC_STATES.find(x=>x[0]===st)[1]}</span></button></div></div>
+  ${st==='none'||st==='unverified'?mcNone():st==='draft'?mcDraft():st==='review'?mcReview(false):st==='offer'?mcReview(true):st==='preparing'?mcPrep(false):st==='transfer'?mcPrep(true):st==='history'?mcHistory():mcLive()}
+  ${mcLists()}`;
+  if(st==='none'||st==='unverified')esArt('es-art-mca','coins',[['pkg',0],['store',1],['cart',2],['tx',3],['chart',4],['wallet',.5,1],['clock',1.5,1],['doc',2.5,1],['check',3.5,1]]);
+  if(st==='live'||st==='behind'){const f=ujFig(),rows=f.D.map((_,i)=>({l:`${ujDay(i+1).getDate()} ${MON[ujDay(i+1).getMonth()]}`,tl:fdateY(ujDay(i+1)).replace(/, .*/,''),exp:ujExpTo(i+1),act:f.D.slice(0,i+1).reduce((a,b)=>a+b,0)}));
+    const c=document.getElementById('mc-chart');requestAnimationFrame(()=>multiArea(c,rows,{ax:rpS,full:rp,ser:[['exp','Expected','var(--faint)'],['act','Returned','var(--primary)']],aria:'Expected returned to date against what has been returned, by day',fill:false}))}}
+document.getElementById('view-mca').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(b.id==='mc-state'){e.stopPropagation();if(popFor===b){closePop();return}popFor=b;
+    pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${MC_STATES.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${MC.st===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
+    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{closePop();MC.st=o.dataset.v;MC.taskDone=false;renderMca();scrollTo(0,0)});placePop(b,true);return}
+  if(d.mcq){MC.chk[d.mcq]=d.v;renderMca();return}
+  if(d.mctier){MC.tier=+d.mctier;renderMca();return}
+  if(d.mcjump){document.getElementById(d.mcjump).scrollIntoView({behavior:'smooth',block:'center'});return}
+  if(d.mcg){MC.open[d.mcg]=!MC.open[d.mcg];renderMca();return}
+  if('mcstart' in d){if(MC.st==='unverified'){modal.innerHTML=`<div class="mh"><h3>Verify your account to apply</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p class="bk-mp">Applying for Uang Jaminan needs a verified FLIK account. It takes a few minutes, and you come straight back here.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Not now</button><button class="btn btn-p" id="mc-ver">Verify account</button></div>`;modal.classList.add('md');mscrim.classList.add('open');document.getElementById('mc-ver').onclick=()=>{closeModal();MC.st='none';renderMca();toast('Account verified. You can apply now.')};return}
+    MC.app=null;location.hash='merchant-cash-advance/apply';return}
+  if('mcresume' in d){MC.app='draft';location.hash='merchant-cash-advance/apply';return}
+  if('mcdeldraft' in d){modal.innerHTML=`<div class="mh"><h3>Delete this draft?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p class="bk-mp">Application FLIKCM-2026-0042 and everything you've filled in are deleted. This can't be undone.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-d" id="mc-dd">Delete draft</button></div>`;modal.classList.add('md');mscrim.classList.add('open');document.getElementById('mc-dd').onclick=()=>{closeModal();MC.st='none';renderMca();toast('Draft deleted')};return}
+  if('mcwithdraw' in d){modal.innerHTML=`<div class="mh"><h3>Withdraw your application?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p class="bk-mp">FLIK stops reviewing FLIKCM-2026-0042. You can start a new application later.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Keep it</button><button class="btn btn-d" id="mc-wd">Withdraw application</button></div>`;modal.classList.add('md');mscrim.classList.add('open');document.getElementById('mc-wd').onclick=()=>{closeModal();MC.st='history';renderMca();toast('Application withdrawn')};return}
+  if('mctask' in d){MC.taskDone=true;renderMca();toast('Bank statements uploaded. FLIK will check them.');return}
+  if('mcadd' in d){mcAddFunds(d.mcadd==='catch');return}});
+
+/* add funds: catch up through the wallet top-up, or return everything (or a chosen amount) through the return VA. The dashboard only shows details and the result */
+function mcAddFunds(catchUp){const f=ujFig();let path=catchUp||f.arrears?'catch':'all',amt=0,step=0;
+  const draw=()=>{if(step===0){const opts=[['catch','Catch up',f.arrears?`Pay what's behind: ${rp(f.arrears)}`:'You\'re on track. Anything you add is taken at your 10% share or what\'s behind, whichever is larger.','Through your wallet top-up'],['all','Return everything now',`Up to the ${rp(f.rem)} remaining, or an amount you choose`,'Through your return virtual account']];
+      modal.innerHTML=`<div class="mh"><h3>Add funds</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="bl-accts">${opts.map(o=>`<button class="payopt${path===o[0]?' on':''}" data-ap="${o[0]}"><span style="flex:1"><b>${o[1]}</b><span class="src" style="display:block">${o[2]}</span><span class="src" style="display:block">${o[3]}</span></span><span class="rdo${path===o[0]?' on':''}"></span></button>`).join('')}</div>
+        ${path==='all'?`<div class="fld"><label for="af-amt">Amount</label><div class="pre"><em>Rp</em><input id="af-amt" inputmode="numeric" value="${(amt||f.rem).toLocaleString('id-ID')}"></div><p class="hint">Up to ${rp(f.rem)}.</p></div>`:''}</div>
+        <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="af-go">Continue</button></div>`;
+      modal.querySelectorAll('[data-ap]').forEach(b=>b.onclick=()=>{path=b.dataset.ap;draw()});const ai=document.getElementById('af-amt');
+      if(ai)ai.oninput=()=>{amt=Math.min(f.rem,+ai.value.replace(/\D/g,'')||0);ai.value=amt?amt.toLocaleString('id-ID'):'';document.getElementById('af-go').disabled=!amt};
+      document.getElementById('af-go').onclick=()=>{if(path==='all'&&!amt)amt=f.rem;step=1;draw()};return}
+    const pay=path==='catch'?(f.arrears||1e6):amt;
+    if(step===1){modal.innerHTML=`<div class="mh"><h3>${path==='catch'?'Catch up':'Return now'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="vabox"><span class="kpi-l">${path==='catch'?'BCA virtual account · wallet top-up':'Permata virtual account · Uang Jaminan return'}</span><b class="num">${path==='catch'?'8808 0812 3456 7890':'8528 0000 0011 2026'}</b><span class="kpi-l">Transfer ${rp(pay)}</span></div>
+      <p class="hint">Refunds and dispute holds are taken first, so less may be collected. The result shows here once the transfer lands.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Close</button><button class="btn btn-p" id="af-paid">I've transferred</button></div>`;
+      document.getElementById('af-paid').onclick=()=>{step=2;draw()};return}
+    modal.innerHTML=`<div class="mh"><h3>Funds received</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><dl class="sum-kv"><dt>Received</dt><dd class="num">${rp(pay)}</dd><dt>Taken for Uang Jaminan</dt><dd class="num">${rp(pay)}</dd><dt>Status</dt><dd>${path==='catch'?'<span class="st ok">On track</span>':'<span class="st ok">On track</span>'}</dd></dl></div><div class="mf"><button class="btn btn-p" data-mclose id="af-done">Done</button></div>`;
+    document.getElementById('af-done').onclick=()=>{if(MC.st==='behind'&&path==='catch')MC.st='live';closeModal();renderMca()}};
+  modal.classList.add('md');draw();mscrim.classList.add('open')}
+
+/* ===== Uang Jaminan application: credit's six steps, hosted here. Prefill is a copy of the onboarding profile; every save goes to credit's save-step route ===== */
 const mx=document.getElementById('mx'),mxBody=document.getElementById('mx-body'),mxFoot=document.getElementById('mx-foot');
-const MSTEPS=['Funding request','Management','Platforms and data','Legal documents','Financial documents'];
-const AGES=['Less than 1 year','1–2 years','2–5 years','More than 5 years'];
-const TENORS=[3,6,9,12];
-const SALES=['Shopify','WooCommerce','Tokopedia','TikTok Shop','Shopee','Lazada','Blibli','Zalora','Offline store or POS','Other'];
-const ADS=['Google Ads','Meta Ads','TikTok Ads','Shopee Ads','Tokopedia Ads'];
-/* Platform logos (design-system/assets/Logos/platform); ads products use their parent brand */
-const PLOGO={'Shopify':'shopify','WooCommerce':'woocommerce','Tokopedia':'tokopedia','TikTok Shop':'tiktok','Shopee':'shopee','Lazada':'lazada','Blibli':'blibli','Zalora':'zalora','Google Ads':'googleads','Meta Ads':'metaads','TikTok Ads':'tiktok','Shopee Ads':'shopee','Tokopedia Ads':'tokopedia'};
-const platLg=(n,c='plg')=>PLOGO[n]?`<img class="${c}" src="${IMG}platform/${PLOGO[n]}.png" alt="">`:`<span class="${c} plg-i">${ic(n.startsWith('Offline')?'store':'more',14)}</span>`;
-let M,mxResume=null;
-const fileOf=(n,size)=>({n,s:size||'0.8 MB'});
-const blankM=()=>({step:0,done:null,type:null,age:'',addr:null,amount:'',tenor:null,margin:'',
-  dir:{ktp:null,name:'',nik:'',dob:'',gender:'',phone:'',npwp:null,read:false},pg:{ktp:null,phone:''},
-  sales:[],ads:[],plat:{},open:{},legal:{npwpNo:'',npwp:null,nib:null,akta:null,sk:null},fin:{bank:null,pl:null,bs:null},prefilled:false});
-const num=v=>+String(v).replace(/\D/g,'')||0;
-const company=()=>M.type==='company';
-const mPct=()=>parseFloat(String(M.margin).replace(',','.').replace(/[^\d.]/g,''))||0;
-const who=()=>company()?'Director':'Owner';
-const platOk=n=>{const p=M.plat[n]||{};return ADS.includes(n)?!!(p.period&&num(p.spend)>0&&p.report):(p.connected||(p.mode==='manual'&&p.rev&&p.shot))};
-const mOk=[
-  ()=>M.type&&M.age&&M.addr&&num(M.amount)>=1e8&&num(M.amount)<=5e9&&M.tenor&&mPct()>0&&mPct()<=100,
-  ()=>{const d=M.dir;const base=d.ktp&&d.name.trim()&&d.nik.replace(/\D/g,'').length===16&&d.dob&&d.gender&&num(d.phone)>=1e8&&d.npwp;return base&&(!company()||(M.pg.ktp&&num(M.pg.phone)>=1e8))},
-  ()=>M.sales.length>0&&[...M.sales,...M.ads].every(platOk),
-  ()=>{const l=M.legal;return l.npwpNo.replace(/\D/g,'').length>=15&&l.npwp&&l.nib&&(!company()||(l.akta&&l.sk))},
-  ()=>M.fin.bank&&M.fin.pl&&M.fin.bs];
-function openMca(){
-  M=blankM();mxResume=MCA_RESUME;MCA_RESUME=null;
-  if(mxResume&&mxResume.data)M=JSON.parse(JSON.stringify(mxResume.data));
-  else if(mxResume){M.type='company';M.age='2–5 years';M.addr={street:'Jl. Kemang Raya No. 12',city:'Mampang Prapatan, Jakarta Selatan',zip:'12730'};M.amount=(mxResume.amount).toLocaleString('id-ID');M.tenor=mxResume.tenor;M.margin='35';M.step=1}
-  if(MCA_PREFILL&&!mxResume){M.prefilled=true;Object.assign(M.dir,{ktp:fileOf(SAVED.ktp),name:'Dewi Lestari',nik:'3171045203900012',dob:'1990-03-12',gender:'female',npwp:fileOf(SAVED.npwpFile),read:true});M.legal.npwpNo=SAVED.npwp;M.legal.npwp=fileOf(SAVED.npwpFile);M.legal.nib=fileOf(SAVED.nibFile)}
-  MCA_PREFILL=false;mx.hidden=false;document.body.style.overflow='hidden';drawMx();
-}
+const AST=['Business','Request','Sales by channel','Channel commitments','People and documents','Check and submit'];
+const AMIN=50e6,AMAX=2e9,AMON=['Apr','May','Jun','Jul','Aug','Sep'];
+const ABIZ=['Fashion and apparel','Food and beverage','Beauty and personal care','Health','Electronics and gadgets','Home and living','Groceries','Hobbies, toys and baby','Automotive','Services','Other'];
+const ACH=['FLIK Checkout','Shopify','WooCommerce','Magento 1.0','Magento 2.0','Zalora','Tokopedia','TikTok Shop','Shopee','Lazada','Blibli','GoFood','GrabFood','FLIK QRIS'],AACC=[];
+const APUR=['Stock and inventory','Marketing','Equipment','Opening a new outlet','Other'];
+const DECL=['The channels, receiving accounts and sales figures are true and complete. No other channel or account receives our sales.','Channels marked Committed will settle into FLIK-controlled accounts by the dates given.','These commitments become conditions (Persyaratan) in FLIK\'s offering letter. Missing a date is a breach.'];
+let A=null;
+const aNum=v=>+String(v||'').replace(/\D/g,'')||0;
+const blankA=()=>({step:0,max:0,saved:null,done:null,
+  biz:{legal:'PT Aruna Studio Indonesia',brand:'Aruna Studio',field:'Fashion and apparel',fieldx:'',founded:'',mid:'FLK-MER-20931',contact:'Dewi Lestari',phone:'812-3456-7890'},pre:{legal:1,brand:1,field:1,contact:1,phone:1},
+  req:{amt:'',tenor:0,sched:'daily',pur:'',why:'',acct:AACC[0],obl:'no',obls:[{lender:'',owed:'',monthly:''}]},
+  ch:[],cm:{},dec:[false,false,false],consent:false,pic:null,ppl:[],docs:{cnpwp:1}});
+const aSample=()=>[{n:'FLIK Checkout',acct:'FLIK wallet',m:['182','176','195','204','221','236']},{n:'Shopee',acct:'',m:['96','102','99','110','118','121']},{n:'FLIK QRIS',acct:'FLIK wallet',m:['64','61','70','72','69','75'],split:['30','45','15','10']}];
+/* tier from total FLIK exposure after the placement; FLIK computes it, the page only shows the list */
+const aTier=()=>{const x=aNum(A.req.amt);return x>1e9?2:x>25e7?1:0};
+const aDocs=()=>{const t=aTier(),L=[['dirk','KTP and NPWP of each director and owner above 25%','person'],['cnpwp','Company NPWP'],['akta','Akta pendirian and amendments'],['sk','SK Kemenkumham'],['nib','NIB'],['bank6',t?'12 months of bank statements':'6 months of bank statements','multi'],['plat','Platform exports for channels that don\'t settle through FLIK','multi']];
+  if(t>=1)L.push(['fin','Internal financial statements']);if(t>=2){L.push(['fin12','12 months of financial statements, plus the year before']);L.push(['prof','Company profile'])}
+  L.push(['tax','Tax returns: SPT Tahunan PPh Badan, PPh Final, SPT Masa PPN, PB1 or PBJT','opt']);return L};
+const aDir=()=>A.ppl.some(p=>p.role!=='owner'&&p.name.trim());
+const aChGross=c=>c.m.reduce((a,b)=>a+aNum(b),0)/6*1e6;
+const aFdOk=v=>/^(0[1-9]|1[0-2])\/(19|20)\d\d$/.test(v||''),aYoung=()=>{const v=A.biz.founded;return aFdOk(v)&&(NOW-new Date(+v.slice(3),+v.slice(0,2)-1,1))/864e5<365};
+const aOk=[()=>{const b=A.biz;return!!(b.legal.trim()&&b.field&&(b.field!=='Other'||b.fieldx.trim())&&aFdOk(b.founded)&&b.contact.trim()&&aNum(b.phone)>=1e8)},
+  ()=>{const r=A.req,x=aNum(r.amt);return x>=AMIN&&x<=AMAX&&r.tenor&&r.pur&&(r.pur!=='Other'||r.why.trim())&&(r.obl==='no'||r.obls.every(o=>o.lender.trim()&&aNum(o.owed)&&aNum(o.monthly)))},
+  ()=>A.ch.length>0&&A.ch.every(c=>c.acct&&aMonthsIn(c)&&(!c.split||aSpSum(c)===100)),
+  ()=>A.ch.every(c=>{const m=A.cm[c.n]||{};if(!m.st)return false;if(m.st==='never')return true;const r=aNum(m.recv);return r>0&&r<=aChGross(c)&&(m.st!=='committed'||(m.from&&(m.from!=='date'||m.fromd)))}),
+  ()=>aDir(),
+  ()=>A.dec.every(Boolean)&&A.consent];
+const aSavedTx=()=>{const s=document.getElementById('mx-saved');if(s&&A.saved)s.textContent=`Saved ${String(A.saved.getHours()).padStart(2,'0')}:${String(A.saved.getMinutes()).padStart(2,'0')}`};
+const aSave=()=>{A.saved=new Date();aSavedTx()};
+const aCard=(t,inner,o={})=>`<section class="sx-card${o.cls?' '+o.cls:''}">${t?`<div class="sx-h">${t}</div>`:''}${inner}</section>`;
+const aFld=(p,l,o={})=>{const[g,k]=p.split('.'),v=A[g][k];return`<div class="sx-f${o.w?' cu-w2':''}"><label for="af-${k}">${l}${o.opt?' <span class="opt-l">(optional)</span>':''}</label>${o.pre||o.unit?`<div class="${o.pre?'pre':'unit'}">${o.pre?`<em>${o.pre}</em>`:''}`:''}<input id="af-${k}" data-af="${p}" ${o.type?`type="${o.type}"`:''} ${o.num?'inputmode="numeric"':''} ${o.ro?'readonly':''} value="${esc(v||'')}" placeholder="${o.ph||''}">${o.unit?`<em>${o.unit}</em>`:''}${o.pre||o.unit?'</div>':''}${o.hint?`<p class="hint"${o.hid?` id="${o.hid}"`:''}>${o.hint}</p>`:''}</div>`};
+const aSel=(p,l,opts,ph)=>{const[g,k]=p.split('.');return`<div class="sx-f"><label for="af-${k}">${l}</label><span class="sp-sw rf-sw"><select class="rf-sel" id="af-${k}" data-afs="${p}"><option value="">${ph}</option>${opts.map(o=>`<option ${A[g][k]===o?'selected':''}>${o}</option>`).join('')}</select></span></div>`};
+const aSeg=(p,opts)=>{const[g,k]=p.split('.');return`<div class="seg" role="radiogroup">${opts.map(([v,l])=>`<button role="radio" aria-checked="${A[g][k]===v}" class="${A[g][k]===v?'on':''}" data-aseg="${p}" data-v="${v}">${l}</button>`).join('')}</div>`};
+function aStep0(){const b=A.biz,young=aYoung();
+  return`<h2>Business</h2><p class="sx-lead">Your business details, copied from your FLIK profile. Changes here stay in this application.</p>
+  ${aCard('',`<div class="sx-g sx-g2" style="margin-top:0">${aFld('biz.legal','Legal name')}${aFld('biz.brand','Brand',{opt:1})}${aSel('biz.field','Business type',ABIZ,'Choose a business type')}${b.field==='Other'?aFld('biz.fieldx','Your business type'):''}${aFld('biz.founded','Founded',{num:1,ph:'MM/YYYY'})}</div><div class="sx-note" id="af-young" style="margin-top:12px" ${young?'':'hidden'}>${ic('help',16)}<span>Less than 12 months operating. You can still apply; FLIK looks at it in review.</span></div>`)}
+  ${aCard('Contact',`<div class="sx-g sx-g2" style="margin-top:0">${aFld('biz.contact','Name')}${aFld('biz.phone','Phone number',{pre:'+62',num:1})}</div><p class="hint">You add directors and owners in step 5.</p>`)}`}
+function aStep1(){const r=A.req,x=aNum(r.amt),bad=x&&(x<AMIN||x>AMAX);
+  return`<h2>Request</h2><p class="sx-lead">How much Uang Jaminan you'd like, and how you'll return it. The Biaya Platform is set after review.</p>
+  ${aCard('Uang Jaminan',`${aFld('req.amt','Amount',{pre:'Rp',num:1,ph:'',hint:bad?`Enter the amount in rupiah, between ${rp(AMIN)} and ${rp(AMAX)}.`:`Between ${rp(AMIN)} and ${rp(AMAX)}.`,hid:'af-amth'})}`)}
+  ${aCard('Tenor',`<div class="sx-slots" style="margin-top:0">${[30,60,90,120].map(t=>`<button class="${r.tenor===t?'on':''}" data-aten="${t}">${t} days</button>`).join('')}</div>`)}
+  ${aCard('Purpose',`<div class="sx-g" style="margin-top:0">${aSel('req.pur','What it\'s for',APUR,'Choose a purpose')}${r.pur==='Other'?aFld('req.why','Tell us more'):''}</div>`)}
+  ${aCard('Other obligations',`<p class="src" style="margin:0 0 10px">Do you have other financing outstanding with banks, platforms or others?</p>${aSeg('req.obl',[['no','No'],['yes','Yes']])}${r.obl==='yes'?`<div class="mc-obl">${r.obls.map((o,i)=>`<div class="mc-person"><div class="sx-h" style="margin:0 0 10px">Obligation ${i+1}${r.obls.length>1?`<button class="lnk" data-aobrm="${i}" style="margin-left:auto">Remove</button>`:''}</div><div class="sx-g sx-g2" style="margin-top:0">
+      <div class="sx-f"><label for="ob-l${i}">From</label><input id="ob-l${i}" data-aob="${i}" data-k="lender" value="${esc(o.lender)}"></div>
+      <div class="sx-f"><label for="ob-o${i}">Amount outstanding</label><div class="pre"><em>Rp</em><input id="ob-o${i}" data-aob="${i}" data-k="owed" inputmode="numeric" value="${esc(o.owed)}"></div></div>
+      <div class="sx-f"><label for="ob-m${i}">Monthly payment</label><div class="pre"><em>Rp</em><input id="ob-m${i}" data-aob="${i}" data-k="monthly" inputmode="numeric" value="${esc(o.monthly)}"></div></div></div></div>`).join('')}
+    <button class="btn btn-o" data-aobadd style="margin-top:14px">${ic('plus',15)}Add another obligation</button></div>`:''}`)}`}
+/* payment split for a channel with mixed payment types: opens from its average once the 6 months are filled */
+const MC_SPL=[['Cash','Paid in cash at the till'],['QRIS','Scanned with a QRIS code'],['Card','Debit or credit card on an EDC machine'],['Transfer','Bank transfer or virtual account']];
+const aSpSum=c=>(c.split||[]).reduce((a,b)=>a+(+b||0),0),aMonthsIn=c=>c.m.every(v=>String(v).trim()!==''&&!isNaN(+v));
+function mcSplitPanel(i){const c=A.ch[i],S=(c.split||['','','','']).slice(),avg=c.m.reduce((a,b)=>a+aNum(b),0)/6*1e6;
+  const tot=()=>S.reduce((a,b)=>a+(+b||0),0),amt=k=>+S[k]?`About ${rp(Math.round(avg*S[k]/100))} a month`:MC_SPL[k][1];
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('percent',15)}Payment split</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db pf-f"><h3 class="mc-dt">How customers paid on ${esc(c.n)}</h3><p class="src mc-dp">Split your average of ${rp(Math.round(avg))} a month by payment type, over the same 6 months. FLIK checks it against your bank statements.</p>
+    <div class="sx-g sx-g2">${MC_SPL.map(([l],k)=>`<div class="sx-f"><label for="sp-${k}">${l}</label><div class="unit"><input id="sp-${k}" data-sp="${k}" inputmode="numeric" maxlength="3" value="${esc(S[k])}"><em>%</em></div><p class="hint" id="sp-h${k}">${amt(k)}</p></div>`).join('')}</div>
+    <div class="mc-spt"><span>Total</span><span id="sp-t"></span></div></div>
+  <div class="mf"><button class="btn btn-o" data-dclose>Cancel</button><button class="btn btn-p" id="sp-go">Save split</button></div>`;
+  const close=()=>{drawer.oninput=null;closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx')};
+  const upd=()=>{const t=tot();document.getElementById('sp-t').innerHTML=t===100||!t?`<b>${t}%</b>`:`<b class="err">${t}%</b> <span class="err">· Make it 100%</span>`;document.getElementById('sp-go').disabled=t!==100};
+  drawer.oninput=e=>{const k=e.target.dataset.sp;if(k==null)return;let v=e.target.value.replace(/\D/g,'').slice(0,3);if(+v>100)v='100';e.target.value=v;S[k]=v;document.getElementById('sp-h'+k).textContent=amt(k);upd()};
+  drawer.querySelectorAll('[data-dclose]').forEach(b=>b.onclick=close);dscrim.onclick=close;
+  document.getElementById('sp-go').onclick=()=>{c.split=S;close();drawMx();aSave();toast(`Payment split saved for ${c.n}`)};
+  upd();drawer.classList.add('open','over-sx');dscrim.classList.add('open','over-sx');drawer.setAttribute('aria-hidden','false');setTimeout(()=>document.getElementById('sp-0')?.focus(),250)}
+const CH_LG={'Shopify':'shopify','WooCommerce':'woocommerce','Magento 1.0':'magento1','Magento 2.0':'magento2','Zalora':'zalora','Tokopedia':'tokopedia','TikTok Shop':'tiktok','Shopee':'shopee','Lazada':'lazada','Blibli':'blibli'};
+const chLogo=n=>CH_LG[n]?`<img class="plg" src="${IMG}platform/${CH_LG[n]}.png" alt="">`:n.startsWith('FLIK')?`<span class="plg mc-flg"><svg width="16" height="16" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M23.2088 17.4254C23.2088 13.1436 20.7668 11.9717 17.755 11.9717H12.1924V20.7969C12.1924 23.8087 13.5039 26.2507 17.6461 26.2507V17.4254H23.2088Z" fill="#F26324"/><path d="M26.442 9.00748C26.442 3.71863 24 3 20.9882 3H2.94434V20.7678C2.94434 23.7796 3.6806 26.2215 9.22868 26.2215V9.00748H26.4427H26.442Z" fill="#F26324"/></svg></span>`:`<span class="plg plg-i">${ic('store',14)}</span>`;
+/* FLIK channels settle into the FLIK wallet; other channels pay into one of the merchant's bank accounts, or a new one added here */
+const AFW='FLIK wallet',isFlikCh=n=>n.startsWith('FLIK'),aFw=()=>`<span class="mc-acc" data-tip="Sales through FLIK settle into your FLIK wallet">${chLogo('FLIK')}${AFW}</span>`;
+function mcBankPanel(i,onDone){const c=A.ch[i],B={bk:'',no:''};
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('bal',15)}Bank account</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db pf-f"><h3 class="mc-dt">Where ${esc(c.n)} pays you</h3><p class="src mc-dp">The bank account your ${esc(c.n)} sales land in today.</p>
+    <div class="sx-f"><label for="ab-bank">Bank</label><span class="sp-sw rf-sw"><select class="rf-sel" id="ab-bank"><option value="">Choose a bank</option>${RF_BANKS.map(b=>`<option value="${b[0]}">${b[1]}</option>`).join('')}</select></span></div>
+    <div class="sx-f" style="margin-top:14px"><label for="ab-no">Account number</label><input id="ab-no" class="num" inputmode="numeric" maxlength="16" autocomplete="off"></div></div>
+  <div class="mf"><button class="btn btn-o" data-dclose>Cancel</button><button class="btn btn-p" id="ab-go" disabled>Add account</button></div>`;
+  const g=id=>document.getElementById(id),go=g('ab-go'),upd=()=>{go.disabled=!(B.bk&&B.no.length>=8)};
+  const close=()=>{closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx');drawMx()};
+  g('ab-bank').onchange=e=>{B.bk=e.target.value;upd()};g('ab-no').oninput=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,16);e.target.value=v;B.no=v;upd()};
+  g('ab-no').onkeydown=e=>{if(e.key==='Enter'&&!go.disabled)go.click()};
+  drawer.querySelectorAll('[data-dclose]').forEach(b=>b.onclick=close);dscrim.onclick=close;
+  go.onclick=()=>{const lab=`${RF_BANKS.find(b=>b[0]===B.bk)[1]} •••• ${B.no.slice(-4)}`;if(!AACC.includes(lab))AACC.push(lab);c.acct=lab;aSave();close();toast(`${lab} added`)};
+  drawer.classList.add('open','over-sx');dscrim.classList.add('open','over-sx');drawer.setAttribute('aria-hidden','false');setTimeout(()=>g('ab-bank').focus(),250)}
+const aSpTx=sp=>!sp?'Must add up to 100%':sp===100?'Adds up to 100%':`Adds up to ${sp}%. Make it 100%.`;
+function aStep2(){const tot=i=>A.ch.reduce((a,c)=>a+aNum(c.m[i]),0),left=ACH.filter(n=>!A.ch.some(c=>c.n===n)),avg=v=>v.toFixed(1).replace('.',',');
+  return`<h2>Sales by channel</h2><p class="sx-lead">Gross sales for each of the last 6 months, for every channel you sell through, cash included. Figures are in Rp juta (jt).</p>
+  ${aCard('Upload your sales',`<button class="vf-up" data-aupl>${ic('upload',16)}<span>Choose an Excel or CSV file</span><span class="src" style="margin-left:auto">Last 6 months</span></button>
+    <p class="hint">Use the FLIK template, or fill in the table below. <button class="lnk" data-toast="Downloading flik-sales-template.xlsx">Download the template</button></p>`)}
+  ${aCard('Your channels',`${A.ch.length?`<div class="tbl-wrap"><table class="mc-st"><thead><tr><th>Channel</th>${AMON.map(m=>`<th>${m}</th>`).join('')}<th>Average</th><th>Receiving account</th><th></th></tr></thead><tbody>
+    ${A.ch.map((c,i)=>{const sp=c.split?c.split.reduce((a,b)=>a+(+b||0),0):0;return`<tr class="nohover"><td><span class="mc-chn">${chLogo(c.n)}<b>${esc(c.n)}</b></span></td>${c.m.map((v,j)=>`<td><label class="mc-jt"><input class="num" data-am="${i}.${j}" inputmode="decimal" value="${esc(v)}" aria-label="${esc(c.n)}, ${AMON[j]}, in Rp juta"><em>jt</em></label></td>`).join('')}<td class="num mc-avg">${c.split&&aMonthsIn(c)?`<button class="lnk num mc-avgl" data-asplit="${i}" data-tip="${aSpSum(c)===100?'Edit the payment split':'Add the payment split'}">${avg(c.m.reduce((a,b)=>a+aNum(b),0)/6)} jt</button>`:avg(c.m.reduce((a,b)=>a+aNum(b),0)/6)+' jt'}</td>
+      <td>${isFlikCh(c.n)?aFw():!c.acct?`<button class="btn btn-o mc-addacc" data-abank="${i}">${ic('plus',15)}Add bank account</button>`:`<span class="sp-sw rf-sw"><select class="rf-sel" data-aacc="${i}" aria-label="Receiving account for ${esc(c.n)}"><option value="">Choose an account</option>${AACC.map(o=>`<option ${c.acct===o?'selected':''}>${o}</option>`).join('')}<option value="__add">+ Add a bank account</option></select></span>`}</td><td><button class="ib" data-arm="${i}" aria-label="Remove ${esc(c.n)}" data-tip="Remove channel">${ic('x',14)}</button></td></tr>
+`}).join('')}
+    <tr class="nohover mc-tot"><td>Total</td>${AMON.map((_,j)=>`<td class="num">${tot(j).toLocaleString('id-ID')} jt</td>`).join('')}<td class="num">${avg(AMON.reduce((a,_,j)=>a+tot(j),0)/6)} jt</td><td colspan="2"></td></tr></tbody></table></div>${A.ch.filter(c=>c.split&&aMonthsIn(c)&&aSpSum(c)!==100).map(c=>`<p class="hint">Click the ${esc(c.n)} average to add how those sales were paid.</p>`).join('')}`:'<p class="src" style="margin:0">No channels yet. Add each channel you sell through.</p>'}
+    ${left.length?`<button class="btn btn-o mc-addch" data-aaddm>${ic('plus',15)}Add a channel</button>`:''}`)}`}
+const AFROM=[['before','Before the Uang Jaminan is paid out'],['on','When the Uang Jaminan is paid out'],['7','Within 7 days after it\'s paid out'],['30','Within 30 days after it\'s paid out'],['date','On a date I choose']];
+function aStep3(){return`<h2>Channel commitments</h2><p class="sx-lead">For each channel: where it settles, what you receive after fees, and whether it settles through FLIK.</p>
+  ${A.ch.map(c=>{const m=A.cm[c.n]=A.cm[c.n]||{prov:c.n,acct:c.acct,recv:'',st:'',from:''},fl=isFlikCh(c.n);
+    if(fl){m.st='live';m.acct=AFW;m.recv=String(Math.round(aChGross(c)*(1-(c.n==='FLIK QRIS'?.007:.02))/1000)*1000)}
+    const over=!fl&&m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);
+    return aCard(`<span class="mc-chn">${chLogo(c.n)}${esc(c.n)}</span>`,`<div class="sx-g sx-g2" style="margin-top:0"><div class="sx-f"><label>Target status</label>${fl?'<div class="mc-ro"><span class="st ok">Live</span></div>':`<div class="seg" role="radiogroup">${[['live','Live'],['committed','Committed'],['never','Never']].map(([v,l])=>`<button role="radio" aria-checked="${m.st===v}" class="${m.st===v?'on':''}" data-acst="${esc(c.n)}" data-v="${v}">${l}</button>`).join('')}</div>`}</div>
+      <div class="sx-f"><label>Settlement account</label>${fl?`<div class="mc-ro">${aFw()}</div>`:`<span class="sp-sw rf-sw"><select class="rf-sel" data-acm="${esc(c.n)}" data-k="acct">${AACC.map(o=>`<option ${m.acct===o?'selected':''}>${o}</option>`).join('')}</select></span>`}</div>
+      <div class="sx-f"><label>Average monthly amount received${!fl&&(m.st==='never'||!m.st)?' <span class="opt-l">(optional)</span>':''}</label>${fl?`<div class="mc-ro mc-rov num">${rp(aNum(m.recv))}</div>`:`<div class="pre"><em>Rp</em><input data-acm="${esc(c.n)}" data-k="recv" inputmode="numeric" value="${m.recv?aNum(m.recv).toLocaleString('id-ID'):''}"></div>`}<p class="hint${over?' err':''}">${fl?'From your FLIK settlements over the last 6 months, after FLIK\'s fees.':over?'Amount received can\'t be more than gross sales.':'What lands in your account each month after the platform\'s commission and fees. The average of the last 6 months.'}</p></div>
+      ${fl||m.st==='live'?'<div class="sx-f"><label>Settles through FLIK from</label><div class="mc-ro">Already settling through FLIK</div></div>':m.st==='committed'?`<div class="sx-f"><label for="af-from-${esc(c.n)}">Settles through FLIK from</label><span class="sp-sw rf-sw"><select class="rf-sel" id="af-from-${esc(c.n)}" data-acm="${esc(c.n)}" data-k="from"><option value="">Choose when</option>${AFROM.map(([v,l])=>`<option value="${v}" ${m.from===v?'selected':''}>${l}</option>`).join('')}</select></span>${m.from==='date'?`<input type="date" class="mc-fromd" data-acm="${esc(c.n)}" data-k="fromd" value="${m.fromd||''}" aria-label="Date">`:''}</div>`:''}</div>`)}).join('')}
+  ${aCard('Declarations',`${DECL.map((t,i)=>`<label class="ck mc-dec"><button class="cb${A.dec[i]?' on':''}" data-adec="${i}" role="checkbox" aria-checked="${A.dec[i]}">${A.dec[i]?ic('check',12,3):''}</button><span>${t}</span></label>`).join('')}<p class="hint">Logged with your name and the time.</p>`)}`}
+function aStep4(){const D=aDocs(),T=['Up to Rp250.000.000','Rp250.000.000 to Rp1.000.000.000','Above Rp1.000.000.000'][aTier()],c=A.biz.contact;
+  return`<h2>People and documents</h2><p class="sx-lead">Everyone who signs, and everything FLIK needs, in one go, so fewer requests after you apply.</p>
+  ${aCard('Directors and owners above 25%',`${A.pic===null&&!A.ppl.some(p=>p.pic)?`<div class="sx-note">${ic('help',16)}<span>Is ${esc(c)}, your contact, a director or an owner above 25%?</span><button class="lnk" data-apic="yes">Yes, add ${esc(c.split(' ')[0])}</button><button class="lnk" data-apic="no">No</button></div>`:''}
+    ${A.ppl.map((p,i)=>`<div class="mc-person"><div class="sx-g sx-g2" style="margin-top:0"><div class="sx-f"><label>Name</label><input data-app="${i}" data-k="name" value="${esc(p.name)}"></div>
+      <div class="sx-f"><label>Role</label><span class="sp-sw rf-sw"><select class="rf-sel" data-app="${i}" data-k="role">${[['director','Director'],['owner','Owner above 25%'],['both','Director and owner']].map(([v,l])=>`<option value="${v}" ${p.role===v?'selected':''}>${l}</option>`).join('')}</select></span></div>
+      ${p.role!=='director'?`<div class="sx-f"><label>Ownership</label><div class="unit"><input data-app="${i}" data-k="own" inputmode="numeric" value="${esc(p.own)}"><em>%</em></div></div>`:''}</div>
+      <div class="mc-files">${['ktp','npwp'].map(k=>p[k]?`<span class="mc-file">${ic('doc',14)}${p[k]}${p.pic?'<span class="mc-pre">From your profile</span>':''}<button class="ib" data-apf="${i}" data-k="${k}" data-x aria-label="Remove">${ic('x',12)}</button></span>`:`<button class="btn btn-o" data-apf="${i}" data-k="${k}">${ic('upload',15)}${k.toUpperCase()}</button>`).join('')}<button class="lnk" data-aprm="${i}" style="margin-left:auto">Remove</button></div></div>`).join('')}
+    <button class="btn btn-o" data-apadd>${ic('plus',15)}Add a person</button>${aDir()?'':'<p class="hint">Add at least one director.</p>'}<p class="hint">Each person here is also a personal guarantor at signing.</p>`)}
+  ${aCard('Documents',`<p class="src" style="margin:0 0 6px">The list for ${T}, set by FLIK from the amount and anything you already have with FLIK.</p>
+    ${D.map(([k,l,t])=>{const n=A.docs[k]||0,dk=k==='dirk';return`<div class="mc-doc"><span class="mc-dl">${ic('doc',15)}<span>${l}${t==='opt'?' <span class="opt-l">(optional)</span>':''}</span></span>${dk?`<span class="st ${A.ppl.length&&A.ppl.every(p=>p.ktp&&p.npwp)?'ok">Uploaded':'gr">Add above'}</span>`:`<span class="st ${n?'ok':'gr'}">${n?(t==='multi'?plural(n,'file'):'Uploaded'):t==='opt'?'Optional':'Required'}</span>${k==='cnpwp'&&n?'<span class="mc-pre">From your profile</span>':''}<button class="btn btn-o" data-adoc="${k}">${ic('upload',15)}${n&&t!=='multi'?'Replace':'Upload'}</button>`}</div>`}).join('')}
+    <div class="kpi-l" style="margin-top:14px">At signing</div><div class="mc-doc"><span class="mc-dl">${ic('doc',15)}<span>Personal guarantee and post-dated cheques or giro</span></span><span class="st pu">At signing</span></div>
+    <div class="kpi-l" style="margin-top:14px">FLIK handles</div><div class="mc-doc"><span class="mc-dl">${ic('check',15)}<span>Digital revenue data from FLIK${aTier()===2?'; site visit and management interview':''}</span></span></div>
+    <p class="hint">Missing items don't stop you applying. The FLIK team may ask for more documents after you apply.</p>`)}`}
+function aStep5(){const r=A.req,D=aDocs().filter(d=>d[2]!=='opt'&&d[0]!=='dirk'),up=D.filter(d=>A.docs[d[0]]).length,miss=[...DECL.map((_,i)=>A.dec[i]?null:'declaration '+(i+1)).filter(Boolean),A.consent?null:'data consent'].filter(Boolean);
+  const sec=(t,i,rows)=>`<section class="sx-card"><div class="sx-h">${t}<button class="lnk" data-ago="${i}" style="margin-left:auto">Edit</button></div><dl class="kv">${rows.map(x=>`<dt>${x[0]}</dt><dd>${x[1]}</dd>`).join('')}</dl></section>`;
+  return`<h2>Check and submit</h2><p class="sx-lead">Check everything once more. The FLIK team checks your documents within 1 working day.</p>
+  ${sec('Business',0,[['Legal name',esc(A.biz.legal)],['Business type',esc(A.biz.field==='Other'?A.biz.fieldx:A.biz.field)],['Founded',A.biz.founded||'—'],['Contact',`${esc(A.biz.contact)} · +62 ${A.biz.phone}`]])}
+  ${sec('Request',1,[['Uang Jaminan',rp(aNum(r.amt))],['Tenor',`${r.tenor} days`],['Purpose',esc(r.pur==='Other'?r.why:r.pur)],['Other obligations',r.obl==='yes'?r.obls.map(o=>`${esc(o.lender)} · ${rp(aNum(o.owed))} outstanding`).join('<br>'):'None']])}
+  ${sec('Sales by channel',2,[['Channels',A.ch.map(c=>esc(c.n)).join(', ')],['Average per month',`Rp${(A.ch.reduce((a,c)=>a+aChGross(c),0)).toLocaleString('id-ID')}`]])}
+  ${sec('Channel commitments',3,A.ch.map(c=>{const m=A.cm[c.n]||{};return[esc(c.n),`${{live:'Live',committed:'Committed',never:'Never'}[m.st]||'—'}${m.recv?` · ${rp(aNum(m.recv))} a month`:''}`]}).concat([['Declarations',A.dec.every(Boolean)?'All three given':`${A.dec.filter(Boolean).length} of 3 given`]]))}
+  ${sec('People and documents',4,[['People',A.ppl.map(p=>`${esc(p.name)} (${{director:'Director',owner:'Owner',both:'Director and owner'}[p.role]})`).join(', ')||'—'],['Documents',`${up} of ${D.length} uploaded`]])}
+  ${aCard('Consent',`<label class="ck mc-dec"><button class="cb${A.consent?' on':''}" data-acon role="checkbox" aria-checked="${A.consent}">${A.consent?ic('check',12,3):''}</button><span>I agree to my data being processed to assess this application, including a credit bureau check of the company, its directors and its owners.</span></label>`)}
+  <p class="hint" id="af-miss">${miss.length?`To submit, give the ${miss.join(', ')}.`:''}</p>`}
+function aDone(){return`<div class="sx-done"><div class="sx-ok"><i>${ic('check',18,2.6)}</i><b>Application submitted<span>${A.done} · ${rp(aNum(A.req.amt))} · ${A.req.tenor} days</span></b></div>
+  ${mcStepper(0)}<p class="sx-lead" style="margin-top:16px">We've got your application. The FLIK team checks your documents within 1 working day. We emailed you a confirmation.</p>
+  <div class="sx-row" style="margin-top:24px;justify-content:flex-end"><button class="btn btn-p" data-aback>Back to Cash Advance</button></div></div>`}
+function drawMx(){const st=A.step;
+  document.getElementById('mx-steps').innerHTML=A.done?'':AST.map((t,i)=>`${i?'<span class="stp-l"></span>':''}<button class="stp${i===st?' on':i<st||i<=A.max&&i!==st?' done':''}" data-ago="${i}" ${i<=A.max?'':'disabled'}><i>${i<st||(i<=A.max&&i!==st)?ic('check',11,3):i+1}</i><span>${t}</span></button>`).join('');
+  if(A.done){mxFoot.hidden=true;mxBody.innerHTML=`<div class="sx-in solo"><div class="sx-main">${aDone()}</div></div>`;return}
+  mxFoot.hidden=false;mxBody.innerHTML=`<div class="sx-in solo${st===2?' mc-wide':''}"><div class="sx-main">${[aStep0,aStep1,aStep2,aStep3,aStep4,aStep5][st]()}</div></div>`;
+  mxFoot.innerHTML=`${st?'<button class="btn btn-o" data-aprev>Back</button>':''}<span class="mc-saved src" id="mx-saved"></span><span class="sp"></span><button class="btn btn-o" data-aexit>Save and exit</button><button class="btn btn-p" id="mx-next" ${aOk[st]()?'':'disabled'}>${st===5?'Submit application':'Continue'}</button>`;aSavedTx()}
+const aRefresh=()=>{const n=document.getElementById('mx-next');if(n)n.disabled=!aOk[A.step]()};
+function openMca(){A=blankA();if(MC.app==='draft'){Object.assign(A,{step:2,max:2,ch:aSample().slice(0,2).map(c=>({...c,m:c.m.slice(0,4).concat(['',''])}))});Object.assign(A.req,{amt:'500.000.000',tenor:90,pur:'Stock and inventory'});A.biz.founded='03/2021'}
+  MC.app=null;mx.hidden=false;document.body.style.overflow='hidden';drawMx();aSave()}
 function closeMca(){mx.hidden=true;document.body.style.overflow=''}
-const card=(title,ok,inner,tip)=>`<section class="sx-card"><div class="sx-h">${title}${tip?`<span class="src" title="${tip}">${ic('help',14)}</span>`:''}</div>${inner}</section>`;
-const field=(path,label,ph,o={})=>{const v=getP(path)??'';return`<div class="sx-f">${label?`<label>${label}</label>`:''}<div class="${o.pre?'pre':o.unit?'unit':''}">${o.pre?`<em>${o.pre}</em>`:''}<input data-mp="${path}" value="${String(v).replace(/"/g,'&quot;')}" placeholder="${ph}" ${o.type?`type="${o.type}"`:''} ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`};
-function getP(p){return p.split('.').reduce((o,k)=>o==null?o:o[k],M)}
-function setP(p,v){const ks=p.split('.');let o=M;ks.slice(0,-1).forEach(k=>{o[k]=o[k]||{};o=o[k]});o[ks[ks.length-1]]=v}
-const upload=(path,label,fmt,name)=>{const f=getP(path);return f?`<div class="ie-cust mx-file"><span class="ie-av">${ic('doc',16)}</span><div><b>${f.n}</b><span>${f.s}</span></div><button class="ib" style="width:30px;height:30px" data-unf="${path}" aria-label="Remove ${label}">${ic('x',15)}</button></div>`
-  :`<div class="sx-drop mx-drop"><b>${label}</b>${fmt}<div class="sx-row" style="justify-content:center;margin-top:10px"><button class="btn btn-o" data-upf="${path}" data-fn="${name}">${ic('upload',15)}Upload file</button></div></div>`};
-function step0(){
-  const types=[['personal','Personal','You run the business in your own name'],['company','Company','A registered company (PT or CV)']];
-  return`<h2>Funding request</h2><p class="sx-lead">Tell us about your business and the funding you need.</p>
-  ${card('Business type',!!M.type,`<div class="sx-opts">${types.map(t=>`<button class="sx-opt${M.type===t[0]?' on':''}" data-mtype="${t[0]}"><span class="ic">${ic(t[0]==='company'?'wh':'user',18)}</span><div><b>${t[1]}</b><span>${t[2]}</span></div></button>`).join('')}</div>`)}
-  ${card('Business age',!!M.age,`<select class="sx-sel" data-msel="age" style="margin-top:0"><option value="">Choose business age</option>${AGES.map(a=>`<option ${M.age===a?'selected':''}>${a}</option>`).join('')}</select>`)}
-  ${card(company()?'Company address':'Business address',!!M.addr,`<button class="sx-addr${M.addr?' set':''}" data-maddr>${M.addr?`${M.addr.street}, ${M.addr.city} ${M.addr.zip}`:'Set the address'}<span class="chev">${ic('chev',16)}</span></button>`)}
-  ${card('Requested amount',num(M.amount)>=1e8&&num(M.amount)<=5e9,field('amount','','Enter an amount',{pre:'Rp',num:1})+`<p class="src mx-range${num(M.amount)>0&&(num(M.amount)<1e8||num(M.amount)>5e9)?' warn':''}" style="margin-top:6px">From Rp100.000.000 to Rp5.000.000.000</p>`,'The total funding your business needs')}
-  ${card('Tenor',!!M.tenor,`<div class="sx-slots" style="margin-top:0">${TENORS.map(t=>`<button class="${M.tenor===t?'on':''}" data-mten="${t}">${t} months</button>`).join('')}</div>`,'How long you would like to repay the funding')}
-  ${card('Estimated gross margin',mPct()>0,field('margin','','For example 30',{unit:'%'}),'Your estimated profit as a share of total sales')}`}
-function step1(){const d=M.dir,W=who();
-  return`<h2>Management</h2><p class="sx-lead">${company()?'The director and a personal guarantee':'The business owner'}. Upload the KTP and we fill in the details for you to check.</p>
-  ${M.prefilled?`<div class="sx-note">${ic('check',15,2.4)}Filled in from your saved business data. Check it before you continue.</div>`:''}
-  ${card(`${W}'s KTP`,!!d.ktp,upload('dir.ktp','KTP photo','JPG or PNG, up to 5 MB','ktp-'+W.toLowerCase()+'.jpg'))}
-  ${d.ktp?card(`${W}'s details`,!!(d.name.trim()&&d.nik.replace(/\D/g,'').length===16&&d.dob&&d.gender),`${d.read?`<div class="sx-note" style="margin-bottom:4px">${ic('warn',15)}Read from the KTP. Check each field.</div>`:''}<div class="sx-g sx-g2">${field('dir.name','Full name','As on the KTP')}${field('dir.nik','NIK','16 digits',{num:1})}</div><div class="sx-g sx-g2">${field('dir.dob','Date of birth','',{type:'date'})}<div class="sx-f"><label>Gender</label><div class="sx-slots" style="margin-top:0">${[['female','Female'],['male','Male']].map(g=>`<button class="${d.gender===g[0]?'on':''}" data-mgen="${g[0]}">${g[1]}</button>`).join('')}</div></div></div>`):''}
-  ${card(`${W}'s phone`,num(d.phone)>=1e8,field('dir.phone','WhatsApp number','812-3456-7890',{pre:'+62',num:1}))}
-  ${card(`${W}'s NPWP`,!!d.npwp,upload('dir.npwp','NPWP photo','JPG or PNG, up to 5 MB','npwp-'+W.toLowerCase()+'.jpg'))}
-  ${company()?card('Personal guarantee',!!(M.pg.ktp&&num(M.pg.phone)>=1e8),upload('pg.ktp','Guarantor KTP photo','JPG or PNG, up to 5 MB','ktp-guarantor.jpg')+`<div class="sx-g">${field('pg.phone','Guarantor WhatsApp number','812-3456-7890',{pre:'+62',num:1})}</div>`,'The owner, CEO or a commissioner who guarantees the funding'):''}`}
-function platCard(n){const p=M.plat[n]=M.plat[n]||{},isAd=ADS.includes(n),ok=platOk(n),open=M.open[n]!==false;
-  let inner='';
-  if(isAd)inner=`<div class="sx-g sx-g2"><div class="sx-f"><label>Data period</label><select class="sx-sel" style="margin-top:0" data-mplat="${n}" data-k="period"><option value="">Choose a period</option>${['Last 3 months','Last 6 months','Last 12 months'].map(o=>`<option ${p.period===o?'selected':''}>${o}</option>`).join('')}</select></div>${field('plat.'+n+'.spend','Average monthly ad spend','5.000.000',{pre:'Rp',num:1})}</div><div class="sx-g sx-g2">${upload('plat.'+n+'.report','Ads report','XLS or CSV, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-report.xlsx')}${upload('plat.'+n+'.shot','Report screenshot (optional)','JPG or PNG, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-report.png')}</div>`;
-  else{inner=`<div class="sx-opts" style="margin-top:14px"><button class="sx-opt${p.mode==='connect'?' on':''}" data-mmode="connect" data-mn="${n}"><span class="ic">${ic('link',18)}</span><div><b>Connect your store</b><span>Sync sales automatically</span></div></button><button class="sx-opt${p.mode==='manual'?' on':''}" data-mmode="manual" data-mn="${n}"><span class="ic">${ic('upload',18)}</span><div><b>Upload manually</b><span>A revenue file and a screenshot</span></div></button></div>`;
-    if(p.mode==='connect')inner+=p.connected?`<div class="ie-cust mx-file"><span class="ie-av">${ic('check',16,2.4)}</span><div><b>Connected</b><span>${p.email}</span></div><button class="btn btn-o" data-mdisc="${n}">Disconnect</button></div>`:`<div class="sx-row" style="margin-top:12px"><button class="btn btn-p" data-mconn="${n}">${ic('link',15)}Connect ${n}</button></div>`;
-    if(p.mode==='manual')inner+=`<div class="sx-g sx-g2">${upload('plat.'+n+'.rev','Revenue, last 6 months','XLS or CSV, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.xlsx')}${upload('plat.'+n+'.shot','Revenue screenshot','JPG or PNG, up to 5 MB',n.toLowerCase().replace(/\W+/g,'-')+'-revenue.png')}</div>`}
-  return`<div class="sx-ship${open?' open':''}"><button class="sx-sh" data-mtog="${n}"><span class="mx-pf">${platLg(n)}<b>${n}</b></span>${p.connected?`<span class="st pu">Connected</span>`:''}<span class="chev">${ic('chev',16)}</span></button><div class="sx-sb">${inner}</div></div>`}
-function step2(){const pills=(list,key)=>`<div class="sx-slots">${list.map(n=>`<button class="${M[key].includes(n)?'on':''}" data-mpl="${n}" data-key="${key}">${platLg(n,'plg plg-sm')}${n}</button>`).join('')}</div>`;
-  return`<h2>Platforms and data</h2><p class="sx-lead">Where you sell and advertise. Connect a store or upload its revenue, so we can assess your sales.</p>
-  ${card('Sales platforms',M.sales.length>0,`<p class="src">Choose every platform you sell on.</p>${pills(SALES,'sales')}`)}
-  ${card('Marketing platforms',true,`<p class="src">Optional. Choose the ad platforms you use.</p>${pills(ADS,'ads')}`)}
-  ${[...M.sales,...M.ads].length?`<section style="margin-top:24px"><div class="sx-h">Data for each platform</div>${[...M.sales,...M.ads].map(platCard).join('')}</section>`:''}`}
-function step3(){const l=M.legal;
-  return`<h2>Legal documents</h2><p class="sx-lead">${company()?'Your company registration documents.':'Your business registration documents.'} PDF only, up to 10 MB each.</p>
-  ${card(company()?'Company NPWP':'NPWP',l.npwpNo.replace(/\D/g,'').length>=15&&!!l.npwp,`<div class="sx-g" style="margin-top:0">${field('legal.npwpNo','NPWP number','00.000.000.0-000.000',{num:1})}</div>`+upload('legal.npwp','NPWP document','PDF, up to 10 MB','npwp.pdf'))}
-  ${card('NIB',!!l.nib,upload('legal.nib','NIB document','PDF, up to 10 MB','nib.pdf'),'Business identification number from OSS')}
-  ${company()?card('Deed of establishment and amendments',!!l.akta,upload('legal.akta','Akta pendirian and perubahan','PDF, up to 10 MB','akta.pdf')):''}
-  ${company()?card('SK Kemenkumham',!!l.sk,upload('legal.sk','Ministry of Law decree','PDF, up to 10 MB','sk-kemenkumham.pdf')):''}`}
-function step4(){const f=M.fin;
-  return`<h2>Financial documents</h2><p class="sx-lead">PDF only, up to 10 MB each.</p>
-  ${card('Bank statements',!!f.bank,upload('fin.bank','Bank statements, last 6 months','PDF, up to 10 MB','bank-statements.pdf'))}
-  ${card('Profit and loss statement',!!f.pl,upload('fin.pl','Profit and loss statement','PDF, up to 10 MB','profit-and-loss.pdf'))}
-  ${card('Balance sheet',!!f.bs,upload('fin.bs','Balance sheet','PDF, up to 10 MB','balance-sheet.pdf'))}`}
-function mxDone(){const d=M.done;return`<div class="sx-done"><div class="sx-ok"><i>${ic('check',18,2.6)}</i><b>Application submitted<span>Funding ${d.id} · ${rp(d.amount)} · ${d.tenor} months</span></b><button class="btn btn-o" data-mcopy="${d.id}">${ic('copy',15)}Copy ID</button></div>
-  <div class="sx-next"><div><span class="ic">${ic('doc',19)}</span><b>We're verifying your documents</b><span>The FLIK team checks your application and contacts you on WhatsApp. Follow the status in Merchant Cash Advance.</span></div><div><span class="ic">${ic('chat',19)}</span><b>Questions?</b><span>Contact customer service on WhatsApp, or email support@flik.co.id.</span></div></div>
-  <div class="sx-row" style="margin-top:24px;justify-content:flex-end"><button class="btn btn-o" data-toast="Opens customer service on WhatsApp">Contact customer service</button><button class="btn btn-p" data-mback>Back to Merchant Cash Advance</button></div></div>`}
-function drawMx(){
-  const st=M.step;
-  document.getElementById('mx-steps').innerHTML=M.done?'':MSTEPS.map((t,i)=>`${i?'<span class="stp-l"></span>':''}<span class="stp${i===st?' on':i<st?' done':''}"><i>${i<st?ic('check',11,3):i+1}</i><span>${t}</span></span>`).join('');
-  if(M.done){mxFoot.hidden=true;mxBody.innerHTML=mxDone();return}
-  mxFoot.hidden=false;
-  mxBody.innerHTML=`<div class="sx-in solo"><div class="sx-main">${[step0,step1,step2,step3,step4][st]()}</div></div>`;
-  mxFoot.innerHTML=`${st?'<button class="btn btn-o" data-mprev>Back</button>':''}<span class="sp"></span><button class="btn btn-p" id="mx-next" ${mOk[st]()?'':'disabled'}>${st===4?'Submit application':'Continue'}</button>`;
-}
-const mxRefresh=()=>{document.getElementById('mx-next').disabled=!mOk[M.step]()};
-mxBody.addEventListener('input',e=>{const t=e.target;if(!t.dataset.mp)return;let v=t.value;
-  if(/amount|phone|spend/.test(t.dataset.mp)){const n=num(v);v=n?(t.dataset.mp.includes('phone')?String(n):n.toLocaleString('id-ID')):'';t.value=v}
-  setP(t.dataset.mp,v);mxRefresh();syncTicks()});
-/* Update the amount range warning in place while typing (a full redraw would swallow the next click) */
-function syncTicks(){
-  const amt=num(M.amount),rg=mxBody.querySelector('.mx-range');if(rg)rg.classList.toggle('warn',amt>0&&(amt<1e8||amt>5e9))}
-mxBody.addEventListener('change',e=>{const t=e.target;if(t.dataset.msel){M[t.dataset.msel]=t.value;drawMx()}else if(t.dataset.mplat){M.plat[t.dataset.mplat][t.dataset.k]=t.value;drawMx()}else if(t.dataset.mp){setP(t.dataset.mp,t.value);mxRefresh();syncTicks()}});
-mxBody.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;const y=mxBody.scrollTop;
-  if(d.mtype)M.type=d.mtype;
-  else if(d.mten)M.tenor=+d.mten;
-  else if(d.mgen)M.dir.gender=d.mgen;
-  else if('maddr' in d){mAddr();return}
-  else if(d.upf){setP(d.upf,fileOf(d.fn));if(d.upf==='dir.ktp'&&!M.dir.name)Object.assign(M.dir,{name:'Dewi Lestari',nik:'3171045203900012',dob:'1990-03-12',gender:'female',read:true});toast(`${d.fn} uploaded`)}
-  else if(d.unf){setP(d.unf,null);if(d.unf==='dir.ktp')Object.assign(M.dir,{name:'',nik:'',dob:'',gender:'',read:false})}
-  else if(d.mpl){const arr=M[d.key];const i=arr.indexOf(d.mpl);i<0?arr.push(d.mpl):arr.splice(i,1)}
-  else if(d.mtog)M.open[d.mtog]=M.open[d.mtog]===false;
-  else if(d.mmode){M.plat[d.mn].mode=d.mmode}
-  else if(d.mconn){mConnect(d.mconn);return}
-  else if(d.mdisc){Object.assign(M.plat[d.mdisc],{connected:false,email:''})}
-  else if(d.mcopy){navigator.clipboard&&navigator.clipboard.writeText(d.mcopy).catch(()=>{});toast(`${d.mcopy} copied`);return}
-  else if('mback' in d){location.hash='merchant-cash-advance';return}
-  else return;
-  drawMx();mxBody.scrollTop=y});
-function mAddr(){const a=M.addr||{street:'',city:'',zip:''};
-  modal.innerHTML=`<div class="mh"><h3>${company()?'Company':'Business'} address</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><div class="fld"><label for="ma1">Street address</label><input id="ma1" value="${a.street}" placeholder="Street, building, number"></div><div class="fld"><label for="ma2">District and city</label><input id="ma2" value="${a.city}" placeholder="e.g. Kebayoran Baru, Jakarta Selatan"></div><div class="fld"><label for="ma3">Postal code</label><input id="ma3" value="${a.zip}" inputmode="numeric" placeholder="12160"></div></div>
-  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="masave" disabled>Save address</button></div>`;
-  mscrim.classList.add('open');const v=()=>[1,2,3].map(n=>document.getElementById('ma'+n).value.trim());const b=document.getElementById('masave');
-  const chk=()=>{const [s1,c1,z]=v();b.disabled=!(s1&&c1&&/^\d{5}$/.test(z))};chk();modal.oninput=chk;
-  b.onclick=()=>{const [s1,c1,z]=v();M.addr={street:s1,city:c1,zip:z};modal.oninput=null;closeModal();drawMx()};document.getElementById('ma1').focus()}
-function mConnect(n){
-  modal.innerHTML=`<div class="mh"><h3>Connect ${n}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><div class="fld"><label for="mc1">Store account email</label><input id="mc1" placeholder="name@yourstore.com" autocomplete="off"></div><div class="sx-note" style="margin:0">${ic('warn',15)}Sign in to your ${n} account in this browser first.</div></div>
-  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="mcgo" disabled>Connect</button></div>`;
-  mscrim.classList.add('open');const i=document.getElementById('mc1'),b=document.getElementById('mcgo');
-  modal.oninput=()=>{b.disabled=!/^\S+@\S+\.\S+$/.test(i.value.trim())};
-  b.onclick=()=>{Object.assign(M.plat[n],{connected:true,email:i.value.trim()});modal.oninput=null;closeModal();toast(`${n} connected`);drawMx()};i.focus()}
-mxFoot.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
-  if('mprev' in t.dataset){M.step--;drawMx();mxBody.scrollTop=0;return}
-  if(t.id!=='mx-next'||t.disabled)return;
-  if(M.step<4){M.step++;drawMx();mxBody.scrollTop=0;return}
-  modal.innerHTML=`<div class="mh"><h3>Agree to the credit check</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><p style="color:var(--muted)">To continue, read and agree to the terms for the credit score check through CLIK.</p><button class="ie-chk" id="mcag"><span class="cb"></span>I have read and agree to the <a href="#" data-toast="Opens the Terms and Conditions">Terms and Conditions</a> and the <a href="#" data-toast="Opens the Privacy Policy">Privacy Policy</a>.</button></div>
-  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="mcsub" disabled>Submit application</button></div>`;
-  mscrim.classList.add('open');let agreed=false;const ag=document.getElementById('mcag'),sb=document.getElementById('mcsub');
-  ag.onclick=e=>{if(e.target.closest('a'))return;agreed=!agreed;ag.querySelector('.cb').outerHTML=`<span class="cb${agreed?' on':''}">${agreed?ic('check',12,3):''}</span>`;sb.disabled=!agreed};
-  sb.onclick=()=>{closeModal();const id=mxResume?mxResume.id:mcaNo();if(mxResume)MCA.splice(MCA.indexOf(mxResume),1);
-    MCA.unshift({id,st:'review',amount:num(M.amount),tenor:M.tenor,left:null,applied:new Date(NOW.getTime()+60000),created:true});
-    M.done={id,amount:num(M.amount),tenor:M.tenor};mxResume=null;drawMx();mxBody.scrollTop=0}});
-document.getElementById('mx-close').onclick=()=>{
-  if(!M.done&&(M.type||num(M.amount))){const data=JSON.parse(JSON.stringify(M));
-    if(mxResume){mxResume.data=data;mxResume.amount=num(M.amount)||mxResume.amount;mxResume.tenor=M.tenor||mxResume.tenor}
-    else MCA.unshift({id:mcaNo(),st:'draft',amount:num(M.amount),tenor:M.tenor,left:null,applied:new Date(NOW.getTime()+60000),created:true,data});
-    toast('Saved. Continue any time from Merchant Cash Advance.')}
-  location.hash='merchant-cash-advance'};
-/* Merchant Cash Advance art: funding hub wired to what it pays for (row 1) and how it is repaid (row 2) */
-(()=>{const x=c=>16+c*54,y=r=>r?150:94;
-  const r1=[['pkg',0],['store',1],['cart',2],['tx',3],['chart',4]].map(([n,c])=>`<div class="es-t" style="left:${x(c)}px;top:${y(0)}px">${ic(n,19,1.7)}</div>`);
-  const r2=[['wallet',.5],['clock',1.5],['doc',2.5],['check',3.5]].map(([n,c])=>`<div class="es-t" style="left:${x(c)}px;top:${y(1)}px">${ic(n,19,1.7)}</div>`);
-  document.getElementById('es-art-mca').innerHTML=`<svg class="wire" width="360" height="210"><path d="M62 43H84M104 43H137Q145 43 145 51V94"/></svg><div class="es-t hub">${ic('coins',22,1.8)}</div><div class="es-node">${ic('bolt',11,2)}</div>`+r1.join('')+r2.join('');
-})();
+const aExit=()=>{if(!A.done&&(A.max>0||aNum(A.req.amt))){MC.st='draft';toast('Saved as a draft. Continue any time from Cash Advance.')}location.hash='merchant-cash-advance'};
+document.getElementById('mx-close').onclick=aExit;
+mxBody.addEventListener('input',e=>{const t=e.target,d=t.dataset;
+  if(d.af){const[g,k]=d.af.split('.');let v=t.value;if(['amt','owed','monthly'].includes(k)){const n=aNum(v);v=n?n.toLocaleString('id-ID'):'';t.value=v}
+    if(k==='phone')v=v.replace(/[^\d-]/g,'');if(k==='founded'){const n=v.replace(/\D/g,'').slice(0,6);v=n.length>2?n.slice(0,2)+'/'+n.slice(2):n;t.value=v}A[g][k]=v;if(k==='founded'){const y=document.getElementById('af-young');if(y)y.hidden=!aYoung()}
+    if(k==='amt'){const x=aNum(v),h=document.getElementById('af-amth');if(h){const bad=x&&(x<AMIN||x>AMAX);h.textContent=bad?`Enter the amount in rupiah, between ${rp(AMIN)} and ${rp(AMAX)}.`:`Between ${rp(AMIN)} and ${rp(AMAX)}.`;h.classList.toggle('err',!!bad)}}}
+  else if(d.am){const[i,j]=d.am.split('.').map(Number);A.ch[i].m[j]=t.value.replace(/[^\d.,]/g,'').replace(',','.');}
+  else if(d.asp){const[i,k]=d.asp.split('.').map(Number);A.ch[i].split[k]=t.value.replace(/\D/g,'');const sp=A.ch[i].split.reduce((a,b)=>a+(+b||0),0),el=document.getElementById('mc-sp-'+i);if(el){el.textContent=aSpTx(sp);el.classList.toggle('err',!!sp&&sp!==100)}}
+  else if(d.acm){const m=A.cm[d.acm];if(d.k==='recv'){const n=aNum(t.value);t.value=n?n.toLocaleString('id-ID'):'';m.recv=String(n||'')}else m[d.k]=t.value;if(d.k==='recv'){const c=A.ch.find(x=>x.n===d.acm),h=t.closest('.sx-f').querySelector('.hint'),over=m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);h.classList.toggle('err',over);h.textContent=over?'Amount received can\'t be more than gross sales.':'What lands in your account each month after the platform\'s commission and fees. The average of the last 6 months.'}}
+  else if(d.aob){const o=A.req.obls[+d.aob];let v=t.value;if(d.k!=='lender'){const n=aNum(v);v=n?n.toLocaleString('id-ID'):'';t.value=v}o[d.k]=v}
+  else if(d.app){A.ppl[+d.app][d.k]=d.k==='own'?t.value.replace(/\D/g,''):t.value}
+  else return;aSave();aRefresh()});
+mxBody.addEventListener('change',e=>{const t=e.target,d=t.dataset;
+  if(d.afs){const[g,k]=d.afs.split('.');A[g][k]=t.value;drawMx()}else if(d.aacc){if(t.value==='__add'){t.value=A.ch[+d.aacc].acct;mcBankPanel(+d.aacc);return}A.ch[+d.aacc].acct=t.value;aRefresh()}
+  else if('aadd' in d&&t.value){A.ch.push({n:t.value,acct:'',m:['','','','','',''],split:t.value==='FLIK QRIS'?['','','','']:null});drawMx()}
+  else if(d.acm&&d.k!=='recv'){A.cm[d.acm][d.k]=t.value;if(d.k==='from')drawMx();else aRefresh()}else if(d.app&&d.k==='role'){A.ppl[+d.app].role=t.value;drawMx()}else if(d.am){drawMx();return}else return;aSave()});
+mxBody.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset,y=mxBody.scrollTop;
+  if(d.aten)A.req.tenor=+d.aten;
+  else if(d.aseg){const[g,k]=d.aseg.split('.');A[g][k]=d.v}
+  else if('aupl' in d){const go=()=>{A.ch=aSample();drawMx();aSave();toast('Sales filled in from your template. Check the figures.')};
+    if(A.ch.some(c=>c.m.some(v=>v!==''))){modal.innerHTML=`<div class="mh"><h3>Replace the table?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p class="bk-mp">The figures from your file replace what's in the table now.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="au-go">Replace</button></div>`;modal.classList.add('md');mscrim.classList.add('open');document.getElementById('au-go').onclick=()=>{closeModal();go()}}else go();return}
+  else if(d.asplit!=null){mcSplitPanel(+d.asplit);return}
+  else if(d.abank!=null){mcBankPanel(+d.abank);return}
+  else if('aaddm' in d){e.stopPropagation();if(pop.classList.contains('open')&&popFor===b){closePop();return}popFor=b;
+    const add=n=>{A.ch.push({n,acct:isFlikCh(n)?'FLIK wallet':'',m:['','','','','',''],split:n==='FLIK QRIS'?['','','','']:null});closePop();drawMx();aSave()};
+    const menu=()=>{pop.innerHTML=`<div class="menu mc-chm"><h6>Add a channel</h6>${ACH.filter(n=>!A.ch.some(c=>c.n===n)).map(n=>`<button class="opt" data-chn="${esc(n)}">${chLogo(n)}${esc(n)}</button>`).join('')}<button class="opt" data-choth><span class="plg plg-i">${ic('plus',14)}</span>Other</button></div>`;
+      pop.querySelectorAll('[data-chn]').forEach(x=>x.onclick=ev=>{ev.stopPropagation();add(x.dataset.chn)});
+      pop.querySelector('[data-choth]').onclick=ev=>{ev.stopPropagation();other()}};
+    const other=()=>{pop.innerHTML=`<div class="menu mc-chm"><h6>Other channel</h6><div class="mc-oth"><input id="mc-oth" placeholder="e.g. Instagram, your own website" aria-label="Channel name" autocomplete="off"><button class="btn btn-p" id="mc-oth-go" disabled>Add</button></div><p class="hint" id="mc-oth-h"></p></div>`;
+      const inp=document.getElementById('mc-oth'),go=document.getElementById('mc-oth-go'),h=document.getElementById('mc-oth-h');
+      const ok=()=>{const v=inp.value.trim(),dup=v&&A.ch.some(c=>c.n.toLowerCase()===v.toLowerCase());h.textContent=dup?'You already added this channel.':'';go.disabled=!v||dup;return!go.disabled};
+      inp.oninput=ok;inp.onkeydown=ev=>{if(ev.key==='Enter'&&ok())add(inp.value.trim());if(ev.key==='Escape')closePop()};go.onclick=ev=>{ev.stopPropagation();if(ok())add(inp.value.trim())};place();setTimeout(()=>inp.focus(),0)};
+    const place=()=>{placePop(b,false);const r=b.getBoundingClientRect();if(r.bottom+6+pop.offsetHeight>innerHeight-8&&r.top>pop.offsetHeight+14)pop.style.top=(r.top-6-pop.offsetHeight+scrollY)+'px'};
+    menu();place();return}
+  else if(d.arm){const c=A.ch.splice(+d.arm,1)[0];delete A.cm[c.n]}
+  else if(d.acst){A.cm[d.acst].st=d.v}
+  else if(d.adec){A.dec[+d.adec]=!A.dec[+d.adec]}
+  else if('acon' in d){A.consent=!A.consent}
+  else if(d.apic){A.pic=d.apic;if(d.apic==='yes')A.ppl.unshift({name:A.biz.contact,role:'director',own:'',ktp:'ktp-dewi-lestari.jpg',npwp:'npwp-dewi-lestari.jpg',pic:1})}
+  else if('apadd' in d)A.ppl.push({name:'',role:'director',own:'',ktp:'',npwp:''});
+  else if(d.aprm)A.ppl.splice(+d.aprm,1);
+  else if('aobadd' in d)A.req.obls.push({lender:'',owed:'',monthly:''});
+  else if(d.aobrm)A.req.obls.splice(+d.aobrm,1);
+  else if(d.apf){const p=A.ppl[+d.apf];p[d.k]='x' in d?'':`${d.k}-${(p.name||'person').toLowerCase().replace(/\W+/g,'-')}.jpg`;if('x' in d)p.pic=0}
+  else if(d.adoc){const t=(aDocs().find(x=>x[0]===d.adoc)||[])[2];A.docs[d.adoc]=t==='multi'?(A.docs[d.adoc]||0)+1:1;toast('File uploaded')}
+  else if(d.ago!=null&&b.closest('.sx-main')){A.step=+d.ago}
+  else if('aback' in d){MC.st='review';location.hash='merchant-cash-advance';return}
+  else return;aSave();drawMx();aSave();mxBody.scrollTop=y});
+document.getElementById('mx-steps').addEventListener('click',e=>{const b=e.target.closest('[data-ago]');if(!b||b.disabled)return;A.step=+b.dataset.ago;drawMx();mxBody.scrollTop=0});
+mxFoot.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if('aprev' in b.dataset){A.step--;drawMx();mxBody.scrollTop=0;return}
+  if('aexit' in b.dataset){aExit();return}
+  if(b.id==='mx-next'&&!b.disabled){if(A.step<5){A.step++;A.max=Math.max(A.max,A.step);drawMx();mxBody.scrollTop=0;return}
+    A.done='FLIKCM-2026-0043';MC.st='review';drawMx();mxBody.scrollTop=0;toast(`Application ${A.done} submitted`)}});
+
 
 /* ===== Balances: ledger (every number on the page is summed from these lines) ===== */
 const LD=(d,h,m)=>new Date(2026,9,d,h,m);
@@ -4708,7 +4884,7 @@ function renderBal(){const v=bv();
   body.innerHTML=rows.length?rows.map(l=>{const open=bopen===l.i;
     let x='';if(open){
       x=`<tr class="bl-x"><td colspan="${dtN(K)}"><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl>
-      ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{pg:'Opens the payment processing rate',flik:'Opens your FLIK agreement',fin:'Opens '+MCA_ID+' in Merchant Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
+      ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{pg:'Opens the payment processing rate',flik:'Opens your FLIK agreement',fin:'Opens '+MCA_ID+' in Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
       <div class="bl-acts"><button class="btn btn-o" ${/^(Refund|Dispute) ID$/.test(l.ref[0])?`data-goto="#transactions/${l.ref[1]}"`:`data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}"`}>${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
     return`<tr data-bl="${l.i}" class="${open?'open':''}">${dtCells(K,l)}</tr>${x}`}).join('')
     :`<tr><td colspan="${dtN(K)}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${none[0]}</b>${none[1]}</div></td></tr>`;
@@ -4793,7 +4969,7 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
   drawer.classList.add('open');dscrim.classList.add('open');drawer.querySelector('[data-dclose]').onclick=closeDetail};
 
 /* ===== Simple router: #home / #transactions ===== */
-const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Merchant Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog'],mon:['monitoring','Monitoring'],cr:['check-rate','Check rate'],ana:['shipping/analytics','Shipping analytics']};
+const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog'],mon:['monitoring','Monitoring'],cr:['check-rate','Check rate'],ana:['shipping/analytics','Shipping analytics']};
 const hashView=()=>location.hash==='#invoices/create'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
