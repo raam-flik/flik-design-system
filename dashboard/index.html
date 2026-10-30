@@ -2004,7 +2004,62 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 .steps button.stp{background:none;border:0;font:inherit;padding:0;cursor:pointer;color:inherit}.steps button.stp:disabled{cursor:default}
 .mc-tw{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.mc-tw .vf-up{width:auto}
 .mc-st td{height:auto;padding:6px 4px}.mc-st td input{width:68px;height:34px;border-radius:8px;border:0;box-shadow:var(--sh);padding:0 10px;text-align:left;font:inherit;font-size:13.5px;background:var(--surface)}.mc-st td input:focus{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-st th{white-space:nowrap}.mc-st td.mc-avg{color:var(--ink);font-weight:500}
-.mc-st .rf-sw{min-width:150px}.mc-st th:nth-child(n+2):nth-child(-n+7){width:96px;min-width:96px}.mc-st .mc-jt{display:flex;align-items:center;gap:4px;height:34px;min-width:64px;padding:0 10px;border-radius:8px;box-shadow:var(--sh);background:var(--surface);cursor:text}.mc-st .mc-jt:focus-within{box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-st .mc-jt input{flex:1;width:0;min-width:0;height:auto;padding:0;border:0;box-shadow:none;background:none}.mc-st .mc-jt input:focus{box-shadow:none}.mc-jt em{font-style:normal;font-size:12.5px;color:var(--muted)}.mc-chn{display:flex;align-items:center;gap:8px;white-space:nowrap}.mc-flg{background:var(--surface);box-shadow:var(--sh)}.mc-acc{display:inline-flex;align-items:center;gap:8px;height:34px;font-size:13.5px;color:var(--ink);white-space:nowrap}#mx .mc-ro{display:flex;align-items:center;min-height:36px}#mx .mc-fromd{margin-top:8px;width:100%}#mx .mc-rov{font-size:14px;font-weight:600;color:var(--ink)}.mc-acc .plg{width:20px;height:20px;border-radius:5px}.mc-addacc{white-space:nowrap}.mc-chm{max-height:340px;overflow-y:auto;min-width:240px}.mc-chm .opt{gap:10px}.mc-oth{display:flex;gap:8px;padding:4px 6px 6px}.mc-oth input{flex:1;min-width:0;height:36px;border-radius:8px;border:0;box-shadow:var(--sh);padding:0 10px;font:inherit;font-size:13.5px}.mc-oth input:focus{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-oth .hint{margin:0 6px 6px}.mc-st tr.mc-tot td{font-weight:600;color:var(--ink);border-top:1px solid var(--line)}
+.mc-st .rf-sw{min-width:150px}.mc-st th:nth-child(n+2):nth-child(-n+7){width:96px;min-width:96px}.mc-st .mc-jt{display:flex;align-items:center;gap:4px;height:34px;min-width:64px;padding:0 10px;border-radius:8px;box-shadow:var(--sh);background:var(--surface);cursor:text}.mc-st .mc-jt:focus-within{box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-st .mc-jt input{flex:1;width:0;min-width:0;height:auto;padding:0;border:0;box-shadow:none;background:none}.mc-st .mc-jt input:focus{box-shadow:none}.mc-jt em{font-style:normal;font-size:12.5px;color:var(--muted)}.mc-chn{display:flex;align-items:center;gap:8px;white-space:nowrap}.mc-flg{background:var(--surface);box-shadow:var(--sh)}.mc-acc{display:inline-flex;align-items:center;gap:8px;height:34px;font-size:13.5px;color:var(--ink);white-space:nowrap}#mx .mc-ro{display:flex;align-items:center;min-height:36px}#mx .mc-when{display:grid;grid-template-columns:64px minmax(0,1fr) minmax(0,1.6fr);gap:8px;margin-top:8px}#mx .mc-when input{text-align:left}/* Settlement flow (step 4): the landing page's product-preview pattern in the app: numbered tabs with a progress line, the brand ribbon, a floating card, count-ups */
+.mc-sfc{padding:0;overflow:hidden}
+.sf-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.sf-tabs button{position:relative;height:48px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 10px;font-size:13.5px;color:var(--muted);transition:color .2s,background .2s}
+.sf-tabs button+button{border-left:1px solid var(--line)}
+.sf-tabs button:hover{color:var(--ink)}
+.sf-tabs button:focus-visible{outline:none;box-shadow:inset 0 0 0 2px rgba(106,75,255,.4)}
+.sf-tabs button.on{color:var(--ink);background:var(--hover)}
+.sf-tabs .n{font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+.sf-tabs button.on .n{color:var(--primary)}
+.sf-tabs .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sf-tabs i{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--primary)}
+.sf-tabs button.on i{animation:sf-fill 4.5s linear forwards}
+.sf-tabs button.done i{width:100%;background:var(--primary-soft)}
+.sf.paused .sf-tabs button.on i{animation-play-state:paused}
+.sf-stage{position:relative;padding:24px;overflow:hidden;background:var(--hover)}
+.sf-row{position:relative;display:flex;align-items:center;max-width:880px;margin:0 auto}
+.sf-card{position:relative;background:#fff;border-radius:12px;box-shadow:var(--pop);padding:12px 14px;display:flex;align-items:center;gap:10px;transition:opacity .35s,transform .35s,box-shadow .35s;flex:none}
+.sf-card>div>span{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.sf-card b{display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap}
+.sf-acc{flex-direction:column;align-items:stretch;gap:3px;width:232px;padding:14px 16px;animation:sf-bob 6s ease-in-out infinite}
+.sf-acch{display:flex;align-items:center;gap:8px}.sf-acch b{font-size:14px}
+.sf-own{margin-left:auto;opacity:0;transform:scale(.85);transition:opacity .35s,transform .35s}
+.sf.s1 .sf-own,.sf.s2 .sf-own{opacity:1;transform:none}
+.sf-holder{font-size:12.5px;color:var(--text);margin-top:6px}
+.sf-acc .sf-bal{font-size:22px;letter-spacing:-.3px}
+.sf-note{font-size:12px;color:var(--muted)}
+.sf.s0 .sf-ch,.sf.s1 .sf-acc,.sf.s2 .sf-out .sf-card{box-shadow:0 0 0 2px var(--primary),var(--pop)}
+.sf.s0 .sf-acc{opacity:.6}
+.sf-ln{position:relative;flex:1;min-width:28px;height:0;border-top:2px dashed var(--line-2);margin:0 6px}
+.sf-ln i{position:absolute;top:-6px;left:0;width:10px;height:10px;border-radius:50%;background:var(--primary);opacity:0}
+.sf-ln i:nth-child(2){animation-delay:.45s!important}.sf-ln i:nth-child(3){animation-delay:.9s!important}
+.sf.s0 .sf-l1 i,.sf.s1 .sf-l1 i,.sf.s2 .sf-l2 i,.sf.s2 .sf-l3 i{animation:sf-x 1.35s linear infinite}
+.sf-l3 i{background:var(--ink);width:12px;height:12px;top:-7px}
+.sf-split{flex:1;min-width:28px;display:grid;gap:46px}.sf-split .sf-ln{margin:0 6px}
+.sf-out{display:grid;gap:12px;flex:none}
+.sf-out .sf-card{opacity:0;transform:translateX(-10px)}
+.sf.s2 .sf-out .sf-card{opacity:1;transform:none}.sf.s2 .sf-keep{transition-delay:.15s}
+.sf-cap{margin:0;padding:12px 20px 14px;border-top:1px solid var(--line);font-size:13.5px;color:var(--text);min-height:46px}
+.sf-cap.in{animation:sf-in .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes sf-fill{to{width:100%}}
+@keyframes sf-bob{50%{transform:translateY(-6px)}}
+@keyframes sf-in{from{opacity:0;transform:translateY(6px)}}
+@keyframes sf-x{0%{left:0;opacity:0}15%,85%{opacity:1}100%{left:calc(100% - 10px);opacity:0}}
+@keyframes sf-y{0%{top:0;opacity:0}15%,85%{opacity:1}100%{top:calc(100% - 10px);opacity:0}}
+@media (max-width:760px){.sf-tabs button:not(.on) .t{display:none}
+  .sf-stage{padding:20px 16px}.sf-row{flex-direction:column;align-items:stretch}
+  .sf-card{align-self:center}.sf-acc{width:100%;max-width:280px}
+  .sf-ln{flex:none;width:0;height:30px;min-width:0;border-top:0;border-left:2px dashed var(--line-2);margin:4px auto}
+  .sf-ln i{left:-6px;top:0}.sf.s0 .sf-l1 i,.sf.s1 .sf-l1 i,.sf.s2 .sf-l2 i,.sf.s2 .sf-l3 i{animation-name:sf-y}.sf-l3 i{left:-7px}
+  .sf-split{display:flex;justify-content:space-around;gap:0;min-width:0}.sf-out{grid-template-columns:repeat(2,minmax(0,1fr))}.sf-out .sf-card{align-self:stretch}}
+@media (prefers-reduced-motion:reduce){.sf *,.sf{animation:none!important}.sf-tabs button.on i{width:100%}}
+
+.mc-hst{margin-left:auto}.mc-kv{grid-template-columns:150px minmax(0,1fr);margin:0}.mc-kv dd{display:grid;gap:2px;justify-items:start}.mc-kv dd .src{font-size:12.5px}.mc-kv .mc-acc{height:auto}@media (max-width:600px){.mc-kv{grid-template-columns:minmax(0,1fr);gap:2px}.mc-kv dd{margin-bottom:10px}.mc-kv .mc-acc{white-space:normal}}.mc-kv .plg{width:20px;height:20px;border-radius:5px}.mc-kv+.mc-cg{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.sx-f+.mc-kv{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.mc-pb{display:inline-flex;align-items:center;gap:4px}.mc-pbq{display:inline-flex;color:var(--muted);cursor:help;border-radius:50%}.mc-pbq:hover{color:var(--ink)}.mc-pbq:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.tip-lg{display:flex;align-items:center;gap:8px}.tip-lg img{width:28px;height:28px;border-radius:6px;background:#fff;object-fit:contain;flex:none}
+.mc-how{margin:0;padding:0 0 0 20px;display:grid;gap:8px;font-size:13.5px;line-height:1.5;color:var(--text)}.mc-how b{color:var(--ink);font-weight:600}#mx .mc-rov{font-size:14px;font-weight:600;color:var(--ink)}.mc-acc .plg{width:20px;height:20px;border-radius:5px}.mc-addacc{white-space:nowrap}.mc-chm{max-height:340px;overflow-y:auto;min-width:240px}.mc-chm .opt{gap:10px}.mc-oth{display:flex;gap:8px;padding:4px 6px 6px}.mc-oth input{flex:1;min-width:0;height:36px;border-radius:8px;border:0;box-shadow:var(--sh);padding:0 10px;font:inherit;font-size:13.5px}.mc-oth input:focus{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-oth .hint{margin:0 6px 6px}.mc-st tr.mc-tot td{font-weight:600;color:var(--ink);border-top:1px solid var(--line)}
 .mc-split td{padding-top:0}.mc-st tr.mc-skr td{height:51px}.mc-aigo{margin-top:12px}.mc-fmb{margin-top:14px}.mc-ail{display:grid;gap:8px}.mc-ailr{display:flex;align-items:center;gap:8px}.mc-ailn{width:20px;flex:none;font-size:12.5px;color:var(--muted);text-align:right}.mc-ailr input{flex:1;min-width:0;height:36px;border:0;border-radius:8px;box-shadow:var(--sh);padding:0 10px;font:inherit;font-size:13.5px;background:var(--surface)}.mc-ailr input:focus{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-ailr .ib[hidden]{display:inline-flex;visibility:hidden}.mc-ailadd{display:inline-flex;align-items:center;gap:6px;justify-self:start;font-size:13.5px;margin-left:28px}#mx .mc-ail .hint{margin:0 0 0 28px}.mc-ail+.mc-aigo{margin-left:28px}#mx .sx-f textarea{min-height:76px;line-height:1.5}#mx .vf-up:disabled{cursor:default;color:var(--muted);border-color:var(--line-2)}.mc-st tr.mc-tot td{height:51px;vertical-align:middle}.mc-st .mc-avgl{font:inherit;font-weight:600;color:var(--primary);text-decoration:underline dotted;text-underline-offset:3px}.mc-dt{font-size:16px;font-weight:600;color:var(--ink);margin:0 0 6px}.mc-dp{margin:0 0 16px;font-size:13.5px;line-height:1.5}.mc-spt{display:flex;justify-content:space-between;margin-top:18px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--text)}.mc-spt b{color:var(--ink);font-weight:600}.mc-spt .err{color:var(--bad-tx)}.mc-st tr.mc-hasp td{border-bottom:0}.mc-st td input{width:100%;min-width:64px}.mc-split td{vertical-align:middle}.mc-split td.src{line-height:34px;white-space:nowrap}.mc-split .mc-spi{display:flex;width:100%;min-width:64px;gap:4px;padding:0 8px;font-size:12px}.mc-st .mc-split .mc-spi input{flex:1;width:0;min-width:14px;text-align:right}.mc-sp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mc-spi{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 10px;border-radius:8px;box-shadow:var(--sh);background:var(--surface);font-size:12.5px;color:var(--muted);cursor:text}.mc-spi:focus-within{box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-st .mc-spi input{width:28px;height:auto;padding:0;border:0;box-shadow:none;background:none;text-align:right;font-size:13.5px;color:var(--ink)}.mc-st .mc-spi input:focus{box-shadow:none}.mc-spi em{font-style:normal}.mc-sp-t{margin-left:8px}.mc-split label{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}.mc-sp-t{font-size:12.5px;color:var(--muted)}.mc-sp-t.err{color:var(--bad-tx)}.mc-split .unit input{width:52px}
 #mx .vf-up{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;border:1.5px dashed var(--line-2);color:var(--text);width:100%;text-align:left;font-size:13.5px}#mx .vf-up:hover{border-color:var(--primary);color:var(--primary)}#mx .vf-up:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-unit{margin-left:auto;font-size:12.5px;font-weight:400}.mc-addch{margin-top:14px}
 .mc-dec{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--text);line-height:1.5;cursor:pointer}.sx-h+.mc-dec{border-top:0;padding-top:0}.mc-dec+.hint{margin-top:4px}.mc-dec .cb{margin-top:2px;flex:none}
@@ -4389,7 +4444,7 @@ function bUpload(){X.uploading={p:0,tx:LD_STEPS[0][1]};drawSx();toTable();
   setTimeout(tick,120)}
 /* tooltip for longer hints: floats above the element, so scroll areas never clip it */
 const gtip=document.createElement('div');gtip.className='gtip';gtip.setAttribute('role','tooltip');gtip.hidden=true;document.body.appendChild(gtip);
-const tipShow=el=>{gtip.textContent=el.dataset.tip;gtip.hidden=false;const r=el.getBoundingClientRect(),w=gtip.offsetWidth,h=gtip.offsetHeight;let x=Math.min(Math.max(8,r.left+r.width/2-w/2),innerWidth-w-8),y=r.top-h-8;if(y<8)y=r.bottom+8;gtip.style.left=x+'px';gtip.style.top=y+'px'};
+const tipShow=el=>{if(el.dataset.tipImg)gtip.innerHTML=`<span class="tip-lg"><img src="${el.dataset.tipImg}" alt="">${esc(el.dataset.tip)}</span>`;else gtip.textContent=el.dataset.tip;gtip.hidden=false;const r=el.getBoundingClientRect(),w=gtip.offsetWidth,h=gtip.offsetHeight;let x=Math.min(Math.max(8,r.left+r.width/2-w/2),innerWidth-w-8),y=r.top-h-8;if(y<8)y=r.bottom+8;gtip.style.left=x+'px';gtip.style.top=y+'px'};
 const tipHide=()=>{gtip.hidden=true};
 document.addEventListener('mouseover',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');el?tipShow(el):tipHide()});
 document.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');el?tipShow(el):tipHide()});
@@ -4599,7 +4654,7 @@ const aFdOk=v=>/^(0[1-9]|1[0-2])\/(19|20)\d\d$/.test(v||''),aYoung=()=>{const v=
 const aOk=[()=>{const b=A.biz;return!!(b.legal.trim()&&b.field&&(b.field!=='Other'||b.fieldx.trim())&&aFdOk(b.founded)&&b.contact.trim()&&aNum(b.phone)>=1e8)},
   ()=>{const r=A.req,x=aNum(r.amt);return x>=AMIN&&x<=AMAX&&r.tenor&&r.pur&&(r.pur!=='Other'||r.why.trim())&&(r.obl==='no'||r.obls.every(o=>o.lender.trim()&&aNum(o.owed)&&aNum(o.monthly)))},
   ()=>!A.loading&&A.ch.length>0&&A.ch.every(c=>c.acct&&aMonthsIn(c)&&(!c.split||aSpSum(c)===100)),
-  ()=>A.ch.every(c=>{const m=A.cm[c.n]||{};if(!m.st)return false;if(m.st==='never')return true;const r=aNum(m.recv);return r>0&&r<=aChGross(c)&&(m.st!=='committed'||(m.from&&(m.from!=='date'||m.fromd)))}),
+  ()=>A.ch.every(c=>{const m=A.cm[c.n]||{};if(!m.st)return false;if(isFlikCh(c.n))return aWhenOk(m);if(m.st==='never')return true;const r=aNum(m.recv);return r>0&&r<=aChGross(c)&&(m.st!=='committed'||aWhenOk(m))}),
   ()=>aDir(),
   ()=>A.dec.every(Boolean)&&A.consent];
 const aSavedTx=()=>{const s=document.getElementById('mx-saved');if(s&&A.saved)s.textContent=`Saved ${String(A.saved.getHours()).padStart(2,'0')}:${String(A.saved.getMinutes()).padStart(2,'0')}`};
@@ -4671,15 +4726,58 @@ function aStep2(){const tot=i=>A.ch.reduce((a,c)=>a+aMo(c.m[i]),0),left=ACH.filt
 `}).join('')}
     <tr class="nohover mc-tot"><td>Total</td>${AMON.map((_,j)=>`<td class="num">${tot(j).toLocaleString('id-ID')} jt</td>`).join('')}<td class="num">${avg(AMON.reduce((a,_,j)=>a+tot(j),0)/6)} jt</td><td colspan="2"></td></tr></tbody></table></div>${A.ch.filter(c=>c.split&&aMonthsIn(c)&&aSpSum(c)!==100).map(c=>`<p class="hint">Click the ${esc(c.n)} average to add how those sales were paid.</p>`).join('')}`:'<p class="src" style="margin:0">No channels yet. Add each channel you sell through.</p>'}
     ${left.length&&!A.loading?`<button class="btn btn-o mc-addch" data-aaddm>${ic('plus',15)}Add a channel</button>`:''}`)}`}
-const AFROM=[['before','Before the Uang Jaminan is paid out'],['on','When the Uang Jaminan is paid out'],['7','Within 7 days after it\'s paid out'],['30','Within 30 days after it\'s paid out'],['date','On a date I choose']];
-function aStep3(){return`<h2>Channel commitments</h2><p class="sx-lead">For each channel: where it settles, what you receive after fees, and whether it settles through FLIK.</p>
-  ${A.ch.map(c=>{const m=A.cm[c.n]=A.cm[c.n]||{prov:c.n,acct:c.acct,recv:'',st:'',from:''},fl=isFlikCh(c.n);
-    if(fl){m.st='live';m.acct=AFW;m.recv=String(Math.round(aChGross(c)*(1-(c.n==='FLIK QRIS'?.007:.02))/1000)*1000)}
-    const over=!fl&&m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);
-    return aCard(`<span class="mc-chn">${chLogo(c.n)}${esc(c.n)}</span>`,`<div class="sx-g sx-g2" style="margin-top:0"><div class="sx-f"><label>Target status</label>${fl?'<div class="mc-ro"><span class="st ok">Live</span></div>':`<div class="seg" role="radiogroup">${[['live','Live'],['committed','Committed'],['never','Never']].map(([v,l])=>`<button role="radio" aria-checked="${m.st===v}" class="${m.st===v?'on':''}" data-acst="${esc(c.n)}" data-v="${v}">${l}</button>`).join('')}</div>`}</div>
-      <div class="sx-f"><label>Settlement account</label>${fl?`<div class="mc-ro">${aFw()}</div>`:`<span class="sp-sw rf-sw"><select class="rf-sel" data-acm="${esc(c.n)}" data-k="acct">${AACC.map(o=>`<option ${m.acct===o?'selected':''}>${o}</option>`).join('')}</select></span>`}</div>
-      <div class="sx-f"><label>Average monthly amount received${!fl&&(m.st==='never'||!m.st)?' <span class="opt-l">(optional)</span>':''}</label>${fl?`<div class="mc-ro mc-rov num">${rp(aNum(m.recv))}</div>`:`<div class="pre"><em>Rp</em><input data-acm="${esc(c.n)}" data-k="recv" inputmode="numeric" value="${m.recv?aNum(m.recv).toLocaleString('id-ID'):''}"></div>`}<p class="hint${over?' err':''}">${fl?'From your FLIK settlements over the last 6 months, after FLIK\'s fees.':over?'Amount received can\'t be more than gross sales.':'What lands in your account each month after the platform\'s commission and fees. The average of the last 6 months.'}</p></div>
-      ${fl||m.st==='live'?'<div class="sx-f"><label>Settles through FLIK from</label><div class="mc-ro">Already settling through FLIK</div></div>':m.st==='committed'?`<div class="sx-f"><label for="af-from-${esc(c.n)}">Settles through FLIK from</label><span class="sp-sw rf-sw"><select class="rf-sel" id="af-from-${esc(c.n)}" data-acm="${esc(c.n)}" data-k="from"><option value="">Choose when</option>${AFROM.map(([v,l])=>`<option value="${v}" ${m.from===v?'selected':''}>${l}</option>`).join('')}</select></span>${m.from==='date'?`<input type="date" class="mc-fromd" data-acm="${esc(c.n)}" data-k="fromd" value="${m.fromd||''}" aria-label="Date">`:''}</div>`:''}</div>`)}).join('')}
+/* when a channel starts settling for returns: relative to the payout, never a fixed date */
+const AWHEN=[['b1w','1 week before the Uang Jaminan is paid out'],['on','The day the Uang Jaminan is paid out'],['a1w','1 week after the Uang Jaminan is paid out'],['a2w','2 weeks after the Uang Jaminan is paid out'],['custom','Other timing']];
+const aWhenOk=m=>!!m.from&&(m.from!=='custom'||+m.wn>0);
+const aWhen=(c,m,l)=>{const n=esc(c.n);return`<div class="sx-f"><label for="af-from-${n}">${l}</label><span class="sp-sw rf-sw"><select class="rf-sel" id="af-from-${n}" data-acm="${n}" data-k="from"><option value="">Choose when</option>${AWHEN.map(([v,t])=>`<option value="${v}" ${m.from===v?'selected':''}>${t}</option>`).join('')}</select></span>
+  ${m.from==='custom'?`<div class="mc-when"><input data-acm="${n}" data-k="wn" inputmode="numeric" maxlength="2" value="${esc(m.wn||'')}" aria-label="How many"><span class="sp-sw rf-sw"><select class="rf-sel" data-acm="${n}" data-k="wu" aria-label="Days or weeks"><option value="days" ${m.wu!=='weeks'?'selected':''}>days</option><option value="weeks" ${m.wu==='weeks'?'selected':''}>weeks</option></select></span><span class="sp-sw rf-sw"><select class="rf-sel" data-acm="${n}" data-k="wd" aria-label="Before or after"><option value="after" ${m.wd!=='before'?'selected':''}>after the payout</option><option value="before" ${m.wd==='before'?'selected':''}>before the payout</option></select></span></div>`:''}</div>`};
+/* channels outside FLIK settle into a Hijra Bank account in the merchant's own name; FLIK takes the agreed daily amount from it */
+const HIJRA='Partner bank',aBankT=()=>`<span class="plg plg-i">${ic('bal',13)}</span>`,aPb=t=>`<span class="mc-pb">${t}<span class="mc-pbq" tabindex="0" role="img" aria-label="Which partner bank: Hijra Bank" data-tip="Hijra Bank, FLIK's partner bank" data-tip-img="${IMG}payment/hijra.png">${ic('help',13)}</span></span>`;
+const aHijra=(c,m)=>m.st==='live'?`<span class="mc-acc">${aBankT()}${aPb(HIJRA+' •••• 7731')}</span><span class="src">In your name, from your last Cash Advance</span>`
+  :m.st==='committed'?`<span class="mc-acc">${aBankT()}${aPb(HIJRA+' account in your name')}</span><span class="src">You open it after review</span>`
+  :`<span class="mc-acc">${aBankT()}${esc(c.acct||'Your current bank account')}</span><span class="src">Stays as it is today</span>`;
+const ASTH={live:c=>`${c} already pays into your partner bank account.`,committed:c=>`First Cash Advance: ${c} moves its payouts to a partner bank account in your name.`,never:c=>`${c} stays on your current bank account and isn't used for returns.`};
+/* Settlement flow: plays like the Cash Advance landing page's product preview (numbered tabs with a progress line, the brand ribbon, a floating card, count-ups). Shows that the money lands in the merchant's own account and FLIK only takes the agreed share */
+const SF_DUR=4500,SF_RM=matchMedia('(prefers-reduced-motion: reduce)').matches,mcSf={i:0,t:0,hover:false};
+const SF_TABS=['Your sales are paid out','Into your own account','FLIK takes its share'];
+const SF_CAP=[(c)=>`${c} pays out your sales as usual.`,(c,b)=>`The money lands in a partner bank account in ${b}'s name. It's your account, not FLIK's.`,()=>'Each day FLIK takes only the agreed share for your returns. The rest stays in your account to use as normal.'];
+function aSettleFlow(c){const pay=Math.max(1e6,Math.round((aChGross(c)||12e7)/30/1e5)*1e5),cut=Math.round(pay*.1/1e3)*1e3,b=esc(A.biz.legal),i=mcSf.i;
+  return`<section class="sx-card mc-sfc"><div class="sf s${i}" id="mc-sf" data-pay="${pay}" data-cut="${cut}" data-ch="${esc(c.n)}">
+  <div class="sf-tabs" role="tablist" aria-label="How your ${esc(c.n)} money settles">${SF_TABS.map((t,k)=>`<button role="tab" aria-selected="${k===i}" class="${k===i?'on':k<i?'done':''}" data-sfi="${k}"><span class="n">0${k+1}</span><span class="t">${t}</span><i></i></button>`).join('')}</div>
+  <div class="sf-stage">
+    <div class="sf-row">
+      <div class="sf-card sf-ch">${chLogo(c.n)}<div><span>${esc(c.n)} payout</span><b class="num" data-sfn="pay">Rp0</b></div></div>
+      <div class="sf-ln sf-l1" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="sf-card sf-acc"><div class="sf-acch">${aBankT()}<b>${aPb(HIJRA)}</b><span class="st ok sf-own">In your name</span></div><span class="sf-holder">${b}</span><b class="num sf-bal" data-sfn="bal">Rp0</b><span class="sf-note">Your account, not FLIK's</span></div>
+      <div class="sf-split" aria-hidden="true"><div class="sf-ln sf-l2"><i></i></div><div class="sf-ln sf-l3"><i></i><i></i><i></i></div></div>
+      <div class="sf-out"><div class="sf-card sf-flik">${chLogo('FLIK')}<div><span>To FLIK, agreed share</span><b class="num" data-sfn="cut">Rp0</b></div></div>
+        <div class="sf-card sf-keep"><span class="plg plg-i">${ic('wallet',14)}</span><div><span>Stays yours</span><b class="num" data-sfn="keep">Rp0</b></div></div></div>
+    </div></div>
+  <p class="sf-cap" id="sf-cap" aria-live="polite">${SF_CAP[i](esc(c.n),b)}</p></div></section>`}
+function mcSfStep(){const el=document.getElementById('mc-sf');if(!el)return;const i=mcSf.i;el.className=`sf s${i}${mcSf.hover?' paused':''}`;
+  el.querySelectorAll('[data-sfi]').forEach((x,k)=>{x.className=k===i?'on':k<i?'done':'';x.setAttribute('aria-selected',k===i)});
+  const cap=document.getElementById('sf-cap');cap.textContent=SF_CAP[i](el.dataset.ch,A.biz.legal);cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');mcSfRun()}
+function mcSfRun(){clearTimeout(mcSf.t);const el=document.getElementById('mc-sf');if(!el)return;const pay=+el.dataset.pay,cut=+el.dataset.cut,i=mcSf.i;
+  if(!el.dataset.bound){el.dataset.bound=1;el.onmouseenter=()=>{mcSf.hover=true;el.classList.add('paused')};el.onmouseleave=()=>{mcSf.hover=false;el.classList.remove('paused')}}
+  const N=k=>el.querySelector(`[data-sfn="${k}"]`),set=(k,v)=>{N(k).textContent=rp(v)};
+  const count=(k,a,z)=>{const e=N(k);if(SF_RM){set(k,z);return}const t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/900);e.textContent=rp(Math.round((a+(z-a)*(1-Math.pow(1-p,3)))/1e3)*1e3);if(p<1&&e.isConnected)requestAnimationFrame(f)};requestAnimationFrame(f)};
+  if(i===0){count('pay',0,pay);set('bal',0);set('cut',0);set('keep',0)}
+  if(i===1){set('pay',pay);count('bal',0,pay);set('cut',0);set('keep',0)}
+  if(i===2){set('pay',pay);count('bal',pay,pay-cut);count('cut',0,cut);count('keep',0,pay-cut)}
+  if(SF_RM)return;
+  const go=()=>{if(!document.getElementById('mc-sf'))return;if(mcSf.hover){mcSf.t=setTimeout(go,400);return}mcSf.i=(mcSf.i+1)%3;mcSfStep()};
+  mcSf.t=setTimeout(go,SF_DUR)}
+function aStep3(){const out=A.ch.filter(c=>!isFlikCh(c.n));return`<h2>Channel commitments</h2><p class="sx-lead">For each channel: whether it settles for your returns, where, and from when.</p>
+  ${out.length?aSettleFlow(out[0]):''}
+  ${A.ch.map(c=>{const m=A.cm[c.n]=A.cm[c.n]||{prov:c.n,acct:c.acct,recv:'',st:'',from:''},fl=isFlikCh(c.n),n=esc(c.n);
+    if(fl){m.st='live';m.acct=AFW;m.recv=String(Math.round(aChGross(c)*(1-(c.n==='FLIK QRIS'?.007:.02))/1000)*1000);if(!m.from)m.from='on'}
+    const head=`<span class="mc-chn">${chLogo(c.n)}${n}</span>${fl?'<span class="st ok mc-hst">Live</span>':''}`;
+    if(fl)return aCard(head,`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aFw()}</dd><dt>Received a month</dt><dd><b class="num">${rp(aNum(m.recv))}</b><span class="src">From your FLIK settlements, last 6 months, after fees</span></dd></dl>
+      <div class="sx-g sx-g2 mc-cg">${aWhen(c,m,'Settles through FLIK from')}</div>`);
+    const over=m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);
+    return aCard(head,`<div class="sx-f"><label>Target status</label><div class="seg" role="radiogroup" aria-label="Target status for ${n}">${[['live','Live'],['committed','Committed'],['never','Never']].map(([v,l])=>`<button role="radio" aria-checked="${m.st===v}" class="${m.st===v?'on':''}" data-acst="${n}" data-v="${v}">${l}</button>`).join('')}</div><p class="hint">${m.st?ASTH[m.st](n):'Live if it already pays into your partner bank account. Committed if this is your first Cash Advance.'}</p></div>
+      ${m.st?`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aHijra(c,m)}</dd></dl>
+      <div class="sx-g sx-g2 mc-cg"><div class="sx-f"><label for="af-recv-${n}">Received a month${m.st==='never'?' <span class="opt-l">(optional)</span>':''}</label><div class="pre"><em>Rp</em><input id="af-recv-${n}" data-acm="${n}" data-k="recv" inputmode="numeric" value="${m.recv?aNum(m.recv).toLocaleString('id-ID'):''}"></div><p class="hint${over?' err':''}">${over?'Amount received can\'t be more than gross sales.':'After platform fees, average of the last 6 months.'}</p></div>${m.st==='committed'?aWhen(c,m,'Settles through the partner bank from'):''}</div>`:''}`)}).join('')}
   ${aCard('Declarations',`${DECL.map((t,i)=>`<label class="ck mc-dec"><button class="cb${A.dec[i]?' on':''}" data-adec="${i}" role="checkbox" aria-checked="${A.dec[i]}">${A.dec[i]?ic('check',12,3):''}</button><span>${t}</span></label>`).join('')}<p class="hint">Logged with your name and the time.</p>`)}`}
 function aStep4(){const D=aDocs(),T=['Up to Rp250.000.000','Rp250.000.000 to Rp1.000.000.000','Above Rp1.000.000.000'][aTier()],c=A.biz.contact;
   return`<h2>People and documents</h2><p class="sx-lead">Everyone who signs, and everything FLIK needs, in one go, so fewer requests after you apply.</p>
@@ -4710,8 +4808,8 @@ function aDone(){return`<div class="sx-done"><div class="sx-ok"><i>${ic('check',
 function drawMx(){const st=A.step;
   document.getElementById('mx-steps').innerHTML=A.done?'':AST.map((t,i)=>`${i?'<span class="stp-l"></span>':''}<button class="stp${i===st?' on':i<st||i<=A.max&&i!==st?' done':''}" data-ago="${i}" ${i<=A.max?'':'disabled'}><i>${i<st||(i<=A.max&&i!==st)?ic('check',11,3):i+1}</i><span>${t}</span></button>`).join('');
   if(A.done){mxFoot.hidden=true;mxBody.innerHTML=`<div class="sx-in solo"><div class="sx-main">${aDone()}</div></div>`;return}
-  mxFoot.hidden=false;mxBody.innerHTML=`<div class="sx-in solo${st===2?' mc-wide':''}"><div class="sx-main">${[aStep0,aStep1,aStep2,aStep3,aStep4,aStep5][st]()}</div></div>`;
-  mxFoot.innerHTML=`${st?'<button class="btn btn-o" data-aprev>Back</button>':''}<span class="mc-saved src" id="mx-saved"></span><span class="sp"></span><button class="btn btn-o" data-aexit>Save and exit</button><button class="btn btn-p" id="mx-next" ${aOk[st]()?'':'disabled'}>${st===5?'Submit application':'Continue'}</button>`;aSavedTx()}
+  mxFoot.hidden=false;mxBody.innerHTML=`<div class="sx-in solo${st===2||st===3?' mc-wide':''}"><div class="sx-main">${[aStep0,aStep1,aStep2,aStep3,aStep4,aStep5][st]()}</div></div>`;
+  mxFoot.innerHTML=`${st?'<button class="btn btn-o" data-aprev>Back</button>':''}<span class="mc-saved src" id="mx-saved"></span><span class="sp"></span><button class="btn btn-o" data-aexit>Save and exit</button><button class="btn btn-p" id="mx-next" ${aOk[st]()?'':'disabled'}>${st===5?'Submit application':'Continue'}</button>`;aSavedTx();mcSfRun()}
 const aRefresh=()=>{const n=document.getElementById('mx-next');if(n)n.disabled=!aOk[A.step]()};
 function openMca(){A=blankA();if(MC.app==='draft'){Object.assign(A,{step:2,max:2,fm:'table',ch:aSample().slice(0,2).map(c=>({...c,m:c.m.slice(0,4).concat(['',''])}))});Object.assign(A.req,{amt:'500.000.000',tenor:90,pur:'Stock and inventory'});A.biz.founded='03/2021'}
   MC.app=null;mx.hidden=false;document.body.style.overflow='hidden';drawMx();aSave()}
@@ -4724,7 +4822,7 @@ mxBody.addEventListener('input',e=>{const t=e.target,d=t.dataset;
     if(k==='amt'){const x=aNum(v),h=document.getElementById('af-amth');if(h){const bad=x&&(x<AMIN||x>AMAX);h.textContent=bad?`Enter the amount in rupiah, between ${rp(AMIN)} and ${rp(AMAX)}.`:`Between ${rp(AMIN)} and ${rp(AMAX)}.`;h.classList.toggle('err',!!bad)}}}
   else if(d.am){const[i,j]=d.am.split('.').map(Number);A.ch[i].m[j]=t.value.replace(/[^\d.,]/g,'').replace(',','.');}
   else if(d.asp){const[i,k]=d.asp.split('.').map(Number);A.ch[i].split[k]=t.value.replace(/\D/g,'');const sp=A.ch[i].split.reduce((a,b)=>a+(+b||0),0),el=document.getElementById('mc-sp-'+i);if(el){el.textContent=aSpTx(sp);el.classList.toggle('err',!!sp&&sp!==100)}}
-  else if(d.acm){const m=A.cm[d.acm];if(d.k==='recv'){const n=aNum(t.value);t.value=n?n.toLocaleString('id-ID'):'';m.recv=String(n||'')}else m[d.k]=t.value;if(d.k==='recv'){const c=A.ch.find(x=>x.n===d.acm),h=t.closest('.sx-f').querySelector('.hint'),over=m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);h.classList.toggle('err',over);h.textContent=over?'Amount received can\'t be more than gross sales.':'What lands in your account each month after the platform\'s commission and fees. The average of the last 6 months.'}}
+  else if(d.acm){const m=A.cm[d.acm];if(d.k==='wn'){t.value=t.value.replace(/\D/g,'').slice(0,2)}if(d.k==='recv'){const n=aNum(t.value);t.value=n?n.toLocaleString('id-ID'):'';m.recv=String(n||'')}else m[d.k]=t.value;if(d.k==='recv'){const c=A.ch.find(x=>x.n===d.acm),h=t.closest('.sx-f').querySelector('.hint'),over=m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);h.classList.toggle('err',over);h.textContent=over?'Amount received can\'t be more than gross sales.':'What lands in your account each month after the platform\'s commission and fees. The average of the last 6 months.'}}
   else if(d.aail!=null){A.ail[+d.aail]=t.value;const h=document.getElementById('af-aih');if(h&&h.classList.contains('err')){h.classList.remove('err');h.textContent='One channel per line, with its gross sales per month or for the 6 months. We spread it evenly across the months.'}}
   else if(d.aob){const o=A.req.obls[+d.aob];let v=t.value;if(d.k!=='lender'){const n=aNum(v);v=n?n.toLocaleString('id-ID'):'';t.value=v}o[d.k]=v}
   else if(d.app){A.ppl[+d.app][d.k]=d.k==='own'?t.value.replace(/\D/g,''):t.value}
@@ -4743,6 +4841,7 @@ mxBody.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)ret
     if(!R.length){h.textContent='We couldn\'t find a channel with an amount. Try: Shopee, Rp200 juta over the last 6 months.';h.classList.add('err');return}
     A.loading='ai';drawMx();setTimeout(()=>{A.loading=false;A.src='ai';R.forEach(r=>{const c=A.ch.find(x=>x.n===r.n);if(c)c.m=r.m;else A.ch.push({n:r.n,acct:isFlikCh(r.n)?'FLIK wallet':'',m:r.m,split:r.n==='FLIK QRIS'?['','','','']:null})});
       if(!mx.hidden&&A.step===2){drawMx();toast(`Filled in ${plural(R.length,'channel')} from your description. Check the figures.`)}aSave()},1200);return}
+  else if(d.sfi!=null){mcSf.i=+d.sfi;mcSfStep();return}
   else if(d.afm){A.fm=d.afm}
   else if('aailadd' in d){A.ail.push('');drawMx();aSave();mxBody.scrollTop=y;mxBody.querySelector(`[data-aail="${A.ail.length-1}"]`)?.focus();return}
   else if(d.aailrm!=null){A.ail.splice(+d.aailrm,1)}
