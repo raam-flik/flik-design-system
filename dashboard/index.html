@@ -4659,7 +4659,7 @@ const aFdOk=v=>/^(0[1-9]|1[0-2])\/(19|20)\d\d$/.test(v||''),aYoung=()=>{const v=
 const aOk=[()=>{const b=A.biz;return!!(b.legal.trim()&&b.field&&(b.field!=='Other'||b.fieldx.trim())&&aFdOk(b.founded)&&b.contact.trim()&&aNum(b.phone)>=1e8)},
   ()=>{const r=A.req,x=aNum(r.amt);return x>=AMIN&&x<=AMAX&&r.tenor&&r.pur&&(r.pur!=='Other'||r.why.trim())&&(r.obl==='no'||r.obls.every(o=>o.lender.trim()&&aNum(o.owed)&&aNum(o.monthly)))},
   ()=>!A.loading&&A.ch.length>0&&A.ch.every(c=>c.acct&&aMonthsIn(c)&&(!c.split||aSpSum(c)===100)),
-  ()=>A.ch.every(c=>{const m=A.cm[c.n]||{};if(!m.st)return false;if(isFlikCh(c.n))return aWhenOk(m);if(m.st==='never')return true;const r=aNum(m.recv);return r>0&&r<=aChGross(c)&&(m.st!=='committed'||aWhenOk(m))}),
+  ()=>A.ch.every(c=>{const m=A.cm[c.n]||{};if(!m.st)return false;if(isFlikCh(c.n)||aPbLive(c.n))return aWhenOk(m);if(m.st==='never')return true;const r=aNum(m.recv);return r>0&&r<=aChGross(c)&&(m.st!=='committed'||aWhenOk(m))}),
   ()=>aDir(),
   ()=>A.dec.every(Boolean)&&A.consent];
 const aSavedTx=()=>{const s=document.getElementById('mx-saved');if(s&&A.saved)s.textContent=`Saved ${String(A.saved.getHours()).padStart(2,'0')}:${String(A.saved.getMinutes()).padStart(2,'0')}`};
@@ -4784,9 +4784,10 @@ function aStep3(){if(!A.ch.some(c=>c.n===mcSf.ch)){mcSf.ch=(A.ch.find(c=>!isFlik
   return`<div class="cr-head sx-main"><h2>Channel commitments</h2><p class="sx-lead">For each channel: whether it settles for your returns, where, and from when. The panel shows how the money moves.</p></div><div class="cr-l sx-main">
   ${A.ch.map(c=>{const m=A.cm[c.n]=A.cm[c.n]||{prov:c.n,acct:c.acct,recv:'',st:'',from:''},fl=isFlikCh(c.n),n=esc(c.n);
     if(fl){m.st='live';m.acct=AFW;m.recv=String(Math.round(aChGross(c)*(1-(c.n==='FLIK QRIS'?.007:.02))/1000)*1000);if(!m.from)m.from='on'}
-    const pl=!fl&&aPbLive(c.n);if(pl){m.st='live';m.recv=String(Math.round(aChGross(c)*.88/1000)*1000)}else if(!fl&&m.st==='live')m.st='';
+    const pl=!fl&&aPbLive(c.n);if(pl){m.st='live';m.recv=String(Math.round(aChGross(c)*.88/1000)*1000);if(!m.from)m.from='on'}else if(!fl&&m.st==='live')m.st='';
     const cc={cls:'mc-chc'+(c.n===mcSf.ch?' on':'')},head=`<span class="mc-chn" data-sfch="${n}">${chLogo(c.n)}${n}</span>${fl||pl?'<span class="st ok mc-hst">Live</span>':''}`;
-    if(pl)return aCard(head,`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aHijra(c,m)}</dd><dt>Received a month</dt><dd><b class="num">${rp(aNum(m.recv))}</b><span class="src">From your partner bank account, last 6 months</span></dd></dl>`,cc);
+    if(pl)return aCard(head,`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aHijra(c,m)}</dd><dt>Received a month</dt><dd><b class="num">${rp(aNum(m.recv))}</b><span class="src">From your partner bank account, last 6 months</span></dd></dl>
+      <div class="sx-g sx-g2 mc-cg">${aWhen(c,m,'Settles through the partner bank from')}</div>`,cc);
     if(fl)return aCard(head,`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aFw()}</dd><dt>Received a month</dt><dd><b class="num">${rp(aNum(m.recv))}</b><span class="src">From your FLIK settlements, last 6 months, after fees</span></dd></dl>
       <div class="sx-g sx-g2 mc-cg">${aWhen(c,m,'Settles through FLIK from')}</div>`,cc);
     const over=m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);
