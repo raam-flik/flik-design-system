@@ -2022,7 +2022,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 .sf-stage{position:relative;padding:24px;overflow:hidden;background:var(--hover)}
 .sf-row{position:relative;display:flex;align-items:center;max-width:880px;margin:0 auto}
 .sf-card{position:relative;background:#fff;border-radius:12px;box-shadow:var(--pop);padding:12px 14px;display:flex;align-items:center;gap:10px;transition:opacity .35s,transform .35s,box-shadow .35s;flex:none}
-.sf-card>div>span{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.sf-card>div:not(.sf-acch)>span{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap}
 .sf-card b{display:block;font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap}
 .sf-acc{flex-direction:column;align-items:stretch;gap:3px;width:232px;padding:14px 16px;animation:sf-bob 6s ease-in-out infinite}
 .sf-acch{display:flex;align-items:center;gap:8px}.sf-acch b{font-size:14px}
@@ -2049,12 +2049,17 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 @keyframes sf-in{from{opacity:0;transform:translateY(6px)}}
 @keyframes sf-x{0%{left:0;opacity:0}15%,85%{opacity:1}100%{left:calc(100% - 10px);opacity:0}}
 @keyframes sf-y{0%{top:0;opacity:0}15%,85%{opacity:1}100%{top:calc(100% - 10px);opacity:0}}
-@media (max-width:760px){.sf-tabs button:not(.on) .t{display:none}
-  .sf-stage{padding:20px 16px}.sf-row{flex-direction:column;align-items:stretch}
-  .sf-card{align-self:center}.sf-acc{width:100%;max-width:280px}
-  .sf-ln{flex:none;width:0;height:30px;min-width:0;border-top:0;border-left:2px dashed var(--line-2);margin:4px auto}
-  .sf-ln i{left:-6px;top:0}.sf.s0 .sf-l1 i,.sf.s1 .sf-l1 i,.sf.s2 .sf-l2 i,.sf.s2 .sf-l3 i{animation-name:sf-y}.sf-l3 i{left:-7px}
-  .sf-split{display:flex;justify-content:space-around;gap:0;min-width:0}.sf-out{grid-template-columns:repeat(2,minmax(0,1fr))}.sf-out .sf-card{align-self:stretch}}
+/* the flow sits in a narrow side panel, so it always runs top to bottom */
+.sf-tabs button:not(.on) .t{display:none}
+.sf-stage{padding:20px 16px}.sf-row{flex-direction:column;align-items:stretch;max-width:none}
+.sf-card{align-self:center}.sf-acc{width:100%;max-width:280px}
+.sf-ln{flex:none;width:0;height:30px;min-width:0;border-top:0;border-left:2px dashed var(--line-2);margin:4px auto}
+.sf-ln i{left:-6px;top:0}.sf.s0 .sf-l1 i,.sf.s1 .sf-l1 i,.sf.s2 .sf-l2 i,.sf.s2 .sf-l3 i{animation-name:sf-y}.sf-l3 i{left:-7px}
+.sf-split{display:flex;justify-content:space-around;gap:0;min-width:0}.sf-split .sf-ln{margin:4px auto}.sf-out{grid-template-columns:repeat(2,minmax(0,1fr))}.sf-out .sf-card{align-self:stretch}
+.sf-chs{margin:0 0 12px;flex-wrap:wrap}.sf-chs button{height:34px;font-size:13px}.sf-chs .plg{width:20px;height:20px;border-radius:5px}
+.sx-in.cr2.mc-cc{max-width:1320px}.mc-cc .cr-head{margin-bottom:20px}.mc-cc .cr-side{gap:0;padding:4px}
+.mc-chc{transition:box-shadow .2s}.mc-chc.on{box-shadow:0 0 0 2px var(--primary),var(--sh)}
+@media (max-width:1100px){.mc-cc .cr-side{grid-row:2;margin:0 0 24px}.mc-cc .cr-l{grid-row:3}}
 @media (prefers-reduced-motion:reduce){.sf *,.sf{animation:none!important}.sf-tabs button.on i{width:100%}}
 
 .mc-hst{margin-left:auto}.mc-kv{grid-template-columns:150px minmax(0,1fr);margin:0}.mc-kv dd{display:grid;gap:2px;justify-items:start}.mc-kv dd .src{font-size:12.5px}.mc-kv .mc-acc{height:auto}@media (max-width:600px){.mc-kv{grid-template-columns:minmax(0,1fr);gap:2px}.mc-kv dd{margin-bottom:10px}.mc-kv .mc-acc{white-space:normal}}.mc-kv .plg{width:20px;height:20px;border-radius:5px}.mc-kv+.mc-cg{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.sx-f+.mc-kv{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
@@ -4699,7 +4704,7 @@ const chLogo=n=>CH_LG[n]?`<img class="plg" src="${IMG}platform/${CH_LG[n]}.png" 
 const AFW='FLIK wallet',isFlikCh=n=>n.startsWith('FLIK'),aFw=()=>`<span class="mc-acc" data-tip="Sales through FLIK settle into your FLIK wallet">${chLogo('FLIK')}${AFW}</span>`;
 function mcBankPanel(i,onDone){const c=A.ch[i],B={bk:'',no:''};
   drawer.innerHTML=`<div class="dh"><span class="kind">${ic('bal',15)}Bank account</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="db pf-f"><h3 class="mc-dt">Where ${esc(c.n)} pays you</h3><p class="src mc-dp">The bank account your ${esc(c.n)} sales land in today.</p>
+  <div class="db pf-f"><h3 class="mc-dt">Where ${esc(c.n)} pays you</h3><p class="src mc-dp">The bank account your ${esc(c.n)} sales land in today. We match it with the bank statements you upload in step 5, so we can confirm the sales are yours.</p>
     <div class="sx-f"><label for="ab-bank">Bank</label><span class="sp-sw rf-sw"><select class="rf-sel" id="ab-bank"><option value="">Choose a bank</option>${RF_BANKS.map(b=>`<option value="${b[0]}">${b[1]}</option>`).join('')}</select></span></div>
     <div class="sx-f" style="margin-top:14px"><label for="ab-no">Account number</label><input id="ab-no" class="num" inputmode="numeric" maxlength="16" autocomplete="off"></div></div>
   <div class="mf"><button class="btn btn-o" data-dclose>Cancel</button><button class="btn btn-p" id="ab-go" disabled>Add account</button></div>`;
@@ -4724,7 +4729,7 @@ function aStep2(){const tot=i=>A.ch.reduce((a,c)=>a+aMo(c.m[i]),0),left=ACH.filt
     ${A.ch.map((c,i)=>{const sp=c.split?c.split.reduce((a,b)=>a+(+b||0),0):0;return`<tr class="nohover"><td><span class="mc-chn">${chLogo(c.n)}<b>${esc(c.n)}</b></span></td>${c.m.map((v,j)=>`<td><label class="mc-jt"><input class="num" data-am="${i}.${j}" inputmode="decimal" value="${esc(v)}" aria-label="${esc(c.n)}, ${AMON[j]}, in Rp juta"><em>jt</em></label></td>`).join('')}<td class="num mc-avg">${c.split&&aMonthsIn(c)?`<button class="lnk num mc-avgl" data-asplit="${i}" data-tip="${aSpSum(c)===100?'Edit the payment split':'Add the payment split'}">${avg(c.m.reduce((a,b)=>a+aMo(b),0)/6)} jt</button>`:avg(c.m.reduce((a,b)=>a+aMo(b),0)/6)+' jt'}</td>
       <td>${isFlikCh(c.n)?aFw():!c.acct?`<button class="btn btn-o mc-addacc" data-abank="${i}">${ic('plus',15)}Add bank account</button>`:`<span class="sp-sw rf-sw"><select class="rf-sel" data-aacc="${i}" aria-label="Receiving account for ${esc(c.n)}"><option value="">Choose an account</option>${AACC.map(o=>`<option ${c.acct===o?'selected':''}>${o}</option>`).join('')}<option value="__add">+ Add a bank account</option></select></span>`}</td><td><button class="ib" data-arm="${i}" aria-label="Remove ${esc(c.n)}" data-tip="Remove channel">${ic('x',14)}</button></td></tr>
 `}).join('')}
-    <tr class="nohover mc-tot"><td>Total</td>${AMON.map((_,j)=>`<td class="num">${tot(j).toLocaleString('id-ID')} jt</td>`).join('')}<td class="num">${avg(AMON.reduce((a,_,j)=>a+tot(j),0)/6)} jt</td><td colspan="2"></td></tr></tbody></table></div>${A.ch.filter(c=>c.split&&aMonthsIn(c)&&aSpSum(c)!==100).map(c=>`<p class="hint">Click the ${esc(c.n)} average to add how those sales were paid.</p>`).join('')}`:'<p class="src" style="margin:0">No channels yet. Add each channel you sell through.</p>'}
+    <tr class="nohover mc-tot"><td>Total</td>${AMON.map((_,j)=>`<td class="num">${tot(j).toLocaleString('id-ID')} jt</td>`).join('')}<td class="num">${avg(AMON.reduce((a,_,j)=>a+tot(j),0)/6)} jt</td><td colspan="2"></td></tr></tbody></table></div>${A.ch.some(c=>!isFlikCh(c.n))?'<p class="hint">We ask which bank account each channel pays into so we can match it with the bank statements you upload in step 5. It\'s how we confirm the sales are yours.</p>':''}${A.ch.filter(c=>c.split&&aMonthsIn(c)&&aSpSum(c)!==100).map(c=>`<p class="hint">Click the ${esc(c.n)} average to add how those sales were paid.</p>`).join('')}`:'<p class="src" style="margin:0">No channels yet. Add each channel you sell through.</p>'}
     ${left.length&&!A.loading?`<button class="btn btn-o mc-addch" data-aaddm>${ic('plus',15)}Add a channel</button>`:''}`)}`}
 /* when a channel starts settling for returns: relative to the payout, never a fixed date */
 const AWHEN=[['b1w','1 week before the Uang Jaminan is paid out'],['on','The day the Uang Jaminan is paid out'],['a1w','1 week after the Uang Jaminan is paid out'],['a2w','2 weeks after the Uang Jaminan is paid out'],['custom','Other timing']];
@@ -4733,30 +4738,37 @@ const aWhen=(c,m,l)=>{const n=esc(c.n);return`<div class="sx-f"><label for="af-f
   ${m.from==='custom'?`<div class="mc-when"><input data-acm="${n}" data-k="wn" inputmode="numeric" maxlength="2" value="${esc(m.wn||'')}" aria-label="How many"><span class="sp-sw rf-sw"><select class="rf-sel" data-acm="${n}" data-k="wu" aria-label="Days or weeks"><option value="days" ${m.wu!=='weeks'?'selected':''}>days</option><option value="weeks" ${m.wu==='weeks'?'selected':''}>weeks</option></select></span><span class="sp-sw rf-sw"><select class="rf-sel" data-acm="${n}" data-k="wd" aria-label="Before or after"><option value="after" ${m.wd!=='before'?'selected':''}>after the payout</option><option value="before" ${m.wd==='before'?'selected':''}>before the payout</option></select></span></div>`:''}</div>`};
 /* channels outside FLIK settle into a Hijra Bank account in the merchant's own name; FLIK takes the agreed daily amount from it */
 const HIJRA='Partner bank',aBankT=()=>`<span class="plg plg-i">${ic('bal',13)}</span>`,aPb=t=>`<span class="mc-pb">${t}<span class="mc-pbq" tabindex="0" role="img" aria-label="Which partner bank: Hijra Bank" data-tip="Hijra Bank, FLIK's partner bank" data-tip-img="${IMG}payment/hijra.png">${ic('help',13)}</span></span>`;
+/* a merchant who had a Cash Advance before already has channels settling into the partner bank: those are Live and filled in */
+const PB_LIVE=['Shopee'],aRet=()=>!['none','unverified'].includes(MC.st),aPbLive=n=>aRet()&&PB_LIVE.includes(n);
 const aHijra=(c,m)=>m.st==='live'?`<span class="mc-acc">${aBankT()}${aPb(HIJRA+' •••• 7731')}</span><span class="src">In your name, from your last Cash Advance</span>`
   :m.st==='committed'?`<span class="mc-acc">${aBankT()}${aPb(HIJRA+' account in your name')}</span><span class="src">You open it after review</span>`
   :`<span class="mc-acc">${aBankT()}${esc(c.acct||'Your current bank account')}</span><span class="src">Stays as it is today</span>`;
-const ASTH={live:c=>`${c} already pays into your partner bank account.`,committed:c=>`First Cash Advance: ${c} moves its payouts to a partner bank account in your name.`,never:c=>`${c} stays on your current bank account and isn't used for returns.`};
+const ASTH={live:c=>`${c} already pays into your partner bank account.`,committed:c=>`${c} moves its payouts to a partner bank account in your name.`,never:c=>`${c} stays on your current bank account and isn't used for returns.`};
 /* Settlement flow: plays like the Cash Advance landing page's product preview (numbered tabs with a progress line, the brand ribbon, a floating card, count-ups). Shows that the money lands in the merchant's own account and FLIK only takes the agreed share */
-const SF_DUR=4500,SF_RM=matchMedia('(prefers-reduced-motion: reduce)').matches,mcSf={i:0,t:0,hover:false};
-const SF_TABS=['Your sales are paid out','Into your own account','FLIK takes its share'];
-const SF_CAP=[(c)=>`${c} pays out your sales as usual.`,(c,b)=>`The money lands in a partner bank account in ${b}'s name. It's your account, not FLIK's.`,()=>'Each day FLIK takes only the agreed share for your returns. The rest stays in your account to use as normal.'];
-function aSettleFlow(c){const pay=Math.max(1e6,Math.round((aChGross(c)||12e7)/30/1e5)*1e5),cut=Math.round(pay*.1/1e3)*1e3,b=esc(A.biz.legal),i=mcSf.i;
-  return`<section class="sx-card mc-sfc"><div class="sf s${i}" id="mc-sf" data-pay="${pay}" data-cut="${cut}" data-ch="${esc(c.n)}">
-  <div class="sf-tabs" role="tablist" aria-label="How your ${esc(c.n)} money settles">${SF_TABS.map((t,k)=>`<button role="tab" aria-selected="${k===i}" class="${k===i?'on':k<i?'done':''}" data-sfi="${k}"><span class="n">0${k+1}</span><span class="t">${t}</span><i></i></button>`).join('')}</div>
+const SF_DUR=4500,SF_RM=matchMedia('(prefers-reduced-motion: reduce)').matches,mcSf={i:0,t:0,hover:false,ch:''};
+const SF_TABS=fl=>['Your sales are paid out',fl?'Into your FLIK wallet':'Into your own account','FLIK takes its share'];
+const SF_CAP=[(c)=>`${c} pays out your sales as usual.`,(c,b,fl)=>fl?`The money settles into your FLIK wallet, as it does today.`:`The money lands in a partner bank account in ${b}'s name. It's your account, not FLIK's.`,(c,b,fl)=>`Each day FLIK takes only the agreed share for your returns. The rest stays ${fl?'in your FLIK wallet':'in your account'} to use as normal.`];
+function aSettleFlow(c){const fl=isFlikCh(c.n),pay=Math.max(1e6,Math.round((aChGross(c)||12e7)/30/1e5)*1e5),cut=Math.round(pay*.1/1e3)*1e3,b=esc(A.biz.legal),i=mcSf.i;
+  return`<div class="sf-chs sx-slots" role="group" aria-label="Show the flow for a channel">${A.ch.map(x=>`<button class="${x.n===c.n?'on':''}" data-sfch="${esc(x.n)}" aria-pressed="${x.n===c.n}">${chLogo(x.n)}${esc(x.n)}</button>`).join('')}</div>
+  <section class="sx-card mc-sfc"><div class="sf s${i}" id="mc-sf" data-pay="${pay}" data-cut="${cut}" data-ch="${esc(c.n)}" data-fl="${fl?1:''}">
+  <div class="sf-tabs" role="tablist" aria-label="How your ${esc(c.n)} money settles">${SF_TABS(fl).map((t,k)=>`<button role="tab" aria-selected="${k===i}" class="${k===i?'on':k<i?'done':''}" data-sfi="${k}"><span class="n">0${k+1}</span><span class="t">${t}</span><i></i></button>`).join('')}</div>
   <div class="sf-stage">
     <div class="sf-row">
       <div class="sf-card sf-ch">${chLogo(c.n)}<div><span>${esc(c.n)} payout</span><b class="num" data-sfn="pay">Rp0</b></div></div>
       <div class="sf-ln sf-l1" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="sf-card sf-acc"><div class="sf-acch">${aBankT()}<b>${aPb(HIJRA)}</b><span class="st ok sf-own">In your name</span></div><span class="sf-holder">${b}</span><b class="num sf-bal" data-sfn="bal">Rp0</b><span class="sf-note">Your account, not FLIK's</span></div>
+      <div class="sf-card sf-acc">${fl?`<div class="sf-acch">${chLogo('FLIK')}<b>FLIK wallet</b><span class="st ok sf-own">Your balance</span></div><span class="sf-holder">${b}</span><b class="num sf-bal" data-sfn="bal">Rp0</b><span class="sf-note">Where your FLIK sales settle today</span>`
+        :`<div class="sf-acch">${aBankT()}<b>${aPb(HIJRA)}</b><span class="st ok sf-own">In your name</span></div><span class="sf-holder">${b}</span><b class="num sf-bal" data-sfn="bal">Rp0</b><span class="sf-note">Your account, not FLIK's</span>`}</div>
       <div class="sf-split" aria-hidden="true"><div class="sf-ln sf-l2"><i></i></div><div class="sf-ln sf-l3"><i></i><i></i><i></i></div></div>
-      <div class="sf-out"><div class="sf-card sf-flik">${chLogo('FLIK')}<div><span>To FLIK, agreed share</span><b class="num" data-sfn="cut">Rp0</b></div></div>
+      <div class="sf-out"><div class="sf-card sf-flik">${chLogo('FLIK')}<div><span>To FLIK</span><b class="num" data-sfn="cut">Rp0</b></div></div>
         <div class="sf-card sf-keep"><span class="plg plg-i">${ic('wallet',14)}</span><div><span>Stays yours</span><b class="num" data-sfn="keep">Rp0</b></div></div></div>
     </div></div>
-  <p class="sf-cap" id="sf-cap" aria-live="polite">${SF_CAP[i](esc(c.n),b)}</p></div></section>`}
+  <p class="sf-cap" id="sf-cap" aria-live="polite">${SF_CAP[i](esc(c.n),b,fl)}</p></div></section>`}
+/* switch the flow to another channel: from the chips, a channel card on the left, or after the last tab */
+function mcSfShow(n){const side=document.getElementById('mc-sfside'),c=A.ch.find(x=>x.n===n);if(!side||!c)return;mcSf.ch=n;mcSf.i=0;mcSf.hover=false;side.innerHTML=aSettleFlow(c);
+  mxBody.querySelectorAll('.mc-chc').forEach(x=>x.classList.toggle('on',x.querySelector('[data-sfch]').dataset.sfch===n));mcSfRun()}
 function mcSfStep(){const el=document.getElementById('mc-sf');if(!el)return;const i=mcSf.i;el.className=`sf s${i}${mcSf.hover?' paused':''}`;
   el.querySelectorAll('[data-sfi]').forEach((x,k)=>{x.className=k===i?'on':k<i?'done':'';x.setAttribute('aria-selected',k===i)});
-  const cap=document.getElementById('sf-cap');cap.textContent=SF_CAP[i](el.dataset.ch,A.biz.legal);cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');mcSfRun()}
+  const cap=document.getElementById('sf-cap');cap.textContent=SF_CAP[i](el.dataset.ch,A.biz.legal,!!el.dataset.fl);cap.classList.remove('in');void cap.offsetWidth;cap.classList.add('in');mcSfRun()}
 function mcSfRun(){clearTimeout(mcSf.t);const el=document.getElementById('mc-sf');if(!el)return;const pay=+el.dataset.pay,cut=+el.dataset.cut,i=mcSf.i;
   if(!el.dataset.bound){el.dataset.bound=1;el.onmouseenter=()=>{mcSf.hover=true;el.classList.add('paused')};el.onmouseleave=()=>{mcSf.hover=false;el.classList.remove('paused')}}
   const N=k=>el.querySelector(`[data-sfn="${k}"]`),set=(k,v)=>{N(k).textContent=rp(v)};
@@ -4765,20 +4777,23 @@ function mcSfRun(){clearTimeout(mcSf.t);const el=document.getElementById('mc-sf'
   if(i===1){set('pay',pay);count('bal',0,pay);set('cut',0);set('keep',0)}
   if(i===2){set('pay',pay);count('bal',pay,pay-cut);count('cut',0,cut);count('keep',0,pay-cut)}
   if(SF_RM)return;
-  const go=()=>{if(!document.getElementById('mc-sf'))return;if(mcSf.hover){mcSf.t=setTimeout(go,400);return}mcSf.i=(mcSf.i+1)%3;mcSfStep()};
+  const go=()=>{if(!document.getElementById('mc-sf'))return;if(mcSf.hover){mcSf.t=setTimeout(go,400);return}
+    if(mcSf.i<2){mcSf.i++;mcSfStep();return}const k=A.ch.findIndex(x=>x.n===mcSf.ch);mcSfShow(A.ch[(k+1)%A.ch.length].n)};
   mcSf.t=setTimeout(go,SF_DUR)}
-function aStep3(){const out=A.ch.filter(c=>!isFlikCh(c.n));return`<h2>Channel commitments</h2><p class="sx-lead">For each channel: whether it settles for your returns, where, and from when.</p>
-  ${out.length?aSettleFlow(out[0]):''}
+function aStep3(){if(!A.ch.some(c=>c.n===mcSf.ch)){mcSf.ch=(A.ch.find(c=>!isFlikCh(c.n))||A.ch[0]||{}).n;mcSf.i=0}const sc=A.ch.find(c=>c.n===mcSf.ch);
+  return`<div class="cr-head sx-main"><h2>Channel commitments</h2><p class="sx-lead">For each channel: whether it settles for your returns, where, and from when. The panel shows how the money moves.</p></div><div class="cr-l sx-main">
   ${A.ch.map(c=>{const m=A.cm[c.n]=A.cm[c.n]||{prov:c.n,acct:c.acct,recv:'',st:'',from:''},fl=isFlikCh(c.n),n=esc(c.n);
     if(fl){m.st='live';m.acct=AFW;m.recv=String(Math.round(aChGross(c)*(1-(c.n==='FLIK QRIS'?.007:.02))/1000)*1000);if(!m.from)m.from='on'}
-    const head=`<span class="mc-chn">${chLogo(c.n)}${n}</span>${fl?'<span class="st ok mc-hst">Live</span>':''}`;
+    const pl=!fl&&aPbLive(c.n);if(pl){m.st='live';m.recv=String(Math.round(aChGross(c)*.88/1000)*1000)}else if(!fl&&m.st==='live')m.st='';
+    const cc={cls:'mc-chc'+(c.n===mcSf.ch?' on':'')},head=`<span class="mc-chn" data-sfch="${n}">${chLogo(c.n)}${n}</span>${fl||pl?'<span class="st ok mc-hst">Live</span>':''}`;
+    if(pl)return aCard(head,`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aHijra(c,m)}</dd><dt>Received a month</dt><dd><b class="num">${rp(aNum(m.recv))}</b><span class="src">From your partner bank account, last 6 months</span></dd></dl>`,cc);
     if(fl)return aCard(head,`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aFw()}</dd><dt>Received a month</dt><dd><b class="num">${rp(aNum(m.recv))}</b><span class="src">From your FLIK settlements, last 6 months, after fees</span></dd></dl>
-      <div class="sx-g sx-g2 mc-cg">${aWhen(c,m,'Settles through FLIK from')}</div>`);
+      <div class="sx-g sx-g2 mc-cg">${aWhen(c,m,'Settles through FLIK from')}</div>`,cc);
     const over=m.st&&m.st!=='never'&&aNum(m.recv)>aChGross(c);
-    return aCard(head,`<div class="sx-f"><label>Target status</label><div class="seg" role="radiogroup" aria-label="Target status for ${n}">${[['live','Live'],['committed','Committed'],['never','Never']].map(([v,l])=>`<button role="radio" aria-checked="${m.st===v}" class="${m.st===v?'on':''}" data-acst="${n}" data-v="${v}">${l}</button>`).join('')}</div><p class="hint">${m.st?ASTH[m.st](n):'Live if it already pays into your partner bank account. Committed if this is your first Cash Advance.'}</p></div>
+    return aCard(head,`<div class="sx-f"><label>Target status</label><div class="seg" role="radiogroup" aria-label="Target status for ${n}">${[['committed','Committed'],['never','Never']].map(([v,l])=>`<button role="radio" aria-checked="${m.st===v}" class="${m.st===v?'on':''}" data-acst="${n}" data-v="${v}">${l}</button>`).join('')}</div><p class="hint">${m.st?ASTH[m.st](n):`Committed moves ${n}'s payouts to a partner bank account in your name. Never keeps them where they are.`}</p></div>
       ${m.st?`<dl class="kv mc-kv"><dt>Settlement account</dt><dd>${aHijra(c,m)}</dd></dl>
-      <div class="sx-g sx-g2 mc-cg"><div class="sx-f"><label for="af-recv-${n}">Received a month${m.st==='never'?' <span class="opt-l">(optional)</span>':''}</label><div class="pre"><em>Rp</em><input id="af-recv-${n}" data-acm="${n}" data-k="recv" inputmode="numeric" value="${m.recv?aNum(m.recv).toLocaleString('id-ID'):''}"></div><p class="hint${over?' err':''}">${over?'Amount received can\'t be more than gross sales.':'After platform fees, average of the last 6 months.'}</p></div>${m.st==='committed'?aWhen(c,m,'Settles through the partner bank from'):''}</div>`:''}`)}).join('')}
-  ${aCard('Declarations',`${DECL.map((t,i)=>`<label class="ck mc-dec"><button class="cb${A.dec[i]?' on':''}" data-adec="${i}" role="checkbox" aria-checked="${A.dec[i]}">${A.dec[i]?ic('check',12,3):''}</button><span>${t}</span></label>`).join('')}<p class="hint">Logged with your name and the time.</p>`)}`}
+      <div class="sx-g sx-g2 mc-cg"><div class="sx-f"><label for="af-recv-${n}">Received a month${m.st==='never'?' <span class="opt-l">(optional)</span>':''}</label><div class="pre"><em>Rp</em><input id="af-recv-${n}" data-acm="${n}" data-k="recv" inputmode="numeric" value="${m.recv?aNum(m.recv).toLocaleString('id-ID'):''}"></div><p class="hint${over?' err':''}">${over?'Amount received can\'t be more than gross sales.':'After platform fees, average of the last 6 months.'}</p></div>${m.st==='committed'?aWhen(c,m,'Settles through the partner bank from'):''}</div>`:''}`,cc)}).join('')}
+  ${aCard('Declarations',`${DECL.map((t,i)=>`<label class="ck mc-dec"><button class="cb${A.dec[i]?' on':''}" data-adec="${i}" role="checkbox" aria-checked="${A.dec[i]}">${A.dec[i]?ic('check',12,3):''}</button><span>${t}</span></label>`).join('')}<p class="hint">Logged with your name and the time.</p>`)}</div><aside class="cr-side" id="mc-sfside" aria-label="How the money moves">${sc?aSettleFlow(sc):''}</aside>`}
 function aStep4(){const D=aDocs(),T=['Up to Rp250.000.000','Rp250.000.000 to Rp1.000.000.000','Above Rp1.000.000.000'][aTier()],c=A.biz.contact;
   return`<h2>People and documents</h2><p class="sx-lead">Everyone who signs, and everything FLIK needs, in one go, so fewer requests after you apply.</p>
   ${aCard('Directors and owners above 25%',`${A.pic===null&&!A.ppl.some(p=>p.pic)?`<div class="sx-note">${ic('help',16)}<span>Is ${esc(c)}, your contact, a director or an owner above 25%?</span><button class="lnk" data-apic="yes">Yes, add ${esc(c.split(' ')[0])}</button><button class="lnk" data-apic="no">No</button></div>`:''}
@@ -4808,7 +4823,7 @@ function aDone(){return`<div class="sx-done"><div class="sx-ok"><i>${ic('check',
 function drawMx(){const st=A.step;
   document.getElementById('mx-steps').innerHTML=A.done?'':AST.map((t,i)=>`${i?'<span class="stp-l"></span>':''}<button class="stp${i===st?' on':i<st||i<=A.max&&i!==st?' done':''}" data-ago="${i}" ${i<=A.max?'':'disabled'}><i>${i<st||(i<=A.max&&i!==st)?ic('check',11,3):i+1}</i><span>${t}</span></button>`).join('');
   if(A.done){mxFoot.hidden=true;mxBody.innerHTML=`<div class="sx-in solo"><div class="sx-main">${aDone()}</div></div>`;return}
-  mxFoot.hidden=false;mxBody.innerHTML=`<div class="sx-in solo${st===2||st===3?' mc-wide':''}"><div class="sx-main">${[aStep0,aStep1,aStep2,aStep3,aStep4,aStep5][st]()}</div></div>`;
+  mxFoot.hidden=false;mxBody.innerHTML=st===3?`<div class="sx-in cr2 mc-cc">${aStep3()}</div>`:`<div class="sx-in solo${st===2?' mc-wide':''}"><div class="sx-main">${[aStep0,aStep1,aStep2,aStep3,aStep4,aStep5][st]()}</div></div>`;
   mxFoot.innerHTML=`${st?'<button class="btn btn-o" data-aprev>Back</button>':''}<span class="mc-saved src" id="mx-saved"></span><span class="sp"></span><button class="btn btn-o" data-aexit>Save and exit</button><button class="btn btn-p" id="mx-next" ${aOk[st]()?'':'disabled'}>${st===5?'Submit application':'Continue'}</button>`;aSavedTx();mcSfRun()}
 const aRefresh=()=>{const n=document.getElementById('mx-next');if(n)n.disabled=!aOk[A.step]()};
 function openMca(){A=blankA();if(MC.app==='draft'){Object.assign(A,{step:2,max:2,fm:'table',ch:aSample().slice(0,2).map(c=>({...c,m:c.m.slice(0,4).concat(['',''])}))});Object.assign(A.req,{amt:'500.000.000',tenor:90,pur:'Stock and inventory'});A.biz.founded='03/2021'}
@@ -4827,6 +4842,7 @@ mxBody.addEventListener('input',e=>{const t=e.target,d=t.dataset;
   else if(d.aob){const o=A.req.obls[+d.aob];let v=t.value;if(d.k!=='lender'){const n=aNum(v);v=n?n.toLocaleString('id-ID'):'';t.value=v}o[d.k]=v}
   else if(d.app){A.ppl[+d.app][d.k]=d.k==='own'?t.value.replace(/\D/g,''):t.value}
   else return;aSave();aRefresh()});
+['click','focusin'].forEach(ev=>mxBody.addEventListener(ev,e=>{const card=e.target.closest&&e.target.closest('.mc-chc');if(!card||!card.isConnected&&ev==='focusin')return;const n=card.querySelector('[data-sfch]').dataset.sfch;if(n!==mcSf.ch)mcSfShow(n)}));
 mxBody.addEventListener('keydown',e=>{const d=e.target.dataset;if(d.aail==null||e.key!=='Enter')return;e.preventDefault();const i=+d.aail;if(i===A.ail.length-1&&e.target.value.trim()){A.ail.push('');drawMx();aSave()}mxBody.querySelector(`[data-aail="${i+1}"]`)?.focus()});
 mxBody.addEventListener('change',e=>{const t=e.target,d=t.dataset;
   if(d.afs){const[g,k]=d.afs.split('.');A[g][k]=t.value;drawMx()}else if(d.aacc){if(t.value==='__add'){t.value=A.ch[+d.aacc].acct;mcBankPanel(+d.aacc);return}A.ch[+d.aacc].acct=t.value;aRefresh()}
@@ -4842,6 +4858,7 @@ mxBody.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)ret
     A.loading='ai';drawMx();setTimeout(()=>{A.loading=false;A.src='ai';R.forEach(r=>{const c=A.ch.find(x=>x.n===r.n);if(c)c.m=r.m;else A.ch.push({n:r.n,acct:isFlikCh(r.n)?'FLIK wallet':'',m:r.m,split:r.n==='FLIK QRIS'?['','','','']:null})});
       if(!mx.hidden&&A.step===2){drawMx();toast(`Filled in ${plural(R.length,'channel')} from your description. Check the figures.`)}aSave()},1200);return}
   else if(d.sfi!=null){mcSf.i=+d.sfi;mcSfStep();return}
+  else if(d.sfch!=null&&b.closest('#mc-sfside')){mcSfShow(d.sfch);return}
   else if(d.afm){A.fm=d.afm}
   else if('aailadd' in d){A.ail.push('');drawMx();aSave();mxBody.scrollTop=y;mxBody.querySelector(`[data-aail="${A.ail.length-1}"]`)?.focus();return}
   else if(d.aailrm!=null){A.ail.splice(+d.aailrm,1)}
