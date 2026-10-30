@@ -4639,7 +4639,7 @@ let A=null;
 const aNum=v=>+String(v||'').replace(/\D/g,'')||0;
 const blankA=()=>({step:0,max:0,saved:null,done:null,
   biz:{legal:'PT Aruna Studio Indonesia',brand:'Aruna Studio',field:'Fashion and apparel',fieldx:'',founded:'03/2021',mid:'FLK-MER-20931',contact:'Dewi Lestari',phone:'812-3456-7890'},pre:{legal:1,brand:1,field:1,contact:1,phone:1},
-  fm:'file',ail:[''],req:{amt:'',tenor:0,sched:'daily',pur:'',why:'',acct:AACC[0],obl:'no',obls:[{lender:'',owed:'',monthly:''}]},
+  fm:'file',ail:[''],req:{gm:'',amt:'',tenor:0,sched:'daily',pur:'',why:'',acct:AACC[0],obl:'no',obls:[{lender:'',owed:'',monthly:''}]},
   ch:[],cm:{},dec:[false,false,false],consent:false,pic:null,ppl:[],docs:{cnpwp:1}});
 const aSample=()=>[{n:'FLIK Checkout',acct:'FLIK wallet',m:['182','176','195','204','221','236']},{n:'Shopee',acct:'',m:['96','102','99','110','118','121']},{n:'FLIK QRIS',acct:'FLIK wallet',m:['64','61','70','72','69','75'],split:['30','45','15','10']}];
 /* tier from total FLIK exposure after the placement; FLIK computes it, the page only shows the list */
@@ -4702,7 +4702,7 @@ function aParse(txt){const out=[],hits=[];
 const aChGross=c=>c.m.reduce((a,b)=>a+aMo(b),0)/6*1e6;
 const aFdOk=v=>/^(0[1-9]|1[0-2])\/(19|20)\d\d$/.test(v||''),aYoung=()=>{const v=A.biz.founded;return aFdOk(v)&&(NOW-new Date(+v.slice(3),+v.slice(0,2)-1,1))/864e5<365};
 const aOk=[()=>{const b=A.biz;return!!(b.legal.trim()&&b.field&&(b.field!=='Other'||b.fieldx.trim())&&aFdOk(b.founded)&&b.contact.trim()&&aNum(b.phone)>=1e8)},
-  ()=>{const r=A.req,x=aNum(r.amt);return x>=AMIN&&x<=AMAX&&r.tenor&&r.pur&&(r.pur!=='Other'||r.why.trim())&&(r.obl==='no'||r.obls.every(o=>o.lender.trim()&&aNum(o.owed)&&aNum(o.monthly)))},
+  ()=>{const r=A.req,x=aNum(r.amt);return x>=AMIN&&x<=AMAX&&r.tenor&&r.pur&&(r.pur!=='Other'||r.why.trim())&&+r.gm>0&&(r.obl==='no'||r.obls.every(o=>o.lender.trim()&&aNum(o.owed)&&aNum(o.monthly)))},
   ()=>!A.loading&&A.ch.length>0&&A.ch.every(c=>c.acct&&aMonthsIn(c)&&(!c.split||aSpSum(c)===100)),
   ()=>A.ch.every(c=>{const m=A.cm[c.n]||{};if(!m.st)return false;if(isFlikCh(c.n)||aPbLive(c.n))return aWhenOk(m);if(m.st==='never')return true;const r=aNum(m.recv);return r>0&&r<=aChGross(c)&&(m.st!=='committed'||aWhenOk(m))}),
   ()=>aDir(),
@@ -4722,6 +4722,7 @@ function aStep1(){const r=A.req,x=aNum(r.amt),bad=x&&(x<AMIN||x>AMAX);
   ${aCard('Uang Jaminan',`${aFld('req.amt','Amount',{pre:'Rp',num:1,ph:'',hint:bad?`Enter the amount in rupiah, between ${rp(AMIN)} and ${rp(AMAX)}.`:`Between ${rp(AMIN)} and ${rp(AMAX)}.`,hid:'af-amth'})}`)}
   ${aCard('Tenor',`<div class="sx-slots" style="margin-top:0">${[30,60,90,120].map(t=>`<button class="${r.tenor===t?'on':''}" data-aten="${t}">${t} days</button>`).join('')}</div>`)}
   ${aCard('Purpose',`<div class="sx-g" style="margin-top:0">${aSel('req.pur','What it\'s for',APUR,'Choose a purpose')}${r.pur==='Other'?aFld('req.why','Tell us more'):''}</div>`)}
+  ${aCard('Gross margin',`<div class="sx-g sx-g2" style="margin-top:0">${aFld('req.gm','Estimated gross margin',{unit:'%',num:1,ph:'35',hint:'Your average across products: sales minus the cost of the goods, divided by sales.'})}</div>`)}
   ${aCard('Other obligations',`<p class="src" style="margin:0 0 10px">Do you have other financing outstanding with banks, platforms or others?</p>${aSeg('req.obl',[['no','No'],['yes','Yes']])}${r.obl==='yes'?`<div class="mc-obl">${r.obls.map((o,i)=>`<div class="mc-person"><div class="sx-h" style="margin:0 0 10px">Obligation ${i+1}${r.obls.length>1?`<button class="lnk" data-aobrm="${i}" style="margin-left:auto">Remove</button>`:''}</div><div class="sx-g sx-g2" style="margin-top:0">
       <div class="sx-f"><label for="ob-l${i}">From</label><input id="ob-l${i}" data-aob="${i}" data-k="lender" value="${esc(o.lender)}"></div>
       <div class="sx-f"><label for="ob-o${i}">Amount outstanding</label><div class="pre"><em>Rp</em><input id="ob-o${i}" data-aob="${i}" data-k="owed" inputmode="numeric" value="${esc(o.owed)}"></div></div>
@@ -4860,7 +4861,7 @@ function aStep5(){const r=A.req,D=aDocs().filter(d=>d[2]!=='opt'&&d[0]!=='dirk')
   ${aCard('What happens next',`<p class="mc-nx">You're applying for <b class="num">${aNum(r.amt)?rp(aNum(r.amt)):'Uang Jaminan'}</b>${r.tenor?` for <b>${r.tenor} days</b>`:''}. After you submit:</p>
     <ol class="mc-how"><li><b>FLIK checks your documents</b> within 1 working day. If anything's missing, it shows as a task on your Cash Advance page.</li><li><b>FLIK reviews your application.</b> You can follow each step on the Cash Advance page, and we email you when it moves.</li><li><b>You get an offer</b> with the Uang Jaminan, tenor and Biaya Platform. Commercial contacts you to go through it.</li><li><b>You sign the PKS</b> and the Uang Jaminan is paid into your account. Returns start as agreed.</li></ol>`)}
   ${sec('Business',0,[['Legal name',esc(A.biz.legal)],['Business type',esc(A.biz.field==='Other'?A.biz.fieldx:A.biz.field)],['Founded',A.biz.founded||'—'],['Contact',`${esc(A.biz.contact)} · +62 ${A.biz.phone}`]])}
-  ${sec('Request',1,[['Uang Jaminan',rp(aNum(r.amt))],['Tenor',`${r.tenor} days`],['Purpose',esc(r.pur==='Other'?r.why:r.pur)],['Other obligations',r.obl==='yes'?r.obls.map(o=>`${esc(o.lender)} · ${rp(aNum(o.owed))} outstanding`).join('<br>'):'None']])}
+  ${sec('Request',1,[['Uang Jaminan',rp(aNum(r.amt))],['Tenor',`${r.tenor} days`],['Purpose',esc(r.pur==='Other'?r.why:r.pur)],['Estimated gross margin',r.gm?`${r.gm}%`:'—'],['Other obligations',r.obl==='yes'?r.obls.map(o=>`${esc(o.lender)} · ${rp(aNum(o.owed))} outstanding`).join('<br>'):'None']])}
   ${sec('Sales by channel',2,[['Channels',A.ch.map(c=>esc(c.n)).join(', ')],['Average per month',`Rp${(A.ch.reduce((a,c)=>a+aChGross(c),0)).toLocaleString('id-ID')}`]])}
   ${sec('Channel commitments',3,A.ch.map(c=>{const m=A.cm[c.n]||{};return[esc(c.n),`${{live:'Live',committed:'Committed',never:'Never'}[m.st]||'—'}${m.recv?` · ${rp(aNum(m.recv))} a month`:''}`]}).concat([['Declarations',A.dec.every(Boolean)?'All three given':`${A.dec.filter(Boolean).length} of 3 given`]]))}
   ${sec('People and documents',4,[['People',A.ppl.map(p=>`${esc(p.name)} (${{director:'Director',owner:'Owner',both:'Director and owner'}[p.role]})`).join(', ')||'—'],['Documents',`${up} of ${D.length} uploaded`]])}
@@ -4880,14 +4881,14 @@ function drawMx(){const st=A.step;
   mxFoot.hidden=false;mxBody.innerHTML=st===3?`<div class="sx-in cr2 mc-cc">${aStep3()}</div>`:`<div class="sx-in solo${st===2?' mc-wide':''}"><div class="sx-main">${[aStep0,aStep1,aStep2,aStep3,aStep4,aStep5][st]()}</div></div>`;
   mxFoot.innerHTML=`${st?'<button class="btn btn-o" data-aprev>Back</button>':''}<span class="mc-saved src" id="mx-saved"></span><span class="sp"></span><button class="btn btn-o" data-aexit>Save and exit</button><button class="btn btn-p" id="mx-next" ${aOk[st]()?'':'disabled'}>${st===5?'Submit application':'Continue'}</button>`;aSavedTx();mcSfRun()}
 const aRefresh=()=>{const n=document.getElementById('mx-next');if(n)n.disabled=!aOk[A.step]()};
-function openMca(){A=blankA();if(MC.app==='draft'){Object.assign(A,{step:2,max:2,fm:'table',ch:aSample().slice(0,2).map(c=>({...c,m:c.m.slice(0,4).concat(['',''])}))});Object.assign(A.req,{amt:'500.000.000',tenor:90,pur:'Stock and inventory'});A.biz.founded='03/2021'}
+function openMca(){A=blankA();if(MC.app==='draft'){Object.assign(A,{step:2,max:2,fm:'table',ch:aSample().slice(0,2).map(c=>({...c,m:c.m.slice(0,4).concat(['',''])}))});Object.assign(A.req,{amt:'500.000.000',tenor:90,pur:'Stock and inventory',gm:'35'});A.biz.founded='03/2021'}
   MC.app=null;mx.hidden=false;document.body.style.overflow='hidden';drawMx();aSave()}
 function closeMca(){mx.hidden=true;document.body.style.overflow=''}
 const aExit=()=>{if(!A.done&&(A.max>0||aNum(A.req.amt))){MC.st='draft';toast('Saved as a draft. Continue any time from Cash Advance.')}location.hash='merchant-cash-advance'};
 document.getElementById('mx-close').onclick=aExit;
 mxBody.addEventListener('input',e=>{const t=e.target,d=t.dataset;
   if(d.af){const[g,k]=d.af.split('.');let v=t.value;if(['amt','owed','monthly'].includes(k)){const n=aNum(v);v=n?n.toLocaleString('id-ID'):'';t.value=v}
-    if(k==='phone')v=v.replace(/[^\d-]/g,'');if(k==='founded'){const p=v.split('/');if(p.length>1){const mo=p[0].replace(/\D/g,'').slice(-2);v=(mo.length===1&&+mo?'0'+mo:mo)+'/'+p.slice(1).join('').replace(/\D/g,'').slice(0,4)}else{const n=v.replace(/\D/g,'').slice(0,6);v=n.length>2?n.slice(0,2)+'/'+n.slice(2):n}t.value=v}A[g][k]=v;if(k==='founded'){const y=document.getElementById('af-young');if(y)y.hidden=!aYoung();const h=document.getElementById('af-fdh');if(h){const bad=v.length>=7&&!aFdOk(v);h.textContent=bad?'Enter the month and year, for example 03/2021.':'';h.classList.toggle('err',bad)}}
+    if(k==='phone')v=v.replace(/[^\d-]/g,'');if(k==='gm'){v=v.replace(/\D/g,'').slice(0,3);if(+v>100)v='100';t.value=v}if(k==='founded'){const p=v.split('/');if(p.length>1){const mo=p[0].replace(/\D/g,'').slice(-2);v=(mo.length===1&&+mo?'0'+mo:mo)+'/'+p.slice(1).join('').replace(/\D/g,'').slice(0,4)}else{const n=v.replace(/\D/g,'').slice(0,6);v=n.length>2?n.slice(0,2)+'/'+n.slice(2):n}t.value=v}A[g][k]=v;if(k==='founded'){const y=document.getElementById('af-young');if(y)y.hidden=!aYoung();const h=document.getElementById('af-fdh');if(h){const bad=v.length>=7&&!aFdOk(v);h.textContent=bad?'Enter the month and year, for example 03/2021.':'';h.classList.toggle('err',bad)}}
     if(k==='amt'){const x=aNum(v),h=document.getElementById('af-amth');if(h){const bad=x&&(x<AMIN||x>AMAX);h.textContent=bad?`Enter the amount in rupiah, between ${rp(AMIN)} and ${rp(AMAX)}.`:`Between ${rp(AMIN)} and ${rp(AMAX)}.`;h.classList.toggle('err',!!bad)}}}
   else if(d.am){const[i,j]=d.am.split('.').map(Number);A.ch[i].m[j]=t.value.replace(/[^\d.,]/g,'').replace(',','.');}
   else if(d.asp){const[i,k]=d.asp.split('.').map(Number);A.ch[i].split[k]=t.value.replace(/\D/g,'');const sp=A.ch[i].split.reduce((a,b)=>a+(+b||0),0),el=document.getElementById('mc-sp-'+i);if(el){el.textContent=aSpTx(sp);el.classList.toggle('err',!!sp&&sp!==100)}}
