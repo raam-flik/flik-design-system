@@ -2471,7 +2471,7 @@ Object.assign(P,{filter:'<path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h
 /* a list's columns: {key:[label, sort value (or null), cell, {fixed:1 can't be hidden, cls:th class}]}; on() renders the list again */
 const DTS={};
 function dtUse(k,cols,sort,on){const T=DTS[k];if(T){T.cols=cols;T.on=on;return T}const def={order:Object.keys(cols),hide:[],pin:[],sort:sort||null};let st=JSON.parse(JSON.stringify(def));
-  try{const v=JSON.parse(localStorage.getItem('flik-cols-'+k)||'null');if(v&&v.order)st={...st,...v}}catch(e){}return DTS[k]={cols,def,st,on}}
+  try{const v=JSON.parse(localStorage.getItem('flik-cols-'+k)||'null');if(v&&v.order){st={...st,...v};st.order=st.order.filter(c=>cols[c]).concat(Object.keys(cols).filter(c=>!st.order.includes(c)))}}catch(e){}return DTS[k]={cols,def,st,on}}
 const dtSave=k=>{try{localStorage.setItem('flik-cols-'+k,JSON.stringify(DTS[k].st))}catch(e){}};
 /* pinned columns come first and stay in view when the table scrolls sideways */
 const dtOrder=k=>{const T=DTS[k],c=T.st,K=Object.keys(T.cols),o=c.order.filter(x=>T.cols[x]).concat(K.filter(x=>!c.order.includes(x)));return[...o.filter(x=>c.pin.includes(x)),...o.filter(x=>!c.pin.includes(x))]};
@@ -5983,8 +5983,8 @@ const sevRank=s=>{const m=monOf(s);return SEV3[m]?SEV3[m][2]:9};
 const awbTd=s=>`<td class="mono">${s.awb||'<span class="inv-sub">After pickup</span>'}</td>`;
 const cTd=s=>`<td><div class="sx-cl">${cLogo(s.k)}<span>${cName(s.k)}</span></div></td>`;
 const secH=(t,sub,dl,extra='')=>`<div class="sec-h"><div class="sec-t"><h2 class="sec">${t}</h2>${sub?`<span class="sec-help" tabindex="0" role="note" aria-label="${esc(sub)}" data-tip="${esc(sub)}">${ic('help',15)}</span>`:''}</div><div class="sec-a">${extra}${dl?dlBtn(dl):''}</div></div>`;
-const SHIP_HEAD=['AWB','Batch','Created','Status','Monitoring','Courier','Service','Updated','Customer name','Customer phone','Street','Kelurahan','Kecamatan','City','Province','Postcode','Pickup from','Payment','COD / goods value','Published rate','Shipping cost','COD fee','Product','Qty','Weight (kg)','Ticket'];
-const shipRow=s=>[s.awb||'',s.batch,fdateY(s.created),SST3[s.st][0],MON3[monOf(s)][0],cName(s.k),SERVICES[s.svc][1],fdateY(s.upd),s.name,'+'+s.phone,s.street,s.area.kel,s.area.kec,s.area.city,s.area.prov,s.area.zip,s.wh,s.pay==='cod'?'COD':'Non-COD',s.val,s.pub,s.cost,s.codFee,s.items,s.qty,s.kg,s.tk||''];
+const SHIP_HEAD=['AWB','Batch','Created','Status','Monitoring','Courier','Service','Updated','Customer name','Phone','Address','Province','City or regency','Kecamatan','Kelurahan','Postal code','Pickup from','Payment','COD / goods value','Published rate','Shipping cost','COD fee','Product','Qty','Weight (kg)','Ticket'];
+const shipRow=s=>[s.awb||'',s.batch,fdateY(s.created),SST3[s.st][0],MON3[monOf(s)][0],cName(s.k),SERVICES[s.svc][1],fdateY(s.upd),s.name,'+'+s.phone,s.street,s.area.prov,s.area.city,s.area.kec,s.area.kel,s.area.zip,s.wh,s.pay==='cod'?'COD':'Non-COD',s.val,s.pub,s.cost,s.codFee,s.items,s.qty,s.kg,s.tk||''];
 
 /* Summary: status filter, show all, and a batch opens in the drawer */
 document.getElementById('view-mon').addEventListener('click',e=>{const t=e.target.closest('[data-rf],[data-allr2],tr[data-btd]');if(!t)return;
@@ -6157,8 +6157,10 @@ const perfH=(t,help)=>`<div class="mon-h">${secT(t,help)}<div class="fright">${p
 
 /* ---- All shipments columns, on the Lists kit ---- */
 const LCOLS={awb:['AWB',s=>s.awb||'~',awbTd,{fixed:1}],created:['Created',s=>+s.created,s=>`<td class="date">${fdate(s.created)}</td>`],
-  cust:['Customer',s=>s.name.toLowerCase(),s=>`<td class="cust"><b>${esc(s.name)}</b><span>${fphone(s.phone)}</span></td>`],
-  dest:['Destination',s=>(s.area.kec+' '+s.area.city).toLowerCase(),s=>`<td>${esc(s.area.kec)}<span class="src">${esc(s.area.city)}</span></td>`],
+  /* customer and destination one field per column, the same as the export, so each can be sorted, hidden or moved */
+  cust:['Customer name',s=>s.name.toLowerCase(),s=>`<td>${esc(s.name)}</td>`],phone:['Phone',s=>s.phone,s=>`<td class="num">${fphone(s.phone)}</td>`],
+  street:['Address',s=>s.street.toLowerCase(),s=>`<td>${esc(s.street)}</td>`],prov:['Province',s=>s.area.prov,s=>`<td>${esc(s.area.prov)}</td>`],city:['City or regency',s=>s.area.city,s=>`<td>${esc(s.area.city)}</td>`],
+  kec:['Kecamatan',s=>s.area.kec,s=>`<td>${esc(s.area.kec)}</td>`],kel:['Kelurahan',s=>s.area.kel,s=>`<td>${esc(s.area.kel)}</td>`],zip:['Postal code',s=>s.area.zip,s=>`<td class="num">${s.area.zip}</td>`],
   k:['Courier',s=>cName(s.k),cTd],pay:['Payment',s=>s.pay,s=>`<td>${s.pay==='cod'?'<span class="st pu sm">COD</span>':'<span class="st gr sm">Non-COD</span>'}</td>`],
   val:['Value',s=>s.val,s=>`<td class="num">${rp(s.val)}</td>`],st:['Status',s=>Object.keys(SST3).indexOf(s.st),s=>`<td>${stPill3(s.st)}</td>`],
   mon:['Monitoring',s=>HCOLS.indexOf(monOf(s)),s=>`<td>${monPill(monOf(s))}</td>`],upd:['Updated',s=>+s.upd,s=>`<td class="upd">${ago(s.upd)}</td>`]};
