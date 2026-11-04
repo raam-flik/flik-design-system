@@ -513,7 +513,12 @@ body.cvon #dscrim{z-index:90}body.cvon .drawer{z-index:92}
 :is(#modal.ew,.ie-pp) input:focus{box-shadow:0 0 0 2px rgba(0,45,93,.35)}
 #modal.ew .pre em{top:0;bottom:0;display:flex;align-items:center;font-size:14px}
 .pp-lgs{display:flex;gap:4px;align-items:center}
-.pp-r .pp-lgs{gap:6px}.pp-r .pp-lgs .plg{width:28px;height:20px;border-radius:4px}
+/* logos on a closed group sit in equal bordered tiles, like card-brand badges (approved 4 Nov 2026) */
+.pp-r .pp-lgs{gap:4px}
+.pp-tile{width:34px;height:22px;border:1px solid var(--line-2);border-radius:4px;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;flex:none}
+.pp-tile .plg{width:28px;height:28px;border-radius:0;object-fit:contain}
+.pp-tile img[src$="/ovo.png"],.pp-tile img[src$="/dana.png"]{width:16px;height:16px}
+.pp-cyc{position:relative}.pp-cyc>.plg{position:absolute;inset:0;margin:auto;opacity:0;transition:opacity 1.2s ease-in-out}.pp-cyc>.plg.on{opacity:1}
 .qr-kv>div{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.qr-kv>div:first-child{padding-top:0}.qr-kv>div:last-child{border-bottom:0;padding-bottom:0}
 .qr-kv span{color:var(--muted)}.qr-kv b{color:var(--ink);font-weight:500;text-align:right}
 .qr-c{text-align:center}.qr-c>.plg{width:84px;height:36px;object-fit:cover}
@@ -526,7 +531,7 @@ body.cvon #dscrim{z-index:90}body.cvon .drawer{z-index:92}
 .qr-i{border-bottom:1px solid var(--line)}.qr-i:last-child{border-bottom:0}
 .qr-r{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:48px;text-align:left}.qr-r b{color:var(--ink);font-weight:500}
 .qr-ol{margin:0 0 14px;padding-left:20px;color:var(--muted);display:grid;gap:4px}
-.pp-more-n{width:24px;text-align:right;font-size:12px;color:var(--muted)}
+
 .pp-sv{display:flex;gap:10px;align-items:flex-start}
 .pp-sv .cb{margin-top:2px}.pp-sv b{display:block;color:var(--ink);font-weight:500}.pp-sv span:not(.cb){color:var(--muted)}
 .pp-ft{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);font-size:13px;padding:6px 0 4px}
@@ -3461,12 +3466,13 @@ function pvBody(kind,o={}){
     +(D.pms.has('bcad')?`<div class="pp-s"><button class="pp-sr" data-addcard="bcad">${mark(false)}<span class="pp-lgs">${pmLg('bcad')}</span><b>${sname('bcad')}</b></button></div>`:'')
     +(D.pms.has('card')?(sc.some(c=>c.brand!=='bca')?`<button class="btn btn-o pp-add" data-addcard>${ic('pluscirc',16)}Add new card</button>`:`<div class="pp-s"><button class="pp-sr" data-addcard>${mark(false)}<span class="pp-lgs">${pmLg('card')}</span><b>${sname('card')}</b></button></div>`):'');
   const cards=['card','bcad'].filter(k=>D.pms.has(k));
-  /* the logos on a closed group: at most 3, each in the same 28×20 box so every row lines up, then a small "+N" */
-  const strip=ks=>ks.slice(0,3).map(pmLg).join('')+`<span class="pp-more-n">${ks.length>3?'+'+(ks.length-3):''}</span>`;
+  /* the logos on a closed group: 3 equal tiles; with more than 3, the last tile cycles through the rest (see the timer by custView) */
+  const tile=h=>`<span class="pp-tile">${h}</span>`;
+  const strip=ks=>ks.length<=3?ks.map(k=>tile(pmLg(k))).join(''):ks.slice(0,2).map(k=>tile(pmLg(k))).join('')+`<span class="pp-tile pp-cyc">${ks.slice(2).map((k,i)=>pmLg(k).replace('class="plg plg-sm"',`class="plg plg-sm${i?'':' on'}"`)).join('')}</span>`;
   const rows=[D.pms.has('qris')&&`<div class="pp-i${pick==='qris'?' on':''}"><button class="pp-r" data-pk="qris">${mark(pick==='qris')}<span class="pp-lt">${pmLg('qris')}</span><b>QRIS</b></button></div>`,
     wl.length&&grp('wallet','E-Wallets',strip(wl),subL(wl,1)),
     va.length&&grp('va','Virtual accounts',strip(va),subL(va)),
-    cards.length&&grp('card','Credit or debit card',pmLg('card'),cardBody)].filter(Boolean);
+    cards.length&&grp('card','Credit or debit card',['visa','mastercard'].map(b=>tile(`<img class="plg plg-sm" src="${IMG}payment/${b}.png" alt="">`)).join(''),cardBody)].filter(Boolean);
   return`<div class="ie-pp vc">
     <div class="pp-c pp-sum"><div class="pp-top"><div><div class="pp-a num">${rp(total)}</div><div class="pp-d">Due ${fday(due)}</div></div><span class="btn btn-o">${ic('doc',14)}Invoice PDF</span></div>
       <dl class="pp-kv"><dt>To</dt><dd>${cn}</dd><dt>From</dt><dd>Aruna Studio</dd><dt>Invoice</dt><dd>${no}</dd></dl>
@@ -3525,6 +3531,8 @@ function sampleView(){const keep=D,ed=editing;editing=null;
   D={...blank(),cust:ICUST.find(c=>c.email),lines:[{name:CATALOG[0][0],price:CATALOG[0][1],qty:1},{name:CATALOG[1][0],price:CATALOG[1][1],qty:2}]};
   const v={who:D.cust.name,no:nextNo(),total:sub(),lines:D.lines.map(l=>({...l})),D,email:pvBody('email'),pdf:pvBody('pdf')};
   D=keep;editing=ed;custView(v,'page')}
+/* rotate the last logo tile of a payment-method group every 4 seconds, with a slow crossfade */
+setInterval(()=>document.querySelectorAll('.pp-cyc').forEach(t=>{const c=[...t.children],i=Math.max(0,c.findIndex(e=>e.classList.contains('on')));c[i].classList.remove('on');c[(i+1)%c.length].classList.add('on')}),4000);
 const WBAL={gopay:2450000,ovo:875000,dana:1320000,shopeepay:540000}; // prototype wallet balances
 function custView(v,start){const el=document.getElementById('cv');let at=start||'email';const st={pick:'qris',open:null,linked:{},cards:[],qris:false,hp:0};
   /* Connect: in the live product the wallet opens in a new tab and asks for the phone number on the account; here a dialog stands in for that tab */
