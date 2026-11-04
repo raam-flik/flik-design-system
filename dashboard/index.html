@@ -33,7 +33,7 @@ svg{display:block;flex:none}
 .num{font-variant-numeric:tabular-nums}
 
 /* ===== Layout ===== */
-.app{display:grid;grid-template-columns:200px 1fr;min-height:100vh}
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
 .side{border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;background:#fff;display:flex;flex-direction:column}
 .acct{display:flex;align-items:center;gap:10px;padding:18px 18px 16px;border-bottom:1px solid var(--line);width:100%;text-align:left}
 .acct .lg{width:28px;height:28px;border-radius:7px;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.04)}
@@ -2216,7 +2216,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 /* ===== Onboarding, sandbox, verification and Settings (spec: Ahmad, 4 Nov 2026). Built from the v4 parts: sx flow shell, sx-opt option cards, tabs, st badges, tables, modal, drawer. New pieces keep the same shadows, radii and type. ===== */
 /* Sidebar account: store name, status line, verify card */
 .acct{cursor:pointer}.acct:hover{background:var(--hover)}
-.acct{gap:8px;padding-right:12px}.acct .acct-t{flex:1;min-width:0;display:grid}.acct .acct-t b{flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acct{gap:8px;padding-right:12px}.acct .acct-t{flex:1;min-width:0;display:grid}.acct .acct-t b{flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.acct-t small{white-space:nowrap}
 .acct small{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;font-weight:400}.acct small.ok{color:var(--ok-tx)}
 .acct .acct-chev{color:var(--faint);display:flex}
 .vcard{margin:12px 12px 0;padding:12px;border-radius:8px;background:var(--hover);display:grid;gap:8px}
@@ -2252,13 +2252,13 @@ body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;heig
 .sg-s:hover{background:var(--hover)}
 .sg-s .m{width:16px;height:16px;border-radius:50%;border:1px solid #C0C8D2;flex:none;display:flex;align-items:center;justify-content:center;color:#fff}
 .sg-s.done{color:var(--muted)}.sg-s.done span.t{text-decoration:line-through}.sg-s.done .m{background:var(--primary);border-color:var(--primary)}
-.sg-s.next{font-weight:500;color:var(--ink)}.sg-s.next .m{border:5px solid var(--primary)}.sg .pbar i,.vcard .pbar i{background:var(--primary)}
+.sg-s.next{font-weight:500;color:var(--ink)}.sg-s.next .m{border:5px solid var(--primary)}.sg .pbar i,.vcard .pbar i,.simf .pbar i{background:var(--primary)}
 .sg-s em{margin-left:auto;font-style:normal;font-size:12px;color:var(--faint);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
-.sg-f{border-top:1px solid var(--line);padding:10px 18px;display:flex;justify-content:space-between;font-size:13px}
-.sg-f button{color:var(--muted);font-weight:500}.sg-f button:hover{color:var(--ink)}
-.sg.c{width:300px;padding:14px 16px;display:grid;gap:8px;cursor:pointer}
-.sg.c div{display:flex;justify-content:space-between;font-size:13px}.sg.c b{color:var(--ink);font-weight:600}
-.sg.c p{font-size:13.5px}.sg.c p span{color:var(--muted)}
+
+
+.sg-ca{display:flex;align-items:center;gap:2px}.sg-ca .lnk{margin-right:6px;font-size:13.5px;font-weight:500}.sg-ca .ib{width:28px;height:28px;color:var(--muted)}.sg-ca .ib:hover{color:var(--ink);background:var(--hover)}
+
+
 .sg-pill{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px 0 8px;border-radius:999px;background:#fff;box-shadow:var(--sh);font-size:13.5px;font-weight:500;color:var(--ink);white-space:nowrap}
 .tools .sg-pill{margin-right:4px} /* same extra space as the balance box */
 .sg-pill:hover{box-shadow:0 0 0 1px rgba(64,68,82,.18),0 2px 5px rgba(64,68,82,.1)}
@@ -2354,6 +2354,26 @@ body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;heig
 @media (max-width:900px){.set-g{grid-template-columns:1fr 1fr}}
 @media (max-width:600px){.set-g,.set-g2{grid-template-columns:1fr}.savebar{left:16px;right:16px;transform:none;bottom:16px}.savebar span{flex:1}}
 
+.simf{position:fixed;left:256px;bottom:24px;z-index:87;width:320px;max-width:calc(100vw - 32px);background:#fff;border-radius:12px;box-shadow:var(--pop);overflow:hidden}
+#cv .simf{left:24px}
+.simf.in-flow{left:24px;bottom:88px}#view-mca .simf.in-flow .simf-n{display:block}.simf.in-flow .simf-full,.simf.in-flow [data-simmin]{display:none}.simf.in-flow .sg-h,.simf.in-flow .simf-n{cursor:default}
+.simf-a{display:inline-flex;align-items:center;gap:4px}.simf-a .ib{width:28px;height:28px;margin-right:-6px}.simf-a svg{transition:transform .2s}.simf.min .simf-a svg{transform:rotate(180deg)}
+.simf .sg-g{padding:6px 0}.simf .sg-s{cursor:default}.simf .sg-s:hover{background:none}
+.simf-n{padding:0 18px 14px;font-size:13.5px;color:var(--ink)}.simf-n span{color:var(--muted)}.simf:not(.min) .simf-n,.simf.min .simf-full{display:none}.simf.min .sg-h,.simf.min .simf-n{cursor:pointer}
+.simf-f{border-top:1px solid var(--line);padding:12px 18px 16px;display:grid;gap:10px}.simf-f p{font-size:12.5px;color:var(--muted);line-height:1.45}.simf-f div{display:flex;gap:8px;flex-wrap:wrap}
+@media (max-width:900px){.simf,#cv .simf{left:16px;right:16px;bottom:16px;width:auto}body:has(.drawer.open) .simf{display:none}body:has(#view-mca:not([hidden]) .simf,#shp-order:not([hidden]) .simf,#cv:not([hidden]) .simf) .sg{display:none}}
+.sg-ch{display:flex;align-items:center;gap:8px;padding:12px 12px 10px 16px}.sg-ch b{flex:1;font-size:14.5px;font-weight:600;color:var(--ink)}
+.sg>.pbar{margin:0 16px}
+.sg-cn{padding:10px 16px 14px;font-size:13.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sg-cn .lnk{font-weight:500}.sg.c{cursor:pointer}
+.sg-bd{max-height:min(440px,60vh);overflow-y:auto;padding:10px 8px 8px}
+.sg-grp{border-radius:8px;margin-bottom:2px}.sg-grp.open{background:var(--hover)}
+.sg-gh{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;font-weight:600;font-size:13.5px;color:var(--ink);text-align:left;border-radius:8px}.sg-gh:hover{background:var(--hover)}
+.sg-gh .ct{margin-left:auto;font-weight:400;font-size:12.5px;color:var(--faint)}.sg-gh svg{color:var(--faint);transition:transform .15s}.sg-grp.open .sg-gh svg{transform:rotate(180deg)}
+.sg-gs{display:grid;padding:0 4px 8px}.sg-grp .sg-s{padding:7px 8px;border-radius:6px}.sg-grp .sg-s:hover{background:#fff}
+.sg-ed{border-top:1px solid var(--line);margin-top:8px;padding:10px 16px 12px;display:grid;gap:2px;font-size:13.5px}.sg-ed b{font-weight:600;color:var(--ink);margin-bottom:4px}.sg-eo{display:flex;align-items:center;gap:8px;padding:5px 0;text-align:left;color:var(--text)}.sg-ed .lnk{justify-self:start;margin-top:6px;font-weight:500}
+.sg-done{padding:14px;text-align:center;color:var(--muted);font-size:13.5px}
+/* the guide stays above full-screen flows (create shipment, invoice editor, verification…), sitting just over their footer */
+body:has(:is(#sx,#ie,#vx,#cv,#mx,#wx):not([hidden])) .sg{bottom:88px;z-index:88}.sg .lnk{color:var(--primary)}.sg .lnk:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -3540,7 +3560,7 @@ const blank=()=>({cust:null,lines:[],dueDays:30,pms:new Set(['qris','bcad','card
 const PMS={qris:['QRIS','qris'],bcad:['Debit BCA card','bca'],card:['Credit and debit card',null],gopay:['GoPay','gopay'],ovo:['OVO','ovo'],dana:['DANA','dana'],shopeepay:['ShopeePay','shopeepay'],va_bca:['BCA virtual account','bca'],va_mandiri:['Mandiri virtual account','mandiri'],va_bni:['BNI virtual account','bni'],va_bri:['BRI virtual account','bri'],va_permata:['Permata virtual account','permata']};
 const PM_GROUPS={wallet:['gopay','ovo','dana','shopeepay'],va:['va_bca','va_mandiri','va_bni','va_bri','va_permata']},PM_GNAME={wallet:['E-Wallets','wallet'],va:['virtual accounts','bal']};
 const pmLg=k=>k==='card'?['visa','mastercard'].map(b=>`<img class="plg plg-sm" src="${IMG}payment/${b}.png" alt="">`).join(''):PMS[k][1]?`<img class="plg plg-sm" src="${IMG}payment/${PMS[k][1]}.png" alt="">`:`<span class="plg plg-sm plg-i">${ic('card',12)}</span>`;
-const nextNo=()=>'INV-2026-'+String(49+INV.filter(v=>v.status!=='draft'&&v.created>NOW).length).padStart(4,'0');
+const nextNo=()=>(window.SBX_ON?'TEST-':'')+'INV-2026-'+String(49+INV.filter(v=>v.status!=='draft'&&v.created>NOW).length).padStart(4,'0');
 const sub=()=>D.lines.reduce((a,l)=>a+l.price*l.qty,0);
 const dueDate=()=>new Date(NOW.getTime()+D.dueDays*86400000);
 const initials=n=>n.split(' ').map(x=>x[0]).slice(0,2).join('');
@@ -3709,7 +3729,7 @@ document.getElementById('ie-review').onclick=()=>{
       INV.unshift({no,cust:D.cust,total,status:'open',created,due:dueDate()});
       closeModal();itab='all';/* a draft opens from the list without changing the address, so go back to the list here too */if(location.hash==='#invoices'){closeEditor();renderInv()}else location.hash='invoices';
       const extra=R.cc&&ccList().length?` and ${ccList().length} CC`:'';
-      toast(R.sched?`${no} scheduled for ${fday(new Date(R.date))} to ${D.cust.email}${extra}`:`${no} sent to ${D.cust.email}${extra}`);
+      toast(R.sched?`${no} scheduled for ${fday(new Date(R.date))} to ${D.cust.email}${extra}`:ONB.sbx?`${no} is in the sandbox outbox. Nothing was emailed to ${D.cust.email}`:`${no} sent to ${D.cust.email}${extra}`);
       if(cv){cv.inv=INV[0];custView(cv)}}};
   draw();mscrim.classList.add('open')};
 /* prototype only: after sending, show what the customer gets. The email (PDF attached) opens first; the attachment opens the PDF, Pay this invoice opens the payment page */
@@ -3812,7 +3832,7 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
     if('signout' in d){Object.assign(st,{acct:false,full:false,pick:'qris',open:null,cvc:''});draw(1);toast('Signed out of FLIK');return}
     if('chg' in d){st.full=true;draw(1);return}
     if('save' in d){st.save=!st.save;draw(1);return}
-    if(d.sim){if(d.sim==='paid'){st.paid=st.pick||'qris';ONB.done.spay=1;ONB.dev=Object.assign(ONB.dev||{},{pay:1,recon:1});ONB.events.unshift({t:'payment_intent.succeeded',at:'Just now',ok:!!ONB.hooks.length});onbSave();drawGuide();draw()}else{toast(d.sim==='failed'?'Payment failed. The shopper can try again.':'Checkout session expired. checkout.session.expired was sent.');ONB.events.unshift({t:d.sim==='failed'?'payment_intent.payment_failed':'checkout.session.expired',at:'Just now',ok:!!ONB.hooks.length});onbSave()}return}
+    if(d.sim){if(d.sim==='paid'){st.paid=st.pick||'qris';if(window.SBX_ON)sbxInvPaid(v);ONB.done.spay=1;ONB.dev=Object.assign(ONB.dev||{},{pay:1,recon:1});ONB.events.unshift({t:'payment_intent.succeeded',at:'Just now',ok:!!ONB.hooks.length});onbSave();drawGuide();draw()}else{toast(d.sim==='failed'?'Payment failed. The shopper can try again.':'Checkout session expired. checkout.session.expired was sent.');ONB.events.unshift({t:d.sim==='failed'?'payment_intent.payment_failed':'checkout.session.expired',at:'Just now',ok:!!ONB.hooks.length});onbSave()}return}
     if('flikinfo' in d){flikInfo();return}
     if('qback' in d){st.qris=false;draw();return}
     if(d.hp){st.hp=st.hp===+d.hp?-1:+d.hp;draw(1);return}
@@ -4318,7 +4338,7 @@ function whSave(){if(!whOk())return;const ed=!!whEdit;
   if(F.def)WH.forEach(w=>w.def=false);
   if(ed){const i=WH.findIndex(w=>w.code===whEdit);WH[i]=F}else WH.unshift(F);
   if(!WH.some(w=>w.def&&w.active)){const first=WH.find(w=>w.active);if(first)first.def=true}
-  const name=F.n;whSync();
+  const name=F.n;whSync();ONB.done.pickup=1;onbSave();drawGuide();
   if(location.hash==='#warehouses/new')location.hash='warehouses';else closeWh();
   closeWh();whTab='all';renderWh();toast(ed?'Changes saved':`${name} added`)}
 
@@ -4345,9 +4365,9 @@ function renderShp(){
 document.getElementById('shp-body').addEventListener('click',e=>{if(e.target.closest('.dots-b'))return;const tr=e.target.closest('tr[data-shp]');if(tr)location.hash=`shipments/${tr.dataset.shp}`});
 document.addEventListener('click',e=>{if(e.target.closest('[data-newshp]')){closePop();location.hash='shipments/create'}});
 /* ===== Batch page (#shipments/<batch>) and order page (#shipments/<batch>/<order>) ===== */
-const OST={confirm:['Waiting for confirmation','warn'],payment:['Waiting for payment','warn'],pickup:['Waiting for pickup','warn'],transit:['In transit','pu'],done:['Delivered','ok'],returned:['Returned','bad']};
+const OST={confirm:['Waiting for confirmation','warn'],payment:['Waiting for payment','warn'],pickup:['Waiting for pickup','warn'],transit:['In transit','pu'],done:['Delivered','ok'],returned:['Returned','bad'],failed:['Delivery failed','warn']};
 const oPill=s=>`<span class="st ${OST[s][1]}">${OST[s][0]}</span>`;
-const awbNo=()=>String(1e12+Math.floor(rnd()*9e12)).slice(0,13);
+const awbNo=()=>(window.SBX_ON?'TEST-':'')+String(1e12+Math.floor(rnd()*9e12)).slice(0,13);
 const svcLabel=sv=>`${COURIERS.find(c=>c.k===sv[0]).n} ${sv[1]}`;
 let BQ={id:null,q:'',pay:'all',st:'all',pg:0};
 /* sample batches come without orders; make them the first time a batch is opened */
@@ -4359,6 +4379,7 @@ function genOrders(b){if(b.orders)return b.orders;let sd=parseInt(b.id.slice(0,6
   b.orders=Array.from({length:b.n},(_,k)=>{const a=AREAS[r(AREAS.length)],p=PR[r(PR.length)],q=1+r(2),kg=Math.max(1,Math.ceil(p[2]*q)),cod=k<b.cod?p[1]*q:0;
     const st=b.st==='done'?(k===b.n-1&&b.n>2?'returned':'done'):b.st==='transit'?(k%3===0?'done':'transit'):'pickup';
     return{id:bid(),awb:awbNo(),name:FN[r(FN.length)]+' '+LN[r(LN.length)],phone:`8${1+r(8)}${r(10)}-${1000+r(9000)}-${1000+r(9000)}`,addr:{street:`Jl. Melati No. ${1+r(90)}`,city:`${a[0]}, ${a[1]}, ${a[2]}, ${a[3]}`,zip:a[4]},items:`${p[0]} ×${q}`,kg:String(kg),dim:'30×20×10',cod,val:p[1]*q,cost:b.svc[4]*kg,list:(b.svc[5]||b.svc[4])*kg,st,src:'manual',t:[day(1),day(1.4),day(2),day(2.3)]}});
+  if(window.SBX_ON){b.orders.forEach((o,i)=>o.phone='800-0000-'+String(1000+i));sbxOrdApply(b)}
   return b.orders}
 function shpRoute(){const m=location.hash.match(/^#shipments\/([0-9A-F]{8})(?:\/([0-9A-F]{8}))?$/),b=m&&SHP.find(x=>x.id===m[1]);if(b)genOrders(b);const o=b&&m[2]&&b.orders.find(x=>x.id===m[2]);
   if(m&&!b)history.replaceState(null,'','#shipments');
@@ -4386,12 +4407,13 @@ function renderOrder(b,o){const ow=o.wh||b.wh;const sv=b.svc,fmt=x=>x.toLocaleSt
   const ev=o.st==='confirm'||o.st==='payment'?[[o.st==='confirm'?'Asked the shopper to confirm on WhatsApp':'Payment link sent on WhatsApp',`WhatsApp · ${fdateY(b.created)}`,'pu'],...base]:o.st==='pickup'?[['Pickup scheduled',`${ow.n} · ${b.when||'—'}`,'pu'],...base]
     :o.st==='transit'?[['Arrived at sorting hub',`${city} · ${fdateY(T[2])}`,'pu'],['Left sorting hub',`Jakarta · ${fdateY(T[1])}`,''],['Picked up by courier',`${ow.n} · ${fdateY(T[0])}`,''],...base]
     :o.st==='done'?[[`Delivered, received by ${o.name}`,`${city} · ${fdateY(T[3])}`,'ok'],['Out for delivery',`${city} · ${fdateY(T[2])}`,''],['Arrived at sorting hub',`${city} · ${fdateY(T[1])}`,''],['Picked up by courier',`${ow.n} · ${fdateY(T[0])}`,''],...base]
+    :o.st==='failed'?[['Delivery failed: recipient not at home',`${city} · ${fdateY(T[3])}`,'warn'],['Out for delivery',`${city} · ${fdateY(T[2])}`,''],['Arrived at sorting hub',`${city} · ${fdateY(T[1])}`,''],['Picked up by courier',`${ow.n} · ${fdateY(T[0])}`,''],...base]
     :[['Returned to sender',`${ow.n} · ${fdateY(T[3])}`,'bad'],['Delivery failed: recipient not at home',`${city} · ${fdateY(T[2])}`,'warn'],['Out for delivery',`${city} · ${fdateY(T[1])}`,''],['Picked up by courier',`${ow.n} · ${fdateY(T[0])}`,''],...base];
   const cn=COURIERS.find(c=>c.k===sv[0]).n;
   document.getElementById('shp-order').innerHTML=`${crumbs([['Shipments','#shipments'],[`Batch ${b.id}`,`#shipments/${b.id}`],[`Order ${o.id}`]])}
   <div class="od-title"><h1>Order ${o.id}</h1>${oPill(o.st)}</div>
   <div class="od-acts"><button class="btn btn-o" data-toast="Status is up to date">${ic('refund',15)}Refresh status</button><button class="btn btn-o" data-toast="Printing the label for ${o.id}">${ic('print',15)}Print label</button><button class="btn btn-o" data-toast="Opens help for this order">${ic('help',15)}Get help</button></div>
-  <div class="od-grid"><div class="od-main">
+  ${window.SBX_ON?sbxOrdPanel(b,o):''}<div class="od-grid"><div class="od-main">
     <section class="card od-card"><h3>Order</h3>${kv([['Order ID',`<span class="mono">${o.id}</span>`],['AWB',`<span class="mono">${o.awb}</span><button class="ib cp" data-copy="${o.awb}" aria-label="Copy AWB">${ic('copy',14)}</button>`],['Created',fdateY(b.created)],['Source',o.src==='bulk'?'Bulk upload':'Manual entry']])}</section>
     <section class="card od-card"><h3>Package</h3>${kv([['Service',`<span class="od-c"><span class="tt" data-tt="${svcLabel(sv)}" tabindex="0" aria-label="${svcLabel(sv)}">${cLogo(sv[0])}</span><span><span class="nw">${sv[1]} ·</span> <span class="nw">${sv[3]}</span></span></span>`],['Payment',o.cod?`COD · ${rp(o.cod)}`:'Non-COD'],['Item value',rp(o.val)],['Contents',o.items],['Weight',`${o.kg} kg`],['Size',`${o.dim} cm`],['Shipping cost',rp(o.cost)],['You saved',o.list>o.cost?`<span class="od-save">${rp(o.list-o.cost)}</span>`:rp(0)]])}</section>
     <div class="od-two"><section class="card od-card od-rcp"><h3>Recipient</h3>${kv([['Name',o.name],['Phone',`+62 ${o.phone}`],['Address',`${o.addr.street}, ${o.addr.city} ${o.addr.zip}`,1]])}</section>
@@ -4853,7 +4875,7 @@ function whQuickModal(onSave){const w={n:'',code:'',ph:'',street:'',dist:'',city
     err.hidden=!taken;err.textContent=taken?`${w.code.toUpperCase()} is already used by another warehouse.`:'';go.disabled=!ok};
   modal.oninput=e=>{const k=e.target.dataset.wq;if(!k)return;if(k==='code')e.target.value=e.target.value.toUpperCase();w[k]=e.target.value;check()};
   go.onclick=()=>{const nw={code:w.code.trim().toUpperCase(),ext:'',n:w.n.trim(),pic:{first:'',last:'',email:'',phone:w.ph.trim()},prov:w.prov.trim(),city:w.city.trim(),dist:w.dist.trim(),zip:w.zip,street:w.street.trim(),note:'',days:whHrs('08:00','17:00',['Mon','Tue','Wed','Thu','Fri','Sat']),pickup:true,active:true,def:false};
-    WH.push(nw);whSync();modal.oninput=null;closeModal();onSave(nw)};
+    WH.push(nw);whSync();ONB.done.pickup=1;onbSave();drawGuide();modal.oninput=null;closeModal();onSave(nw)};
   setTimeout(()=>document.getElementById('wq-n').focus(),0)}
 /* ===== Risky shoppers: decide before shipping. Ship anyway, remove, ask the shopper to confirm on WhatsApp, or send a payment link on WhatsApp.
    The last two wait for the shopper and ship later as their own batch. ===== */
@@ -4999,7 +5021,7 @@ const UJ={id:'FLIKCM-2026-0031',tahap:1,placed:350e6,admin:3.5e6,fee:21e6,start:
   seg:[[1,30,3.5e6],[31,60,4.2e6],[61,89,4.65e6],[90,90,5.15e6]]};
 const ujTotal=()=>UJ.placed+UJ.fee,ujDay=n=>new Date(UJ.start.getTime()+(n-1)*864e5),ujToday=Math.floor((NOW-UJ.start)/864e5)+1;
 /* collected per day so far (the financing service's postings; example data). Behind = about 3 days short */
-const ujDaily=()=>{const behind=MC.st==='behind',a=[];for(let d=1;d<=ujToday;d++){const base=3.5e6*(1+(((d*37)%9)-4)/45)*(behind?.82:1.012);a.push(Math.round(base/100)*100)}return a};
+const ujDaily=()=>{const behind=MC.st==='behind',a=[];for(let d=1;d<=ujToday;d++){const base=UJ.seg[0][2]*(1+(((d*37)%9)-4)/45)*(behind?.82:1.012);a.push(Math.round(base/100)*100)}return a};
 const ujSched=d=>{const s=UJ.seg.find(x=>d>=x[0]&&d<=x[1]);return s?s[2]:0},ujExpTo=d=>{let t=0;for(let i=1;i<=d;i++)t+=ujSched(i);return t};
 const ujFig=()=>{const D=ujDaily(),ret=D.reduce((a,b)=>a+b,0),exp=ujExpTo(ujToday),tot=ujTotal();return{D,ret,exp,tot,rem:tot-ret,pct:ret/tot*100,behind:MC.st==='behind'?3:0,arrears:Math.max(0,exp-ret)}};
 /* Auto collections follow the Cash Advance's daily returns: every settlement from a committed channel is its own line (many orders through FLIK Checkout,
@@ -5019,7 +5041,7 @@ const mcApps=()=>{const st=MC.st,L=[];
   if(st==='offer')L.push({no:'FLIKCM-2026-0042',sub:new Date(2026,9,2),amt:MC_ASK,out:'Offer',tone:'pu'});
   if(['preparing','transfer','live','behind'].includes(st))L.push({no:'FLIKCM-2026-0031',sub:new Date(2026,8,2),amt:350e6,out:'Placement',tone:'ok'});
   if(st==='history')L.push({no:'FLIKCM-2026-0024',sub:new Date(2026,6,14),amt:750e6,out:'Declined · new application from 1 Jan 2027',tone:'gr'});
-  if(!['none','unverified'].includes(st))L.push({no:'FLIKCM-2026-0009',sub:new Date(2026,2,3),amt:200e6,out:'Placement',tone:'ok'});
+  if(!['none','unverified'].includes(st)&&!window.SBX_ON)L.push({no:'FLIKCM-2026-0009',sub:new Date(2026,2,3),amt:200e6,out:'Placement',tone:'ok'});
   return L};
 const mcPlacements=()=>{const st=MC.st,L=[];
   if(['live','behind'].includes(st)){const f=ujFig();L.push({id:UJ.id,t:'Cash Advance 2',placed:UJ.placed,st:mcStat(f),ret:f.ret,rem:f.rem})}
@@ -5091,7 +5113,7 @@ function mcHistory(){return mcCard('',`<div class="mc-res"><div><h3>No open appl
 /* laid out like Balances: the numbers that matter in tiles on top, a strip for anything waiting, then the activity in tabs */
 const mcPct=p=>p.toFixed(1).replace('.',',')+'%';
 /* the offer comes as one payout, or in tranches: FLIK places what the sales carry today and opens the next tranche a week later, until the amount asked for is reached. All tranches belong to one Cash Advance */
-const MC_ASK=1e9,mcParts=()=>MC.one?[{a:MC_ASK,d:new Date(NOW)}]:[[300e6,3],[300e6,10],[300e6,17],[100e6,24]].map(([a,dd])=>({a,d:new Date(NOW.getTime()+dd*864e5)}));
+let MC_ASK=1e9;const mcParts=()=>MC.one?[{a:MC_ASK,d:new Date(NOW)}]:[[300e6,3],[300e6,10],[300e6,17],[100e6,24]].map(([a,dd])=>({a,d:new Date(NOW.getTime()+dd*864e5)}));
 const mcPartTip=(p,i,n)=>i?`Tranche ${i+1} of ${n} · ${rp(p.a)}. Opens ${fday(p.d)}; request it here then. FLIK checks your latest sales first, and its returns join this Cash Advance's schedule.`:`Tranche 1 of ${n} · ${rp(p.a)}. Paid into your account after you sign the PKS. Returns start from your next settlement.`;
 function mcOfferTile(up){const P=mcParts(),n=P.length;let run=0;
   if(n===1)return`<div class="bl-tile main mc-tile mc-offer mc-one"><span class="kpi-l"><span class="mc-appid"><span class="mc-id">${MC.aid}</span><span class="st warn">In review</span></span></span>
@@ -5214,7 +5236,7 @@ const mcCAs=()=>{if(1)return mcAll().map(r=>({id:r.id,amt:r.amt,sub:r.sub?fday(r
   if(['live','behind'].includes(st)){const f=ujFig();L.push({id:UJ.id,amt:UJ.placed,sub:'2 Sep 2026',st:mcStat(f),ret:f.ret,rem:f.rem});mcQ().forEach(q=>L.push({id:q.id,amt:q.placed,sub:q.sub,st:`<span class="st pu">${mcNth(q.pos)}</span>`,ret:0,rem:q.tot}))}
   if(['preparing','transfer'].includes(st))L.push({id:UJ.id,amt:UJ.placed,sub:'2 Sep 2026',st:`<span class="st pu">${st==='transfer'?'Started':'Starts 27 Sep'}</span>`,ret:0,rem:ujTotal()});
   if(st==='history')L.push({id:'FLIKCM-2026-0024',amt:750e6,sub:'14 Jul 2026',st:'<span class="st gr">Declined</span>'});
-  if(!['none','unverified'].includes(st))L.push({id:'FLIKCM-2026-0009',amt:200e6,sub:'3 Mar 2026',st:'<span class="st gr">Completed</span>',ret:212e6,rem:0});
+  if(!['none','unverified'].includes(st)&&!window.SBX_ON)L.push({id:'FLIKCM-2026-0009',amt:200e6,sub:'3 Mar 2026',st:'<span class="st gr">Completed</span>',ret:212e6,rem:0});
   return L};
 /* buttons inside the panel reuse the page's actions */
 /* one order or bank line behind a return: what came in, the share taken for the placement, what reached the merchant */
@@ -5240,7 +5262,7 @@ const mcAll=()=>{const T=(y,m,d,h,mi)=>new Date(y,m,d,h,mi);const f=ujFig(),b=MC
   if(['draft','review','offer'].includes(b))L.push({id:'FLIKCM-2026-0042',k:b,sub:b==='draft'?null:T(2026,9,2,10,20),amt:MC_ASK});
   if(['preparing','transfer','live','behind'].includes(b))L.push({id:UJ.id,k:b,sub:T(2026,8,2,14,5),amt:UJ.placed,ret:live?f.ret:0,rem:live?f.rem:ujTotal()});
   if(b==='history')L.push({id:'FLIKCM-2026-0024',k:'declined',sub:T(2026,6,14,9,40),amt:750e6});
-  L.push({id:'FLIKCM-2026-0009',k:'done',sub:T(2026,2,3,11,15),amt:200e6,ret:212e6,rem:0});return L}
+  if(!window.SBX_ON)L.push({id:'FLIKCM-2026-0009',k:'done',sub:T(2026,2,3,11,15),amt:200e6,ret:212e6,rem:0});return L}
   const fb=ujFigK('behind');return[{id:UJ.id,k:'live',sub:T(2026,8,2,14,5),amt:UJ.placed,ret:f.ret,rem:f.rem},{id:'FLIKCM-2026-0036',k:'behind',sub:T(2026,8,12,10,45),amt:UJ.placed,ret:fb.ret,rem:fb.rem},{id:'FLIKCM-2026-0050',k:'transfer',sub:T(2026,9,1,9,30),amt:250e6,ret:0,rem:265e6},{id:'FLIKCM-2026-0052',k:'preparing',sub:T(2026,9,3,15,20),amt:150e6,ret:0,rem:159e6},{id:'FLIKCM-2026-0042',k:'draft',sub:null,amt:MC_ASK},{id:'FLIKCM-2026-0045',k:'review',sub:T(2026,9,6,16,30),amt:MC_ASK},
   {id:'FLIKCM-2026-0047',k:'offer',sub:T(2026,9,8,13,0),amt:MC_ASK},{id:'FLIKCM-2026-0024',k:'declined',sub:T(2026,6,14,9,40),amt:750e6},{id:'FLIKCM-2026-0009',k:'done',sub:T(2026,2,3,11,15),amt:200e6,ret:212e6,rem:0}]};
 /* the row "…" menu offers the same actions as that Cash Advance's side panel, by status */
@@ -5282,7 +5304,7 @@ function renderMca(){mcNavBadge();const el=document.getElementById('view-mca'),s
   if(st==='offer')mcOfferRun();
   if(st==='none'||st==='unverified'||(!MC.det&&!['none','unverified'].includes(MC.base)))esArt('es-art-mca','coins',[['pkg',0],['store',1],['cart',2],['tx',3],['chart',4],['wallet',.5,1],['clock',1.5,1],['doc',2.5,1],['check',3.5,1]]);
   if((st==='live'||st==='behind')&&MC.atab==='sch'){const f=ujFig(),rows=f.D.map((_,i)=>({l:`${ujDay(i+1).getDate()} ${MON[ujDay(i+1).getMonth()]}`,tl:fdateY(ujDay(i+1)).replace(/, .*/,''),exp:ujExpTo(i+1),act:f.D.slice(0,i+1).reduce((a,b)=>a+b,0)}));
-    const c=document.getElementById('mc-chart');requestAnimationFrame(()=>multiArea(c,rows,{ax:rpS,full:rp,ser:[['exp','Expected','var(--flik-orange)'],['act','Returned','var(--primary)']],aria:'Expected returned to date against what has been returned, by day',fill:false}))}}
+    const c=document.getElementById('mc-chart');requestAnimationFrame(()=>multiArea(c,rows,{ax:rpS,full:rp,ser:[['exp','Expected','var(--flik-orange)'],['act','Returned','var(--primary)']],aria:'Expected returned to date against what has been returned, by day',fill:false}))};if(window.SBX_ON)sbxMcaPanel(el)}
 document.getElementById('view-mca').addEventListener('input',e=>{if(e.target.id==='mc-aq'){MC.aq=e.target.value;const p=e.target.selectionStart;renderMca();const n=document.getElementById('mc-aq');if(n){n.focus();n.setSelectionRange(p,p)}return}if(e.target.id!=='mc-rq')return;MC.rq=e.target.value;const p=e.target.selectionStart;renderMca();const n=document.getElementById('mc-rq');if(n){n.focus();n.setSelectionRange(p,p)}});
 {const vm=document.getElementById('view-mca'),tg=tr=>{if(tr.dataset.mcdet){mcCaDrawer(tr.dataset.mcdet);return}if(tr.dataset.mcln){const t=tr.dataset;mcLineDrawer(t.mcln,t.k,+t.a,+t.d,t.f);return}if(tr.dataset.mcpl){mcPlDrawer(tr.dataset.mcpl);return}if(tr.dataset.mcap){mcApDrawer(tr.dataset.mcap);return}MC.open[tr.dataset.mcg]=!MC.open[tr.dataset.mcg];renderMca()};
   vm.addEventListener('click',e=>{if(e.target.closest('button,a'))return;const tr=e.target.closest('tr[data-mcdet],tr[data-mcg],tr[data-mcpl],tr[data-mcap],tr[data-mcln]');if(tr)tg(tr)});
@@ -5741,7 +5763,7 @@ mxFoot.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)ret
   if('aprev' in b.dataset){A.step--;drawMx();mxBody.scrollTop=0;return}
   if('aexit' in b.dataset){aExit();return}
   if(b.id==='mx-next'&&!b.disabled){if(A.step<5){A.step++;A.max=Math.max(A.max,A.step);drawMx();mxBody.scrollTop=0;return}
-    A.done='FLIKCM-2026-0043';MC.st='review';drawMx();mxBody.scrollTop=0;toast(`Application ${A.done} submitted`)}});
+    if(window.SBX_ON){sbxMcApplied();return}A.done='FLIKCM-2026-0043';MC.st='review';drawMx();mxBody.scrollTop=0;toast(`Application ${A.done} submitted`)}});
 
 
 /* ===== Balances: ledger (every number on the page is summed from these lines) ===== */
@@ -6208,7 +6230,7 @@ const FN=['Rina','Budi','Sari','Andi','Dewi','Fajar','Maya','Rizky','Putri','Agu
 const PRODUCTS=[['Linen shirt · White',289000,.4],['Canvas tote bag',149000,.3],['Wide-leg trousers',219000,.5],['Basic tee · Black',99000,.2],['Voile scarf · Floral',125000,.1],['Leather sneakers',459000,1.2],['Batik dress · Indigo',375000,.5]];
 const STREETS=['Jl. Melati','Jl. Kenanga','Jl. Mawar','Jl. Anggrek','Jl. Cempaka','Jl. Flamboyan','Jl. Merdeka','Jl. Sudirman','Jl. Diponegoro','Jl. Gajah Mada'];
 const AWBP={spx:'SPXID0',jnt:'JP',jne:'JNE0',ninja:'NLIDAP',lion:'99LP',sicepat:'0045',anteraja:'1000'};
-let awbSeq=0;const mkAwb=k=>AWBP[k]+String(4100000000+(++awbSeq)*7919);
+let awbSeq=0;const mkAwb=k=>(window.SBX_ON?'TEST-':'')+AWBP[k]+String(4100000000+(++awbSeq)*7919);
 const ageOf=s=>(NOW-s.created)/DAY;
 /* SLA: the courier's promised days for this route (from the warehouse to the customer's area). Waiting for pickup has its own SLA of 1 day */
 const PICKUP_SLA=1;
@@ -6248,12 +6270,12 @@ function issueOf(s){const m=monOf(s);if(m==='safe'||m==='ontrack')return null;
 const needsAct=s=>!!issueOf(s)&&!s.tk;
 const rstate=s=>{const m=monOf(s);if(needsAct(s))return'open';if(s.tk&&m!=='safe')return'ack';if((s.tk||s.had)&&m==='safe')return'resolved';return null};
 
-function genActive(){const R=mkRng(4242),pk=a=>a[Math.floor(R()*a.length)];SH.length=0;BATCH.length=0;TK.length=0;CL.length=0;PEND.length=0;VERIFIED.clear();awbSeq=0;clSeq=0;
+function genActive(seed,nb){const R=mkRng(seed||4242),pk=a=>a[Math.floor(R()*a.length)];SH.length=0;BATCH.length=0;TK.length=0;CL.length=0;PEND.length=0;VERIFIED.clear();awbSeq=0;clSeq=0;
   const codes=['JKT-01','JKT-01','BDG-01','SBY-01'],mix=['spx','spx','jnt','jnt','jne','jne','ninja','ninja','sicepat','lion','anteraja'];
   const regOf=k=>SERVICES.findIndex(v=>v[0]===k&&v[2]==='reg');
   const dests=AREA.map((a,i)=>[a,i<14?3:1]).flatMap(([a,w])=>Array(w).fill(a));
   let bseq=0;
-  for(let b=0;b<64;b++){
+  for(let b=0;b<(nb||64);b++){
     const created=new Date(NOW-(b<5?[1.3,0,.55,2.2,3.4][b]+R()*.1:b*2.85-10.5+R()*1.2)*DAY-R()*6*HOUR),k=pk(mix),svc=regOf(k),wh=pk(codes),n=[0,5,6][b]||(b%4===0?30+Math.floor(R()*46):4+Math.floor(R()*23));
     const id=`B-${String(created.getFullYear()).slice(2)}${String(created.getMonth()+1).padStart(2,'0')}${String(created.getDate()).padStart(2,'0')}-${String(++bseq).padStart(3,'0')}`;
     BATCH.push({id,created,k,svc,wh});
@@ -7182,21 +7204,20 @@ function acctMenu(b){if(popFor===b){closePop();return}popFor=b;
     <hr><h6>Prototype: view as</h6><div style="padding:2px 10px 6px"><span class="sp-sw rf-sw"><select class="rf-sel" id="am-role" aria-label="View as role">${Object.entries(ROLE_N).map(([k,n])=>`<option value="${k}" ${ONB.role===k?'selected':''}>${n}</option>`).join('')}</select></span></div></div>`;
   pop.onclick=e=>{const t=e.target.closest('[data-am],[data-ps],[data-pt]');if(!t)return;const d=t.dataset;
     if(d.am){closePop();({sbx:()=>enterSbx(),exit:()=>exitSbx(),reset:resetSbx,set:()=>location.hash='settings',tour:openTour})[d.am]();return}
-    if(d.ps){Object.assign(ONB,d.ps==='new'?{st:'new',tour:false,guide:'open',done:{},v:ONB_DEF().v,vmax:0,step:0,pay:null,creds:[]}:{st:d.ps,guide:d.ps==='active'?'pill':ONB.guide});if(d.ps!=='new'&&d.ps!=='active'){ONB.v=Object.assign(ONB_DEF().v,{type:'company',people:[{n:'Dewi Lestari',role:'Director',nik:'3174012345670001'}],docs:{nib:1,akta:1,npwp:1},acc:'0123456789',checked:true,otp:true,agree:true})}onbSave();closePop();onbRefresh();if(d.ps==='new')openTour();toast(`Prototype: ${t.textContent.trim()}`);return}
+    if(d.ps){Object.assign(ONB,d.ps==='new'?{st:'new',vok:false,tour:false,guide:'open',done:{},v:ONB_DEF().v,vmax:0,step:0,pay:null,creds:[]}:{st:d.ps,vok:false,guide:d.ps==='active'?'pill':ONB.guide});if(d.ps!=='new'&&d.ps!=='active'){ONB.v=Object.assign(ONB_DEF().v,{type:'company',people:[{n:'Dewi Lestari',role:'Director',nik:'3174012345670001'}],docs:{nib:1,akta:1,npwp:1},acc:'0123456789',checked:true,otp:true,agree:true})}onbSave();closePop();onbRefresh();if(d.ps==='new')openTour();toast(`Prototype: ${t.textContent.trim()}`);return}
     if(d.pt){ONB[d.pt]=!ONB[d.pt];onbSave();closePop();onbRefresh();toast(`Prototype: ${t.textContent.trim()} ${ONB[d.pt]?'on':'off'}`)}};
   pop.querySelector('#am-role').onchange=e=>{ONB.role=e.target.value;onbSave();closePop();onbRefresh();toast(`Viewing as ${ROLE_N[ONB.role]}`)};
   placePop(b)}
 function onbRefresh(){drawAcct();drawGuide();if(!document.getElementById('view-set').hidden)renderSet();if(!document.getElementById('view-home').hidden)onbHome()}
 
 /* ----- sandbox ----- */
-function enterSbx(go){ONB.sbx=true;ONB.done.sbxin=1;onbSave();drawAcct();drawGuide();toast('You\'re in the sandbox. Sample data only.');if(go)location.hash=go}
-function exitSbx(){ONB.sbx=false;onbSave();drawAcct();toast('Back in your live account')}
-function resetSbx(){modal.innerHTML=`<div class="mh"><h3>Reset the sandbox?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">Every test payment, shipment and funding step is wiped, and the sample data comes back. Your live account isn't touched.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="sbx-go">Reset sandbox</button></div>`;
-  document.getElementById('sbx-go').onclick=()=>{ONB.events=[];onbSave();closeModal();toast('Sandbox reset to the sample data')};mscrim.classList.add('open')}
+function enterSbx(go){ONB.sbx=true;ONB.done.sbxin=1;sbxSwap(true);onbSave();drawAcct();drawGuide();if(!go)show(hashView());toast('You\'re in the sandbox. Sample data only.');if(go)location.hash=go}
+function exitSbx(){ONB.sbx=false;sbxSwap(false);onbSave();drawAcct();show(hashView());toast('Back in your live account')}
+function resetSbx(){modal.innerHTML=`<div class="mh"><h3>Reset the sandbox?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">Every test payment, shipment and funding step is wiped, the sample data comes back and the setup guide starts again from 0. Your live account isn't touched.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="sbx-go">Reset sandbox</button></div>`;
+  document.getElementById('sbx-go').onclick=()=>{ONB.events=[];ONB.sb=null;ONB.simMin=false;ONB.done={};if(SBX_LIVE){sbxSwap(false);sbxSwap(true);show(hashView())}onbSave();drawGuide();closeModal();toast('Sandbox reset to the sample data')};mscrim.classList.add('open')}
 document.getElementById('sbx-live').onclick=()=>{exitSbx();if(!verified())openVer()};
 /* MCA in the sandbox: practise with fixed sample terms */
-function onbMcaNote(){const v=document.getElementById('view-mca');if(!ONB.sbx||!v)return;if(v.querySelector('.onb-mca'))return;
-  v.insertAdjacentHTML('afterbegin',`<div class="sx-note onb-mca" style="margin:8px 0 0">${ic('help',16)}<span>Practice mode. Sample terms are fixed for practice, not based on your sales, and every amount is TEST. Nothing reaches FLIK's credit team.</span></div>`);ONB.done.smca=1;onbSave();drawGuide()}
+function onbMcaNote(){}
 
 /* ----- first-run tour: one pop-up, 5 slides ----- */
 const TOUR=[['bolt','Welcome to FLIK, Dewi','Ship, get paid and grow from one place.',['truck','bolt','coins']],
@@ -7223,27 +7244,41 @@ const GUIDE=()=>{const api=ONB.modes.includes('api'),plug=ONB.modes.includes('pl
     ...(api||plug?[{g:'build',n:'Build your integration',s:[...(api?[['creds','Get test API credentials'],['hook','Receive a test webhook']]:[]),...(plug?[['store','Request store connection']]:[])]}]:[]),
     {g:'live',n:'Go live',s:[['verify','Get verified'],...(ship?[['pickup','Add a pickup address']]:[])]},
     {g:'sale',n:'First real sale',s:[['ship1','Create your first shipment',1],['inv1','Send your first invoice or payment link',1]]}].filter(g=>!ONB.hide[g.g])};
-const gDone=k=>k==='verify'?verified():k==='pickup'?true:k==='tour'?ONB.tour&&!!ONB.done.tour:!!ONB.done[k];
+const gDone=k=>k==='verify'?verified():k==='pickup'?!!ONB.done.pickup:k==='tour'?ONB.tour&&!!ONB.done.tour:!!ONB.done[k];
+let gEdit=false;
+P.shrink='<path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>';
 function drawGuide(){let el=document.getElementById('sg');const pill=document.getElementById('sg-pill');
   const G=GUIDE(),all=G.flatMap(g=>g.s),n=all.filter(s=>gDone(s[0])).length,next=all.find(s=>!gDone(s[0]));
-  const show=ONB.st!=='active'&&ONB.tour; /* the tour comes first; its last slide opens the guide */
-  if(!show||ONB.guide==='gone'||!next){if(el)el.remove();pill.hidden=true;return}
+  const show=(ONB.st!=='active'||ONB.vok)&&ONB.tour; /* the tour comes first; its last slide opens the guide */
+  if(!show||ONB.guide==='gone'){if(el)el.remove();pill.hidden=true;return}
   const pct=Math.round(n/all.length*100),ring=`<svg width="18" height="18" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="var(--primary)" stroke-width="4" stroke-dasharray="${pct*.94} 94" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>`;
   pill.innerHTML=`${ring}<span class="t">Setup guide</span>`;pill.hidden=ONB.guide!=='pill';
   if(ONB.guide==='pill'){if(el)el.remove();return}
   if(!el){el=document.createElement('div');el.id='sg';document.body.appendChild(el)}
-  el.className='sg'+(ONB.guide==='card'?' c':'');el.setAttribute('role','region');el.setAttribute('aria-label','Setup guide');
-  if(ONB.guide==='card'){el.innerHTML=`<div><b>Setup guide</b><span style="color:var(--muted)">${n} of ${all.length}</span></div><div class="pbar"><i style="width:${pct}%"></i></div><p><span>Next:</span> ${next[1]}</p>`;el.onclick=()=>{ONB.guide='open';onbSave();drawGuide()};return}
-  el.onclick=null;
+  const big=ONB.guide==='open',vis=G.filter(g=>g.s.length);
+  if(ONB.gOpen===undefined||(ONB.gOpen&&!vis.some(g=>g.g===ONB.gOpen)))ONB.gOpen=((next&&vis.find(g=>g.s.some(s=>s[0]===next[0])))||vis[0]||{}).g||'';
+  el.className='sg'+(big?' big':' c');el.setAttribute('role','region');el.setAttribute('aria-label','Setup guide');
   const step=s=>{const d=gDone(s[0]),lk=s[2]&&!verified()&&!ONB.sbx,nx=next&&s[0]===next[0];
     return`<button class="sg-s${d?' done':''}${nx?' next':''}" data-gs="${s[0]}"><span class="m">${d?ck():''}</span><span class="t">${s[1]}</span>${s[0]==='verify'&&!d?`<em>${ONB.st==='review'?'In review':ONB.st==='needs'?'Needs info':vDone()+' of 6'}</em>`:lk&&!d?`<em>${lockIc()}Needs verification</em>`:''}</button>`};
-  el.innerHTML=`<div class="sg-h"><div><b>Setup guide</b><small>${n} of ${all.length} done</small></div><div class="pbar"><i style="width:${pct}%"></i></div></div>
-    <div class="sg-b">${G.map(g=>`<div class="sg-g"><h6>${g.n}</h6>${g.s.map(step).join('')}</div>`).join('')}</div>
-    <div class="sg-f"><button data-gedit>Edit</button><span style="display:flex;gap:16px"><button data-gmin>Collapse</button><button data-gclose aria-label="Close setup guide">${ic('x',14)}</button></span></div>`;
-  el.querySelectorAll('[data-gs]').forEach(b=>b.onclick=()=>guideGo(b.dataset.gs));
-  el.querySelector('[data-gmin]').onclick=()=>{ONB.guide='card';onbSave();drawGuide()};
-  el.querySelector('[data-gclose]').onclick=()=>{ONB.guide='pill';onbSave();drawGuide();toast('Setup guide is in the top bar')};
-  el.querySelector('[data-gedit]').onclick=e=>{e.stopPropagation();guideEdit(e.currentTarget)}}
+  const api=ONB.modes.includes('api'),plug=ONB.modes.includes('plugin'),EG=[['try','Try FLIK'],...(api||plug?[['build','Build your integration']]:[]),['live','Go live'],['sale','First real sale']];
+  el.innerHTML=`<div class="sg-ch"><b>Setup guide</b><span class="sg-ca"><button class="lnk" data-gedit aria-expanded="${gEdit}">Edit</button><button class="ib" data-gexp aria-label="${big?'Collapse':'Expand'} setup guide">${ic(big?'shrink':'expand',15)}</button><button class="ib" data-gclose aria-label="Close setup guide">${ic('x',15)}</button></span></div>
+    <div class="pbar" role="progressbar" aria-label="${n} of ${all.length} done" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
+    ${big?`<div class="sg-bd">${next?vis.map(g=>{const d=g.s.filter(s=>gDone(s[0])).length,o=ONB.gOpen===g.g;
+      return`<div class="sg-grp${o?' open':''}"><button class="sg-gh" data-gg="${g.g}" aria-expanded="${o}">${g.n}<span class="ct">${d}/${g.s.length}</span>${ic('chev',14)}</button>${o?`<div class="sg-gs">${g.s.map(step).join('')}</div>`:''}</div>`}).join('')
+      :`<div class="sg-done">You're set up. <button class="lnk" data-ghide>Hide setup guide</button></div>`}</div>`
+    :`<p class="sg-cn">${next?`<span>Next:</span> <button class="lnk" data-gs="${next[0]}">${next[1]}</button>`:'All done. Nice work.'}</p>`}
+    ${gEdit?`<div class="sg-ed"><b>Show these groups</b>${EG.map(([k,t])=>`<button class="sg-eo" data-gh="${k}" role="checkbox" aria-checked="${!ONB.hide[k]}">${cbx(!ONB.hide[k])}${t}</button>`).join('')}<button class="lnk" data-ghide>Hide setup guide for good</button></div>`:''}`;
+  el.onclick=e=>{e.stopPropagation();const t=e.target.closest('button');
+    if(!t){if(!big){ONB.guide='open';onbSave();drawGuide()}return}const d=t.dataset;
+    if('gs' in d){guideGo(d.gs);return}
+    if('gg' in d)ONB.gOpen=ONB.gOpen===d.gg?'':d.gg;
+    else if('gedit' in d){gEdit=!gEdit;ONB.guide='open'}
+    else if('gexp' in d){ONB.guide=big?'card':'open';gEdit=false}
+    else if('gclose' in d){ONB.guide='pill';gEdit=false;toast('Setup guide is in the top bar')}
+    else if('gh' in d){const on=EG.filter(([k])=>!ONB.hide[k]);if(!ONB.hide[d.gh]&&on.length===1){toast('Keep at least one group');return}ONB.hide[d.gh]=!ONB.hide[d.gh]}
+    else if('ghide' in d){ONB.guide='gone';gEdit=false;toast('Setup guide hidden. Bring it back from Help.')}
+    else return;
+    onbSave();drawGuide()}}
 document.getElementById('sg-pill').onclick=()=>{ONB.guide='open';onbSave();drawGuide()};
 function guideEdit(b){if(popFor===b){closePop();return}popFor=b;
   const draw=()=>{pop.innerHTML=`<div class="menu" style="width:240px"><h6>Show these groups</h6>${[['try','Try FLIK'],['build','Build your integration'],['live','Go live'],['sale','First real sale']].map(([k,n])=>`<button class="opt" data-gh="${k}"><span class="cb${ONB.hide[k]?'':' on'}">${ONB.hide[k]?'':ic('check',12,3)}</span>${n}</button>`).join('')}<hr><button class="opt danger" data-gh="gone">Hide setup guide for good</button></div>`;
@@ -7297,7 +7332,7 @@ function drawVer(){const V=ONB.v,s=ONB.step,body=document.getElementById('vx-bod
       <p class="sx-lead">${ONB.st==='needs'?'Answer these and resubmit. Everything else you sent is kept.':ONB.st==='active'?'Changing your legal name, business type, people or documents now starts a re-verification. Change the payout account in Settings › Money.':'We\'ll email you and update this page when something changes. You can keep using the sandbox meanwhile.'}</p>
       ${ONB.st==='needs'?`${niRow('ktp2','Clearer KTP photo','All four corners visible, no glare','ktp.jpg')}${niRow('nib2','NIB','From OSS, as PDF','nib.pdf')}<button class="btn btn-p" data-vresub style="margin-top:8px" ${NI.ktp2&&NI.nib2?'':'disabled'}>Resubmit</button>`:''}
       <div class="vx-tl">${S.map((x,i)=>`<div class="${i<at?'done':i===at?'on':''}"><i>${i<at?ck(11):''}</i><div><b>${x[0]}</b><span>${x[1]}</span></div></div>`).join('')}</div></div>`;
-    body.onclick=e=>{const u=e.target.closest('[data-vup]'),v=e.target.closest('[data-vview]');if(v){docPreview(v.dataset.vview);return}if(u){toast(NI[u.dataset.vup]?'File changed':'Uploaded');NI[u.dataset.vup]=1;onbSave();drawVer();return}if(e.target.closest('[data-vresub]')){ONB.st='review';ONB.ni={};onbSave();drawVer();drawAcct();drawGuide();toast('Resubmitted for review')}};
+    body.onclick=e=>{const u=e.target.closest('[data-vup]'),v=e.target.closest('[data-vview]');if(v){docPreview(v.dataset.vview);return}if(u){toast(NI[u.dataset.vup]?'File changed':'Uploaded');NI[u.dataset.vup]=1;onbSave();drawVer();return}if(e.target.closest('[data-vresub]')){ONB.st='active';ONB.vok=true;ONB.ni={};onbSave();drawVer();drawAcct();drawGuide();onbRefresh();toast('Verified. Your account is live.')}};
     foot.querySelector('[data-vclose]').onclick=closeVer;document.getElementById('vx-steps').innerHTML='';return}
   document.getElementById('vx-steps').innerHTML=VSTEPS.map((n,i)=>`${i?'<span class="stp-l"></span>':''}<span class="stp${i===s?' on':i<s?' done':''}"><i>${i<s?ck(10):i+1}</i>${i===s?n:''}</span>`).join('');
   const f=(k,l,ph,o={})=>`<div class="sx-f${o.full?' full':''}"${o.full?' style="grid-column:1/-1"':''}><label for="vf-${k}">${l}${o.opt?' <span class="opt-l">(optional)</span>':''}</label><div class="${o.pre?'pre':''}${o.load?' ld':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="vf-${k}" data-vf="${k}" value="${V[k]||''}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''}${o.load?' readonly':''}>${o.load?'<span class="spn" role="status" aria-label="Checking the account name"></span>':''}</div>${o.hint?`<p class="hint">${o.hint}</p>`:''}</div>`;
@@ -7316,7 +7351,7 @@ function drawVer(){const V=ONB.v,s=ONB.step,body=document.getElementById('vx-bod
   const okStep=[!!V.type,!!(V.name&&V.sell&&V.addr),V.people.every(p=>p.n&&p.nik.length===16),Object.keys(V.docs).length>=(co?3:1),V.checked,V.otp&&V.agree&&ONB.role==='owner'][s];
   body.innerHTML=`<div class="sx-in"><div class="sx-main">${step[s]()}</div><aside class="sx-side vx-side"><h4>Get verified · ${vDone()} of 6</h4><ol>${VSTEPS.map((n,i)=>`<li class="${i===s?'on':i<s?'done':''}"><i>${i<s?ck(10):i+1}</i>${n}</li>`).join('')}</ol>
     <div class="need"><b style="color:var(--ink);font-size:13px">What you'll need</b><span>KTP and NPWP</span><span>NIB${co?', akta and owners above 25%':' if you have one'}</span><span>A bank account in your business's name</span></div></aside></div>`;
-  foot.innerHTML=`${s?`<button class="btn btn-o" data-vb>Back</button>`:''}<span class="sp"></span><button class="btn btn-o" data-vleave>Save and leave</button><button class="btn btn-p" data-vn ${okStep?'':'disabled'}>${s===5?'Submit for review':'Continue'}</button>`;
+  foot.innerHTML=`${s?`<button class="btn btn-o" data-vb>Back</button>`:''}<span class="sp"></span><button class="btn btn-o" data-vleave>Save and leave</button><button class="btn btn-p" data-vn ${okStep?'':'disabled'}>${s===5?'Submit and verify':'Continue'}</button>`;
   body.oninput=e=>{const t=e.target;if(t.dataset.vf){V[t.dataset.vf]=t.value;if(t.dataset.vf==='acc')V.checked=false}if(t.dataset.pp!=null){V.people[+t.dataset.pp][t.dataset.pk]=t.dataset.pk==='nik'?t.value.replace(/\D/g,'').slice(0,16):t.value}onbSave();
     const ok=[!!V.type,!!(V.name&&V.sell&&V.addr),V.people.every(p=>p.n&&p.nik.length===16),true,V.checked,V.otp&&V.agree][s];foot.querySelector('[data-vn]').disabled=!ok;const c=body.querySelector('[data-vchk]');if(c)c.disabled=V.acc.length<8};
   body.onchange=e=>{if(e.target.dataset.vf){V[e.target.dataset.vf]=e.target.value;V.checked=false;onbSave();drawVer()}};
@@ -7327,7 +7362,7 @@ function drawVer(){const V=ONB.v,s=ONB.step,body=document.getElementById('vx-bod
     onbSave();drawVer()};
   foot.onclick=e=>{const t=e.target.closest('button');if(!t)return;
     if('vb' in t.dataset){ONB.step--;onbSave();drawVer()}else if('vleave' in t.dataset){onbSave();closeVer();toast('Saved. Continue any time from the card under your store name.')}
-    else if('vn' in t.dataset){if(s===5){ONB.st='review';ONB.step=0;onbSave();drawVer();drawAcct();drawGuide();toast('Submitted. We\'ll email you when you\'re live.')}else{ONB.step++;ONB.vmax=Math.max(ONB.vmax||0,ONB.step);onbSave();drawVer();drawAcct()}}};
+    else if('vn' in t.dataset){if(s===5){ONB.st='active';ONB.vok=true;ONB.step=0;onbSave();drawVer();drawAcct();drawGuide();onbRefresh();toast('Verified. Your account is live.')}else{ONB.step++;ONB.vmax=Math.max(ONB.vmax||0,ONB.step);onbSave();drawVer();drawAcct()}}};
   document.getElementById('vx-body').scrollTop=0}
 document.getElementById('vx-close').onclick=closeVer;
 document.addEventListener('click',e=>{if(e.target.closest('[data-ver]')){e.preventDefault();openVer()}});
@@ -7530,12 +7565,83 @@ function onbHome(){const v=document.getElementById('view-home');if(!v)return;v.q
       <section class="card w-card">${tbl(['Outlet','Sales · last 30 days'],[['Kemang','Rp184.200.000'],['Senayan City','Rp162.750.000'],['…',''],['Malioboro','Rp8.400.000']].map(r=>`<tr><td>${r[0]}</td><td class="num">${r[1]}</td></tr>`),[])}</section></div></div>`)}
 
 /* simulate a payment on the test hosted page (sandbox only) */
-const SIM_PANEL=()=>`<div class="sim"><b>Simulate payment</b><p>Pick what happens. No money moves. Your integration gets the same objects and events it will in live.</p><div><button class="btn" data-sim="paid">Shopper pays</button><button class="btn" data-sim="failed">Payment fails</button><button class="btn" data-sim="expired">Expires</button></div></div>`;
+/* sandbox simulator: a floating card like the setup guide. Steps and progress, then what can happen next. Minimises to one "Next" line */
+const SIMF=c=>{const i=c.i||0,n=c.steps?c.steps.length:0;
+  return`<div class="simf${ONB.simMin?' min':''}" role="region" aria-label="${c.t}"><div class="sg-h"><div><b>${c.t}</b><span class="simf-a">${n?`<small>${i+1} of ${n}</small>`:'<small>Sandbox</small>'}<button class="ib" data-simmin aria-label="${ONB.simMin?'Expand':'Minimise'} simulator" aria-expanded="${!ONB.simMin}">${ic('chev',16)}</button></span></div>${n?`<div class="pbar"><i style="width:${Math.round((i+1)/n*100)}%"></i></div>`:''}</div>
+  <p class="simf-n"><span>Next:</span> ${c.next}</p>
+  <div class="simf-full">${n?`<div class="sg-g">${c.steps.map((s,k)=>`<div class="sg-s${k<i?' done':k===i?' next':''}"><span class="m">${k<i?ic('check',10,3):''}</span><span class="t">${s}</span></div>`).join('')}</div>`:''}
+  <div class="simf-f"><p>${c.note}</p>${c.acts.length?`<div>${c.acts.map(([a,l],k)=>`<button class="btn ${k?'btn-o':'btn-p'}" ${a}>${l}</button>`).join('')}</div>`:''}</div></div></div>`};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-simmin],.simf.min .sg-h,.simf.min .simf-n');if(!t)return;e.stopPropagation();ONB.simMin=!ONB.simMin;onbSave();
+  document.querySelectorAll('.simf').forEach(s=>{s.classList.toggle('min',ONB.simMin);const b=s.querySelector('[data-simmin]');b.setAttribute('aria-expanded',!ONB.simMin);b.setAttribute('aria-label',(ONB.simMin?'Expand':'Minimise')+' simulator')})},true);
+const SIM_PANEL=()=>SIMF({t:'Simulate payment',next:'choose what the shopper does',note:'No money moves. Your integration gets the same objects and events it will in live.',acts:[['data-sim="paid"','Shopper pays'],['data-sim="failed"','Payment fails'],['data-sim="expired"','Expires']]});
 
 /* first run */
 drawAcct();drawGuide();
 document.getElementById('acct').onclick=e=>{e.stopPropagation();acctMenu(e.currentTarget)};
 if(ONB.st==='new'&&!ONB.tour)setTimeout(openTour,400);
+
+/* ----- sandbox data: its own shipments, invoices, balance and Cash Advance. Live data is put aside on the way in and comes back on the way out ----- */
+let SBX_LIVE=null;
+const SBX_CUST=['A','B','C','D','E'].map((x,i)=>({name:'Toko Contoh '+x,phone:`+62 800-0000-00${10+i}`,email:`contoh.${x.toLowerCase()}@example.com`,city:CITY[i%CITY.length]}));
+const SBX_UJ={id:'FLIKCM-TEST-0001',placed:50e6,admin:5e5,fee:3e6,seg:[[1,30,5e5],[31,60,6e5],[61,89,665e3],[90,90,735e3]]};
+MC_APPD[SBX_UJ.id]=()=>({...MC_APPD['FLIKCM-2026-0031'](),amt:SBX_UJ.placed,sub:'2 Sep 2026'});
+const sbxSt=()=>ONB.sb||(ONB.sb={led:[],or:{},iv:{},mc:'none'});
+function sbxApplyLed(e){LEDGER.push({...e,t:new Date(e.t)});CLOSE.active+=e.a;BAL=CLOSE.active;const b=document.getElementById('balv');if(b)b.textContent=rp(CLOSE.active)}
+function sbxLed(d,refL,ref,a){const L=sbxSt().led,e={t:NOW.getTime()+(L.length+1)*60000,b:'active',d,ref:[refL,ref],a};L.push(e);sbxApplyLed(e);onbSave();return e}
+function sbxMcSet(st){Object.assign(MC,{many:false,multi:false,det:null,one:st==='offer1',nq:0,st:st==='offer1'?'offer':st,pvk:st,taskDone:false,atab:null,aid:SBX_UJ.id});MC.base=MC.st}
+function sbxSwap(on){
+  if(on&&!SBX_LIVE){SBX_LIVE={SH:[...SH],BATCH:[...BATCH],TK:[...TK],CL:[...CL],PEND:[...PEND],VER:[...VERIFIED],awbSeq,clSeq,SHP:[...SHP],INV:[...INV],LEDGER,BAL,CLOSE:{...CLOSE},BS,MC,UJ:{...UJ},RF:[...REFUNDS],DP:[...DISPUTES]};
+    window.SBX_ON=1;const S=sbxSt();
+    genActive(5151,10);SH.forEach((s,i)=>s.phone='628000000'+String(1000+i));
+    SHP.splice(0,SHP.length,...SBX_LIVE.SHP.filter(b=>!b.orders||b.orders.every(o=>!o.awb.startsWith('TEST-'))).slice(0,6).map((b,i)=>({...b,id:'7E57000'+i,orders:undefined})));
+    INV.splice(0,INV.length,...SBX_LIVE.INV.slice(0,8).map((v,i)=>({...v,cust:SBX_CUST[i%5],no:v.no==='Draft'?'Draft':'TEST-'+v.no,total:Math.max(100000,Math.round(v.total/50000)*50000)})));
+    INV.forEach(v=>{if(S.iv[v.no])v.status=S.iv[v.no]});
+    LEDGER=[{t:LD(1,9,0),b:'active',d:'Sample opening balance',ref:['Reference','TEST-OPEN'],a:2000000}];Object.assign(CLOSE,{active:2000000,reserve:0,charges:0,pending:0});BAL=2000000;BS='noreserve';
+    REFUNDS.length=0;DISPUTES.length=0;
+    Object.assign(UJ,SBX_UJ);MC_ASK=SBX_UJ.placed;MC={...SBX_LIVE.MC,open:{},app:null};sbxMcSet(S.mc);
+    S.led.forEach(sbxApplyLed)}
+  if(!on&&SBX_LIVE){const L=SBX_LIVE;window.SBX_ON=0;
+    [[SH,L.SH],[BATCH,L.BATCH],[TK,L.TK],[CL,L.CL],[PEND,L.PEND],[SHP,L.SHP],[INV,L.INV],[REFUNDS,L.RF],[DISPUTES,L.DP]].forEach(([a,b])=>a.splice(0,a.length,...b));
+    VERIFIED.clear();L.VER.forEach(x=>VERIFIED.add(x));awbSeq=L.awbSeq;clSeq=L.clSeq;LEDGER=L.LEDGER;BAL=L.BAL;Object.assign(CLOSE,L.CLOSE);BS=L.BS;MC=L.MC;Object.assign(UJ,L.UJ);MC_ASK=1e9;SBX_LIVE=null}
+  const b=document.getElementById('balv');if(b)b.textContent=rp(CLOSE.active)}
+
+/* shipping: step a test order like a courier would. Nothing is booked with a courier */
+const sbxOrdKey=(b,o)=>b.id+':'+b.orders.indexOf(o);
+function sbxOrdApply(b){(b.orders||[]).forEach((o,i)=>{const x=sbxSt().or[b.id+':'+i];if(x){o.st=x.st;o.t=x.t.map(t=>new Date(t))}});sbxBatchSt(b)}
+function sbxBatchSt(b){const O=b.orders||[];if(!O.length)return;if(O.every(o=>o.st==='done'||o.st==='returned'))b.st='done';else if(O.some(o=>['transit','failed','done','returned'].includes(o.st)))b.st='transit'}
+const SBX_OSTEP={pickup:[['transit','Courier picks it up']],transit:[['done','Delivered'],['failed','Delivery fails']],failed:[['transit','Try again'],['returned','Return to sender']]};
+const sbxOrdPanel=(b,o)=>{const n=SBX_OSTEP[o.st],bad=['failed','returned'].includes(o.st),S=['Waiting for pickup','In transit',...(bad?['Delivery failed','Returned']:['Delivered'])],i={pickup:0,transit:1,done:2,failed:2,returned:3}[o.st];
+  return SIMF({t:'Simulate delivery',steps:S,i,next:n?n.map(x=>x[1].toLowerCase()).join(' or '):'nothing, this test shipment is finished',note:n?'Move this test shipment on, the way a courier would. No courier is booked or called.':'Book another test shipment to try again.',acts:(n||[]).map(([k,l])=>[`data-osim="${k}"`,l])})};
+function sbxOrdStep(b,o,to){const h=36e5;o.st=to;o.t=[new Date(NOW-3*h),new Date(NOW-2*h),new Date(NOW-h),NOW];
+  sbxSt().or[sbxOrdKey(b,o)]={st:to,t:o.t.map(t=>t.getTime())};sbxBatchSt(b);ONB.done.sship=1;
+  let msg=`${o.awb}: ${OST[to][0].toLowerCase()}`;
+  if(to==='done'&&o.cod){const fee=Math.round(o.cod*.03);sbxLed(`COD remitted · ${o.awb}`,'AWB',o.awb,o.cod-fee);msg+=`. ${rp(o.cod-fee)} COD added to your test balance`}
+  if(to==='returned'){sbxLed(`Return shipping · ${o.awb}`,'AWB',o.awb,-o.cost);msg+=`. ${rp(o.cost)} return shipping taken from your test balance`}
+  onbSave();drawGuide();renderOrder(b,o);toast(msg)}
+document.getElementById('view-shp').addEventListener('click',e=>{const t=e.target.closest('[data-osim]');if(!t)return;const m=location.hash.match(/^#shipments\/([0-9A-F]{8})\/([0-9A-F]{8})$/),b=m&&SHP.find(x=>x.id===m[1]),o=b&&(b.orders||[]).find(x=>x.id===m[2]);if(o)sbxOrdStep(b,o,t.dataset.osim)});
+document.addEventListener('click',e=>{const n=e.target.closest('#sx-next');if(window.SBX_ON&&n&&/Confirm and pay/.test(n.textContent)){ONB.done.sship=1;onbSave();setTimeout(drawGuide,0)}},true);
+
+/* Cash Advance: a test application through the same stages as live, on fixed sample terms */
+const SBX_MC=[['none','Not applied'],['draft','Application'],['review','In review'],['offer1','Offer'],['preparing','Approved'],['transfer','Transfer'],['live','Returning']];
+function sbxMcaPanel(el){const S=sbxSt(),mx=!document.getElementById('mx').hidden;
+  if(mx&&S.mc==='none'){el.insertAdjacentHTML('beforeend',SIMF({t:'Simulate funding',steps:SBX_MC.map(x=>x[1]),i:1,next:'fill in and submit this application',note:'',acts:[]}).replace('class="simf','class="simf in-flow'));return}
+  const i=SBX_MC.findIndex(x=>x[0]===S.mc),nx=SBX_MC[i+1];
+  el.insertAdjacentHTML('beforeend',SIMF({t:'Simulate funding',steps:SBX_MC.map(x=>x[1]),i,next:S.mc==='none'?'apply for a test Cash Advance':nx?nx[1].toLowerCase():'make a test sale',note:"Fixed sample terms, not based on your sales. Every amount is TEST and nothing reaches FLIK's credit team.",acts:[S.mc==='none'?['data-mcsim="apply"','Start application']:nx?['data-mcsim="next"',`Move to ${nx[1].toLowerCase()}`]:['data-mcsim="sale"','Make a test sale'],...(i>0?[['data-mcsim="restart"','Start over']]:[])]}))}
+document.getElementById('view-mca').addEventListener('click',e=>{const t=e.target.closest('[data-mcsim]');if(!t)return;e.stopPropagation();const S=sbxSt(),a=t.dataset.mcsim;
+  if(a==='apply'){location.hash='merchant-cash-advance/apply';return}
+  if(a==='next'){const i=SBX_MC.findIndex(x=>x[0]===S.mc);S.mc=SBX_MC[i+1][0];sbxMcSet(S.mc);ONB.done.smca=1;
+    if(S.mc==='live'){sbxLed(`Sample placement · ${SBX_UJ.id}`,'Cash Advance',SBX_UJ.id,SBX_UJ.placed-SBX_UJ.admin);toast(`${rp(SBX_UJ.placed-SBX_UJ.admin)} sample placement added to your test balance`)}else toast(`Test application: ${SBX_MC[i+1][1].toLowerCase()}`)}
+  else if(a==='sale'){const sale=2000000,ret=sale*UJ.pct/100;sbxLed('Test sale · checkout order','Order ID','TEST-ORD-'+(1000+S.led.length),sale);sbxLed(`Cash Advance return · ${UJ.pct}% of money in, ${SBX_UJ.id}`,'Cash Advance',SBX_UJ.id,-ret);toast(`Test sale of ${rp(sale)}. ${rp(ret)} returned to the Cash Advance`)}
+  else{S.mc='none';sbxMcSet('none');toast('Test application cleared')}
+  onbSave();drawGuide();renderMca();sbxMcDet(a!=='restart')},true);
+/* the current test Cash Advance: its id, and its side panel, closed and opened again so each stage reads as a new step */
+const sbxMcId=()=>['draft','review','offer'].includes(MC.base)?'FLIKCM-2026-0042':UJ.id;
+function sbxMcDet(open){const was=drawer.classList.contains('open');closeDetail();if(open)setTimeout(()=>{if(!document.getElementById('view-mca').hidden)mcCaDrawer(sbxMcId())},was?300:60)}
+function sbxMcApplied(){const S=sbxSt();S.mc='review';sbxMcSet('review');ONB.done.smca=1;onbSave();drawGuide();location.hash='merchant-cash-advance';setTimeout(()=>{renderMca();sbxMcDet(true)},120);toast('Test application submitted. FLIK is reviewing it.')}
+
+/* invoices: paid test invoices land in the list and the test balance */
+function sbxInvPaid(v){const r=INV.find(x=>x.no===v.no);if(r){r.status='paid';sbxSt().iv[r.no]='paid'}sbxLed(`Test payment received · ${v.no}`,'Invoice',v.no,v.total);if(!document.getElementById('view-inv').hidden)renderInv()}
+if(ONB.sbx)sbxSwap(true);
 
 show(hashView());
 
