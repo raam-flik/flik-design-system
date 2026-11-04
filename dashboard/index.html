@@ -286,6 +286,8 @@ td .st svg{display:none}
   .top{padding:12px 16px}
   .content{padding:4px 16px 40px}
   .search kbd{display:none}
+  .top .search{min-width:0}.top .search input{min-width:0;width:100%}
+  .sg-pill{padding:0 7px}.sg-pill .t{display:none}
 }
 @media (max-width:600px){
   .tools .ib.hide-s,.tools .btn.hide-s{display:none}
@@ -509,7 +511,7 @@ body.cvon #dscrim{z-index:90}body.cvon .drawer{z-index:92}
 .ew-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .pp-sw{display:flex;flex-direction:column;min-width:0}.pp-sw small{color:var(--muted);font-size:11.5px;line-height:1.3}
 .ew-h{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin-bottom:14px}
-#modal.ew .btn-p{background:var(--ink)}
+#modal.ew .btn-p{background:var(--ink)}#modal.ew .lnk{color:var(--ink)}
 u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:inherit;font:inherit;padding:0}button.pp-fl:hover{color:var(--ink)}
 #modal.fi{max-width:380px}
 .fi-h{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 0 24px}.fi-h .pp-wm{height:24px;width:auto}
@@ -542,12 +544,25 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .qr-r{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:48px;text-align:left}.qr-r b{color:var(--ink);font-weight:500}
 .qr-ol{margin:0 0 14px;padding-left:20px;color:var(--muted);display:grid;gap:4px}
 
-.pp-sv{display:flex;gap:10px;align-items:flex-start}
-.pp-sv .cb{margin-top:2px}.pp-sv b{display:block;color:var(--ink);font-weight:500}.pp-sv span:not(.cb){color:var(--muted)}
+.pp-svr{display:flex;gap:10px;align-items:flex-start}.pp-svr [data-save]{cursor:pointer}
+.pp-sv .cb{margin-top:2px;padding:0}.pp-sv b{display:block;color:var(--ink);font-weight:500}.pp-svr span{color:var(--muted)}
+.pp-svf{display:grid;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.pp-svh{color:var(--muted);font-size:12.5px}
+/* email row: Checking, Continue with FLIK or Sign out sit on the label line, right-aligned */
+.pp-el{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}.pp-el label{margin:0}.pp-el .lnk{font-size:13px;font-weight:500}
+.pp-chk{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px}
+.fld input[readonly]:not([tabindex]){background:var(--hover);color:var(--muted)}
+/* signed in with FLIK: Payment methods with Change, then the last method in one box */
+.pp-mh{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 8px}.pp-mh b{font-size:13px;font-weight:500;color:var(--ink)}.pp-mh .lnk{font-size:13px;font-weight:500}
+.pp-mh+.pp-rl{margin-top:0}
+.pp-sb{border-radius:8px;box-shadow:var(--sh);overflow:hidden;margin-bottom:16px}
+.pp-sbr{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px;background:#fff}.pp-sbr+.pp-sbr{border-top:1px solid var(--line)}
+.pp-sbr.ro{background:var(--hover)}.pp-sbr .v{flex:1;min-width:0;display:flex;flex-direction:column}.pp-sbr .v b{color:var(--ink);font-weight:500}.pp-sbr .v span{color:var(--muted)}.pp-sbr small{color:var(--faint);font-size:12px}
+.pp-sbr input{flex:1;min-width:0;border:0;outline:none;height:40px;padding:0;font:inherit;background:none;color:var(--ink)}
+.pp-sbr:focus-within{box-shadow:inset 0 0 0 2px rgba(106,75,255,.4)}.pp-sbi{display:flex;color:var(--faint)}
 .pp-ft{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);font-size:13px;padding:6px 0 4px}
 .pp-wm{height:22px;width:auto}
 /* invoices the shopper sees (PDF, email, payment page) use the dark blue primary, not violet (3 Nov 2026) */
-:is(.ie-pp,.ie-mail,.ie-paper) .btn-p{background:var(--ink)}
+:is(.ie-pp,.ie-mail,.ie-paper) .btn-p{background:var(--ink)}:is(.ie-pp,#modal.ew) .btn-p:disabled{opacity:.4}
 :is(.ie-pp,.ie-mail,.ie-paper) .rdo.on{border-color:var(--ink)}
 :is(.ie-pp,.ie-mail,.ie-paper) .cb.on{background:var(--ink);border-color:var(--ink)}
 :is(.ie-pp,.ie-mail,.ie-paper) :is(.lnk,.ip-pay){color:var(--ink)}.pp-ft div{display:flex;gap:16px;margin-top:8px}
@@ -2198,16 +2213,156 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 #view-mca .tbl-wrap td,#view-mca .tbl-wrap th{white-space:nowrap}.mc-left{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:10px;font-size:14px;color:var(--ink)}.mc-left li{display:flex;align-items:center;gap:8px}.mc-left svg{color:var(--muted);flex:none}.mc-skv{margin:8px 0 0;grid-template-columns:auto 1fr}
 .mc-actc{width:1%;white-space:nowrap;text-align:right}.mc-actw{display:flex;align-items:center;justify-content:flex-end;gap:6px}.mc-rbtn{height:30px;padding:0 12px;vertical-align:middle;min-width:156px;justify-content:center}
 .mc-lrs{display:grid;margin:0 -8px}.mc-lr{display:grid;grid-template-columns:minmax(0,1fr) auto 16px;align-items:center;gap:10px;width:100%;padding:8px;border-radius:6px;font-size:13.5px;color:var(--muted);text-align:left}.mc-lr b{font-weight:500;color:var(--ink)}.mc-lr:hover{background:var(--hover)}.mc-lr:hover span:first-child{color:var(--ink)}.mc-lr:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(106,75,255,.4)}.mc-lrc{display:inline-flex;color:var(--faint);transform:rotate(-90deg)}
+/* ===== Onboarding, sandbox, verification and Settings (spec: Ahmad, 4 Nov 2026). Built from the v4 parts: sx flow shell, sx-opt option cards, tabs, st badges, tables, modal, drawer. New pieces keep the same shadows, radii and type. ===== */
+/* Sidebar account: store name, status line, verify card */
+.acct{cursor:pointer}.acct:hover{background:var(--hover)}
+.acct{gap:8px;padding-right:12px}.acct .acct-t{flex:1;min-width:0;display:grid}.acct .acct-t b{flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acct small{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;font-weight:400}.acct small.ok{color:var(--ok-tx)}
+.acct .acct-chev{color:var(--faint);display:flex}
+.vcard{margin:12px 12px 0;padding:12px;border-radius:8px;background:var(--hover);display:grid;gap:8px}
+.vcard b{font-size:13.5px;color:var(--ink);font-weight:600}.vcard p{font-size:12.5px;color:var(--muted);line-height:1.4}
+.vcard .btn{justify-content:center;width:100%}
+.vcard.warn{background:var(--warn-bg)}.vcard.warn b{color:var(--warn-tx)}
+.pbar{height:6px;border-radius:999px;background:var(--line);overflow:hidden}.pbar i{display:block;height:100%;background:var(--ok);border-radius:inherit}
+/* Sandbox */
+/* full page width, above the sidebar too; the sidebar and top bar sit below it */
+.sbx-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;background:var(--ink);color:#fff;height:44px;padding:0 8px 0 20px;font-size:13.5px;position:sticky;top:0;z-index:90}
+.sbx-bar{padding:0 12px}
+.sbx-l{display:flex;align-items:center;gap:6px;padding-left:6px}.sbx-l b{font-weight:600}.sbx-i{display:flex;color:#AAB4CC;cursor:help}
+.sbx-m{color:#D7DEF0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbx-r{justify-self:end}.sbx-r .btn{height:30px}
+body.sbx .top{top:44px}body.sbx .side{top:44px;height:calc(100vh - 44px)}
+body.sbx :is(.sx,.ie,.drawer,.scrim){top:44px}
+.tst{display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:5px;background:var(--warn-bg);color:var(--warn-tx);font-size:11.5px;font-weight:500;line-height:1;vertical-align:middle;margin-left:6px}
+body.sbx .acct small::after{content:"Sandbox";display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:5px;background:var(--warn-bg);color:var(--warn-tx);font-size:11.5px;font-weight:500;line-height:1}
+body.sbx .acct small:not(:empty)::after{margin-left:6px}
+body.sbx #balv{display:inline-flex;align-items:center;gap:6px}
+body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:5px;background:var(--warn-bg);color:var(--warn-tx);font-size:11.5px;font-weight:500;line-height:1}
+.sim{background:var(--ink);color:#fff;border-radius:12px;padding:16px;margin:0 auto 12px;max-width:400px;display:grid;gap:10px}
+.sim b{font-weight:600}.sim p{font-size:12.5px;color:#AAB4CC;line-height:1.45}
+.sim div{display:flex;gap:8px;flex-wrap:wrap}.sim .btn{background:#fff;color:var(--ink);box-shadow:none}
+@media (max-width:900px){.sbx-bar{grid-template-columns:1fr auto;padding:0 8px 0 16px}.sbx-m{display:none}}
+/* Setup guide: open panel, collapsed card, pill in the top bar */
+.sg{position:fixed;right:24px;bottom:24px;z-index:60;width:340px;max-width:calc(100vw - 32px);background:#fff;border-radius:12px;box-shadow:var(--pop);overflow:hidden}
+.sg-h{padding:16px 18px 12px;display:grid;gap:8px}.sg-h div{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sg-h b{font-size:15px;font-weight:600;color:var(--ink)}.sg-h small{font-size:12.5px;color:var(--muted)}
+.sg-b{max-height:min(56vh,460px);overflow-y:auto}
+.sg-g{border-top:1px solid var(--line);padding:6px 0}.sg-g h6{margin:8px 18px 4px;font-size:12px;font-weight:600;color:var(--muted)}
+.sg-s{display:flex;align-items:center;gap:10px;width:100%;padding:7px 18px;text-align:left;font-size:13.5px;color:var(--text)}
+.sg-s:hover{background:var(--hover)}
+.sg-s .m{width:16px;height:16px;border-radius:50%;border:1px solid #C0C8D2;flex:none;display:flex;align-items:center;justify-content:center;color:#fff}
+.sg-s.done{color:var(--muted)}.sg-s.done span.t{text-decoration:line-through}.sg-s.done .m{background:var(--ok);border-color:var(--ok)}
+.sg-s.next{font-weight:500;color:var(--ink)}.sg-s.next .m{border:5px solid var(--primary)}
+.sg-s em{margin-left:auto;font-style:normal;font-size:12px;color:var(--faint);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.sg-f{border-top:1px solid var(--line);padding:10px 18px;display:flex;justify-content:space-between;font-size:13px}
+.sg-f button{color:var(--muted);font-weight:500}.sg-f button:hover{color:var(--ink)}
+.sg.c{width:300px;padding:14px 16px;display:grid;gap:8px;cursor:pointer}
+.sg.c div{display:flex;justify-content:space-between;font-size:13px}.sg.c b{color:var(--ink);font-weight:600}
+.sg.c p{font-size:13.5px}.sg.c p span{color:var(--muted)}
+.sg-pill{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px 0 8px;border-radius:999px;background:#fff;box-shadow:var(--sh);font-size:13.5px;font-weight:500;color:var(--ink);white-space:nowrap}
+.tools .sg-pill{margin-right:4px} /* same extra space as the balance box */
+.sg-pill:hover{box-shadow:0 0 0 1px rgba(64,68,82,.18),0 2px 5px rgba(64,68,82,.1)}
+@media (max-width:600px){.sg{right:16px;bottom:16px}.sg-pill .t{display:none}}
+/* Tour */
+#modal.tour{max-width:480px;overflow:hidden}
+.tr-ill{height:200px;background:var(--hover);position:relative;display:flex;align-items:center;justify-content:center;gap:14px}
+.tr-ill::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,#FF7A2E,#FF2DB8,#6A4BFF,#00E5FF)}
+.tr-ill .t1{width:64px;height:64px;border-radius:16px;background:#fff;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;color:var(--ink);animation:trIn .5s ease both}
+.tr-ill .t1:nth-child(2){animation-delay:.08s;width:76px;height:76px;color:var(--primary)}.tr-ill .t1:nth-child(3){animation-delay:.16s}
+@keyframes trIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.tr-ill .t1{animation:none}}
+.tr-b{padding:22px 28px 6px;text-align:center}.tr-b h3{font-size:20px;font-weight:600;color:var(--ink);margin-bottom:6px}.tr-b p{color:var(--muted);line-height:1.5}
+.tr-dots{display:flex;gap:6px;justify-content:center;margin:16px 0 4px}.tr-dots i{width:6px;height:6px;border-radius:50%;background:var(--line-2)}.tr-dots i.on{width:18px;border-radius:999px;background:var(--primary)}
+.tr-f{padding:14px 22px 20px;display:flex;justify-content:space-between;align-items:center}.tr-f .skip{color:var(--muted);font-weight:500}
+/* Verification flow (sx shell) */
+/* field help under inputs, same as the Cash Advance form (#mx .hint) */
+#vx .hint,#view-set .hint,#modal .sx-f .hint{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.45}
+.vx-side ol{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.vx-side li{display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--muted)}
+.vx-side li i{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11px;flex:none}
+.vx-side li.on{color:var(--ink);font-weight:500}.vx-side li.on i{border-color:var(--primary);background:var(--primary);color:#fff}
+.vx-side li.done{color:var(--text)}.vx-side li.done i{border-color:var(--primary);color:var(--primary)}
+.vx-side .need{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:grid;gap:6px;font-size:13px;color:var(--muted)}
+.vx-p{border-radius:10px;box-shadow:var(--sh);padding:14px 16px;margin-bottom:12px}
+.vx-p h5{font-size:14px;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.vx-doc{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;box-shadow:var(--sh);margin-bottom:10px}
+.vx-doc b{display:block;color:var(--ink);font-weight:500}.vx-doc span{font-size:12.5px;color:var(--muted)}.vx-doc .btn{margin-left:auto}
+.ld{position:relative}.ld input{padding-right:36px}
+.spn{position:absolute;right:10px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;border:2px solid var(--line-2);border-top-color:var(--primary);animation:spn .7s linear infinite}
+@keyframes spn{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spn{animation-duration:2s}}
+.vx-doc .st+.btn{margin-left:0}
+.vx-file{color:var(--primary);font:inherit;font-size:12.5px;padding:0}.vx-file:hover{text-decoration:underline}
+.vx-thumb{width:44px;height:44px;border-radius:6px;background:var(--hover);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
+.vx-thumb:hover{box-shadow:inset 0 0 0 1px var(--line-2)}
+.da{display:flex;flex-direction:column;gap:6px;background:#fff;box-shadow:var(--sh);border-radius:4px}
+.da .l{display:block;height:6px;border-radius:3px;background:var(--line)}
+.da-page{width:240px;aspect-ratio:1/1.414;padding:22px 20px}.da-page b{font-size:12px;color:var(--ink);font-weight:600;margin-bottom:6px}
+.da-card{width:320px;aspect-ratio:1.586;padding:18px 18px 18px 120px;position:relative;justify-content:center}.da-card .ph{position:absolute;left:18px;top:18px;bottom:18px;width:84px;border-radius:4px;background:var(--line)}
+.da.sm{box-shadow:none}.da-page.sm{width:26px;padding:4px 4px;gap:3px}.da-page.sm .l{height:2px}
+.da-card.sm{width:36px;padding:4px 4px 4px 15px;gap:3px}.da-card.sm .ph{left:4px;top:4px;bottom:4px;width:9px;border-radius:2px}.da-card.sm .l{height:2px}
+.da-big{background:var(--hover);border-radius:8px;padding:24px;display:flex;justify-content:center}
+@media (max-width:600px){.da-card{width:100%}.da-page{width:70%}}
+.vx-ok{display:flex;align-items:center;gap:8px;color:var(--ok-tx);font-size:13.5px;margin-top:8px}
+.vx-st{max-width:640px;margin:0 auto;padding:40px 24px 120px}
+.vx-tl{display:grid;gap:0;margin-top:20px}
+.vx-tl>div{display:grid;grid-template-columns:24px 1fr;gap:12px;padding-bottom:18px;position:relative}
+.vx-tl>div::before{content:"";position:absolute;left:11px;top:22px;bottom:0;width:1px;background:var(--line-2)}.vx-tl>div:last-child::before{display:none}
+.vx-tl i{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line-2);background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;position:relative}
+.vx-tl .done i{background:var(--ok);border-color:var(--ok)}.vx-tl .on i{border:6px solid var(--primary)}
+.vx-tl b{display:block;color:var(--ink);font-weight:500}.vx-tl span{font-size:13px;color:var(--muted)}
+/* Settings */
+.set-q{display:flex;align-items:center;gap:8px;height:36px;border-radius:8px;background:var(--search);padding:0 12px;width:320px;max-width:100%;color:var(--faint)}
+.set-q input{border:0;background:none;outline:none;flex:1;font:inherit;color:var(--text)}
+.set-grp{margin-top:28px}.set-grp>h2{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:12px}
+.set-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.set-card{display:grid;gap:6px;align-content:start;padding:18px;border-radius:10px;box-shadow:var(--sh);background:#fff;text-align:left}
+.set-card:hover{box-shadow:0 0 0 1px rgba(64,68,82,.18),0 2px 5px rgba(64,68,82,.1)}
+.set-card .ic{width:36px;height:36px;border-radius:8px;background:var(--hover);color:var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.set-card b{font-size:14.5px;color:var(--ink);font-weight:600}.set-card span{font-size:13px;color:var(--muted);line-height:1.4}
+.set-card .st{justify-self:start;margin-top:2px}
+/* pills inside cards keep the status-badge size (the card's own span style would make them 13px) */
+.sx-opt span.st,.set-card span.st{font-size:12.5px}
+.set-hit{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;width:100%;text-align:left}.set-hit:hover{background:var(--hover)}.set-hit span{color:var(--muted);font-size:13px}
+.set-back{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-weight:500;font-size:13.5px;margin-bottom:6px}.set-back:hover{color:var(--ink)}.set-back svg{transform:rotate(90deg)}
+.set-body{padding-top:8px;max-width:960px}
+.set-sec{margin-top:24px}
+.set-sh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.set-sh h3{font-size:16px;font-weight:600;color:var(--ink)}
+.set-sh .sp{flex:1}
+.set-p{color:var(--muted);margin-bottom:12px;max-width:680px;line-height:1.5}
+.set-box{border-radius:10px;box-shadow:var(--sh);padding:16px 18px;background:#fff}
+.set-ro{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:var(--hover);border-radius:6px;padding:8px 10px;margin-bottom:12px}
+.set-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.set-row:last-child{border-bottom:0}
+.set-row .tx{flex:1;min-width:0}.set-row b{display:block;color:var(--ink);font-weight:500}.set-row small{display:block;color:var(--muted);font-size:13px}
+.set-row .cb{flex:none}
+.set-tbl table{min-width:640px}
+.set-g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ctl{display:inline-flex;align-items:center;gap:5px}
+.savebar{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:59;display:flex;align-items:center;gap:8px;padding:8px 8px 8px 16px;background:var(--ink);color:#fff;border-radius:8px;box-shadow:var(--pop);font-size:13.5px}
+.savebar span{margin-right:12px}.savebar .btn-o{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}.savebar .btn-p{background:#fff;color:var(--ink)}
+.otp6{display:flex;gap:8px}.otp6 input{width:44px;height:48px;border:0;border-radius:6px;box-shadow:var(--sh);text-align:center;font:600 20px var(--font);color:var(--ink);outline:none}.otp6 input:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
+.dv-code{background:var(--ink);color:#D7DEF0;border-radius:8px;padding:12px 14px;font:12.5px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-x:auto}
+.dv-chk{display:grid;gap:0}.dv-chk div{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.dv-chk div:last-child{border-bottom:0}
+.dv-chk i{width:18px;height:18px;border-radius:50%;border:1px solid #C0C8D2;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}.dv-chk .done i{background:var(--ok);border-color:var(--ok)}
+.dv-chk span{flex:1}.dv-chk small{color:var(--muted);font-size:12.5px}
+.secret{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:6px;background:var(--hover);font:13px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);word-break:break-all}
+.secret .btn{flex:none;margin-left:auto}
+.ol-card .tbl-wrap{margin-top:0}.ol-card table{min-width:0}
+@media (max-width:900px){.set-g{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.set-g,.set-g2{grid-template-columns:1fr}.savebar{left:16px;right:16px;transform:none;bottom:16px}.savebar span{flex:1}}
+
 </style>
 </head>
 <body>
+<div class="sbx-bar" id="sbx-bar" hidden role="status"><span class="sbx-l"><b>Sandbox</b><span class="sbx-i" data-ic="help" title="A separate space with sample data. Payments, shipments and funding are simulated." aria-label="About the sandbox"></span></span><span class="sbx-m">You're testing in a sandbox. Changes here don't reach real shoppers, couriers or banks.</span><span class="sbx-r"><button class="btn btn-p" id="sbx-live">Switch to live account</button></span></div>
 <div class="app">
   <!-- ===== Sidebar ===== -->
   <aside class="side" id="side">
-    <div class="acct">
+    <button class="acct" id="acct" aria-haspopup="menu">
       <span class="lg"><svg width="16" height="16" viewBox="0 0 30 30" fill="none" aria-hidden="true"><path d="M23.2088 17.4254C23.2088 13.1436 20.7668 11.9717 17.755 11.9717H12.1924V20.7969C12.1924 23.8087 13.5039 26.2507 17.6461 26.2507V17.4254H23.2088Z" fill="#F26324"/><path d="M26.442 9.00748C26.442 3.71863 24 3 20.9882 3H2.94434V20.7678C2.94434 23.7796 3.6806 26.2215 9.22868 26.2215V9.00748H26.4427H26.442Z" fill="#F26324"/></svg></span>
-      <b>Aruna Studio</b>
-    </div>
+      <span class="acct-t"><b>Aruna Studio</b><small></small></span><span class="acct-chev"><span data-ic="chev"></span></span>
+    </button>
+    <div id="vcard"></div>
     <nav class="nav" id="nav"></nav>
     <div class="side-foot">FLIK Dashboard · Prototype</div>
   </aside>
@@ -2219,6 +2374,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
       <button class="burger" id="burger" aria-label="Open menu"><span data-ic="menu"></span></button>
       <label class="search"><span data-ic="search"></span><input id="q" placeholder="Search" autocomplete="off"><kbd>/</kbd></label>
       <div class="tools">
+        <button class="sg-pill" id="sg-pill" hidden aria-label="Open setup guide"></button>
         <div class="btn btn-o balbox hide-s"><button class="bal" data-view="bal" aria-label="Active balance"><span data-ic="wallet"></span><span class="num" id="balv">Rp4.523.800</span></button><button class="bal-add" id="baladd" aria-label="Top up balance" title="Top up balance"><span data-ic="plus"></span></button></div>
         <button class="lang" id="lang" aria-label="Language: English" aria-haspopup="menu"><span data-ic="globe"></span><span id="langv">EN</span><span data-ic="chev"></span></button>
         <button class="ib hide-s" data-toast="Opens FLIK help center" aria-label="Help"><span data-ic="help"></span></button>
@@ -2318,6 +2474,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
       <div id="prd-main"></div>
     </main>
     <main class="content" id="view-mca" hidden></main>
+    <main class="content" id="view-set" hidden></main>
     <main class="content" id="view-bal" hidden>
       <div class="ph"><h1>Balances</h1><div class="fright" style="margin-left:auto"><button class="chip" id="bl-state" title="Prototype control: preview the states the spec asks for"></button><button class="btn btn-o" id="bl-monthly"><span data-ic="doc"></span>Monthly statements</button></div></div>
       <div id="bl-banners"></div>
@@ -2364,6 +2521,11 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
   <div class="sx-top"><button class="ib" id="wx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b id="wx-title">Add warehouse</b></div>
   <div class="sx-body" id="wx-body"></div>
   <div class="sx-foot" id="wx-foot"></div>
+</div>
+<div class="sx" id="vx" hidden role="dialog" aria-label="Get verified">
+  <div class="sx-top"><button class="ib" id="vx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Get verified</b><div class="steps" id="vx-steps"></div></div>
+  <div class="sx-body" id="vx-body"></div>
+  <div class="sx-foot" id="vx-foot"></div>
 </div>
 <div class="sx" id="mx" hidden role="dialog" aria-label="Apply for Uang Jaminan">
   <div class="sx-top"><button class="ib" id="mx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Apply for Uang Jaminan</b><div class="steps" id="mx-steps"></div></div>
@@ -2455,7 +2617,7 @@ const NAV=[
   {i:'coins',t:'Cash Advance',v:'mca'},
   {i:'tag',t:'Marketing',sub:['Chat Commerce','Leads Management','Voucher','Post Purchase Offer','Cashback']},
   {i:'chart',t:'Analytics',sub:['Checkout','Shipping']},
-  {i:'more',t:'More',sub:['Developers','Settings']}
+  {i:'more',t:'More',sub:[{t:'Developers',v:'set',h:'settings/developers'},{t:'Settings',v:'set',h:'settings'}]}
 ];
 const nav=document.getElementById('nav');
 nav.innerHTML=NAV.map(n=>n.h?`<div class="navh">${n.h}</div>`:n.sub?`<div class="grp"><button class="ni">${ic(n.i)}${n.t}<span class="chev">${ic('chev',14)}</span></button><div class="sub">${n.sub.map(s=>s.v?`<button class="ni" data-view="${s.v}"${s.h?` data-hash="${s.h}"`:''}>${s.t}</button>`:`<button class="ni" data-toast="Opens ${s}">${s}</button>`).join('')}</div></div>`:n.v?`<button class="ni" data-view="${n.v}">${ic(n.i)}${n.t}</button>`:`<button class="ni" data-toast="Opens ${n.t}">${ic(n.i)}${n.t}</button>`).join('');
@@ -3447,6 +3609,14 @@ function pmModal(){const sel=new Set(D.pms);
     document.getElementById('pm-go').onclick=()=>{D.pms=new Set(sel);closeModal();drawForm();drawPv()}};
   draw();mscrim.classList.add('open')}
 /* preview bodies, shared by the editor and the review dialog */
+/* payment page, signed in with FLIK: the last method the shopper used, one box (a card shows its number and asks for the CVC); Change opens the full list */
+const ppLast=o=>{const k=o.pick,row=(lg,main,sub)=>`<div class="pp-sbr">${lg}<div class="v"><b>${main}</b>${sub?`<span>${sub}</span>`:''}</div></div>`;
+  if(String(k).startsWith('card:')){const c=(o.cards||[]).find(x=>'card:'+x.id===k);if(c)return`<div class="pp-sb"><div class="pp-sbr ro"><div class="v"><small>Card number</small><span class="num">•••• •••• •••• ${c.last4}</span></div>${c.brand==='card'?ic('card',18):`<img class="plg plg-sm" src="${IMG}payment/${c.brand}.png" alt="${c.brand==='bca'?'BCA':c.brand==='visa'?'Visa':'Mastercard'}">`}</div>
+    <div class="pp-sbr"><input id="cv-cvc" inputmode="numeric" autocomplete="cc-csc" maxlength="4" value="${o.cvc||''}" placeholder="CVC" aria-label="CVC"><span class="pp-sbi">${ic('lock',16)}</span></div></div>`}
+  const lk=o.linked&&o.linked[k];
+  return`<div class="pp-sb">${k==='qris'?row(pmLg('qris'),'QRIS','Scan with any bank or e-wallet app'):PM_GROUPS.wallet.includes(k)?row(pmLg(k),PMS[k][0],lk?`${lk} · Balance ${rp(WBAL[k])}`:'Connect when you pay'):row(pmLg(k),PMS[k][0])}</div>`};
+/* Pay now is ready when: signed in (and a card has its CVC), or the email is checked and, when saving to FLIK, the name and phone are filled in */
+const ppOk=o=>o.acct?(!String(o.pick).startsWith('card:')||/^\d{3,4}$/.test(o.cvc||'')):validEmail(o.em||'')&&(o.chk==='flik'||o.chk==='new')&&(o.chk!=='new'||!o.save||((o.nm||'').trim().length>1&&normPhone(o.ph).length>=11));
 function pvBody(kind,o={}){
   const total=sub(),due=dueDate(),cn=D.cust?D.cust.name:'Example customer',no=o.no||(editing&&editing.no!=='Draft'?editing.no:nextNo()),em=D.cust&&D.cust.email?D.cust.email:'customer@email.com';
   const cfs=D.cf?D.cfs.filter(f=>f.k.trim()&&f.v.trim()):[],pms=[...D.pms];
@@ -3487,11 +3657,15 @@ function pvBody(kind,o={}){
     <div class="pp-c pp-sum"><div class="pp-top"><div><div class="pp-a num">${rp(total)}</div><div class="pp-d">Due ${fday(due)}</div></div><span class="btn btn-o">${ic('doc',14)}Invoice PDF</span></div>
       <dl class="pp-kv"><dt>To</dt><dd>${cn}</dd><dt>From</dt><dd>Aruna Studio</dd><dt>Invoice</dt><dd>${no}</dd></dl>
       <div class="pp-more"><span class="lnk">View invoice details</span></div></div>
-    <div class="pp-c pp-pay"><span class="btn btn-p pp-btn"><span class="pp-mkt">${FLIK_MK}</span>Pay with FLIK</span><div class="pp-or">Or</div>
-      <div class="fld"><label>Email</label><input tabindex="-1" readonly value="${D.cust&&D.cust.email?D.cust.email:''}" placeholder="Enter your email address"></div>
-      <div class="pp-rl">${rows.join('')}</div>
-      <span class="btn btn-o pp-btn">${payL}</span></div>
-    <div class="pp-c pp-sv"><span class="cb on">${ic('check',12,3)}</span><div><b>Save my information for faster checkout</b><span>Pay securely at Aruna Studio and everywhere <u class="pp-fl">FLIK</u> is accepted</span></div></div>
+    <div class="pp-c pp-pay">${o.acct?'':`${o.live?'<button class="btn btn-p pp-btn" data-signin>':'<span class="btn btn-p pp-btn">'}<span class="pp-mkt">${FLIK_MK}</span>Pay with FLIK${o.live?'</button>':'</span>'}<div class="pp-or">Or</div>`}
+      <div class="fld"><div class="pp-el"><label for="cv-em">Email</label><span aria-live="polite">${o.acct?'<button class="lnk" data-signout>Sign out</button>':o.chk==='checking'?'<span class="pp-chk"><span class="ai-dots" aria-hidden="true"><i></i><i></i><i></i></span>Checking</span>':o.chk==='flik'?'<button class="lnk" data-signin>Continue with FLIK</button>':''}</span></div>
+        <input ${o.live?'id="cv-em" inputmode="email" autocomplete="email" spellcheck="false"':'tabindex="-1"'} ${o.live&&!o.acct?'':'readonly'} value="${esc(o.em||'')}" placeholder="Enter your email address"></div>
+      ${o.acct&&!o.full?`<div class="pp-mh"><b>Payment methods</b><button class="lnk" data-chg>Change</button></div>${ppLast(o)}`:`${o.acct?'<div class="pp-mh"><b>Payment methods</b></div>':''}<div class="pp-rl">${rows.join('')}</div>`}
+      ${o.live?`<button class="btn ${o.acct?'btn-p':'btn-o'} pp-btn" data-pay="1" ${ppOk(o)?'':'disabled'}>${payL}</button>`:`<span class="btn btn-o pp-btn">${payL}</span>`}</div>
+    ${o.chk==='new'&&!o.acct?`<div class="pp-c pp-sv"><div class="pp-svr"><button class="cb${o.save?' on':''}" data-save role="checkbox" aria-checked="${!!o.save}" aria-labelledby="pp-svl">${o.save?ic('check',12,3):''}</button><div><b id="pp-svl" data-save>Save my information for faster checkout</b><span>Pay securely at Aruna Studio and everywhere <u class="pp-fl">FLIK</u> is accepted</span></div></div>
+      ${o.save?`<div class="pp-svf"><div class="sx-f"><label for="cv-nm">Full name</label><input id="cv-nm" autocomplete="name" value="${esc(o.nm||'')}" placeholder="Your name"></div>
+        <div class="sx-f"><label for="cv-ph">Phone number</label><div class="pre"><em>+62</em><input id="cv-ph" inputmode="numeric" autocomplete="tel-national" value="${esc(o.ph||'')}" placeholder="812-3456-7890"></div></div>
+        <p class="pp-svh">After you pay, FLIK saves these details so your next checkout takes one click. We send sign-in codes to this phone number.</p></div>`:''}</div>`:''}
     <div class="pp-ft">${FLIK_WM}<span>1-Click Checkout</span><div><span class="lnk">Terms of use</span><span class="lnk">Privacy policy</span></div></div></div>`;
 }
 const FLIK_WM='<svg class="pp-wm" role="img" aria-label="FLIK" viewBox="0 0 90 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M53.0687 4.36523V21.2411C53.0687 24.7038 52.7067 27.6382 59.5548 27.6382V10.7623C59.5548 7.29956 58.8615 4.36523 53.0687 4.36523Z" fill="#232356"/><path d="M40.0576 21.9117V10.7673L40.0438 10.7619C40.0438 7.29914 39.3505 4.36482 33.5578 4.36482L33.5547 4.36328V23.4387C33.5547 25.758 35.4352 27.6385 37.7545 27.6385H50.5586V21.9125H40.0576V21.9117Z" fill="#232356"/><path d="M74.8642 15.0687L83.0789 4.36523H76.1005L69.1788 12.7426V10.7623C69.1788 7.29956 68.4855 4.36523 62.6928 4.36523V21.2411C62.6928 24.7038 62.3308 27.6382 69.1788 27.6382V20.6981L70.9397 18.9939L76.5231 27.6382H83.5882L74.8649 15.0687H74.8642Z" fill="#222255"/><path d="M27.6189 18.8131C27.6189 14.5313 25.177 13.3594 22.1652 13.3594H16.6025V22.1846C16.6025 25.1964 17.914 27.6383 22.0563 27.6383V18.8131H27.6189Z" fill="#F26324"/><path d="M30.8521 10.3952C30.8521 5.10632 28.4102 4.3877 25.3984 4.3877H7.35449V22.1555C7.35449 25.1673 8.09076 27.6092 13.6388 27.6092V10.3952H30.8529H30.8521Z" fill="#F26324"/></svg>',FLIK_MK='<svg class="pp-mk" aria-hidden="true" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.2088 17.4254C23.2088 13.1436 20.7668 11.9717 17.755 11.9717H12.1924V20.7969C12.1924 23.8087 13.5039 26.2507 17.6461 26.2507V17.4254H23.2088Z" fill="#F26324"/><path d="M26.442 9.00748C26.442 3.71863 24 3 20.9882 3H2.94434V20.7678C2.94434 23.7796 3.6806 26.2215 9.22868 26.2215V9.00748H26.4427H26.442Z" fill="#F26324"/></svg>';
@@ -3544,7 +3718,23 @@ function sampleView(){const keep=D,ed=editing;editing=null;
 /* rotate the last logo tile of a payment-method group every 4 seconds, with a slow crossfade */
 setInterval(()=>document.querySelectorAll('.pp-cyc').forEach(t=>{const c=[...t.children],i=Math.max(0,c.findIndex(e=>e.classList.contains('on')));c[i].classList.remove('on');c[(i+1)%c.length].classList.add('on')}),4000);
 const WBAL={gopay:2450000,ovo:875000,dana:1320000,shopeepay:540000}; // prototype wallet balances
-function custView(v,start){const el=document.getElementById('cv');let at=start||'email';const st={pick:'qris',open:null,linked:{},cards:[],qris:false,hp:0};
+function custView(v,start){const el=document.getElementById('cv');let at=start||'email';const st={pick:'qris',open:null,linked:{},cards:[],qris:false,hp:0,live:1,em:'',chk:null,acct:false,full:false,save:true,nm:'',ph:'',cvc:''};
+  /* email first: once the shopper stops typing a valid email, the page checks it (Checking), then shows Continue with FLIK for a FLIK account or Save my information for a new shopper. Prototype: the invoice's recipient email has a FLIK account */
+  let chkT=0;const checkEmail=()=>{clearTimeout(chkT);const was=st.chk;st.chk=null;if(was)draw(1);if(!validEmail(st.em))return;
+    chkT=setTimeout(()=>{st.chk='checking';draw(1);chkT=setTimeout(()=>{st.chk=st.em.trim().toLowerCase()===(v.D.cust.email||'').toLowerCase()?'flik':'new';draw(1)},1100)},600)};
+  /* Continue with FLIK (and Pay with FLIK): FLIK sends a 6-digit code to the phone number on the account, never to email. With the right code the shopper is signed in and sees the last method they paid with (prototype: Visa •••• 2931) */
+  const signIn=()=>{const phn=String(v.D.cust.phone||'812-3456-7890').replace(/^\+?62\s*|^0/,''),mask='+62 '+phn.replace(/\d(?=(?:\D*\d){4})/g,'•');modal.classList.add('ew');
+    modal.innerHTML=`<div class="mh"><h3>Sign in to FLIK</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><p style="color:var(--muted);margin-bottom:14px">Enter the 6-digit code we sent to <b class="num" style="color:var(--ink);font-weight:500">${mask}</b>.</p><div class="otp6" role="group" aria-label="Code">${[1,2,3,4,5,6].map(i=>`<input inputmode="numeric" ${i===1?'autocomplete="one-time-code"':''} aria-label="Digit ${i}">`).join('')}</div>
+      <p style="color:var(--faint);font-size:12.5px;margin-top:10px">Any 6 digits work in this prototype. <button class="lnk" data-toast="New code sent to ${mask}">Send a new code</button></p></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="si-go" disabled>Continue</button></div>`;
+    const ins=[...modal.querySelectorAll('.otp6 input')],go=document.getElementById('si-go');
+    /* a pasted or autofilled code fills the boxes from this one on */
+    ins.forEach((x,i)=>{x.oninput=()=>{const d=x.value.replace(/\D/g,'');x.value=d.slice(-1);if(d.length>1)[...d].slice(0,6-i).forEach((c,j)=>ins[i+j].value=c);const nx=ins[Math.min(i+Math.max(d.length,1),5)];if(d&&nx)nx.focus();go.disabled=!ins.every(y=>y.value)};x.onkeydown=e=>{if(e.key==='Backspace'&&!x.value&&ins[i-1])ins[i-1].focus();if(e.key==='Enter'&&!go.disabled)go.click()}});
+    go.onclick=()=>{clearTimeout(chkT);Object.assign(st,{acct:true,full:false,chk:'flik',em:v.D.cust.email||st.em,cvc:''});
+      if(!st.cards.some(c=>c.id==='flik1'))st.cards.unshift({id:'flik1',brand:'visa',last4:'2931'});st.pick='card:flik1';st.open='card';
+      closeModal();draw(1);toast(`Signed in as ${st.em}`)};
+    mscrim.classList.add('open');ins[0].focus()};
   /* Connect: in the live product the wallet opens in a new tab and asks for the phone number on the account; here a dialog stands in for that tab */
   /* Add card: card number, expiry and security code; the saved card is chosen straight away */
   const addCard=kind=>{const bca=kind==='bcad';const dg=s=>s.replace(/\D/g,''),okN=()=>{const n=dg(nI.value).length;return n>=15&&n<=16},okE=()=>{const d=dg(eI.value);if(d.length!==4)return false;const m=+d.slice(0,2),y=2000+ +d.slice(2);return m>=1&&m<=12&&(y>NOW.getFullYear()||(y===NOW.getFullYear()&&m>=NOW.getMonth()+1))},okC=()=>/^\d{3,4}$/.test(dg(cI.value));modal.classList.add('ew');
@@ -3558,7 +3748,7 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
     [nI,eI,cI].forEach(i=>i.addEventListener('input',()=>go.disabled=!(okN()&&okE()&&okC())));
     /* say what's wrong once the shopper leaves a field */
     [[nI,okN,'cc-n-err'],[eI,okE,'cc-e-err'],[cI,okC,'cc-c-err']].forEach(([i,ok,id])=>{i.addEventListener('blur',()=>{document.getElementById(id).hidden=!i.value||ok()});i.addEventListener('input',()=>{if(ok())document.getElementById(id).hidden=true})});
-    go.onclick=()=>{const n=dg(nI.value),c={id:Date.now(),brand:bca?'bca':/^4/.test(n)?'visa':/^(5[1-5]|2[2-7])/.test(n)?'mastercard':'card',last4:n.slice(-4)};st.cards.push(c);st.pick='card:'+c.id;closeModal();draw(1);toast('Card added')};
+    go.onclick=()=>{const n=dg(nI.value),c={id:Date.now(),brand:bca?'bca':/^4/.test(n)?'visa':/^(5[1-5]|2[2-7])/.test(n)?'mastercard':'card',last4:n.slice(-4)};st.cards.push(c);st.pick='card:'+c.id;st.full=false;st.cvc='';closeModal();draw(1);toast('Card added')};
     mscrim.classList.add('open');nI.focus()};
   /* What FLIK is: opened from "everywhere FLIK is accepted" under Save my information */
   const flikInfo=()=>{modal.classList.add('ew','fi');const row=(i,t,s)=>`<div class="fi-r">${ic(i,20)}<div><b>${t}</b><span>${s}</span></div></div>`;
@@ -3573,7 +3763,7 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
       <div class="sx-f"><label for="ew-p">${n} phone number</label><div class="pre"><em>+62</em><input id="ew-p" inputmode="numeric" value="${(st.linked[k]||'').replace('+62','')}" placeholder="812-3456-7890"></div></div></div>
     <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ew-go" ${ok(st.linked[k])?'':'disabled'}>Connect ${n}</button></div>`;
     const inp=document.getElementById('ew-p'),go=document.getElementById('ew-go');inp.oninput=()=>go.disabled=!ok(inp.value);
-    go.onclick=()=>{st.linked[k]='+'+normPhone(inp.value);st.pick=k;st.open='wallet';closeModal();draw(1);toast(`${n} connected`);if(then)then()};
+    go.onclick=()=>{st.linked[k]='+'+normPhone(inp.value);st.pick=k;st.open='wallet';st.full=false;closeModal();draw(1);toast(`${n} connected`);if(then)then()};
     mscrim.classList.add('open');inp.focus()};
   const mName=k=>{if(String(k).startsWith('card:')){const c=st.cards.find(x=>'card:'+x.id===k);return`${({visa:'Visa',mastercard:'Mastercard',bca:'BCA debit'})[c.brand]||'Card'} •••• ${c.last4}`}return k==='qris'?'QRIS':k==='flik'?'FLIK':PMS[k][0]};
   /* once paid, the page turns into the receipt: Invoice paid, the amount, the payment and two downloads (like Stripe's hosted invoice) */
@@ -3600,9 +3790,10 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
   const page=()=>{if(st.paid)return paid();if(st.qris)return qris();const keep=D;D=v.D;const h=pvBody('page',{no:v.no,...st,linked:st.linked,cards:st.cards});D=keep;
     return h.replace('<u class="pp-fl">FLIK</u>','<button class="pp-fl" data-flikinfo>FLIK</button>').replace('<span class="lnk">View invoice details</span>','<button class="lnk" data-cvd>View invoice details</button>').replace('<span class="btn btn-p pp-btn">','<button class="btn btn-p pp-btn" data-pay="flik">').replace('Pay with FLIK</span>','Pay with FLIK</button>').replace(/<span class="btn btn-o pp-btn">([^<]*)<\/span>/,'<button class="btn btn-o pp-btn" data-pay="1">$1</button>')};
   const mail=()=>v.email.replace('<span class="btn btn-p ie-mail-btn" tabindex="-1">Pay this invoice</span>','<button class="btn btn-p ie-mail-btn" data-cv="page">Pay this invoice</button>').replace(/<\/div>$/,`<button class="cv-att" data-cv="pdf"><span class="plg plg-i">${ic('doc',15)}</span><span><b>${v.no}.pdf</b><small>PDF attachment</small></span></button></div>`);
-  const draw=(stay)=>{const y=stay?el.querySelector('.cv-b').scrollTop:0;el.innerHTML=`<div class="ie-top"><button class="ib" data-cvx aria-label="Close">${ic('x',18)}</button><span class="sep"></span><b>${at==='email'?`Email to ${v.who}`:at==='pdf'?`${v.no}.pdf`:st.qris&&!st.paid?'Pay with QRIS':'Payment page'}</b><span class="st gr">Prototype</span>
+  const draw=(stay)=>{const y=stay?el.querySelector('.cv-b').scrollTop:0,fa=document.activeElement,fid=fa&&el.contains(fa)&&fa.id,fs=fid&&fa.selectionStart;el.innerHTML=`<div class="ie-top"><button class="ib" data-cvx aria-label="Close">${ic('x',18)}</button><span class="sep"></span><b>${at==='email'?`Email to ${v.who}`:at==='pdf'?`${v.no}.pdf`:st.qris&&!st.paid?'Pay with QRIS':'Payment page'}</b><span class="st gr">Prototype</span>
       <div class="ie-acts">${at==='email'?'':`<button class="btn btn-o" data-cv="email">Back to email</button>`}</div></div>
-    <div class="cv-b">${at==='email'?mail():at==='page'?page():at==='pdf'?`<div class="cv-pdf">${v.pdf.replace('<span class="ip-pay">Pay online</span>','<button class="ip-pay lnk" data-cv="page">Pay online</button>')}</div>`:page()}</div>`;el.querySelector('.cv-b').scrollTop=y};
+    <div class="cv-b">${ONB.sbx&&at==='page'&&!st.paid?SIM_PANEL():''}${at==='email'?mail():at==='page'?page():at==='pdf'?`<div class="cv-pdf">${v.pdf.replace('<span class="ip-pay">Pay online</span>','<button class="ip-pay lnk" data-cv="page">Pay online</button>')}</div>`:page()}</div>`;el.querySelector('.cv-b').scrollTop=y;
+    const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}};
   const shut=()=>{closeDetail();el.hidden=true;document.body.style.overflow='';document.body.classList.remove('cvon');if(location.hash==='#invoices/pay')location.hash='invoices'};
   /* View invoice details: a side panel with the lines, what's paid and left, and the payment history, like Stripe's hosted invoice */
   const details=()=>{const row=(a,b,c='')=>`<div class="cvd-r ${c}"><span>${a}</span><span class="num">${b}</span></div>`;
@@ -3613,20 +3804,29 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
       <div class="cvd-g">${row('Amount paid',rp(st.paid?v.total:0))}${row('Amount remaining',rp(st.paid?0:v.total),'b')}</div>
       <div class="dsec"><h5>Payment history</h5>${st.paid?`<div class="cvd-r"><span>${fday(NOW)}<small>${mName(st.paid)}</small></span><span class="num">${rp(v.total)}</span></div>`:'<p class="d-sub">No payments have been made</p>'}</div>
       <p class="cvd-q">Questions? <span class="lnk">Contact Aruna Studio</span></p></div>`;openDrawer()};
-  el.onclick=e=>{const t=e.target.closest('[data-cv],[data-cvx],[data-cvd],[data-pg],[data-pk],[data-con],[data-pay],[data-addcard],[data-cdel],[data-qback],[data-hp],[data-flikinfo]');if(!t)return;const d=t.dataset;
+  el.onclick=e=>{const t=e.target.closest('[data-cv],[data-cvx],[data-cvd],[data-pg],[data-pk],[data-con],[data-pay],[data-addcard],[data-cdel],[data-qback],[data-hp],[data-flikinfo],[data-sim],[data-signin],[data-signout],[data-chg],[data-save]');if(!t)return;const d=t.dataset;
+    if('signin' in d){signIn();return}
+    if('signout' in d){Object.assign(st,{acct:false,full:false,pick:'qris',open:null,cvc:''});draw(1);toast('Signed out of FLIK');return}
+    if('chg' in d){st.full=true;draw(1);return}
+    if('save' in d){st.save=!st.save;draw(1);return}
+    if(d.sim){if(d.sim==='paid'){st.paid=st.pick||'qris';ONB.done.spay=1;ONB.dev=Object.assign(ONB.dev||{},{pay:1,recon:1});ONB.events.unshift({t:'payment_intent.succeeded',at:'Just now',ok:!!ONB.hooks.length});onbSave();drawGuide();draw()}else{toast(d.sim==='failed'?'Payment failed. The shopper can try again.':'Checkout session expired. checkout.session.expired was sent.');ONB.events.unshift({t:d.sim==='failed'?'payment_intent.payment_failed':'checkout.session.expired',at:'Just now',ok:!!ONB.hooks.length});onbSave()}return}
     if('flikinfo' in d){flikInfo();return}
     if('qback' in d){st.qris=false;draw();return}
     if(d.hp){st.hp=st.hp===+d.hp?-1:+d.hp;draw(1);return}
     if(d.pay==='1'&&st.pick==='qris'){st.qris=true;draw();return}
     if(d.pay&&d.pay!=='flik'&&PM_GROUPS.wallet.includes(st.pick)&&!st.linked[st.pick]){connect(st.pick,()=>el.querySelector('[data-pay="1"]').click());return}
-    if(d.pay){st.paid=d.pay==='flik'?'flik':st.pick;if(v.inv){v.inv.status='paid';if(location.hash==='#invoices')renderInv()}draw();return}
+    if(d.pay){if(!st.acct&&st.chk==='new'&&st.save)toast(`Your FLIK account is ready. Next time, sign in with ${st.em}`);st.paid=d.pay==='flik'?'flik':st.pick;if(v.inv){v.inv.status='paid';if(location.hash==='#invoices')renderInv()}draw();return}
     if('cvx' in d){shut();return}if('cvd' in d){details();return}
     if(d.pg){st.open=st.open===d.pg?null:d.pg;draw(1);return}
     if(d.con){connect(d.con);return}
     if('addcard' in d){addCard(d.addcard);return}
     if(d.cdel){st.cards=st.cards.filter(c=>String(c.id)!==d.cdel);draw(1);toast('Card removed');return}
-    if(d.pk){st.pick=d.pk;if(st.pick==='qris')st.open=null;draw(1);return}
+    if(d.pk){st.pick=d.pk;st.cvc='';if(st.pick==='qris')st.open=null;st.full=false;draw(1);return}
     at=d.cv;draw()};
+  /* typing: the email starts the check; name, phone and CVC only update Pay now */
+  el.oninput=e=>{const t=e.target,f={'cv-em':'em','cv-nm':'nm','cv-ph':'ph','cv-cvc':'cvc'}[t.id];if(!f)return;
+    if(f==='cvc')t.value=t.value.replace(/\D/g,'').slice(0,4);st[f]=t.value;if(f==='em'){checkEmail();if(st.chk)return}
+    const b=el.querySelector('[data-pay="1"]');if(b)b.disabled=!ppOk(st)};
   el.onkeydown=e=>{if(e.key==='Escape'){drawer.classList.contains('open')?closeDetail():shut()}};
   draw();el.hidden=false;document.body.style.overflow='hidden';document.body.classList.add('cvon');el.querySelector('[data-cvx]').focus()}
 const fdayISO=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -4636,7 +4836,7 @@ function recSvc(ST,grp){let best=null;SERVICES.forEach((v,j)=>{if(v[2]!==grp||!s
 /* top bar gear: settings, including Warehouses (no longer in the sidebar) */
 document.getElementById('gear').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
   pop.innerHTML=`<div class="menu" style="width:220px" role="menu"><button class="opt" role="menuitem" data-gv="warehouses">${ic('wh',15)}Warehouses</button><button class="opt" role="menuitem" data-gt="Opens Settings">${ic('gear',15)}All settings</button></div>`;
-  pop.querySelector('[data-gv]').onclick=()=>{closePop();location.hash='warehouses'};pop.querySelector('[data-gt]').onclick=()=>{closePop();toast('Opens Settings')};placePop(b,true)};
+  pop.querySelector('[data-gv]').onclick=()=>{closePop();location.hash='warehouses'};pop.querySelector('[data-gt]').onclick=()=>{closePop();location.hash='settings'};placePop(b,true)};
 /* add a warehouse from Create shipment without leaving the flow */
 function whQuickModal(onSave){const w={n:'',code:'',ph:'',street:'',dist:'',city:'',prov:'',zip:''};
   const F=[['n','Warehouse name','e.g. Medan warehouse'],['code','Warehouse code','e.g. MDN-01'],['ph','Contact WhatsApp','812-3456-7890',1],['street','Street address','Street, building, number',0,1],['dist','Kecamatan','e.g. Medan Petisah'],['city','City or regency','e.g. Kota Medan'],['prov','Province','e.g. Sumatera Utara'],['zip','Postcode','20112']];
@@ -5760,9 +5960,11 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
   drawer.classList.add('open');dscrim.classList.add('open');drawer.querySelector('[data-dclose]').onclick=closeDetail};
 
 /* ===== Simple router: #home / #transactions ===== */
-const VIEWS={home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog'],mon:['monitoring','Monitoring'],cr:['check-rate','Check rate'],ana:['shipping/analytics','Shipping analytics']};
-const hashView=()=>location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+const VIEWS={set:['settings','Settings'],home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog'],mon:['monitoring','Monitoring'],cr:['check-rate','Check rate'],ana:['shipping/analytics','Shipping analytics']};
+const hashView=()=>/^#(settings|verify)/.test(location.hash)?'set':location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
+  if(location.hash==='#verify'&&document.getElementById('vx').hidden)openVer();
+  if(view!=='set'){hideSave();ONB.dirty=false}
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
   if(location.hash==='#invoices/pay'){view='inv';sampleView()}else if(!document.getElementById('cv').hidden)document.querySelector('#cv [data-cvx]').click();
   if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
@@ -5772,8 +5974,9 @@ function show(view){
   Object.keys(VIEWS).forEach(k=>document.getElementById('view-'+k).hidden=k!==view);
   document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===view));
   document.title=VIEWS[view][1]+' | FLIK Dashboard';
-  if(home)renderHome();
-  if(view==='mca')renderMca();
+  if(home){renderHome();onbHome()}
+  if(view==='set')renderSet();
+  if(view==='mca'){renderMca();onbMcaNote()}
   if(view==='bal')renderBal();
   if(view==='shp'){shpRoute();nav.querySelector('[data-view=\"shp\"]')?.closest('.grp')?.classList.add('open')}
   if(view==='cus')renderCus();
@@ -6925,6 +7128,411 @@ document.addEventListener('click',e=>{if(e.target.closest('[data-wset]')){e.stop
 
 /* start as an active shipper with six months of example shipments */
 PS.mode='active';PS.verified=true;PS.flags='payship';PS.first={addr:true,created:true,paid:true};genActive();
+
+/* ===== Onboarding, sandbox, verification and Settings (spec: Ahmad, "Merchant dashboard: onboarding, sandbox, settings and developers", 4 Nov 2026) =====
+   State lives in localStorage so it carries across the per-menu files. The prototype controls sit in the account menu (click the store name). */
+const ONB_KEY='flik-onb-v1';
+const ONB_DEF=()=>({st:'active',tour:true,guide:'pill',done:{},hide:{},modes:['links','hosted'],sbx:false,role:'owner',outlets:false,snap:false,live:false,step:0,
+  v:{type:'',name:'Aruna Studio',brand:'Aruna Studio',sell:'Fashion and apparel',addr:'Jl. Kemang Raya No. 12, Jakarta Selatan',phone:'812-3456-7890',web:'arunastudio.co.id',band:'Rp50–200 juta',
+    people:[{n:'Dewi Lestari',role:'Owner',nik:''}],docs:{},bank:'BCA',acc:'',checked:false,cphone:'812-3456-7890',cemail:'dewi@arunastudio.co.id',otp:false,agree:false},
+  pay:null,payst:0,stepAt:0,creds:[],hooks:[],events:[],allow:{mode:'report',list:[]},team:null,links:[],stores:{},exports:[],dirty:false});
+let ONB=(()=>{try{return Object.assign(ONB_DEF(),JSON.parse(localStorage.getItem(ONB_KEY)||'{}'))}catch(e){return ONB_DEF()}})();
+const onbSave=()=>{try{localStorage.setItem(ONB_KEY,JSON.stringify(ONB))}catch(e){}};
+const verified=()=>ONB.st==='active';
+const canDev=()=>['owner','admin','developer'].includes(ONB.role);
+const ROLE_N={owner:'Owner',admin:'Admin',developer:'Developer',finance:'Finance',operations:'Operations',viewer:'Viewer'};
+const vDone=()=>['review','needs','active'].includes(ONB.st)?6:Math.min(6,ONB.vmax||0); /* steps finished with Continue */
+const ck=(s=10)=>ic('check',s,3.2);
+const lockIc=()=>ic('lock',12,2);
+if(!P.refresh)P.refresh='<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>';
+if(!P.eye)P.eye='<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>';
+if(!P.lock)P.lock='<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>';
+if(!P.shield)P.shield='<path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/>';
+if(!P.key)P.key='<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.7-8.7M16 6l3 3M14 8l2 2"/>';
+if(!P.code)P.code='<path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>';
+if(!P.team)P.team='<circle cx="9" cy="8" r="3.5"/><path d="M3 20c.5-3.5 3-5.5 6-5.5s5.5 2 6 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3 2.5 3.3 5.5"/>';
+if(!P.outlet)P.outlet='<path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5c0 1.4 1.1 2.5 2.7 2.5S9.3 10.9 9.3 9.5c0 1.4 1.2 2.5 2.7 2.5s2.7-1.1 2.7-2.5c0 1.4 1.1 2.5 2.6 2.5S20 10.9 20 9.5M5.5 12v8h13v-8"/>';
+if(!P.plug)P.plug='<path d="M9 3v5M15 3v5M7 8h10v3a5 5 0 0 1-10 0zM12 16v5"/>';
+if(!P.data)P.data='<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>';
+if(!P.bank)P.bank='<path d="M4 10h16M5 10v8M9.7 10v8M14.3 10v8M19 10v8M3 21h18M12 3l9 5H3z"/>';
+
+/* ----- sidebar: store name with its status, the verify card, the account menu ----- */
+function drawAcct(){const a=document.getElementById('acct');if(!a)return;
+  const st={new:'Not verified',draft:'Not verified',review:'In review',needs:'In review',active:'Verified'}[ONB.st];
+  a.querySelector('.acct-t small').className=verified()?'ok':'';
+  a.querySelector('.acct-t small').innerHTML=verified()?'':st; /* a verified store shows just its name */
+  a.querySelector('.acct-t small').hidden=verified()&&!ONB.sbx;
+  const n=vDone(),vc=document.getElementById('vcard');
+  vc.innerHTML=verified()?'':ONB.st==='needs'?`<div class="vcard warn"><b>FLIK needs 2 things</b><p>A clearer KTP photo and your NIB.</p><button class="btn btn-o" data-ver>Answer</button></div>`
+    :ONB.st==='review'?`<div class="vcard"><b>In review</b><div class="pbar"><i style="width:100%"></i></div><p>FLIK is checking your details. We'll email you when you're live.</p><button class="btn btn-o" data-ver>View status</button></div>`
+    :`<div class="vcard"><b>${n?`Get verified · ${n} of 6`:'Get verified to go live'}</b><div class="pbar"><i style="width:${n/6*100}%"></i></div>${n?'':'<p>About 10 minutes. Have your KTP and NPWP ready.</p>'}<button class="btn ${n?'btn-o':'btn-p'}" data-ver>${n?'Continue':'Start verification'}</button></div>`;
+  document.body.classList.toggle('sbx',!!ONB.sbx);
+  document.getElementById('sbx-bar').hidden=!ONB.sbx;
+}
+function acctMenu(b){if(popFor===b){closePop();return}popFor=b;
+  const r=(k,l)=>`<button class="opt" data-ps="${k}"><span class="rdo${ONB.st===k?' on':''}"></span>${l}</button>`,c=(k,l)=>`<button class="opt" data-pt="${k}"><span class="cb${ONB[k]?' on':''}">${ONB[k]?ic('check',12,3):''}</span>${l}</button>`;
+  pop.innerHTML=`<div class="menu" style="width:260px" role="menu">
+    ${ONB.sbx?`<button class="opt" data-am="exit">${ic('x',15)}Exit sandbox</button><button class="opt" data-am="reset">${ic('refresh',15)}Reset sandbox</button>`:`<button class="opt" data-am="sbx">${ic('code',15)}Open sandbox</button>`}
+    <button class="opt" data-am="set">${ic('gear',15)}Settings</button><button class="opt" data-am="tour">${ic('help',15)}Take the tour</button>
+    <hr><h6>Prototype: merchant</h6>${r('new','New merchant')}${r('review','Verification in review')}${r('needs','FLIK needs info')}${r('active','Active')}
+    <hr><h6>Prototype: account</h6>${c('outlets','Several outlets')}${c('snap','SNAP partner')}${c('live','Has live credentials')}
+    <hr><h6>Prototype: view as</h6><div style="padding:2px 10px 6px"><span class="sp-sw rf-sw"><select class="rf-sel" id="am-role" aria-label="View as role">${Object.entries(ROLE_N).map(([k,n])=>`<option value="${k}" ${ONB.role===k?'selected':''}>${n}</option>`).join('')}</select></span></div></div>`;
+  pop.onclick=e=>{const t=e.target.closest('[data-am],[data-ps],[data-pt]');if(!t)return;const d=t.dataset;
+    if(d.am){closePop();({sbx:()=>enterSbx(),exit:()=>exitSbx(),reset:resetSbx,set:()=>location.hash='settings',tour:openTour})[d.am]();return}
+    if(d.ps){Object.assign(ONB,d.ps==='new'?{st:'new',tour:false,guide:'open',done:{},v:ONB_DEF().v,vmax:0,step:0,pay:null,creds:[]}:{st:d.ps,guide:d.ps==='active'?'pill':ONB.guide});if(d.ps!=='new'&&d.ps!=='active'){ONB.v=Object.assign(ONB_DEF().v,{type:'company',people:[{n:'Dewi Lestari',role:'Director',nik:'3174012345670001'}],docs:{nib:1,akta:1,npwp:1},acc:'0123456789',checked:true,otp:true,agree:true})}onbSave();closePop();onbRefresh();if(d.ps==='new')openTour();toast(`Prototype: ${t.textContent.trim()}`);return}
+    if(d.pt){ONB[d.pt]=!ONB[d.pt];onbSave();closePop();onbRefresh();toast(`Prototype: ${t.textContent.trim()} ${ONB[d.pt]?'on':'off'}`)}};
+  pop.querySelector('#am-role').onchange=e=>{ONB.role=e.target.value;onbSave();closePop();onbRefresh();toast(`Viewing as ${ROLE_N[ONB.role]}`)};
+  placePop(b)}
+function onbRefresh(){drawAcct();drawGuide();if(!document.getElementById('view-set').hidden)renderSet();if(!document.getElementById('view-home').hidden)onbHome()}
+
+/* ----- sandbox ----- */
+function enterSbx(go){ONB.sbx=true;ONB.done.sbxin=1;onbSave();drawAcct();drawGuide();toast('You\'re in the sandbox. Sample data only.');if(go)location.hash=go}
+function exitSbx(){ONB.sbx=false;onbSave();drawAcct();toast('Back in your live account')}
+function resetSbx(){modal.innerHTML=`<div class="mh"><h3>Reset the sandbox?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">Every test payment, shipment and funding step is wiped, and the sample data comes back. Your live account isn't touched.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="sbx-go">Reset sandbox</button></div>`;
+  document.getElementById('sbx-go').onclick=()=>{ONB.events=[];onbSave();closeModal();toast('Sandbox reset to the sample data')};mscrim.classList.add('open')}
+document.getElementById('sbx-live').onclick=()=>{exitSbx();if(!verified())openVer()};
+/* MCA in the sandbox: practise with fixed sample terms */
+function onbMcaNote(){const v=document.getElementById('view-mca');if(!ONB.sbx||!v)return;if(v.querySelector('.onb-mca'))return;
+  v.insertAdjacentHTML('afterbegin',`<div class="sx-note onb-mca" style="margin:8px 0 0">${ic('help',16)}<span>Practice mode. Sample terms are fixed for practice, not based on your sales, and every amount is TEST. Nothing reaches FLIK's credit team.</span></div>`);ONB.done.smca=1;onbSave();drawGuide()}
+
+/* ----- first-run tour: one pop-up, 5 slides ----- */
+const TOUR=[['bolt','Welcome to FLIK, Dewi','Ship, get paid and grow from one place.',['truck','bolt','coins']],
+  ['eye','Look around, everything\'s open','Try any product. We only ask you to verify when you do something real, like sending an invoice.',['invoice','eye','truck']],
+  ['shield','Get verified to go live','You\'ll need your KTP, NPWP, NIB if you have one, and a bank account in your business\'s name.',['doc','shield','bank'],'Start verification'],
+  ['code','Practise in the sandbox','Sample payments and test money. Developers get test credentials straight away.',['tx','code','key'],'Open sandbox'],
+  ['check','Your checklist','Your next steps, in order. It follows you on every page.',['home','check','chart']]];
+function openTour(){let i=0;modal.classList.add('tour');
+  const draw=()=>{const s=TOUR[i],last=i===TOUR.length-1;
+    modal.innerHTML=`<div class="tr-ill" aria-hidden="true">${s[3].map(n=>`<span class="t1">${ic(P[n]?n:'bolt',i===1&&n==='eye'?30:24,1.7)}</span>`).join('')}</div>
+    <div class="tr-b"><h3>${s[1]}</h3><p>${s[2]}</p><div class="tr-dots" aria-label="Slide ${i+1} of 5">${TOUR.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>${s[4]?`<button class="btn btn-o" style="margin-top:12px" data-tx="${i}">${s[4]}</button>`:''}</div>
+    <div class="tr-f"><button class="skip" data-tskip>Skip</button><div style="display:flex;gap:8px">${i?`<button class="btn btn-o" data-tb>Back</button>`:''}<button class="btn btn-p" data-tn>${last?'Open my checklist':'Next'}</button></div></div>`};
+  const end=(done)=>{ONB.tour=true;ONB.done.tour=1;ONB.guide='open';onbSave();closeModal();modal.classList.remove('tour');drawGuide();if(!done)toast('Tour skipped. Your checklist is bottom right.')};
+  modal.onclick=e=>{const t=e.target.closest('[data-tn],[data-tb],[data-tskip],[data-tx]');if(!t)return;
+    if('tskip' in t.dataset)end(false);else if('tb' in t.dataset){i--;draw()}else if('tn' in t.dataset){if(i===TOUR.length-1)end(true);else{i++;draw()}}
+    else if(t.dataset.tx==='2'){end(true);openVer()}else if(t.dataset.tx==='3'){end(true);enterSbx()}};
+  modal.onkeydown=e=>{if(e.key==='ArrowRight')modal.querySelector('[data-tn]').click();if(e.key==='ArrowLeft'&&i){i--;draw()}};
+  let x0=null;modal.ontouchstart=e=>x0=e.touches[0].clientX;modal.ontouchend=e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(dx<-40)modal.querySelector('[data-tn]').click();if(dx>40&&i){i--;draw()}x0=null};
+  draw();mscrim.classList.add('open');modal.setAttribute('tabindex','-1');modal.focus()}
+
+/* ----- setup guide: open panel, collapsed card, pill in the top bar ----- */
+const GUIDE=()=>{const api=ONB.modes.includes('api'),plug=ONB.modes.includes('plugin'),ship=!ONB.modes.length||ONB.modes.some(m=>m!=='api');
+  return[{g:'try',n:'Try FLIK',s:[['choose','Choose how to accept payments'],['tour','Take the tour'],['spay','Get a test payment in sandbox'],['sship','Book a test shipment in sandbox'],['smca','Try the funding process in sandbox']]},
+    ...(api||plug?[{g:'build',n:'Build your integration',s:[...(api?[['creds','Get test API credentials'],['hook','Receive a test webhook']]:[]),...(plug?[['store','Request store connection']]:[])]}]:[]),
+    {g:'live',n:'Go live',s:[['verify','Get verified'],...(ship?[['pickup','Add a pickup address']]:[])]},
+    {g:'sale',n:'First real sale',s:[['ship1','Create your first shipment',1],['inv1','Send your first invoice or payment link',1]]}].filter(g=>!ONB.hide[g.g])};
+const gDone=k=>k==='verify'?verified():k==='pickup'?true:k==='tour'?ONB.tour&&!!ONB.done.tour:!!ONB.done[k];
+function drawGuide(){let el=document.getElementById('sg');const pill=document.getElementById('sg-pill');
+  const G=GUIDE(),all=G.flatMap(g=>g.s),n=all.filter(s=>gDone(s[0])).length,next=all.find(s=>!gDone(s[0]));
+  const show=ONB.st!=='active'&&ONB.tour; /* the tour comes first; its last slide opens the guide */
+  if(!show||ONB.guide==='gone'||!next){if(el)el.remove();pill.hidden=true;return}
+  const pct=Math.round(n/all.length*100),ring=`<svg width="18" height="18" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="var(--ok)" stroke-width="4" stroke-dasharray="${pct*.94} 94" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>`;
+  pill.innerHTML=`${ring}<span class="t">Setup guide</span>`;pill.hidden=ONB.guide!=='pill';
+  if(ONB.guide==='pill'){if(el)el.remove();return}
+  if(!el){el=document.createElement('div');el.id='sg';document.body.appendChild(el)}
+  el.className='sg'+(ONB.guide==='card'?' c':'');el.setAttribute('role','region');el.setAttribute('aria-label','Setup guide');
+  if(ONB.guide==='card'){el.innerHTML=`<div><b>Setup guide</b><span style="color:var(--muted)">${n} of ${all.length}</span></div><div class="pbar"><i style="width:${pct}%"></i></div><p><span>Next:</span> ${next[1]}</p>`;el.onclick=()=>{ONB.guide='open';onbSave();drawGuide()};return}
+  el.onclick=null;
+  const step=s=>{const d=gDone(s[0]),lk=s[2]&&!verified()&&!ONB.sbx,nx=next&&s[0]===next[0];
+    return`<button class="sg-s${d?' done':''}${nx?' next':''}" data-gs="${s[0]}"><span class="m">${d?ck():''}</span><span class="t">${s[1]}</span>${s[0]==='verify'&&!d?`<em>${ONB.st==='review'?'In review':ONB.st==='needs'?'Needs info':vDone()+' of 6'}</em>`:lk&&!d?`<em>${lockIc()}Needs verification</em>`:''}</button>`};
+  el.innerHTML=`<div class="sg-h"><div><b>Setup guide</b><small>${n} of ${all.length} done</small></div><div class="pbar"><i style="width:${pct}%"></i></div></div>
+    <div class="sg-b">${G.map(g=>`<div class="sg-g"><h6>${g.n}</h6>${g.s.map(step).join('')}</div>`).join('')}</div>
+    <div class="sg-f"><button data-gedit>Edit</button><span style="display:flex;gap:16px"><button data-gmin>Collapse</button><button data-gclose aria-label="Close setup guide">${ic('x',14)}</button></span></div>`;
+  el.querySelectorAll('[data-gs]').forEach(b=>b.onclick=()=>guideGo(b.dataset.gs));
+  el.querySelector('[data-gmin]').onclick=()=>{ONB.guide='card';onbSave();drawGuide()};
+  el.querySelector('[data-gclose]').onclick=()=>{ONB.guide='pill';onbSave();drawGuide();toast('Setup guide is in the top bar')};
+  el.querySelector('[data-gedit]').onclick=e=>{e.stopPropagation();guideEdit(e.currentTarget)}}
+document.getElementById('sg-pill').onclick=()=>{ONB.guide='open';onbSave();drawGuide()};
+function guideEdit(b){if(popFor===b){closePop();return}popFor=b;
+  const draw=()=>{pop.innerHTML=`<div class="menu" style="width:240px"><h6>Show these groups</h6>${[['try','Try FLIK'],['build','Build your integration'],['live','Go live'],['sale','First real sale']].map(([k,n])=>`<button class="opt" data-gh="${k}"><span class="cb${ONB.hide[k]?'':' on'}">${ONB.hide[k]?'':ic('check',12,3)}</span>${n}</button>`).join('')}<hr><button class="opt danger" data-gh="gone">Hide setup guide for good</button></div>`;
+};
+  pop.onclick=e=>{const t=e.target.closest('[data-gh]');if(!t)return;e.stopPropagation();const k=t.dataset.gh;if(k==='gone'){ONB.guide='gone';closePop()}else{ONB.hide[k]=!ONB.hide[k];draw()}onbSave();drawGuide();const nb=document.querySelector('#sg [data-gedit]');if(nb&&k!=='gone'){popFor=nb;place(nb)}};
+  /* the guide sits at the bottom of the screen, so open the menu upwards when it doesn't fit below */
+  const place=a=>{placePop(a);const r=a.getBoundingClientRect();if(r.bottom+6+pop.offsetHeight>innerHeight)pop.style.top=(r.top-6-pop.offsetHeight+scrollY)+'px'};
+  draw();place(b)}
+function guideGo(k){const done=()=>{ONB.done[k]=1;onbSave();drawGuide()};
+  ({choose:chooser,tour:openTour,spay:()=>{enterSbx('invoices/pay')},sship:()=>{enterSbx('shipments/create')},smca:()=>{enterSbx('merchant-cash-advance')},
+    creds:()=>location.hash='settings/developers?t=keys',hook:()=>location.hash='settings/developers?t=webhooks',store:()=>location.hash='settings/integrations',
+    verify:openVer,pickup:()=>location.hash='warehouses',ship1:()=>location.hash='shipments/create',inv1:()=>location.hash='invoices/create'})[k]();
+  if(k==='sship'||k==='spay')ONB.done.sbxin=1}
+/* how will you accept payments? (multi-select, changes setup steps only) */
+const MODES=[['links','Payment links and invoices','Send a link or invoice by WhatsApp or email','Live'],['hosted','Hosted checkout','A FLIK checkout page for a simple site','Live'],['plugin','Store plugin','Shopify or WooCommerce, set up by FLIK','Set up by FLIK'],['api','Merchant API','Build your own checkout. VA and QRIS today','Live'],['ship','Shipping only','You just ship. Hides payment steps','Live'],['embed','Embedded, headless and agents','For brands and partners','Coming']];
+function chooser(){const sel=new Set(ONB.modes);
+  const draw=()=>{modal.innerHTML=`<div class="mh"><h3>How will you accept payments?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><p style="color:var(--muted);margin-bottom:12px">Pick all that apply. This only changes your setup steps. Change it any time in Settings › Payments and checkout.</p>
+    <div style="display:grid;gap:10px">${MODES.map(m=>{const off=m[3]==='Coming',on=sel.has(m[0]);return`<button class="sx-opt${on?' on':''}" data-md="${m[0]}" ${off?'disabled style="opacity:.55;cursor:not-allowed"':''}><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span><div style="flex:1"><b>${m[1]}</b><span>${m[2]}</span></div><span class="st ${m[3]==='Live'?'ok':m[3]==='Coming'?'gr':'warn'}">${m[3]}</span></button>`}).join('')}</div>
+    <p style="color:var(--muted);font-size:13px;margin-top:12px">In the sandbox you can try every mode and method the API supports, whatever you pick here.</p></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="md-go" ${sel.size?'':'disabled'}>Save</button></div>`;
+    modal.querySelectorAll('[data-md]').forEach(b=>b.onclick=()=>{const k=b.dataset.md;sel.has(k)?sel.delete(k):sel.add(k);draw()});
+    document.getElementById('md-go').onclick=()=>{ONB.modes=[...sel];ONB.done.choose=1;onbSave();closeModal();drawGuide();if(!document.getElementById('view-set').hidden)renderSet();toast('Saved. Your setup steps changed to match.')}};
+  modal.classList.add('md');draw();mscrim.classList.add('open')}
+
+/* ----- verify at the moment of action ----- */
+function verifyPrompt(what,save){const rev=ONB.st==='review'||ONB.st==='needs';
+  modal.innerHTML=`<div class="mh"><h3>${rev?'Your verification is in review':`Verify to ${what}`}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><p style="color:var(--muted);line-height:1.5">${rev?`We'll keep this as a draft and ${what.replace(/^send/,'send it').replace(/^book/,'book it').replace(/^top up/,'top up')} once your account is active. Nothing is lost.`:`Real ${what.includes('invoice')?'invoices':what.includes('shipment')?'shipments':'money'} need a verified account. It takes about 10 minutes. We keep this as a draft, so nothing is lost.`}</p></div>
+  <div class="mf">${rev?'':`<button class="btn btn-o" data-vsbx>Try in sandbox</button>`}<button class="btn btn-o" data-vdraft>Save as draft</button>${rev?'':`<button class="btn btn-p" data-vgo>Get verified</button>`}</div>`;
+  modal.querySelector('[data-vdraft]').onclick=()=>{closeModal();save()};
+  const g=modal.querySelector('[data-vgo]');if(g)g.onclick=()=>{closeModal();save(true);openVer()};
+  const s=modal.querySelector('[data-vsbx]');if(s)s.onclick=()=>{closeModal();enterSbx()};
+  mscrim.classList.add('open')}
+document.addEventListener('click',e=>{if(verified()||ONB.sbx)return;
+  const inv=e.target.closest('#ie-send'),shp=e.target.closest('#sx-next'),top=e.target.closest('#baladd,[data-topup]');
+  if(inv){e.stopPropagation();e.preventDefault();closeModal();setTimeout(()=>verifyPrompt('send this invoice',()=>{document.getElementById('ie-close').click()}),0);return}
+  if(shp&&/Confirm and pay/.test(shp.textContent)){e.stopPropagation();e.preventDefault();verifyPrompt('book this shipment',()=>{closeShip();toast('Shipment saved as a draft. It\'s booked once your account is active.')});return}
+  if(top){e.stopPropagation();e.preventDefault();verifyPrompt('top up your balance',()=>toast('Nothing changed. Top up once your account is active.'))}},true);
+
+/* ----- verification page (KYB): 6 steps, save and leave at any step ----- */
+const VSTEPS=['Business type','Business details','People','Documents','Payout bank account','Contacts and agreement'];
+function openVer(){const vx=document.getElementById('vx');vx.hidden=false;document.body.style.overflow='hidden';ONB.st==='new'&&(ONB.st='draft');onbSave();drawVer()}
+function closeVer(){document.getElementById('vx').hidden=true;document.body.style.overflow='';drawAcct();drawGuide();if(location.hash==='#verify')history.back()}
+function drawVer(){const V=ONB.v,s=ONB.step,body=document.getElementById('vx-body'),foot=document.getElementById('vx-foot'),co=V.type==='company';
+  if(ONB.st==='review'||ONB.st==='needs'||ONB.st==='active'){foot.innerHTML=`<span class="sp"></span><button class="btn btn-p" data-vclose>Done</button>`;
+    const S=[['Submitted','Waiting for the completeness check'],['In review','Checks, screening and risk review'],['Approved','Agreement effective, account being activated'],['Active','Real actions work. Live credentials can be created']];
+    const at=ONB.st==='active'?4:ONB.st==='review'?1:1;
+    const NI=ONB.ni||(ONB.ni={}),niRow=(k,n,h,file)=>NI[k]?`<div class="vx-doc">${ic('doc',18)}<div><b>${n}</b><span><button class="vx-file" data-vview="${file.split('.')[0]}">${file}</button> · 1.2 MB</span></div><span class="st ok" style="margin-left:auto">Uploaded</span><button class="btn btn-o" data-vup="${k}">Change</button></div>`:`<div class="vx-doc">${ic('doc',18)}<div><b>${n}</b><span>${h}</span></div><button class="btn btn-o" data-vup="${k}">${ic('upload',15)}Upload</button></div>`;
+    body.innerHTML=`<div class="vx-st"><h2 style="font-size:22px;font-weight:600;color:var(--ink);margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">${ONB.st==='active'?'Your account is verified':ONB.st==='needs'?'FLIK needs 2 things from you':'We\'re checking your details'}<span class="st ${ONB.st==='active'?'ok':ONB.st==='needs'?'warn':'pu'}">${ONB.st==='active'?'Active':ONB.st==='needs'?'Needs info':'In review'}</span></h2>
+      <p class="sx-lead">${ONB.st==='needs'?'Answer these and resubmit. Everything else you sent is kept.':ONB.st==='active'?'Changing your legal name, business type, people or documents now starts a re-verification. Change the payout account in Settings › Money.':'We\'ll email you and update this page when something changes. You can keep using the sandbox meanwhile.'}</p>
+      ${ONB.st==='needs'?`${niRow('ktp2','Clearer KTP photo','All four corners visible, no glare','ktp.jpg')}${niRow('nib2','NIB','From OSS, as PDF','nib.pdf')}<button class="btn btn-p" data-vresub style="margin-top:8px" ${NI.ktp2&&NI.nib2?'':'disabled'}>Resubmit</button>`:''}
+      <div class="vx-tl">${S.map((x,i)=>`<div class="${i<at?'done':i===at?'on':''}"><i>${i<at?ck(11):''}</i><div><b>${x[0]}</b><span>${x[1]}</span></div></div>`).join('')}</div></div>`;
+    body.onclick=e=>{const u=e.target.closest('[data-vup]'),v=e.target.closest('[data-vview]');if(v){docPreview(v.dataset.vview);return}if(u){toast(NI[u.dataset.vup]?'File changed':'Uploaded');NI[u.dataset.vup]=1;onbSave();drawVer();return}if(e.target.closest('[data-vresub]')){ONB.st='review';ONB.ni={};onbSave();drawVer();drawAcct();drawGuide();toast('Resubmitted for review')}};
+    foot.querySelector('[data-vclose]').onclick=closeVer;document.getElementById('vx-steps').innerHTML='';return}
+  document.getElementById('vx-steps').innerHTML=VSTEPS.map((n,i)=>`${i?'<span class="stp-l"></span>':''}<span class="stp${i===s?' on':i<s?' done':''}"><i>${i<s?ck(10):i+1}</i>${i===s?n:''}</span>`).join('');
+  const f=(k,l,ph,o={})=>`<div class="sx-f${o.full?' full':''}"${o.full?' style="grid-column:1/-1"':''}><label for="vf-${k}">${l}${o.opt?' <span class="opt-l">(optional)</span>':''}</label><div class="${o.pre?'pre':''}${o.load?' ld':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="vf-${k}" data-vf="${k}" value="${V[k]||''}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''}${o.load?' readonly':''}>${o.load?'<span class="spn" role="status" aria-label="Checking the account name"></span>':''}</div>${o.hint?`<p class="hint">${o.hint}</p>`:''}</div>`;
+  const step=[
+    ()=>`<h2>What kind of business is it?</h2><p class="sx-lead">This decides which people and documents we ask for.</p><div class="sx-opts">${[['person','Individual (perseorangan)','You sell under your own name. KTP and your own bank account','user'],['company','Company (badan usaha)','PT, CV or another legal entity. NIB, akta and a company bank account','store']].map(o=>`<button class="sx-opt${V.type===o[0]?' on':''}" data-vt="${o[0]}"><span class="ic">${ic(o[3],18)}</span><div><b>${o[1]}</b><span>${o[2]}</span></div></button>`).join('')}</div>${V.type?`<p class="hint" style="margin-top:10px">Changing this later restarts the People and Documents steps.</p>`:''}`,
+    ()=>`<h2>Business details</h2><p class="sx-lead">Tell us what you sell and how.</p><section class="sx-card"><div class="sx-g sx-g2">${co?f('legal','Legal name','PT Aruna Studio Indonesia',{full:1}):''}${f('name','Business or brand name','Aruna Studio')}${f('sell','What you sell','Fashion and apparel')}${f('addr','Business address','Street, city',{full:1})}${f('phone','Business phone','812-3456-7890',{pre:'+62',num:1})}${f('web','Website or store link','arunastudio.co.id',{opt:1})}${f('band','Expected monthly transactions','Rp50–200 juta')}${co?f('founded','Place and date of founding','Jakarta, 03/2021'):''}</div></section>`,
+    ()=>`<h2>People</h2><p class="sx-lead">${co?'Directors, shareholders above 25% and the authorised person. Each needs their identity.':'You, as the owner. As written on your KTP.'}</p>${V.people.map((p,i)=>`<div class="vx-p"><h5>${p.n||'New person'}<span class="st gr">${p.role}</span></h5><div class="sx-g sx-g2" style="margin-top:0"><div class="sx-f"><label>Full name</label><input data-pp="${i}" data-pk="n" value="${p.n}" placeholder="As on the KTP"></div><div class="sx-f"><label>NIK</label><input data-pp="${i}" data-pk="nik" value="${p.nik}" inputmode="numeric" placeholder="16 digits"><p class="hint">${p.nik&&p.nik.length!==16?'Enter all 16 digits':'Masked after you save'}</p></div></div></div>`).join('')}${co?`<button class="btn btn-o" data-padd>${ic('plus',15,2)}Add person</button>`:''}`,
+    ()=>`<h2>Documents</h2><p class="sx-lead">Clear photos or PDFs. Compliance may ask for more later, depending on your business.</p>${(co?[['nib','NIB or business licence','From OSS'],['akta','Akta pendirian and latest amendment','PDF'],['npwp','Company NPWP','Photo or PDF']]:[['ktp','KTP','Or SIM or passport'],['npwp','NPWP','If you have one']]).map(d=>V.docs[d[0]]?`<div class="vx-doc">${ic('doc',18)}<div><b>${d[1]}</b><span><button class="vx-file" data-vview="${d[0]}">${docFile(d[0])}</button> · 1.2 MB</span></div><span class="st ok" style="margin-left:auto">Uploaded</span><button class="btn btn-o" data-vd="${d[0]}">Change</button></div>`
+      :`<div class="vx-doc">${ic('doc',18)}<div><b>${d[1]}</b><span>${d[2]}</span></div><button class="btn btn-o" data-vd="${d[0]}">${ic('upload',15)}Upload</button></div>`).join('')}`,
+    ()=>`<h2>Payout bank account</h2><p class="sx-lead">Where FLIK pays you. It must be in ${co?'the company\'s legal name':'your own name'}. We check the name with the bank.</p><section class="sx-card"><div class="sx-g sx-g2"><div class="sx-f"><label for="vf-bank">Bank</label><span class="sp-sw rf-sw"><select class="rf-sel" id="vf-bank" data-vf="bank">${['BCA','Mandiri','BNI','BRI','Permata','BSI'].map(b=>`<option ${V.bank===b?'selected':''}>${b}</option>`).join('')}</select></span></div>${f('acc','Account number','0123456789',{num:1,load:V.checking})}</div>
+      ${V.checked?`<p class="vx-ok">${ck(12)}<span>Name on account: <b>${co?'PT ARUNA STUDIO INDONESIA':'DEWI LESTARI'}</b>. It matches.</span></p>`:`<button class="btn btn-o" data-vchk style="margin-top:14px" ${V.acc.length>=8&&!V.checking?'':'disabled'}>${V.checking?'Checking…':'Check account name'}</button>`}</section>`,
+    ()=>`<h2>Contacts and agreement</h2><p class="sx-lead">These become your registered contacts. We use them to confirm sensitive changes, like a new payout account.</p><section class="sx-card"><div class="sx-g sx-g2">${f('cphone','Phone of the authorised person','812-3456-7890',{pre:'+62',num:1})}${f('cemail','Email of the authorised person','name@company.com')}</div>
+      ${V.otp?`<p class="vx-ok">${ck(12)}Phone and email confirmed</p>`:`<button class="btn btn-o" data-votp style="margin-top:14px">Send confirmation codes</button>`}</section>
+      <section class="sx-card" style="margin-top:12px"><button class="ie-chk" data-vag style="display:flex;gap:10px;align-items:flex-start;text-align:left"><span class="cb${V.agree?' on':''}" style="margin-top:2px">${V.agree?ic('check',12,3):''}</span><span>I've read and agree to the <span class="onb-l">merchant agreement</span>, and I can sign for ${co?'the company':'my business'}.</span></button>
+      ${ONB.role!=='owner'?`<div class="set-ro" style="margin:12px 0 0">${lockIc()}Only the Owner can submit and sign. You can fill in every step.</div>`:''}</section>`];
+  const okStep=[!!V.type,!!(V.name&&V.sell&&V.addr),V.people.every(p=>p.n&&p.nik.length===16),Object.keys(V.docs).length>=(co?3:1),V.checked,V.otp&&V.agree&&ONB.role==='owner'][s];
+  body.innerHTML=`<div class="sx-in"><div class="sx-main">${step[s]()}</div><aside class="sx-side vx-side"><h4>Get verified · ${vDone()} of 6</h4><ol>${VSTEPS.map((n,i)=>`<li class="${i===s?'on':i<s?'done':''}"><i>${i<s?ck(10):i+1}</i>${n}</li>`).join('')}</ol>
+    <div class="need"><b style="color:var(--ink);font-size:13px">What you'll need</b><span>KTP and NPWP</span><span>NIB${co?', akta and owners above 25%':' if you have one'}</span><span>A bank account in your business's name</span></div></aside></div>`;
+  foot.innerHTML=`${s?`<button class="btn btn-o" data-vb>Back</button>`:''}<span class="sp"></span><button class="btn btn-o" data-vleave>Save and leave</button><button class="btn btn-p" data-vn ${okStep?'':'disabled'}>${s===5?'Submit for review':'Continue'}</button>`;
+  body.oninput=e=>{const t=e.target;if(t.dataset.vf){V[t.dataset.vf]=t.value;if(t.dataset.vf==='acc')V.checked=false}if(t.dataset.pp!=null){V.people[+t.dataset.pp][t.dataset.pk]=t.dataset.pk==='nik'?t.value.replace(/\D/g,'').slice(0,16):t.value}onbSave();
+    const ok=[!!V.type,!!(V.name&&V.sell&&V.addr),V.people.every(p=>p.n&&p.nik.length===16),true,V.checked,V.otp&&V.agree][s];foot.querySelector('[data-vn]').disabled=!ok;const c=body.querySelector('[data-vchk]');if(c)c.disabled=V.acc.length<8};
+  body.onchange=e=>{if(e.target.dataset.vf){V[e.target.dataset.vf]=e.target.value;V.checked=false;onbSave();drawVer()}};
+  body.onclick=e=>{const t=e.target.closest('[data-vt],[data-vd],[data-vchk],[data-votp],[data-vag],[data-padd],[data-vview]');if(!t)return;const d=t.dataset;
+    if(d.vview){docPreview(d.vview);return}
+    if(d.vt){if(V.type&&V.type!==d.vt){V.docs={};V.people=[{n:'Dewi Lestari',role:d.vt==='company'?'Director':'Owner',nik:''}]}V.type=d.vt;V.people[0].role=d.vt==='company'?'Director':'Owner'}
+    else if(d.vd){toast(V.docs[d.vd]?'File changed':'Uploaded');V.docs[d.vd]=1}else if('vchk' in d){V.checking=true;drawVer();setTimeout(()=>{V.checking=false;V.checked=true;onbSave();if(!document.getElementById('vx').hidden&&ONB.step===4)drawVer()},1200);return}else if('votp' in d){V.otp=true;toast('Codes confirmed (prototype)')}else if('vag' in d){V.agree=!V.agree}else if('padd' in d){V.people.push({n:'',role:'Shareholder · 40%',nik:''})}
+    onbSave();drawVer()};
+  foot.onclick=e=>{const t=e.target.closest('button');if(!t)return;
+    if('vb' in t.dataset){ONB.step--;onbSave();drawVer()}else if('vleave' in t.dataset){onbSave();closeVer();toast('Saved. Continue any time from the card under your store name.')}
+    else if('vn' in t.dataset){if(s===5){ONB.st='review';ONB.step=0;onbSave();drawVer();drawAcct();drawGuide();toast('Submitted. We\'ll email you when you\'re live.')}else{ONB.step++;ONB.vmax=Math.max(ONB.vmax||0,ONB.step);onbSave();drawVer();drawAcct()}}};
+  document.getElementById('vx-body').scrollTop=0}
+document.getElementById('vx-close').onclick=closeVer;
+document.addEventListener('click',e=>{if(e.target.closest('[data-ver]')){e.preventDefault();openVer()}});
+
+/* uploaded documents: a thumbnail in the row, a larger preview in a dialog (sample art; the real file in the product) */
+const VDOCN={ktp:'KTP',npwp:'NPWP',nib:'NIB',akta:'Akta pendirian'},docFile=k=>k==='ktp'?'ktp.jpg':k+'.pdf';
+const docArt=(k,sm)=>k==='ktp'?`<span class="da da-card${sm?' sm':''}"><i class="ph"></i><i class="l" style="width:58%"></i><i class="l" style="width:44%"></i><i class="l" style="width:52%"></i><i class="l" style="width:36%"></i></span>`
+  :`<span class="da da-page${sm?' sm':''}"><b>${sm?'':(k==='nib'?'Nomor Induk Berusaha':k==='akta'?'Akta Pendirian':'Nomor Pokok Wajib Pajak')}</b>${[78,64,86,58,72,80,50].map(w=>`<i class="l" style="width:${w}%"></i>`).join('')}</span>`;
+function docPreview(k){modal.classList.add('md');modal.innerHTML=`<div class="mh"><h3>${VDOCN[k]||k}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><div class="da-big">${docArt(k)}</div><p style="color:var(--muted);font-size:12.5px">${docFile(k)} · 1.2 MB · uploaded just now</p></div>
+  <div class="mf"><button class="btn btn-o" data-vrep="${k}">Replace</button><button class="btn btn-p" data-mclose>Done</button></div>`;
+  modal.querySelector('[data-vrep]').onclick=()=>{closeModal();toast('Opens the file picker')};mscrim.classList.add('open')}
+
+/* ----- step-up: a fresh 2FA code before sensitive actions (5 minutes) ----- */
+function stepUp(why,then){if(Date.now()-ONB.stepAt<3e5){then();return}
+  modal.innerHTML=`<div class="mh"><h3>Confirm it's you</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="mb"><p style="color:var(--muted);margin-bottom:14px">Enter the 6-digit code from your authenticator app to ${why}.</p><div class="otp6">${[1,2,3,4,5,6].map(i=>`<input inputmode="numeric" maxlength="1" aria-label="Digit ${i}">`).join('')}</div><p style="color:var(--faint);font-size:12.5px;margin-top:10px">Prototype: any 6 digits work.</p></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="su-go" disabled>Confirm</button></div>`;
+  const ins=[...modal.querySelectorAll('.otp6 input')],go=document.getElementById('su-go');
+  ins.forEach((x,i)=>{x.oninput=()=>{x.value=x.value.replace(/\D/g,'').slice(-1);if(x.value&&ins[i+1])ins[i+1].focus();go.disabled=!ins.every(y=>y.value)};x.onkeydown=e=>{if(e.key==='Backspace'&&!x.value&&ins[i-1])ins[i-1].focus()}});
+  go.onclick=()=>{ONB.stepAt=Date.now();onbSave();closeModal();then()};mscrim.classList.add('open');ins[0].focus()}
+
+/* ----- Settings: a home page of cards, then tabs ----- */
+const SCARDS=()=>[
+  {g:'Your account',k:'profile',n:'Profile and security',i:'shield',t:[['security','Security'],['notifications','Notifications']],s:'Two-step login on'},
+  {g:'Business',k:'business',n:'Business and verification',i:'store',t:[['profile','Business profile'],['contacts','Contacts'],['verification','Verification']],s:verified()?'Verified':ONB.st==='review'?'Submitted · FLIK is checking':ONB.st==='needs'?'FLIK asked for 2 things':`Not verified · ${vDone()} of 6 done`,b:ONB.st==='needs'?['warn','FLIK needs info']:ONB.st==='review'?['pu','In review']:null},
+  {g:'Business',k:'team',n:'Team and access',i:'team',t:[['members','Team and roles'],['audit','Audit log']],s:`${teamList().length} members · two-step login for everyone`},
+  {g:'Business',k:'money',n:'Money',i:'bank',t:[['payout','Payout account'],['withdrawals','Withdrawals'],['fees','Fees and statements'],['terms','Terms set by FLIK'],['linked','Linked accounts']],s:'Payout to BCA •••• 4821',b:ONB.pay&&ONB.payst<4?['warn','1 pending FLIK review']:null},
+  ...(ONB.outlets?[{g:'Business',k:'outlets',n:'Outlets and terminals',i:'outlet',t:[['outlets','Outlets'],['groups','Outlet groups'],['terminals','Terminals'],['ids','Identifiers']],s:'112 outlets · 37 terminals'}]:[]),
+  {g:'Business',k:'data',n:'Data and privacy',i:'data',t:[['customers','Customers'],['exports','Exports'],['close','Close account']],s:'Customers saved automatically'},
+  {g:'Products',k:'payments',n:'Payments and checkout',i:'cart',t:[['ways','Ways you accept payments'],['methods','Payment methods'],['checkout','Checkout']],s:`${ONB.modes.length} ways · QRIS and BCA VA on`},
+  {g:'Products',k:'shipping',n:'Shipping',i:'truck',t:[['pickup','Pickup addresses'],['couriers','Couriers'],['packaging','Packaging presets'],['labels','Labels','Cycle 15'],['flat','Flat-rate rules','Cycle 16']],s:`${WH.length} pickup addresses · ${COURIERS.length} couriers`},
+  {g:'Products',k:'integrations',n:'Integrations',i:'plug',t:[['stores','Store connections'],['ads','Ads'],['apps','Connected apps','Later'],['wa','WhatsApp number','Later']],s:'Meta Conversions API on'},
+  ...(canDev()?[{g:'Developers',k:'developers',n:'Developers',i:'code',t:[['overview','Overview'],['keys','API keys'],...(ONB.snap?[['snap','SNAP keys']]:[]),['webhooks','Webhooks'],['events','Events'],['logs','Logs'],...(ONB.live?[['allow','IP allowlist']]:[])],s:ONB.sbx?'Sandbox values':'Go-live checklist 1 of 4'}]:[])];
+const SYN={rekening:'money:payout',bank:'money:payout',payout:'money:payout',gudang:'shipping:pickup',warehouse:'shipping:pickup',kurir:'shipping:couriers',courier:'shipping:couriers',npwp:'business:verification',nib:'business:verification',kyb:'business:verification',api:'developers:keys',webhook:'developers:webhooks','2fa':'profile:security',password:'profile:security',role:'team:members',invite:'team:members',outlet:'outlets:outlets',terminal:'outlets:terminals'};
+let setQ='';
+function setRoute(){const m=location.hash.match(/^#settings\/?([a-z]*)(?:\?t=([a-z]+))?/);return{c:m&&m[1]||'',t:m&&m[2]||''}}
+function renderSet(){const el=document.getElementById('view-set'),{c,t}=setRoute(),C=SCARDS();
+  nav.querySelectorAll('.grp .sub [data-view="set"]').forEach(b=>{b.closest('.grp').classList.add('open');b.classList.toggle('on',(b.dataset.hash==='settings/developers')===(setRoute().c==='developers'))});
+  if(!c){const q=setQ.trim().toLowerCase(),hits=q?C.flatMap(cd=>cd.t.map(tb=>({cd,tb}))).filter(({cd,tb})=>(cd.n+' '+tb[1]).toLowerCase().includes(q)||Object.entries(SYN).some(([w,v])=>w.startsWith(q)&&v===cd.k+':'+tb[0])):[];
+    el.innerHTML=`<div class="ph"><h1>Settings</h1></div>
+      ${ONB.sbx?`<div class="sx-note" style="margin-top:16px">${ic('help',16)}<span>Settings are read-only in the sandbox, except Developers, which has its own sandbox values.</span></div>`:''}
+      ${q?`<div class="set-grp"><h2>${hits.length?'Results':'No setting matches. Try another word.'}</h2><div class="set-box" style="padding:6px">${hits.map(({cd,tb})=>`<button class="set-hit" data-sgo="${cd.k}?t=${tb[0]}">${ic(cd.i,16)}<b style="font-weight:500;color:var(--ink)">${tb[1]}</b><span>${cd.n}</span></button>`).join('')||''}</div></div>`
+      :[...new Set(C.map(x=>x.g))].map(g=>`<div class="set-grp"><h2>${g}</h2><div class="set-g">${C.filter(x=>x.g===g).map(x=>`<button class="set-card" data-sgo="${x.k}"><span class="ic">${ic(x.i,18)}</span><b>${x.n}</b><span>${x.s}</span>${x.b?`<span class="st ${x.b[0]}">${x.b[1]}</span>`:''}</button>`).join('')}</div></div>`).join('')}`;
+    el.onclick=e=>{const b=e.target.closest('[data-sgo]');if(b)location.hash='settings/'+b.dataset.sgo};return}
+  const cd=C.find(x=>x.k===c);if(!cd){el.innerHTML=`<div class="empty"><b>You can't open this page</b>${c==='developers'?'Owner, Admin and Developer roles can open Developers. Ask your account Owner to change your role in Settings › Team and access.':'It isn\'t available for this account.'}<div style="margin-top:14px"><button class="btn btn-o" data-sgo="">Back to Settings</button></div></div>`;el.onclick=e=>{if(e.target.closest('[data-sgo]'))location.hash='settings'};return}
+  const tab=cd.t.find(x=>x[0]===t)?t:cd.t[0][0];
+  el.innerHTML=`<button class="set-back" data-sback>${ic('chev',14)}Settings</button><div class="ph"><h1>${cd.n}</h1></div>
+    <div class="tabs" role="tablist">${cd.t.map(x=>`<button class="tab${x[0]===tab?' on':''}" role="tab" data-stab="${x[0]}">${x[1]}${x[2]?`<span class="ct">${x[2]}</span>`:''}</button>`).join('')}</div>
+    <div class="set-body">${ONB.sbx&&c!=='developers'?`<div class="set-ro" style="margin-top:16px">${lockIc()}Read-only in the sandbox. Exit the sandbox to change this.</div>`:''}<div id="set-tab"${ONB.sbx&&c!=='developers'?' inert':''}>${(SET_TABS[c+':'+tab]||(()=>later(cd.t.find(x=>x[0]===tab))))()}</div></div>`;
+  el.onclick=e=>{const b=e.target.closest('[data-stab],[data-sback]');if(!b)return;const go=()=>{location.hash='settings'+('sback' in b.dataset?'':'/'+c+'?t='+b.dataset.stab)};if(ONB.dirty)discardAsk(go);else go()};
+  (SET_WIRE[c+':'+tab]||(()=>{}))()}
+const later=x=>`<div class="empty"><b>${x[1]} comes ${x[2]==='Later'?'later':'in '+x[2]}</b>It shows here once it's built, so you know it's on the way.</div>`;
+const sec=(h,body,o={})=>`<section class="set-sec"><div class="set-sh"><h3>${h}</h3>${o.ct?ctl(o.ct):''}<span class="sp"></span>${o.act||''}</div>${o.p?`<p class="set-p">${o.p}</p>`:''}${o.ro?`<div class="set-ro">${lockIc()}${o.ro}</div>`:''}${body}</section>`;
+const ctl=k=>({step:`<span class="st pu ctl">${ic('shield',12,2)}Needs a fresh code</span>`,rev:`<span class="st warn ctl">${ic('clock',12,2)}Reviewed by FLIK</span>`,flik:`<span class="st gr ctl">${lockIc()}Set by FLIK</span>`,pend:`<span class="st warn ctl">${ic('clock',12,2)}Pending FLIK review</span>`})[k];
+const roOnly=(who,roles)=>roles.includes(ONB.role)?'':`Only ${who} can change this. You can still see it.`;
+const tbl=(head,rows,empty)=>`<div class="tbl-wrap set-tbl"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.join(''):`<tr><td colspan="${head.length}"><div class="empty" style="padding:28px 0"><b>${empty[0]}</b>${empty[1]}</div></td></tr>`}</tbody></table></div>`;
+const cbx=(on,attr='')=>`<span class="cb${on?' on':''}" ${attr}>${on?ic('check',12,3):''}</span>`;
+function discardAsk(go){modal.innerHTML=`<div class="mh"><h3>Discard unsaved changes?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">Your changes to this section aren't saved yet.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Keep editing</button><button class="btn btn-p" id="dc-go">Discard</button></div>`;
+  document.getElementById('dc-go').onclick=()=>{ONB.dirty=false;hideSave();closeModal();go()};mscrim.classList.add('open')}
+function showSave(onSave){ONB.dirty=true;let b=document.getElementById('savebar');if(!b){b=document.createElement('div');b.id='savebar';b.className='savebar';document.body.appendChild(b)}
+  b.innerHTML=`<span>Unsaved changes</span><button class="btn btn-o" data-sd>Discard</button><button class="btn btn-p" data-ss>Save</button>`;
+  b.querySelector('[data-sd]').onclick=()=>{ONB.dirty=false;hideSave();renderSet()};b.querySelector('[data-ss]').onclick=()=>{ONB.dirty=false;hideSave();onSave&&onSave();toast('Saved')}}
+function hideSave(){const b=document.getElementById('savebar');if(b)b.remove()}
+addEventListener('beforeunload',e=>{if(ONB.dirty){e.preventDefault();e.returnValue=''}});
+const teamList=()=>ONB.team||(ONB.team=[{n:'Dewi Lestari',e:'dewi@arunastudio.co.id',r:'owner',s:'Active',sc:'Whole account'},{n:'Rina Putri',e:'rina@arunastudio.co.id',r:'admin',s:'Active',sc:'Whole account'},{n:'Sari Wulandari',e:'sari@arunastudio.co.id',r:'finance',s:'Active',sc:'Whole account'},{n:'Bayu Pratama',e:'bayu@agency.dev',r:'developer',s:'Invited',sc:'Whole account'}]);
+const OUTLETS=[['OUT-001','Kemang','Jakarta Selatan','Jakarta, Flagship',4],['OUT-002','Senayan City','Jakarta Pusat','Jakarta, Mall outlets',3],['OUT-003','PIK Avenue','Jakarta Utara','Jakarta, Mall outlets',2],['OUT-004','Dago','Bandung','Bandung',2],['OUT-005','Paris Van Java','Bandung','Bandung, Mall outlets',3],['OUT-006','Tunjungan Plaza','Surabaya','Surabaya, Mall outlets',4],['OUT-007','Seminyak','Badung','Bali',2],['OUT-008','Malioboro','Yogyakarta','Yogyakarta',1]];
+const SET_TABS={
+  'profile:security':()=>sec('Two-step login',`<div class="set-box"><div class="set-row"><span class="tx"><b>Authenticator app</b><small>Required for everyone on the account. Asked again before withdrawals, payout and contact changes, team changes, credentials, ownership and closing.</small></span><span class="st ok">On</span></div><div class="set-row"><span class="tx"><b>Automatic sign-out</b><small>After a period without activity, set by FLIK</small></span>${ctl('flik')}</div></div>`)
+    +sec('Active sessions',tbl(['Device','Where','Last active',''],[['MacBook · Chrome','Jakarta','Now','<span class="st ok">This device</span>'],['iPhone · Safari','Jakarta','Yesterday, 21:10','<button class="btn btn-o" data-toast="Signed out of iPhone · Safari">Sign out</button>']].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`),[]))
+    +sec('Login history',tbl(['When','Device','Where','Result'],[['14 Oct, 09:12','MacBook · Chrome','Jakarta','<span class="st ok">Signed in</span>'],['13 Oct, 21:10','iPhone · Safari','Jakarta','<span class="st ok">Signed in</span>'],['12 Oct, 02:41','Windows · Edge','Singapore','<span class="st bad">Wrong code</span>']].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`),[])),
+  'profile:notifications':()=>sec('Your alerts',`<p class="set-p">Each person sets their own. WhatsApp alerts come once a provider is approved.</p>`+tbl(['Alert','Email','In dashboard'],[['Payments received',1,1],['Shipments needing action',1,1],['Failed deliveries and returns',0,1],['Cash Advance returns',1,0],['Payout account and contact changes','lock','lock'],['Credential compromise','lock','lock']].map(r=>`<tr><td>${r[0]}${r[1]==='lock'?' <span class="st gr ctl">'+lockIc()+'Always sent</span>':''}</td>${[1,2].map(i=>`<td>${r[i]==='lock'?cbx(1,'style="opacity:.5"'):cbx(r[i],'data-ntf role="checkbox" tabindex="0"')}</td>`).join('')}</tr>`),[])),
+  'business:profile':()=>sec('Business profile',`<div class="set-box"><div class="sx-g sx-g2" style="margin-top:0">${[['Brand name','Aruna Studio'],['Support email','support@arunastudio.co.id'],['Support WhatsApp','812-3456-7890','+62'],['Address','Jl. Kemang Raya No. 12, Jakarta Selatan']].map(([l,v,pre])=>`<div class="sx-f"><label>${l}</label><div class="${pre?'pre':''}">${pre?`<em>${pre}</em>`:''}<input data-bp value="${v}"></div></div>`).join('')}</div>
+      <div class="vx-doc" style="margin-top:14px;box-shadow:none;padding:0"><span class="ic" style="width:56px;height:56px;border-radius:10px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center">${ic('store',22)}</span><div><b>Logo</b><span>Square, at least 256 px. Shown on checkout and labels</span></div><button class="btn btn-o" data-toast="Opens the file picker">${ic('upload',15)}Upload</button></div></div>`,{ro:roOnly('the Owner or an Admin',['owner','admin'])})
+    +sec('Legal details',`<div class="set-box"><dl class="kv"><dt>Legal name</dt><dd>PT Aruna Studio Indonesia</dd><dt>Business type</dt><dd>Company (PT)</dd><dt>NPWP</dt><dd>01.234.•••.•-•••.000</dd></dl></div>`,{ct:verified()?'rev':null,p:verified()?'Changing these starts a re-verification.':'Filled in from verification.'}),
+  'business:contacts':()=>sec('Business contacts',`<p class="set-p">FLIK sends each kind of email to the right team. Shared inboxes are fine. Each address is confirmed by a link first.</p>`+tbl(['Contact','Gets','Address',''],[['Finance','Fee statements, withdrawals, charges due, Cash Advance returns, tax documents','finance@arunastudio.co.id'],['Operations','Failed deliveries, returns, shipments needing action, pickup problems',''],['Technical','API changes, webhook failures, credential notices, incidents',''],['Compliance','Verification requests, agreement changes, document expiry',''],['Customer support (public)','Shown to shoppers. FLIK never writes to it','support@arunastudio.co.id']].map((r,i)=>`<tr><td><b style="font-weight:500;color:var(--ink)">${r[0]}</b></td><td style="white-space:normal;max-width:320px;color:var(--muted);font-size:13px">${r[1]}</td><td>${r[2]||'<span style="color:var(--faint)">Not set. Goes to the Owner</span>'}</td><td><button class="btn btn-o" data-ctc="${i}">${r[2]?'Change':'Set'}</button></td></tr>`),[]),{ro:roOnly('the Owner or an Admin',['owner','admin'])})
+    +sec('Registered contacts',`<div class="set-box"><dl class="kv"><dt>Phone</dt><dd>+62 812-••••-7890</dd><dt>Email</dt><dd>dewi@arunastudio.co.id</dd></dl></div>`,{ct:'step',p:'Payout account changes, contact changes and credential compromise always go here. Only the Owner changes them.'}),
+  'business:verification':()=>sec('Verification',`<div class="set-box"><div class="set-row"><span class="tx"><b>${verified()?'Verified':ONB.st==='review'?'In review':ONB.st==='needs'?'FLIK needs info':'Not verified'}</b><small>${verified()?'Company (PT) · active since 3 Mar 2026':`${vDone()} of 6 steps done`}</small></span><button class="btn ${verified()?'btn-o':'btn-p'}" data-ver>${verified()?'View':'Open verification'}</button></div><div class="set-row"><span class="tx"><b>Payout account on file</b><small>BCA •••• 4821 · PT Aruna Studio Indonesia</small></span><button class="btn btn-o" data-sgo2="money?t=payout">Manage</button></div></div>`,{p:'The main way in is the card under your store name. After activation, changing legal details starts a re-verification.'}),
+  'team:members':()=>sec('Team and roles',tbl(['Name','Role',...(ONB.outlets?['Scope']:[]),'Two-step login','Status',''],teamList().map((m,i)=>`<tr><td><b style="font-weight:500;color:var(--ink)">${m.n}</b><br><small style="color:var(--muted)">${m.e}</small></td><td>${ROLE_N[m.r]}</td>${ONB.outlets?`<td>${m.sc}</td>`:''}<td>${m.s==='Invited'?'<span style="color:var(--faint)">After invite</span>':'<span class="st ok">On</span>'}</td><td><span class="st ${m.s==='Active'?'ok':'gr'}">${m.s}</span></td><td>${m.r==='owner'?(ONB.role==='owner'?'<button class="btn btn-o" data-own>Transfer ownership</button>':''):['owner','admin'].includes(ONB.role)?`<button class="btn btn-o" data-mrm="${i}">Remove</button>`:''}</td></tr>`),[]),{ct:'step',act:['owner','admin'].includes(ONB.role)?`<button class="btn btn-o" data-rm>What each role can do</button><button class="btn btn-p" data-inv>${ic('plus',15,2)}Invite someone</button>`:'<button class="btn btn-o" data-rm>What each role can do</button>',ro:roOnly('the Owner or an Admin',['owner','admin'])}),
+  'team:audit':()=>sec('Audit log',`<p class="set-p">Every settings, team, credential and payout change. Kept 24 months. Sensitive values are masked.</p>`+tbl(['When','Who','What','Before → after'],[['14 Oct, 10:02','Rina Putri (Admin)','Business profile','Support email: cs@… → support@…'],['13 Oct, 16:40','Dewi Lestari (Owner)','Invited Bayu Pratama','– → Developer'],['12 Oct, 09:15','Dewi Lestari (Owner)','API credentials "Website"','Created (test)'],['10 Oct, 14:22','Sari Wulandari (Finance)','Withdrawal','Rp12.500.000 to BCA •••• 4821']].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`),[]),{act:'<button class="btn btn-o" data-toast="Audit report downloaded (CSV)">Download audit report (CSV)</button>'}),
+  'money:payout':()=>{const p=ONB.pay,S=['Requested','Code to your registered phone','FLIK check','Cooling-off (24 hours)','Active'];
+    return sec('Payout account',`<div class="set-box"><div class="set-row"><span class="tx"><b>BCA •••• 4821</b><small>PT Aruna Studio Indonesia · active since 3 Mar 2026</small></span><span class="st ok">Active</span></div>${p?`<div class="set-row"><span class="tx"><b>${p.bank} •••• ${p.no.slice(-4)}</b><small>Requested ${p.when} · withdrawals ${p.wd==='old'?'go to your current account':'wait for the new account'} meanwhile</small></span><span class="st ${ONB.payst>=4?'ok':'warn'}">${ONB.payst>=4?'Active':S[ONB.payst]}</span></div>`:''}</div>
+      ${p&&ONB.payst<4?`<div class="vx-tl" style="margin-top:18px">${S.map((x,i)=>`<div class="${i<ONB.payst?'done':i===ONB.payst?'on':''}"><i>${i<ONB.payst?ck(11):''}</i><div><b>${x}</b><span>${['Behind a fresh code. Every registered contact was told.','A one-time code to the phone on file before the request.','A FLIK checker approves. Never the person who handled it.','You can still cancel.','Old and new emails are both told.'][i]}</span></div></div>`).join('')}</div><div style="display:flex;gap:8px;margin-top:4px"><button class="btn btn-o" data-pcan>Cancel request</button><button class="btn btn-o" data-pnext title="Prototype control">Prototype: next status</button></div>`:''}`,
+      {ct:'rev',act:!p||ONB.payst>=4?(['owner','admin'].includes(ONB.role)?'<button class="btn btn-p" data-pnew>Request a new payout account</button>':''):'',p:'Only one account is active at a time. A new one is checked with the bank, confirmed on your registered phone and approved by FLIK before it goes live.',ro:roOnly('the Owner or an Admin',['owner','admin'])})},
+  'money:withdrawals':()=>sec('Withdrawals',`<div class="set-box"><dl class="kv"><dt>How</dt><dd>On request, up to your withdrawable balance</dd><dt>Goes to</dt><dd>BCA •••• 4821</dd><dt>Charges due first</dt><dd>Any charges due to FLIK, from your agreement</dd><dt>Fee</dt><dd>From your agreement, with VAT shown on each withdrawal</dd></dl></div>`,{p:'Withdraw from Balances. A changed contact or account is checked for 24 hours first, shown as "Being verified".'}),
+  'money:fees':()=>sec('Fees and statements',tbl(['Month','Paid orders','Fees','Statement'],[],['No statements yet','Your first monthly statement appears after your first month with paid orders. Every deduction is named, with the agreement clause behind it.']),{p:'Owner, Admin and Finance can see these.'}),
+  'money:terms':()=>sec('Terms set by FLIK',`<div class="set-box"><dl class="kv"><dt>Reserve</dt><dd>5% of COD value, released when shipments are final</dd><dt>Early settlement</dt><dd>Not on</dd><dt>Account status</dt><dd><span class="st ok">Normal</span></dd><dt>Monthly invoicing</dt><dd>Off</dd><dt>Free return to sender</dt><dd>Comes in cycle 18</dd></dl><p style="color:var(--muted);font-size:13px;margin-top:12px">To change these, contact your account manager.</p></div>`,{ct:'flik'}),
+  'money:linked':()=>sec('Accounts that receive a share of your payments',tbl(['Account','Share','Status'],ONB.links.filter(l=>l.dir==='to').map(l=>`<tr><td>${l.n}</td><td>Split rule</td><td><span class="st warn">Pending FLIK review</span></td></tr>`),['No linked accounts','A franchisee or a subsidiary PT opens its own FLIK account. FLIK Connect links accounts so Split Payments can send part of each payment to them.']),{ct:'rev',act:['owner','admin'].includes(ONB.role)?'<button class="btn btn-p" data-lnk>Request a link</button>':''})
+    +sec('Accounts that send you a share of theirs',tbl(['Account','Share','Status'],ONB.links.filter(l=>l.dir==='from').map(l=>`<tr><td>${l.n}</td><td>Split rule</td><td><span class="st warn">Pending FLIK review</span></td></tr>`),['None yet','When another account shares its payments with you, it shows here.']),{p:'A link only lets money be shared. A linked account never sees your balance or withdraws for you, and you never see theirs.'}),
+  'outlets:outlets':()=>sec('Outlets',tbl(['Code','Outlet','City','Groups','Terminals'],OUTLETS.map(o=>`<tr><td>${o[0]}</td><td><b style="font-weight:500;color:var(--ink)">${o[1]}</b></td><td>${o[2]}</td><td>${o[3].split(', ').map(g=>`<span class="st gr">${g}</span>`).join(' ')}</td><td>${o[4]}</td></tr>`),[])+`<div class="foot" style="margin-top:8px"><span>Viewing <b>1–8</b> of <b>112</b> outlets</span></div>`,{act:'<button class="btn btn-o" data-oimp>Import outlets from CSV</button><button class="btn btn-p" data-toast="Opens Add outlet">'+ic('plus',15,2)+'Add outlet</button>',p:'Each outlet inherits your account settings. Only hours, pickup and contacts can differ.'}),
+  'outlets:groups':()=>sec('Outlet groups',tbl(['Group','Outlets','People scoped'],[['Jakarta',38,6],['Mall outlets',54,9],['Bandung',12,2],['Surabaya',15,2]].map(r=>`<tr><td><b style="font-weight:500;color:var(--ink)">${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`),[]),{p:'Groups are tags, so one outlet can be in "Jakarta" and "Mall outlets".'}),
+  'outlets:terminals':()=>sec('Terminals',tbl(['Label','Serial','TID','Outlet','Status',''],[['EDC-01','SN-4410982','•••• 3021','Kemang','Active'],['EDC-02','SN-4410983','•••• 3022','Kemang','Active'],['EDC-03','SN-4410990','•••• 3040','Senayan City','Waiting for FLIK'],['EDC-04','SN-4410991','•••• 3041','Dago','Reported lost']].map((r,i)=>`<tr><td><b style="font-weight:500;color:var(--ink)">${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><span class="st ${r[4]==='Active'?'ok':r[4]==='Reported lost'?'bad':'warn'}">${r[4]}</span></td><td>${r[4]==='Active'?`<button class="btn btn-o" data-lost="${r[0]}">Report lost</button>`:''}</td></tr>`),[]),{act:'<button class="btn btn-p" data-treg>Register terminals</button>',p:'A terminal takes payments only once FLIK approves its binding to an outlet.'}),
+  'outlets:ids':()=>sec('Identifiers',`<div class="set-box"><dl class="kv"><dt>QRIS NMID</dt><dd>Collected under FLIK's NMID</dd><dt>Sells on</dt><dd>GoFood, GrabFood, ShopeeFood</dd><dt>Terminal IDs</dt><dd>Masked. <button class="lnk onb-l" data-toast="Revealed TIDs (logged in the audit log)">Reveal</button></dd></dl></div>`,{ct:'rev',act:'<button class="btn btn-o" data-toast="Opens Request an identifier change">Request an identifier change</button>'}),
+  'data:customers':()=>sec('Customers',`<div class="set-box"><div class="set-row"><span class="tx"><b>Save customers automatically</b><small>Shoppers from paid orders and shipments are added to Customers</small></span>${cbx(1,'data-ntf role="checkbox" tabindex="0"')}</div><div class="set-row"><span class="tx"><b>Suppressed contacts</b><small>People who asked not to be messaged · 3</small></span><button class="btn btn-o" data-toast="Opens Suppressed contacts">View</button></div></div>`),
+  'data:exports':()=>sec('Exports',tbl(['Requested','What','Status'],[['14 Oct, 09:40','Transactions · Sep 2026','<span class="st ok">Ready</span>'],['12 Oct, 15:02','Customers · all','<span class="st warn">Waiting for approval</span>']].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`),[]),{p:'Exports with shopper data above a size FLIK sets need approval.'}),
+  'data:close':()=>sec('Close account',`<div class="set-box"><p style="color:var(--muted);line-height:1.5">FLIK first settles charges due, your reserve (once shipments are final), unpaid invoices and any financing. Then every user is deactivated.</p><button class="btn btn-o" style="margin-top:14px;color:var(--bad-tx)" data-close ${ONB.role==='owner'?'':'disabled'}>Request account closure</button></div>`,{ct:'rev',ro:roOnly('the Owner',['owner'])}),
+  'payments:ways':()=>sec('Ways you accept payments',`<p class="set-p">What you told us in the setup guide, with where each one stands. Changing this only changes your setup steps. It never switches anything off.</p><div style="display:grid;gap:10px;max-width:640px">${MODES.map(m=>`<div class="sx-opt" style="cursor:default"><span class="cb${ONB.modes.includes(m[0])?' on':''}">${ONB.modes.includes(m[0])?ic('check',12,3):''}</span><div style="flex:1"><b>${m[1]}</b><span>${m[2]}</span></div><span class="st ${m[3]==='Live'?'ok':m[3]==='Coming'?'gr':'warn'}">${m[3]}</span></div>`).join('')}</div>`,{act:'<button class="btn btn-o" data-chooser>Change</button>'}),
+  'payments:methods':()=>sec('Payment methods',`<p class="set-p">QRIS and BCA VA are on for every merchant. Other banks are switched on by FLIK. E-wallets, cards and COD are on hosted checkout today.</p><div class="set-box">${[['qris','QRIS','On for every merchant','on'],['bca','BCA virtual account','On for every merchant','on'],['mandiri','Mandiri virtual account','Ask FLIK to switch on','ask'],['bni','BNI virtual account','Ask FLIK to switch on','ask'],['gopay','E-wallets','GoPay, OVO, DANA, ShopeePay · hosted checkout','on'],['visa','Cards','Visa and Mastercard · hosted checkout','on']].map(r=>`<div class="set-row"><img class="plg" src="${IMG}payment/${r[0]}.png" alt="" style="width:28px;height:28px"><span class="tx"><b>${r[1]}</b><small>${r[2]}</small></span>${r[3]==='on'?'<span class="st ok">On</span>':`<button class="btn btn-o" data-toast="Request sent to FLIK">Ask FLIK</button>`}</div>`).join('')}</div>`),
+  'payments:checkout':()=>sec('Checkout',`<div class="set-box"><dl class="kv"><dt>Logo</dt><dd>From Business profile</dd><dt>Methods shown</dt><dd>6 · change in Payment methods</dd><dt>Couriers shown</dt><dd>${COURIERS.length} · change in Shipping › Couriers</dd></dl><button class="btn btn-o" style="margin-top:14px" data-toast="Opens Checkout Personalization">Open Checkout Personalization</button></div>`),
+  'shipping:pickup':()=>sec('Pickup addresses',tbl(['Name','City','Person in charge',''],WH.map(w=>`<tr><td><b style="font-weight:500;color:var(--ink)">${w.n}</b><br><small style="color:var(--muted)">${w.code}</small></td><td>${w.city}</td><td>${w.pic.first} ${w.pic.last}</td><td><button class="btn btn-o" data-gowh>Edit</button></td></tr>`),['No pickup address yet','Couriers need one to collect parcels.']),{act:'<button class="btn btn-p" data-gowh>'+ic('plus',15,2)+'Add pickup address</button>',p:'Where couriers collect your parcels. Used for shipping and shown at checkout.'}),
+  'shipping:couriers':()=>sec('Couriers',`<p class="set-p">One list for shipping and checkout. At least one stays on.</p><div class="set-box">${COURIERS.map(c=>`<div class="set-row">${cLogo(c.k)}<span class="tx"><b>${c.n}</b></span>${cbx(1,'data-ntf role="checkbox" tabindex="0"')}</div>`).join('')}</div>`),
+  'shipping:packaging':()=>sec('Packaging presets',tbl(['Box','Size','Weight','Default'],[],['No boxes yet','Add up to 20, with one default. Weight and size fill in when you pick a product.']),{act:'<button class="btn btn-p" data-toast="Opens Add box">'+ic('plus',15,2)+'Add box</button>'}),
+  'integrations:stores':()=>sec('Store connections',`<div class="set-g" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px">${[['shopify','Shopify'],['woocommerce','WooCommerce']].map(([k,n])=>`<div class="set-card" style="cursor:default"><img src="${IMG}platform/${k}.png" alt="" style="width:32px;height:32px;border-radius:6px"><b>${n}</b><span>${ONB.stores[k]?'Requested. FLIK installs it and tells you when it\'s live.':'FLIK sets it up for you.'}</span>${ONB.stores[k]?'<span class="st warn">Requested</span>':`<button class="btn btn-o" style="justify-self:start;margin-top:4px" data-store="${k}">Request store connection</button>`}</div>`).join('')}</div>`,{ct:'rev'}),
+  'integrations:ads':()=>sec('Ads',`<div class="set-box"><div class="set-row"><img src="${IMG}platform/metaads.png" alt="" style="width:28px;height:28px;border-radius:6px"><span class="tx"><b>Meta Conversions API</b><small>Sends purchase events to Meta for your ads</small></span><span class="st ok">On</span></div></div>`),
+  'developers:overview':()=>{const D=ONB.dev||{};const items=[['pay','Test payment succeeded'],['hook','Webhook answered 2xx'],['sig','Webhook signature verified'],['recon','Test reconciliation matched']];
+    return sec('Go-live checklist',`<div class="set-box dv-chk">${items.map(x=>`<div class="${D[x[0]]?'done':''}"><i>${D[x[0]]?ck(10):''}</i><span>${x[1]}</span><small>${D[x[0]]?'Done in sandbox':'Ticks itself'}</small></div>`).join('')}</div>`,{p:'Live credentials open once every item is done and your account is verified.'+(verified()?'':' Your account isn\'t verified yet.')})
+    +sec('Integration status',`<div class="set-box"><dl class="kv"><dt>API access</dt><dd><span class="st ok">On</span></dd><dt>Checkout sessions</dt><dd><span class="st ok">On</span></dd><dt>Test mode</dt><dd><span class="st ok">On</span></dd><dt>API version</dt><dd>2026-10-01 · pinned</dd><dt>Rate limit</dt><dd>100 requests a minute per credential</dd></dl></div>`)
+    +sec('Try it in sandbox',`<p class="set-p">Create a checkout session with your test credentials, then pay it on the test hosted page.</p>${ONB.try?`<pre class="dv-code">POST /v1/checkout/sessions
+200 OK
+{
+  "id": "cs_test_7Hq2…",
+  "status": "open",
+  "amount": 653000,
+  "currency": "IDR",
+  "url": "https://pay.sandbox.flik.id/cs_test_7Hq2…"
+}</pre><div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-p" data-trypay>Open test hosted page</button></div>`:`<button class="btn btn-p" data-try ${ONB.creds.some(c=>c.env==='test')?'':'disabled'}>Create a test checkout session</button>${ONB.creds.some(c=>c.env==='test')?'':'<p class="hint" style="margin-top:8px">Create test credentials first, in API keys.</p>'}`}`)},
+  'developers:keys':()=>{const env=ONB.sbx?'test':'live',L=ONB.creds.filter(c=>c.env===env),can=env==='test'||(verified()&&ONB.live);
+    return sec(env==='test'?'Test API credentials':'Live API credentials',tbl(['Name','Client ID','Scopes','Created by','Last used',''],L.map((c,i)=>`<tr><td><b style="font-weight:500;color:var(--ink)">${c.n}</b></td><td>${c.id}</td><td>${c.sc.join(', ')}</td><td>${c.by}</td><td>${c.used||'Never'}</td><td><button class="btn btn-o" data-roll="${c.id}">Roll</button> <button class="btn btn-o" style="color:var(--bad-tx)" data-revoke="${c.id}">Revoke</button></td></tr>`),[env==='test'?'No test credentials yet':'No live credentials yet',env==='test'?'Create one per integration, so you can revoke one without breaking the others.':'Live credentials open after verification and the go-live checklist.']),
+      {ct:'step',act:can?`<button class="btn btn-p" data-cred>${ic('plus',15,2)}Create ${env} credentials</button>`:`<button class="btn btn-o" data-gosbx>Get test credentials in sandbox</button>`,p:'OAuth client credentials. Exchange them for a 1-hour access token. The secret is shown once; FLIK keeps only a hash of it.'})},
+  'developers:snap':()=>sec('SNAP keys',`<div class="set-box"><div class="set-row"><span class="tx"><b>Your public key</b><small>RSA-2048. FLIK checks it, then it becomes active.</small></span><button class="btn btn-o" data-toast="Opens Register public key">Register public key</button></div><div class="set-row"><span class="tx"><b>FLIK's public key</b><small>For verifying FLIK's signatures</small></span><button class="btn btn-o" data-toast="flik-snap-public.pem downloaded">Download</button></div><div class="set-row"><span class="tx"><b>Partner and channel IDs</b><small>Set by FLIK when SNAP is switched on</small></span>${ctl('flik')}</div></div>`,{ct:'step'}),
+  'developers:webhooks':()=>sec('Webhook endpoints',tbl(['Endpoint','Events','Signing secret',''],ONB.hooks.map((h,i)=>`<tr><td><b style="font-weight:500;color:var(--ink)">${h.u}</b></td><td>All payment and checkout events</td><td>whsec_••••${h.s}</td><td><button class="btn btn-o" data-htest="${i}">Send test event</button></td></tr>`),['No webhook endpoints','We send events like checkout.session.completed. Failed deliveries retry for up to 72 hours.']),{act:`<button class="btn btn-p" data-hadd>${ic('plus',15,2)}Add webhook endpoint</button>`,p:'Events can arrive out of order: sort by their created time, and fetch the object if unsure.'}),
+  'developers:events':()=>sec('Events',tbl(['Event','Created','Delivery'],ONB.events.map(e=>`<tr><td>${e.t}</td><td>${e.at}</td><td><span class="st ${e.ok?'ok':'gr'}">${e.ok?'200 · delivered':'Not delivered'}</span></td></tr>`),['No events yet','Every event FLIK sent, with its webhook delivery. Kept 30 days.'])),
+  'developers:logs':()=>sec('Logs',tbl(['Request','Status','Actor','When'],ONB.creds.length?[['POST /v1/oauth/token','200','Website (credential)','Just now'],...(ONB.try?[['POST /v1/checkout/sessions','200','Website (credential)','Just now']]:[])].map(r=>`<tr><td>${r[0]}</td><td><span class="st ok">${r[1]}</span></td><td>${r[2]}</td><td>${r[3]}</td></tr>`):[],['No API calls yet','Last 7 days. Each call shows who made it. Secrets, tokens and codes are never logged, and shopper data is masked.'])),
+  'developers:allow':()=>sec('IP allowlist',`<div class="set-box"><div class="set-row"><span class="tx"><b>Report only</b><small>For 7 days calls still work, and anything from an unlisted address is flagged in Logs. Then turn on enforcement.</small></span><div class="seg"><button class="${ONB.allow.mode==='report'?'on':''}" data-am2="report">Report only</button><button class="${ONB.allow.mode==='enforce'?'on':''}" data-am2="enforce">Enforce</button></div></div></div>`
+    +tbl(['Address','Label','Owner','Last call'],ONB.allow.list.map(a=>`<tr><td>${a.ip}</td><td>${a.l}</td><td>${a.o}</td><td>No traffic yet</td></tr>`),['No addresses yet','Live API calls are accepted only from these addresses. Ranges no wider than /24.']),{ct:'step',act:`<button class="btn btn-p" data-ipadd>${ic('plus',15,2)}Add address</button>`,p:'Live API calls only. Not sandbox, dashboard sign-in or FLIK\'s webhooks to you.'})
+};
+const SET_WIRE={
+  'business:profile':()=>{document.querySelectorAll('[data-bp]').forEach(i=>i.oninput=()=>showSave())},
+  'business:contacts':()=>{document.querySelectorAll('[data-ctc]').forEach(b=>b.onclick=()=>{const fin=b.closest('tr').cells[0].textContent==='Finance';const go=()=>{modal.innerHTML=`<div class="mh"><h3>${b.closest('tr').cells[0].textContent} contact</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="ct-e">Email</label><input id="ct-e" placeholder="team@company.com"></div><p style="color:var(--muted);font-size:13px">We send a link to confirm the address first. Up to 3 per contact.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ct-go">Send confirmation link</button></div>`;document.getElementById('ct-go').onclick=()=>{closeModal();toast('Confirmation link sent')};mscrim.classList.add('open')};fin?stepUp('change the Finance contact',go):go()})},
+  'team:members':()=>{const v=document.getElementById('view-set');
+    const rm=v.querySelector('[data-rm]');if(rm)rm.onclick=roleMatrix;
+    const inv=v.querySelector('[data-inv]');if(inv)inv.onclick=()=>inviteModal();
+    v.querySelectorAll('[data-mrm]').forEach(b=>b.onclick=()=>stepUp('remove a team member',()=>{teamList().splice(+b.dataset.mrm,1);onbSave();renderSet();toast('Removed from the team')}));
+    const own=v.querySelector('[data-own]');if(own)own.onclick=()=>stepUp('transfer ownership',()=>{modal.innerHTML=`<div class="mh"><h3>Transfer ownership</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="to-n">New Owner</label><span class="sp-sw rf-sw"><select class="rf-sel" id="to-n">${teamList().filter(m=>m.s==='Active'&&m.r!=='owner').map(m=>`<option>${m.n}</option>`).join('')}</select></span></div><p style="color:var(--muted);font-size:13px;line-height:1.5">The new Owner becomes the authorised person for the business. They accept with their own two-step login, and FLIK reviews the change as an update to your verified people.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="to-go">Send request</button></div>`;document.getElementById('to-go').onclick=()=>{closeModal();toast('Ownership transfer sent. Waiting for them to accept.')};mscrim.classList.add('open')})},
+  'money:payout':()=>{const v=document.getElementById('view-set');
+    const n=v.querySelector('[data-pnew]');if(n)n.onclick=()=>stepUp('request a new payout account',payoutModal);
+    const c=v.querySelector('[data-pcan]');if(c)c.onclick=()=>{ONB.pay=null;ONB.payst=0;onbSave();renderSet();toast('Request cancelled. Nothing changed.')};
+    const x=v.querySelector('[data-pnext]');if(x)x.onclick=()=>{ONB.payst++;onbSave();renderSet()}},
+  'money:linked':()=>{const b=document.querySelector('#view-set [data-lnk]');if(b)b.onclick=()=>{let dir='to';const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Request a link</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div style="display:grid;gap:10px">${[['to','My account sends a share to them'],['from','They send a share to me']].map(o=>`<button class="sx-opt${dir===o[0]?' on':''}" data-ld="${o[0]}"><span class="rdo${dir===o[0]?' on':''}"></span><div><b>${o[1]}</b></div></button>`).join('')}</div><div class="sx-f"><label for="ln-n">Their business name or FLIK account email</label><input id="ln-n" placeholder="PT Contoh Abadi"></div><p style="color:var(--muted);font-size:13px">The other business needs its own verified FLIK account. FLIK checks both and approves the link.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ln-go">Send request</button></div>`;modal.querySelectorAll('[data-ld]').forEach(x=>x.onclick=()=>{dir=x.dataset.ld;draw()});document.getElementById('ln-go').onclick=()=>{const n=document.getElementById('ln-n').value.trim()||'PT Contoh Abadi';ONB.links.push({dir,n});onbSave();closeModal();renderSet();toast('Link requested. FLIK reviews it.')}};draw();mscrim.classList.add('open')}},
+  'outlets:outlets':()=>{const b=document.querySelector('#view-set [data-oimp]');if(b)b.onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Import outlets from CSV</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted);font-size:13px;line-height:1.5">One row per outlet: code, name, address, city, groups, opening hours, pickup (yes/no). Existing codes are updated, new codes are added. Nothing changes until you confirm.</p><div class="sx-note">${ic('warn',16)}<span>Row 7: city missing. Row 19: code OUT-019 appears twice. Fix them in the file or skip them.</span></div><p style="font-size:13.5px">outlets.csv · 24 rows: <b>20 new</b>, 2 updated, 2 with problems</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="oi-go">Import 22 outlets</button></div>`;document.getElementById('oi-go').onclick=()=>{closeModal();toast('22 outlets imported. 2 rows skipped.')};mscrim.classList.add('open')}},
+  'outlets:terminals':()=>{const v=document.getElementById('view-set');v.querySelector('[data-treg]').onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Register terminals</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="tr-o">Outlet</label><span class="sp-sw rf-sw"><select class="rf-sel" id="tr-o">${OUTLETS.map(o=>`<option>${o[1]}</option>`).join('')}</select></span></div><div class="sx-f"><label for="tr-s">Serial numbers (up to 10, comma-separated)</label><input id="tr-s" placeholder="SN-4410999, SN-4411000"></div><p style="color:var(--muted);font-size:13px">FLIK confirms each binding with the acquirer before the terminal takes payments.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="tr-go">Register</button></div>`;document.getElementById('tr-go').onclick=()=>{closeModal();toast('Sent to FLIK. Each terminal works once its binding is approved.')};mscrim.classList.add('open')};
+    v.querySelectorAll('[data-lost]').forEach(b=>b.onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Report ${b.dataset.lost} lost or stolen?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">FLIK asks the acquirer to switch off this terminal straight away. Payments on it stop.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ls-go">Report lost</button></div>`;document.getElementById('ls-go').onclick=()=>{closeModal();toast(`${b.dataset.lost} reported. Payments on it are stopped.`)};mscrim.classList.add('open')})},
+  'data:close':()=>{const b=document.querySelector('#view-set [data-close]');if(b)b.onclick=()=>stepUp('close the account',()=>toast('Closure requested. FLIK settles what\'s due first and emails you.'))},
+  'payments:ways':()=>{document.querySelector('#view-set [data-chooser]').onclick=chooser},
+  'shipping:pickup':()=>{document.querySelectorAll('#view-set [data-gowh]').forEach(b=>b.onclick=()=>location.hash='warehouses')},
+  'integrations:stores':()=>{document.querySelectorAll('#view-set [data-store]').forEach(b=>b.onclick=()=>{ONB.stores[b.dataset.store]=1;ONB.done.store=1;onbSave();renderSet();drawGuide();toast('Request sent. FLIK ops sets it up.')})},
+  'developers:overview':()=>{const v=document.getElementById('view-set');const t=v.querySelector('[data-try]');if(t)t.onclick=()=>{ONB.try=1;ONB.events.unshift({t:'checkout.session.created',at:'Just now',ok:!!ONB.hooks.length});onbSave();renderSet()};
+    const p=v.querySelector('[data-trypay]');if(p)p.onclick=()=>{ONB.dev=Object.assign(ONB.dev||{},{pay:1});ONB.done.spay=1;onbSave();location.hash='invoices/pay'}},
+  'developers:keys':()=>{const v=document.getElementById('view-set');const c=v.querySelector('[data-cred]');if(c)c.onclick=()=>stepUp('create credentials',credModal);
+    const g=v.querySelector('[data-gosbx]');if(g)g.onclick=()=>enterSbx('settings/developers?t=keys');
+    v.querySelectorAll('[data-revoke]').forEach(b=>b.onclick=()=>{ONB.creds=ONB.creds.filter(x=>x.id!==b.dataset.revoke);onbSave();renderSet();toast('Revoked. It stops working now.')});
+    v.querySelectorAll('[data-roll]').forEach(b=>b.onclick=()=>stepUp('roll credentials',()=>secretModal(ONB.creds.find(x=>x.id===b.dataset.roll),true)))},
+  'developers:webhooks':()=>{const v=document.getElementById('view-set');v.querySelector('[data-hadd]').onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Add webhook endpoint</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="wh-u">Endpoint URL</label><input id="wh-u" placeholder="https://example.com/flik/webhooks"></div><p style="color:var(--muted);font-size:13px">Every payment and checkout event is sent. It keeps the API version it was created with.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="wh-go">Add endpoint</button></div>`;document.getElementById('wh-go').onclick=()=>{const u=document.getElementById('wh-u').value.trim()||'https://arunastudio.co.id/flik/webhooks';ONB.hooks.push({u,s:Math.random().toString(36).slice(2,6)});onbSave();closeModal();renderSet();toast('Endpoint added')};mscrim.classList.add('open')};
+    v.querySelectorAll('[data-htest]').forEach(b=>b.onclick=()=>{ONB.events.unshift({t:'payment_intent.succeeded',at:'Just now',ok:true});ONB.dev=Object.assign(ONB.dev||{},{hook:1,sig:1});ONB.done.hook=1;onbSave();drawGuide();toast('Test event sent · your endpoint answered 200')})},
+  'developers:allow':()=>{const v=document.getElementById('view-set');v.querySelectorAll('[data-am2]').forEach(b=>b.onclick=()=>stepUp('change the IP allowlist',()=>{ONB.allow.mode=b.dataset.am2;onbSave();renderSet()}));
+    v.querySelector('[data-ipadd]').onclick=()=>stepUp('change the IP allowlist',()=>{modal.innerHTML=`<div class="mh"><h3>Add address</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="ip-a">Public address or range</label><input id="ip-a" placeholder="203.0.113.10 or 203.0.113.0/24"><p class="hint" id="ip-e" style="color:var(--bad-tx);display:none">Use a public address, or a range no wider than /24.</p></div><div class="sx-f"><label for="ip-l">Label</label><input id="ip-l" placeholder="Production server"></div></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ip-go">Add</button></div>`;
+      document.getElementById('ip-go').onclick=()=>{const a=document.getElementById('ip-a').value.trim(),m=a.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})(\/(\d{1,2}))?$/),bad=!m||(m[6]&&+m[6]<24)||/^(10|127|192\.168|172\.(1[6-9]|2\d|3[01]))\./.test(a);if(bad){document.getElementById('ip-e').style.display='block';return}ONB.allow.list.push({ip:a,l:document.getElementById('ip-l').value.trim()||'Server',o:'Dewi Lestari'});onbSave();closeModal();renderSet();toast('Address added')};mscrim.classList.add('open')})}
+};
+document.addEventListener('click',e=>{const s=e.target.closest('[data-sgo2]');if(s)location.hash='settings/'+s.dataset.sgo2;
+  const n=e.target.closest('#view-set [data-ntf]');if(n){const on=n.classList.toggle('on');n.innerHTML=on?ic('check',12,3):'';toast('Saved')}});
+function roleMatrix(){const R=['owner','admin','developer','finance','operations','viewer'],M=[['Developers, credentials, webhooks',[1,1,1,0,0,0]],['Sandbox',[1,1,1,1,1,1]],['Create shipments, invoices, links',[1,1,0,0,1,0]],['Refunds',[1,1,0,1,'Up to a limit',0]],['Withdraw to the payout account',[1,1,0,1,0,0]],['Change payout account',[1,'With a fresh code',0,0,0,0]],['Invite users, change roles',[1,'Not the Owner',0,0,0,0]],['Submit verification, sign agreement',[1,'Fill in only',0,0,0,0]],['Transfer ownership, close account',[1,0,0,0,0,0]]];
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('team',15)}What each role can do</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div><div class="db"><div class="tbl-wrap"><table style="min-width:640px"><thead><tr><th></th>${R.map(r=>`<th>${ROLE_N[r]}</th>`).join('')}</tr></thead><tbody>${M.map(m=>`<tr><td style="white-space:normal">${m[0]}</td>${m[1].map(x=>`<td style="white-space:normal;font-size:12.5px;color:var(--muted)">${x===1?`<span style="color:var(--ok)">${ck(14)}</span>`:x||'–'}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p style="color:var(--muted);font-size:13px;margin-top:12px">Two-step login is required for everyone. ${ONB.outlets?'Every role can be scoped to the whole account, an outlet group or chosen outlets.':''}</p></div>`;openDrawer()}
+function inviteModal(){let r='operations';const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Invite someone</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="iv-e">Email</label><input id="iv-e" placeholder="name@company.com"></div>
+    <div style="display:grid">${[['admin','Admin','Runs the business. Everything except ownership'],['developer','Developer','Developers and the sandbox'],['finance','Finance','Balances, withdrawals, statements'],['operations','Operations','Shipments, invoices, customers'],['viewer','Viewer','Sees everything, changes nothing']].map(o=>`<button class="set-row" data-ir="${o[0]}" style="text-align:left;width:100%"><span class="rdo${r===o[0]?' on':''}"></span><span class="tx"><b>${o[1]}</b><small>${o[2]}</small></span></button>`).join('')}</div>
+    ${ONB.outlets?`<div class="sx-f"><label for="iv-s">Scope</label><span class="sp-sw rf-sw"><select class="rf-sel" id="iv-s"><option>Whole account</option><option>Jakarta (group)</option><option>Mall outlets (group)</option><option>Chosen outlets</option></select></span></div>`:''}</div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="iv-go">Send invite</button></div>`;
+    modal.querySelectorAll('[data-ir]').forEach(b=>b.onclick=()=>{r=b.dataset.ir;draw()});
+    document.getElementById('iv-go').onclick=()=>{const e=document.getElementById('iv-e').value.trim();if(!/^\S+@\S+\.\S+$/.test(e)){document.getElementById('iv-e').focus();toast('Enter an email, like name@company.com');return}const sc=document.getElementById('iv-s');closeModal();stepUp('invite someone',()=>{teamList().push({n:e.split('@')[0],e,r,s:'Invited',sc:sc?sc.value:'Whole account'});onbSave();renderSet();toast(`Invite sent to ${e}`)})}};
+  modal.classList.add('md');draw();mscrim.classList.add('open')}
+function payoutModal(){let chk=false,ld=false,wd='old';const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Request a new payout account</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb">
+    <div class="set-g2"><div class="sx-f"><label for="po-b">Bank</label><span class="sp-sw rf-sw"><select class="rf-sel" id="po-b">${['BCA','Mandiri','BNI','BRI'].map(b=>`<option>${b}</option>`).join('')}</select></span></div><div class="sx-f"><label for="po-n">Account number</label><div class="${ld?'ld':''}"><input id="po-n" inputmode="numeric" placeholder="0123456789" ${ld?'readonly':''}>${ld?'<span class="spn" role="status" aria-label="Checking the account name"></span>':''}</div></div></div>
+    ${chk?`<p class="vx-ok">${ck(12)}<span>Name on account: <b>PT ARUNA STUDIO INDONESIA</b>. It matches.</span></p>`:`<button class="btn btn-o" id="po-chk" style="justify-self:start" ${ld?'disabled':''}>${ld?'Checking…':'Check account name'}</button>`}
+    <div><b style="font-size:13px;color:var(--ink)">Withdrawals while this is checked</b>${[['old','Send to my current account'],['wait','Wait for the new account']].map(o=>`<button class="set-row" data-wd="${o[0]}" style="width:100%;text-align:left"><span class="rdo${wd===o[0]?' on':''}"></span><span class="tx">${o[1]}</span></button>`).join('')}</div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.5">We check the name with the bank, tell every registered contact, send a code to your registered phone, and wait 24 hours before it goes live.</p></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="po-go" ${chk?'':'disabled'}>Send request</button></div>`;
+    const n=document.getElementById('po-n');n.value=window.__poN||'';n.oninput=()=>{window.__poN=n.value.replace(/\D/g,'');n.value=window.__poN};
+    const c=document.getElementById('po-chk');if(c)c.onclick=()=>{if((window.__poN||'').length<8){n.focus();return}ld=true;draw();setTimeout(()=>{ld=false;chk=true;if(document.getElementById('po-n'))draw()},1200)};
+    modal.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{wd=b.dataset.wd;draw()});
+    document.getElementById('po-go').onclick=()=>{ONB.pay={bank:document.getElementById('po-b').value,no:window.__poN,when:'14 Oct, 16:20',wd};ONB.payst=1;onbSave();closeModal();renderSet();toast('Request sent. Every registered contact was told.')}};
+  window.__poN='';modal.classList.add('md');draw();mscrim.classList.add('open')}
+function credModal(){const env=ONB.sbx?'test':'live';modal.innerHTML=`<div class="mh"><h3>Create ${env} credentials</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="cr-n">Name</label><input id="cr-n" placeholder="Website, POS…"></div>
+  <div><b style="font-size:13px;color:var(--ink)">Scopes</b>${['payments read','payments write','webhooks'].map(s=>`<button class="set-row" data-sc="${s}" style="width:100%;text-align:left">${cbx(1)}<span class="tx">${s[0].toUpperCase()+s.slice(1)}</span></button>`).join('')}</div></div>
+  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="cr-go">Create</button></div>`;
+  modal.querySelectorAll('[data-sc]').forEach(b=>b.onclick=()=>{const c=b.querySelector('.cb'),on=c.classList.toggle('on');c.innerHTML=on?ic('check',12,3):''});
+  document.getElementById('cr-go').onclick=()=>{const c={n:document.getElementById('cr-n').value.trim()||'Website',id:(env==='test'?'cli_test_':'cli_live_')+Math.random().toString(36).slice(2,8),sc:[...modal.querySelectorAll('[data-sc] .cb.on')].map(x=>x.closest('[data-sc]').dataset.sc),by:'Dewi Lestari',env};ONB.creds.push(c);if(env==='test')ONB.done.creds=1;onbSave();drawGuide();secretModal(c)};
+  mscrim.classList.add('open')}
+function secretModal(c,roll){const sec='cs_'+c.env+'_'+Math.random().toString(36).slice(2,14)+Math.random().toString(36).slice(2,10);
+  modal.innerHTML=`<div class="mh"><h3>${roll?'New secret':'Credentials created'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">Copy the secret now. It's shown once; FLIK keeps only a hash of it.${roll?' The old secret keeps working for 24 hours.':''}</p>
+  <div class="sx-f"><label>Client ID</label><div class="secret">${c.id}</div></div><div class="sx-f"><label>Client secret</label><div class="secret"><span>${sec}</span><button class="btn btn-o" data-cpy>${ic('copy',14)}Copy</button></div></div></div><div class="mf"><button class="btn btn-p" data-mclose>I've copied it</button></div>`;
+  modal.querySelector('[data-cpy]').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(sec).catch(()=>{});toast('Secret copied')};
+  mscrim.classList.add('open');modal.addEventListener('click',function f(e){if(e.target.closest('[data-mclose]')){renderSet();modal.removeEventListener('click',f)}})}
+
+/* Home: "By outlet" card for merchants with 2+ outlets */
+function onbHome(){const v=document.getElementById('view-home');if(!v)return;v.querySelectorAll('.ol-card').forEach(x=>x.remove());if(!ONB.outlets)return;
+  /* always the last thing on Home */
+  v.insertAdjacentHTML('beforeend',`<div class="home-g two ol-card">
+    <div><div class="sec-h"><h2 class="sec">Outlets needing attention</h2><button class="lnk" data-goto="settings/outlets?t=terminals">Open Terminals ${ic('chev',13)}</button></div>
+      <section class="card w-card">${tbl(['Outlet','Why'],[['Dago','Terminal EDC-04 reported lost'],['PIK Avenue','3 failed deliveries this week']].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`),[])}</section></div>
+    <div><div class="sec-h"><h2 class="sec">Top and bottom outlets</h2><button class="lnk" data-goto="settings/outlets">Open Outlets ${ic('chev',13)}</button></div>
+      <section class="card w-card">${tbl(['Outlet','Sales · last 30 days'],[['Kemang','Rp184.200.000'],['Senayan City','Rp162.750.000'],['…',''],['Malioboro','Rp8.400.000']].map(r=>`<tr><td>${r[0]}</td><td class="num">${r[1]}</td></tr>`),[])}</section></div></div>`)}
+
+/* simulate a payment on the test hosted page (sandbox only) */
+const SIM_PANEL=()=>`<div class="sim"><b>Simulate payment</b><p>Pick what happens. No money moves. Your integration gets the same objects and events it will in live.</p><div><button class="btn" data-sim="paid">Shopper pays</button><button class="btn" data-sim="failed">Payment fails</button><button class="btn" data-sim="expired">Expires</button></div></div>`;
+
+/* first run */
+drawAcct();drawGuide();
+document.getElementById('acct').onclick=e=>{e.stopPropagation();acctMenu(e.currentTarget)};
+if(ONB.st==='new'&&!ONB.tour)setTimeout(openTour,400);
 
 show(hashView());
 
