@@ -1338,7 +1338,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .cou-svc .eta{font-size:13px;color:var(--muted);white-space:nowrap}
 .cou-svc.off .n{color:var(--muted);font-weight:400}
 .cou-svc .st{flex:none}
-@media (max-width:1100px){#cou-list{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:1100px){#cou-list{grid-template-columns:minmax(0,1fr)}#cou-list .cou-col{display:contents}}
 @media (max-width:600px){.cou-svc .st{display:none}.cou-card .cou-h{padding:0 12px}}
 /* ===== Warehouses (reuses PageHeader, Tabs, SearchField, DataTable, StatusBadge, PopoverMenu, drawer, FlowShell, FormField, Checkbox, SegmentedControl) ===== */
 .wh-tbl td{cursor:pointer;white-space:nowrap}
@@ -2385,7 +2385,7 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 
 .set-act .fright{display:flex;gap:8px;margin:0}
 .sx-opt[data-way]{cursor:pointer}.sx-opt[data-way]:disabled{cursor:default;opacity:.6}
-.pm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}.pm-gh{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.pm-gh b{font-weight:600;color:var(--ink)}.pm-gh small{font-size:12.5px;color:var(--muted)}.pm-g .plg{width:28px;height:28px;flex:none}@media (max-width:900px){.pm-grid{grid-template-columns:1fr}}
+.pm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}.pm-col{display:grid;gap:16px;align-content:start}.pm-gh{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.pm-gh b{font-weight:600;color:var(--ink)}.pm-gh small{font-size:12.5px;color:var(--muted)}.pm-g .plg{width:28px;height:28px;flex:none}@media (max-width:900px){.pm-grid{grid-template-columns:1fr}}
 /* Checkout personalization */
 .cpx-sec{margin-top:24px}.cpx-sec h3{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px}
 .cpx-sec .set-logo{border-bottom:0;padding-bottom:0;margin-bottom:0}.cpx-sec .set-logo .ic img{width:auto;max-width:60px;height:auto;max-height:52px}.cpx-lb{display:flex;align-items:center;gap:12px;margin-top:10px}.cpx-lb .btn{margin:0}
@@ -2416,6 +2416,9 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .ck-m{border-radius:0;box-shadow:none}.ck-m .ck-top{padding:0 16px}.ck-m .ck-main{grid-template-columns:1fr;padding:12px;gap:12px}.ck-m .ck-card{padding:16px}
 .ck-m .ck-img{width:56px;height:56px}.ck-bar{position:sticky;bottom:0;display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff;border-top:1px solid var(--line)}.ck-bar div{flex:1;display:grid}.ck-bar span{font-size:12.5px;color:var(--muted)}.ck-bar b{font-size:17px;font-weight:600;color:var(--ink)}.ck-bar .ck-pay{width:auto;padding:0 22px}
 .cpx-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.meta-c{padding-top:4px;display:grid;gap:12px;justify-items:start}.meta-c>p{color:var(--muted);font-size:13.5px;line-height:1.5}.meta-man{width:100%;display:grid;gap:10px}.meta-man b{font-weight:600;color:var(--ink)}.meta-man .hint{margin:0}.meta-acts{display:flex;gap:8px;justify-content:flex-end}.meta-h{font-size:14px;font-weight:600;color:var(--ink);margin:20px 0 10px}.meta-dc{margin-top:14px;color:var(--bad-tx)}
+.set-box .set-row:has(+.meta-c){border-bottom:0}
+.cou-col{display:grid;gap:12px;align-content:start}
 </style>
 </head>
 <body>
@@ -4278,15 +4281,16 @@ function renderCou(){
   const cards=CSET.map(c=>{const svcs=c[3].filter(s=>inTab(s)&&(!q||(c[1]+' '+s[0]).toLowerCase().includes(q)));if(!svcs.length)return'';
     const id=k=>c[0]+'|'+k,on=c[3].filter(s=>!couOff.has(id(s[0]))).length,all=on===c[3].length,none=!on,open=couOpen.has(c[0])||!!q;
     return`<div class="sx-ship cou-card${open?' open':''}${none?' off':''}" data-cou="${c[0]}"><div class="cou-h"><button class="cb${all?' on':none?'':' mixed'}" data-call="${c[0]}" role="checkbox" aria-checked="${all?'true':none?'false':'mixed'}" aria-label="All ${c[1]} services">${all?ic('check',12,3):''}</button><button class="cou-tog" data-ctog="${c[0]}" aria-expanded="${open}"><img class="clg" src="${IMG}courier/${c[2]}.png" alt=""><b>${c[1]}</b><span class="n-on">${on} of ${c[3].length} on</span><span class="chev">${ic('chev',16)}</span></button></div>
-      <div class="sx-sb"><div class="cou-svcs">${svcs.map(s=>{const off=couOff.has(id(s[0]));return`<button class="cou-svc${off?' off':''}" data-csv="${id(s[0])}" role="checkbox" aria-checked="${!off}"><span class="cb${off?'':' on'}">${off?'':ic('check',12,3)}</span><span class="n">${s[0]}</span><span class="eta">${s[1]}</span><span class="st ${CSPEED[s[2]][1]}">${CSPEED[s[2]][0]}</span></button>`}).join('')}</div></div></div>`}).join('');
-  document.getElementById('cou-list').innerHTML=cards||`<div class="empty"><b>No services match</b>Try another courier or service name.</div>`;
+      <div class="sx-sb"><div class="cou-svcs">${svcs.map(s=>{const off=couOff.has(id(s[0]));return`<button class="cou-svc${off?' off':''}" data-csv="${id(s[0])}" role="checkbox" aria-checked="${!off}"><span class="cb${off?'':' on'}">${off?'':ic('check',12,3)}</span><span class="n">${s[0]}</span><span class="eta">${s[1]}</span><span class="st ${CSPEED[s[2]][1]}">${CSPEED[s[2]][0]}</span></button>`}).join('')}</div></div></div>`}).filter(Boolean);
+  /* two independent columns, so an open courier never stretches the one beside it */
+  document.getElementById('cou-list').innerHTML=cards.length?[0,1].map(c=>`<div class="cou-col">${cards.map((h,i)=>h.replace('<div class="sx-ship','<div style="order:'+i+'" class="sx-ship')).filter((_,i)=>i%2===c).join('')}</div>`).join(''):`<div class="empty"><b>No services match</b>Try another courier or service name.</div>`;
   const dirty=couDirty(),save=document.getElementById('cou-save');
   document.getElementById('cou-discard').disabled=!dirty;save.disabled=!dirty||onN===0;save.title=onN===0?'Keep at least one service on, or you can\'t create shipments':'';
   document.getElementById('cou-all').textContent=CSET.every(c=>couOpen.has(c[0]))?'Collapse all':'Expand all';
 }
 document.getElementById('cou-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-ct]');if(b){couTab=b.dataset.ct;renderCou()}});
 document.getElementById('cou-q').oninput=e=>{couQ=e.target.value.trim();renderCou()};
-/* the courier list now sits in Settings › Shipping › Couriers; these nodes move into that tab when it opens */
+/* the courier list now sits in Settings › Payments and checkout › Couriers (the couriers shoppers can pick at checkout); these nodes move into that tab when it opens */
 const COU_NODES=[...document.querySelectorAll('#view-cou > :not(.ph)')],COU_BTNS=document.querySelector('#view-cou .ph .fright');
 document.getElementById('cou-all').onclick=()=>{const all=CSET.every(c=>couOpen.has(c[0]));couOpen=new Set(all?[]:CSET.map(c=>c[0]));renderCou()};
 document.getElementById('cou-list').addEventListener('click',e=>{
@@ -7502,11 +7506,11 @@ const SCARDS=()=>[
   {g:'Business',k:'money',n:'Money',i:'bank',t:[['payout','Payout account'],['withdrawals','Withdrawals'],['fees','Fees and statements'],['terms','Terms set by FLIK'],['linked','Linked accounts']],s:'Payout to BCA •••• 4821',b:ONB.pay&&ONB.payst<4?['warn','1 pending FLIK review']:null},
   ...(ONB.outlets?[{g:'Business',k:'outlets',n:'Outlets and terminals',i:'outlet',t:[['outlets','Outlets'],['groups','Outlet groups'],['terminals','Terminals'],['ids','Identifiers']],s:'112 outlets · 37 terminals'}]:[]),
   {g:'Business',k:'data',n:'Data and privacy',i:'data',t:[['customers','Customers'],['exports','Exports'],['close','Close account']],s:'Customers saved automatically'},
-  {g:'Products',k:'payments',n:'Payments and checkout',i:'cart',t:[['ways','Ways you accept payments'],['methods','Payment methods'],['checkout','Checkout']],s:`${ONB.modes.length} ways · QRIS and BCA VA on`},
-  {g:'Products',k:'shipping',n:'Shipping',i:'truck',t:[['pickup','Warehouses'],['couriers','Couriers'],['packaging','Packaging presets'],['labels','Labels','Cycle 15'],['flat','Flat-rate rules','Cycle 16']],s:`${WH.length} ${WH.length===1?'warehouse':'warehouses'} · ${COURIERS.length} couriers`},
-  {g:'Products',k:'integrations',n:'Integrations',i:'plug',t:[['stores','Store connections'],['ads','Ads'],['apps','Connected apps','Later'],['wa','WhatsApp number','Later']],s:'Meta Conversions API on'},
+  {g:'Products',k:'payments',n:'Payments and checkout',i:'cart',t:[['ways','Ways you accept payments'],['methods','Payment methods'],['couriers','Couriers'],['checkout','Personalize checkout']],s:`${ONB.modes.length} ways · ${PM_ALL.filter(pmOn).length} payment methods · ${CSET.length} couriers`},
+  {g:'Products',k:'shipping',n:'Shipping',i:'truck',t:[['pickup','Warehouses'],['packaging','Packaging presets'],['labels','Labels','Cycle 15'],['flat','Flat-rate rules','Cycle 16']],s:`${WH.length} ${WH.length===1?'warehouse':'warehouses'}`},
+  {g:'Products',k:'integrations',n:'Integrations',i:'plug',t:[['stores','Store connections'],['ads','Ads'],['apps','Connected apps','Later'],['wa','WhatsApp number','Later']],s:ONB.meta?'Meta Conversions API connected':'Meta Conversions API not connected'},
   ...(canDev()?[{g:'Developers',k:'developers',n:'Developers',i:'code',t:[['overview','Overview'],['keys','API keys'],...(ONB.snap?[['snap','SNAP keys']]:[]),['webhooks','Webhooks'],['events','Events'],['logs','Logs'],...(ONB.live?[['allow','IP allowlist']]:[])],s:ONB.sbx?'Sandbox values':'Go-live checklist 1 of 4'}]:[])];
-const SYN={rekening:'money:payout',bank:'money:payout',payout:'money:payout',gudang:'shipping:pickup',warehouse:'shipping:pickup',kurir:'shipping:couriers',courier:'shipping:couriers',npwp:'business:verification',nib:'business:verification',kyb:'business:verification',api:'developers:keys',webhook:'developers:webhooks','2fa':'profile:security',password:'profile:security',role:'team:members',invite:'team:members',outlet:'outlets:outlets',terminal:'outlets:terminals'};
+const SYN={rekening:'money:payout',bank:'money:payout',payout:'money:payout',gudang:'shipping:pickup',warehouse:'shipping:pickup',kurir:'payments:couriers',courier:'payments:couriers',npwp:'business:verification',nib:'business:verification',kyb:'business:verification',api:'developers:keys',webhook:'developers:webhooks','2fa':'profile:security',password:'profile:security',role:'team:members',invite:'team:members',outlet:'outlets:outlets',terminal:'outlets:terminals'};
 let setQ='';
 function setRoute(){const m=location.hash.match(/^#settings\/?([a-z]*)(?:\?t=([a-z]+))?/);return{c:m&&m[1]||'',t:m&&m[2]||''}}
 function renderSet(){const el=document.getElementById('view-set'),{c,t}=setRoute(),C=SCARDS();
@@ -7572,14 +7576,28 @@ const SET_TABS={
     return sec('Ways you accept payments',`<p class="set-p">What you told us in the setup guide, with where each one stands. Changing this only changes your setup steps. It never switches anything off.</p><div style="display:grid;gap:10px;max-width:640px">${MODES.map(m=>{const on=D.has(m[0]),soon=m[3]==='Coming';return`<button class="sx-opt" data-way="${m[0]}" role="checkbox" aria-checked="${on}" ${soon?'disabled':''}><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span><div style="flex:1"><b>${m[1]}</b><span>${m[2]}</span></div><span class="st ${m[3]==='Live'?'ok':soon?'gr':'warn'}">${m[3]}</span></button>`}).join('')}</div>`,
       {act:`<button class="btn btn-o" data-wdisc ${dirty?'':'disabled'}>Discard</button><button class="btn btn-p" data-wsave ${dirty&&D.size?'':'disabled'} ${D.size?'':'title="Pick at least one way"'}>Save changes</button>`})},
   'payments:methods':()=>{const D=pmD||(pmD=new Set(PM_ALL.filter(pmOn))),dirty=PM_ALL.some(k=>D.has(k)!==pmOn(k)),logo=k=>k==='card'?`<span class="plg plg-i">${ic('card',14)}</span>`:k==='cod'?`<span class="plg plg-i">${ic('pkg',14)}</span>`:`<img class="plg" src="${IMG}payment/${PMS[k][1]}.png" alt="">`;
-    return sec('Payment methods',`<div class="pm-grid">${PM_SET.map(([g,n,ks])=>`<section class="set-box pm-g"><div class="pm-gh"><b>${n}</b><small>${ks.filter(k=>D.has(k)).length} of ${ks.length} on</small></div><div class="cou-svcs">${ks.map(k=>{const on=D.has(k);return`<button class="cou-svc${on?'':' off'}" data-pm="${k}" role="checkbox" aria-checked="${on}"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span>${logo(k)}<span class="n">${PMS[k][0]}</span>${k==='cod'?'<span class="eta">Checkout only</span>':''}</button>`}).join('')}</div></section>`).join('')}</div>`,
+    const box=([g,n,ks])=>`<section class="set-box pm-g"><div class="pm-gh"><b>${n}</b><small>${ks.filter(k=>D.has(k)).length} of ${ks.length} on</small></div><div class="cou-svcs">${ks.map(k=>{const on=D.has(k);return`<button class="cou-svc${on?'':' off'}" data-pm="${k}" role="checkbox" aria-checked="${on}"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span>${logo(k)}<span class="n">${PMS[k][0]}</span>${k==='cod'?'<span class="eta">Checkout only</span>':''}</button>`}).join('')}</div></section>`,col=k=>`<div class="pm-col">${PM_SET.filter(x=>k.includes(x[0])).map(box).join('')}</div>`;
+    return sec('Payment methods',`<div class="pm-grid">${col(['qris','va','cod'])}${col(['wallet','card'])}</div>`,
       {p:'Shown on invoices, payment links and checkout. COD is offered at checkout only.',act:`<button class="btn btn-o" data-pmdisc ${dirty?'':'disabled'}>Discard</button><button class="btn btn-p" data-pmsave ${dirty&&D.size?'':'disabled'}>Save changes</button>`})},
-  'payments:checkout':()=>{const c=cpGet(),sw=CP_SW.find(s=>s[0]===c.btn);return sec('Checkout',`<div class="set-box"><dl class="kv"><dt>Logo</dt><dd>${c.logo?'Your logo':'From Business profile'}</dd><dt>Button colour</dt><dd><span class="cpx-dot" style="background:${cpBtn(c)}"></span>${sw?sw[1]:c.btn.toUpperCase()}</dd><dt>Methods shown</dt><dd>${PM_ALL.filter(pmOn).length} · change in Payment methods</dd><dt>Couriers shown</dt><dd>${CSET.length} · change in Shipping › Couriers</dd></dl><button class="btn btn-o" style="margin-top:14px" data-cpopen>Personalize checkout</button></div>`)},
+  'payments:checkout':()=>{const c=cpGet(),sw=CP_SW.find(s=>s[0]===c.btn);return sec('Personalize checkout',`<div class="set-box"><dl class="kv"><dt>Logo</dt><dd>${c.logo?'Your logo':'From Business profile'}</dd><dt>Button colour</dt><dd><span class="cpx-dot" style="background:${cpBtn(c)}"></span>${sw?sw[1]:c.btn.toUpperCase()}</dd><dt>Methods shown</dt><dd>${PM_ALL.filter(pmOn).length} · change in Payment methods</dd><dt>Couriers shown</dt><dd>${CSET.length} · change in Couriers</dd></dl><button class="btn btn-o" style="margin-top:14px" data-cpopen>Edit logo and colour</button></div>`)},
   'shipping:pickup':()=>sec('Warehouses','<div id="set-wh"></div>',{act:'<button class="btn btn-p" data-gowhnew>'+ic('plus',15,2)+'Add warehouse</button>',p:'Where couriers collect your parcels. Used for shipping and shown at checkout.'}),
-  'shipping:couriers':()=>sec('Couriers','<div id="set-cou"></div>',{act:'<span class="set-act" id="set-cou-act"></span>',p:'One list for shipping and checkout. Create shipment only offers the services that are on. At least one stays on.'}),
+  'payments:couriers':()=>sec('Couriers','<div id="set-cou"></div>',{act:'<span class="set-act" id="set-cou-act"></span>',p:'The couriers and services shoppers can pick at checkout. At least one stays on.'}),
   'shipping:packaging':()=>sec('Packaging presets',tbl(['Box','Size','Weight','Default'],[],['No boxes yet','Add up to 20, with one default. Weight and size fill in when you pick a product.']),{act:'<button class="btn btn-p" data-toast="Opens Add box">'+ic('plus',15,2)+'Add box</button>'}),
   'integrations:stores':()=>sec('Store connections',`<div class="set-g" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px">${[['shopify','Shopify'],['woocommerce','WooCommerce']].map(([k,n])=>`<div class="set-card" style="cursor:default"><img src="${IMG}platform/${k}.png" alt="" style="width:32px;height:32px;border-radius:6px"><b>${n}</b><span>${ONB.stores[k]?'Requested. FLIK installs it and tells you when it\'s live.':'FLIK sets it up for you.'}</span>${ONB.stores[k]?'<span class="st warn">Requested</span>':`<button class="btn btn-o" style="justify-self:start;margin-top:4px" data-store="${k}">Request store connection</button>`}</div>`).join('')}</div>`,{ct:'rev'}),
-  'integrations:ads':()=>sec('Ads',`<div class="set-box"><div class="set-row"><img src="${IMG}platform/metaads.png" alt="" style="width:28px;height:28px;border-radius:6px"><span class="tx"><b>Meta Conversions API</b><small>Sends purchase events to Meta for your ads</small></span><span class="st ok">On</span></div></div>`),
+  'integrations:ads':()=>{const m=ONB.meta,lg=`<img src="${IMG}platform/metaads.png" alt="" style="width:28px;height:28px;border-radius:6px;flex:none">`,px=p=>p.replace(/(\d{4})(?=\d)/g,'$1 ');
+    if(!m)return sec('Ads',`<div class="set-box"><div class="set-row">${lg}<span class="tx"><b>Meta Conversions API</b><small>Sends sales from FLIK checkout to Meta, so your Facebook and Instagram ads learn who buys</small></span><span class="st gr">Not connected</span></div>
+      <div class="meta-c"><p>When a shopper pays at FLIK checkout, FLIK tells Meta which ad brought them. Nothing is sent until you connect.</p>
+        <button class="btn btn-p" data-meta-oauth>Connect with Meta</button>
+        ${MM.open?`<div class="meta-man"><b>Enter your Pixel ID and access token</b><p class="hint">Find both in Meta Events Manager: open your Pixel, then Settings. Generate the access token under Conversions API.</p>
+          <div class="sx-g sx-g2" style="margin-top:0"><div class="sx-f"><label for="meta-px">Pixel ID</label><input id="meta-px" inputmode="numeric" placeholder="15 or 16 digits" value="${MM.px}"></div><div class="sx-f"><label for="meta-tk">Access token</label><input id="meta-tk" type="password" placeholder="Paste the token" value="${MM.tk}" autocomplete="off"></div></div>
+          ${MM.err?`<div class="sx-note bad" style="margin-top:10px">${ic('warn',16)}<span>${MM.err}</span></div>`:''}
+          <div class="meta-acts"><button class="btn btn-o" data-meta-mcancel>Cancel</button><button class="btn btn-p" data-meta-mgo ${MM.busy||!/^\d{15,16}$/.test(MM.px)||MM.tk.length<20?'disabled':''}>${MM.busy?'Checking with Meta…':'Connect'}</button></div></div>`
+          :`<button class="lnk" data-meta-man>Or enter your Pixel ID and access token</button>`}</div></div>`,{ro:roOnly('the Owner or an Admin',['owner','admin'])});
+    const E=[['purchase','Purchase','When a shopper pays'],['checkout','Started checkout','When a shopper opens checkout'],['payinfo','Added payment info','When a shopper picks how to pay']];
+    return sec('Ads',`<div class="set-box"><div class="set-row">${lg}<span class="tx"><b>Meta Conversions API</b><small>${m.name} · Pixel ${px(m.pixel)} · connected ${m.via==='meta'?'with Meta':'with a Pixel ID and token'}</small></span><span class="st ok">Connected</span></div>
+      <div class="set-row"><span class="tx"><b>Last event sent</b><small>${m.last||'Nothing yet. Events start with your next sale.'}</small></span><button class="btn btn-o" data-meta-test>Send test event</button></div></div>
+      <h4 class="meta-h">Events sent to Meta</h4><div class="set-box">${E.map(([k,n,d])=>`<div class="set-row"><span class="tx"><b>${n}</b><small>${d}</small></span>${cbx(!!m.ev[k],`data-meta-ev="${k}" role="checkbox" tabindex="0" aria-checked="${!!m.ev[k]}" aria-label="Send ${n}"`)}</div>`).join('')}</div>
+      <button class="lnk meta-dc" data-meta-dc>Disconnect Meta</button>`,{ro:roOnly('the Owner or an Admin',['owner','admin'])})},
   'developers:overview':()=>{const D=ONB.dev||{};const items=[['pay','Test payment succeeded'],['hook','Webhook answered 2xx'],['sig','Webhook signature verified'],['recon','Test reconciliation matched']];
     return sec('Go-live checklist',`<div class="set-box dv-chk">${items.map(x=>`<div class="${D[x[0]]?'done':''}"><i>${D[x[0]]?ck(10):''}</i><span>${x[1]}</span><small>${D[x[0]]?'Done in sandbox':'Ticks itself'}</small></div>`).join('')}</div>`,{p:'Live credentials open once every item is done and your account is verified.'+(verified()?'':' Your account isn\'t verified yet.')})
     +sec('Integration status',`<div class="set-box"><dl class="kv"><dt>API access</dt><dd><span class="st ok">On</span></dd><dt>Checkout sessions</dt><dd><span class="st ok">On</span></dd><dt>Test mode</dt><dd><span class="st ok">On</span></dd><dt>API version</dt><dd>2026-10-01 · pinned</dd><dt>Rate limit</dt><dd>100 requests a minute per credential</dd></dl></div>`)
@@ -7623,12 +7641,22 @@ const SET_WIRE={
     v.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{const k=b.dataset.pm;pmD.has(k)?pmD.delete(k):pmD.add(k);renderSet()});
     const d=v.querySelector('[data-pmdisc]');if(d)d.onclick=()=>{pmD=null;renderSet()};
     const s=v.querySelector('[data-pmsave]');if(s)s.onclick=()=>{ONB.pm=PM_ALL.filter(k=>pmD.has(k));pmD=null;onbSave();renderSet();toast('Payment methods saved')}},
+  'integrations:ads':()=>{const v=document.getElementById('view-set'),q=s=>v.querySelector(s);
+    const ok=(via,name,pixel)=>{ONB.meta={via,name,pixel,ev:{purchase:1,checkout:1,payinfo:0},last:''};MM={open:false,px:'',tk:'',busy:false,err:''};onbSave();renderSet();toast('Meta connected. Your next sale is sent to Meta')};
+    const o=q('[data-meta-oauth]');if(o)o.onclick=()=>metaOauth(ok);
+    const mo=q('[data-meta-man]');if(mo)mo.onclick=()=>{MM.open=true;renderSet()};
+    const mc=q('[data-meta-mcancel]');if(mc)mc.onclick=()=>{MM={open:false,px:'',tk:'',busy:false,err:''};renderSet()};
+    ['meta-px','meta-tk'].forEach(id=>{const i=document.getElementById(id);if(i)i.oninput=()=>{MM[id==='meta-px'?'px':'tk']=id==='meta-px'?i.value.replace(/\D/g,''):i.value.trim();MM.err='';const b=q('[data-meta-mgo]');b.disabled=!/^\d{15,16}$/.test(MM.px)||MM.tk.length<20}});
+    const go=q('[data-meta-mgo]');if(go)go.onclick=()=>{MM.busy=true;renderSet();setTimeout(()=>{MM.busy=false;if(!/^EA/.test(MM.tk)){MM.err="Meta didn't accept this access token. Generate a new one in Events Manager and paste it again.";renderSet();return}ok('manual','Aruna Studio Pixel',MM.px)},1200)};
+    const t=q('[data-meta-test]');if(t)t.onclick=()=>{ONB.meta.last='Test purchase · Rp289.000 · just now';onbSave();renderSet();toast('Test event sent. Check Test events in Meta Events Manager')};
+    v.querySelectorAll('[data-meta-ev]').forEach(b=>b.onclick=()=>{const k=b.dataset.metaEv;ONB.meta.ev[k]=ONB.meta.ev[k]?0:1;onbSave();renderSet();toast('Saved')});
+    const dc=q('[data-meta-dc]');if(dc)dc.onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Disconnect Meta?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">FLIK stops sending sales to Meta. Your ads keep running, but Meta can't see which ones bring sales.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="meta-dc-go">Disconnect</button></div>`;mscrim.classList.add('open');document.getElementById('meta-dc-go').onclick=()=>{ONB.meta=null;onbSave();closeModal();renderSet();toast('Meta disconnected')}}},
   'payments:checkout':()=>{document.querySelector('#view-set [data-cpopen]').onclick=()=>{location.hash='checkout-personalization'}},
   'payments:ways':()=>{const v=document.getElementById('view-set');
     v.querySelectorAll('[data-way]').forEach(b=>b.onclick=()=>{const k=b.dataset.way;waysD.has(k)?waysD.delete(k):waysD.add(k);renderSet()});
     const d=v.querySelector('[data-wdisc]');if(d)d.onclick=()=>{waysD=null;renderSet()};
     const sv=v.querySelector('[data-wsave]');if(sv)sv.onclick=()=>{ONB.modes=MODES.map(m=>m[0]).filter(k=>waysD.has(k));ONB.done.choose=1;waysD=null;onbSave();drawGuide();renderSet();toast('Saved. Your setup steps are updated')}},
-  'shipping:couriers':()=>{const c=document.getElementById('set-cou');COU_NODES.forEach(n=>c.appendChild(n));document.getElementById('set-cou-act').appendChild(COU_BTNS);renderCou()},
+  'payments:couriers':()=>{const c=document.getElementById('set-cou');COU_NODES.forEach(n=>c.appendChild(n));document.getElementById('set-cou-act').appendChild(COU_BTNS);renderCou()},
   'shipping:pickup':()=>{const c=document.getElementById('set-wh');WH_NODES.forEach(n=>c.appendChild(n));renderWh();document.querySelectorAll('#view-set [data-gowhnew]').forEach(b=>b.onclick=()=>location.hash='warehouses/new')},
   'integrations:stores':()=>{document.querySelectorAll('#view-set [data-store]').forEach(b=>b.onclick=()=>{ONB.stores[b.dataset.store]=1;ONB.done.store=1;onbSave();renderSet();drawGuide();toast('Request sent. FLIK ops sets it up.')})},
   'developers:overview':()=>{const v=document.getElementById('view-set');const t=v.querySelector('[data-try]');if(t)t.onclick=()=>{ONB.try=1;ONB.events.unshift({t:'checkout.session.created',at:'Just now',ok:!!ONB.hooks.length});onbSave();renderSet()};
@@ -7844,6 +7872,19 @@ document.getElementById('cpx').addEventListener('input',e=>{const t=e.target;
   if(t.id==='cpx-hex'){const v=t.value.trim(),h=(v[0]==='#'?v:'#'+v);if(/^#[0-9a-f]{6}$/i.test(h)){cpD.btn=h.toLowerCase();const p=t.selectionStart;cpDraw();const n=document.getElementById('cpx-hex');n.focus();n.setSelectionRange(p,p)}}});
 document.getElementById('cpx').addEventListener('change',e=>{if(e.target.id!=='cpx-file')return;const fl=e.target.files[0];if(!fl)return;if(fl.size>1e6){toast('Pick a logo under 1 MB');return}
   const r=new FileReader();r.onload=()=>{cpD.logo=r.result;cpDraw()};r.readAsDataURL(fl)});
+
+/* Meta Conversions API: "Connect with Meta" opens Meta's own window, where the merchant picks a Pixel. Shown here as a prototype of that window */
+let MM={open:false,px:'',tk:'',busy:false,err:''};
+function metaOauth(ok){let nm='';
+  const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Connect with Meta</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb"><div class="sx-note info" style="margin:0 0 14px">${ic('help',16)}<span>Prototype of Meta's window. In the real flow the merchant signs in to Facebook here.</span></div>
+      <p style="color:var(--muted);margin-bottom:12px">Business: <b style="color:var(--ink);font-weight:500">${MERCHANT}</b>. FLIK makes a new Pixel for sales from FLIK checkout.</p>
+      <div class="sx-f"><label for="mp-n">Pixel name</label><input id="mp-n" value="${esc(nm)}" placeholder="Name it after your store" autocomplete="off"></div>
+      <p class="hint" style="margin-top:12px">FLIK can send purchase and checkout events to this Pixel. It can't see or change your ads.</p></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="mp-go" ${nm.trim()?'':'disabled'}>Create and connect</button></div>`;
+    const i=document.getElementById('mp-n');i.oninput=()=>{nm=i.value;document.getElementById('mp-go').disabled=!nm.trim()};setTimeout(()=>i.focus(),0);
+    document.getElementById('mp-go').onclick=()=>{closeModal();ok('meta',nm.trim(),String(1e15+Math.floor(Math.random()*9e15)).slice(0,16))}};
+  draw();mscrim.classList.add('open')}
 
 show(hashView());
 
