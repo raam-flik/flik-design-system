@@ -2402,7 +2402,7 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .ck-top{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 48px;background:#fff;border-bottom:1px solid var(--line)}.ck-top img{display:block}.ck-u{display:flex;gap:14px;color:var(--ink)}
 .ck-main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;padding:24px 48px;align-items:start}.ck-col{display:grid;gap:20px}
 .ck-card{background:#fff;border-radius:12px;padding:20px;box-shadow:var(--sh)}.ck-card h4{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:12px}
-.ck-row{display:flex;align-items:center;gap:14px;padding:10px 0}.ck-tx{flex:1;min-width:0;display:grid;gap:2px}.ck-tx b{font-weight:500;color:var(--ink)}.ck-tx span{color:var(--muted);font-size:13px}.ck-tx s,.ck-sum s{color:var(--faint);font-weight:400}
+.ck-row{display:flex;align-items:center;gap:14px;padding:10px 0}.ck-card>.ck-row{padding:10px 14px}.ck-tx{flex:1;min-width:0;display:grid;gap:2px}.ck-tx b{font-weight:500;color:var(--ink)}.ck-tx span{color:var(--muted);font-size:13px}.ck-tx s,.ck-sum s{color:var(--faint);font-weight:400}
 .ck-ic{width:28px;display:flex;justify-content:center;color:var(--ink);flex:none}.ck-cl{width:28px;height:20px;object-fit:contain;flex:none}.ck-chev{color:var(--muted);transform:rotate(-90deg);display:flex}
 .ck-save{background:var(--hover);border-radius:10px;padding:2px 14px;margin-top:8px}.ck-reward{background:var(--ok-bg);border-radius:10px;padding:2px 14px;margin-bottom:8px}
 .ck-store{display:flex;align-items:center;gap:12px;padding:12px 0}.ck-st{width:44px;height:44px;border-radius:8px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.ck-st img{max-width:36px}
@@ -2413,7 +2413,7 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .ck-tot{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0}.ck-tot span{font-weight:500;color:var(--ink)}.ck-tot b{font-size:18px;font-weight:600;color:var(--ink)}
 .ck-pay{width:100%;height:46px;border-radius:8px;color:#fff;font-weight:600;font-size:15px;cursor:default}.ck-pot{text-align:center;color:var(--muted);font-size:12.5px;margin-top:10px}
 .ck-foot{display:flex;align-items:center;gap:20px;padding:16px 48px;background:#fff;font-size:13px;color:var(--text)}.ck-fl{display:flex;align-items:center;gap:8px;margin-right:auto}.ck-fl svg{width:20px;height:20px}.ck-fl b{font-weight:500}
-.ck-m{border-radius:0;box-shadow:none}.ck-m .ck-top{padding:0 16px}.ck-m .ck-main{grid-template-columns:1fr;padding:12px;gap:12px}.ck-m .ck-card{padding:16px}
+.ck-m{border-radius:0;box-shadow:none}.ck-m .ck-top{padding:0 16px}.ck-m .ck-main{grid-template-columns:1fr;padding:16px;gap:12px}.ck-m .ck-card{padding:16px}
 .ck-m .ck-img{width:56px;height:56px}.ck-bar{position:sticky;bottom:0;display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff;border-top:1px solid var(--line)}.ck-bar div{flex:1;display:grid}.ck-bar span{font-size:12.5px;color:var(--muted)}.ck-bar b{font-size:17px;font-weight:600;color:var(--ink)}.ck-bar .ck-pay{width:auto;padding:0 22px}
 .cpx-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
 .meta-c{padding-top:4px;display:grid;gap:12px;justify-items:start}.meta-c>p{color:var(--muted);font-size:13.5px;line-height:1.5}.meta-man{width:100%;display:grid;gap:10px}.meta-man b{font-weight:600;color:var(--ink)}.meta-man .hint{margin:0}.meta-acts{display:flex;gap:8px;justify-content:flex-end}.meta-h{font-size:14px;font-weight:600;color:var(--ink);margin:20px 0 10px}.meta-dc{margin-top:14px;color:var(--bad-tx)}
@@ -2424,13 +2424,19 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .cpx-pm{display:grid;gap:16px;max-width:520px}.cpx-pg{display:grid}.cpx-pg .cou-svc{width:100%}.cpx-pg>b{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}.cpx-pg .plg{width:28px;height:28px;flex:none;object-fit:contain}.ck-pl{width:28px;display:flex;justify-content:center;flex:none}.ck-pl .plg{width:28px;height:20px;object-fit:contain}
 .cpx-cm .cb{flex:none}
 #cpx .ie-pm:has(.ie-pm-chev){padding-right:9px}
-.ck [data-cpgo]{cursor:pointer;border-radius:8px;transition:box-shadow .12s,background .12s}.ck .ck-row[data-cpgo]{padding:10px 8px;margin:4px -8px}.ck [data-cpgo]:hover,.ck [data-cpgo]:focus-visible{box-shadow:0 0 0 2px var(--primary);outline:none}.ck .ck-row[data-cpgo]:hover{background:var(--primary-soft)}.ck-go{display:inline-flex;padding:4px}.ck .ck-pay[data-cpgo]{box-shadow:none}.ck .ck-pay[data-cpgo]:hover{box-shadow:0 0 0 3px var(--pu-bd)}
+.ck [data-cpgo]{cursor:pointer;border-radius:8px;transition:box-shadow .12s,background .12s}.ck .ck-row[data-cpgo]{margin:2px 0}.ck [data-cpgo]:hover,.ck [data-cpgo]:focus-visible{box-shadow:0 0 0 2px var(--primary);outline:none}.ck .ck-row[data-cpgo]:hover{background:var(--primary-soft)}.ck-go{display:inline-flex;padding:4px;margin:-4px}.ck .ck-pay[data-cpgo]{box-shadow:none}.ck .ck-pay[data-cpgo]:hover{box-shadow:0 0 0 3px var(--pu-bd)}
 @keyframes cpxFlash{0%{background:var(--primary-soft)}100%{background:transparent}}.cpx-flash{animation:cpxFlash 1.2s ease-out;border-radius:10px}
-.ckp-b{flex:1;min-height:0;overflow-y:auto;background:var(--hover)}.ckp-b .ck{border-radius:0;box-shadow:none;min-height:100%;display:flex;flex-direction:column}.ckp-b .ck-top{padding:0 max(24px,calc((100% - 1120px)/2))}.ckp-b .ck-main{width:100%;max-width:1120px;margin:0 auto;padding:24px}.ckp-b .ck-foot{margin-top:auto;padding:16px max(24px,calc((100% - 1120px)/2))}.ckp-b .ck-m .ck-main{padding:12px}.ckp-b .ck-m .ck-top{padding:0 16px}
+.ckp-b{flex:1;min-height:0;overflow-y:auto;background:var(--hover)}.ckp-b .ck{border-radius:0;box-shadow:none;min-height:100%;display:flex;flex-direction:column}.ckp-b .ck-top{padding:0 max(24px,calc((100% - 1120px)/2 + 24px))}.ckp-b .ck-main{width:100%;max-width:1120px;margin:0 auto;padding:24px}.ckp-b .ck-foot{margin-top:auto;padding:16px max(24px,calc((100% - 1120px)/2 + 24px))}.ckp-b .ck-m .ck-main{padding:16px}.ckp-b .ck-m .ck-top{padding:0 16px}
 body:has(#ckp:not([hidden])) #sg{display:none}
 .cpx-ci{cursor:pointer}.cpx-ci .cpx-sn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}.cpx-ci .src{font-size:12px}.cpx-gt{display:flex;transform:rotate(-90deg);color:var(--faint)}.cpx-ci [data-cpk]{display:flex;padding:4px;margin:-4px}
 .cpx-cs{width:320px}.cpx-back{color:var(--muted);font-size:13px}.cpx-back svg{transform:rotate(90deg)}.cpx-csh{display:flex;align-items:center;gap:10px;padding:6px 10px 8px;border-bottom:1px solid var(--line);margin-bottom:4px}.cpx-csh b{flex:1;font-weight:600;color:var(--ink)}.cpx-cs .cpx-sn{flex:1}.cpx-cs .src{font-size:12px}
 .cpx-cm .mc-chg{width:500px}
+.ck-seg{display:flex;width:100%;margin-bottom:16px}.ck-seg button{flex:1;height:32px}.ck-tx .ck-err{color:var(--bad-tx)}.ck .ck-pay[disabled]{opacity:.45;cursor:not-allowed}.ck [data-ckstore]{cursor:pointer;border-radius:8px}.ck [data-ckstore]:hover{background:var(--hover)}
+.ckst{display:grid;gap:12px}.ckst-l{display:grid;gap:10px;max-height:52vh;overflow-y:auto;padding:2px}.ckst-c{border-radius:10px;box-shadow:var(--sh);padding:14px 16px}.ckst-c.on{box-shadow:0 0 0 2px var(--primary)}
+.ckst-h{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left}.ckst-n{flex:1;display:grid;gap:2px}.ckst-n b{font-weight:600;color:var(--ink)}.ckst-n span{color:var(--text);font-size:13px;line-height:1.45}
+.ckst-hr{display:flex;align-items:flex-end;gap:12px;border-top:1px solid var(--line);margin-top:12px;padding-top:10px;font-size:13px}.ckst-hr>b{display:none}.ckst-w{flex:1;display:grid;gap:2px}.ckst-w::before{content:'Opening hours';font-weight:500;color:var(--ink);margin-bottom:4px}.ckst-d{display:flex;align-items:center;gap:16px;color:var(--muted)}.ckst-d span:first-child{width:96px}.ckst-d.t{color:var(--ink)}
+.ckst-tg{display:flex;color:var(--muted);padding:2px}.ckst-tg.up svg{transform:rotate(180deg)}.ckst-map{font-size:13px;white-space:nowrap}.ckst-go{width:100%;justify-content:center}.ckst-l{overflow-x:hidden}.ckst-d span:last-child{white-space:nowrap}
+@media(max-width:760px){.mscrim:has(.ckst){align-items:flex-end;padding:0}.modal:has(.ckst){border-radius:16px 16px 0 0}.ckst-hr{flex-wrap:wrap}.ckst-d{gap:12px}.ckst-d span:first-child{width:88px}.ckst-map{width:100%;text-align:left}}
 </style>
 </head>
 <body>
@@ -7846,30 +7852,59 @@ if(ONB.sbx)sbxSwap(true);
 /* ===== Checkout personalization: the merchant's logo and button colour on FLIK checkout. Settings on the left, a live preview of the checkout page on the right ===== */
 const CP_DEF=()=>({logo:null,btn:'ink'}),CP_SW=[['ink','Navy','var(--ink)'],['primary','Violet','var(--primary)']];
 let cpD=null,cpMode='desk';
-const cpGet=()=>{let b;try{b={...CP_DEF(),...(ONB.cp||{})}}catch(e){b=CP_DEF()}return{logo:b.logo,btn:b.btn,pm:PM_ALL.filter(pmOn),off:[...COU_SAVED].sort()}};
+const cpGet=()=>{let b;try{b={...CP_DEF(),...(ONB.cp||{})}}catch(e){b=CP_DEF()}return{logo:b.logo,btn:b.btn,pickup:b.pickup!==false,pm:PM_ALL.filter(pmOn),off:[...COU_SAVED].sort()}};
 const cpPmLogo=k=>k==='card'?`<span class="plg plg-i">${ic('card',14)}</span>`:k==='cod'?`<span class="plg plg-i">${ic('pkg',14)}</span>`:`<img class="plg" src="${IMG}payment/${PMS[k][1]}.png" alt="">`;
 const cpBtn=c=>(CP_SW.find(s=>s[0]===c.btn)||[0,0,c.btn])[2];
 const cpLogo=(c,h)=>`<img class="ck-logo" src="${c.logo||'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/merchant/aruna-logo.png'}" alt="${MERCHANT} logo" style="height:${h}px">`;
 const cpDirty=()=>JSON.stringify(cpD)!==JSON.stringify(cpGet());
 /* white text on the chosen colour: WCAG contrast, so a pale colour gets a warning */
 const cpContrast=hex=>{const m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return 21;const L=[0,2,4].map(i=>{const v=parseInt(m[1].substr(i,2),16)/255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}),l=.2126*L[0]+.7152*L[1]+.0722*L[2];return 1.05/(l+.05)};
+/* store pickup at checkout: shown when a warehouse offers it and the merchant leaves it on. ckMode and ckStore are the shopper's choice on the page */
+let ckMode='ship',ckStore=null;
+const ckStores=()=>WH.filter(w=>w.pickup&&w.active),ckToday=()=>DAYS7[(NOW.getDay()+6)%7],
+  ckHrs=w=>{const d=w.days[ckToday()];return d?`Open today ${d[0]}–${d[1]}`:'Closed today'};
 function cpView(c,phone){const btn=cpBtn(c),cl=k=>`<img class="ck-cl" src="${IMG}${k}.png" alt="">`,chev=ic('chev',16),
   items=[['Linen shirt · White','Size: M','Colour: White',289000],['Canvas tote bag','Size: One size','Colour: Natural',149000]],
   row=(lead,b,s,at='')=>`<div class="ck-row"${at}>${lead}<div class="ck-tx"><b>${b}</b>${s?`<span>${s}</span>`:''}</div><span class="ck-chev">${chev}</span></div>`,
-  ship=`<section class="ck-card"><h4>Shipping and payment</h4>
-    ${row(`<span class="ck-ic">${ic('pin',20)}</span>`,'Raam &nbsp;|&nbsp; +6283821050649','Jl. Raya Kopo No. 959, Cirangrang, Bandung')}
-    ${(()=>{const k=CSET.find(x=>x[3].some(s=>!c.off.includes(x[0]+'|'+s[0]))),sv=k&&k[3].find(s=>!c.off.includes(k[0]+'|'+s[0]));return k?row(cl('courier/'+k[2]),`${k[1]} · ${sv[0]} (Rp5.000) <s>Rp30.000</s>`,'Estimated '+sv[1],' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('truck',20)}</span>`,'No courier available','',' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"')})()}
-    ${(()=>{const k=c.pm[0];return k?row(`<span class="ck-pl">${cpPmLogo(k)}</span>`,PMS[k][0],c.pm.length>1?`${c.pm.length-1} more ${c.pm.length===2?'way':'ways'} to pay`:'',' data-cpgo="pm" data-tip="Change payment methods" role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('card',20)}</span>`,'No payment method','',' data-cpgo="pm" data-tip="Change payment methods" role="button" tabindex="0"')})()}
+  pu=c.pickup!==false&&ckStores().length>0,mode=pu?ckMode:'ship',st=mode==='pickup'&&ckStores().find(w=>w.code===ckStore),pm=mode==='pickup'?c.pm.filter(x=>x!=='cod'):c.pm,
+  noStore=mode==='pickup'&&!st,total=mode==='pickup'?418000:428000,pay=`style="background:${btn}" data-cpgo="btn" data-tip="Change button colour"${noStore?' disabled title="Choose a store first"':''}`,
+  seg=pu?`<div class="seg ck-seg" role="tablist" aria-label="How to get your order">${[['ship','Deliver'],['pickup','Pick up in store']].map(([k,l])=>`<button class="${mode===k?'on':''}" data-ckm="${k}" role="tab" aria-selected="${mode===k}">${l}</button>`).join('')}</div>`:'',
+  ship=`<section class="ck-card">${seg}<h4>${mode==='pickup'?'Pickup location and payment':'Shipping and payment'}</h4>
+    ${mode==='pickup'?row(`<span class="ck-ic">${ic('store',20)}</span>`,st?st.n:'Store',st?`${st.street}, ${st.city}</span><span>${ckHrs(st)}`:'<span class="ck-err">Choose the nearest store</span>',' data-ckstore role="button" tabindex="0"')
+    :row(`<span class="ck-ic">${ic('pin',20)}</span>`,'Raam &nbsp;|&nbsp; +6283821050649','Jl. Raya Kopo No. 959, Cirangrang, Bandung')}
+    ${mode==='pickup'?'':(()=>{const k=CSET.find(x=>x[3].some(s=>!c.off.includes(x[0]+'|'+s[0]))),sv=k&&k[3].find(s=>!c.off.includes(k[0]+'|'+s[0]));return k?row(cl('courier/'+k[2]),`${k[1]} · ${sv[0]} (Rp5.000) <s>Rp30.000</s>`,'Estimated '+sv[1],' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('truck',20)}</span>`,'No courier available','',' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"')})()}
+    ${(()=>{const k=pm[0];return k?row(`<span class="ck-pl">${cpPmLogo(k)}</span>`,PMS[k][0],pm.length>1?`${pm.length-1} more ${pm.length===2?'way':'ways'} to pay`:'',' data-cpgo="pm" data-tip="Change payment methods" role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('card',20)}</span>`,'No payment method','',' data-cpgo="pm" data-tip="Change payment methods" role="button" tabindex="0"')})()}
     <div class="ck-save">${row(`<span class="ck-ic">${ic('tag',20)}</span>`,'You save Rp50.000','2 vouchers applied')}</div></section>`,
   cart=`<section class="ck-card"><h4>Cart (2)</h4>
     <div class="ck-reward">${row(`<span class="ck-ic">${ic('coins',20)}</span>`,'Potential reward Rp18.000','From 2 vouchers')}</div>
     <div class="ck-store"><span class="ck-st">${cpLogo(c,22)}</span><div class="ck-tx"><b>${MERCHANT}</b><span>Jakarta Selatan</span></div></div>
     ${items.map(([n,a,b,p])=>`<div class="ck-item"><span class="ck-img">${ic('box',22)}</span><div class="ck-tx"><b>${n}</b><span>${a}</span><span>${b}</span><span class="ck-note">${ic('doc',14)}Add note</span></div><div class="ck-pr"><b>${rp(p)}</b><span class="ck-qty"><i>−</i>1<i>+</i></span></div></div>`).join('')}</section>`,
-  sum=`<section class="ck-card"><h4>Order summary</h4><dl class="ck-sum"><dt>Products</dt><dd>${rp(438000)}</dd><dt>Shipping</dt><dd><s>Rp60.000</s> Rp10.000</dd><dt>BUYVADIS</dt><dd>−Rp20.000</dd></dl>
-    <div class="ck-tot"><span>Total</span><b>${rp(428000)}</b></div>${phone?'':`<button class="ck-pay" style="background:${btn}" data-cpgo="btn" data-tip="Change button colour">Pay now</button><p class="ck-pot">You could earn Rp25.000 in rewards</p>`}</section>`;
+  sum=`<section class="ck-card"><h4>Order summary</h4><dl class="ck-sum"><dt>Products</dt><dd>${rp(438000)}</dd>${mode==='pickup'?'<dt>Pickup</dt><dd>Free</dd>':'<dt>Shipping</dt><dd><s>Rp60.000</s> Rp10.000</dd>'}<dt>BUYVADIS</dt><dd>−Rp20.000</dd></dl>
+    <div class="ck-tot"><span>Total</span><b>${rp(total)}</b></div>${phone?'':`<button class="ck-pay" ${pay}>Pay now</button><p class="ck-pot">You could earn Rp25.000 in rewards</p>`}</section>`;
   return`<div class="ck${phone?' ck-m':''}"><header class="ck-top"><span class="ck-go" data-cpgo="logo" data-tip="Change logo" role="button" tabindex="0">${cpLogo(c,phone?20:22)}</span><span class="ck-u">${ic('globe',18)}${ic('user',18)}</span></header>
     <div class="ck-main">${phone?ship+cart+sum:`<div class="ck-col">${ship}${cart}</div><aside>${sum}</aside>`}</div>
-    ${phone?`<div class="ck-bar"><div><span>Total</span><b>${rp(428000)}</b></div><button class="ck-pay" style="background:${btn}" data-cpgo="btn" data-tip="Change button colour">Pay now</button></div>`:`<footer class="ck-foot"><span class="ck-fl">${(document.querySelector('#acct .lg svg')||{}).outerHTML||''}<b>1-Click Checkout</b></span><span>Terms of use</span><span>Privacy policy</span></footer>`}</div>`}
+    ${phone?`<div class="ck-bar"><div><span>Total</span><b>${rp(total)}</b></div><button class="ck-pay" ${pay}>Pay now</button></div>`:`<footer class="ck-foot"><span class="ck-fl">${(document.querySelector('#acct .lg svg')||{}).outerHTML||''}<b>1-Click Checkout</b></span><span>Terms of use</span><span>Privacy policy</span></footer>`}</div>`}
+/* the store picker: search, one card per store with today's hours (the week opens below), View on map, then Choose store */
+function ckStorePick(done){let pick=ckStore,q='';const open={},td=ckToday();
+  const draw=()=>{const L=ckStores().filter(w=>!q||[w.n,w.street,w.dist,w.city,w.prov].join(' ').toLowerCase().includes(q.toLowerCase())),hr=(w,d)=>w.days[d]?w.days[d].join('–'):'Closed';
+    modal.innerHTML=`<div class="mh"><h3>Choose the nearest store</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb ckst"><div class="ie-fld">${ic('search',16)}<input class="ie-in" id="ckst-q" placeholder="Search by area or store name" value="${esc(q)}" autocomplete="off"></div>
+      <div class="ckst-l" role="radiogroup" aria-label="Stores">${L.length?L.map(w=>{const on=pick===w.code,o=open[w.code];return`<div class="ckst-c${on?' on':''}">
+        <button class="ckst-h" data-stp="${w.code}" role="radio" aria-checked="${on}"><span class="ckst-n"><b>${w.n}</b><span>${w.street}, ${w.dist}, ${w.city}, ${w.prov} ${w.zip}</span></span><span class="rdo${on?' on':''}"></span></button>
+        <div class="ckst-hr"><b>Opening hours</b><div class="ckst-w">${(o?DAYS7:[td]).map(d=>`<div class="ckst-d${d===td?' t':''}"><span>${DAYL[d]}</span><span>${hr(w,d)}</span>${d===(o?DAYS7[0]:td)?`<button class="ckst-tg${o?' up':''}" data-sth="${w.code}" aria-expanded="${!!o}" aria-label="${o?'Hide':'Show'} all opening hours">${ic('chev',14)}</button>`:''}</div>`).join('')}</div><button class="lnk ckst-map" data-stmap="${w.code}">View on map</button></div></div>`}).join('')
+        :'<div class="empty" style="padding:24px 0"><b>No stores match</b>Try another area or store name.</div>'}</div></div>
+    <div class="mf"><button class="btn btn-p ckst-go" id="ckst-go" ${pick?'':'disabled'}>Choose store</button></div>`;
+    const i=document.getElementById('ckst-q');i.oninput=()=>{q=i.value;const p=i.selectionStart;draw();const n=document.getElementById('ckst-q');n.focus();n.setSelectionRange(p,p)};
+    modal.querySelectorAll('[data-stp]').forEach(b=>b.onclick=()=>{pick=b.dataset.stp;draw()});
+    modal.querySelectorAll('[data-sth]').forEach(b=>b.onclick=()=>{open[b.dataset.sth]=!open[b.dataset.sth];draw()});
+    modal.querySelectorAll('[data-stmap]').forEach(b=>b.onclick=()=>toast('Opens the store in Google Maps'));
+    document.getElementById('ckst-go').onclick=()=>{ckStore=pick;closeModal();done()}};
+  draw();modal.classList.add('md');mscrim.classList.add('open')}
+/* switching Deliver / Pick up and choosing a store work on the checkout page and in the personalization preview */
+const ckAct=(e,redraw)=>{const m=e.target.closest('[data-ckm]');if(m){e.stopPropagation();ckMode=m.dataset.ckm;if(ckMode==='pickup'&&!ckStore&&ckStores().length===1)ckStore=ckStores()[0].code;redraw();return true}
+  const s=e.target.closest('[data-ckstore]');if(s){e.stopPropagation();ckStorePick(redraw);return true}return false};
+document.getElementById('ckp-b').addEventListener('click',e=>ckAct(e,ckpDraw));
+document.getElementById('cpx').addEventListener('click',e=>{if(e.target.closest('#cpx-pv'))ckAct(e,cpDraw)},true);
 function cpDraw(){const c=cpD,f=document.getElementById('cpx-form'),pv=document.getElementById('cpx-pv'),custom=!CP_SW.some(s=>s[0]===c.btn),hex=custom?c.btn:'',low=custom&&cpContrast(hex)<4.5;
   f.innerHTML=`<section><h2 class="ie-h">Logo</h2><p class="ie-p">Shown at the top of checkout. PNG or SVG, at least 200 px wide.</p>
       <div class="cpx-logo"><span class="ic">${cpLogo(c,52)}</span><div><b>${c.logo?'Your logo':'Logo from Business profile'}</b><div class="cpx-lb"><button class="btn btn-o" data-cpup>${ic('upload',15)}${c.logo?'Change':'Upload'}</button>${c.logo?'<button class="lnk" data-cprm>Use Business profile logo</button>':''}</div></div></div><input type="file" id="cpx-file" accept="image/png,image/svg+xml,image/jpeg" hidden></section>
@@ -7878,7 +7913,7 @@ function cpDraw(){const c=cpD,f=document.getElementById('cpx-form'),pv=document.
       <label class="cpx-s${custom?' on':''}"><input type="color" id="cpx-col" value="${hex||'#002d5d'}" aria-label="Pick a custom colour"><span>Custom</span><input class="cpx-hex" id="cpx-hex" value="${hex}" placeholder="#1A73E8" maxlength="7" aria-label="Custom colour hex code"></label></div>
       ${low?`<div class="sx-note warn" style="margin-top:10px">${ic('warn',16)}<span>Too light for white text. Pick a darker colour.</span></div>`:''}</section>
     <section><h2 class="ie-h">Payment methods</h2><p class="ie-p">What shoppers can pay with at checkout.</p><div class="ie-pms">${cpPmChips(c)||'<p class="wh-err">Choose at least one payment method.</p>'}</div><button class="lnk ie-mpm" data-cpmm>Manage payment methods</button></section>
-    <section><h2 class="ie-h">Couriers</h2><p class="ie-p">Couriers shoppers can pick at checkout.</p><div class="ie-pms">${(()=>{const n=CSET.filter(k=>k[3].some(s=>!c.off.includes(k[0]+'|'+s[0]))).length;return n?`<button class="chip set ie-pm" data-cpcm aria-haspopup="menu"><span class="plg plg-sm plg-i">${ic('truck',14)}</span>${n===CSET.length?'All couriers':`${n} of ${CSET.length} couriers`}<span class="ie-pm-chev">${ic('chev',13)}</span></button>`:'<p class="wh-err">Choose at least one courier.</p>'})()}</div><p class="ie-hint">Open a courier to pick its services.</p></section>`;
+    <section><h2 class="ie-h">Couriers</h2><p class="ie-p">Couriers shoppers can pick at checkout.</p><div class="ie-pms">${(()=>{const n=CSET.filter(k=>k[3].some(s=>!c.off.includes(k[0]+'|'+s[0]))).length;return n?`<button class="chip set ie-pm" data-cpcm aria-haspopup="menu"><span class="plg plg-sm plg-i">${ic('truck',14)}</span>${n===CSET.length?'All couriers':`${n} of ${CSET.length} couriers`}<span class="ie-pm-chev">${ic('chev',13)}</span></button>`:'<p class="wh-err">Choose at least one courier.</p>'})()}</div><p class="ie-hint">Open a courier to pick its services.</p>${(()=>{const n=ckStores().length;return`<button class="ie-chk cpx-pu" data-cppu ${n?'':'disabled'} role="checkbox" aria-checked="${n&&c.pickup}"><span class="cb${n&&c.pickup?' on':''}">${n&&c.pickup?ic('check',12,3):''}</span>Offer store pickup</button><p class="ie-hint">${n?`${n} ${n===1?'warehouse offers':'warehouses offer'} pickup. Choose which in Settings › Warehouses.`:'No warehouse offers pickup yet. Turn it on in Settings › Warehouses.'}</p>`})()}</section>`;
   pv.innerHTML=`<h2 class="ie-h" style="margin:0">Preview</h2><div class="tabs">${[['desk','Desktop'],['phone','Phone']].map(([k,l])=>`<button class="tab${cpMode===k?' on':''}" data-cpm="${k}">${l}</button>`).join('')}</div>
     <div class="cpx-stage ${cpMode}"><div class="cpx-frame">${cpView(c,cpMode==='phone')}</div></div>`;
   document.getElementById('cpx-save').disabled=!cpDirty()||!c.pm.length||c.off.length>=couTotal;cpFit()}
@@ -7928,8 +7963,9 @@ function openCpx(){cpD=cpGet();const x=document.getElementById('cpx');x.hidden=f
 function closeCpx(){document.getElementById('cpx').hidden=true;document.body.style.overflow=''}
 const cpLeave=()=>{const go=()=>{location.hash='settings/payments?t=checkout'};if(cpDirty())discardAsk(go);else go()};
 document.getElementById('cpx-close').onclick=cpLeave;document.getElementById('cpx-open').onclick=()=>{const go=()=>{location.hash='checkout'};if(cpDirty())discardAsk(go);else go()};document.getElementById('cpx-cancel').onclick=cpLeave;
-document.getElementById('cpx-save').onclick=()=>{ONB.cp={logo:cpD.logo,btn:cpD.btn};ONB.pm=cpD.pm.slice();pmD=null;COU_SAVED=cpD.off.slice();couOff=new Set(COU_SAVED);try{localStorage.setItem('flik-couriers-off',JSON.stringify(COU_SAVED))}catch(e){}onbSave();toast('Checkout saved');location.hash='settings/payments?t=checkout'};
+document.getElementById('cpx-save').onclick=()=>{ONB.cp={logo:cpD.logo,btn:cpD.btn,pickup:cpD.pickup};ONB.pm=cpD.pm.slice();pmD=null;COU_SAVED=cpD.off.slice();couOff=new Set(COU_SAVED);try{localStorage.setItem('flik-couriers-off',JSON.stringify(COU_SAVED))}catch(e){}onbSave();toast('Checkout saved');location.hash='settings/payments?t=checkout'};
 document.getElementById('cpx').addEventListener('click',e=>{const t=e.target;
+  if(t.closest('[data-cppu]')){cpD.pickup=!cpD.pickup;if(!cpD.pickup)ckMode='ship';cpDraw();return}
   const go=t.closest('[data-cpgo]');if(go){e.stopPropagation();cpGo(go.dataset.cpgo);return}
   const sw=t.closest('[data-cpsw]');if(sw){cpD.btn=sw.dataset.cpsw;cpDraw();return}
   const px=t.closest('[data-cppmx]');if(px){e.stopPropagation();cpD.pm=cpD.pm.filter(k=>k!==px.dataset.cppmx);cpDraw();return}
