@@ -50,7 +50,7 @@ svg{display:block;flex:none}
 .grp.open .sub{display:grid}
 .sub .ni{height:auto;min-height:30px;padding-top:6px;padding-bottom:6px;font-size:13.5px;line-height:1.35}
 .navh{font-size:12.5px;color:var(--muted);padding:18px 10px 6px;font-weight:500}
-.side-foot{margin-top:auto;padding:14px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--faint)}
+.side-foot{margin-top:auto;padding:8px 10px;border-top:1px solid var(--line)}
 
 .main{min-width:0;display:flex;flex-direction:column}
 .top{display:flex;align-items:center;gap:14px;padding:14px 28px;position:sticky;top:0;background:#fff;z-index:20}
@@ -2429,7 +2429,7 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
     </button>
     <div id="vcard"></div>
     <nav class="nav" id="nav"></nav>
-    <div class="side-foot">FLIK Dashboard · Prototype</div>
+    <div class="side-foot" id="side-foot"></div>
   </aside>
   <div class="scrim" id="sidescrim"></div>
 
@@ -2444,7 +2444,6 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
         <button class="lang" id="lang" aria-label="Language: English" aria-haspopup="menu"><span data-ic="globe"></span><span id="langv">EN</span><span data-ic="chev"></span></button>
         <button class="ib hide-s" data-toast="Opens FLIK help center" aria-label="Help"><span data-ic="help"></span></button>
         <button class="ib" id="bell" aria-label="Notifications"><span data-ic="bell"></span><span class="dot"></span></button>
-        <button class="ib hide-s" id="gear" aria-label="Settings" aria-haspopup="menu"><span data-ic="gear"></span></button>
         <button class="plus" id="plus" aria-label="Create"><span data-ic="plus"></span></button>
       </div>
     </header>
@@ -2681,6 +2680,7 @@ const paintIcons=root=>root.querySelectorAll('[data-ic]').forEach(e=>{const k=e.
 paintIcons(document);
 
 /* ===== Sidebar ===== */
+P.code='<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>';
 const NAV=[
   {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customers',v:'cus'},{i:'box',t:'Product Catalog',v:'prd'},
   {h:'Products'},
@@ -2689,10 +2689,12 @@ const NAV=[
   {i:'coins',t:'Cash Advance',v:'mca'},
   {i:'tag',t:'Marketing',sub:['Chat Commerce','Leads Management','Voucher','Post Purchase Offer','Cashback']},
   {i:'chart',t:'Analytics',sub:['Checkout','Shipping']},
-  {i:'more',t:'More',sub:[{t:'Developers',v:'set',h:'settings/developers'},{t:'Settings',v:'set',h:'settings'}]}
+  {i:'gear',t:'Settings',v:'set',hash:'settings'}
 ];
 const nav=document.getElementById('nav');
-nav.innerHTML=NAV.map(n=>n.h?`<div class="navh">${n.h}</div>`:n.sub?`<div class="grp"><button class="ni">${ic(n.i)}${n.t}<span class="chev">${ic('chev',14)}</span></button><div class="sub">${n.sub.map(s=>s.v?`<button class="ni" data-view="${s.v}"${s.h?` data-hash="${s.h}"`:''}>${s.t}</button>`:`<button class="ni" data-toast="Opens ${s}">${s}</button>`).join('')}</div></div>`:n.v?`<button class="ni" data-view="${n.v}">${ic(n.i)}${n.t}</button>`:`<button class="ni" data-toast="Opens ${n.t}">${ic(n.i)}${n.t}</button>`).join('');
+/* Developers sits at the foot of the sidebar, under the menu */
+document.getElementById('side-foot').innerHTML=`<button class="ni" data-view="set" data-hash="settings/developers">${ic('code')}Developers</button>`;
+nav.innerHTML=NAV.map(n=>n.h?`<div class="navh">${n.h}</div>`:n.sub?`<div class="grp"><button class="ni">${ic(n.i)}${n.t}<span class="chev">${ic('chev',14)}</span></button><div class="sub">${n.sub.map(s=>s.v?`<button class="ni" data-view="${s.v}"${s.h?` data-hash="${s.h}"`:''}>${s.t}</button>`:`<button class="ni" data-toast="Opens ${s}">${s}</button>`).join('')}</div></div>`:n.v?`<button class="ni" data-view="${n.v}"${n.hash?` data-hash="${n.hash}"`:''}>${ic(n.i)}${n.t}</button>`:`<button class="ni" data-toast="Opens ${n.t}">${ic(n.i)}${n.t}</button>`).join('');
 nav.querySelectorAll('.grp>.ni').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
 const side=document.getElementById('side'),sscrim=document.getElementById('sidescrim');
 const setSide=o=>{side.classList.toggle('open',o);sscrim.classList.toggle('open',o)};
@@ -4936,7 +4938,7 @@ function svcStats(){const out={},N=X.ships.length;let fb=0;
 /* recommend, within the open tab, the switched-on service with no red-zone parcels and the best delivery rate; cheaper wins a tie */
 function recSvc(ST,grp){let best=null;SERVICES.forEach((v,j)=>{if(v[2]!==grp||!svcOn(v[0],v[1])||ST[j].red)return;if(best==null||ST[j].rate>ST[best].rate||(ST[j].rate===ST[best].rate&&v[4]<SERVICES[best][4]))best=j});return best}
 /* top bar gear: settings, including Warehouses (no longer in the sidebar) */
-document.getElementById('gear').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+(document.getElementById('gear')||{}).onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
   pop.innerHTML=`<div class="menu" style="width:220px" role="menu"><button class="opt" role="menuitem" data-gv="warehouses">${ic('wh',15)}Warehouses</button><button class="opt" role="menuitem" data-gt="Opens Settings">${ic('gear',15)}All settings</button></div>`;
   pop.querySelector('[data-gv]').onclick=()=>{closePop();location.hash='warehouses'};pop.querySelector('[data-gt]').onclick=()=>{closePop();location.hash='settings'};placePop(b,true)};
 /* add a warehouse from Create shipment without leaving the flow */
@@ -6065,6 +6067,9 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
 /* ===== Simple router: #home / #transactions ===== */
 const VIEWS={set:['settings','Settings'],home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog'],mon:['monitoring','Monitoring'],cr:['check-rate','Check rate'],ana:['shipping/analytics','Shipping analytics']};
 const hashView=()=>location.hash==='#checkout-personalization'?'set':location.hash==='#warehouses'?(history.replaceState(null,'','#settings/shipping'),'set'):/^#(settings|verify)/.test(location.hash)?'set':location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+/* which sidebar item is on: Developers, Settings and Checkout Personalization all open the Settings view, so they go by the address */
+function navOn(b,view){if(b.dataset.view!==view)return false;if(view!=='set')return true;const h=location.hash,d=b.dataset.hash,dev=/^#settings\/developers/.test(h);
+  return d==='settings/developers'?dev:d==='checkout-personalization'?h==='#checkout-personalization':d==='settings'?/^#settings/.test(h)&&!dev:false}
 function show(view){
   if(location.hash==='#verify'&&document.getElementById('vx').hidden)openVer();
   if(view!=='set'){hideSave();ONB.dirty=false}
@@ -6076,7 +6081,7 @@ function show(view){
   if(location.hash==='#merchant-cash-advance/apply'){view='mca';openMca()}else if(!mx.hidden)closeMca();
   const home=view==='home';
   Object.keys(VIEWS).forEach(k=>document.getElementById('view-'+k).hidden=k!==view);
-  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===view));
+  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',navOn(b,view)));
   document.title=VIEWS[view][1]+' | FLIK Dashboard';
   if(home){renderHome();onbHome()}
   if(view==='set')renderSet();
@@ -7261,7 +7266,7 @@ if(!P.data)P.data='<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7
 if(!P.bank)P.bank='<path d="M4 10h16M5 10v8M9.7 10v8M14.3 10v8M19 10v8M3 21h18M12 3l9 5H3z"/>';
 
 /* ----- sidebar: store name with its status, the verify card, the account menu ----- */
-function drawAcct(){const a=document.getElementById('acct');if(!a)return;
+function drawAcct(){{const dv=document.querySelector('#side-foot [data-hash="settings/developers"]');if(dv)dv.hidden=!['owner','admin','developer'].includes(ONB.role)}const a=document.getElementById('acct');if(!a)return;
   const st={new:'Not verified',draft:'Not verified',review:'In review',needs:'In review',active:'Verified'}[ONB.st];
   a.querySelector('.acct-t small').className=verified()?'ok':'';
   a.querySelector('.acct-t small').innerHTML=verified()?'':st; /* a verified store shows just its name */
@@ -7505,7 +7510,7 @@ const SYN={rekening:'money:payout',bank:'money:payout',payout:'money:payout',gud
 let setQ='';
 function setRoute(){const m=location.hash.match(/^#settings\/?([a-z]*)(?:\?t=([a-z]+))?/);return{c:m&&m[1]||'',t:m&&m[2]||''}}
 function renderSet(){const el=document.getElementById('view-set'),{c,t}=setRoute(),C=SCARDS();
-  nav.querySelectorAll('.grp .sub [data-view="set"]').forEach(b=>{b.closest('.grp').classList.add('open');b.classList.toggle('on',(b.dataset.hash==='settings/developers')===(setRoute().c==='developers'))});
+  document.querySelectorAll('.side [data-view="set"]').forEach(b=>b.classList.toggle('on',navOn(b,'set')));
   if(!c){const q=setQ.trim().toLowerCase(),hits=q?C.flatMap(cd=>cd.t.map(tb=>({cd,tb}))).filter(({cd,tb})=>(cd.n+' '+tb[1]).toLowerCase().includes(q)||Object.entries(SYN).some(([w,v])=>w.startsWith(q)&&v===cd.k+':'+tb[0])):[];
     el.innerHTML=`<div class="ph"><h1>Settings</h1></div>
       ${ONB.sbx?`<div class="sx-note" style="margin-top:16px">${ic('help',16)}<span>Settings are read-only in the sandbox, except Developers, which has its own sandbox values.</span></div>`:''}
