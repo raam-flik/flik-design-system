@@ -1333,7 +1333,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .cou-card.open .cou-tog .chev{transform:rotate(180deg)}
 .cou-card.off .cou-tog b{color:var(--muted)}
 .cou-svcs{display:grid;grid-template-columns:minmax(0,1fr);padding-top:6px}
-.cou-svc{display:flex;align-items:center;gap:10px;min-height:44px;text-align:left;border-bottom:1px solid var(--line)}
+.cou-svc{display:flex;align-items:center;gap:10px;min-height:44px;text-align:left;border-bottom:1px solid var(--line)}.cou-svc:last-child{border-bottom:0}
 .cou-svc .n{flex:1;min-width:0;color:var(--ink);font-size:13.5px;font-weight:500}
 .cou-svc .eta{font-size:13px;color:var(--muted);white-space:nowrap}
 .cou-svc.off .n{color:var(--muted);font-weight:400}
@@ -1341,7 +1341,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 @media (max-width:1100px){#cou-list{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:600px){.cou-svc .st{display:none}.cou-card .cou-h{padding:0 12px}}
 /* ===== Warehouses (reuses PageHeader, Tabs, SearchField, DataTable, StatusBadge, PopoverMenu, drawer, FlowShell, FormField, Checkbox, SegmentedControl) ===== */
-.wh-tbl td{height:auto;padding-top:10px;padding-bottom:10px;cursor:pointer}
+.wh-tbl td{cursor:pointer;white-space:nowrap}
 .wh-tbl td .src{display:block;margin-top:2px}
 .wh-n{display:flex;align-items:center;gap:8px}
 .wh-n b{font-weight:500;color:var(--ink)}
@@ -2383,6 +2383,39 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .simf{display:none}#sg .simf{display:block;position:static;width:auto;max-width:none;box-shadow:none;border-radius:0;left:auto;right:auto;bottom:auto}
 #sg .simf.in-flow .simf-n{display:block}
 
+.set-act .fright{display:flex;gap:8px;margin:0}
+.sx-opt[data-way]{cursor:pointer}.sx-opt[data-way]:disabled{cursor:default;opacity:.6}
+.pm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}.pm-gh{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.pm-gh b{font-weight:600;color:var(--ink)}.pm-gh small{font-size:12.5px;color:var(--muted)}.pm-g .plg{width:28px;height:28px;flex:none}@media (max-width:900px){.pm-grid{grid-template-columns:1fr}}
+/* Checkout personalization */
+.cpx-sec{margin-top:24px}.cpx-sec h3{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.cpx-sec .set-logo{border-bottom:0;padding-bottom:0;margin-bottom:0}.cpx-sec .set-logo .ic img{width:auto;max-width:60px;height:auto;max-height:52px}.cpx-lb{display:flex;align-items:center;gap:12px;margin-top:10px}.cpx-lb .btn{margin:0}
+.cpx-sw{display:grid;gap:8px;max-width:420px}.cpx-hint{font-size:12.5px;color:var(--muted);margin:-4px 0 10px}
+.cpx-s{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border-radius:8px;box-shadow:var(--sh);background:#fff;text-align:left;font-size:13.5px;color:var(--ink);font-weight:500;cursor:pointer}
+.cpx-s.on{box-shadow:0 0 0 2px var(--primary)}.cpx-s i{width:20px;height:20px;border-radius:50%;flex:none}
+.cpx-s input[type=color]{width:24px;height:24px;border:0;padding:0;background:none;cursor:pointer;flex:none}.cpx-s span{flex:1}
+.cpx-hex{width:96px;height:30px;border:0;border-radius:6px;box-shadow:var(--sh);padding:0 8px;font:inherit;font-size:13px;color:var(--ink);outline:none;text-transform:uppercase}.cpx-hex:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
+.cpx-pvh{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.cpx-stage{position:relative;overflow:hidden}.cpx-stage.desk .cpx-frame{width:1080px;transform-origin:top left}
+.cpx-stage.phone .cpx-frame{width:375px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 12px 32px -12px rgba(50,50,93,.22),0 4px 10px -6px rgba(0,0,0,.08)}
+/* the checkout page, as shoppers see it */
+.ck{background:var(--hover);color:var(--text);font-size:14px;border-radius:10px;overflow:hidden;box-shadow:0 12px 32px -12px rgba(50,50,93,.22)}
+.ck-top{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 48px;background:#fff;border-bottom:1px solid var(--line)}.ck-top img{display:block}.ck-u{display:flex;gap:14px;color:var(--ink)}
+.ck-main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;padding:24px 48px;align-items:start}.ck-col{display:grid;gap:20px}
+.ck-card{background:#fff;border-radius:12px;padding:20px;box-shadow:var(--sh)}.ck-card h4{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:12px}
+.ck-row{display:flex;align-items:center;gap:14px;padding:10px 0}.ck-tx{flex:1;min-width:0;display:grid;gap:2px}.ck-tx b{font-weight:500;color:var(--ink)}.ck-tx span{color:var(--muted);font-size:13px}.ck-tx s,.ck-sum s{color:var(--faint);font-weight:400}
+.ck-ic{width:28px;display:flex;justify-content:center;color:var(--ink);flex:none}.ck-cl{width:28px;height:20px;object-fit:contain;flex:none}.ck-chev{color:var(--muted);transform:rotate(-90deg);display:flex}
+.ck-save{background:var(--hover);border-radius:10px;padding:2px 14px;margin-top:8px}.ck-reward{background:var(--ok-bg);border-radius:10px;padding:2px 14px;margin-bottom:8px}
+.ck-store{display:flex;align-items:center;gap:12px;padding:12px 0}.ck-st{width:44px;height:44px;border-radius:8px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.ck-st img{max-width:36px}
+.ck-item{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line)}.ck-img{width:72px;height:72px;border-radius:8px;background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--faint);flex:none}
+.ck-note{display:inline-flex;align-items:center;gap:6px;margin-top:6px}.ck-pr{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:12px}.ck-pr b{color:var(--ink);font-weight:500}
+.ck-qty{display:inline-flex;align-items:center;gap:14px;height:32px;padding:0 10px;border-radius:6px;box-shadow:var(--sh);color:var(--ink)}.ck-qty i{font-style:normal;color:var(--muted)}
+.ck-sum{display:grid;grid-template-columns:1fr auto;gap:10px 12px;padding-bottom:14px;border-bottom:1px solid var(--line)}.ck-sum dt{color:var(--muted)}.ck-sum dd{text-align:right;color:var(--ink)}
+.ck-tot{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0}.ck-tot span{font-weight:500;color:var(--ink)}.ck-tot b{font-size:18px;font-weight:600;color:var(--ink)}
+.ck-pay{width:100%;height:46px;border-radius:8px;color:#fff;font-weight:600;font-size:15px;cursor:default}.ck-pot{text-align:center;color:var(--muted);font-size:12.5px;margin-top:10px}
+.ck-foot{display:flex;align-items:center;gap:20px;padding:16px 48px;background:#fff;font-size:13px;color:var(--text)}.ck-fl{display:flex;align-items:center;gap:8px;margin-right:auto}.ck-fl svg{width:20px;height:20px}.ck-fl b{font-weight:500}
+.ck-m{border-radius:0;box-shadow:none}.ck-m .ck-top{padding:0 16px}.ck-m .ck-main{grid-template-columns:1fr;padding:12px;gap:12px}.ck-m .ck-card{padding:16px}
+.ck-m .ck-img{width:56px;height:56px}.ck-bar{position:sticky;bottom:0;display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff;border-top:1px solid var(--line)}.ck-bar div{flex:1;display:grid}.ck-bar span{font-size:12.5px;color:var(--muted)}.ck-bar b{font-size:17px;font-weight:600;color:var(--ink)}.ck-bar .ck-pay{width:auto;padding:0 22px}
+.cpx-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
 </style>
 </head>
 <body>
@@ -2450,7 +2483,7 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
           <button class="es-link" data-toast="Downloading the template">Download the template</button>
         </section>
         <section class="es-card">
-          <h3>Add your pickup address</h3>
+          <h3>Add your warehouse</h3>
           <p>Couriers pick up from your warehouse. Add one or more addresses so every shipment knows where it starts.</p>
           <button class="es-link" data-view="wh">Set up warehouses <span data-ic="ext"></span></button>
         </section>
@@ -2486,10 +2519,10 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
     <main class="content" id="view-wh" hidden>
       <div class="ph"><h1>Warehouses</h1><button class="btn btn-p" id="wh-new"><span data-ic="plus"></span>Add warehouse</button></div>
       <div class="tabs" id="wh-tabs" role="tablist"></div>
-      <div class="filters">
-        <label class="search bl-search"><span data-ic="search"></span><input id="wh-q" placeholder="Name, code or city" autocomplete="off" aria-label="Search warehouses"></label>
+      <div class="filters dt-bar">
+        <label class="search bl-search"><span data-ic="search"></span><input id="wh-q" placeholder="Name, code or city" autocomplete="off" aria-label="Search warehouses"></label><span class="dt-btns" id="wh-fb"></span>
       </div>
-      <div class="tbl-wrap"><table class="wh-tbl"><thead><tr><th>Warehouse</th><th>City</th><th>PIC</th><th>Operating hours</th><th>Status</th><th style="width:40px"></th></tr></thead><tbody id="wh-body"></tbody></table></div>
+      <div class="tbl-wrap"><table class="wh-tbl" data-dtt="wh"><thead id="wh-thead"></thead><tbody id="wh-body"></tbody></table></div>
       <div class="foot"><span id="wh-count"></span></div>
     </main>
     <main class="content" id="view-cou" hidden>
@@ -2572,6 +2605,13 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
   </div>
   <div class="ie-body"><div class="ie-form" id="ie-form"></div><div class="ie-pv" id="ie-pvw"></div></div>
 </div>
+<div class="ie" id="cpx" hidden role="dialog" aria-label="Checkout personalization">
+  <div class="ie-top">
+    <button class="ib" id="cpx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Checkout personalization</b>
+    <div class="ie-acts"><button class="btn btn-o" id="cpx-cancel">Cancel</button><button class="btn btn-p" id="cpx-save" disabled>Save changes</button></div>
+  </div>
+  <div class="ie-body"><div class="ie-form" id="cpx-form"></div><div class="ie-pv" id="cpx-pv"></div></div>
+</div>
 
 <!-- Drawer -->
 <div class="scrim" id="dscrim"></div>
@@ -2644,7 +2684,7 @@ paintIcons(document);
 const NAV=[
   {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customers',v:'cus'},{i:'box',t:'Product Catalog',v:'prd'},
   {h:'Products'},
-  {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop','Payment Link','Checkout Personalization','Order Form']},
+  {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop','Payment Link',{t:'Checkout Personalization',v:'set',h:'checkout-personalization'},'Order Form']},
   {i:'truck',t:'Shipping',sub:[{t:'Shipment',v:'shp',h:'shipments/create'},{t:'Monitoring',v:'mon'},{t:'Check rate',v:'cr'},{t:'Analytics',v:'ana'}]},
   {i:'coins',t:'Cash Advance',v:'mca'},
   {i:'tag',t:'Marketing',sub:['Chat Commerce','Leads Management','Voucher','Post Purchase Offer','Cashback']},
@@ -3564,10 +3604,14 @@ document.addEventListener('click',e=>{if(e.target.closest('[data-newinv]')){clos
 /* ===== Invoices: create editor ===== */
 const ie=document.getElementById('ie'),ieForm=document.getElementById('ie-form'),iePv=document.getElementById('ie-pvw');
 let D,editing=null;
-const blank=()=>({cust:null,lines:[],dueDays:30,pms:new Set(['qris','bcad','card',...PM_GROUPS.wallet,...PM_GROUPS.va]),memo:false,memoTx:'Thank you for shopping with Aruna Studio!',footer:false,footerTx:'Goods that have been bought can be exchanged within 7 days.',npwp:false,cf:false,cfs:[{k:'PO number',v:''}],pv:'pdf',dd:null,q:''});
+const blank=()=>({cust:null,lines:[],dueDays:30,pms:new Set(['qris','bcad','card',...PM_GROUPS.wallet,...PM_GROUPS.va].filter(pmOn)),memo:false,memoTx:'Thank you for shopping with Aruna Studio!',footer:false,footerTx:'Goods that have been bought can be exchanged within 7 days.',npwp:false,cf:false,cfs:[{k:'PO number',v:''}],pv:'pdf',dd:null,q:''});
 /* payment methods the customer can pay this invoice with */
-const PMS={qris:['QRIS','qris'],bcad:['Debit BCA card','bca'],card:['Credit and debit card',null],gopay:['GoPay','gopay'],ovo:['OVO','ovo'],dana:['DANA','dana'],shopeepay:['ShopeePay','shopeepay'],va_bca:['BCA virtual account','bca'],va_mandiri:['Mandiri virtual account','mandiri'],va_bni:['BNI virtual account','bni'],va_bri:['BRI virtual account','bri'],va_permata:['Permata virtual account','permata']};
-const PM_GROUPS={wallet:['gopay','ovo','dana','shopeepay'],va:['va_bca','va_mandiri','va_bni','va_bri','va_permata']},PM_GNAME={wallet:['E-Wallets','wallet'],va:['virtual accounts','bal']};
+const PMS={qris:['QRIS','qris'],bcad:['BCA debit card','bca'],card:['Credit or debit card',null],cod:['COD',null],gopay:['GoPay','gopay'],ovo:['OVO','ovo'],dana:['DANA','dana'],shopeepay:['ShopeePay','shopeepay'],va_bca:['BCA virtual account','bca'],va_mandiri:['Mandiri virtual account','mandiri'],va_bni:['BNI virtual account','bni'],va_bri:['BRI virtual account','bri'],va_permata:['Permata virtual account','permata'],va_bsi:['BSI virtual account','bsi']};
+/* the payment methods a merchant offers, by group: one list for Settings › Payment methods, invoices, payment links and checkout (COD at checkout only) */
+const PM_SET=[['qris','QRIS',['qris']],['wallet','E-wallet',['ovo','gopay','shopeepay','dana']],['va','Virtual account',['va_bca','va_mandiri','va_bni','va_bri','va_permata','va_bsi']],['card','Card payment',['card','bcad']],['cod','COD',['cod']]];
+const PM_ALL=PM_SET.flatMap(g=>g[2]);
+function pmOn(k){try{return!ONB.pm||ONB.pm.includes(k)}catch(e){return true}}
+const PM_GROUPS={wallet:['gopay','ovo','dana','shopeepay'],va:['va_bca','va_mandiri','va_bni','va_bri','va_permata','va_bsi']},PM_GNAME={wallet:['E-Wallets','wallet'],va:['virtual accounts','bal']};
 const pmLg=k=>k==='card'?['visa','mastercard'].map(b=>`<img class="plg plg-sm" src="${IMG}payment/${b}.png" alt="">`).join(''):PMS[k][1]?`<img class="plg plg-sm" src="${IMG}payment/${PMS[k][1]}.png" alt="">`:`<span class="plg plg-sm plg-i">${ic('card',12)}</span>`;
 const nextNo=()=>(window.SBX_ON?'TEST-':'')+'INV-2026-'+String(49+INV.filter(v=>v.status!=='draft'&&v.created>NOW).length).padStart(4,'0');
 const sub=()=>D.lines.reduce((a,l)=>a+l.price*l.qty,0);
@@ -4198,24 +4242,24 @@ function cuImport(){let step=0;const draw=()=>{modal.innerHTML=step===0?`<div cl
 /* [courier key, name, logo file, [[service, delivery time, speed]]]; speed: inst, same, next, reg, cargo */
 const CSET=[
   ['anteraja','AnterAja','anteraja',[['Regular','2–3 days','reg'],['Next Day','1–2 days','next'],['Same Day','0–1 day','same'],['Cargo','2–4 days','cargo']]],
-  ['jne','JNE','jne',[['YES','1 day','next'],['Cargo JTR','3–4 days','cargo'],['Regular','2–3 days','reg']]],
-  ['sicepat','SiCepat','sicepat',[['Regular','2–4 days','reg'],['SiUntung','3–5 days','reg'],['BEST','1–2 days','next'],['GOKIL','1–3 days','cargo'],['KEPO','1–2 days','next']]],
-  ['deliveree','Deliveree','deliveree',[['Small Box','2–4 hours','inst'],['Van','2–4 hours','inst'],['Pick Up','2–4 hours','inst'],['Economy','2–4 hours','inst'],['CDD','6–8 hours','cargo'],['Engkel Box','6–8 hours','cargo'],['Fuso Lite','6–8 hours','cargo'],['Fuso Heavy','6–8 hours','cargo'],['Tronton','6–8 hours','cargo']]],
-  ['spx','SPX Express','spx',[['Standard','1–3 days','reg'],['Eco','2–14 days','reg'],['Sameday','Same day','same']]],
-  ['lion','Lion Parcel','lionparcel',[['Regular Pack','2–3 days','reg'],['Jago Pack','2–7 days','reg'],['Boss Pack','1–2 days','next'],['Big Pack','6–9 days','cargo'],['Oto Pack 150','7–10 days','cargo'],['Oto Pack 250','7–10 days','cargo']]],
-  ['idx','ID Express','idexpress',[['Standard','3–4 days','reg'],['iDlite','3–4 days','reg'],['Cargo','3–4 days','cargo']]],
-  ['grab','GrabExpress','grabexpress',[['Instant Delivery','1–3 hours','inst'],['Car Delivery','1–3 hours','inst']]],
-  ['rpx','RPX','rpx',[['Same Day Package','12 hours','same'],['Mid Day Package','1 day','next'],['Next Day Package','1 day','next'],['Regular Package','2–4 days','reg'],['Paket Ambil Suka Suka','2–4 days','reg']]],
-  ['ninja','Ninja Xpress','ninjaxpress',[['Standard','1–3 days','reg'],['Next Day','1 day','next'],['Same Day','6–8 hours','same'],['Cargo','1–3 days','cargo']]],
+  ['spx','Shopee Express','spx',[['Eco/Hemat','2–14 days','reg'],['Standard','1–3 days','reg']]],
+  ['idx','ID Express','idexpress',[['Cargo','3–4 days','cargo'],['Standard','3–4 days','reg'],['iDlite','3–4 days','reg']]],
+  ['grab','Grab','grabexpress',[['Car Delivery','1–3 hours','inst'],['Instant Delivery','1–3 hours','inst']]],
   ['lalamove','Lalamove','lalamove',[['Bike','1–3 hours','inst'],['MPV','1–3 hours','inst'],['Van','2–4 hours','inst']]],
-  ['mrspeedy','Mr. Speedy','mrspeedy',[['Instant Bike','1–3 hours','inst'],['Instant Car','1–4 hours','inst']]],
-  ['gosend','GoSend','gosend',[['Instant','1–3 hours','inst'],['Same Day','6–8 hours','same']]],
-  ['jnt','J&T Express','jnt',[['Standard','3–4 days','reg'],['Next Day','1–2 days','next'],['Same Day','6–8 hours','same']]],
-  ['paxel','Paxel','paxel',[['Small Package · 20×11×7 cm','8–12 hours','same'],['Medium Package · 30×20×12 cm','8–12 hours','same'],['Large Package · 35×30×20 cm','8–12 hours','same']]],
-  ['sap','SAP Express','sap',[['Regular Service','3–4 days','reg'],['One Day Service','1 day','next'],['Same Day Service','Same day','same'],['Cargo','1 day','cargo']]],
-  ['tiki','TIKI','tiki',[['Regular','2–3 days','reg'],['Economy Service','3–4 days','reg'],['Over Night Service','1 day','next'],['Cargo','3–4 days','cargo']]]];
+  ['jnt','J&T','jnt',[['Standard','3–4 days','reg'],['Sameday','6–8 hours','same'],['Nextday','1–2 days','next']]],
+  ['tiki','TIKI','tiki',[['Regular','2–3 days','reg'],['Economy Service','3–4 days','reg'],['Over Night Service','1 day','next'],['Cargo','3–4 days','cargo']]],
+  ['jne','JNE','jne',[['Yakin Esok Sampai','1 day','next'],['Cargo JTR','3–4 days','cargo'],['Regular','2–3 days','reg']]],
+  ['deliveree','Deliveree','deliveree',[['CDD','6–8 hours','cargo'],['Fuso Lite','6–8 hours','cargo'],['Pick Up','2–4 hours','inst'],['Van','2–4 hours','inst'],['Economy','2–4 hours','inst'],['Tronton','6–8 hours','cargo'],['Fuso Heavy','6–8 hours','cargo'],['Engkel Box','6–8 hours','cargo'],['Small Box','2–4 hours','inst']]],
+  ['ninja','NinjaExpress','ninjaxpress',[['Nextday','1 day','next'],['Sameday','6–8 hours','same'],['Cargo','1–3 days','cargo'],['Standard','1–3 days','reg']]],
+  ['mrspeedy','MrSpeedy','mrspeedy',[['Instant Bike','1–3 hours','inst'],['Instant Car','1–4 hours','inst']]],
+  ['paxel','Paxel','paxel',[['Medium Package 30×20×12','8–12 hours','same'],['Large Package 35×30×20','8–12 hours','same'],['Small Package 20×11×7','8–12 hours','same']]],
+  ['sicepat','SiCepat','sicepat',[['Regular','2–4 days','reg'],['SiUntung','3–5 days','reg'],['Best','1–2 days','next'],['Gokil','1–3 days','cargo'],['Kepo','1–2 days','next']]],
+  ['lion','Lion Parcel','lionparcel',[['Oto Pack 150','7–10 days','cargo'],['Oto Pack 250','7–10 days','cargo'],['Boss Pack','1–2 days','next'],['Regular Pack','2–3 days','reg'],['Big Pack','6–9 days','cargo'],['Jago Pack','2–7 days','reg']]],
+  ['rpx','RPX','rpx',[['Same Day Package','12 hours','same'],['Mid Day Package','1 day','next'],['Next Day Package','1 day','next'],['Regular Package','2–4 days','reg'],['Paket Ambil Suka Suka','2–4 days','reg']]],
+  ['gosend','GoSend','gosend',[['Instant','1–3 hours','inst'],['Sameday','6–8 hours','same']]],
+  ['sap','SAP','sap',[['Regular Service','3–4 days','reg'],['Same Day Service','2–3 days','same'],['Cargo','1 day','cargo'],['One Day Service','1 day','next']]]];
 const CSPEED={inst:['Instant','pu'],same:['Same day','pu'],next:['Next day','gr'],reg:['Regular','gr'],cargo:['Cargo','gr']};
-const COU_OFF0=['deliveree|CDD','deliveree|Engkel Box','deliveree|Fuso Lite','deliveree|Fuso Heavy','deliveree|Tronton','lion|Oto Pack 150','lion|Oto Pack 250','sicepat|SiUntung','spx|Eco'];
+const COU_OFF0=['deliveree|CDD','deliveree|Engkel Box','deliveree|Fuso Lite','deliveree|Fuso Heavy','deliveree|Tronton','lion|Oto Pack 150','lion|Oto Pack 250','sicepat|SiUntung','spx|Eco/Hemat'];
 let COU_SAVED;try{COU_SAVED=JSON.parse(localStorage.getItem('flik-couriers-off')||'null')}catch(e){}
 if(!Array.isArray(COU_SAVED))COU_SAVED=COU_OFF0;
 let couOff=new Set(COU_SAVED),couTab='all',couQ='',couOpen=new Set();
@@ -4240,6 +4284,8 @@ function renderCou(){
 }
 document.getElementById('cou-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-ct]');if(b){couTab=b.dataset.ct;renderCou()}});
 document.getElementById('cou-q').oninput=e=>{couQ=e.target.value.trim();renderCou()};
+/* the courier list now sits in Settings › Shipping › Couriers; these nodes move into that tab when it opens */
+const COU_NODES=[...document.querySelectorAll('#view-cou > :not(.ph)')],COU_BTNS=document.querySelector('#view-cou .ph .fright');
 document.getElementById('cou-all').onclick=()=>{const all=CSET.every(c=>couOpen.has(c[0]));couOpen=new Set(all?[]:CSET.map(c=>c[0]));renderCou()};
 document.getElementById('cou-list').addEventListener('click',e=>{
   const t=e.target.closest('[data-ctog]');if(t){const k=t.dataset.ctog;couOpen.has(k)?couOpen.delete(k):couOpen.add(k);renderCou();return}
@@ -4263,12 +4309,32 @@ const whHours=w=>{const open=DAYS7.filter(d=>w.days[d]);if(!open.length)return'C
   const same=open.every(d=>w.days[d].join()===w.days[open[0]].join()),idx=open.map(d=>DAYS7.indexOf(d)),run=idx.every((x,i)=>!i||x===idx[i-1]+1);
   const span=open.length===1?open[0]:run?`${open[0]}–${open[open.length-1]}`:open.join(', ');return same?`${span}, ${w.days[open[0]][0]}–${w.days[open[0]][1]}`:`${open.length} days a week`};
 let whTab='all',whQ='';
-function renderWh(){
+/* the warehouse list uses the shared Lists kit: Filter, Edit columns, and a menu on each header to sort, pin or hide it */
+let whF={prov:[],pick:[]};
+function renderWh(){const K='wh',dash='<span class="src">—</span>',td=v=>`<td>${v||dash}</td>`;
+  dtUse(K,{n:['Warehouse',w=>w.n.toLowerCase(),w=>`<td><div class="wh-n"><b>${w.n}</b>${w.def?'<span class="st pu">Default</span>':''}</div></td>`,{fixed:1}],
+    code:['Code',w=>w.code,w=>td(w.code)],
+    st:['Status',w=>w.active?0:1,w=>`<td>${w.active?'<span class="st ok">Active</span>':'<span class="st gr">Inactive</span>'}</td>`],
+    street:['Address',w=>w.street||'',w=>td(w.street)],
+    dist:['District',w=>w.dist||'',w=>td(w.dist)],
+    city:['City',w=>w.city||'',w=>td(w.city)],
+    prov:['Province',w=>w.prov||'',w=>td(w.prov)],
+    zip:['Postal code',w=>w.zip||'',w=>td(w.zip)],
+    pic:['PIC',w=>[w.pic.first,w.pic.last].join(' ').trim(),w=>td([w.pic.first,w.pic.last].filter(Boolean).join(' '))],
+    ph:['PIC phone',w=>w.pic.phone||'',w=>td(w.pic.phone?'+62 '+w.pic.phone:'')],
+    em:['PIC email',w=>w.pic.email||'',w=>td(w.pic.email)],
+    hrs:['Operating hours',null,w=>td(whHours(w))],
+    pick:['Store pickup',w=>w.pickup?0:1,w=>td(w.pickup?'Yes':'No')]},null,renderWh);
+  fbUse(K,[{k:'prov',l:'Province',type:'many',opts:[...new Set(WH.map(w=>w.prov).filter(Boolean))].sort().map(p=>[p,p]),get:()=>whF.prov,set:v=>{whF.prov=v}},
+    {k:'pick',l:'Store pickup',type:'many',opts:[['yes','Offers store pickup'],['no','No store pickup']],get:()=>whF.pick,set:v=>{whF.pick=v}}],renderWh);
   const tabs=[['all','All'],['active','Active'],['inactive','Inactive']],cnt=k=>WH.filter(w=>k==='all'||(k==='active')===w.active).length;
   document.getElementById('wh-tabs').innerHTML=tabs.map(t=>`<button class="tab${whTab===t[0]?' on':''}" data-wht="${t[0]}">${t[1]}<span class="ct">${cnt(t[0])}</span></button>`).join('');
-  const q=whQ.toLowerCase(),rows=WH.filter(w=>(whTab==='all'||(whTab==='active')===w.active)&&(!q||[w.n,w.code,w.city,w.prov,w.ext].join(' ').toLowerCase().includes(q)));
-  document.getElementById('wh-body').innerHTML=rows.length?rows.map(w=>`<tr data-whc="${w.code}"><td><div class="wh-n"><b>${w.n}</b>${w.def?'<span class="st pu">Default</span>':''}</div><span class="src wh-code">${w.code}</span></td><td>${w.city}<span class="src">${w.prov}</span></td><td>${w.pic.first} ${w.pic.last}<span class="src">+62 ${w.pic.phone}</span></td><td>${whHours(w)}${w.pickup?'<span class="src">Store pickup</span>':''}</td><td>${w.active?'<span class="st ok">Active</span>':'<span class="st gr">Inactive</span>'}</td><td><button class="dots-b" data-whm="${w.code}" aria-label="Actions for ${w.n}">${ic('dots',16)}</button></td></tr>`).join('')
-    :`<tr><td colspan="6" style="height:auto;border:0;cursor:default"><div class="empty"><b>${WH.length?'No warehouses match':'No warehouses yet'}</b>${WH.length?'Try another name, code or city.':'Add the place couriers pick up from.'}</div></td></tr>`;
+  document.getElementById('wh-fb').innerHTML=fbBtns(K,K);
+  const q=whQ.toLowerCase(),rows=dtSort(K,WH.filter(w=>(whTab==='all'||(whTab==='active')===w.active)&&(!q||[w.n,w.code,w.city,w.prov,w.ext].join(' ').toLowerCase().includes(q))
+    &&(!whF.prov.length||whF.prov.includes(w.prov))&&(!whF.pick.length||whF.pick.includes(w.pickup?'yes':'no'))));
+  document.getElementById('wh-thead').innerHTML=`<tr>${dtHead(K)}<th style="width:40px"></th></tr>`;
+  document.getElementById('wh-body').innerHTML=rows.length?rows.map(w=>`<tr data-whc="${w.code}">${dtCells(K,w)}<td><button class="dots-b" data-whm="${w.code}" aria-label="Actions for ${w.n}">${ic('dots',16)}</button></td></tr>`).join('')
+    :`<tr><td colspan="${dtN(K)+1}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${WH.length?'No warehouses match':'No warehouses yet'}</b>${WH.length?'Try another name, code or city, or clear the filters.':'Add the place couriers pick up from.'}</div></td></tr>`;
   document.getElementById('wh-count').innerHTML=`<b>${rows.length}</b> ${rows.length===1?'warehouse':'warehouses'}`;
 }
 function whSetDefault(code){WH.forEach(w=>w.def=w.code===code);toast(`${WH.find(w=>w.code===code).n} is now the default warehouse`);renderWh()}
@@ -4288,6 +4354,8 @@ function whDetail(code){const w=WH.find(x=>x.code===code);
   drawer.querySelector('[data-whdef]')?.addEventListener('click',()=>{whSetDefault(code);whDetail(code)});
 }
 document.getElementById('wh-new').onclick=()=>{location.hash='warehouses/new'};
+/* the warehouse list now sits in Settings › Shipping › Warehouses; these nodes move into that tab when it opens */
+const WH_NODES=[...document.querySelectorAll('#view-wh > :not(.ph)')];
 document.getElementById('wh-q').oninput=e=>{whQ=e.target.value.trim();renderWh()};
 document.getElementById('wh-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-wht]');if(b){whTab=b.dataset.wht;renderWh()}});
 document.getElementById('wh-body').addEventListener('click',e=>{
@@ -4994,7 +5062,7 @@ function addrModal(i){const a=X.ships[i].addr||{street:'',city:'',zip:''};
   const chk=()=>{const [s1,c1,z]=v();b.disabled=!(s1&&c1&&/^\d{5}$/.test(z))};chk();modal.oninput=chk;
   b.onclick=()=>{const [s1,c1,z]=v();X.ships[i].addr={street:s1,city:c1,zip:z};closeModal();modal.oninput=null;drawSx()};
   document.getElementById('ad1').focus()}
-function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Pickup address</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Warehouse</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="mb sx-wl">${WAREHOUSES.map((w,i)=>`<button class="opt" data-w="${i}"><span class="rdo${sel===i?' on':''}"></span><div><b>${w.n}</b><span>${w.a}</span></div></button>`).join('')}</div>
   <div class="mf" style="justify-content:space-between"><button class="btn btn-o" data-toast="Opens Add warehouse">${ic('plus',15,2)}Add address</button><div style="display:flex;gap:8px"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="whsave">Use address</button></div></div>`;
   modal.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{sel=+b.dataset.w;draw()});
@@ -5996,11 +6064,12 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
 
 /* ===== Simple router: #home / #transactions ===== */
 const VIEWS={set:['settings','Settings'],home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog'],mon:['monitoring','Monitoring'],cr:['check-rate','Check rate'],ana:['shipping/analytics','Shipping analytics']};
-const hashView=()=>/^#(settings|verify)/.test(location.hash)?'set':location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+const hashView=()=>location.hash==='#checkout-personalization'?'set':location.hash==='#warehouses'?(history.replaceState(null,'','#settings/shipping'),'set'):/^#(settings|verify)/.test(location.hash)?'set':location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 function show(view){
   if(location.hash==='#verify'&&document.getElementById('vx').hidden)openVer();
   if(view!=='set'){hideSave();ONB.dirty=false}
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
+  if(location.hash==='#checkout-personalization'){view='set';openCpx()}else if(!document.getElementById('cpx').hidden)closeCpx();
   if(location.hash==='#invoices/pay'){view='inv';sampleView()}else if(!document.getElementById('cv').hidden)document.querySelector('#cv [data-cvx]').click();
   if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
   if(location.hash==='#warehouses/new'){view='wh';openWh()}else if(!wx.hidden&&!whEdit)closeWh();
@@ -6970,7 +7039,7 @@ const crOrigin=v=>{if(v.startsWith('c:')){const a=AREA.find(x=>x.city===v.slice(
 function renderCr(){const el=document.getElementById('view-cr');if(!CR.from)CR.from=defWh()||CR_CITIES[0][0];
   el.innerHTML=`<div class="ph"><h1>Check rate</h1></div>
   <section class="card cr-f"><div class="cr-g">
-    <div class="fld"><label for="cr-from">From</label><span class="sp-sw rf-sw"><select id="cr-from" class="rf-sel">${WH.filter(w=>w.active).length?`<optgroup label="Your pickup addresses">${WH.filter(w=>w.active).map(w=>`<option value="${w.code}" ${CR.from===w.code?'selected':''}>${esc(w.n)} · ${w.code}</option>`).join('')}</optgroup>`:''}<optgroup label="Other cities">${CR_CITIES.map(c=>`<option value="${c[0]}" ${CR.from===c[0]?'selected':''}>${c[1]}</option>`).join('')}</optgroup></select></span></div>
+    <div class="fld"><label for="cr-from">From</label><span class="sp-sw rf-sw"><select id="cr-from" class="rf-sel">${WH.filter(w=>w.active).length?`<optgroup label="Your warehouses">${WH.filter(w=>w.active).map(w=>`<option value="${w.code}" ${CR.from===w.code?'selected':''}>${esc(w.n)} · ${w.code}</option>`).join('')}</optgroup>`:''}<optgroup label="Other cities">${CR_CITIES.map(c=>`<option value="${c[0]}" ${CR.from===c[0]?'selected':''}>${c[1]}</option>`).join('')}</optgroup></select></span></div>
     <div class="fld"><label for="cr-q">To</label><div class="ad-s"><input id="cr-q" value="${esc(CR.q)}" placeholder="City, kecamatan, kelurahan or postcode" autocomplete="off">${CR.sug.length?`<div class="ie-dd">${CR.sug.map((x,k)=>`<button class="opt" data-crs="${k}"><b>${x.kel}, ${x.kec}</b><span>${x.city}, ${x.prov} ${x.zip}</span></button>`).join('')}</div>`:''}</div></div>
     <div class="fld"><label for="cr-kg">Weight</label><div class="unit"><input id="cr-kg" data-cr="kg" value="${CR.kg}" inputmode="decimal"><em>kg</em></div></div>
     <div class="fld cr-dims"><label>Size <span class="src">optional</span></label><div class="cr-d">${['l','w','h'].map(k=>`<div class="unit"><input data-cr="${k}" value="${CR[k]}" placeholder="${k==='l'?'L':k==='w'?'W':'H'}" inputmode="numeric" aria-label="${k==='l'?'Length':k==='w'?'Width':'Height'}"><em>cm</em></div>`).join('')}</div></div>
@@ -7255,7 +7324,7 @@ const GUIDE=()=>{const api=ONB.modes.includes('api'),plug=ONB.modes.includes('pl
     {g:'live',n:'Go live',s:[['verify','Get verified']]},
     {g:'sale',n:'Set up your live account',s:[['wh1','Set up your warehouse',1],['ship1','Ship your first order',1],['inv1','Send your first invoice',1],['ca1','Apply for a Cash Advance',1]]}].filter(g=>!ONB.hide[g.g])};
 const gDone=k=>k==='verify'?verified():k==='pickup'?!!ONB.done.pickup:k==='tour'?ONB.tour&&!!ONB.done.tour:!!ONB.done[k];
-let gEdit=false;
+let gEdit=false,waysD=null,pmD=null;
 /* in the sandbox, the simulator for the page in view takes the setup guide's place. Each page keeps a hidden copy (.simf) that owns the logic; the card in the guide passes clicks to it */
 const simOverlay=()=>[...document.querySelectorAll('#sx,#ie,#vx,#cv,#mx,#wx')].find(x=>!x.hidden);
 function activeSim(){if(!window.SBX_ON)return null;const ov=simOverlay();
@@ -7429,7 +7498,7 @@ const SCARDS=()=>[
   ...(ONB.outlets?[{g:'Business',k:'outlets',n:'Outlets and terminals',i:'outlet',t:[['outlets','Outlets'],['groups','Outlet groups'],['terminals','Terminals'],['ids','Identifiers']],s:'112 outlets · 37 terminals'}]:[]),
   {g:'Business',k:'data',n:'Data and privacy',i:'data',t:[['customers','Customers'],['exports','Exports'],['close','Close account']],s:'Customers saved automatically'},
   {g:'Products',k:'payments',n:'Payments and checkout',i:'cart',t:[['ways','Ways you accept payments'],['methods','Payment methods'],['checkout','Checkout']],s:`${ONB.modes.length} ways · QRIS and BCA VA on`},
-  {g:'Products',k:'shipping',n:'Shipping',i:'truck',t:[['pickup','Pickup addresses'],['couriers','Couriers'],['packaging','Packaging presets'],['labels','Labels','Cycle 15'],['flat','Flat-rate rules','Cycle 16']],s:`${WH.length} pickup addresses · ${COURIERS.length} couriers`},
+  {g:'Products',k:'shipping',n:'Shipping',i:'truck',t:[['pickup','Warehouses'],['couriers','Couriers'],['packaging','Packaging presets'],['labels','Labels','Cycle 15'],['flat','Flat-rate rules','Cycle 16']],s:`${WH.length} ${WH.length===1?'warehouse':'warehouses'} · ${COURIERS.length} couriers`},
   {g:'Products',k:'integrations',n:'Integrations',i:'plug',t:[['stores','Store connections'],['ads','Ads'],['apps','Connected apps','Later'],['wa','WhatsApp number','Later']],s:'Meta Conversions API on'},
   ...(canDev()?[{g:'Developers',k:'developers',n:'Developers',i:'code',t:[['overview','Overview'],['keys','API keys'],...(ONB.snap?[['snap','SNAP keys']]:[]),['webhooks','Webhooks'],['events','Events'],['logs','Logs'],...(ONB.live?[['allow','IP allowlist']]:[])],s:ONB.sbx?'Sandbox values':'Go-live checklist 1 of 4'}]:[])];
 const SYN={rekening:'money:payout',bank:'money:payout',payout:'money:payout',gudang:'shipping:pickup',warehouse:'shipping:pickup',kurir:'shipping:couriers',courier:'shipping:couriers',npwp:'business:verification',nib:'business:verification',kyb:'business:verification',api:'developers:keys',webhook:'developers:webhooks','2fa':'profile:security',password:'profile:security',role:'team:members',invite:'team:members',outlet:'outlets:outlets',terminal:'outlets:terminals'};
@@ -7494,11 +7563,15 @@ const SET_TABS={
   'data:customers':()=>sec('Customers',`<div class="set-box"><div class="set-row"><span class="tx"><b>Save customers automatically</b><small>Shoppers from paid orders and shipments are added to Customers</small></span>${cbx(1,'data-ntf role="checkbox" tabindex="0"')}</div><div class="set-row"><span class="tx"><b>Suppressed contacts</b><small>People who asked not to be messaged · 3</small></span><button class="btn btn-o" data-toast="Opens Suppressed contacts">View</button></div></div>`),
   'data:exports':()=>sec('Exports',tbl(['Requested','What','Status'],[['14 Oct, 09:40','Transactions · Sep 2026','<span class="st ok">Ready</span>'],['12 Oct, 15:02','Customers · all','<span class="st warn">Waiting for approval</span>']].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`),[]),{p:'Exports with shopper data above a size FLIK sets need approval.'}),
   'data:close':()=>sec('Close account',`<div class="set-box"><p style="color:var(--muted);line-height:1.5">FLIK first settles charges due, your reserve (once shipments are final), unpaid invoices and any financing. Then every user is deactivated.</p><button class="btn btn-o" style="margin-top:14px;color:var(--bad-tx)" data-close ${ONB.role==='owner'?'':'disabled'}>Request account closure</button></div>`,{ct:'rev',ro:roOnly('the Owner',['owner'])}),
-  'payments:ways':()=>sec('Ways you accept payments',`<p class="set-p">What you told us in the setup guide, with where each one stands. Changing this only changes your setup steps. It never switches anything off.</p><div style="display:grid;gap:10px;max-width:640px">${MODES.map(m=>`<div class="sx-opt" style="cursor:default"><span class="cb${ONB.modes.includes(m[0])?' on':''}">${ONB.modes.includes(m[0])?ic('check',12,3):''}</span><div style="flex:1"><b>${m[1]}</b><span>${m[2]}</span></div><span class="st ${m[3]==='Live'?'ok':m[3]==='Coming'?'gr':'warn'}">${m[3]}</span></div>`).join('')}</div>`,{act:'<button class="btn btn-o" data-chooser>Change</button>'}),
-  'payments:methods':()=>sec('Payment methods',`<p class="set-p">QRIS and BCA VA are on for every merchant. Other banks are switched on by FLIK. E-wallets, cards and COD are on hosted checkout today.</p><div class="set-box">${[['qris','QRIS','On for every merchant','on'],['bca','BCA virtual account','On for every merchant','on'],['mandiri','Mandiri virtual account','Ask FLIK to switch on','ask'],['bni','BNI virtual account','Ask FLIK to switch on','ask'],['gopay','E-wallets','GoPay, OVO, DANA, ShopeePay · hosted checkout','on'],['visa','Cards','Visa and Mastercard · hosted checkout','on']].map(r=>`<div class="set-row"><img class="plg" src="${IMG}payment/${r[0]}.png" alt="" style="width:28px;height:28px"><span class="tx"><b>${r[1]}</b><small>${r[2]}</small></span>${r[3]==='on'?'<span class="st ok">On</span>':`<button class="btn btn-o" data-toast="Request sent to FLIK">Ask FLIK</button>`}</div>`).join('')}</div>`),
-  'payments:checkout':()=>sec('Checkout',`<div class="set-box"><dl class="kv"><dt>Logo</dt><dd>From Business profile</dd><dt>Methods shown</dt><dd>6 · change in Payment methods</dd><dt>Couriers shown</dt><dd>${COURIERS.length} · change in Shipping › Couriers</dd></dl><button class="btn btn-o" style="margin-top:14px" data-toast="Opens Checkout Personalization">Open Checkout Personalization</button></div>`),
-  'shipping:pickup':()=>sec('Pickup addresses',tbl(['Name','City','Person in charge',''],WH.map(w=>`<tr><td><b style="font-weight:500;color:var(--ink)">${w.n}</b><br><small style="color:var(--muted)">${w.code}</small></td><td>${w.city}</td><td>${w.pic.first} ${w.pic.last}</td><td><button class="btn btn-o" data-gowh>Edit</button></td></tr>`),['No pickup address yet','Couriers need one to collect parcels.']),{act:'<button class="btn btn-p" data-gowh>'+ic('plus',15,2)+'Add pickup address</button>',p:'Where couriers collect your parcels. Used for shipping and shown at checkout.'}),
-  'shipping:couriers':()=>sec('Couriers',`<p class="set-p">One list for shipping and checkout. At least one stays on.</p><div class="set-box">${COURIERS.map(c=>`<div class="set-row">${cLogo(c.k)}<span class="tx"><b>${c.n}</b></span>${cbx(1,'data-ntf role="checkbox" tabindex="0"')}</div>`).join('')}</div>`),
+  'payments:ways':()=>{const D=waysD||(waysD=new Set(ONB.modes)),dirty=D.size!==ONB.modes.length||ONB.modes.some(m=>!D.has(m));
+    return sec('Ways you accept payments',`<p class="set-p">What you told us in the setup guide, with where each one stands. Changing this only changes your setup steps. It never switches anything off.</p><div style="display:grid;gap:10px;max-width:640px">${MODES.map(m=>{const on=D.has(m[0]),soon=m[3]==='Coming';return`<button class="sx-opt" data-way="${m[0]}" role="checkbox" aria-checked="${on}" ${soon?'disabled':''}><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span><div style="flex:1"><b>${m[1]}</b><span>${m[2]}</span></div><span class="st ${m[3]==='Live'?'ok':soon?'gr':'warn'}">${m[3]}</span></button>`}).join('')}</div>`,
+      {act:`<button class="btn btn-o" data-wdisc ${dirty?'':'disabled'}>Discard</button><button class="btn btn-p" data-wsave ${dirty&&D.size?'':'disabled'} ${D.size?'':'title="Pick at least one way"'}>Save changes</button>`})},
+  'payments:methods':()=>{const D=pmD||(pmD=new Set(PM_ALL.filter(pmOn))),dirty=PM_ALL.some(k=>D.has(k)!==pmOn(k)),logo=k=>k==='card'?`<span class="plg plg-i">${ic('card',14)}</span>`:k==='cod'?`<span class="plg plg-i">${ic('pkg',14)}</span>`:`<img class="plg" src="${IMG}payment/${PMS[k][1]}.png" alt="">`;
+    return sec('Payment methods',`<div class="pm-grid">${PM_SET.map(([g,n,ks])=>`<section class="set-box pm-g"><div class="pm-gh"><b>${n}</b><small>${ks.filter(k=>D.has(k)).length} of ${ks.length} on</small></div><div class="cou-svcs">${ks.map(k=>{const on=D.has(k);return`<button class="cou-svc${on?'':' off'}" data-pm="${k}" role="checkbox" aria-checked="${on}"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span>${logo(k)}<span class="n">${PMS[k][0]}</span>${k==='cod'?'<span class="eta">Checkout only</span>':''}</button>`}).join('')}</div></section>`).join('')}</div>`,
+      {p:'Shown on invoices, payment links and checkout. COD is offered at checkout only.',act:`<button class="btn btn-o" data-pmdisc ${dirty?'':'disabled'}>Discard</button><button class="btn btn-p" data-pmsave ${dirty&&D.size?'':'disabled'}>Save changes</button>`})},
+  'payments:checkout':()=>{const c=cpGet(),sw=CP_SW.find(s=>s[0]===c.btn);return sec('Checkout',`<div class="set-box"><dl class="kv"><dt>Logo</dt><dd>${c.logo?'Your logo':'From Business profile'}</dd><dt>Button colour</dt><dd><span class="cpx-dot" style="background:${cpBtn(c)}"></span>${sw?sw[1]:c.btn.toUpperCase()}</dd><dt>Methods shown</dt><dd>${PM_ALL.filter(pmOn).length} · change in Payment methods</dd><dt>Couriers shown</dt><dd>${CSET.length} · change in Shipping › Couriers</dd></dl><button class="btn btn-o" style="margin-top:14px" data-cpopen>Personalize checkout</button></div>`)},
+  'shipping:pickup':()=>sec('Warehouses','<div id="set-wh"></div>',{act:'<button class="btn btn-p" data-gowhnew>'+ic('plus',15,2)+'Add warehouse</button>',p:'Where couriers collect your parcels. Used for shipping and shown at checkout.'}),
+  'shipping:couriers':()=>sec('Couriers','<div id="set-cou"></div>',{act:'<span class="set-act" id="set-cou-act"></span>',p:'One list for shipping and checkout. Create shipment only offers the services that are on. At least one stays on.'}),
   'shipping:packaging':()=>sec('Packaging presets',tbl(['Box','Size','Weight','Default'],[],['No boxes yet','Add up to 20, with one default. Weight and size fill in when you pick a product.']),{act:'<button class="btn btn-p" data-toast="Opens Add box">'+ic('plus',15,2)+'Add box</button>'}),
   'integrations:stores':()=>sec('Store connections',`<div class="set-g" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px">${[['shopify','Shopify'],['woocommerce','WooCommerce']].map(([k,n])=>`<div class="set-card" style="cursor:default"><img src="${IMG}platform/${k}.png" alt="" style="width:32px;height:32px;border-radius:6px"><b>${n}</b><span>${ONB.stores[k]?'Requested. FLIK installs it and tells you when it\'s live.':'FLIK sets it up for you.'}</span>${ONB.stores[k]?'<span class="st warn">Requested</span>':`<button class="btn btn-o" style="justify-self:start;margin-top:4px" data-store="${k}">Request store connection</button>`}</div>`).join('')}</div>`,{ct:'rev'}),
   'integrations:ads':()=>sec('Ads',`<div class="set-box"><div class="set-row"><img src="${IMG}platform/metaads.png" alt="" style="width:28px;height:28px;border-radius:6px"><span class="tx"><b>Meta Conversions API</b><small>Sends purchase events to Meta for your ads</small></span><span class="st ok">On</span></div></div>`),
@@ -7541,8 +7614,17 @@ const SET_WIRE={
   'outlets:terminals':()=>{const v=document.getElementById('view-set');v.querySelector('[data-treg]').onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Register terminals</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="tr-o">Outlet</label><span class="sp-sw rf-sw"><select class="rf-sel" id="tr-o">${OUTLETS.map(o=>`<option>${o[1]}</option>`).join('')}</select></span></div><div class="sx-f"><label for="tr-s">Serial numbers (up to 10, comma-separated)</label><input id="tr-s" placeholder="SN-4410999, SN-4411000"></div><p style="color:var(--muted);font-size:13px">FLIK confirms each binding with the acquirer before the terminal takes payments.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="tr-go">Register</button></div>`;document.getElementById('tr-go').onclick=()=>{closeModal();toast('Sent to FLIK. Each terminal works once its binding is approved.')};mscrim.classList.add('open')};
     v.querySelectorAll('[data-lost]').forEach(b=>b.onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Report ${b.dataset.lost} lost or stolen?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">FLIK asks the acquirer to switch off this terminal straight away. Payments on it stop.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ls-go">Report lost</button></div>`;document.getElementById('ls-go').onclick=()=>{closeModal();toast(`${b.dataset.lost} reported. Payments on it are stopped.`)};mscrim.classList.add('open')})},
   'data:close':()=>{const b=document.querySelector('#view-set [data-close]');if(b)b.onclick=()=>stepUp('close the account',()=>toast('Closure requested. FLIK settles what\'s due first and emails you.'))},
-  'payments:ways':()=>{document.querySelector('#view-set [data-chooser]').onclick=chooser},
-  'shipping:pickup':()=>{document.querySelectorAll('#view-set [data-gowh]').forEach(b=>b.onclick=()=>location.hash='warehouses')},
+  'payments:methods':()=>{const v=document.getElementById('view-set');
+    v.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{const k=b.dataset.pm;pmD.has(k)?pmD.delete(k):pmD.add(k);renderSet()});
+    const d=v.querySelector('[data-pmdisc]');if(d)d.onclick=()=>{pmD=null;renderSet()};
+    const s=v.querySelector('[data-pmsave]');if(s)s.onclick=()=>{ONB.pm=PM_ALL.filter(k=>pmD.has(k));pmD=null;onbSave();renderSet();toast('Payment methods saved')}},
+  'payments:checkout':()=>{document.querySelector('#view-set [data-cpopen]').onclick=()=>{location.hash='checkout-personalization'}},
+  'payments:ways':()=>{const v=document.getElementById('view-set');
+    v.querySelectorAll('[data-way]').forEach(b=>b.onclick=()=>{const k=b.dataset.way;waysD.has(k)?waysD.delete(k):waysD.add(k);renderSet()});
+    const d=v.querySelector('[data-wdisc]');if(d)d.onclick=()=>{waysD=null;renderSet()};
+    const sv=v.querySelector('[data-wsave]');if(sv)sv.onclick=()=>{ONB.modes=MODES.map(m=>m[0]).filter(k=>waysD.has(k));ONB.done.choose=1;waysD=null;onbSave();drawGuide();renderSet();toast('Saved. Your setup steps are updated')}},
+  'shipping:couriers':()=>{const c=document.getElementById('set-cou');COU_NODES.forEach(n=>c.appendChild(n));document.getElementById('set-cou-act').appendChild(COU_BTNS);renderCou()},
+  'shipping:pickup':()=>{const c=document.getElementById('set-wh');WH_NODES.forEach(n=>c.appendChild(n));renderWh();document.querySelectorAll('#view-set [data-gowhnew]').forEach(b=>b.onclick=()=>location.hash='warehouses/new')},
   'integrations:stores':()=>{document.querySelectorAll('#view-set [data-store]').forEach(b=>b.onclick=()=>{ONB.stores[b.dataset.store]=1;ONB.done.store=1;onbSave();renderSet();drawGuide();toast('Request sent. FLIK ops sets it up.')})},
   'developers:overview':()=>{const v=document.getElementById('view-set');const t=v.querySelector('[data-try]');if(t)t.onclick=()=>{ONB.try=1;ONB.events.unshift({t:'checkout.session.created',at:'Just now',ok:!!ONB.hooks.length});onbSave();renderSet()};
     const p=v.querySelector('[data-trypay]');if(p)p.onclick=()=>{ONB.dev=Object.assign(ONB.dev||{},{pay:1});ONB.done.spay=1;onbSave();location.hash='invoices/pay'}},
@@ -7703,6 +7785,60 @@ drawer.addEventListener('click',e=>{const t=e.target.closest('[data-isim]');if(!
 
 function sbxInvPaid(v){const r=INV.find(x=>x.no===v.no);if(r){r.status='paid';sbxSt().iv[r.no]='paid'}sbxLed(`Test payment received · ${v.no}`,'Invoice',v.no,v.total);if(!document.getElementById('view-inv').hidden)renderInv()}
 if(ONB.sbx)sbxSwap(true);
+
+/* ===== Checkout personalization: the merchant's logo and button colour on FLIK checkout. Settings on the left, a live preview of the checkout page on the right ===== */
+const CP_DEF=()=>({logo:null,btn:'ink'}),CP_SW=[['ink','Navy','var(--ink)'],['primary','Violet','var(--primary)']];
+let cpD=null,cpMode='desk';
+const cpGet=()=>{try{return{...CP_DEF(),...(ONB.cp||{})}}catch(e){return CP_DEF()}};
+const cpBtn=c=>(CP_SW.find(s=>s[0]===c.btn)||[0,0,c.btn])[2];
+const cpLogo=(c,h)=>`<img class="ck-logo" src="${c.logo||'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/merchant/aruna-logo.png'}" alt="${MERCHANT} logo" style="height:${h}px">`;
+const cpDirty=()=>JSON.stringify(cpD)!==JSON.stringify(cpGet());
+/* white text on the chosen colour: WCAG contrast, so a pale colour gets a warning */
+const cpContrast=hex=>{const m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return 21;const L=[0,2,4].map(i=>{const v=parseInt(m[1].substr(i,2),16)/255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}),l=.2126*L[0]+.7152*L[1]+.0722*L[2];return 1.05/(l+.05)};
+function cpView(c,phone){const btn=cpBtn(c),cl=k=>`<img class="ck-cl" src="${IMG}${k}.png" alt="">`,chev=ic('chev',16),
+  items=[['Linen shirt · White','Size: M','Colour: White',289000],['Canvas tote bag','Size: One size','Colour: Natural',149000]],
+  row=(lead,b,s)=>`<div class="ck-row">${lead}<div class="ck-tx"><b>${b}</b>${s?`<span>${s}</span>`:''}</div><span class="ck-chev">${chev}</span></div>`,
+  ship=`<section class="ck-card"><h4>Shipping and payment</h4>
+    ${row(`<span class="ck-ic">${ic('pin',20)}</span>`,'Raam &nbsp;|&nbsp; +62 838-2105-0649','Jl. Raya Kopo No. 959, Cirangrang, Bandung')}
+    ${row(cl('courier/anteraja'),'AnterAja · Next Day (Rp5.000) <s>Rp30.000</s>','Estimated 1–2 days')}
+    ${row(cl('payment/bca'),'BCA virtual account','')}
+    <div class="ck-save">${row(`<span class="ck-ic">${ic('tag',20)}</span>`,'You save Rp50.000','2 vouchers applied')}</div></section>`,
+  cart=`<section class="ck-card"><h4>Cart (2)</h4>
+    <div class="ck-reward">${row(`<span class="ck-ic">${ic('coins',20)}</span>`,'Potential reward Rp18.000','From 2 vouchers')}</div>
+    <div class="ck-store"><span class="ck-st">${cpLogo(c,22)}</span><div class="ck-tx"><b>${MERCHANT}</b><span>Jakarta Selatan</span></div></div>
+    ${items.map(([n,a,b,p])=>`<div class="ck-item"><span class="ck-img">${ic('box',22)}</span><div class="ck-tx"><b>${n}</b><span>${a}</span><span>${b}</span><span class="ck-note">${ic('doc',14)}Add note</span></div><div class="ck-pr"><b>${rp(p)}</b><span class="ck-qty"><i>−</i>1<i>+</i></span></div></div>`).join('')}</section>`,
+  sum=`<section class="ck-card"><h4>Order summary</h4><dl class="ck-sum"><dt>Products</dt><dd>${rp(438000)}</dd><dt>Shipping</dt><dd><s>Rp60.000</s> Rp10.000</dd><dt>BUYVADIS</dt><dd>−Rp20.000</dd></dl>
+    <div class="ck-tot"><span>Total</span><b>${rp(428000)}</b></div>${phone?'':`<button class="ck-pay" style="background:${btn}" tabindex="-1">Pay now</button><p class="ck-pot">You could earn Rp25.000 in rewards</p>`}</section>`;
+  return`<div class="ck${phone?' ck-m':''}"><header class="ck-top">${cpLogo(c,phone?20:22)}<span class="ck-u">${ic('globe',18)}${ic('user',18)}</span></header>
+    <div class="ck-main">${phone?ship+cart+sum:`<div class="ck-col">${ship}${cart}</div><aside>${sum}</aside>`}</div>
+    ${phone?`<div class="ck-bar"><div><span>Total</span><b>${rp(428000)}</b></div><button class="ck-pay" style="background:${btn}" tabindex="-1">Pay now</button></div>`:`<footer class="ck-foot"><span class="ck-fl">${(document.querySelector('#acct .lg svg')||{}).outerHTML||''}<b>1-Click Checkout</b></span><span>Terms of use</span><span>Privacy policy</span></footer>`}</div>`}
+function cpDraw(){const c=cpD,f=document.getElementById('cpx-form'),pv=document.getElementById('cpx-pv'),custom=!CP_SW.some(s=>s[0]===c.btn),hex=custom?c.btn:'',low=custom&&cpContrast(hex)<4.5;
+  f.innerHTML=`<div class="ie-h">Checkout personalization</div><p class="ie-p">Shoppers see your logo and button colour on FLIK checkout.</p>
+    <section class="cpx-sec"><h3>Logo</h3><div class="vx-doc set-logo"><span class="ic">${cpLogo(c,52)}</span><div><b>${c.logo?'Your logo':'Logo from Business profile'}</b><span>PNG or SVG, at least 200 px wide. Shown at the top of checkout.</span><div class="cpx-lb"><button class="btn btn-o" data-cpup>${ic('upload',15)}${c.logo?'Change':'Upload'}</button>${c.logo?'<button class="lnk" data-cprm>Use Business profile logo</button>':''}</div></div></div><input type="file" id="cpx-file" accept="image/png,image/svg+xml,image/jpeg" hidden></section>
+    <section class="cpx-sec"><h3>Button colour</h3><p class="cpx-hint">The Pay now button. Text on it stays white.</p><div class="cpx-sw" role="radiogroup" aria-label="Button colour">
+      ${CP_SW.map(([k,l,v])=>`<button class="cpx-s${c.btn===k?' on':''}" data-cpsw="${k}" role="radio" aria-checked="${c.btn===k}"><i style="background:${v}"></i>${l}${k==='ink'?' (default)':''}</button>`).join('')}
+      <label class="cpx-s${custom?' on':''}"><input type="color" id="cpx-col" value="${hex||'#002d5d'}" aria-label="Pick a custom colour"><span>Custom</span><input class="cpx-hex" id="cpx-hex" value="${hex}" placeholder="#1A73E8" maxlength="7" aria-label="Custom colour hex code"></label></div>
+      ${low?`<div class="sx-note warn" style="margin-top:10px">${ic('warn',16)}<span>White text is hard to read on this colour. Pick a darker one.</span></div>`:''}</section>`;
+  pv.innerHTML=`<div class="cpx-pvh"><div class="seg" role="tablist" aria-label="Preview size"><button class="${cpMode==='desk'?'on':''}" data-cpm="desk" role="tab" aria-selected="${cpMode==='desk'}">Desktop</button><button class="${cpMode==='phone'?'on':''}" data-cpm="phone" role="tab" aria-selected="${cpMode==='phone'}">Phone</button></div><span class="src">Preview with sample items</span></div>
+    <div class="cpx-stage ${cpMode}"><div class="cpx-frame">${cpView(c,cpMode==='phone')}</div></div>`;
+  document.getElementById('cpx-save').disabled=!cpDirty()||low;cpFit()}
+function cpFit(){const st=document.querySelector('#cpx .cpx-stage.desk'),fr=st&&st.querySelector('.cpx-frame');if(!fr)return;const s=Math.min(1,st.clientWidth/1080);fr.style.transform=`scale(${s})`;st.style.height=fr.scrollHeight*s+'px'}
+addEventListener('resize',()=>{if(!document.getElementById('cpx').hidden)cpFit()});
+function openCpx(){cpD=cpGet();const x=document.getElementById('cpx');x.hidden=false;document.body.style.overflow='hidden';cpDraw()}
+function closeCpx(){document.getElementById('cpx').hidden=true;document.body.style.overflow=''}
+const cpLeave=()=>{const go=()=>{location.hash='settings/payments?t=checkout'};if(cpDirty())discardAsk(go);else go()};
+document.getElementById('cpx-close').onclick=cpLeave;document.getElementById('cpx-cancel').onclick=cpLeave;
+document.getElementById('cpx-save').onclick=()=>{ONB.cp={...cpD};onbSave();toast('Checkout saved');location.hash='settings/payments?t=checkout'};
+document.getElementById('cpx').addEventListener('click',e=>{const t=e.target;
+  const sw=t.closest('[data-cpsw]');if(sw){cpD.btn=sw.dataset.cpsw;cpDraw();return}
+  const m=t.closest('[data-cpm]');if(m){cpMode=m.dataset.cpm;cpDraw();return}
+  if(t.closest('[data-cpup]')){document.getElementById('cpx-file').click();return}
+  if(t.closest('[data-cprm]')){cpD.logo=null;cpDraw()}});
+document.getElementById('cpx').addEventListener('input',e=>{const t=e.target;
+  if(t.id==='cpx-col'){cpD.btn=t.value;cpDraw();return}
+  if(t.id==='cpx-hex'){const v=t.value.trim(),h=(v[0]==='#'?v:'#'+v);if(/^#[0-9a-f]{6}$/i.test(h)){cpD.btn=h.toLowerCase();const p=t.selectionStart;cpDraw();const n=document.getElementById('cpx-hex');n.focus();n.setSelectionRange(p,p)}}});
+document.getElementById('cpx').addEventListener('change',e=>{if(e.target.id!=='cpx-file')return;const fl=e.target.files[0];if(!fl)return;if(fl.size>1e6){toast('Pick a logo under 1 MB');return}
+  const r=new FileReader();r.onload=()=>{cpD.logo=r.result;cpDraw()};r.readAsDataURL(fl)});
 
 show(hashView());
 
