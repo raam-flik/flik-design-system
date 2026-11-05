@@ -7457,16 +7457,18 @@ function activeSim(){if(!window.SBX_ON)return null;const ov=simOverlay();
   return[...document.querySelectorAll('.simf')].filter(s=>!s.closest('#sg')&&s.parentElement.getClientRects().length&&(!ov||ov.contains(s)||(ov.id==='mx'&&s.classList.contains('in-flow')))).pop()||null}
 /* a run started from the guide ("Get a test payment") shows its steps from the first click, before its page has a simulator of its own */
 /* "Book a test shipment": the steps up to booking; the order page's own simulator takes over once it's booked */
-function simShipFlow(){const sx=document.getElementById('sx'),inF=sx&&!sx.hidden,pay=inF&&X&&X.step>=4&&!X.done,stop=['data-simstop','Back to setup guide',1],s=!inF&&sbxShipRec();
+function simShipFlow(){const sx=document.getElementById('sx'),inF=sx&&!sx.hidden,pay=inF&&X&&X.step>=4&&!X.done,stop=ONB.simRun?[['data-simstop','Back to setup guide',1]]:[],s=!inF&&sbxShipRec();
   if(s){const n=SBX_DSTEP[s.st],bad=['failed','returning','returned'].includes(s.st),i=2+({transit:1,ofd:1,delivered:2,failed:2,returning:2,returned:3}[s.st]||0);
     return SIMF({t:'Simulate delivery',steps:['Create a shipment','Book it','Waiting for pickup','In transit',...(bad?['Delivery failed','Returned']:['Delivered'])],i,next:n?n.map(x=>x[1].toLowerCase()).join(' or '):'nothing, this test shipment is finished',
-      note:'Move it on, the way a courier would. No courier is booked or called.',acts:[...(n||[]).map(([k,l])=>[`data-dsim="${k}"`,l]),stop]})}
+      note:'Move it on, the way a courier would. No courier is booked or called.',acts:[...(n||[]).map(([k,l])=>[`data-dsim="${k}"`,l]),...(n?[]:[['data-sflow','Create another shipment']]),...stop]})}
   return SIMF({t:'Simulate delivery',steps:['Create a shipment','Book it','Waiting for pickup','In transit','Delivered'],i:pay?1:0,next:pay?'confirm and pay to book it':inF?'add a parcel, pick a courier and a pickup time':'create a test shipment',
-    note:'No courier is booked or called. The shipment gets a TEST- AWB and opens on its order page.',acts:inF?[stop]:[['data-sflow','Create shipment'],stop]})}
-function simFlow(){if(!window.SBX_ON||!ONB.simRun)return'';if(ONB.simRun==='ship')return simShipFlow();const ie=document.getElementById('ie'),cv=document.getElementById('cv');if(cv&&!cv.hidden)return'';
-  const rev=!!document.getElementById('ie-send')&&mscrim.classList.contains('open'),ed=ie&&!ie.hidden,stop=['data-simstop','Back to setup guide',1];
+    note:'No courier is booked or called. The shipment gets a TEST- AWB and opens on its order page.',acts:inF?stop:[['data-sflow','Create shipment'],...stop]})}
+/* in the sandbox, the Invoices and Shipments pages show their simulator like Cash Advance does, also when the run didn't start from the guide */
+const simPage=()=>{const on=id=>{const e=document.getElementById(id);return e&&!e.hidden};return on('view-inv')||on('ie')?'pay':on('view-shp')||on('sx')?'ship':null};
+function simFlow(){if(!window.SBX_ON)return'';const run=ONB.simRun||simPage();if(!run)return'';if(run==='ship')return simShipFlow();const ie=document.getElementById('ie'),cv=document.getElementById('cv');if(cv&&!cv.hidden)return'';
+  const rev=!!document.getElementById('ie-send')&&mscrim.classList.contains('open'),ed=ie&&!ie.hidden,stop=ONB.simRun?[['data-simstop','Back to setup guide',1]]:[];
   return SIMF({t:'Simulate payment',steps:['Create an invoice','Send it','Shopper pays'],i:rev?1:0,next:rev?'finalize and send the invoice':ed?'add a customer and a product, then review the invoice':'create a test invoice',
-    note:'Nothing is emailed or charged. The invoice goes to the sandbox outbox and opens on its payment page.',acts:rev||ed?[stop]:[['data-pflow','Create invoice'],stop]})}
+    note:'Nothing is emailed or charged. The invoice goes to the sandbox outbox and opens on its payment page.',acts:rev||ed?stop:[['data-pflow','Create invoice'],...stop]})}
 function simInGuide(src){let el=document.getElementById('sg');if(!el){el=document.createElement('div');el.id='sg';document.body.appendChild(el)}
   const html=typeof src==='string'?src:src.outerHTML;
   document.getElementById('sg-pill').hidden=true;el.className='sg sim-on';el.setAttribute('role','region');el.setAttribute('aria-label','Simulator');el.innerHTML=html;
