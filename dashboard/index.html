@@ -2392,8 +2392,8 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .cpx-sw{display:grid;gap:8px;max-width:420px}.cpx-hint{font-size:12.5px;color:var(--muted);margin:-4px 0 10px}
 .cpx-s{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border-radius:8px;box-shadow:var(--sh);background:#fff;text-align:left;font-size:13.5px;color:var(--ink);font-weight:500;cursor:pointer}
 .cpx-s.on{box-shadow:0 0 0 2px var(--primary)}.cpx-s i{width:20px;height:20px;border-radius:50%;flex:none}
-.cpx-s input[type=color]{width:24px;height:24px;border:0;padding:0;background:none;cursor:pointer;flex:none}.cpx-s span{flex:1}
-.cpx-hex{width:96px;height:30px;border:0;border-radius:6px;box-shadow:var(--sh);padding:0 8px;font:inherit;font-size:13px;color:var(--ink);outline:none;text-transform:uppercase}.cpx-hex:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
+.cpx-s input[type=color]{width:20px;height:20px;border:0;padding:0;border-radius:50%;overflow:hidden;background:none;cursor:pointer;flex:none;-webkit-appearance:none;appearance:none}.cpx-s input[type=color]::-webkit-color-swatch-wrapper{padding:0}.cpx-s input[type=color]::-webkit-color-swatch{border:0;border-radius:50%}.cpx-s input[type=color]::-moz-color-swatch{border:0;border-radius:50%}.cpx-s span{flex:1}
+.cpx-hex{width:76px;height:28px;border:0;border-radius:6px;box-shadow:var(--sh);padding:0 8px;font:inherit;font-size:13px;color:var(--ink);outline:none;text-transform:uppercase}.cpx-hex:focus{box-shadow:0 0 0 2px rgba(106,75,255,.4)}
 .cpx-pvh{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 .cpx-stage{position:relative;overflow:hidden}.cpx-stage.desk .cpx-frame{width:1080px;transform-origin:top left}
 .cpx-stage.phone .cpx-frame{width:375px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 12px 32px -12px rgba(50,50,93,.22),0 4px 10px -6px rgba(0,0,0,.08)}
@@ -2419,6 +2419,13 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .meta-c{padding-top:4px;display:grid;gap:12px;justify-items:start}.meta-c>p{color:var(--muted);font-size:13.5px;line-height:1.5}.meta-man{width:100%;display:grid;gap:10px}.meta-man b{font-weight:600;color:var(--ink)}.meta-man .hint{margin:0}.meta-acts{display:flex;gap:8px;justify-content:flex-end}.meta-h{font-size:14px;font-weight:600;color:var(--ink);margin:20px 0 10px}.meta-dc{margin-top:14px;color:var(--bad-tx)}
 .set-box .set-row:has(+.meta-c){border-bottom:0}
 .cou-col{display:grid;gap:12px;align-content:start}
+.cpx-logo{display:flex;align-items:center;gap:16px}.cpx-logo .ic{width:72px;height:72px;border-radius:10px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;flex:none}.cpx-logo .ic img{width:auto;max-width:60px;height:auto;max-height:52px}.cpx-logo b{display:block;font-weight:500;color:var(--ink);margin-bottom:8px}.cpx-stage{margin-top:20px}
+.cpx-sw+.sx-note{max-width:420px}
+.cpx-pm{display:grid;gap:16px;max-width:520px}.cpx-pg{display:grid}.cpx-pg .cou-svc{width:100%}.cpx-pg>b{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}.cpx-pg .plg{width:28px;height:28px;flex:none;object-fit:contain}.ck-pl{width:28px;display:flex;justify-content:center;flex:none}.ck-pl .plg{width:28px;height:20px;object-fit:contain}
+.cpx-cm .cb{flex:none}
+#cpx .ie-pm:has(.ie-pm-chev){padding-right:9px}
+.ck [data-cpgo]{cursor:pointer;border-radius:8px;transition:box-shadow .12s,background .12s}.ck .ck-row[data-cpgo]{padding:10px 8px;margin:4px -8px}.ck [data-cpgo]:hover,.ck [data-cpgo]:focus-visible{box-shadow:0 0 0 2px var(--primary);outline:none}.ck .ck-row[data-cpgo]:hover{background:var(--primary-soft)}.ck-go{display:inline-flex;padding:4px}.ck .ck-pay[data-cpgo]{box-shadow:none}.ck .ck-pay[data-cpgo]:hover{box-shadow:0 0 0 3px var(--pu-bd)}
+@keyframes cpxFlash{0%{background:var(--primary-soft)}100%{background:transparent}}.cpx-flash{animation:cpxFlash 1.2s ease-out;border-radius:10px}
 </style>
 </head>
 <body>
@@ -2987,7 +2994,11 @@ const METHOD_OPTS=['QRIS','E-wallet','Virtual account','Card','COD'];
 const SOURCE_OPTS=['FLIK Checkout','Payment link','Invoice'];
 const pop=document.getElementById('pop');let popFor=null;
 function closePop(){pop.classList.remove('open','in-d');popFor=null}
-function placePop(anchor,alignRight){const r=anchor.getBoundingClientRect();pop.style.top=(r.bottom+6+scrollY)+'px';pop.classList.add('open');const w=pop.offsetWidth;let left=alignRight?r.right-w:r.left;left=Math.max(8,Math.min(left,innerWidth-w-8));pop.style.left=left+'px'}
+function placePop(anchor,alignRight){pop.dataset.ar=alignRight?'1':'';const r=anchor.getBoundingClientRect();pop.style.top=(r.bottom+6+scrollY)+'px';pop.classList.add('open');const w=pop.offsetWidth;let left=alignRight?r.right-w:r.left;left=Math.max(8,Math.min(left,innerWidth-w-8));pop.style.left=left+'px';
+  /* no room below: open upwards when there is room above */const h=pop.offsetHeight;if(r.bottom+6+h>innerHeight-8&&r.top-6-h>8)pop.style.top=(r.top-6-h+scrollY)+'px'}
+/* a menu stays with the button that opened it when a panel scrolls (the invoice editor, Checkout personalization, side panels); it closes once the button scrolls out of sight */
+document.addEventListener('scroll',e=>{const a=popFor,t=e.target;if(!a||!pop.classList.contains('open')||!(t instanceof Element)||t.contains(pop)||!t.contains(a))return;
+  const r=a.getBoundingClientRect(),c=t.getBoundingClientRect();if(r.bottom<c.top||r.top>c.bottom){closePop();return}placePop(a,!!pop.dataset.ar)},true);
 document.addEventListener('click',e=>{if(!e.target.closest('#pop'))closePop()});
 addEventListener('resize',closePop);
 
@@ -7822,7 +7833,8 @@ if(ONB.sbx)sbxSwap(true);
 /* ===== Checkout personalization: the merchant's logo and button colour on FLIK checkout. Settings on the left, a live preview of the checkout page on the right ===== */
 const CP_DEF=()=>({logo:null,btn:'ink'}),CP_SW=[['ink','Navy','var(--ink)'],['primary','Violet','var(--primary)']];
 let cpD=null,cpMode='desk';
-const cpGet=()=>{try{return{...CP_DEF(),...(ONB.cp||{})}}catch(e){return CP_DEF()}};
+const cpGet=()=>{let b;try{b={...CP_DEF(),...(ONB.cp||{})}}catch(e){b=CP_DEF()}return{logo:b.logo,btn:b.btn,pm:PM_ALL.filter(pmOn),off:[...COU_SAVED].sort()}};
+const cpPmLogo=k=>k==='card'?`<span class="plg plg-i">${ic('card',14)}</span>`:k==='cod'?`<span class="plg plg-i">${ic('pkg',14)}</span>`:`<img class="plg" src="${IMG}payment/${PMS[k][1]}.png" alt="">`;
 const cpBtn=c=>(CP_SW.find(s=>s[0]===c.btn)||[0,0,c.btn])[2];
 const cpLogo=(c,h)=>`<img class="ck-logo" src="${c.logo||'https://landing-page-raams-projects-2709477f.vercel.app/dashboard/img/merchant/aruna-logo.png'}" alt="${MERCHANT} logo" style="height:${h}px">`;
 const cpDirty=()=>JSON.stringify(cpD)!==JSON.stringify(cpGet());
@@ -7830,47 +7842,80 @@ const cpDirty=()=>JSON.stringify(cpD)!==JSON.stringify(cpGet());
 const cpContrast=hex=>{const m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return 21;const L=[0,2,4].map(i=>{const v=parseInt(m[1].substr(i,2),16)/255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}),l=.2126*L[0]+.7152*L[1]+.0722*L[2];return 1.05/(l+.05)};
 function cpView(c,phone){const btn=cpBtn(c),cl=k=>`<img class="ck-cl" src="${IMG}${k}.png" alt="">`,chev=ic('chev',16),
   items=[['Linen shirt · White','Size: M','Colour: White',289000],['Canvas tote bag','Size: One size','Colour: Natural',149000]],
-  row=(lead,b,s)=>`<div class="ck-row">${lead}<div class="ck-tx"><b>${b}</b>${s?`<span>${s}</span>`:''}</div><span class="ck-chev">${chev}</span></div>`,
+  row=(lead,b,s,at='')=>`<div class="ck-row"${at}>${lead}<div class="ck-tx"><b>${b}</b>${s?`<span>${s}</span>`:''}</div><span class="ck-chev">${chev}</span></div>`,
   ship=`<section class="ck-card"><h4>Shipping and payment</h4>
-    ${row(`<span class="ck-ic">${ic('pin',20)}</span>`,'Raam &nbsp;|&nbsp; +62 838-2105-0649','Jl. Raya Kopo No. 959, Cirangrang, Bandung')}
-    ${row(cl('courier/anteraja'),'AnterAja · Next Day (Rp5.000) <s>Rp30.000</s>','Estimated 1–2 days')}
-    ${row(cl('payment/bca'),'BCA virtual account','')}
+    ${row(`<span class="ck-ic">${ic('pin',20)}</span>`,'Raam &nbsp;|&nbsp; +6283821050649','Jl. Raya Kopo No. 959, Cirangrang, Bandung')}
+    ${(()=>{const k=CSET.find(x=>x[3].some(s=>!c.off.includes(x[0]+'|'+s[0]))),sv=k&&k[3].find(s=>!c.off.includes(k[0]+'|'+s[0]));return k?row(cl('courier/'+k[2]),`${k[1]} · ${sv[0]} (Rp5.000) <s>Rp30.000</s>`,'Estimated '+sv[1],' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('truck',20)}</span>`,'No courier available','',' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"')})()}
+    ${(()=>{const k=c.pm[0];return k?row(`<span class="ck-pl">${cpPmLogo(k)}</span>`,PMS[k][0],c.pm.length>1?`${c.pm.length-1} more ${c.pm.length===2?'way':'ways'} to pay`:'',' data-cpgo="pm" data-tip="Change payment methods" role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('card',20)}</span>`,'No payment method','',' data-cpgo="pm" data-tip="Change payment methods" role="button" tabindex="0"')})()}
     <div class="ck-save">${row(`<span class="ck-ic">${ic('tag',20)}</span>`,'You save Rp50.000','2 vouchers applied')}</div></section>`,
   cart=`<section class="ck-card"><h4>Cart (2)</h4>
     <div class="ck-reward">${row(`<span class="ck-ic">${ic('coins',20)}</span>`,'Potential reward Rp18.000','From 2 vouchers')}</div>
     <div class="ck-store"><span class="ck-st">${cpLogo(c,22)}</span><div class="ck-tx"><b>${MERCHANT}</b><span>Jakarta Selatan</span></div></div>
     ${items.map(([n,a,b,p])=>`<div class="ck-item"><span class="ck-img">${ic('box',22)}</span><div class="ck-tx"><b>${n}</b><span>${a}</span><span>${b}</span><span class="ck-note">${ic('doc',14)}Add note</span></div><div class="ck-pr"><b>${rp(p)}</b><span class="ck-qty"><i>−</i>1<i>+</i></span></div></div>`).join('')}</section>`,
   sum=`<section class="ck-card"><h4>Order summary</h4><dl class="ck-sum"><dt>Products</dt><dd>${rp(438000)}</dd><dt>Shipping</dt><dd><s>Rp60.000</s> Rp10.000</dd><dt>BUYVADIS</dt><dd>−Rp20.000</dd></dl>
-    <div class="ck-tot"><span>Total</span><b>${rp(428000)}</b></div>${phone?'':`<button class="ck-pay" style="background:${btn}" tabindex="-1">Pay now</button><p class="ck-pot">You could earn Rp25.000 in rewards</p>`}</section>`;
-  return`<div class="ck${phone?' ck-m':''}"><header class="ck-top">${cpLogo(c,phone?20:22)}<span class="ck-u">${ic('globe',18)}${ic('user',18)}</span></header>
+    <div class="ck-tot"><span>Total</span><b>${rp(428000)}</b></div>${phone?'':`<button class="ck-pay" style="background:${btn}" data-cpgo="btn" data-tip="Change button colour">Pay now</button><p class="ck-pot">You could earn Rp25.000 in rewards</p>`}</section>`;
+  return`<div class="ck${phone?' ck-m':''}"><header class="ck-top"><span class="ck-go" data-cpgo="logo" data-tip="Change logo" role="button" tabindex="0">${cpLogo(c,phone?20:22)}</span><span class="ck-u">${ic('globe',18)}${ic('user',18)}</span></header>
     <div class="ck-main">${phone?ship+cart+sum:`<div class="ck-col">${ship}${cart}</div><aside>${sum}</aside>`}</div>
-    ${phone?`<div class="ck-bar"><div><span>Total</span><b>${rp(428000)}</b></div><button class="ck-pay" style="background:${btn}" tabindex="-1">Pay now</button></div>`:`<footer class="ck-foot"><span class="ck-fl">${(document.querySelector('#acct .lg svg')||{}).outerHTML||''}<b>1-Click Checkout</b></span><span>Terms of use</span><span>Privacy policy</span></footer>`}</div>`}
+    ${phone?`<div class="ck-bar"><div><span>Total</span><b>${rp(428000)}</b></div><button class="ck-pay" style="background:${btn}" data-cpgo="btn" data-tip="Change button colour">Pay now</button></div>`:`<footer class="ck-foot"><span class="ck-fl">${(document.querySelector('#acct .lg svg')||{}).outerHTML||''}<b>1-Click Checkout</b></span><span>Terms of use</span><span>Privacy policy</span></footer>`}</div>`}
 function cpDraw(){const c=cpD,f=document.getElementById('cpx-form'),pv=document.getElementById('cpx-pv'),custom=!CP_SW.some(s=>s[0]===c.btn),hex=custom?c.btn:'',low=custom&&cpContrast(hex)<4.5;
-  f.innerHTML=`<div class="ie-h">Checkout personalization</div><p class="ie-p">Shoppers see your logo and button colour on FLIK checkout.</p>
-    <section class="cpx-sec"><h3>Logo</h3><div class="vx-doc set-logo"><span class="ic">${cpLogo(c,52)}</span><div><b>${c.logo?'Your logo':'Logo from Business profile'}</b><span>PNG or SVG, at least 200 px wide. Shown at the top of checkout.</span><div class="cpx-lb"><button class="btn btn-o" data-cpup>${ic('upload',15)}${c.logo?'Change':'Upload'}</button>${c.logo?'<button class="lnk" data-cprm>Use Business profile logo</button>':''}</div></div></div><input type="file" id="cpx-file" accept="image/png,image/svg+xml,image/jpeg" hidden></section>
-    <section class="cpx-sec"><h3>Button colour</h3><p class="cpx-hint">The Pay now button. Text on it stays white.</p><div class="cpx-sw" role="radiogroup" aria-label="Button colour">
+  f.innerHTML=`<section><h2 class="ie-h">Logo</h2><p class="ie-p">Shown at the top of checkout. PNG or SVG, at least 200 px wide.</p>
+      <div class="cpx-logo"><span class="ic">${cpLogo(c,52)}</span><div><b>${c.logo?'Your logo':'Logo from Business profile'}</b><div class="cpx-lb"><button class="btn btn-o" data-cpup>${ic('upload',15)}${c.logo?'Change':'Upload'}</button>${c.logo?'<button class="lnk" data-cprm>Use Business profile logo</button>':''}</div></div></div><input type="file" id="cpx-file" accept="image/png,image/svg+xml,image/jpeg" hidden></section>
+    <section><h2 class="ie-h">Button colour</h2><p class="ie-p">The Pay now button. Text on it stays white.</p><div class="cpx-sw" role="radiogroup" aria-label="Button colour">
       ${CP_SW.map(([k,l,v])=>`<button class="cpx-s${c.btn===k?' on':''}" data-cpsw="${k}" role="radio" aria-checked="${c.btn===k}"><i style="background:${v}"></i>${l}${k==='ink'?' (default)':''}</button>`).join('')}
       <label class="cpx-s${custom?' on':''}"><input type="color" id="cpx-col" value="${hex||'#002d5d'}" aria-label="Pick a custom colour"><span>Custom</span><input class="cpx-hex" id="cpx-hex" value="${hex}" placeholder="#1A73E8" maxlength="7" aria-label="Custom colour hex code"></label></div>
-      ${low?`<div class="sx-note warn" style="margin-top:10px">${ic('warn',16)}<span>White text is hard to read on this colour. Pick a darker one.</span></div>`:''}</section>`;
-  pv.innerHTML=`<div class="cpx-pvh"><div class="seg" role="tablist" aria-label="Preview size"><button class="${cpMode==='desk'?'on':''}" data-cpm="desk" role="tab" aria-selected="${cpMode==='desk'}">Desktop</button><button class="${cpMode==='phone'?'on':''}" data-cpm="phone" role="tab" aria-selected="${cpMode==='phone'}">Phone</button></div><span class="src">Preview with sample items</span></div>
+      ${low?`<div class="sx-note warn" style="margin-top:10px">${ic('warn',16)}<span>Too light for white text. Pick a darker colour.</span></div>`:''}</section>
+    <section><h2 class="ie-h">Payment methods</h2><p class="ie-p">What shoppers can pay with at checkout.</p><div class="ie-pms">${cpPmChips(c)||'<p class="wh-err">Choose at least one payment method.</p>'}</div><button class="lnk ie-mpm" data-cpmm>Manage payment methods</button></section>
+    <section><h2 class="ie-h">Couriers</h2><p class="ie-p">Couriers shoppers can pick at checkout.</p><div class="ie-pms">${(()=>{const n=CSET.filter(k=>k[3].some(s=>!c.off.includes(k[0]+'|'+s[0]))).length;return n?`<button class="chip set ie-pm" data-cpcm aria-haspopup="menu"><span class="plg plg-sm plg-i">${ic('truck',14)}</span>${n===CSET.length?'All couriers':`${n} of ${CSET.length} couriers`}<span class="ie-pm-chev">${ic('chev',13)}</span></button>`:'<p class="wh-err">Choose at least one courier.</p>'})()}</div><p class="ie-hint">Pick single services in Settings › Couriers.</p></section>`;
+  pv.innerHTML=`<h2 class="ie-h" style="margin:0">Preview</h2><div class="tabs">${[['desk','Desktop'],['phone','Phone']].map(([k,l])=>`<button class="tab${cpMode===k?' on':''}" data-cpm="${k}">${l}</button>`).join('')}</div>
     <div class="cpx-stage ${cpMode}"><div class="cpx-frame">${cpView(c,cpMode==='phone')}</div></div>`;
-  document.getElementById('cpx-save').disabled=!cpDirty()||low;cpFit()}
+  document.getElementById('cpx-save').disabled=!cpDirty()||!c.pm.length||c.off.length>=couTotal;cpFit()}
+/* payment methods and couriers in the editor: the invoice editor's chips. Single methods are chips you can remove; groups open a menu */
+const CP_SINGLE=['qris','card','bcad','cod'],CP_GRP=PM_SET.filter(g=>g[2].length>1&&g[0]!=='card');
+const cpChipLg=k=>k==='cod'?`<span class="plg plg-sm plg-i">${ic('pkg',12)}</span>`:pmLg(k),CP_GN={wallet:['E-Wallets','wallet'],va:['virtual accounts','bal']};
+const cpPmChips=c=>CP_SINGLE.filter(k=>c.pm.includes(k)).map(k=>`<span class="chip set ie-pm">${cpChipLg(k)}${PMS[k][0]}<button class="clr" data-cppmx="${k}" aria-label="Remove ${PMS[k][0]}">${ic('x',13)}</button></span>`)
+  .concat(CP_GRP.map(([g,n,ks])=>{const on=ks.filter(k=>c.pm.includes(k)).length;return on?`<button class="chip set ie-pm" data-cppg="${g}" aria-haspopup="menu"><span class="plg plg-sm plg-i">${ic(CP_GN[g][1],14)}</span>${on===ks.length?'All '+CP_GN[g][0]:`${on} of ${ks.length} ${CP_GN[g][0]}`}<span class="ie-pm-chev">${ic('chev',13)}</span></button>`:''})).join('');
+function cpMenu(sel,draw){const a=document.querySelector('#cpx '+sel);if(!a){closePop();return}popFor=a;pop.innerHTML=draw();placePop(a)}
+function cpGroupMenu(g){const ks=PM_SET.find(x=>x[0]===g)[2],draw=()=>`<div class="menu" style="width:260px"><h6>${PM_SET.find(x=>x[0]===g)[1]}</h6>${ks.map(k=>{const on=cpD.pm.includes(k);return`<button class="opt" data-cpt="${k}"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span>${cpPmLogo(k)}${PMS[k][0]}</button>`}).join('')}</div>`;
+  cpMenu(`[data-cppg="${g}"]`,draw);pop.onclick=e=>{const o=e.target.closest('[data-cpt]');if(!o)return;e.stopPropagation();const k=o.dataset.cpt,S=new Set(cpD.pm);S.has(k)?S.delete(k):S.add(k);cpD.pm=PM_ALL.filter(x=>S.has(x));cpDraw();if(ks.some(x=>cpD.pm.includes(x)))cpMenu(`[data-cppg="${g}"]`,draw);else closePop()}}
+function cpCourierMenu(){const draw=()=>`<div class="menu mc-chm cpx-cm"><h6>Couriers at checkout</h6><div class="mc-chg">${CSET.map(k=>{const n=k[3].filter(s=>!cpD.off.includes(k[0]+'|'+s[0])).length,all=n===k[3].length;return`<button class="opt" data-cpk="${k[0]}" role="checkbox" aria-checked="${all?'true':n?'mixed':'false'}"><span class="cb${all?' on':n?' mixed':''}">${all?ic('check',12,3):''}</span><img class="plg" src="${IMG}courier/${k[2]}.png" alt="">${k[1]}</button>`}).join('')}</div></div>`;
+  cpMenu('[data-cpcm]',draw);pop.onclick=e=>{const o=e.target.closest('[data-cpk]');if(!o)return;e.stopPropagation();const k=CSET.find(x=>x[0]===o.dataset.cpk),ids=k[3].map(s=>k[0]+'|'+s[0]),O=new Set(cpD.off),anyOn=ids.some(id=>!O.has(id));ids.forEach(id=>anyOn?O.add(id):O.delete(id));cpD.off=[...O].sort();const y=pop.querySelector('.menu').scrollTop;cpDraw();if(document.querySelector('#cpx [data-cpcm]')){cpMenu('[data-cpcm]',draw);}else closePop()}}
+function cpPmModal(){const sel=new Set(cpD.pm);const draw=()=>{const row=k=>`<button class="ie-chk" data-cpmr="${k}"><span class="cb${sel.has(k)?' on':''}">${sel.has(k)?ic('check',12,3):''}</span>${cpPmLogo(k)}${PMS[k][0]}${k==='cod'?' <span class="src">· Checkout only</span>':''}</button>`;
+    modal.innerHTML=`<div class="mh"><h3>Payment methods</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb ie-pmm">${PM_SET.map(([g,n,ks])=>`<div><div class="ie-sub">${n}</div>${ks.map(row).join('')}</div>`).join('')}</div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="cpm-go" ${sel.size?'':'disabled'}>Save methods</button></div>`;
+    modal.querySelectorAll('[data-cpmr]').forEach(b=>b.onclick=()=>{const k=b.dataset.cpmr;sel.has(k)?sel.delete(k):sel.add(k);draw()});
+    document.getElementById('cpm-go').onclick=()=>{cpD.pm=PM_ALL.filter(k=>sel.has(k));closeModal();cpDraw()}};
+  draw();mscrim.classList.add('open')}
+/* the preview's logo, button, courier and payment rows can be clicked: each one jumps to its setting on the left */
+function cpGo(k){const secs=document.querySelectorAll('#cpx-form>section'),sec=secs[{logo:0,btn:1,pm:2,cou:3}[k]];if(!sec)return;
+  sec.scrollIntoView({block:'center',behavior:'smooth'});sec.classList.remove('cpx-flash');void sec.offsetWidth;sec.classList.add('cpx-flash');
+  setTimeout(()=>{if(k==='cou')cpCourierMenu();else if(k==='pm')cpPmModal()},420)}
+document.getElementById('cpx').addEventListener('keydown',e=>{const g=e.target.closest&&e.target.closest('[data-cpgo]');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();cpGo(g.dataset.cpgo)}});
 function cpFit(){const st=document.querySelector('#cpx .cpx-stage.desk'),fr=st&&st.querySelector('.cpx-frame');if(!fr)return;const s=Math.min(1,st.clientWidth/1080);fr.style.transform=`scale(${s})`;st.style.height=fr.scrollHeight*s+'px'}
 addEventListener('resize',()=>{if(!document.getElementById('cpx').hidden)cpFit()});
 function openCpx(){cpD=cpGet();const x=document.getElementById('cpx');x.hidden=false;document.body.style.overflow='hidden';cpDraw()}
 function closeCpx(){document.getElementById('cpx').hidden=true;document.body.style.overflow=''}
 const cpLeave=()=>{const go=()=>{location.hash='settings/payments?t=checkout'};if(cpDirty())discardAsk(go);else go()};
 document.getElementById('cpx-close').onclick=cpLeave;document.getElementById('cpx-cancel').onclick=cpLeave;
-document.getElementById('cpx-save').onclick=()=>{ONB.cp={...cpD};onbSave();toast('Checkout saved');location.hash='settings/payments?t=checkout'};
+document.getElementById('cpx-save').onclick=()=>{ONB.cp={logo:cpD.logo,btn:cpD.btn};ONB.pm=cpD.pm.slice();pmD=null;COU_SAVED=cpD.off.slice();couOff=new Set(COU_SAVED);try{localStorage.setItem('flik-couriers-off',JSON.stringify(COU_SAVED))}catch(e){}onbSave();toast('Checkout saved');location.hash='settings/payments?t=checkout'};
 document.getElementById('cpx').addEventListener('click',e=>{const t=e.target;
+  const go=t.closest('[data-cpgo]');if(go){e.stopPropagation();cpGo(go.dataset.cpgo);return}
   const sw=t.closest('[data-cpsw]');if(sw){cpD.btn=sw.dataset.cpsw;cpDraw();return}
+  const px=t.closest('[data-cppmx]');if(px){e.stopPropagation();cpD.pm=cpD.pm.filter(k=>k!==px.dataset.cppmx);cpDraw();return}
+  const pg=t.closest('[data-cppg]');if(pg){e.stopPropagation();if(popFor===pg){closePop();return}cpGroupMenu(pg.dataset.cppg);return}
+  if(t.closest('[data-cpcm]')){e.stopPropagation();const a=t.closest('[data-cpcm]');if(popFor===a){closePop();return}cpCourierMenu();return}
+  if(t.closest('[data-cpmm]')){cpPmModal();return}
+  const pm=t.closest('[data-cppm]');if(pm){const k=pm.dataset.cppm,S=new Set(cpD.pm);S.has(k)?S.delete(k):S.add(k);cpD.pm=PM_ALL.filter(x=>S.has(x));cpDraw();return}
+  const co=t.closest('[data-cpcou]');if(co){const k=CSET.find(x=>x[0]===co.dataset.cpcou),ids=k[3].map(s=>k[0]+'|'+s[0]),O=new Set(cpD.off),anyOn=ids.some(id=>!O.has(id));ids.forEach(id=>anyOn?O.add(id):O.delete(id));cpD.off=[...O].sort();cpDraw();return}
   const m=t.closest('[data-cpm]');if(m){cpMode=m.dataset.cpm;cpDraw();return}
   if(t.closest('[data-cpup]')){document.getElementById('cpx-file').click();return}
   if(t.closest('[data-cprm]')){cpD.logo=null;cpDraw()}});
 document.getElementById('cpx').addEventListener('input',e=>{const t=e.target;
-  if(t.id==='cpx-col'){cpD.btn=t.value;cpDraw();return}
+  /* dragging in the colour picker: update the preview in place, so the picker stays open; the full redraw waits for 'change' */
+  if(t.id==='cpx-col'){cpD.btn=t.value;const x=document.getElementById('cpx'),low=cpContrast(t.value)<4.5;x.querySelectorAll('.ck-pay').forEach(b=>b.style.background=t.value);
+    x.querySelectorAll('.cpx-s').forEach(s=>s.classList.toggle('on',s.contains(t)));x.querySelectorAll('[data-cpsw]').forEach(s=>s.setAttribute('aria-checked','false'));
+    document.getElementById('cpx-hex').value=t.value.toUpperCase();document.getElementById('cpx-save').disabled=!cpDirty();return}
   if(t.id==='cpx-hex'){const v=t.value.trim(),h=(v[0]==='#'?v:'#'+v);if(/^#[0-9a-f]{6}$/i.test(h)){cpD.btn=h.toLowerCase();const p=t.selectionStart;cpDraw();const n=document.getElementById('cpx-hex');n.focus();n.setSelectionRange(p,p)}}});
-document.getElementById('cpx').addEventListener('change',e=>{if(e.target.id!=='cpx-file')return;const fl=e.target.files[0];if(!fl)return;if(fl.size>1e6){toast('Pick a logo under 1 MB');return}
+document.getElementById('cpx').addEventListener('change',e=>{if(e.target.id==='cpx-col'){cpDraw();return}if(e.target.id!=='cpx-file')return;const fl=e.target.files[0];if(!fl)return;if(fl.size>1e6){toast('Pick a logo under 1 MB');return}
   const r=new FileReader();r.onload=()=>{cpD.logo=r.result;cpDraw()};r.readAsDataURL(fl)});
 
 /* Meta Conversions API: "Connect with Meta" opens Meta's own window, where the merchant picks a Pixel. Shown here as a prototype of that window */
