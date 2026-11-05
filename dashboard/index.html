@@ -2426,6 +2426,8 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 #cpx .ie-pm:has(.ie-pm-chev){padding-right:9px}
 .ck [data-cpgo]{cursor:pointer;border-radius:8px;transition:box-shadow .12s,background .12s}.ck .ck-row[data-cpgo]{padding:10px 8px;margin:4px -8px}.ck [data-cpgo]:hover,.ck [data-cpgo]:focus-visible{box-shadow:0 0 0 2px var(--primary);outline:none}.ck .ck-row[data-cpgo]:hover{background:var(--primary-soft)}.ck-go{display:inline-flex;padding:4px}.ck .ck-pay[data-cpgo]{box-shadow:none}.ck .ck-pay[data-cpgo]:hover{box-shadow:0 0 0 3px var(--pu-bd)}
 @keyframes cpxFlash{0%{background:var(--primary-soft)}100%{background:transparent}}.cpx-flash{animation:cpxFlash 1.2s ease-out;border-radius:10px}
+.ckp-b{flex:1;min-height:0;overflow-y:auto;background:var(--hover)}.ckp-b .ck{border-radius:0;box-shadow:none;min-height:100%;display:flex;flex-direction:column}.ckp-b .ck-top{padding:0 max(24px,calc((100% - 1120px)/2))}.ckp-b .ck-main{width:100%;max-width:1120px;margin:0 auto;padding:24px}.ckp-b .ck-foot{margin-top:auto;padding:16px max(24px,calc((100% - 1120px)/2))}.ckp-b .ck-m .ck-main{padding:12px}.ckp-b .ck-m .ck-top{padding:0 16px}
+body:has(#ckp:not([hidden])) #sg{display:none}
 </style>
 </head>
 <body>
@@ -2614,10 +2616,17 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
   </div>
   <div class="ie-body"><div class="ie-form" id="ie-form"></div><div class="ie-pv" id="ie-pvw"></div></div>
 </div>
+<div class="ie" id="ckp" hidden role="dialog" aria-label="Checkout page">
+  <div class="ie-top">
+    <button class="ib" id="ckp-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Checkout page</b><span class="st gr">Prototype</span>
+    <div class="ie-acts"><button class="btn btn-o" id="ckp-edit">Personalize</button></div>
+  </div>
+  <div class="ckp-b" id="ckp-b"></div>
+</div>
 <div class="ie" id="cpx" hidden role="dialog" aria-label="Checkout personalization">
   <div class="ie-top">
     <button class="ib" id="cpx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Checkout personalization</b>
-    <div class="ie-acts"><button class="btn btn-o" id="cpx-cancel">Cancel</button><button class="btn btn-p" id="cpx-save" disabled>Save changes</button></div>
+    <div class="ie-acts"><button class="btn btn-o" id="cpx-open" title="Shows the saved version">View checkout page</button><button class="btn btn-o" id="cpx-cancel">Cancel</button><button class="btn btn-p" id="cpx-save" disabled>Save changes</button></div>
   </div>
   <div class="ie-body"><div class="ie-form" id="cpx-form"></div><div class="ie-pv" id="cpx-pv"></div></div>
 </div>
@@ -6081,7 +6090,7 @@ document.getElementById('bl-monthly').onclick=()=>{drawer.innerHTML=`<div class=
 
 /* ===== Simple router: #home / #transactions ===== */
 const VIEWS={set:['settings','Settings'],home:['home','Home'],tx:['transactions','Transactions'],cus:['customers','Customers'],inv:['invoices','Invoices'],shp:['shipments','Shipments'],mca:['merchant-cash-advance','Cash Advance'],bal:['balances','Balances'],trk:['tracking','Tracking'],wh:['warehouses','Warehouses'],prd:['products','Product catalog'],mon:['monitoring','Monitoring'],cr:['check-rate','Check rate'],ana:['shipping/analytics','Shipping analytics']};
-const hashView=()=>location.hash==='#checkout-personalization'?'set':location.hash==='#warehouses'?(history.replaceState(null,'','#settings/shipping'),'set'):/^#(settings|verify)/.test(location.hash)?'set':location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
+const hashView=()=>location.hash==='#checkout-personalization'||location.hash==='#checkout'?'set':location.hash==='#warehouses'?(history.replaceState(null,'','#settings/shipping'),'set'):/^#(settings|verify)/.test(location.hash)?'set':location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 /* which sidebar item is on: Developers, Settings and Checkout Personalization all open the Settings view, so they go by the address */
 function navOn(b,view){if(b.dataset.view!==view)return false;if(view!=='set')return true;const h=location.hash,d=b.dataset.hash,dev=/^#settings\/developers/.test(h);
   return d==='settings/developers'?dev:d==='checkout-personalization'?h==='#checkout-personalization':d==='settings'?/^#settings/.test(h)&&!dev:false}
@@ -6090,6 +6099,7 @@ function show(view){
   if(view!=='set'){hideSave();ONB.dirty=false}
   if(location.hash==='#invoices/create'){view='inv';openEditor()}else if(!ie.hidden)closeEditor();
   if(location.hash==='#checkout-personalization'){view='set';openCpx()}else if(!document.getElementById('cpx').hidden)closeCpx();
+  if(location.hash==='#checkout'){view='set';openCkp()}else if(!document.getElementById('ckp').hidden)closeCkp();
   if(location.hash==='#invoices/pay'){view='inv';sampleView()}else if(!document.getElementById('cv').hidden)document.querySelector('#cv [data-cvx]').click();
   if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
   if(location.hash==='#warehouses/new'){view='wh';openWh()}else if(!wx.hidden&&!whEdit)closeWh();
@@ -7590,7 +7600,7 @@ const SET_TABS={
     const box=([g,n,ks])=>`<section class="set-box pm-g"><div class="pm-gh"><b>${n}</b><small>${ks.filter(k=>D.has(k)).length} of ${ks.length} on</small></div><div class="cou-svcs">${ks.map(k=>{const on=D.has(k);return`<button class="cou-svc${on?'':' off'}" data-pm="${k}" role="checkbox" aria-checked="${on}"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span>${logo(k)}<span class="n">${PMS[k][0]}</span>${k==='cod'?'<span class="eta">Checkout only</span>':''}</button>`}).join('')}</div></section>`,col=k=>`<div class="pm-col">${PM_SET.filter(x=>k.includes(x[0])).map(box).join('')}</div>`;
     return sec('Payment methods',`<div class="pm-grid">${col(['qris','va','cod'])}${col(['wallet','card'])}</div>`,
       {p:'Shown on invoices, payment links and checkout. COD is offered at checkout only.',act:`<button class="btn btn-o" data-pmdisc ${dirty?'':'disabled'}>Discard</button><button class="btn btn-p" data-pmsave ${dirty&&D.size?'':'disabled'}>Save changes</button>`})},
-  'payments:checkout':()=>{const c=cpGet(),sw=CP_SW.find(s=>s[0]===c.btn);return sec('Personalize checkout',`<div class="set-box"><dl class="kv"><dt>Logo</dt><dd>${c.logo?'Your logo':'From Business profile'}</dd><dt>Button colour</dt><dd><span class="cpx-dot" style="background:${cpBtn(c)}"></span>${sw?sw[1]:c.btn.toUpperCase()}</dd><dt>Methods shown</dt><dd>${PM_ALL.filter(pmOn).length} · change in Payment methods</dd><dt>Couriers shown</dt><dd>${CSET.length} · change in Couriers</dd></dl><button class="btn btn-o" style="margin-top:14px" data-cpopen>Edit logo and colour</button></div>`)},
+  'payments:checkout':()=>{const c=cpGet(),sw=CP_SW.find(s=>s[0]===c.btn);return sec('Personalize checkout',`<div class="set-box"><dl class="kv"><dt>Logo</dt><dd>${c.logo?'Your logo':'From Business profile'}</dd><dt>Button colour</dt><dd><span class="cpx-dot" style="background:${cpBtn(c)}"></span>${sw?sw[1]:c.btn.toUpperCase()}</dd><dt>Methods shown</dt><dd>${PM_ALL.filter(pmOn).length} · change in Payment methods</dd><dt>Couriers shown</dt><dd>${CSET.length} · change in Couriers</dd></dl><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><button class="btn btn-o" data-cpopen>Edit logo and colour</button><button class="btn btn-o" data-ckopen>${ic('ext',15)}Open checkout page</button></div></div>`)},
   'shipping:pickup':()=>sec('Warehouses','<div id="set-wh"></div>',{act:'<button class="btn btn-p" data-gowhnew>'+ic('plus',15,2)+'Add warehouse</button>',p:'Where couriers collect your parcels. Used for shipping and shown at checkout.'}),
   'payments:couriers':()=>sec('Couriers','<div id="set-cou"></div>',{act:'<span class="set-act" id="set-cou-act"></span>',p:'The couriers and services shoppers can pick at checkout. At least one stays on.'}),
   'shipping:packaging':()=>sec('Packaging presets',tbl(['Box','Size','Weight','Default'],[],['No boxes yet','Add up to 20, with one default. Weight and size fill in when you pick a product.']),{act:'<button class="btn btn-p" data-toast="Opens Add box">'+ic('plus',15,2)+'Add box</button>'}),
@@ -7662,7 +7672,7 @@ const SET_WIRE={
     const t=q('[data-meta-test]');if(t)t.onclick=()=>{ONB.meta.last='Test purchase · Rp289.000 · just now';onbSave();renderSet();toast('Test event sent. Check Test events in Meta Events Manager')};
     v.querySelectorAll('[data-meta-ev]').forEach(b=>b.onclick=()=>{const k=b.dataset.metaEv;ONB.meta.ev[k]=ONB.meta.ev[k]?0:1;onbSave();renderSet();toast('Saved')});
     const dc=q('[data-meta-dc]');if(dc)dc.onclick=()=>{modal.innerHTML=`<div class="mh"><h3>Disconnect Meta?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><p style="color:var(--muted)">FLIK stops sending sales to Meta. Your ads keep running, but Meta can't see which ones bring sales.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="meta-dc-go">Disconnect</button></div>`;mscrim.classList.add('open');document.getElementById('meta-dc-go').onclick=()=>{ONB.meta=null;onbSave();closeModal();renderSet();toast('Meta disconnected')}}},
-  'payments:checkout':()=>{document.querySelector('#view-set [data-cpopen]').onclick=()=>{location.hash='checkout-personalization'}},
+  'payments:checkout':()=>{document.querySelector('#view-set [data-cpopen]').onclick=()=>{location.hash='checkout-personalization'};document.querySelector('#view-set [data-ckopen]').onclick=()=>{location.hash='checkout'}},
   'payments:ways':()=>{const v=document.getElementById('view-set');
     v.querySelectorAll('[data-way]').forEach(b=>b.onclick=()=>{const k=b.dataset.way;waysD.has(k)?waysD.delete(k):waysD.add(k);renderSet()});
     const d=v.querySelector('[data-wdisc]');if(d)d.onclick=()=>{waysD=null;renderSet()};
@@ -7890,12 +7900,20 @@ function cpGo(k){const secs=document.querySelectorAll('#cpx-form>section'),sec=s
   sec.scrollIntoView({block:'center',behavior:'smooth'});sec.classList.remove('cpx-flash');void sec.offsetWidth;sec.classList.add('cpx-flash');
   setTimeout(()=>{if(k==='cou')cpCourierMenu();else if(k==='pm')cpPmModal()},420)}
 document.getElementById('cpx').addEventListener('keydown',e=>{const g=e.target.closest&&e.target.closest('[data-cpgo]');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();cpGo(g.dataset.cpgo)}});
+/* the shopper's checkout page, full screen at #checkout: the saved logo, button colour, payment methods and couriers. Phones get the one-column layout with the Pay now bar */
+let ckpW=0;
+function ckpDraw(){const m=innerWidth<=760;ckpW=m;document.getElementById('ckp-b').innerHTML=cpView(cpGet(),m).replace(/ data-cpgo="[^"]*"| data-tip="[^"]*"| role="button" tabindex="0"/g,'')}
+function openCkp(){const x=document.getElementById('ckp');x.hidden=false;document.body.style.overflow='hidden';ckpDraw()}
+function closeCkp(){document.getElementById('ckp').hidden=true;document.body.style.overflow=''}
+addEventListener('resize',()=>{const x=document.getElementById('ckp');if(x&&!x.hidden&&(innerWidth<=760)!==ckpW)ckpDraw()});
+document.getElementById('ckp-close').onclick=()=>{location.hash='settings/payments?t=checkout'};
+document.getElementById('ckp-edit').onclick=()=>{location.hash='checkout-personalization'};
 function cpFit(){const st=document.querySelector('#cpx .cpx-stage.desk'),fr=st&&st.querySelector('.cpx-frame');if(!fr)return;const s=Math.min(1,st.clientWidth/1080);fr.style.transform=`scale(${s})`;st.style.height=fr.scrollHeight*s+'px'}
 addEventListener('resize',()=>{if(!document.getElementById('cpx').hidden)cpFit()});
 function openCpx(){cpD=cpGet();const x=document.getElementById('cpx');x.hidden=false;document.body.style.overflow='hidden';cpDraw()}
 function closeCpx(){document.getElementById('cpx').hidden=true;document.body.style.overflow=''}
 const cpLeave=()=>{const go=()=>{location.hash='settings/payments?t=checkout'};if(cpDirty())discardAsk(go);else go()};
-document.getElementById('cpx-close').onclick=cpLeave;document.getElementById('cpx-cancel').onclick=cpLeave;
+document.getElementById('cpx-close').onclick=cpLeave;document.getElementById('cpx-open').onclick=()=>{const go=()=>{location.hash='checkout'};if(cpDirty())discardAsk(go);else go()};document.getElementById('cpx-cancel').onclick=cpLeave;
 document.getElementById('cpx-save').onclick=()=>{ONB.cp={logo:cpD.logo,btn:cpD.btn};ONB.pm=cpD.pm.slice();pmD=null;COU_SAVED=cpD.off.slice();couOff=new Set(COU_SAVED);try{localStorage.setItem('flik-couriers-off',JSON.stringify(COU_SAVED))}catch(e){}onbSave();toast('Checkout saved');location.hash='settings/payments?t=checkout'};
 document.getElementById('cpx').addEventListener('click',e=>{const t=e.target;
   const go=t.closest('[data-cpgo]');if(go){e.stopPropagation();cpGo(go.dataset.cpgo);return}
