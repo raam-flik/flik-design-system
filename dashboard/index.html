@@ -513,7 +513,7 @@ body.cvon #dscrim{z-index:90}body.cvon .drawer{z-index:92}
 .ew-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .pp-sw{display:flex;flex-direction:column;min-width:0}.pp-sw small{color:var(--muted);font-size:11.5px;line-height:1.3}
 .ew-h{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin-bottom:14px}
-#modal.ew .btn-p{background:var(--ink)}#modal.ew .lnk{color:var(--ink)}
+#modal.ew .btn-p{background:var(--ink)}#modal.ew .lnk{color:var(--ink)}#modal.ew .lnk:hover,#modal.ew .mf .lnk:hover{color:var(--ink)}/* shopper dialogs: links stay dark blue on hover (underline only), never the dashboard's violet */
 u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:inherit;font:inherit;padding:0}button.pp-fl:hover{color:var(--ink)}
 #modal.fi{max-width:380px}
 .fi-h{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 0 24px}.fi-h .pp-wm{height:24px;width:auto}
@@ -550,11 +550,11 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .pp-sv .cb{margin-top:2px;padding:0}.pp-sv b{display:block;color:var(--ink);font-weight:500}.pp-svr span{color:var(--muted)}
 .pp-svf{display:grid;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}.pp-svh{color:var(--muted);font-size:12.5px}
 /* email row: Checking, Continue with FLIK or Sign out sit on the label line, right-aligned */
-.pp-el{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}.pp-el label{margin:0}.pp-el .lnk{font-size:13px;font-weight:500}
+.pp-el{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}.pp-el label{margin:0}.pp-el .lnk{font-size:13px;font-weight:500}
 .pp-chk{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px}
 .fld input[readonly]:not([tabindex]){background:var(--hover);color:var(--muted)}
 /* signed in with FLIK: Payment methods with Change, then the last method in one box */
-.pp-mh{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 8px}.pp-mh b{font-size:13px;font-weight:500;color:var(--ink)}.pp-mh .lnk{font-size:13px;font-weight:500}
+.pp-mh{display:flex;justify-content:space-between;align-items:baseline;margin:24px 0 8px}/* sections 24px apart; each label 8px above its field */.pp-mh b{font-size:13px;font-weight:500;color:var(--ink)}.pp-mh .lnk{font-size:13px;font-weight:500}
 .pp-mh+.pp-rl{margin-top:0}
 .pp-sb{border-radius:8px;box-shadow:var(--sh);overflow:hidden;margin-bottom:16px}
 .pp-sbr{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px;background:#fff}.pp-sbr+.pp-sbr{border-top:1px solid var(--line)}
@@ -593,7 +593,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 @media (max-width:900px){.ie-body{grid-template-columns:1fr;overflow-y:auto}.ie-form,.ie-pv{overflow:visible}.ie:not(.pvon) .ie-pv{display:none}.ie.pvon .ie-form{display:none}}
 @media (max-width:600px){.ie-top{padding:0 12px;gap:8px}.ie-top .sep,.ie-top b{display:none}.ie-form{padding:24px 16px 80px}.ie-pv{padding:24px 16px}.ie-paper{padding:22px 18px 30px}.ie-line{grid-template-columns:1fr auto 28px}.ie-line .lt{display:none}}
 /* invoice payment page, variations B and C: the checkout's parts (see ckInv and ckShell) */
-.cv-ck .ck-b .ck-main{grid-template-columns:minmax(0,1fr);max-width:528px}.ck-b .ie-pp{margin:0;max-width:none;gap:16px}.ck-b .pp-ft{display:none}
+.cv-ck .ck-b .ck-main{grid-template-columns:minmax(0,1fr);max-width:528px}.ck-b .ie-pp{margin:0;max-width:none;gap:16px}/* the invoice keeps its own footer under the cards (FLIK, 1-Click Checkout, legal links), not the checkout's footer bar */.ck-inv .pp-ft{margin-top:8px}
 .ck-b .pp-btn{height:46px;font-size:15px;font-weight:600;border-radius:8px}
 .ck-b .pp-kv{grid-template-columns:1fr auto;gap:10px 12px}.ck-b .pp-kv dd{text-align:right;font-weight:400}
 .ck-b.ck-m .pp-pay>[data-pay="1"]{display:none}.ck-b .ck-pay[disabled]{opacity:.4;cursor:not-allowed}.ck-b .ck-pay{cursor:pointer}
@@ -2333,6 +2333,7 @@ body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;heig
 .vx-doc{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;box-shadow:var(--sh);margin-bottom:10px}
 .vx-doc b{display:block;color:var(--ink);font-weight:500}.vx-doc span{font-size:12.5px;color:var(--muted)}.vx-doc .btn{margin-left:auto}
 .ld{position:relative}.ld input{padding-right:36px}
+/* the email check on the invoice page uses the same in-field spinner as the bank account check, in the shopper's dark blue */:is(.ie-pp,.cv-ck) .spn{border-top-color:var(--ink)}
 .spn{position:absolute;right:10px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;border:2px solid var(--line-2);border-top-color:var(--primary);animation:spn .7s linear infinite}
 @keyframes spn{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spn{animation-duration:2s}}
@@ -2478,6 +2479,8 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .cpx-cm .mc-chg{width:500px}
 .ck-seg{display:flex;width:100%;margin-bottom:16px}.ck-seg button{flex:1;height:32px}.ck-tx .ck-err{color:var(--bad-tx)}.ck .ck-pay[disabled]{opacity:.45;cursor:not-allowed}.ck [data-ckstore]{cursor:pointer;border-radius:8px}.ck [data-ckstore]:hover{background:var(--hover)}
 .ckst{display:grid;gap:12px}
+/* every field on the checkout page focuses in the shopper's dark blue, not the dashboard's violet */
+#ckp-b :is(input,textarea):focus{box-shadow:0 0 0 2px rgba(0,45,93,.35)}
 /* merchant cart page, FLIK check, and the log-in steps on checkout */
 .cks .cks-nav{display:flex;gap:24px;margin:0 auto 0 32px;font-size:13px;font-weight:500;color:var(--text)}.cks-cart{display:flex;align-items:center;gap:6px;color:var(--ink)}.cks-cart b{font-size:13px}
 .cks .ck-tx span:last-child{color:var(--ink)}.cks-go{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .12s,box-shadow .12s}.cks-go .pp-mk{width:20px;height:20px}.cks-go:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,45,93,.25)}
@@ -2502,7 +2505,7 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 /* checkout and invoice footer: the full FLIK logo, then 1-Click Checkout in grey */
 .ck-foot .ck-fl{gap:10px}.ck-foot .ck-fl .pp-wm{width:auto;height:22px}.ck-foot .ck-fl>span{font-size:14px;color:var(--muted)}
 /* checkout address row: two lines at most, name | phone, then the address cut to one line */
-.ck [data-ckaddr] .ck-tx span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ck :is([data-ckaddr],[data-ckstore]) .ck-tx span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}/* pickup store too: name | today's hours, then the address on one line */#ckp-b [data-ckstore] .ck-tx b{display:flex;white-space:nowrap;min-width:0}.ck-stn{font-style:normal;overflow:hidden;text-overflow:ellipsis;min-width:0}#ckp-b [data-ckstore] .ck-tx b .ck-sth{flex:none;color:var(--ink);font-size:inherit;overflow:visible}#ckp-b [data-ckstore] .ck-tx b .ck-sth-l{color:inherit;font-size:inherit;overflow:visible;white-space:pre}.ck-m .ck-sth-l{display:none}/* phones: name | 08:00–17:00 */
 .ck-ub{display:flex;padding:6px;margin:-6px 0;border-radius:8px;color:var(--ink)}.ck-u>.ck-ub:last-child{margin-right:-6px}/* the icon itself, not its hover area, lines up with the cards' right edge */.ck-ub:hover{background:var(--hover)}.ck-u:has(.ck-ub){gap:6px}
 .ck-me{width:280px}.ck-me-h{display:flex;gap:10px;align-items:flex-start;padding:10px 10px 8px}.ck-me-av{width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);box-shadow:0 1px 1px rgba(0,0,0,.04);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--ink);flex:none}
 .ck-me-w{display:grid;gap:1px;min-width:0}.ck-me-w b{font-weight:600;font-size:14.5px;color:var(--ink)}.ck-me-w span{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -3893,8 +3896,8 @@ function ppPay(o){
     cards.length&&grp('card','Credit or debit card',['visa','mastercard'].map(b=>tile(`<img class="plg plg-sm" src="${IMG}payment/${b}.png" alt="">`)).join(''),cardBody)].filter(Boolean);
   return{rows,payL}}
 /* the email field: Checking, Continue with FLIK or Sign out on the label line */
-const ppEmail=o=>`<div class="fld"><div class="pp-el"><label for="cv-em">Email</label><span aria-live="polite">${o.acct?'<button class="lnk" data-signout>Sign out</button>':o.chk==='checking'?'<span class="pp-chk"><span class="ai-dots" aria-hidden="true"><i></i><i></i><i></i></span>Checking</span>':o.chk==='flik'?'<button class="lnk" data-signin>Continue with FLIK</button>':''}</span></div>
-        <input ${o.live?'id="cv-em" inputmode="email" autocomplete="email" spellcheck="false"':'tabindex="-1"'} ${o.live&&!o.acct?'':'readonly'} value="${esc(o.em||'')}" placeholder="Enter your email address"></div>`;
+const ppEmail=o=>`<div class="fld"><div class="pp-el"><label for="cv-em">Email</label><span aria-live="polite">${o.acct?'<button class="lnk" data-signout>Sign out</button>':o.chk==='flik'?'<button class="lnk" data-signin>Continue with FLIK</button>':''}</span></div>
+        <div class="${o.chk==='checking'?'ld':''}"><input ${o.live?'id="cv-em" inputmode="email" autocomplete="email" spellcheck="false"':'tabindex="-1"'} ${o.live&&!o.acct?'':'readonly'} value="${esc(o.em||'')}" placeholder="Enter your email address">${o.chk==='checking'?'<span class="spn" role="status" aria-label="Checking your email"></span>':''}</div></div>`;
 /* new shopper: Save my information (on by default) with name and phone; off means guest checkout */
 const ppSave=o=>`<div class="pp-svr"><button class="cb${o.save?' on':''}" data-save role="checkbox" aria-checked="${!!o.save}" aria-labelledby="pp-svl">${o.save?ic('check',12,3):''}</button><div><b id="pp-svl" data-save>Save my information for faster checkout</b><span>Pay securely at Aruna Studio and everywhere <u class="pp-fl">FLIK</u> is accepted</span></div></div>
       ${o.save?`<div class="pp-svf"><div class="sx-f"><label for="cv-nm">Full name</label><input id="cv-nm" autocomplete="name" value="${esc(o.nm||'')}" placeholder="Your name"></div>
@@ -3919,7 +3922,7 @@ function pvBody(kind,o={}){
   /* the FLIK invoice payment page, built from design-system parts: Button, TextLink, FormField, RadioList (the methods the merchant switched on), Checkbox */
   const {rows,payL}=ppPay(o);
   return`<div class="ie-pp vc">
-    <div class="pp-c pp-sum"><div class="pp-top"><div><div class="pp-a num">${rp(total)}</div><div class="pp-d">Due ${fday(due)}</div></div><span class="btn btn-o">${ic('doc',14)}Invoice PDF</span></div>
+    <div class="pp-c pp-sum"><div class="pp-top"><div><div class="pp-a num">${rp(total)}</div><div class="pp-d">Due ${fday(due)}</div></div>${o.live?`<button class="btn btn-o" data-cv="pdf">${ic('doc',14)}Invoice PDF</button>`:`<span class="btn btn-o">${ic('doc',14)}Invoice PDF</span>`}</div>
       <dl class="pp-kv"><dt>To</dt><dd>${cn}</dd><dt>From</dt><dd>Aruna Studio</dd><dt>Invoice</dt><dd>${no}</dd></dl>
       <div class="pp-more"><span class="lnk">View invoice details</span></div></div>
     <div class="pp-c pp-pay">${o.auth?`<div class="ck-auth pp-authb">${ckAuthIn(o.auth)}</div><div class="pp-or">Or</div>`:o.acct?'':`${o.live?'<button class="btn btn-p pp-btn" data-signin>':'<span class="btn btn-p pp-btn">'}<span class="pp-mkt">${FLIK_MK}</span>Pay with FLIK${o.live?'</button>':'</span>'}<div class="pp-or">Or</div>`}
@@ -3934,8 +3937,7 @@ const FLIK_WM='<svg class="pp-wm" role="img" aria-label="FLIK" viewBox="0 0 90 3
    Variation B is A's structure inside the checkout's top bar, cards and footer (see page() in custView). The email-first flow is the same in all three */
 /* the checkout's top bar (merchant logo) and footer around a payment page design */
 const ckShell=(main,kind,phone,bar)=>`<div class="ck ck-inv ck-${kind}${phone?' ck-m':''}"><header class="ck-top">${cpLogo(cpGet(),phone?20:22)}<span class="ck-u"><button class="lang ck-lang" data-cklang aria-label="Language: ${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[1]}" aria-haspopup="menu">${ic('globe',16)}<span>${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[2]}</span>${ic('chev',13)}</button><button class="ck-ub" data-ckme aria-label="Profile" aria-haspopup="menu">${ic('user',18)}</button></span></header>
-    <div class="ck-main">${main}</div>
-    ${phone?`<footer class="ck-foot ck-foot-m">${FLIK_WM}<span>1-Click Checkout</span></footer>${bar}`:`<footer class="ck-foot"><span class="ck-fl">${FLIK_WM}<span>1-Click Checkout</span></span><a class="lnk" href="${FLIK_LEGAL}terms/" target="_blank" rel="noopener">Terms of use</a><a class="lnk" href="${FLIK_LEGAL}privacy/" target="_blank" rel="noopener">Privacy policy</a></footer>`}</div>`;
+    <div class="ck-main">${main}${kind==='c'?`<div class="pp-ft">${FLIK_WM}<span>1-Click Checkout</span><div><a class="lnk" href="${FLIK_LEGAL}terms/" target="_blank" rel="noopener">Terms of use</a><a class="lnk" href="${FLIK_LEGAL}privacy/" target="_blank" rel="noopener">Privacy policy</a></div></div>`:''}</div>${phone?bar:''}</div>`;
 function ckInv(v,o,kind,phone){const c=cpGet(),total=v.total,due=dueDate(),cn=v.who,chev=ic('chev',16),n=D.pms.size,lk=o.linked&&o.linked[o.pick];
   const row=(lead,b,sb,at='',tail=`<span class="ck-chev">${chev}</span>`)=>`<div class="ck-row"${at}>${lead}<div class="ck-tx"><b>${b}</b>${sb?`<span>${sb}</span>`:''}</div>${tail}</div>`;
   const pk=String(o.pick),card=pk.startsWith('card:')&&(o.cards||[]).find(x=>'card:'+x.id===pk),brand=b=>({visa:'Visa',mastercard:'Mastercard',bca:'BCA debit'})[b]||'Card';
@@ -8507,7 +8509,7 @@ function cpView(c,phone){const btn=cpBtn(c),cl=k=>`<img class="ck-cl" src="${IMG
   noStore=mode==='pickup'&&!st,noAddr=mode!=='pickup'&&!ckAddrCur(),K=ckCalc(c,mode),total=K.total,pay=`style="background:${btn}" data-cpgo="btn" data-tip="Change button colour"${noStore?' disabled title="Choose a store first"':out?' disabled title="Log in first"':noAddr?' disabled title="Add your shipping address first"':ckShipLd?' disabled title="Updating shipping"':''}`,
   seg=pu?`<div class="seg ck-seg" role="tablist" aria-label="How to get your order">${[['ship','Deliver'],['pickup','Pick up in store']].map(([k,l])=>`<button class="${mode===k?'on':''}" data-ckm="${k}" role="tab" aria-selected="${mode===k}">${l}</button>`).join('')}</div>`:'',
   ship=out?ckAuthCard(au):`<section class="ck-card">${seg}<h4>${mode==='pickup'?'Pickup location and payment':'Shipping and payment'}</h4>
-    ${mode==='pickup'?row(`<span class="ck-ic">${ic('store',20)}</span>`,st?st.n:'Store',st?`${st.street}, ${st.city}</span><span>${ckHrs(st)}`:'<span class="ck-err">Choose the nearest store</span>',' data-ckstore role="button" tabindex="0"')
+    ${mode==='pickup'?row(`<span class="ck-ic">${ic('store',20)}</span>`,st?`<em class="ck-stn">${st.n}</em>&nbsp;|&nbsp;<span class="ck-sth">${(h=>h.startsWith('Open today ')?`<span class="ck-sth-l">Open today </span>${h.slice(11)}`:h)(ckHrs(st))}</span>`:'Store',st?`${st.street}, ${st.dist}, ${st.city}`:'<span class="ck-err">Choose the nearest store</span>',' data-ckstore role="button" tabindex="0"')
     :(()=>{const a=ckAddrCur(),at=' data-ckaddr role="button" tabindex="0"';return a?row(`<span class="ck-ic">${ic('pin',20)}</span>`,`${esc(a.to)} | +62${a.ph.replace(/\D/g,'')}`,esc(ckAddrLine(a)),at):row(`<span class="ck-ic">${ic('pin',20)}</span>`,'Shipping address','<span class="ck-err">Add your shipping address</span>',at)})()}
     ${mode==='pickup'||noAddr?'':ckShipLd?`<div class="ck-row ck-ld" aria-busy="true"><span class="ck-cl sk"></span><div class="ck-tx"><span class="sk" style="width:55%"></span><span class="sk" style="width:30%"></span></div><span class="sr-only" aria-live="polite">Updating shipping for the new address</span></div>`:(()=>{const v=ckSvcCur(c);return v?row(cl('courier/'+v.lg),`${v.n} · ${v.s} (${K.shipD?`${K.ship>K.shipD?rp(K.ship-K.shipD):'Free'}) <s>${rp(K.ship)}</s>`:`${rp(K.ship)})`}`,'Estimated '+v.eta,' data-cpgo="cou" data-tip="Change couriers" data-ckcou role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('truck',20)}</span>`,'No courier available','',' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"')})()}
     ${noAddr?'':(()=>{const k=ckPmCur(pm),cd=k&&String(k).startsWith('card:')&&ckPayS.cards.find(x=>'card:'+x.id===k),lk=k&&ckPayS.linked[k];return k?row(`<span class="ck-pl">${cd?`<img class="plg" src="${IMG}payment/visa.png" alt="">`:cpPmLogo(k)}</span>`,cd?`Visa •••• ${cd.last4}`:k==='cod'?'Cash on delivery':PMS[k][0],lk?`${lk} · connected`:pm.length>1?`${pm.length-1} more ${pm.length===2?'way':'ways'} to pay`:'',' data-cpgo="pm" data-tip="Change payment methods" data-ckpm role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('card',20)}</span>`,'No payment method','',' data-cpgo="pm" data-tip="Change payment methods" role="button" tabindex="0"')})()}
@@ -8561,6 +8563,9 @@ const CK_ME_EMAIL='raam@example.com';
 /* Profile: the dashboard's account block (tile, name, small line) for the shopper, a "Signed in with FLIK" line, then menu items with icons like the dashboard's account menu */
 P.logout='<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>';
 function ckMeMenu(b,redraw){if(popFor===b){closePop();return}popFor=b;
+  /* not logged in yet (no FLIK session, or mid log-in): the same short menu as the invoice page, with Log in with FLIK */
+  if(ckAuth!=='in'){pop.innerHTML=`<div class="menu ck-me" role="menu"><h6>Profile</h6><p class="ck-me-n">You're not logged in. Log in to pay with your saved details.</p><hr><button class="opt" role="menuitem" data-ckme-in>${FLIK_MK}Log in with FLIK</button></div>`;
+    pop.onclick=e=>{if(!e.target.closest('[data-ckme-in]'))return;e.stopPropagation();closePop();ckAuth='phone';ckPhErr=ckOtpErr='';redraw();document.getElementById('ck-ph')?.focus()};placePop(b,true);return}
   pop.innerHTML=`<div class="menu ck-me" role="menu"><div class="ck-me-h"><span class="ck-me-av" aria-hidden="true">${CK_ME.to[0]}</span><div class="ck-me-w"><b>${CK_ME.to}</b><span>+62${CK_ME.ph.replace(/\D/g,'')}</span><span>${CK_ME_EMAIL}</span></div></div>
     <div class="ck-me-f">${FLIK_MK}<span>Signed in with FLIK</span></div><hr>
     <button class="opt" role="menuitem" data-ckme-addr>${ic('pin',15)}Shipping addresses</button>
