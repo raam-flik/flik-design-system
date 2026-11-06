@@ -2535,7 +2535,7 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .ckd-sum{margin-right:auto;align-self:center;font-size:13px;color:var(--muted)}.ckd-sum b{color:var(--ok-tx);font-weight:600}
 .ckd-in{display:flex;gap:8px}.ckd-in input{flex:1;min-width:0;text-transform:uppercase}.ckd-in input::placeholder{text-transform:none}.ckd-h{font-size:13px;font-weight:600;color:var(--ink);margin-top:4px}
 .ckd-off .pp-r{cursor:not-allowed}.ckd-off .ckst-n{opacity:.6}.ckd-lg{width:28px;height:28px;border-radius:6px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.ckd-lg img{max-width:22px}.ckd-lg .pp-mk{width:18px;height:18px}
-.ckr-hero.fki-hero{background:var(--hover);gap:6px}.fki-hero .pp-wm{height:28px;width:auto;margin-bottom:6px}.fki-t{font-size:20px;font-weight:600;color:var(--ink);line-height:1.3}.fki-hero .ckr-s{color:var(--muted)}
+.ckr-hero.fki-hero{background:var(--hover);gap:6px}/* Potential reward uses the same neutral card as About FLIK */.ckr-hero.fki-hero .ckr-ic{box-shadow:0 0 0 4px var(--line-2);color:var(--ink)}.ckr-hero.fki-hero :is(.ckr-k,.ckr-a){color:var(--ink)}.ckr-hero.fki-hero .ckr-s{color:var(--muted)}.fki-hero .pp-wm{height:28px;width:auto;margin-bottom:6px}.fki-t{font-size:20px;font-weight:600;color:var(--ink);line-height:1.3}.fki-hero .ckr-s{color:var(--muted)}
 .fki-l .tli::before{display:none}.fki-l .tli i{background:var(--hover);border-color:var(--line-2);color:var(--ink)}.fki-lg{display:flex;gap:16px}#modal.ew .fki-lg .lnk{font-size:13px;text-decoration:none}#modal.ew .fki-lg .lnk:hover{text-decoration:underline}
 .ckr-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:20px 16px 18px;border-radius:12px;background:var(--ok-bg)}
 .ckr-ic{width:48px;height:48px;border-radius:50%;background:#fff;color:var(--ok-tx);display:flex;align-items:center;justify-content:center;margin-bottom:8px;box-shadow:0 0 0 4px var(--ok-bd)}
@@ -8658,12 +8658,12 @@ function ckDiscPick(redraw){let on=[...ckVOn],rew={...ckRew},code='',err='',more
     modal.querySelectorAll('[data-rk]').forEach(b=>b.onclick=()=>{rew[b.dataset.rk]=!rew[b.dataset.rk];draw()});
     document.getElementById('ckd-go').onclick=()=>{ckVOn=on;ckRew=rew;closeModal();redraw()}};
   draw()}
-/* Potential reward: a green reward card (coins, the amount, where it lands), then How it works as the timeline used for tracking and Cash Advance */
-function ckRewInfo(){ckDlg('Potential reward',`<div class="ckr-hero"><span class="ckr-ic">${ic('coins',24)}</span><span class="ckr-k">You could earn</span><b class="ckr-a num">${rp(CK_POT)}</b><span class="ckr-s">in ${MERCHANT} rewards on this order</span></div>
-    <h5 class="ckd-h">How it works</h5><div class="tl ckr-tl">
-      <div class="tli ok"><i>1</i><div><b>Buy from a store that uses FLIK Checkout</b><span>Like this order at ${MERCHANT}</span></div></div>
-      <div class="tli ok"><i>2</i><div><b>Your order is complete</b><span>${rp(CK_POT)} lands in your FLIK account</span></div></div>
-      <div class="tli ok"><i>3</i><div><b>Pay less next time</b><span>Use it on your next order at ${MERCHANT}</span></div></div></div>`,
+/* Potential reward: the same layout as About FLIK (neutral card with the amount, How it works as round icons, Got it) */
+function ckRewInfo(){ckDlg('Potential reward',`<div class="ckr-hero fki-hero"><span class="ckr-ic">${ic('coins',24)}</span><span class="ckr-k">You could earn</span><b class="ckr-a num">${rp(CK_POT)}</b><span class="ckr-s">in ${MERCHANT} rewards on this order</span></div>
+    <h5 class="ckd-h">How it works</h5><div class="tl ckr-tl fki-l">
+      <div class="tli"><i>${ic('cart',14,2)}</i><div><b>Buy from a store that uses FLIK Checkout</b><span>Like this order at ${MERCHANT}</span></div></div>
+      <div class="tli"><i>${ic('check',14,2.4)}</i><div><b>Your order is complete</b><span>${rp(CK_POT)} lands in your FLIK account</span></div></div>
+      <div class="tli"><i>${ic('coins',14,2)}</i><div><b>Pay less next time</b><span>Use it on your next order at ${MERCHANT}</span></div></div></div>`,
   `<button class="btn btn-p" data-mclose>Got it</button>`)}
 /* ===== Shipping address on checkout (6 Nov 2026): the address row opens "Shipping address" (Modal + RadioList, like the store picker) when the shopper has saved addresses;
    a new shopper, Add new address and Edit open the address form (FormField, Checkbox, Combobox search, map, ChoicePills for postal codes). The chosen address ships this order and becomes the default ===== */
