@@ -600,7 +600,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .cv-b.cv-ck{padding:0}.cv-ck .ck-main{max-width:1040px}.cv-ck .ck-c .ck-main{grid-template-columns:minmax(0,1fr);max-width:600px;gap:16px}
 .cv-ck .ck-m .ck-main{max-width:none}
 /* the top bar and footer line up with the content: 1040px for B, 600px for C */
-.cv-ck .ck-b:not(.ck-m){--ckw:528px}.cv-ck .ck-c:not(.ck-m){--ckw:600px}.cv-ck .ck:not(.ck-m) .ck-top{padding:0 max(24px,calc((100% - var(--ckw))/2 + 24px))}.cv-ck .ck:not(.ck-m) .ck-foot{padding:16px max(24px,calc((100% - var(--ckw))/2 + 24px))}
+/* header and footer line up with the payment column: logo above the cards' left edge, profile above their right edge */.cv-ck .ck-b:not(.ck-m){--ckw:528px}.cv-ck .ck-c:not(.ck-m){--ckw:600px}.cv-ck .ck:not(.ck-m) .ck-top{padding:0 max(24px,calc((100% - var(--ckw))/2 + 24px))}.cv-ck .ck:not(.ck-m) .ck-foot{padding:16px max(24px,calc((100% - var(--ckw))/2 + 24px))}
 .ck-inv [data-pmp]{cursor:pointer;border-radius:8px;box-shadow:var(--sh)}.ck-inv [data-pmp]:hover{background:var(--hover)}.ck-inv [data-pmp]:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(0,45,93,.35)}
 .ck-inv .ck-row .lnk{font-size:13px;font-weight:500}
 .ck-inv .ck-store .btn{flex:none}.ck-inv .ck-pr{justify-content:flex-start}
@@ -2503,11 +2503,11 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .ck-foot .ck-fl{gap:10px}.ck-foot .ck-fl .pp-wm{width:auto;height:22px}.ck-foot .ck-fl>span{font-size:14px;color:var(--muted)}
 /* checkout address row: two lines at most, name | phone, then the address cut to one line */
 .ck [data-ckaddr] .ck-tx span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ck-ub{display:flex;padding:6px;margin:-6px 0;border-radius:8px;color:var(--ink)}.ck-ub:hover{background:var(--hover)}.ck-u:has(.ck-ub){gap:6px}
+.ck-ub{display:flex;padding:6px;margin:-6px 0;border-radius:8px;color:var(--ink)}.ck-u>.ck-ub:last-child{margin-right:-6px}/* the icon itself, not its hover area, lines up with the cards' right edge */.ck-ub:hover{background:var(--hover)}.ck-u:has(.ck-ub){gap:6px}
 .ck-me{width:280px}.ck-me-h{display:flex;gap:10px;align-items:flex-start;padding:10px 10px 8px}.ck-me-av{width:32px;height:32px;border-radius:8px;border:1px solid var(--line-2);box-shadow:0 1px 1px rgba(0,0,0,.04);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--ink);flex:none}
 .ck-me-w{display:grid;gap:1px;min-width:0}.ck-me-w b{font-weight:600;font-size:14.5px;color:var(--ink)}.ck-me-w span{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ck-me-f{display:flex;align-items:center;gap:6px;margin:0 10px 6px;padding:6px 8px;border-radius:6px;background:var(--hover);font-size:12px;font-weight:500;color:var(--ink)}.ck-me-f .pp-mk{width:16px;height:16px}
-.ck-me .opt{color:var(--ink)}.ck-me .opt svg{color:var(--muted)}.ck-me .opt .src{margin-left:auto;font-size:12px;color:var(--muted)}
+.ck-me .opt{color:var(--ink)}.ck-me-n{padding:2px 10px 8px;font-size:13px;color:var(--muted)}.ck-me .opt .pp-mk{width:15px;height:15px}.ck-me .opt svg{color:var(--muted)}.ck-me .opt .src{margin-left:auto;font-size:12px;color:var(--muted)}
 .ck-lm .lang-opt .ck{color:var(--ink)}.ck-lang>svg:last-child{width:13px;height:13px}.ck-u:has(.ck-lang){align-items:center}
 /* hover on everything the shopper can click (checkout page, its dialogs and the invoice payment page). The dark blue has no hover token, so its buttons lift 1px like the design system's Button */
 #ckp-b .ck :is([data-ckaddr],[data-ckcou],[data-ckpm],[data-ckstore]){cursor:pointer;border-radius:8px;transition:background .12s}
@@ -3922,7 +3922,7 @@ function pvBody(kind,o={}){
     <div class="pp-c pp-sum"><div class="pp-top"><div><div class="pp-a num">${rp(total)}</div><div class="pp-d">Due ${fday(due)}</div></div><span class="btn btn-o">${ic('doc',14)}Invoice PDF</span></div>
       <dl class="pp-kv"><dt>To</dt><dd>${cn}</dd><dt>From</dt><dd>Aruna Studio</dd><dt>Invoice</dt><dd>${no}</dd></dl>
       <div class="pp-more"><span class="lnk">View invoice details</span></div></div>
-    <div class="pp-c pp-pay">${o.acct?'':`${o.live?'<button class="btn btn-p pp-btn" data-signin>':'<span class="btn btn-p pp-btn">'}<span class="pp-mkt">${FLIK_MK}</span>Pay with FLIK${o.live?'</button>':'</span>'}<div class="pp-or">Or</div>`}
+    <div class="pp-c pp-pay">${o.auth?`<div class="ck-auth pp-authb">${ckAuthIn(o.auth)}</div><div class="pp-or">Or</div>`:o.acct?'':`${o.live?'<button class="btn btn-p pp-btn" data-signin>':'<span class="btn btn-p pp-btn">'}<span class="pp-mkt">${FLIK_MK}</span>Pay with FLIK${o.live?'</button>':'</span>'}<div class="pp-or">Or</div>`}
       ${ppEmail(o)}
       ${o.acct&&!o.full?`<div class="pp-mh"><b>Payment methods</b><button class="lnk" data-chg>Change</button></div>${ppLast(o)}`:`${o.acct?'<div class="pp-mh"><b>Payment methods</b></div>':''}<div class="pp-rl">${rows.join('')}</div>`}
       ${o.live?`<button class="btn ${o.acct?'btn-p':'btn-o'} pp-btn" data-pay="1" ${ppOk(o)?'':'disabled'}>${payL}</button>`:`<span class="btn btn-o pp-btn">${payL}</span>`}</div>
@@ -3933,7 +3933,7 @@ const FLIK_WM='<svg class="pp-wm" role="img" aria-label="FLIK" viewBox="0 0 90 3
 /* invoice payment page, variation C (6 Nov 2026): built from the shopper checkout's parts (top bar with the merchant logo, cards, rows with a chevron, Pay now, sticky total bar on phones): invoice first, then contact, payment and Pay.
    Variation B is A's structure inside the checkout's top bar, cards and footer (see page() in custView). The email-first flow is the same in all three */
 /* the checkout's top bar (merchant logo) and footer around a payment page design */
-const ckShell=(main,kind,phone,bar)=>`<div class="ck ck-inv ck-${kind}${phone?' ck-m':''}"><header class="ck-top">${cpLogo(cpGet(),phone?20:22)}<span class="ck-u">${ic('globe',18)}${ic('user',18)}</span></header>
+const ckShell=(main,kind,phone,bar)=>`<div class="ck ck-inv ck-${kind}${phone?' ck-m':''}"><header class="ck-top">${cpLogo(cpGet(),phone?20:22)}<span class="ck-u"><button class="lang ck-lang" data-cklang aria-label="Language: ${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[1]}" aria-haspopup="menu">${ic('globe',16)}<span>${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[2]}</span>${ic('chev',13)}</button><button class="ck-ub" data-ckme aria-label="Profile" aria-haspopup="menu">${ic('user',18)}</button></span></header>
     <div class="ck-main">${main}</div>
     ${phone?`<footer class="ck-foot ck-foot-m">${FLIK_WM}<span>1-Click Checkout</span></footer>${bar}`:`<footer class="ck-foot"><span class="ck-fl">${FLIK_WM}<span>1-Click Checkout</span></span><a class="lnk" href="${FLIK_LEGAL}terms/" target="_blank" rel="noopener">Terms of use</a><a class="lnk" href="${FLIK_LEGAL}privacy/" target="_blank" rel="noopener">Privacy policy</a></footer>`}</div>`;
 function ckInv(v,o,kind,phone){const c=cpGet(),total=v.total,due=dueDate(),cn=v.who,chev=ic('chev',16),n=D.pms.size,lk=o.linked&&o.linked[o.pick];
@@ -3942,7 +3942,7 @@ function ckInv(v,o,kind,phone){const c=cpGet(),total=v.total,due=dueDate(),cn=v.
   const pmRow=card?row(`<span class="ck-pl"><img class="plg" src="${IMG}payment/${card.brand==='card'?'visa':card.brand}.png" alt=""></span>`,`${brand(card.brand)} •••• ${card.last4}`,o.acct?'Last used with FLIK':'Credit or debit card',' data-pmp role="button" tabindex="0" aria-label="Change payment method"')
     :row(`<span class="ck-pl">${pmLg(o.pick).replace(/plg-sm/g,'')}</span>`,o.pick==='qris'?'QRIS':PMS[o.pick][0],o.acct&&!PM_GROUPS.wallet.includes(o.pick)?'Last used with FLIK':PM_GROUPS.wallet.includes(o.pick)?(lk?`${lk} · Balance ${rp(WBAL[o.pick])}`:'Connect when you pay'):`${n-1} more ${n===2?'way':'ways'} to pay`,' data-pmp role="button" tabindex="0" aria-label="Change payment method"');
   const ok=ppOk(o),{payL}=ppPay(o),pay=`<button class="ck-pay" data-pay="1" style="background:var(--ink)" ${ok?'':'disabled'}>${payL}</button>`;
-  const contact=`<section class="ck-card"><h4>Contact</h4>${o.acct?row(`<span class="ck-ic">${ic('user',20)}</span>`,esc(o.em),'Signed in with FLIK','','<button class="lnk" data-signout>Sign out</button>')
+  const contact=o.auth?ckAuthCard(o.auth):`<section class="ck-card"><h4>Contact</h4>${o.acct?row(`<span class="ck-ic">${ic('user',20)}</span>`,esc(o.em),'Signed in with FLIK','','<button class="lnk" data-signout>Sign out</button>')
       :`<button class="btn btn-p pp-btn" data-signin><span class="pp-mkt">${FLIK_MK}</span>Pay with FLIK</button><div class="pp-or">Or</div>${ppEmail(o)}${o.chk==='new'?`<div class="pp-sv ck-sv">${ppSave(o)}</div>`:''}`}</section>`,
     payment=`<section class="ck-card"><h4>Payment</h4>${pmRow}${card?`<div class="sx-f ck-cvc"><label for="cv-cvc">Security code (CVC)</label><input id="cv-cvc" inputmode="numeric" autocomplete="cc-csc" maxlength="4" value="${o.cvc||''}" placeholder="3 or 4 digits on the back"></div>`:''}</section>`,
     items=`<div class="ck-store"><span class="ck-st">${cpLogo(c,22)}</span><div class="ck-tx"><b>${MERCHANT}</b><span>${kind==='c'?`Billed to ${esc(cn)}`:`Due ${fday(due)}`}</span></div><button class="btn btn-o" data-cv="pdf">${ic('doc',14)}Invoice PDF</button></div>
@@ -4101,10 +4101,25 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
       <div class="cvd-g">${row('Amount paid',rp(st.paid?v.total:0))}${row('Amount remaining',rp(st.paid?0:v.total),'b')}</div>
       <div class="dsec"><h5>Payment history</h5>${st.paid?`<div class="cvd-r"><span>${fday(NOW)}<small>${mName(st.paid)}</small></span><span class="num">${rp(v.total)}</span></div>`:'<p class="d-sub">No payments have been made</p>'}</div>
       <p class="cvd-q">Questions? <span class="lnk">Contact Aruna Studio</span></p></div>`;openDrawer()};
-  el.onclick=e=>{{const q=e.target.closest('[data-plq]');if(q){const i=+q.dataset.plq;st.lq[i]=Math.max(1,Math.min(99,st.lq[i]+(+q.dataset.d)));draw(1);return}}const t=e.target.closest('[data-cv],[data-cvx],[data-cvd],[data-pg],[data-pk],[data-con],[data-pay],[data-addcard],[data-cdel],[data-qback],[data-hp],[data-flikinfo],[data-sim],[data-signin],[data-signout],[data-chg],[data-save],[data-pmp],[data-cvar]');if(!t)return;const d=t.dataset;
+  /* the header's Language and Profile menus, as on checkout: Profile shows who is signed in with FLIK (Sign out), or Log in with FLIK */
+  const cvMe=b=>{if(popFor===b){closePop();return}popFor=b;const cu=v.D.cust||{};
+    pop.innerHTML=st.acct?`<div class="menu ck-me" role="menu"><div class="ck-me-h"><span class="ck-me-av" aria-hidden="true">${esc((cu.name||st.em)[0])}</span><div class="ck-me-w"><b>${esc(cu.name||st.em)}</b><span>+${normPhone(cu.phone||'')}</span><span>${esc(st.em)}</span></div></div>
+        <div class="ck-me-f">${FLIK_MK}<span>Signed in with FLIK</span></div><hr><button class="opt" role="menuitem" data-cvme-out>${ic('logout',15)}Sign out</button></div>`
+      :`<div class="menu ck-me" role="menu"><h6>Profile</h6><p class="ck-me-n">You're not logged in. Log in to pay with your saved details.</p><hr><button class="opt" role="menuitem" data-cvme-in>${FLIK_MK}Log in with FLIK</button></div>`;
+    pop.onclick=ev=>{const t=ev.target.closest('[data-cvme-out],[data-cvme-in]');if(!t)return;ev.stopPropagation();closePop();if('cvmeOut' in t.dataset){Object.assign(st,{acct:false,full:false,pick:'qris',open:null,cvc:''});draw(1);toast('Signed out of FLIK')}else cvAuth('phone')};placePop(b,true)};
+  /* Pay with FLIK opens the checkout's log-in steps in the pay card: phone, then the WhatsApp code, then the page is signed in */
+  const cvAuth=to=>{st.auth=to;ckPhErr=ckOtpErr='';if(to==='otp')ckOtpStart();else clearInterval(ckOtpT);draw(1);
+    if(to==='phone')el.querySelector('#ck-ph')?.focus();else if(to==='otp'){el.querySelector('.ck-otp input')?.focus();toast(`Code sent to +${normPhone(ckPh)} on WhatsApp`)}};
+  const cvPhGo=()=>{if(!ckPhOk(ckPh)){ckPhErr='Enter a valid phone number, like 812-3456-7890.';draw(1);el.querySelector('#ck-ph')?.focus();return}cvAuth('otp')};
+  const cvOtp=ins=>{const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';draw(1);el.querySelector('.ck-otp input')?.focus();return}
+    clearInterval(ckOtpT);clearTimeout(chkT);Object.assign(st,{auth:null,acct:true,full:false,chk:'flik',em:v.D.cust.email||st.em,cvc:''});
+    if(!st.cards.some(c=>c.id==='flik1'))st.cards.unshift({id:'flik1',brand:'visa',last4:'2931'});st.pick='card:flik1';st.open='card';draw(1);toast(`Signed in as ${st.em}`)};
+  el.onclick=e=>{{const a=e.target.closest('[data-ckauth],[data-ckauth-go],[data-ckresend]');if(a){e.stopPropagation();const d=a.dataset;
+      if('ckauthGo' in d)cvPhGo();else if('ckresend' in d){ckOtpErr='';cvAuth('otp')}else cvAuth(d.ckauth==='guest'?null:d.ckauth);return}}
+    {const hu=e.target.closest('.ck-top [data-cklang],.ck-top [data-ckme]');if(hu){e.stopPropagation();'ckme' in hu.dataset?cvMe(hu):ckLangMenu(hu,()=>draw(1));return}}{const q=e.target.closest('[data-plq]');if(q){const i=+q.dataset.plq;st.lq[i]=Math.max(1,Math.min(99,st.lq[i]+(+q.dataset.d)));draw(1);return}}const t=e.target.closest('[data-cv],[data-cvx],[data-cvd],[data-pg],[data-pk],[data-con],[data-pay],[data-addcard],[data-cdel],[data-qback],[data-hp],[data-flikinfo],[data-sim],[data-signin],[data-signout],[data-chg],[data-save],[data-pmp],[data-cvar]');if(!t)return;const d=t.dataset;
     if(d.cvar){CV_VAR=d.cvar;try{localStorage.setItem('flik.invVar',CV_VAR)}catch(e){}draw();return}
     if('pmp' in d){pmPick();return}
-    if('signin' in d){signIn();return}
+    if('signin' in d){if(t.closest('.pp-el')){ckPh=String((v.D.cust||{}).phone||'').replace(/^\+?62\s*/,'');cvAuth('otp')}else cvAuth('phone');return}
     if('signout' in d){Object.assign(st,{acct:false,full:false,pick:'qris',open:null,cvc:''});draw(1);toast('Signed out of FLIK');return}
     if('chg' in d){st.full=true;draw(1);return}
     if('save' in d){st.save=!st.save;draw(1);return}
@@ -4123,10 +4138,13 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
     if(d.pk){st.pick=d.pk;st.cvc='';if(st.pick==='qris')st.open=null;st.full=false;draw(1);return}
     at=d.cv;draw()};
   /* typing: the email starts the check; name, phone and CVC only update Pay now */
-  el.oninput=e=>{const t=e.target,f={'cv-em':'em','cv-nm':'nm','cv-ph':'ph','cv-cvc':'cvc','cv-amt':'amt','cv-pn':'pn','cv-pp':'pp','cv-pa':'pa','cv-pc':'pc'}[t.id];if(!f)return;
+  el.oninput=e=>{{const t=e.target;if(t.id==='ck-ph'){ckPh=t.value;if(ckPhErr){ckPhErr='';t.closest('.sx-f').querySelector('.wh-err')?.remove()}return}
+    const box=t.closest('.ck-otp');if(box){const ins=[...box.querySelectorAll('input')],i=ins.indexOf(t),dg=t.value.replace(/\D/g,'');t.value=dg.slice(-1);if(dg.length>1)[...dg].slice(0,6-i).forEach((c,j)=>ins[i+j].value=c);
+    const nx=ins[Math.min(i+Math.max(dg.length,1),5)];if(dg&&nx)nx.focus();cvOtp(ins);return}}
+    const t=e.target,f={'cv-em':'em','cv-nm':'nm','cv-ph':'ph','cv-cvc':'cvc','cv-amt':'amt','cv-pn':'pn','cv-pp':'pp','cv-pa':'pa','cv-pc':'pc'}[t.id];if(!f)return;
     if(f==='cvc')t.value=t.value.replace(/\D/g,'').slice(0,4);if(f==='pn')st.nm=t.value;if(f==='pp')st.ph=t.value;if(f==='amt'){const n=plNum(t.value);t.value=n?n.toLocaleString('id-ID'):'';st.amt=t.value;el.querySelectorAll('.ck-bar b').forEach(b=>b.textContent=rp(plTotal(v.pl,st)))}st[f]=t.value;if(f==='em'){checkEmail();if(st.chk)return}
     el.querySelectorAll('[data-pay="1"]').forEach(b=>b.disabled=!(ppOk(st)&&(!LK||plOk(v.pl,st))))};
-  el.onkeydown=e=>{if(e.key==='Enter'&&e.target.matches('[data-pmp]')){e.target.click();return}if(e.key==='Escape'){drawer.classList.contains('open')?closeDetail():shut()}};
+  el.onkeydown=e=>{if(e.target.id==='ck-ph'&&e.key==='Enter'){e.preventDefault();cvPhGo();return}if(e.target.closest&&e.target.closest('.ck-otp')&&e.key==='Backspace'&&!e.target.value){e.target.previousElementSibling?.focus();return}if(e.key==='Enter'&&e.target.matches('[data-pmp]')){e.target.click();return}if(e.key==='Escape'){drawer.classList.contains('open')?closeDetail():shut()}};
   let wasPh=innerWidth<=760;if(window.cvRz)removeEventListener('resize',window.cvRz);window.cvRz=()=>{if(!el.hidden&&ckOn()&&(innerWidth<=760)!==wasPh){wasPh=!wasPh;draw(1)}};addEventListener('resize',window.cvRz);
   draw();el.hidden=false;document.body.style.overflow='hidden';document.body.classList.add('cvon');el.querySelector('[data-cvx]').focus()}
 const fdayISO=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -8531,7 +8549,10 @@ const ckAuthCard=au=>au==='guest'?`<section class="ck-card"><div class="ck-ch"><
     <h4>Verify your number</h4><p class="ck-auth-s">Enter the 6-digit code we sent to your WhatsApp</p>
     <div class="otp6 ck-otp" role="group" aria-label="Verification code">${[1,2,3,4,5,6].map(i=>`<input inputmode="numeric" ${i===1?'autocomplete="one-time-code"':''} aria-label="Digit ${i}">`).join('')}</div>${ckOtpErr?`<p class="wh-err ck-otp-e">${ckOtpErr}</p>`:''}
     <p class="ck-auth-h" id="ck-otp-t">${ckOtpLeft>0?`Send a new code in ${Math.floor(ckOtpLeft/60)}:${String(ckOtpLeft%60).padStart(2,'0')}`:'<button class="lnk" data-ckresend>Send a new code</button>'}</p><p class="ck-auth-h">Prototype: any 6 digits work, 000000 shows a wrong code.</p></section>`;
-const ckOtpStart=()=>{clearInterval(ckOtpT);ckOtpLeft=180;ckOtpT=setInterval(()=>{ckOtpLeft=Math.max(0,ckOtpLeft-1);const t=document.getElementById('ck-otp-t');if(t)t.innerHTML=ckOtpLeft>0?`Send a new code in ${Math.floor(ckOtpLeft/60)}:${String(ckOtpLeft%60).padStart(2,'0')}`:'<button class="lnk" data-ckresend>Send a new code</button>';if(!ckOtpLeft||ckAuth!=='otp')clearInterval(ckOtpT)},1000)};
+/* the same log-in steps inside the invoice's pay card */
+/* the log-in steps replace Pay with FLIK at the top of the pay card; Email and the payment methods stay below */
+const ckAuthIn=au=>ckAuthCard(au).replace(/^<section class="ck-card ck-auth">/,'').replace(/<\/section>$/,'');
+const ckOtpStart=()=>{clearInterval(ckOtpT);ckOtpLeft=180;ckOtpT=setInterval(()=>{ckOtpLeft=Math.max(0,ckOtpLeft-1);const t=document.getElementById('ck-otp-t');if(t)t.innerHTML=ckOtpLeft>0?`Send a new code in ${Math.floor(ckOtpLeft/60)}:${String(ckOtpLeft%60).padStart(2,'0')}`:'<button class="lnk" data-ckresend>Send a new code</button>';if(!ckOtpLeft||!t)clearInterval(ckOtpT)},1000)};
 const ckPhGo=()=>{if(!ckPhOk(ckPh)){ckPhErr='Enter a valid phone number, like 812-3456-7890.';ckpDraw();const i=document.getElementById('ck-ph');if(i)i.focus();return}ckPhErr='';ckOtpErr='';ckAuth='otp';ckOtpStart();ckpDraw();toast(`Code sent to +${normPhone(ckPh)} on WhatsApp`)};
 const ckOtpCheck=ins=>{const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';ckpDraw();return}
   clearInterval(ckOtpT);ckAuth='in';ckSess=true;ckOtpErr='';ckShipLoad(ckpDraw);toast(`Logged in with +${normPhone(ckPh)}`)};
