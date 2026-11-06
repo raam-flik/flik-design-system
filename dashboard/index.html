@@ -2478,6 +2478,18 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .cpx-cm .mc-chg{width:500px}
 .ck-seg{display:flex;width:100%;margin-bottom:16px}.ck-seg button{flex:1;height:32px}.ck-tx .ck-err{color:var(--bad-tx)}.ck .ck-pay[disabled]{opacity:.45;cursor:not-allowed}.ck [data-ckstore]{cursor:pointer;border-radius:8px}.ck [data-ckstore]:hover{background:var(--hover)}
 .ckst{display:grid;gap:12px}
+/* merchant cart page, FLIK check, and the log-in steps on checkout */
+.cks .cks-nav{display:flex;gap:24px;margin:0 auto 0 32px;font-size:13px;font-weight:500;color:var(--text)}.cks-cart{display:flex;align-items:center;gap:6px;color:var(--ink)}.cks-cart b{font-size:13px}
+.cks .ck-tx span:last-child{color:var(--ink)}.cks-go{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .12s,box-shadow .12s}.cks-go .pp-mk{width:20px;height:20px}.cks-go:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,45,93,.25)}
+.cks .ck-foot{justify-content:space-between;color:var(--muted)}
+.ck-chk{display:flex;align-items:center;justify-content:center;min-height:100%}.ck-chk-b{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}.ck-chk-b .pp-wm{height:32px;width:auto}.ck-chk-b p{font-size:15px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:6px}.ck-chk-b>span{font-size:13px;color:var(--muted)}
+.ck-ch{display:flex;align-items:baseline;justify-content:space-between}.ck-ch .lnk{font-weight:500;color:var(--ink)}#ckp-b [data-ckauth].ck-row{cursor:pointer;border-radius:8px}#ckp-b [data-ckauth].ck-row:hover{background:var(--hover)}
+.ck-auth{display:flex;flex-direction:column;align-items:stretch;text-align:center}.ck-auth h4{margin:0}.ck-auth-s{color:var(--muted);margin:4px 0 18px}.ck-auth .sx-f{text-align:left;margin-bottom:14px}/* +62 and the number share one 44px line, so they sit on the same baseline */.ck-auth .sx-f input{height:44px;line-height:44px;padding-top:0;padding-bottom:0;font-size:15px}.ck-auth .sx-f .pre input{padding-left:48px}.ck-auth .sx-f .pre em{top:0;height:44px;line-height:44px;display:block;font-size:15px}
+.ck-auth .ck-pay{cursor:pointer}.ck-auth-h{font-size:12.5px;color:var(--muted);margin-top:8px}.ck-auth-b{margin-top:10px;height:46px;font-size:15px;border-radius:8px;justify-content:center}/* same size as Continue, 10px apart */
+.ck-auth-ph{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid var(--line);text-align:left}.ck-auth-ph b{font-weight:500;color:var(--ink)}.ck-auth-ph .lnk{font-weight:500;color:var(--ink)}
+.ck-otp{justify-content:center;margin-top:2px}.ck-otp input:focus{box-shadow:0 0 0 2px rgba(0,45,93,.35)}.ck-otp-e{margin-top:10px}
+#ckp-proto span{display:flex;margin-left:4px}#ckp-proto svg{width:13px;height:13px}
+@media (max-width:900px){#ckp-start,#ckp-proto{display:none}}
 #ckp-b [data-ckshop]{cursor:pointer;border-radius:8px;margin:0 -8px;padding-left:8px;padding-right:8px;transition:background .12s}#ckp-b [data-ckshop]:hover{background:var(--hover)}#ckp-b [data-ckshop]:hover .ck-chev{color:var(--ink)}.ck-shop-n{display:inline-flex;align-items:center;gap:4px}.ck-shop-n .ck-chev{color:var(--ink)}#ckp-b [data-ckshop]{display:inline-flex;padding-right:12px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.ck-ld .ck-cl.sk{height:20px;border-radius:4px}.ck-ld .ck-tx{gap:8px}.ck-ld .ck-tx .sk{height:12px}.ck-sum .ck-na{color:var(--faint)}.ck-sk{display:inline-block;width:72px;vertical-align:middle}.ck-skt{width:110px;height:18px}
 #ckp-b .ck-qty{gap:4px;padding:0 4px}#ckp-b .ck-qty button{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:16px}#ckp-b .ck-qty button:not(:disabled):hover{background:var(--hover)}#ckp-b .ck-qty button:disabled{color:var(--line-2);cursor:not-allowed}#ckp-b .ck-qty>.num{min-width:22px;text-align:center}
@@ -2754,8 +2766,8 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 </div>
 <div class="ie" id="ckp" hidden role="dialog" aria-label="Checkout page">
   <div class="ie-top">
-    <button class="ib" id="ckp-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Checkout page</b><span class="st gr">Prototype</span>
-    <div class="ie-acts"><div class="seg cv-var" id="ckp-pu" role="tablist" aria-label="Prototype store pickup"><button class="on" data-ckpu="on" role="tab" aria-selected="true">With store pickup</button><button data-ckpu="off" role="tab" aria-selected="false">Delivery only</button></div><div class="seg cv-var" id="ckp-who" role="tablist" aria-label="Prototype shopper"><button class="on" data-ckwho="ret" role="tab" aria-selected="true">Returning shopper</button><button data-ckwho="new" role="tab" aria-selected="false">New shopper</button></div><button class="btn btn-o" id="ckp-edit">Edit checkout</button></div>
+    <button class="ib" id="ckp-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b id="ckp-t">Checkout page</b><span class="st gr">Prototype</span>
+    <div class="ie-acts"><button class="btn btn-o" id="ckp-start">Start from the store</button><button class="btn btn-o" id="ckp-proto" aria-haspopup="menu">Prototype<span data-ic="chev"></span></button><button class="btn btn-o" id="ckp-edit">Edit checkout</button></div>
   </div>
   <div class="ckp-b" id="ckp-b"></div>
 </div>
@@ -8473,9 +8485,10 @@ function cpView(c,phone){const btn=cpBtn(c),cl=k=>`<img class="ck-cl" src="${IMG
   row=(lead,b,s,at='')=>`<div class="ck-row"${at}>${lead}<div class="ck-tx"><b>${b}</b>${s?`<span>${s}</span>`:''}</div><span class="ck-chev">${chev}</span></div>`,
   pu=c.pickup!==false&&ckStores().length>0,mode=pu?ckMode:'ship',st=mode==='pickup'&&ckStores().find(w=>w.code===ckStore),pm=mode==='pickup'?c.pm.filter(x=>x!=='cod'):c.pm,
   /* a new shopper (no address yet) sees only the address row: courier and payment appear once the address is saved */
-  noStore=mode==='pickup'&&!st,noAddr=mode!=='pickup'&&!ckAddrCur(),K=ckCalc(c,mode),total=K.total,pay=`style="background:${btn}" data-cpgo="btn" data-tip="Change button colour"${noStore?' disabled title="Choose a store first"':noAddr?' disabled title="Add your shipping address first"':ckShipLd?' disabled title="Updating shipping"':''}`,
+  au=c.auth||'in',out=au!=='in',
+  noStore=mode==='pickup'&&!st,noAddr=mode!=='pickup'&&!ckAddrCur(),K=ckCalc(c,mode),total=K.total,pay=`style="background:${btn}" data-cpgo="btn" data-tip="Change button colour"${noStore?' disabled title="Choose a store first"':out?' disabled title="Log in first"':noAddr?' disabled title="Add your shipping address first"':ckShipLd?' disabled title="Updating shipping"':''}`,
   seg=pu?`<div class="seg ck-seg" role="tablist" aria-label="How to get your order">${[['ship','Deliver'],['pickup','Pick up in store']].map(([k,l])=>`<button class="${mode===k?'on':''}" data-ckm="${k}" role="tab" aria-selected="${mode===k}">${l}</button>`).join('')}</div>`:'',
-  ship=`<section class="ck-card">${seg}<h4>${mode==='pickup'?'Pickup location and payment':'Shipping and payment'}</h4>
+  ship=out?ckAuthCard(au):`<section class="ck-card">${seg}<h4>${mode==='pickup'?'Pickup location and payment':'Shipping and payment'}</h4>
     ${mode==='pickup'?row(`<span class="ck-ic">${ic('store',20)}</span>`,st?st.n:'Store',st?`${st.street}, ${st.city}</span><span>${ckHrs(st)}`:'<span class="ck-err">Choose the nearest store</span>',' data-ckstore role="button" tabindex="0"')
     :(()=>{const a=ckAddrCur(),at=' data-ckaddr role="button" tabindex="0"';return a?row(`<span class="ck-ic">${ic('pin',20)}</span>`,`${esc(a.to)} | +62${a.ph.replace(/\D/g,'')}`,esc(ckAddrLine(a)),at):row(`<span class="ck-ic">${ic('pin',20)}</span>`,'Shipping address','<span class="ck-err">Add your shipping address</span>',at)})()}
     ${mode==='pickup'||noAddr?'':ckShipLd?`<div class="ck-row ck-ld" aria-busy="true"><span class="ck-cl sk"></span><div class="ck-tx"><span class="sk" style="width:55%"></span><span class="sk" style="width:30%"></span></div><span class="sr-only" aria-live="polite">Updating shipping for the new address</span></div>`:(()=>{const v=ckSvcCur(c);return v?row(cl('courier/'+v.lg),`${v.n} · ${v.s} (${K.shipD?`${K.ship>K.shipD?rp(K.ship-K.shipD):'Free'}) <s>${rp(K.ship)}</s>`:`${rp(K.ship)})`}`,'Estimated '+v.eta,' data-cpgo="cou" data-tip="Change couriers" data-ckcou role="button" tabindex="0"'):row(`<span class="ck-ic">${ic('truck',20)}</span>`,'No courier available','',' data-cpgo="cou" data-tip="Change couriers" role="button" tabindex="0"')})()}
@@ -8485,7 +8498,7 @@ function cpView(c,phone){const btn=cpBtn(c),cl=k=>`<img class="ck-cl" src="${IMG
     <div class="ck-reward">${row(`<span class="ck-ic">${ic('coins',20)}</span>`,`Potential reward ${rp(CK_POT)}`,'You get it after this order is complete',' data-ckrew role="button" tabindex="0"')}</div>
     <div class="ck-store" data-ckshop role="link" tabindex="0" aria-label="Back to ${MERCHANT}'s online store"><span class="ck-st">${cpLogo(c,22)}</span><div class="ck-tx"><b class="ck-shop-n">${MERCHANT}<span class="ck-chev">${ic('chev',14)}</span></b><span>Jakarta Selatan</span></div></div>
     ${ckCart.map((x,i)=>`<div class="ck-item"><span class="ck-img">${ic('box',22)}</span><div class="ck-tx"><b>${x.n}</b><span>${x.a}</span><span>${x.b}</span>${ckNoteHtml(x,i)}</div><div class="ck-pr"><b>${rp(x.p*x.q)}</b>${x.q>1?`<span class="ck-each">${rp(x.p)} each</span>`:''}<span class="ck-qty" role="group" aria-label="Quantity of ${x.n}">${x.q>1||ckCart.length>1?`<button data-ckq="-1" data-i="${i}" aria-label="${x.q>1?'One fewer':'Remove '+x.n}">${x.q>1?'−':ic('trash',14)}</button>`:`<button disabled aria-label="One fewer">−</button>`}<span class="num">${x.q}</span><button data-ckq="1" data-i="${i}" aria-label="One more" ${x.q>=CK_QMAX?'disabled':''}>+</button></span></div></div>`).join('')}</section>`,
-  sum=`<section class="ck-card"><h4>Order summary</h4><dl class="ck-sum"><dt>Products</dt><dd>${rp(K.prod)}</dd>${mode==='pickup'?'<dt>Pickup</dt><dd>Free</dd>':`<dt>Shipping</dt><dd>${noAddr?'<span class="ck-na">Add your address first</span>':ckShipLd?'<span class="sk ck-sk"></span>':`${K.shipD?`<s>${rp(K.ship)}</s> `:''}${K.ship>K.shipD?rp(K.ship-K.shipD):'Free'}`}</dd>`}${K.offs.map(([k,v])=>`<dt>${k}</dt><dd>−${rp(v.amt)}</dd>`).join('')}${K.rew?`<dt>Rewards</dt><dd>−${rp(K.rew)}</dd>`:''}</dl>
+  sum=`<section class="ck-card"><h4>Order summary</h4><dl class="ck-sum"><dt>Products</dt><dd>${rp(K.prod)}</dd>${mode==='pickup'?'<dt>Pickup</dt><dd>Free</dd>':`<dt>Shipping</dt><dd>${out?'<span class="ck-na">After you log in</span>':noAddr?'<span class="ck-na">Add your address first</span>':ckShipLd?'<span class="sk ck-sk"></span>':`${K.shipD?`<s>${rp(K.ship)}</s> `:''}${K.ship>K.shipD?rp(K.ship-K.shipD):'Free'}`}</dd>`}${K.offs.map(([k,v])=>`<dt>${k}</dt><dd>−${rp(v.amt)}</dd>`).join('')}${K.rew?`<dt>Rewards</dt><dd>−${rp(K.rew)}</dd>`:''}</dl>
     <div class="ck-tot"><span>Total</span><b>${ckShipLd?'<span class="sk ck-sk ck-skt"></span>':rp(total)}</b></div>${phone?'':`<button class="ck-pay" ${pay}>Pay now</button><p class="ck-pot"><span class="ck-pot-t" tabindex="0" data-tip="Get ${rp(CK_POT)} back as ${MERCHANT} rewards after this order is complete. It lands in your FLIK account, ready for your next order.">You could earn ${rp(CK_POT)} in rewards</span></p>`}</section>`;
   return`<div class="ck${phone?' ck-m':''}"><header class="ck-top"><span class="ck-go" data-cpgo="logo" data-tip="Change logo" role="button" tabindex="0">${cpLogo(c,phone?20:22)}</span><span class="ck-u"><button class="lang ck-lang" data-cklang aria-label="Language: ${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[1]}" aria-haspopup="menu">${ic('globe',16)}<span>${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[2]}</span>${ic('chev',13)}</button><button class="ck-ub" data-ckme aria-label="Profile" aria-haspopup="menu">${ic('user',18)}</button></span></header>
     <div class="ck-main">${phone?ship+cart+sum:`<div class="ck-col">${ship}${cart}</div><aside>${sum}</aside>`}</div>
@@ -8498,6 +8511,30 @@ const ckNoteHtml=(x,i)=>ckNoteAt===i?`<div class="ck-nt"><input id="ck-nt-i" max
 /* a new or changed address re-checks the couriers: the courier row and the Shipping line show skeletons and Pay now waits, about a second in the prototype */
 let ckShipLd=false,ckShipT=0;
 const ckShipLoad=redraw=>{clearTimeout(ckShipT);ckShipLd=ckMode!=='pickup';redraw();if(ckShipLd)ckShipT=setTimeout(()=>{ckShipLd=false;redraw()},1200)};
+/* the merchant's cart page (stands in for the store's own site): the cart, the total and FLIK 1-Click Checkout */
+const ckStoreView=(c,m)=>{const n=ckCart.reduce((a,x)=>a+x.q,0);return`<div class="ck cks${m?' ck-m':''}"><header class="ck-top"><span>${cpLogo(c,m?20:22)}</span>${m?'':`<nav class="cks-nav">${['Shop all','New in','Sale','Help'].map(x=>`<span>${x}</span>`).join('')}</nav>`}<span class="cks-cart">${ic('cart',18)}<b class="num">${n}</b></span></header>
+  <div class="ck-main">${m?'':'<div class="ck-col">'}<section class="ck-card"><h4>Your cart (${n})</h4>${ckCart.map(x=>`<div class="ck-item"><span class="ck-img">${ic('box',22)}</span><div class="ck-tx"><b>${x.n}</b><span>${x.a}</span><span>${x.b}</span><span>Qty ${x.q}</span></div><div class="ck-pr"><b>${rp(x.p*x.q)}</b></div></div>`).join('')}</section>${m?'':'</div><aside>'}
+    <section class="ck-card"><h4>Cart total</h4><dl class="ck-sum"><dt>Subtotal</dt><dd>${rp(ckProd())}</dd></dl><div class="ck-tot"><span>Total</span><b>${rp(ckProd())}</b></div>
+      <button class="ck-pay cks-go" data-ckstart style="background:var(--ink)">${FLIK_MK}1-Click Checkout</button><p class="ck-pot">Shipping, vouchers and payment come next, in FLIK checkout</p></section>${m?'':'</aside>'}</div>
+  <footer class="ck-foot"><span>© 2026 ${MERCHANT}</span><span>Jakarta Selatan</span></footer></div>`};
+/* FLIK checks the shopper's account and this device before the checkout opens */
+const ckCheckView=()=>`<div class="ck ck-chk" aria-busy="true"><div class="ck-chk-b">${FLIK_WM}<p><span class="ai-dots" aria-hidden="true"><i></i><i></i><i></i></span>Checking your FLIK account</p><span>This only takes a moment</span></div></div>`;
+const ckGo=()=>{ckStage='checking';ckpDraw();document.getElementById('ckp-b').scrollTop=0;setTimeout(()=>{if(ckStage!=='checking')return;ckStage='checkout';ckAuth=ckSess?'in':'guest';ckpDraw();if(ckSess)toast(`Welcome back, ${CK_ME.to}`)},1300)};
+/* guest: Contact (Log in) replaces Shipping and payment; Log in -> phone -> WhatsApp code -> the full checkout */
+const ckPhOk=v=>{const d=normPhone(v);return d.length>=11&&d.length<=15};
+const ckAuthCard=au=>au==='guest'?`<section class="ck-card"><div class="ck-ch"><h4>Contact</h4><button class="lnk" data-ckauth="phone">Log in</button></div>
+    <div class="ck-row" data-ckauth="phone" role="button" tabindex="0"><span class="ck-ic">${ic('user',20)}</span><div class="ck-tx"><b>Account information</b><span class="ck-err">Log in or sign up to choose shipping and payment</span></div><span class="ck-chev">${ic('chev',16)}</span></div></section>`
+  :au==='phone'?`<section class="ck-card ck-auth"><h4>Log in or sign up</h4><p class="ck-auth-s">We'll send a verification code to your WhatsApp.</p>
+    <div class="sx-f"><label for="ck-ph" class="sr-only">Phone number</label><div class="pre"><em>+62</em><input id="ck-ph" inputmode="numeric" autocomplete="tel-national" value="${esc(ckPh)}" placeholder="812-3456-7890"></div>${ckPhErr?`<p class="wh-err">${ckPhErr}</p>`:''}</div>
+    <button class="ck-pay" data-ckauth-go style="background:var(--ink)">Continue</button><button class="btn btn-o ck-auth-b" data-ckauth="guest">Back</button></section>`
+  :`<section class="ck-card ck-auth"><div class="ck-auth-ph"><b class="num">+${normPhone(ckPh)}</b><button class="lnk" data-ckauth="phone">Change</button></div>
+    <h4>Verify your number</h4><p class="ck-auth-s">Enter the 6-digit code we sent to your WhatsApp</p>
+    <div class="otp6 ck-otp" role="group" aria-label="Verification code">${[1,2,3,4,5,6].map(i=>`<input inputmode="numeric" ${i===1?'autocomplete="one-time-code"':''} aria-label="Digit ${i}">`).join('')}</div>${ckOtpErr?`<p class="wh-err ck-otp-e">${ckOtpErr}</p>`:''}
+    <p class="ck-auth-h" id="ck-otp-t">${ckOtpLeft>0?`Send a new code in ${Math.floor(ckOtpLeft/60)}:${String(ckOtpLeft%60).padStart(2,'0')}`:'<button class="lnk" data-ckresend>Send a new code</button>'}</p><p class="ck-auth-h">Prototype: any 6 digits work, 000000 shows a wrong code.</p></section>`;
+const ckOtpStart=()=>{clearInterval(ckOtpT);ckOtpLeft=180;ckOtpT=setInterval(()=>{ckOtpLeft=Math.max(0,ckOtpLeft-1);const t=document.getElementById('ck-otp-t');if(t)t.innerHTML=ckOtpLeft>0?`Send a new code in ${Math.floor(ckOtpLeft/60)}:${String(ckOtpLeft%60).padStart(2,'0')}`:'<button class="lnk" data-ckresend>Send a new code</button>';if(!ckOtpLeft||ckAuth!=='otp')clearInterval(ckOtpT)},1000)};
+const ckPhGo=()=>{if(!ckPhOk(ckPh)){ckPhErr='Enter a valid phone number, like 812-3456-7890.';ckpDraw();const i=document.getElementById('ck-ph');if(i)i.focus();return}ckPhErr='';ckOtpErr='';ckAuth='otp';ckOtpStart();ckpDraw();toast(`Code sent to +${normPhone(ckPh)} on WhatsApp`)};
+const ckOtpCheck=ins=>{const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';ckpDraw();return}
+  clearInterval(ckOtpT);ckAuth='in';ckSess=true;ckOtpErr='';ckShipLoad(ckpDraw);toast(`Logged in with +${normPhone(ckPh)}`)};
 /* the checkout's top bar: Profile (who is signed in with FLIK, Sign out) and Language, as the dashboard's PopoverMenu */
 const CK_ME_EMAIL='raam@example.com';
 /* Profile: the dashboard's account block (tile, name, small line) for the shopper, a "Signed in with FLIK" line, then menu items with icons like the dashboard's account menu */
@@ -8509,7 +8546,7 @@ function ckMeMenu(b,redraw){if(popFor===b){closePop();return}popFor=b;
     <button class="opt" role="menuitem" data-ckme-lang>${ic('globe',15)}Language<span class="src">${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[1]}</span></button><hr>
     <button class="opt" role="menuitem" data-ckme-out>${ic('logout',15)}Sign out</button></div>`;
   pop.onclick=e=>{const t=e.target.closest('[data-ckme-addr],[data-ckme-lang],[data-ckme-out]');if(!t)return;e.stopPropagation();closePop();const d=t.dataset;
-    if('ckmeAddr' in d)ckAddr.length?ckAddrPick(redraw):ckAddrForm(null,redraw);else if('ckmeLang' in d)ckLangMenu(document.querySelector('#ckp-b [data-cklang]'),redraw);else toast('Signed out of FLIK (prototype)')};placePop(b,true)}
+    if('ckmeAddr' in d)ckAddr.length?ckAddrPick(redraw):ckAddrForm(null,redraw);else if('ckmeLang' in d)ckLangMenu(document.querySelector('#ckp-b [data-cklang]'),redraw);else{ckSetSess(false);redraw();toast('Signed out of FLIK')}};placePop(b,true)}
 let ckLang='en';
 /* the same Language selector as the dashboard's top bar (globe, EN/ID, chevron; menu with a check), in the shopper's dark blue */
 function ckLangMenu(b,redraw){if(popFor===b){closePop();return}popFor=b;
@@ -8531,9 +8568,9 @@ const CK_V={FREESHIP:{t:'ship',amt:20000,d:'Free shipping up to Rp20.000',e:'30 
 let ckVList=['FREESHIP','ONGKIR10','KIRIMHEMAT','BUYVADIS','ARUNA15','PAYDAY25','HEMAT10','BIGSALE50','WELCOME5','PICKUP10'],ckVOn=['FREESHIP','BUYVADIS'],ckRew={m:false,f:false};
 const ckVWhy=(k,mode)=>{const x=CK_V[k];return x.min>ckProd()?`Spend ${rp(x.min-ckProd())} more to use this`:x.t==='ship'&&mode==='pickup'?'For delivery orders only':x.pick&&mode!=='pickup'?'For pick up in store only':''};
 const CK_POT=18000,ckRewL=()=>[['m',`${MERCHANT} rewards`,12000],['f','FLIK Reward',0]];
-const ckCalc=(c,mode)=>{const ship=mode==='pickup'||!ckAddrCur()?0:(ckSvcCur(c)||{p:0}).p,vs=ckVOn.filter(k=>!ckVWhy(k,mode)).map(k=>[k,CK_V[k]]),
+const ckCalc=(c,mode)=>{const ship=mode==='pickup'||!ckAddrCur()||(c.auth&&c.auth!=='in')?0:(ckSvcCur(c)||{p:0}).p,vs=(c.auth&&c.auth!=='in'?[]:ckVOn).filter(k=>!ckVWhy(k,mode)).map(k=>[k,CK_V[k]]),/* a guest has no vouchers or rewards until they log in */
   shipD=Math.min(ship,vs.filter(x=>x[1].t==='ship').reduce((a,x)=>a+x[1].amt,0)),offs=vs.filter(x=>x[1].t==='off'),offD=offs.reduce((a,x)=>a+x[1].amt,0),
-  rew=Math.min(ckRewL().filter(r=>ckRew[r[0]]).reduce((a,r)=>a+r[2],0),ckProd()+ship-shipD-offD);
+  rew=Math.min(ckRewL().filter(r=>ckRew[r[0]]&&!(c.auth&&c.auth!=='in')).reduce((a,r)=>a+r[2],0),ckProd()+ship-shipD-offD);
   return{prod:ckProd(),ship,shipD,offs,rew,n:vs.length,save:shipD+offD+rew,total:ckProd()+ship-shipD-offD-rew}};
 /* the method the shopper picked (first offered one until they choose); wallets they connect and cards they add stay for this visit */
 const ckPayS={pick:null,open:null,linked:{},cards:[]};
@@ -8687,7 +8724,10 @@ const ckAct=(e,redraw)=>{const m=e.target.closest('[data-ckm]');if(m){e.stopProp
   const s=e.target.closest('[data-ckstore]');if(s){e.stopPropagation();ckStorePick(redraw);return true}
   const a=e.target.closest('[data-ckaddr]');if(a){e.stopPropagation();ckAddr.length?ckAddrPick(redraw):ckAddrForm(null,redraw);return true}
   if(e.target.closest('#cpx'))return false;
-  if(e.target.closest('[data-ckshop]')){e.stopPropagation();toast(`Back to ${MERCHANT}'s online store (prototype)`);return true}
+  if(e.target.closest('[data-ckshop]')){e.stopPropagation();ckStage='store';ckpDraw();document.getElementById('ckp-b').scrollTop=0;return true}
+  if(e.target.closest('[data-ckstart]')){e.stopPropagation();ckGo();return true}
+  const au=e.target.closest('[data-ckauth],[data-ckauth-go],[data-ckresend]');if(au){e.stopPropagation();const d=au.dataset;
+    if('ckauthGo' in d)ckPhGo();else if('ckresend' in d){ckOtpStart();ckOtpErr='';ckpDraw();toast(`New code sent to +${normPhone(ckPh)}`)}else{ckAuth=d.ckauth;ckPhErr=ckOtpErr='';if(ckAuth!=='otp')clearInterval(ckOtpT);ckpDraw();if(ckAuth==='phone')document.getElementById('ck-ph')?.focus()}return true}
   const q=e.target.closest('[data-ckq]'),nt=e.target.closest('[data-ckn],[data-cknsave]');
   if(q){e.stopPropagation();const i=+q.dataset.i,x=ckCart[i],d=+q.dataset.ckq;if(d<0&&x.q===1){ckCart.splice(i,1);ckNoteAt=null;toast(`${x.n} removed`)}else x.q=Math.min(CK_QMAX,Math.max(1,x.q+d));redraw();return true}
   if(nt){e.stopPropagation();if('cknsave' in nt.dataset){ckCart[+nt.dataset.cknsave].note=document.getElementById('ck-nt-i').value.trim();ckNoteAt=null;redraw()}else{ckNoteAt=+nt.dataset.ckn;redraw();const n=document.getElementById('ck-nt-i');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length)}}return true}
@@ -8695,6 +8735,13 @@ const ckAct=(e,redraw)=>{const m=e.target.closest('[data-ckm]');if(m){e.stopProp
   const c=cpGet(),o=e.target.closest('[data-ckcou],[data-ckpm],[data-ckdisc],[data-ckrew]');if(!o)return false;e.stopPropagation();const d=o.dataset;
   if('ckcou' in d)ckCouPick(c,redraw);else if('ckpm' in d)ckPmPick(c,redraw);else if('ckdisc' in d)ckDiscPick(redraw);else ckRewInfo();return true};
 document.getElementById('ckp-b').addEventListener('click',e=>ckAct(e,ckpDraw));
+/* phone: typing keeps the value, Enter continues. Code: one digit per box, a pasted code fills them, the sixth digit checks it */
+document.getElementById('ckp-b').addEventListener('input',e=>{const t=e.target;if(t.id==='ck-ph'){ckPh=t.value;if(ckPhErr){ckPhErr='';t.closest('.sx-f').querySelector('.wh-err')?.remove()}return}
+  const box=t.closest('.ck-otp');if(!box)return;const ins=[...box.querySelectorAll('input')],i=ins.indexOf(t),d=t.value.replace(/\D/g,'');t.value=d.slice(-1);if(d.length>1)[...d].slice(0,6-i).forEach((c,j)=>ins[i+j].value=c);
+  const nx=ins[Math.min(i+Math.max(d.length,1),5)];if(d&&nx)nx.focus();ckOtpCheck(ins)});
+document.getElementById('ckp-b').addEventListener('keydown',e=>{const t=e.target;if(t.id==='ck-ph'&&e.key==='Enter'){e.preventDefault();ckPhGo();return}
+  if(t.closest&&t.closest('.ck-otp')&&e.key==='Backspace'&&!t.value){const p=t.previousElementSibling;if(p)p.focus();return}
+  if(e.key==='Enter'&&t.matches('[data-ckauth]')){t.click();return}});
 document.getElementById('ckp-b').addEventListener('keydown',e=>{if(e.target.id!=='ck-nt-i')return;if(e.key==='Enter'){e.preventDefault();document.querySelector('#ckp-b [data-cknsave]').click()}else if(e.key==='Escape'){e.stopPropagation();ckNoteAt=null;ckpDraw()}});
 document.getElementById('cpx').addEventListener('click',e=>{if(e.target.closest('#cpx-pv'))ckAct(e,cpDraw)},true);
 function cpDraw(){const c=cpD,f=document.getElementById('cpx-form'),pv=document.getElementById('cpx-pv'),custom=!CP_SW.some(s=>s[0]===c.btn),hex=custom?c.btn:'',low=custom&&cpContrast(hex)<4.5;
@@ -8745,17 +8792,29 @@ document.getElementById('cpx').addEventListener('keydown',e=>{const g=e.target.c
 let ckpW=0;
 /* prototype only: "Delivery only" hides Pick up in store on this page, whatever the merchant's setting */
 let ckPuOff=false;
-function ckpDraw(){const m=innerWidth<=760,c=cpGet();ckpW=m;if(ckPuOff)c.pickup=false;document.getElementById('ckp-b').innerHTML=cpView(c,m).replace(/ data-cpgo="[^"]*"| data-tip="Change[^"]*"| role="button" tabindex="0"/g,'')}
+/* the shopper's way in (6 Nov 2026): the merchant's cart page (store) -> FLIK checks the account and this device (checking) -> the checkout.
+   With a FLIK session on the device the checkout opens filled in (auth 'in'); without one, Contact replaces Shipping and payment (guest), Log in asks for the phone (phone), then the WhatsApp code (otp) */
+let ckStage='checkout',ckAuth='in',ckSess=true,ckPh='',ckPhErr='',ckOtpErr='',ckOtpLeft=0,ckOtpT=0;
+function ckpDraw(){const m=innerWidth<=760,c=cpGet(),b=document.getElementById('ckp-b');ckpW=m;if(ckPuOff)c.pickup=false;c.auth=ckAuth;
+  document.getElementById('ckp-t').textContent=ckStage==='store'?`${MERCHANT}'s website`:'Checkout page';
+  b.innerHTML=ckStage==='store'?ckStoreView(c,m):ckStage==='checking'?ckCheckView():cpView(c,m).replace(/ data-cpgo="[^"]*"| data-tip="Change[^"]*"| role="button" tabindex="0"/g,'');
+  if(ckStage==='checkout'&&ckAuth==='otp'){const i=b.querySelector('.ck-otp input');if(i&&!b.contains(document.activeElement))i.focus()}}
 function openCkp(){const x=document.getElementById('ckp');x.hidden=false;document.body.style.overflow='hidden';ckpDraw()}
 function closeCkp(){document.getElementById('ckp').hidden=true;document.body.style.overflow=''}
 addEventListener('resize',()=>{const x=document.getElementById('ckp');if(x&&!x.hidden&&(innerWidth<=760)!==ckpW)ckpDraw()});
 document.getElementById('ckp-close').onclick=()=>{location.hash='settings/payments?t=checkout'};
 document.getElementById('ckp-edit').onclick=()=>{location.hash='checkout-personalization'};
-/* prototype only: a returning shopper has saved addresses; a new shopper has none, so the address row opens the address form */
-document.getElementById('ckp-pu').onclick=e=>{const b=e.target.closest('[data-ckpu]');if(!b)return;ckPuOff=b.dataset.ckpu==='off';if(ckPuOff&&ckMode==='pickup')ckMode='ship';
-  document.querySelectorAll('#ckp-pu [data-ckpu]').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-selected',x===b)});ckpDraw()};
-document.getElementById('ckp-who').onclick=e=>{const b=e.target.closest('[data-ckwho]');if(!b)return;const nw=b.dataset.ckwho==='new';ckAddr=nw?[]:CK_ADDR0();ckAddrSel=nw?null:1;
-  document.querySelectorAll('#ckp-who [data-ckwho]').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-selected',x===b)});ckpDraw()};
+/* prototype only: one menu for the cases a demo needs (like the dashboard's account menu): FLIK on this device, returning or new shopper, store pickup; plus Start from the store */
+const ckSetSess=on=>{ckSess=on;ckAuth=on?'in':'guest';ckPhErr=ckOtpErr=''};
+document.getElementById('ckp-start').onclick=()=>{ckStage='store';closePop();ckpDraw();document.getElementById('ckp-b').scrollTop=0};
+document.getElementById('ckp-proto').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
+  const r=(k,v,on,l)=>`<button class="opt" role="menuitemradio" aria-checked="${on}" data-ckpr="${k}" data-v="${v}"><span class="rdo${on?' on':''}"></span>${l}</button>`;
+  pop.innerHTML=`<div class="menu" style="width:260px" role="menu"><h6>FLIK on this device</h6>${r('sess','on',ckSess,'Signed in (session found)')}${r('sess','off',!ckSess,'Not signed in')}
+    <hr><h6>Shopper</h6>${r('who','ret',ckAddr.length>0,'Returning (saved addresses)')}${r('who','new',!ckAddr.length,'New (no address yet)')}
+    <hr><h6>Store pickup</h6>${r('pu','on',!ckPuOff,'With store pickup')}${r('pu','off',ckPuOff,'Delivery only')}</div>`;
+  pop.onclick=ev=>{const t=ev.target.closest('[data-ckpr]');if(!t)return;const k=t.dataset.ckpr,v=t.dataset.v;closePop();
+    if(k==='sess')ckSetSess(v==='on');else if(k==='who'){const nw=v==='new';ckAddr=nw?[]:CK_ADDR0();ckAddrSel=nw?null:1}else{ckPuOff=v==='off';if(ckPuOff&&ckMode==='pickup')ckMode='ship'}
+    if(ckStage==='checking')ckStage='checkout';ckpDraw()};placePop(b,true)};
 function cpFit(){const st=document.querySelector('#cpx .cpx-stage.desk'),fr=st&&st.querySelector('.cpx-frame');if(!fr)return;const s=Math.min(1,st.clientWidth/1080);fr.style.transform=`scale(${s})`;st.style.height=fr.scrollHeight*s+'px'}
 addEventListener('resize',()=>{if(!document.getElementById('cpx').hidden)cpFit()});
 function openCpx(){cpD=cpGet();const x=document.getElementById('cpx');x.hidden=false;document.body.style.overflow='hidden';cpDraw()}
