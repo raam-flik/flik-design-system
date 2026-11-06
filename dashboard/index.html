@@ -2535,6 +2535,8 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .ckd-sum{margin-right:auto;align-self:center;font-size:13px;color:var(--muted)}.ckd-sum b{color:var(--ok-tx);font-weight:600}
 .ckd-in{display:flex;gap:8px}.ckd-in input{flex:1;min-width:0;text-transform:uppercase}.ckd-in input::placeholder{text-transform:none}.ckd-h{font-size:13px;font-weight:600;color:var(--ink);margin-top:4px}
 .ckd-off .pp-r{cursor:not-allowed}.ckd-off .ckst-n{opacity:.6}.ckd-lg{width:28px;height:28px;border-radius:6px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}.ckd-lg img{max-width:22px}.ckd-lg .pp-mk{width:18px;height:18px}
+.ckr-hero.fki-hero{background:var(--hover);gap:6px}.fki-hero .pp-wm{height:28px;width:auto;margin-bottom:6px}.fki-t{font-size:20px;font-weight:600;color:var(--ink);line-height:1.3}.fki-hero .ckr-s{color:var(--muted)}
+.fki-l .tli::before{display:none}.fki-l .tli i{background:var(--hover);border-color:var(--line-2);color:var(--ink)}.fki-lg{display:flex;gap:16px}#modal.ew .fki-lg .lnk{font-size:13px;text-decoration:none}#modal.ew .fki-lg .lnk:hover{text-decoration:underline}
 .ckr-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:20px 16px 18px;border-radius:12px;background:var(--ok-bg)}
 .ckr-ic{width:48px;height:48px;border-radius:50%;background:#fff;color:var(--ok-tx);display:flex;align-items:center;justify-content:center;margin-bottom:8px;box-shadow:0 0 0 4px var(--ok-bd)}
 .ckr-k{font-size:13px;font-weight:500;color:var(--ok-tx)}.ckr-a{font-size:28px;font-weight:600;line-height:1.2;color:var(--ok-tx);letter-spacing:-.5px}.ckr-s{font-size:13px;color:var(--ok-tx)}
@@ -4037,13 +4039,13 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
     [[nI,okN,'cc-n-err'],[eI,okE,'cc-e-err'],[cI,okC,'cc-c-err']].forEach(([i,ok,id])=>{i.addEventListener('blur',()=>{document.getElementById(id).hidden=!i.value||ok()});i.addEventListener('input',()=>{if(ok())document.getElementById(id).hidden=true})});
     go.onclick=()=>{const n=dg(nI.value),c={id:Date.now(),brand:bca?'bca':/^4/.test(n)?'visa':/^(5[1-5]|2[2-7])/.test(n)?'mastercard':'card',last4:n.slice(-4)};st.cards.push(c);st.pick='card:'+c.id;st.full=false;st.cvc='';closeModal();draw(1);toast('Card added')};
     mscrim.classList.add('open');nI.focus()};
-  /* What FLIK is: opened from "everywhere FLIK is accepted" under Save my information */
-  const flikInfo=()=>{modal.classList.add('ew','fi');const row=(i,t,s)=>`<div class="fi-r">${ic(i,20)}<div><b>${t}</b><span>${s}</span></div></div>`;
-    modal.innerHTML=`<div class="fi-h">${FLIK_WM}<button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-    <div class="fi-b"><h3 class="fi-t">Pay quickly,<br>shop confidently</h3>
-      ${row('bolt','Fast and simple','FLIK fills in your payment and contact details at checkout.')}${row('card','Many ways to pay','Pay with QRIS, e-wallets, virtual accounts or your saved cards.')}${row('shield','Protects your data','Your details are encrypted, so you can shop safely.')}
-      <div class="fi-f"><a class="lnk" href="${FLIK_LEGAL}privacy/" target="_blank" rel="noopener">Privacy policy</a><a class="lnk" href="${FLIK_LEGAL}terms/" target="_blank" rel="noopener">Terms of use</a></div></div>`;
-    mscrim.classList.add('open');modal.querySelector('[data-mclose]').focus()};
+  /* What FLIK is (opened from "everywhere FLIK is accepted" under Save my information): the same layout as checkout's Potential reward, so the two FLIK pitches match.
+     Modal title, a hero card (FLIK logo and the promise), the three reasons as round icons, then the legal links and Got it in the footer */
+  const flikInfo=()=>{const row=(i,t,s)=>`<div class="tli"><i>${ic(i,14,2)}</i><div><b>${t}</b><span>${s}</span></div></div>`;
+    ckDlg('About FLIK',`<div class="ckr-hero fki-hero">${FLIK_WM}<b class="fki-t">Pay quickly, shop confidently</b><span class="ckr-s">One FLIK account for ${MERCHANT} and every store that uses FLIK</span></div>
+      <h5 class="ckd-h">Why FLIK</h5><div class="tl ckr-tl fki-l">${row('bolt','Fast and simple','FLIK fills in your payment and contact details at checkout.')}${row('card','Many ways to pay','Pay with QRIS, e-wallets, virtual accounts or your saved cards.')}${row('shield','Protects your data','Your details are encrypted, so you can shop safely.')}</div>`,
+      `<span class="ckd-sum fki-lg"><a class="lnk" href="${FLIK_LEGAL}privacy/" target="_blank" rel="noopener">Privacy policy</a><a class="lnk" href="${FLIK_LEGAL}terms/" target="_blank" rel="noopener">Terms of use</a></span><button class="btn btn-p" data-mclose>Got it</button>`);
+    modal.querySelector('[data-mclose]').focus()};
   const connect=(k,then)=>{const n=PMS[k][0],ok=p=>{const d=normPhone(p);return d.length>=11&&d.length<=15};modal.classList.add('ew');
     modal.innerHTML=`<div class="mh"><h3>Connect ${n}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
     <div class="mb"><div class="ew-h">${pmLg(k)}<span>Opens ${n} in a new tab in the live product.</span></div>
