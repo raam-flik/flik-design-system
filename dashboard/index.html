@@ -568,7 +568,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .pp-sbr{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px;background:#fff}.pp-sbr+.pp-sbr{border-top:1px solid var(--line)}
 .pp-sbr.ro{background:var(--hover)}.pp-sbr .v{flex:1;min-width:0;display:flex;flex-direction:column}.pp-sbr .v b{color:var(--ink);font-weight:500}.pp-sbr .v span{color:var(--muted)}.pp-sbr small{color:var(--faint);font-size:12px}
 .pp-sbr input{flex:1;min-width:0;border:0;outline:none;height:40px;padding:0;font:inherit;background:none;color:var(--ink)}
-.pp-sbr:focus-within{box-shadow:inset 0 0 0 2px rgba(106,75,255,.4)}.pp-sbi{display:flex;color:var(--faint)}
+.pp-sbr:focus-within{box-shadow:inset 0 0 0 2px rgba(106,75,255,.4)}/* shopper pages: the card field (CVC, card number) takes one dark blue ring, not violet, and the input inside draws none */:is(.ie-pp,.cv-ck,#modal.ew) .pp-sbr:focus-within{box-shadow:inset 0 0 0 2px rgba(0,45,93,.35)}:is(.ie-pp,.cv-ck,#modal.ew) .pp-sbr input:focus{box-shadow:none}:is(.ie-pp,.cv-ck,#ckp-b,#modal.ew) :where(button,a,summary,[role=button],[tabindex]):focus-visible{box-shadow:0 0 0 3px rgba(0,45,93,.3)}.pp-sbi{display:flex;color:var(--faint)}
 .pp-ft{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--faint);font-size:13px;padding:6px 0 4px}
 .pp-wm{height:22px;width:auto}
 /* invoices the shopper sees (PDF, email, payment page) use the dark blue primary, not violet (3 Nov 2026) */
