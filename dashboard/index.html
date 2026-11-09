@@ -2867,7 +2867,7 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 <div class="ie" id="cpx" hidden role="dialog" aria-label="Personalise checkout">
   <div class="ie-top">
     <button class="ib" id="cpx-close" aria-label="Close"><span data-ic="x"></span></button><span class="sep"></span><b>Personalise checkout</b>
-    <div class="ie-acts"><button class="btn btn-o" id="cpx-link">Copy test link</button><button class="btn btn-o" id="cpx-open" title="Shows the saved version">View checkout page</button><button class="btn btn-o" id="cpx-cancel">Cancel</button><button class="btn btn-p" id="cpx-save" disabled>Save changes</button></div>
+    <div class="ie-acts"><button class="btn btn-o" id="cpx-open" title="Shows the saved version">View checkout page</button><button class="btn btn-o" id="cpx-cancel">Cancel</button><button class="btn btn-p" id="cpx-save" disabled>Save changes</button></div>
   </div>
   <div class="ie-body"><div class="ie-form" id="cpx-form"></div><div class="ie-pv" id="cpx-pv"></div></div>
 </div>
@@ -9301,7 +9301,6 @@ document.getElementById('cpx').addEventListener('click',e=>{const t=e.target;
   if(t.closest('[data-cpup]')){document.getElementById('cpx-file').click();return}
   if(t.closest('[data-cprm]')){cpD.logo=null;cpDraw()}});
 document.getElementById('cpx').addEventListener('change',e=>{const k={'cpx-def':'def','cpx-sort':'sort','cpx-lang':'lang'}[e.target.id];if(k){cpD[k]=e.target.value;cpDraw()}});
-document.getElementById('cpx-link').onclick=()=>{try{navigator.clipboard.writeText(location.href.split('#')[0]+'#checkout').catch(()=>{})}catch(e){}toast('Test link copied. Anyone with it sees your checkout in test mode')};
 document.getElementById('cpx').addEventListener('input',e=>{const t=e.target;if(t.id==='cpx-msg'||t.id==='cpx-ret'){cpD[t.id==='cpx-msg'?'msg':'ret']=t.value;document.getElementById('cpx-save').disabled=!cpDirty();cpPage='ty';cpPv();return}
   /* dragging in the colour picker: update the preview in place, so the picker stays open; the full redraw waits for 'change' */
   if(t.id==='cpx-col'){cpD.btn=t.value;const x=document.getElementById('cpx'),low=cpContrast(t.value)<4.5;x.querySelectorAll('.ck-pay').forEach(b=>b.style.background=t.value);
