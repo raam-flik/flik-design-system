@@ -52,11 +52,11 @@ svg{display:block;flex:none}
 .navh{font-size:12.5px;color:var(--muted);padding:18px 10px 6px;font-weight:500}
 .wy-g{grid-template-columns:repeat(2,minmax(0,1fr))}
 .wy-c>span{color:var(--muted);font-size:13.5px;line-height:1.5}
-.wy-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wy-h{display:block}.wy-h .st{margin-left:8px;vertical-align:1px}
 .wy-h b{font-weight:600;color:var(--ink)}
 .wy-kv{margin-top:6px;font-size:13px}
 .wy-a{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:10px}
-.wy-a .lnk{display:inline-flex;align-items:center;gap:6px}
+.wy-a .lnk{display:inline-flex;align-items:center;gap:6px}.wy-a .btn{min-width:200px;justify-content:center}
 @media (max-width:760px){.wy-g{grid-template-columns:minmax(0,1fr)}}
 .side-foot{margin-top:auto;padding:8px 10px;border-top:1px solid var(--line)}
 
@@ -1100,7 +1100,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .modal.wide>.mb{overflow-y:auto;min-height:0;flex:1;grid-template-columns:minmax(0,1fr)}
 /* every modal fits the window: title and buttons stay, the middle scrolls */
 .modal{max-height:calc(100dvh - 32px);display:flex;flex-direction:column}.modal>.mh,.modal>.mf{flex:none}.modal>.mb{overflow-y:auto;min-height:0;flex:1 1 auto}
-.modal .sx-opt[data-md]{padding:12px 14px;align-items:flex-start}.modal .sx-opt[data-md] .cb{margin-top:2px}.modal .md-opts{display:grid;gap:8px}
+.modal .sx-opt[data-md]{padding:12px 14px;align-items:flex-start}.modal .sx-opt[data-md] .cb{margin-top:2px}.modal .md-opts{display:grid;gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}.md-opts .sx-opt{align-items:flex-start}@media (max-width:640px){.md-opts{grid-template-columns:minmax(0,1fr)}}
 .modal.wide>.mh,.modal.wide>.mf{flex:none}
 .sp-tbl{width:100%}
 .sp-tbl th{font-size:12.5px;padding:8px 10px 8px 0;white-space:normal;vertical-align:bottom}
@@ -1796,7 +1796,7 @@ tbody tr:hover .dt-st,tbody tr.sel .dt-st,tbody tr.open .dt-st{background:var(--
 :is(#view-mon,#view-cr,#view-ana,#drawer,#modal) .mf .lnk:hover{color:var(--primary)}
 @media (max-width:600px){:is(#view-mon,#view-cr,#view-ana,#drawer,#modal) .vf-g{grid-template-columns:1fr}
 }
-:is(#view-mon,#view-cr,#view-ana,#drawer,#modal) .tab .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;border-radius:999px;background:var(--bad-bg);color:var(--bad-tx);font-size:11.5px;font-weight:600;margin-left:6px;padding:0 6px}
+:is(#view-mon,#view-cr,#view-ana,#view-set,#drawer,#modal) .tab .badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;border-radius:999px;background:var(--bad-bg);color:var(--bad-tx);font-size:11.5px;font-weight:600;margin-left:6px;padding:0 6px}
 :is(#view-mon,#view-cr,#view-ana,#drawer,#modal) .chip .ct{color:var(--faint);font-weight:400}
 :is(#view-mon,#view-cr,#view-ana,#drawer,#modal) .sevt{width:100%;border-collapse:collapse;min-width:0;font-size:13px}
 :is(#view-mon,#view-cr,#view-ana,#drawer,#modal) .sevt th{font-size:12.5px;padding:6px 6px}
@@ -2489,7 +2489,7 @@ body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;heig
 /* a page's simulator steps aside while a full-screen flow covers that page */
 body:has(:is(#sx,#ie,#vx,#cv,#mx,#wx):not([hidden])) .content .simf:not(.in-flow){display:none}
 .simf.in-flow{left:24px;bottom:88px}#view-mca .simf.in-flow .simf-n{display:block}.simf.in-flow .simf-full,.simf.in-flow [data-simmin]{display:none}.simf.in-flow .sg-h,.simf.in-flow .simf-n{cursor:default}
-.simf-a{display:inline-flex;align-items:center;gap:4px}.simf-a .ib{width:28px;height:28px;margin-right:-6px}.simf-a svg{transition:transform .2s}.simf.min .simf-a svg{transform:rotate(180deg)}
+.simf-a{display:inline-flex;align-items:center;gap:4px}.simf-a .ib{width:28px;height:28px}.simf-a .ib:last-child{margin-right:-6px}.simf-a svg{transition:transform .2s}.simf.min .simf-a svg{transform:rotate(180deg)}
 .simf .sg-g{padding:6px 0}.simf .sg-s{cursor:default}.simf .sg-s:hover{background:none}
 .simf-n{padding:0 18px 14px;font-size:13.5px;color:var(--ink)}.simf-n span{color:var(--muted)}.simf:not(.min) .simf-n,.simf.min .simf-full{display:none}.simf.min .sg-h,.simf.min .simf-n{cursor:pointer}
 .simf-f{border-top:1px solid var(--line);padding:12px 18px 16px;display:grid;gap:10px}.simf-f p{font-size:12.5px;color:var(--muted);line-height:1.45}.simf-f div{display:flex;gap:8px;flex-wrap:wrap}
@@ -2500,6 +2500,7 @@ body:has(:is(#sx,#ie,#vx,#cv,#mx,#wx):not([hidden])) .content .simf:not(.in-flow
 .sg-bd{max-height:min(440px,60vh);overflow-y:auto;padding:10px 8px 8px}
 .sg-grp{border-radius:8px;margin-bottom:2px}.sg-grp.open{background:var(--hover)}
 .simf.smp .sg-s.done .t{text-decoration:none;color:var(--text)}
+.simf.smp .simf-f div{display:grid;grid-auto-flow:column;grid-auto-columns:1fr}.simf.smp .simf-f .btn{justify-content:center}
 .sg-at{display:flex;align-items:center;gap:6px;width:100%;padding:8px 8px 4px;font-size:12.5px;font-weight:500;color:var(--muted);text-align:left}.sg-at:hover{color:var(--ink)}.sg-at svg{transition:transform .2s}.sg-at.up svg{transform:rotate(180deg)}
 .sg-gh{display:flex;align-items:center;gap:8px;width:100%;padding:9px 10px;font-weight:600;font-size:13.5px;color:var(--ink);text-align:left;border-radius:8px}.sg-gh:hover{background:var(--hover)}
 .sg-gh .ct{margin-left:auto;font-weight:400;font-size:12.5px;color:var(--faint)}.sg-gh svg{color:var(--faint);transition:transform .15s}.sg-grp.open .sg-gh svg{transform:rotate(180deg)}
@@ -2509,7 +2510,7 @@ body:has(:is(#sx,#ie,#vx,#cv,#mx,#wx):not([hidden])) .content .simf:not(.in-flow
 /* the guide sits bottom right, above pages, side panels and full-screen flows. It rises above a flow's footer (create shipment, Cash Advance application, verification)
    and steps left of an open side panel; the invoice editor and payment page have no footer, so it stays in the corner there */
 html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not([hidden])) #sg.sg{bottom:88px}
-@media (min-width:901px){body:has(.drawer.open) #sg.sg{right:484px}}@media (max-width:900px){body:has(:is(#sx,#mx,#vx,#wx):not([hidden])) #sg.sg{bottom:80px}}.sg .lnk{color:var(--primary)}.sg .lnk:hover{text-decoration:underline}
+@media (min-width:901px){#sg.sg{transition:right .3s ease}body:has(.drawer.open) #sg.sg{right:484px}}@media (max-width:900px){body:has(:is(#sx,#mx,#vx,#wx):not([hidden])) #sg.sg{bottom:80px}}.sg .lnk{color:var(--primary)}.sg .lnk:hover{text-decoration:underline}
 
 /* simulators live in the setup guide card (#sg); the page's own copy stays hidden */
 .simf{display:none}#sg .simf{display:block;position:static;width:auto;max-width:none;box-shadow:none;border-radius:0;left:auto;right:auto;bottom:auto}
@@ -2559,6 +2560,8 @@ html{scrollbar-gutter:stable}#sg.sg{z-index:88}body:has(:is(#sx,#mx,#vx,#wx):not
 .cpx-cm .cb{flex:none}
 #cpx .ie-pm:has(.ie-pm-chev){padding-right:9px}
 .ck [data-cpgo]{cursor:pointer;border-radius:8px;transition:box-shadow .12s,background .12s}.ck .ck-row[data-cpgo]{margin:2px 0}.ck [data-cpgo]:hover,.ck [data-cpgo]:focus-visible{box-shadow:0 0 0 2px var(--primary);outline:none}.ck .ck-row[data-cpgo]:hover{background:var(--primary-soft)}.ck-go{display:inline-flex;padding:4px;margin:-4px}.ck .ck-pay[data-cpgo]{box-shadow:none}.ck .ck-pay[data-cpgo]:hover{box-shadow:0 0 0 3px var(--pu-bd)}
+tr.row-smp>td{background:var(--primary-soft)}tr.row-smp>td:first-child{box-shadow:inset 3px 0 0 var(--primary)}tr.row-new>td{animation:smpRowIn .6s ease-out}@keyframes smpRowIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion: reduce){tr.row-new>td{animation:none}}
+@keyframes smpIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}.smp-in{animation:smpIn .5s ease-out}@media (prefers-reduced-motion: reduce){.smp-in{animation:none}}
 @keyframes cpxFlash{0%{background:var(--primary-soft)}100%{background:transparent}}.cpx-flash{animation:cpxFlash 1.2s ease-out;border-radius:10px}
 .ckp-b{flex:1;min-height:0;overflow-y:auto;background:var(--hover)}.ckp-b .ck{border-radius:0;box-shadow:none;min-height:100%;display:flex;flex-direction:column;overflow:visible}/* no clipping on the full page, so the phone's Total and Pay now bar stays fixed at the bottom while scrolling */.ckp-b .ck-top{padding:0 max(24px,calc((100% - 1120px)/2 + 24px))}.ckp-b .ck-main{width:100%;max-width:1120px;margin:0 auto;padding:24px}.ckp-b .ck-foot{margin-top:auto;padding:16px max(24px,calc((100% - 1120px)/2 + 24px))}.ckp-b .ck-m .ck-main{padding:16px}.ckp-b .ck-m .ck-top{padding:0 16px}
 body:has(#ckp:not([hidden])) #sg{display:none}
@@ -3470,7 +3473,8 @@ function txRoute(){const m=location.hash.match(/^#transactions\/(.+)$/);if(!m)re
   if(k==='refunds'||k==='disputes'){S.tab=k;S.page=0;render();return}
   /* auto-collections?d=YYYY-MM-DD opens that day only, e.g. from a Cash Advance's latest returns */
   if(k.split('?')[0]==='auto-collections'){S.tab='settle';S.page=0;const d=new URLSearchParams(k.split('?')[1]||'').get('d');if(d){const t=new Date(d+'T00:00:00');S.days='custom';S.from=t;S.to=t}render();return}
-  if(/^py_/.test(k)){S.tab='all';S.page=0;render();setTimeout(()=>openDetail(k),0)}
+  if(k==='pending'){S.tab='payments';S.page=0;S.status.clear();S.status.add('pending');render();return}
+  if(/^py_/.test(k)){S.tab='payments';S.page=0;render();setTimeout(()=>openDetail(k),0)}
   if(/^R-/.test(k)){S.tab='refunds';S.page=0;render();setTimeout(()=>refundDetail(k),0)}
   if(/^D-/.test(k)){S.tab='disputes';S.page=0;render();setTimeout(()=>disputeDetail(k),0)}}
 document.addEventListener('click',e=>{const g=e.target.closest('[data-goto]');if(g){e.preventDefault();closeDetail();location.hash=g.dataset.goto}});
@@ -3653,8 +3657,8 @@ function todoList(){const T=[],n=x=>x.toLocaleString('id-ID');
     if(quiet)T.push(['warn','chat2',`${n(quiet)} ${quiet===1?'customer hasn\'t':'customers haven\'t'} answered for ${WA_HOURS} hours`,'Ship without waiting, or cancel the order.','monitoring','risky']);
     if(prob.length)T.push(['bad','shield',`Sort out ${n(prob.length)} lost, damaged or returned ${prob.length===1?'parcel':'parcels'}`,'File a claim with the courier.','monitoring','resolve:problem']);
     if(late.length)T.push(['warn','clock',`Chase ${n(late.length)} late ${late.length===1?'shipment':'shipments'}`,'Past the courier\'s SLA for the route. Ask FLIK support to follow up.','monitoring','resolve:delayed']);
-    if(pick.length)T.push(['','print',`Print labels for ${n(pick.length)} ${pick.length===1?'parcel':'parcels'}`,`${plural(pb,'batch is','batches are')} waiting for pickup.`,'monitoring','list'])}
-  if(hasH('pay')&&PS.mode!=='new'){const pend=PAY.filter(p=>p.status==='pending').length;if(pend)T.push(['','wallet',`Follow up ${n(pend)} pending ${pend===1?'payment':'payments'}`,'Customers who haven\'t paid yet.','transactions'])}
+    if(pick.length)T.push(['','print',`Print labels for ${n(pick.length)} ${pick.length===1?'parcel':'parcels'}`,`${plural(pb,'batch is','batches are')} waiting for pickup.`,'monitoring','list:st=pickup'])}
+  if(hasH('pay')&&PS.mode!=='new'){const pend=PAY.filter(p=>p.status==='pending').length;if(pend)T.push(['','wallet',`Follow up ${n(pend)} pending ${pend===1?'payment':'payments'}`,'Customers who haven\'t paid yet.','transactions/pending'])}
   return T}
 /* yesterday, as the same kind of list as Today: one row per fact, each opening where it came from */
 function yesterdayLines(){const a=dayAt(1),b=dayAt(0),c=dayAt(2),L=[],inY=d=>d>=a&&d<b,inP=d=>d>=c&&d<a,n=x=>x.toLocaleString('id-ID');
@@ -3703,7 +3707,7 @@ function renderHome(){const wp=document.getElementById('w-pay'),ws=document.getE
   document.getElementById('home-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${HPV.find(x=>x[0]===hpv)[1]}</span>`;
   requestAnimationFrame(()=>{if(hasH('pay')&&!newPay)drawPayChart();drawShipChart()})}
 /* a to-do or link that opens Monitoring on its tab, also when Monitoring lives in another menu file */
-document.addEventListener('click',e=>{const b=e.target.closest('[data-mtab]');if(b){try{sessionStorage.setItem('flik-mon-open',b.dataset.mtab+'|'+Date.now())}catch(x){}if(typeof MS!=='undefined'){const [t,c]=b.dataset.mtab.split(':');MS.tab=t;if(c){MS.r.mon=[c];MS.r.pg=0}}}},true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-mtab]');if(b){try{sessionStorage.setItem('flik-mon-open',b.dataset.mtab+'|'+Date.now())}catch(x){}if(typeof MS!=='undefined'){const [t,c]=b.dataset.mtab.split(':');MS.tab=t;monPre(t,c)}}},true);
 document.getElementById('view-home').addEventListener('click',e=>{
   const hs=e.target.closest('#home-state');if(hs){e.stopPropagation();if(popFor===hs){closePop();return}popFor=hs;
     pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${HPV.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${hpv===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
@@ -3845,9 +3849,10 @@ let itab='all';
 /* an invoice opens in the side panel, laid out like a shipment: headline, one line of context, actions, a note, then sections */
 function invLines(v,i){const P=CATALOG.length?CATALOG[i%CATALOG.length]:['Custom order',v.total],qty=Math.max(1,Math.floor(v.total/P[1])),rest=v.total-qty*P[1];return[{n:P[0],p:P[1],q:qty}].concat(rest>0?[{n:'Shipping and handling',p:rest,q:1}]:[])}
 function openInvoice(i){window.sbxInvI=i;const v=INV[i];if(!v)return;const st=v.status,due=v.due,late=st==='past'?Math.max(1,Math.round((NOW-due)/864e5)):0,link=`pay.flik.id/i/${v.no.toLowerCase()}`,L=invLines(v,i);
-  const paidAt=st==='paid'?new Date(Math.min(+NOW,v.created.getTime()+(2+i%5)*864e5)):null,voidAt=st==='void'?new Date(v.created.getTime()+3*864e5):null,payBy=['QRIS','BCA virtual account','GoPay','Credit card'][i%4];
-  const ev=[[`Created`,v.created,''],[`Sent to ${v.cust.name.split(' ')[0]} by WhatsApp${v.cust.email?' and email':''}`,new Date(v.created.getTime()+6e5),'']];
-  if(st!=='void')ev.push(['Viewed by the customer',new Date(v.created.getTime()+5.4e6),'']);
+  let paidAt=st==='paid'?new Date(Math.min(+NOW,v.created.getTime()+(2+i%5)*864e5)):null;/* paid within minutes (the sandbox sample sale): sent, viewed and paid a minute apart, in order */const quick=paidAt&&paidAt-v.created<5.5e6;if(quick)paidAt=new Date(v.created.getTime()+18e4);const voidAt=st==='void'?new Date(v.created.getTime()+3*864e5):null,payBy=['QRIS','BCA virtual account','GoPay','Credit card'][i%4];
+  /* the sample sale while still open: only created and sent so far */const sOpen=st==='open'&&smpMine(v.no);
+  const ev=[[`Created`,v.created,'']];if(!(sOpen&&smpAt()<2))ev.push([`Sent to ${v.cust.name.split(' ')[0]} by email`,new Date(v.created.getTime()+(quick||sOpen?6e4:6e5)),'']);
+  if(st!=='void'&&!sOpen)ev.push(['Viewed by the customer',new Date(v.created.getTime()+(quick?12e4:5.4e6)),'']);
   if(st==='past')ev.push(['Payment due date passed',due,'bad']);if(paidAt)ev.push([`Paid with ${payBy}`,paidAt,'ok']);if(voidAt)ev.push(['Voided',voidAt,'']);
   drawer.innerHTML=`<div class="dh"><span class="kind">${ic('invoice',15)}Invoice</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="db"><div class="d-amt"><b class="num">${rp(v.total)}</b>${iPill(st)}</div>
@@ -3882,11 +3887,11 @@ function renderInv(){const K='inv';
   itb.innerHTML=ITABS.map(t=>`<button class="tab${itab===t[0]?' on':''}" data-it="${t[0]}" role="tab" aria-selected="${itab===t[0]}">${t[1]}<span class="ct">${n(t[0])}</span></button>`).join('');
   document.getElementById('inv-list').innerHTML=`<div class="filters dt-bar"><label class="search bl-search">${ic('search',16)}<input id="inv-q" value="${esc(IVS.q)}" placeholder="Invoice number, customer or WhatsApp" autocomplete="off" aria-label="Search invoices"></label><span class="dt-btns">${fbBtns(K,K)}</span>
       <div class="fright"><button class="btn btn-o" data-export="Invoices|Invoices · this view|CSV">${ic('export',15)}Export</button></div></div>
-    <div class="tbl-wrap"><table data-dtt="${K}"><thead><tr>${dtHead(K)}<th></th></tr></thead><tbody id="inv-body">${rows.length?rows.map(v=>`<tr data-inv="${INV.indexOf(v)}" tabindex="0">${dtCells(K,v)}<td><button class="dots-b" data-toast="Opens invoice actions" aria-label="More actions for ${v.no}">${ic('dots',16)}</button></td></tr>`).join('')
+    <div class="tbl-wrap"><table data-dtt="${K}"><thead><tr>${dtHead(K)}<th></th></tr></thead><tbody id="inv-body">${rows.length?rows.map(v=>`<tr data-inv="${INV.indexOf(v)}" tabindex="0"${smpMine(v.no)?` class="${smpCls(v.no)}"`:''}>${dtCells(K,v)}<td><button class="dots-b" data-toast="Opens invoice actions" aria-label="More actions for ${v.no}">${ic('dots',16)}</button></td></tr>`).join('')
       :`<tr><td colspan="${dtN(K)+1}" style="height:auto;border:0;cursor:default"><div class="empty">${any?`<b>No invoices match</b>Try another number or customer, or clear the filters.<button class="btn btn-o" data-invclr style="margin-top:12px">Clear filters</button>`:`<b>No invoices</b>Invoices you create will show up here.`}</div></td></tr>`}</tbody></table></div>
     <div class="foot"><span>${rows.length?`Viewing <b>1–${rows.length}</b> of <b>${rows.length}</b> ${rows.length===1?'invoice':'invoices'}`:'Viewing <b>0</b> invoices'}</span></div>`;
   document.querySelectorAll('[data-it]').forEach(b=>b.onclick=()=>{itab=b.dataset.it;renderInv()});
-  const qi=document.getElementById('inv-q');qi.oninput=()=>{IVS.q=qi.value;const p=qi.selectionStart;renderInv();const q2=document.getElementById('inv-q');q2.focus();q2.setSelectionRange(p,p)}}
+  smpInvHand();const qi=document.getElementById('inv-q');qi.oninput=()=>{IVS.q=qi.value;const p=qi.selectionStart;renderInv();const q2=document.getElementById('inv-q');q2.focus();q2.setSelectionRange(p,p)}}
 {const vi=document.getElementById('view-inv'),open=tr=>{const v=INV[tr.dataset.inv];if(v.status==='draft'){openEditor(v)}else openInvoice(+tr.dataset.inv)};
   vi.addEventListener('click',e=>{if(e.target.closest('[data-invclr]')){IVS.q='';IVS.cfd={days:0};IVS.due=[];IVS.amt=[];renderInv();return}if(e.target.closest('button,a,input'))return;const tr=e.target.closest('tr[data-inv]');if(tr)open(tr)});
   vi.addEventListener('keydown',e=>{const tr=e.target.closest&&e.target.closest('tr[data-inv]');if(tr&&e.target===tr&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open(tr)}})}
@@ -5889,12 +5894,17 @@ const MC_GRP={draft:'draft',review:'review',offer:'review',preparing:'live',tran
   MC_ALLK=Object.fromEntries(Object.entries(MC_GRP).map(([k,g])=>[k,MC_GPILL[g]]));
 /* figures for a live Cash Advance as on track or behind, whatever the page shows */
 const ujFigK=k=>{const o=MC.st;MC.st=k;const f=ujFig();MC.st=o;return f};
+/* in the sandbox, the sample funding's row: In review → Offer → Live → Completed, as the run plays */
+const mcSbxRow=()=>{const S=sbxSt(),k={review:'review',offer:'offer',live:'live',done:'done',history:'done'}[S.mc];if(!k)return[];const ret=(S.rets||[]).reduce((a,b)=>a+b,0),on=k==='live'||k==='done';
+  return[{id:SBX_UJ.id,k,sub:new Date(NOW),amt:SBX_UJ.placed,ret:on?ret:null,rem:on?ujTotal()-ret:null}]};
+const mcSbxList=()=>Object.assign(MC,{multi:true,st:'live',base:'multi',pvk:'multi',det:null});
 const mcAll=()=>{const T=(y,m,d,h,mi)=>new Date(y,m,d,h,mi);const f=ujFig(),b=MC.base,live=['live','behind'].includes(b);if(!MC.multi){const L=[];
   if(['draft','review','offer'].includes(b))L.push({id:'FLIKCM-2026-0042',k:b,sub:b==='draft'?null:T(2026,9,2,10,20),amt:MC_ASK});
   if(['preparing','transfer','live','behind'].includes(b))L.push({id:UJ.id,k:b,sub:T(2026,8,2,14,5),amt:UJ.placed,ret:live?f.ret:0,rem:live?f.rem:ujTotal()});
   if(b==='history'&&window.SBX_ON)L.push({id:UJ.id,k:'done',sub:T(2026,8,2,14,5),amt:UJ.placed,ret:ujTotal(),rem:0});
   if(b==='history'&&!window.SBX_ON)L.push({id:'FLIKCM-2026-0024',k:'declined',sub:T(2026,6,14,9,40),amt:750e6});
   if(!window.SBX_ON)L.push({id:'FLIKCM-2026-0009',k:'done',sub:T(2026,2,3,11,15),amt:200e6,ret:212e6,rem:0});return L}
+  if(window.SBX_ON)return mcSbxRow();
   const fb=ujFigK('behind');return[{id:UJ.id,k:'live',sub:T(2026,8,2,14,5),amt:UJ.placed,ret:f.ret,rem:f.rem},{id:'FLIKCM-2026-0036',k:'behind',sub:T(2026,8,12,10,45),amt:UJ.placed,ret:fb.ret,rem:fb.rem},{id:'FLIKCM-2026-0050',k:'transfer',sub:T(2026,9,1,9,30),amt:250e6,ret:0,rem:265e6},{id:'FLIKCM-2026-0052',k:'preparing',sub:T(2026,9,3,15,20),amt:150e6,ret:0,rem:159e6},{id:'FLIKCM-2026-0042',k:'draft',sub:null,amt:MC_ASK},{id:'FLIKCM-2026-0045',k:'review',sub:T(2026,9,6,16,30),amt:MC_ASK},
   {id:'FLIKCM-2026-0047',k:'offer',sub:T(2026,9,8,13,0),amt:MC_ASK},{id:'FLIKCM-2026-0024',k:'declined',sub:T(2026,6,14,9,40),amt:750e6},{id:'FLIKCM-2026-0009',k:'done',sub:T(2026,2,3,11,15),amt:200e6,ret:212e6,rem:0}]};
 /* the row "…" menu offers the same actions as that Cash Advance's side panel, by status */
@@ -5922,7 +5932,7 @@ function mcAllTable(){const K='mc-all',dash='<span class="src">—</span>';MC.se
   const allSel=R.length&&R.every(r=>MC.sel.has(r.id)),someSel=R.some(r=>MC.sel.has(r.id));
   return`${tabs}
     <div class="tbl-wrap"><table data-dtt="${K}"><thead><tr>${dtHead(K)}<th></th></tr></thead><tbody>
-    ${R.length?R.map(r=>{const on=MC.sel.has(r.id);return`<tr data-mcdet="${r.id}">${dtCells(K,r)}<td class="mc-actc"><div class="mc-actw">${(m=>m<0?'':(x=>`<button class="btn btn-o mc-rbtn" data-mcrun="${r.id}">${mcShort[x[0]]||x[0]}</button>`)(mcActList(r.id)[m]))(mcMain(r.id))}<button class="dots-b" data-mcrm="${r.id}" aria-label="More actions for ${r.id}" aria-haspopup="menu">${ic('dots',16)}</button></div></td></tr>`}).join('')
+    ${R.length?R.map(r=>{const on=MC.sel.has(r.id);return`<tr data-mcdet="${r.id}"${smpMine(r.id)?` class="${smpCls(r.id)}"`:''}>${dtCells(K,r)}<td class="mc-actc"><div class="mc-actw">${(m=>m<0?'':(x=>`<button class="btn btn-o mc-rbtn" data-mcrun="${r.id}">${mcShort[x[0]]||x[0]}</button>`)(mcActList(r.id)[m]))(mcMain(r.id))}<button class="dots-b" data-mcrm="${r.id}" aria-label="More actions for ${r.id}" aria-haspopup="menu">${ic('dots',16)}</button></div></td></tr>`}).join('')
       :`<tr><td colspan="${dtN(K)+2}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No results</b>Try changing the filters or search.</div></td></tr>`}</tbody></table></div>
     <div class="foot"><span>${R.length?`Viewing <b>1–${R.length}</b> of <b>${R.length}</b> results`:'Viewing <b>0</b> results'}</span></div>`}
 function mcEntry(){const h=mcNone(),cut=h.indexOf('<div class="mc-two">');return h.slice(0,cut).replace(/<button class="btn btn-o es-cta" data-mcjump="mc-chk">[^<]*<\/button>/,'').replace(/<div class="es-cards c3">[\s\S]*$/,'')+`<h2 class="sec mc-allh">Your Cash Advances</h2>${mcAllTable()}`}
@@ -6534,7 +6544,7 @@ function renderBal(){const v=bv();
       x=`<tr class="bl-x"><td colspan="${dtN(K)}"><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl>
       ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{pg:'Opens the payment processing rate',flik:'Opens your FLIK agreement',fin:'Opens '+MCA_ID+' in Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
       <div class="bl-acts"><button class="btn btn-o" ${/^(Refund|Dispute) ID$/.test(l.ref[0])?`data-goto="#transactions/${l.ref[1]}"`:`data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}"`}>${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
-    return`<tr data-bl="${l.i}" class="${open?'open':''}">${dtCells(K,l)}</tr>${x}`}).join('')
+    return`<tr data-bl="${l.i}" class="${open?'open':''}${smpMine(l.ref&&l.ref[1])?' '+smpCls(l.ref[1]):''}">${dtCells(K,l)}</tr>${x}`}).join('')
     :`<tr><td colspan="${dtN(K)}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${none[0]}</b>${none[1]}</div></td></tr>`;
 }
 /* detail panels (one per tile) */
@@ -7111,7 +7121,9 @@ document.getElementById('view-mon').addEventListener('keydown',e=>{const t=e.tar
 document.getElementById('view-mon').addEventListener('click',e=>{const m=e.target.closest('[data-fmore]');if(m){e.stopPropagation();if(popFor===m){closePop();return}popFor=m;
     pop.innerHTML=`<div class="menu"><h6>More filters</h6>${['wh','pay'].map(k=>`<button class="opt" data-fmk="${k}">${MF_L[k]}${mfVal(k)?` <span class="src">· ${esc(mfVal(k))}</span>`:''}</button>`).join('')}</div>`;
     pop.querySelectorAll('[data-fmk]').forEach(o=>o.onclick=x=>{x.stopPropagation();const k=o.dataset.fmk;closePop();fpop(m,k)});placePop(m,false)}});
-function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on Live */if(location.hash!==MS._h){if(location.hash==='#monitoring'){/* a Home to-do asked for a tab: good for 10 s, since the menu file that hands over renders Monitoring once too */let o=null;try{const v=(sessionStorage.getItem('flik-mon-open')||'').split('|');if(Date.now()-(+v[1]||0)<1e4)o=v[0]}catch(e){}{const [t,c]=(o||'').split(':');MS.tab=MTABS.some(x=>x[0]===t)?t:'health';/* a to-do opens its own issues only (review 5 Nov, open item 3) */if(c){MS.r.mon=[c];MS.r.pg=0}}}MS._h=location.hash}
+/* a to-do's filter: "st=pickup" sets that filter on the tab it opens; a bare value filters Needs action by type */
+function monPre(t,c){if(!c)return;if(c.includes('=')){const [k,v]=c.split('='),F=({list:MS.l,resolve:MS.r,risky:MS.w,claims:MS.c,tickets:MS.t})[t];if(F){F[k]=[v];F.pg=0}return}MS.r.mon=[c];MS.r.pg=0}
+function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on Live */if(location.hash!==MS._h){if(location.hash==='#monitoring'){/* a Home to-do asked for a tab: good for 10 s, since the menu file that hands over renders Monitoring once too */let o=null;try{const v=(sessionStorage.getItem('flik-mon-open')||'').split('|');if(Date.now()-(+v[1]||0)<1e4)o=v[0]}catch(e){}{const [t,c]=(o||'').split(':');MS.tab=MTABS.some(x=>x[0]===t)?t:'health';/* a to-do opens its own issues only (review 5 Nov, open item 3) */monPre(t,c)}}MS._h=location.hash}
   if(!SH.length){el.innerHTML=`<div class="ph"><h1>Monitoring</h1></div>`+monEmpty('Nothing to monitor yet','After your first shipment, this page shows each batch, anything delayed or at risk, and how each courier performs for you.');return}
   const base=msBase(),open=SH.filter(s=>rstate(s)==='open').length;
   el.innerHTML=`<div class="ph"><h1>Monitoring</h1><div class="fright" style="margin-left:auto">${MS.tab==='health'?`<button class="chip set" id="hl-view" title="Prototype control: compare layouts for Shipping condition">${ic('sel',14)}Preview layout: <span class="val">${HVIEW.find(x=>x[0]===(MS.hv||'bar'))[1]}</span></button>`:''}${MS.tab==='list'?`<button class="chip set" id="ms-state" title="Prototype control: preview the states of All shipments">${ic('sel',14)}Preview state: <span class="val">${LSC.find(x=>x[0]===(MS.lsc||'normal'))[1]}</span></button>`:''}</div></div>
@@ -7302,7 +7314,7 @@ function monList(base){const P=MS.lsc||'normal';
   <div class="bulk${L.sel.size?' show':''}" role="status"><span>${L.sel.size} selected</span><span class="sp"></span><button class="btn btn-o" data-prsel>${ic('print',15)}Print ${plural(L.sel.size,'label')}</button><button class="btn" data-prclr style="color:var(--primary)">Clear</button></div>
   ${toks?`<p class="ms-awbs" role="status">Found <b class="num">${toks.length-miss.length}</b> of <b class="num">${toks.length}</b> AWBs${miss.length?`. Not found: <span class="mono">${miss.map(x=>esc(x.toUpperCase())).join(', ')}</span>`:''}</p>`:''}
   <div class="tbl-wrap"><table class="mt ms-pt" data-dtt="mon-list"><thead><tr><th class="selc">${(()=>{const pg=rows.slice(L.pg*PERL,L.pg*PERL+PERL).filter(s=>s.awb),on=pg.length&&pg.every(s=>L.sel.has(s.id)),some=pg.some(s=>L.sel.has(s.id));return`<button class="ie-chk" data-lselall aria-pressed="${on}" aria-label="Select this page"><span class="cb${on?' on':some?' mixed':''}">${on?ic('check',12,3):''}</span></button>`})()}</th>${dtHead('mon-list')}<th></th></tr></thead><tbody>
-  ${rows.length?rows.slice(L.pg*PERL,L.pg*PERL+PERL).map(s=>`<tr data-sid="${s.id}" class="${L.sel.has(s.id)?'sel':''}"><td class="selc">${s.awb?`<button class="ie-chk" data-lsel="${s.id}" aria-pressed="${L.sel.has(s.id)}" aria-label="Select ${s.awb}"><span class="cb${L.sel.has(s.id)?' on':''}">${L.sel.has(s.id)?ic('check',12,3):''}</span></button>`:''}</td>${dtCells('mon-list',s)}<td class="r">${s.awb?`<button class="ib tt" data-prs="${s.id}" data-tt="Print label" aria-label="Print the label for ${s.awb}">${ic('print',16)}</button>`:''}</td></tr>`).join('')
+  ${rows.length?rows.slice(L.pg*PERL,L.pg*PERL+PERL).map(s=>`<tr data-sid="${s.id}" class="${L.sel.has(s.id)?'sel':''}${smpMine(s.awb)?' '+smpCls(s.awb):''}"><td class="selc">${s.awb?`<button class="ie-chk" data-lsel="${s.id}" aria-pressed="${L.sel.has(s.id)}" aria-label="Select ${s.awb}"><span class="cb${L.sel.has(s.id)?' on':''}">${L.sel.has(s.id)?ic('check',12,3):''}</span></button>`:''}</td>${dtCells('mon-list',s)}<td class="r">${s.awb?`<button class="ib tt" data-prs="${s.id}" data-tt="Print label" aria-label="Print the label for ${s.awb}">${ic('print',16)}</button>`:''}</td></tr>`).join('')
     :`<tr><td colspan="${V.length+2}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No shipments match</b>Try another AWB, or clear the search and filters.<button class="btn btn-o ms-eb" data-lclr>Clear search and filters</button></div></td></tr>`}</tbody></table></div>
   <div class="foot"><span><b>${rows.length.toLocaleString('id-ID')}</b> ${rows.length===1?'shipment':'shipments'}</span><div class="pager"><button class="btn btn-o" data-lpg="-1" ${L.pg?'':'disabled'}>Previous</button><button class="btn btn-o" data-lpg="1" ${L.pg<pages-1?'':'disabled'}>Next</button></div></div>`}
 
@@ -7902,42 +7914,90 @@ const smpMain=()=>SMP_MAIN[ONB.main]||'spay';
 let smpT=0;
 /* the records each run makes; the run is saved, so it survives moving between pages */
 function smpMake(k){const S=sbxSt(),c=SBX_CUST[0],p=CATALOG[0]||['Linen shirt · White',289000],at=NOW.getTime()+60000;
-  if(k==='spay'){const no='TEST-INV-2026-'+String(50+((S.n=(S.n||0)+1))).padStart(4,'0'),py='py_test_'+Date.now().toString(36).slice(-6);
-    S.sinv={no,cust:c,total:p[1],status:'paid',created:at,due:at+30*864e5};S.iv[no]='paid';INV.unshift({...S.sinv,created:new Date(at),due:new Date(S.sinv.due)});
-    const pay={id:py,amount:p[1],currency:'IDR',status:'succeeded',mk:'qris',method:'QRIS · BCA mobile',customer:c.name,city:c.city,source:'Invoice',order:no,created:at,refunded:null,courier:'Regular',awb:''};
-    (S.pays=S.pays||[]).unshift(pay);PAY.unshift({...pay,created:new Date(at)});
-    sbxLed(`Test payment received · ${no}`,'Invoice',no,p[1]);ONB.events.unshift({t:'payment_intent.succeeded',at:'Just now',ok:!!ONB.hooks.length});ONB.dev=Object.assign(ONB.dev||{},{pay:1,recon:1});
-    return{no,py,amt:p[1]}}
-  if(k==='sship'){const si=SERVICES.findIndex(x=>x[2]==='reg'),awb='TEST-'+String(Date.now()).slice(-9),val=p[1],fee=Math.round(val*.03),cost=12000;
-    const s={id:'ST'+String(Date.now()).slice(-6),batch:'7E5700S1',created:new Date(at-3*36e5),upd:new Date(at),svc:si,k:SERVICES[si][0],wh:(WH[0]||{}).code,area:AREA[0],street:'Jl. Contoh No. 1',name:c.name,phone:'628000000010',items:p[0],qty:1,kg:1,pay:'cod',val,tries:0,tk:null,had:null,pub:cost,cost,codFee:fee,st:'delivered',awb};
-    SH.unshift(s);sbxShipSave(s);sbxLed(`COD remitted · ${awb}`,'AWB',awb,val-fee);return{awb,id:s.id,amt:val-fee,val}}
-  /* funding: applied, offer on the fixed sample terms, transfer to the test balance, then two returns from test sales */
-  const net=SBX_UJ.placed-SBX_UJ.admin;S.mc='live';sbxMcSet('live');sbxLed(`Sample placement · ${SBX_UJ.id}`,'Cash Advance',SBX_UJ.id,net);
-  const tot=ujTotal(),r1=Math.round(tot/2),R=S.rets=[];
-  [r1,tot-r1].forEach((ret,i)=>{R.push(ret);sbxLed(`Test sales settled · ${i?'second':'first'} period`,'Settlement','TEST-STL-'+(i+1),ret*100/UJ.pct);sbxLed(`Cash Advance return ${i+1} of 2 · ${UJ.pct}% of money in, ${SBX_UJ.id}`,'Cash Advance',SBX_UJ.id,-ret)});
-  S.mc='done';sbxMcSet('done');return{id:SBX_UJ.id,net,tot}}
-const smpSteps=(k,r)=>k==='spay'?[[`Invoice ${r.no} created for ${SBX_CUST[0].name}`,'invoices'],['Sent by WhatsApp to the sandbox outbox',''],[`${SBX_CUST[0].name} paid ${rp(r.amt)} by QRIS`,'transactions/'+r.py],['<code>payment_intent.succeeded</code> sent to your webhooks','settings/developers?t=events'],[`Test balance up by ${rp(r.amt)}`,'balances']]
-  :k==='sship'?[[`Booked with AWB ${r.awb}`,'monitoring'],['Picked up by the courier',''],['In transit',''],[`Delivered to ${SBX_CUST[0].name}`,'monitoring'],[`COD of ${rp(r.amt)} added to your test balance`,'balances']]
+  if(k==='spay'){const no='TEST-INV-2026-'+String(50+((S.n=(S.n||0)+1))).padStart(4,'0'),py='py_test_'+Date.now().toString(36).slice(-6);onbSave();return{no,py,amt:p[1],staged:1}}
+  if(k==='sship'){const awb='TEST-'+String(Date.now()).slice(-9),val=p[1],fee=Math.round(val*.03);return{awb,id:'ST'+String(Date.now()).slice(-6),amt:val-fee,val,staged:1}}
+  /* funding: made step by step on the Cash Advance list (smpFund) */
+  {const net=SBX_UJ.placed-SBX_UJ.admin,tot=ujTotal(),r1=Math.round(tot/2);S.mc='none';S.rets=[];onbSave();return{no:SBX_UJ.id,id:SBX_UJ.id,net,tot,r1,staged:1}}}
+const smpSteps=(k,r)=>k==='spay'?[[`Invoice ${r.no} created for ${SBX_CUST[0].name}`,'inv:'+r.no],[`Sent to ${SBX_CUST[0].name} by email`,'inv:'+r.no],[`${SBX_CUST[0].name} paid ${rp(r.amt)} by QRIS`,'inv:'+r.no],[`Test balance up by ${rp(r.amt)}`,'balances']]
+  :k==='sship'?[[`Booked with AWB ${r.awb}`,'shp:'+r.id],['Picked up by the courier','shp:'+r.id],['In transit','shp:'+r.id],[`Delivered to ${SBX_CUST[0].name}`,'shp:'+r.id],[`COD of ${rp(r.amt)} added to your test balance`,'balances']]
   :[[`Applied for ${rp(SBX_UJ.placed)} on sample terms`,'merchant-cash-advance'],[`Offer: ${rp(SBX_UJ.placed)}, fee ${rp(SBX_UJ.fee)}`,''],[`${rp(r.net)} sent to your test balance`,'balances'],['Return 1 of 2 taken from test sales',''],['Return 2 of 2. Fully returned','merchant-cash-advance']];
+/* the sample sale happens step by step, on the Invoices page: the invoice appears in the list (step 1), it's paid and its detail opens (step 3),
+   then Balances opens on the new line (step 4). The webhook event is recorded in Developers › Events, not shown as a step. Each step runs once; a page change picks up where it left off */
+const smpOnInv=()=>location.hash==='#invoices'&&typeof renderInv==='function';
+/* the sample moves to another page: the panel says so for a moment, then the page changes and fades in */
+function smpGo(h,label,pre){const s=ONB.smpl;if(!s)return;if(location.hash==='#'+h){if(pre)pre();if(typeof show==='function')show(hashView());smpArrive();return}s.go=label;s.nx=Math.max(s.nx||0,Date.now()+2200);onbSave();drawGuide();
+  setTimeout(()=>{const t=ONB.smpl;if(t)t.go=null;onbSave();try{sessionStorage.setItem('flik-smp-arrive',String(Date.now()))}catch(e){}if(pre)pre();location.hash=h;setTimeout(smpArrive,60)},1000)}
+function smpArrive(){let t=0;try{t=+(sessionStorage.getItem('flik-smp-arrive')||0)}catch(e){}if(Date.now()-t>4000)return;try{sessionStorage.removeItem('flik-smp-arrive')}catch(e){}
+  const m=document.querySelector('main.content:not([hidden])');if(!m)return;m.classList.remove('smp-in');void m.offsetWidth;m.classList.add('smp-in');setTimeout(()=>m.classList.remove('smp-in'),700);drawGuide()}
+addEventListener('load',()=>setTimeout(smpArrive,30));
+function smpShpHand(){let v;try{v=(sessionStorage.getItem('flik-open-shp')||'').split('|')}catch(e){return}if(!v[0]||Date.now()-(+v[1]||0)>1e4||!smpOnMon())return;try{sessionStorage.removeItem('flik-open-shp')}catch(e){}if(SH.some(x=>x.id===v[0]))openShipment(v[0])}
+addEventListener('load',()=>setTimeout(smpShpHand,400));
+const smpOnMon=()=>location.hash==='#monitoring'&&typeof renderMon==='function'&&typeof MS!=='undefined'&&MS.tab==='list';
+function smpShip(k,j,r){const c=SBX_CUST[0],p=CATALOG[0]||['Linen shirt · White',289000],at=new Date(NOW.getTime()+60000);
+  if(j===1){const si=SERVICES.findIndex(x=>x[2]==='reg'),cost=12000;
+    const s={id:r.id,batch:'7E5700S1',created:at,upd:at,svc:si,k:SERVICES[si][0],wh:(WH[0]||{}).code,area:AREA[0],street:'Jl. Contoh No. 1',name:c.name,phone:'628000000010',items:p[0],qty:1,kg:1,pay:'cod',val:r.val,tries:0,tk:null,had:null,pub:cost,cost,codFee:r.val-r.amt,st:'pickup',awb:r.awb};
+    if(!SH.some(x=>x.id===r.id))SH.unshift(s);sbxShipSave(s);if(smpOnMon())renderMon();return}
+  if(j>=2&&j<=4){const s=SH.find(x=>x.id===r.id);if(s){s.st=['','','picked','transit','delivered'][j];s.upd=new Date(at.getTime()+j*60000);sbxShipSave(s)}
+    if(smpOnMon()){renderMon();openShipment(r.id)}return}
+  if(j===5){sbxLed(`COD remitted · ${r.awb}`,'AWB',r.awb,r.amt);if(typeof closeDetail==='function')setTimeout(closeDetail,600);smpGo('balances','Balances')}}
+const smpOnCa=()=>location.hash==='#merchant-cash-advance'&&typeof renderMca==='function';
+/* show the sample on the Cash Advance list with its side panel open */
+function smpCaShow(){if(!smpOnCa())return;mcSbxList();renderMca();setTimeout(()=>{try{mcCaDrawer(SBX_UJ.id)}catch(e){}},80)}
+function smpCaHand(){let t=0;try{t=+(sessionStorage.getItem('flik-open-ca')||0)}catch(e){}if(!t||Date.now()-t>1e4||!smpOnCa())return;try{sessionStorage.removeItem('flik-open-ca')}catch(e){}smpCaShow()}
+addEventListener('load',()=>setTimeout(smpCaHand,300));
+function smpFund(j,r){const S=sbxSt();
+  if(j===1){S.mc='review';S.smpca=1}if(j===2)S.mc='offer';
+  if(j===3){S.mc='live';sbxLed(`Sample placement · ${SBX_UJ.id}`,'Cash Advance',SBX_UJ.id,r.net);onbSave();if(smpOnCa())renderMca();if(typeof closeDetail==='function')setTimeout(closeDetail,600);smpGo('balances','Balances');return}
+  if(j===4||j===5){const ret=j===4?r.r1:r.tot-r.r1;S.rets=[...(S.rets||[]),ret];sbxLed(`Test sales settled · ${j===4?'first':'second'} period`,'Settlement','TEST-STL-'+(j-3),ret*100/UJ.pct);sbxLed(`Cash Advance return ${j-3} of 2 · ${UJ.pct}% of money in, ${SBX_UJ.id}`,'Cash Advance',SBX_UJ.id,-ret);if(j===5)S.mc='done'}
+  onbSave();if(!smpOnCa()){try{sessionStorage.setItem('flik-open-ca',String(Date.now()))}catch(e){}smpGo('merchant-cash-advance','Cash Advance');return}
+  smpCaShow()}
+function smpStage(k,j,r){if(k==='smca'&&r.staged){smpFund(j,r);return}if(k==='sship'&&r.staged){smpShip(k,j,r);return}if(k!=='spay'||!r.staged)return;const S=sbxSt(),c=SBX_CUST[0],at=NOW.getTime()+60000;
+  if(j===1){S.sinv={no:r.no,cust:c,total:r.amt,status:'open',created:at,due:at+30*864e5};S.iv[r.no]='open';if(!INV.some(v=>v.no===r.no))INV.unshift({...S.sinv,created:new Date(at),due:new Date(S.sinv.due)});onbSave();if(smpOnInv())renderInv()}
+  if(j===2&&smpOnInv()){const i=INV.findIndex(x=>x.no===r.no);if(i>=0)openInvoice(i)}
+  if(j===3){S.iv[r.no]='paid';if(S.sinv)S.sinv.status='paid';const v=INV.find(x=>x.no===r.no);if(v)v.status='paid';
+    const pay={id:r.py,amount:r.amt,currency:'IDR',status:'succeeded',mk:'qris',method:'QRIS · BCA mobile',customer:c.name,city:c.city,source:'Invoice',order:r.no,created:at,refunded:null,courier:'Regular',awb:''};
+    if(!(S.pays=S.pays||[]).some(p=>p.id===r.py)){S.pays.unshift(pay);PAY.unshift({...pay,created:new Date(at)})}onbSave();
+    ONB.events.unshift({t:'payment_intent.succeeded',at:'Just now',ok:!!ONB.hooks.length});ONB.dev=Object.assign(ONB.dev||{},{pay:1,recon:1});onbSave();
+    if(smpOnInv()){renderInv();const i=INV.findIndex(x=>x.no===r.no);if(i>=0)openInvoice(i)}}
+  if(j===4){sbxLed(`Test payment received · ${r.no}`,'Invoice',r.no,r.amt);if(typeof closeDetail==='function')setTimeout(closeDetail,600);smpGo('balances','Balances')}}
+/* a row the sample just made gets a short highlight in its list */
+/* only the first time the row shows on a page, so later steps don't flash it again */
+/* the sample's row keeps a soft highlight while the sample panel is open, so the new line stays easy to spot */
+const smpMine=no=>{const s=ONB.smpl;return!!(no&&s&&s.r&&ONB.sbx&&(s.r.no||s.r.awb)===no)};
+const smpCls=no=>smpMine(no)?'row-smp'+(smpNew(no)?' row-new':''):'';
+const SMP_FL=new Set(),smpNew=no=>{const s=ONB.smpl;if(!(no&&s&&s.r&&(s.r.no||s.r.awb)===no&&ONB.sbx))return false;const k=no+location.hash;if(SMP_FL.has(k))return false;SMP_FL.add(k);return true};
+/* opening the sample invoice from a step link, also when Invoices lives in another menu file */
+function smpInvHand(){let v;try{v=(sessionStorage.getItem('flik-open-inv')||'').split('|')}catch(e){return}if(!v[0]||Date.now()-(+v[1]||0)>1e4)return;try{sessionStorage.removeItem('flik-open-inv')}catch(e){}const i=INV.findIndex(x=>x.no===v[0]);if(i>=0)setTimeout(()=>openInvoice(i),0)}
 function smpRun(k){clearTimeout(smpT);if(!ONB.sbx){ONB.sbx=true;ONB.done.sbxin=1;sbxSwap(true);drawAcct()}
-  ONB.smpl={k,t0:Date.now(),r:smpMake(k)};ONB.done.sbxin=1;onbSave();show(hashView());smpTick()}
-function smpTick(){clearTimeout(smpT);drawGuide();const s=ONB.smpl;if(!s)return;if(smpAt()<5)smpT=setTimeout(smpTick,250);else if(!ONB.done[s.k]){ONB.done[s.k]=1;onbSave();drawGuide()}}
-const smpAt=()=>{const s=ONB.smpl;if(!s)return 0;return matchMedia('(prefers-reduced-motion: reduce)').matches?5:Math.min(5,Math.floor((Date.now()-s.t0)/SMP_MS)+1)};
+  ONB.smpl={k,t0:Date.now(),r:smpMake(k),did:0,nx:Date.now()+1200};ONB.done.sbxin=1;onbSave();if(k==='spay')smpGo('invoices','Invoices');else if(k==='smca')smpGo('merchant-cash-advance','Cash Advance');else if(k==='sship')smpGo('monitoring','Monitoring',()=>{try{sessionStorage.setItem('flik-mon-open','list|'+Date.now())}catch(e){}if(typeof MS!=='undefined')MS.tab='list'});else show(hashView());smpTick()}
+function smpTick(){clearTimeout(smpT);drawGuide();const s=ONB.smpl;if(!s)return;if(smpAt()>=smpN()&&!ONB.done[s.k]){ONB.done[s.k]=1;onbSave();drawGuide()}}
+/* Next: plays one step, then waits for the next click */
+function smpNext(){const s=ONB.smpl;if(!s||!ONB.sbx||s.go||smpAt()>=smpN())return;s.did=(s.did||0)+1;onbSave();smpStage(s.k,s.did,s.r);smpTick()}
+const smpN=()=>{const s=ONB.smpl;return s?smpSteps(s.k,s.r).length:5};
+const smpAt=()=>{const s=ONB.smpl;return s?s.did||0:0};
 function smpHtml(){const s=ONB.smpl,i=smpAt(),L=smpSteps(s.k,s.r),fin=i>=L.length;
   const steps=L.map(([t,h],j)=>j<i&&h?`${t} · <button class="lnk" data-smpgo="${h}">Open</button>`:t);
-  return SIMF({t:SMP[s.k][1],steps,i,next:fin?'see the result':L[i][0].replace(/<[^>]+>/g,''),note:fin?'Every record it made is marked TEST and stays in your lists.':'Playing in the sandbox. No money moves.',
-    acts:fin?[['data-smp="see"','See the result'],['data-smp="try"','Try it yourself',1],['data-smp="close"','Back to setup guide',1]]:[]}).replace(`<small>${L.length+1} of ${L.length}</small>`,'<small>Done</small>').replace(/width:1\d\d%/,'width:100%').replace('class="simf','class="simf smp')}
-function smpAct(a){const s=ONB.smpl;if(!s)return;const r=s.r;
+  return SIMF({t:SMP[s.k][1],steps,i,next:fin?'see the result':L[i][0].replace(/<[^>]+>/g,''),note:s.go?`<b>Taking you to ${s.go}…</b>`:fin?'Every record it made is marked TEST and stays in your lists.':'Sandbox only. No money moves.',x:'data-smp="close"',
+    acts:fin?[s.seen||s.k==='smca'?['data-smp="home"','Back to setup guide']:['data-smp="see"','See the result'],['data-smp="try"','Try it yourself',1]]:[[`data-smp="next"${s.go?' disabled':''}`,'Next'],['data-smp="try"','Try it yourself',1]]}).replace(`<small>${L.length+1} of ${L.length}</small>`,'<small>Done</small>').replace(/width:1\d\d%/,'width:100%').replace('class="simf','class="simf smp')}
+function smpAct(a){const s=ONB.smpl;if(!s)return;const r=s.r;if(a==='next'){smpNext();return}
   if(a==='close'){ONB.smpl=null;ONB.guide='open';ONB.gOpen='try';onbSave();drawGuide();return}
-  if(a==='see'){if(s.k==='spay')location.hash='transactions/'+r.py;else if(s.k==='sship'){addEventListener('hashchange',()=>setTimeout(()=>sbxShipDet(true),0),{once:true});toMon('list')}else location.hash='merchant-cash-advance';return}
+  /* finished: close the sample and go Home with the setup guide open */
+  if(a==='home'){ONB.smpl=null;ONB.guide='open';ONB.gOpen='try';onbSave();if(typeof closeDetail==='function')closeDetail();drawGuide();location.hash='home';return}
+  /* See the result first, then the same button takes them back to the setup guide */
+  if(a==='see'){s.seen=1;onbSave();drawGuide();if(s.k==='spay')location.hash='transactions/'+r.py;else if(s.k==='sship'){addEventListener('hashchange',()=>setTimeout(()=>sbxShipDet(true),0),{once:true});toMon('list')}else location.hash='merchant-cash-advance';return}
   if(a==='try'){ONB.smpl=null;onbSave();
     if(s.k==='spay'){addEventListener('hashchange',()=>setTimeout(()=>{if(ie.hidden)return;D.cust=ICUST[0];const p=CATALOG[0];if(p)D.lines=[{name:p[0],price:p[1],qty:1}];drawForm();drawPv()},0),{once:true});location.hash='invoices/create'}
     else if(s.k==='sship'){ONB.simRun='ship';onbSave();location.hash='shipments/create'}
-    else{const S=sbxSt();S.mc='none';S.rets=[];sbxMcSet('none');onbSave();location.hash='merchant-cash-advance'}
+    else{const S=sbxSt();S.mc='none';S.rets=[];S.smpca=0;sbxMcSet('none');onbSave();location.hash='merchant-cash-advance'}
     drawGuide()}}
-document.addEventListener('click',e=>{const g=e.target.closest('[data-smpgo]');if(g){e.stopPropagation();location.hash=g.dataset.smpgo}},true);
+document.addEventListener('click',e=>{const g=e.target.closest('[data-smpgo]');if(g){e.stopPropagation();const h=g.dataset.smpgo;
+  if(h.startsWith('shp:')){const id=h.slice(4);if(smpOnMon()&&SH.some(x=>x.id===id)){openShipment(id);return}try{sessionStorage.setItem('flik-open-shp',id+'|'+Date.now());sessionStorage.setItem('flik-mon-open','list|'+Date.now())}catch(x){}location.hash='monitoring';setTimeout(smpShpHand,300);return}
+  if(h.startsWith('inv:')){const no=h.slice(4),i=INV.findIndex(x=>x.no===no);if(smpOnInv()&&i>=0){openInvoice(i);return}try{sessionStorage.setItem('flik-open-inv',no+'|'+Date.now())}catch(x){}location.hash='invoices';return}
+  location.hash=h}},true);
+/* a run still playing when a page loads (the sample moves between menus) keeps ticking */
+addEventListener('load',()=>{const s=ONB.smpl;if(s&&s.go){s.go=null;onbSave();drawGuide()}});
 const GUIDE=()=>{const api=ONB.modes.includes('api'),plug=ONB.modes.includes('plugin'),ship=!ONB.modes.length||ONB.modes.some(m=>m!=='api');
-  const mk=smpMain();return[{g:'try',n:'Try FLIK',s:[['choose','Choose how to accept payments'],['tour','Take the tour'],[mk,SMP[mk][0]]],also:Object.keys(SMP).filter(k=>k!==mk).map(k=>[k,SMP[k][0]])},
+  const mk=smpMain();return[{g:'try',n:'Try FLIK',s:[['tour','Take the tour'],['choose','Choose how to accept payments'],[mk,SMP[mk][0]]],also:Object.keys(SMP).filter(k=>k!==mk).map(k=>[k,SMP[k][0]])},
     ...(api||plug?[{g:'build',n:'Build your integration',s:[...(api?[['creds','Get test API credentials'],['hook','Receive a test webhook']]:[]),...(plug?[['store','Request store connection']]:[])]}]:[]),
     {g:'live',n:'Go live',s:[['verify','Get verified']]},
     {g:'sale',n:'Set up your live account',s:[['wh1','Set up your warehouse',1],['ship1','Ship your first order',1],['inv1','Send your first invoice',1],['ca1','Apply for a Cash Advance',1]]}].filter(g=>!ONB.hide[g.g])};
@@ -8018,19 +8078,19 @@ function guideGo(k){const done=()=>{ONB.done[k]=1;onbSave();drawGuide()};
     verify:()=>{if(ONB.sbx){exitSbx();toast('Back in your live account. Verification is always real')}openVer()},pickup:()=>location.hash='warehouses',wh1:()=>location.hash='warehouses',ship1:()=>location.hash='shipments/create',inv1:()=>location.hash='invoices/create',ca1:()=>location.hash='merchant-cash-advance/apply'})[k]();
   if(k==='sship'||k==='spay')ONB.done.sbxin=1}
 /* how will you accept payments? (multi-select, changes setup steps only) */
-const MODES=[['links','Payment links and invoices','Send a link by WhatsApp or email. No website needed.','All methods you have enabled'],['hosted','Hosted checkout','A FLIK checkout page for your site, with shipping and COD.','Hosted checkout methods, shipping and COD'],['plugin','Shopify or WooCommerce plugin','The FLIK team connects your store for you.','Same as hosted checkout'],['api','Merchant API','Build your own checkout with FLIK APIs and webhooks.','Virtual accounts and QRIS only for now. E-wallets, cards and COD are coming',1],['ship','Shipping only','Use FLIK to ship. Hides payment setup steps.','Every connected courier'],['embed','Embedded, custom or headless (agents, POS)','Checkout inside your page, your own components, or API-only for AI agents and POS.','',0,'Coming']];
+const MODES=[['links','Payment links and invoices','Send a link by WhatsApp or email. No website needed.','All methods you have enabled'],['hosted','Hosted checkout','A FLIK checkout page for your site, with shipping and COD.','Hosted checkout methods, shipping and COD'],['plugin','Shopify or WooCommerce plugin','The FLIK team connects your store for you.','Same as hosted checkout'],['api','Merchant API','Build your own checkout with FLIK APIs and webhooks.','Virtual accounts and QRIS only for now. E-wallets, cards and COD are coming',1],['ship','Shipping only','Use FLIK to ship. Hides payment setup steps.','Every connected courier'],['embed','Embedded or headless','Checkout inside your page, your own components, or API-only for AI agents and POS.','',0,'Coming']];
 /* the ways the merchant picked, once they've picked (a new merchant hasn't yet), and where each one stands */
-const modesChosen=()=>ONB.done&&ONB.done.choose?ONB.modes:[],
+const modesChosen=()=>ONB.done&&ONB.done.choose||ONB.st==='active'?ONB.modes:[],
   modeSt=k=>({links:()=>['On','ok'],hosted:()=>verified()?['Live','ok']:['After verification','gr'],plugin:()=>ONB.stores&&(ONB.stores.shopify||ONB.stores.woocommerce)?['Waiting for FLIK','warn']:['Not requested','gr'],
     api:()=>verified()&&ONB.creds.some(c=>c.env==='live')?['Live','ok']:ONB.creds.some(c=>c.env==='test')?['Test credentials only','pu']:['Not set up','gr'],ship:()=>WH.length?['Ready','ok']:['Add a warehouse','warn']})[k]();
 function chooser(){const sel=new Set(modesChosen());
   const draw=()=>{modal.innerHTML=`<div class="mh"><h3>How will you accept payments?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-    <div class="mb"><p style="color:var(--muted);line-height:1.5">Pick all that apply. This only changes your setup steps, and you can change it any time. In the sandbox you can try every mode, whatever you pick.</p>
-    <div class="md-opts">${MODES.map(m=>{const off=m[5]==='Coming',on=sel.has(m[0]);return`<button class="sx-opt${on?' on':''}" data-md="${m[0]}" role="checkbox" aria-checked="${on}" ${off?'disabled style="opacity:.55;cursor:not-allowed"':''}><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span><div style="flex:1"><b>${m[1]}${off?' <span class="st gr">Coming</span>':''}</b><span>${m[2]}</span>${m[3]?`<span class="md-cov${m[4]?' warn':''}">${m[3]}</span>`:''}</div></button>`}).join('')}</div></div>
+    <div class="mb"><p style="color:var(--muted);line-height:1.5">Pick all that apply. You can change this any time.</p>
+    <div class="md-opts">${MODES.map(m=>{const off=m[5]==='Coming',on=sel.has(m[0]),one={links:'Send a link by WhatsApp or email.',hosted:'A FLIK checkout page for your website.',plugin:'FLIK connects your store for you.',api:'Build your own checkout with our API.',ship:'Use FLIK only to ship.',embed:'Checkout inside your own product.'}[m[0]]||m[2];return`<button class="sx-opt${on?' on':''}" data-md="${m[0]}" role="checkbox" aria-checked="${on}" ${off?'disabled style="opacity:.55;cursor:not-allowed"':''}><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span><div style="flex:1"><b>${m[1]}${off?' <span class="st gr">Coming soon</span>':''}</b><span>${one}</span></div></button>`}).join('')}</div></div>
     <div class="mf"><button class="btn btn-o" data-mclose>Later</button><button class="btn btn-p" id="md-go" ${sel.size?'':'disabled'}>Save</button></div>`;
     modal.querySelectorAll('[data-md]').forEach(b=>b.onclick=()=>{const k=b.dataset.md;sel.has(k)?sel.delete(k):sel.add(k);draw()});
     document.getElementById('md-go').onclick=()=>{ONB.modes=MODES.map(m=>m[0]).filter(k=>sel.has(k));ONB.done.choose=1;onbSave();closeModal();drawGuide();if(!document.getElementById('view-set').hidden)renderSet();toast('Saved. Your setup steps changed to match.')}};
-  modal.classList.add('md');draw();mscrim.classList.add('open')}
+  modal.classList.add('md','lg');draw();mscrim.classList.add('open')}
 
 /* ----- verify at the moment of action ----- */
 function verifyPrompt(what,save){const rev=ONB.st==='review'||ONB.st==='needs';
@@ -8256,12 +8316,13 @@ const SET_TABS={
     +sec('How links work',`<div class="set-box"><div class="set-row"><span class="tx"><b>What a link allows</b><small>Only receiving shares of payments. A linked account never sees your balance or withdraws for you, and you never see theirs</small></span></div><div class="set-row"><span class="tx"><b>Who approves</b><small>FLIK, once both accounts are verified. Each account receiving a share passes its own verification first</small></span></div></div>`)},
   'outlets:outlets':()=>{const K='ol',all=olData(),G=olGroups(),ed=['owner','admin'].includes(ONB.role),td=v=>`<td>${v}</td>`;
     dtUse(K,{code:['Code',o=>o.code,o=>td(o.code),{fixed:1}],n:['Outlet',o=>o.n,o=>`<td><b style="font-weight:500;color:var(--ink)">${esc(o.n)}</b></td>`],city:['City',o=>o.city,o=>td(o.city)],
-      grp:['Groups',null,o=>td(o.groups.map(g=>`<span class="st gr">${esc(g)}</span>`).join(' '))],term:['Terminals',o=>olTerms(o.code).length,o=>{const T=olTerms(o.code),off=T.filter(x=>x.st==='Offline').length;return td(T.length?`${T.length}${off?` <span class="st warn">${off} offline</span>`:''}`:'<span class="src">—</span>')}],
+      grp:['Groups',null,o=>td(o.groups.map(g=>`<span class="st gr">${esc(g)}</span>`).join(' '))],term:['Terminals',o=>olTerms(o.code).length,o=>{const n=olTerms(o.code).length;return td(n?n:'<span class="src">—</span>')}],
+      toff:['Offline terminals',o=>olTerms(o.code).filter(x=>x.st==='Offline').length,o=>{const T=olTerms(o.code);return td(T.length?T.filter(x=>x.st==='Offline').length:'<span class="src">—</span>')}],
       pick:['Pickup',o=>o.pickup?0:1,o=>td(o.pickup?'Yes':'No')],hrs:['Opening hours',null,o=>td(o.custom?'Custom':'Using default')]},null,renderSet);
     fbUse(K,[{k:'grp',l:'Group',type:'many',opts:G.map(g=>[g,g]),get:()=>olF.grp,set:v=>{olF.grp=v;olPage=0}},{k:'city',l:'City',type:'many',opts:[...new Set(all.map(o=>o.city))].sort().map(c=>[c,c]),get:()=>olF.city,set:v=>{olF.city=v;olPage=0}}],renderSet);
     const L=dtSort(K,olList()),per=20,pg=Math.min(olPage,Math.max(0,Math.ceil(L.length/per)-1)),rows=L.slice(pg*per,pg*per+per),on=rows.length&&rows.every(o=>olSel.has(o.code)),some=rows.some(o=>olSel.has(o.code)),
-      tabs=[['all','All',all.length],['off','Terminals offline',all.filter(olOff).length],['nos','No sales today',all.filter(o=>o.today===0).length]];
-    return sec('Outlets',`<div class="tabs" role="tablist" style="margin-bottom:4px">${tabs.map(t=>`<button class="tab${olTab===t[0]?' on':''}" data-olt="${t[0]}">${t[1]}<span class="ct">${t[2]}</span></button>`).join('')}</div>
+      tabs=[['all','All',all.length],['off','Terminals offline',olData().reduce((a,o)=>a+olTerms(o.code).filter(x=>x.st==='Offline').length,0)],['nos','No sales today',all.filter(o=>o.today===0).length]];
+    return sec('Outlets',`<div class="tabs" role="tablist" style="margin-bottom:4px">${tabs.map(t=>`<button class="tab${olTab===t[0]?' on':''}" data-olt="${t[0]}" role="tab" aria-selected="${olTab===t[0]}">${t[1]}${t[0]==='off'&&t[2]?`<span class="badge">${t[2]}</span>`:''}</button>`).join('')}</div>
       <div class="filters dt-bar"><label class="search bl-search">${ic('search',16)}<input id="ol-q" placeholder="Code, outlet or city" value="${esc(olQ)}" autocomplete="off" aria-label="Search outlets"></label><span class="dt-btns">${fbBtns(K,K)}</span></div>
       ${ed?`<div class="bulk${olSel.size?' show':''}"><span>${olSel.size} selected</span><span class="sp"></span><button class="btn btn-o" data-olb="grp">Add to group</button><button class="btn btn-o" data-olb="hrs">Set hours</button><button class="btn btn-o" data-olb="inv">Invite store managers</button><button class="btn" data-olb="clr" style="color:var(--primary)">Clear</button></div>`:''}
       <div class="tbl-wrap"><table><thead><tr>${ed?`<th class="c-chk"><button class="cb ${on?'on':some?'mixed':''}" data-olall aria-label="Select all on this page">${on?ic('check',12,3):''}</button></th>`:''}${dtHead(K)}</tr></thead><tbody>${rows.length?rows.map(o=>`<tr class="dv-row" data-olr="${o.code}" tabindex="0">${ed?`<td class="c-chk"><button class="cb ${olSel.has(o.code)?'on':''}" data-olc="${o.code}" aria-label="Select ${esc(o.n)}">${olSel.has(o.code)?ic('check',12,3):''}</button></td>`:''}${dtCells(K,o)}</tr>`).join('')
@@ -8284,9 +8345,11 @@ const SET_TABS={
   'payments:ways':()=>{const L=modesChosen(),go={links:['Create a payment link','payment-links/create'],hosted:['Personalise checkout','checkout-personalization'],plugin:['Request a store connection','settings/payments?t=stores'],api:['Open Developers','settings/developers'],ship:['Create a shipment','shipments/create']},
       who={links:'Sellers on WhatsApp, Instagram or marketplaces, with no website.',hosted:'Stores with their own website that want a ready checkout with shipping and COD.',plugin:'Shopify and WooCommerce stores.',api:'Teams with developers who build their own checkout or app.',ship:'Sellers who take payment elsewhere and only need shipping.',embed:'Platforms, POS and AI agents that need checkout inside their own product.'},
       doc={links:'payment-links',hosted:'checkout',plugin:'plugins',api:'api',ship:'shipping',embed:'embedded'};
-    return sec('Ways you accept payments',`<div class="set-g wy-g">${MODES.map(m=>{const k=m[0],soon=m[5]==='Coming',use=L.includes(k)&&!soon,st=use?modeSt(k):null;return`<div class="set-card wy-c"><div class="wy-h"><b>${m[1]}</b>${soon?'<span class="st gr">Coming</span>':st?`<span class="st ${st[1]}">${st[0]}</span>`:''}</div><span>${m[2]}</span><dl class="kv wy-kv"><dt>Suits</dt><dd>${who[k]}</dd>${m[3]?`<dt>Methods</dt><dd>${m[3]}</dd>`:''}</dl>
-      <div class="wy-a">${go[k]?`<button class="btn btn-o" data-wgo="${go[k][1]}">${go[k][0]}</button>`:''}<button class="lnk" data-toast="Opens docs.flik.id/${doc[k]}">${ic('ext',14)}Read the docs</button></div></div>`}).join('')}</div>`,
-      {p:'Every way FLIK takes payments, with who it suits and how to start. The ones you use show where they stand.'})},
+    /* simple guide: one line per way (what it is and who it's for), the start button and the docs. Ways FLIK doesn't offer yet get a disabled Coming soon button */
+    const one={links:'Send a link by WhatsApp or email. For sellers without a website.',hosted:'A FLIK checkout page for your website, with shipping and COD.',plugin:'For Shopify and WooCommerce stores. The FLIK team connects it for you.',api:'Build your own checkout with FLIK APIs. For teams with developers.',ship:'Use FLIK only to ship. For sellers who take payment elsewhere.',embed:'Checkout inside your own product, for platforms, POS and AI agents.'};
+    return sec('Ways you accept payments',`<div class="set-g wy-g">${MODES.map(m=>{const k=m[0],soon=m[5]==='Coming',use=L.includes(k)&&!soon,st=use?modeSt(k):null;return`<div class="set-card wy-c"><div class="wy-h"><b>${m[1]}</b></div><span>${one[k]||m[2]}</span>
+      <div class="wy-a">${soon?'<button class="btn btn-o" disabled>Coming soon</button>':go[k]?`<button class="btn btn-o" data-wgo="${go[k][1]}">${go[k][0]}</button>`:''}<button class="lnk" data-toast="Opens docs.flik.id/${doc[k]}">${ic('ext',14)}Read the docs</button></div></div>`}).join('')}</div>`,
+      {p:'Pick how you take payments, and start from its card.'})},
   'payments:methods':()=>{const D=pmD||(pmD=new Set(PM_ALL.filter(pmOn))),ed=['owner','admin'].includes(ONB.role),
       logo=k=>k==='card'?`<span class="plg plg-i">${ic('card',14)}</span>`:k==='cod'?`<span class="plg plg-i">${ic('pkg',14)}</span>`:`<img class="plg" src="${IMG}payment/${PMS[k][1]}.png" alt="">`,
       code=k=>({va_bca:'bca_va',va_mandiri:'mandiri_va',va_bni:'bni_va',va_bri:'bri_va',va_permata:'permata_va',va_bsi:'bsi_va'})[k]||k,req=ONB.pmReq||{},mins=ONB.pmMin||{},
@@ -8568,7 +8631,7 @@ function onbHome(){const v=document.getElementById('view-home');if(!v)return;v.q
 /* simulate a payment on the test hosted page (sandbox only) */
 /* sandbox simulator: a floating card like the setup guide. Steps and progress, then what can happen next. Minimises to one "Next" line */
 const SIMF=c=>{const i=c.i||0,n=c.steps?c.steps.length:0;
-  return`<div class="simf${ONB.simMin?' min':''}" role="region" aria-label="${c.t}"><div class="sg-h"><div><b>${c.t}</b><span class="simf-a">${n?`<small>${i+1} of ${n}</small>`:'<small>Sandbox</small>'}<button class="ib" data-simmin aria-label="${ONB.simMin?'Expand':'Minimise'} simulator" aria-expanded="${!ONB.simMin}">${ic('chev',16)}</button></span></div>${n?`<div class="pbar"><i style="width:${Math.round((i+1)/n*100)}%"></i></div>`:''}</div>
+  return`<div class="simf${ONB.simMin?' min':''}" role="region" aria-label="${c.t}"><div class="sg-h"><div><b>${c.t}</b><span class="simf-a">${n?`<small>${i+1} of ${n}</small>`:'<small>Sandbox</small>'}<button class="ib" data-simmin aria-label="${ONB.simMin?'Expand':'Minimise'} simulator" aria-expanded="${!ONB.simMin}">${ic('chev',16)}</button>${c.x?`<button class="ib" ${c.x} aria-label="Close and go back to the setup guide">${ic('x',16)}</button>`:''}</span></div>${n?`<div class="pbar"><i style="width:${Math.round((i+1)/n*100)}%"></i></div>`:''}</div>
   <p class="simf-n"><span>Next:</span> ${c.next}</p>
   <div class="simf-full">${n?`<div class="sg-g">${c.steps.map((s,k)=>`<div class="sg-s${k<i?' done':k===i?' next':''}"><span class="m">${k<i?ic('check',10,3):''}</span><span class="t">${s}</span></div>`).join('')}</div>`:''}
   <div class="simf-f"><p>${c.note}</p>${c.acts.length?`<div>${c.acts.map(([a,l,o],k)=>`<button class="btn ${k||o?'btn-o':'btn-p'}" ${a}>${l}</button>`).join('')}</div>`:''}</div></div></div>`};
@@ -8585,7 +8648,7 @@ if(ONB.st==='new'&&!ONB.tour)setTimeout(openTour,400);
 let SBX_LIVE=null;
 const SBX_CUST=['A','B','C','D','E'].map((x,i)=>({name:'Toko Contoh '+x,phone:`+62 800-0000-00${10+i}`,email:`contoh.${x.toLowerCase()}@example.com`,city:CITY[i%CITY.length]}));
 const SBX_UJ={id:'FLIKCM-TEST-0001',placed:50e6,admin:5e5,fee:3e6,seg:[[1,30,5e5],[31,60,6e5],[61,89,665e3],[90,90,735e3]]};
-MC_APPD[SBX_UJ.id]=()=>{const a=MC_APPD['FLIKCM-2026-0031'](),done=MC.base==='history';return{...a,amt:SBX_UJ.placed,sub:'2 Sep 2026',pay:{...a.pay,live:done?0:1,end:done?fday(NOW):a.pay.end}}};
+MC_APPD[SBX_UJ.id]=()=>{const m=sbxSt().mc;if(['review','offer'].includes(m))return{...mcAppGen(m,'14 Oct 2026'),amt:SBX_UJ.placed};const a=MC_APPD['FLIKCM-2026-0031'](),done=MC.base==='history'||m==='done';return{...a,amt:SBX_UJ.placed,sub:'2 Sep 2026',pay:['review','offer'].includes(m)?null:{...a.pay,live:done?0:1,end:done?fday(NOW):a.pay.end}}};
 const sbxSt=()=>ONB.sb||(ONB.sb={led:[],or:{},iv:{},mc:'none'});
 function sbxApplyLed(e){LEDGER.push({...e,t:new Date(e.t)});CLOSE.active+=e.a;BAL=CLOSE.active;const b=document.getElementById('balv');if(b)b.textContent=rp(CLOSE.active)}
 function sbxLed(d,refL,ref,a){const L=sbxSt().led,e={t:NOW.getTime()+(L.length+1)*60000,b:'active',d,ref:[refL,ref],a};L.push(e);sbxApplyLed(e);onbSave();return e}
@@ -8600,7 +8663,7 @@ function sbxSwap(on){
     if(S.sinv&&!INV.some(v=>v.no===S.sinv.no))INV.unshift({...S.sinv,created:new Date(S.sinv.created),due:new Date(S.sinv.due)});(S.pays||[]).forEach(p=>PAY.unshift({...p,created:new Date(p.created)}));render();
     LEDGER=[{t:LD(1,9,0),b:'active',d:'Sample opening balance',ref:['Reference','TEST-OPEN'],a:2000000}];Object.assign(CLOSE,{active:2000000,reserve:0,charges:0,pending:0});BAL=2000000;BS='noreserve';
     REFUNDS.length=0;DISPUTES.length=0;ICUST.splice(0,ICUST.length,...SBX_CUST);
-    Object.assign(UJ,SBX_UJ);MC_ASK=SBX_UJ.placed;MC={...SBX_LIVE.MC,open:{},app:null};sbxMcSet(S.mc);
+    Object.assign(UJ,SBX_UJ);MC_ASK=SBX_UJ.placed;MC={...SBX_LIVE.MC,open:{},app:null};sbxMcSet(S.mc);/* the sandbox's Cash Advance page is the full list (sample data plus the sample run's row); stepping through an application yourself uses the single view */if(S.mc!=='none'&&S.smpca)mcSbxList();
     S.led.forEach(sbxApplyLed)}
   if(!on&&SBX_LIVE){const L=SBX_LIVE;window.SBX_ON=0;if(FRESH){PS.mode='new';CUSV.state='empty';PRDS.state='empty'}
     [[SH,L.SH],[BATCH,L.BATCH],[TK,L.TK],[CL,L.CL],[PEND,L.PEND],[SHP,L.SHP],[INV,L.INV],[REFUNDS,L.RF],[DISPUTES,L.DP],[ICUST,L.IC],[PAY,L.PY]].forEach(([a,b])=>a.splice(0,a.length,...b));
