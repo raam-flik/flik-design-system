@@ -2319,80 +2319,103 @@ body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;heig
 .sg-pill:hover{box-shadow:0 0 0 1px rgba(64,68,82,.18),0 2px 5px rgba(64,68,82,.1)}
 @media (max-width:600px){.sg{right:16px;bottom:16px}.sg-pill .t{display:none}}
 /* Tour */
-#modal.tour{max-width:480px;overflow:hidden}
-/* welcome slides: 6-second loops from the dashboard's parts (spec §1); one easing and timing; reduced motion shows the last frame */
-.tour{max-width:520px}
-.tr-ill{height:220px}
-.tv{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:18px;padding:16px;font-size:11px;color:var(--text)}
-.tv *{animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+#modal.tour{max-width:560px;overflow:hidden}
+/* welcome slides (spec §1, decision 27): a 6-second scene per slide, built from the dashboard's own parts with the store's name and sample data.
+   One motion language: the same easing and 6s loop, a slow camera push-in, layers that rise in. Each scene builds to 80%, holds, then resets.
+   Base styles are the finished scene, so with reduced motion each slide shows its last frame */
+.tr-ill.tr-s{height:260px;display:block;overflow:hidden}
+.tv{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:24px;padding:20px;font-size:12px;color:var(--text);animation:tvCam 6s cubic-bezier(.45,0,.55,1) infinite;transform-origin:50% 55%}
+.tv *{animation-duration:6s;animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:both}
 .tv .st{font-size:11px}
-.tv-m{width:14px;height:14px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:#fff;flex:none}
-.tv-ph{width:130px;height:180px;background:#fff;border-radius:14px;box-shadow:var(--sh);padding:10px;display:flex;flex-direction:column;gap:8px}
-.tv-top{display:flex;align-items:center;gap:6px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.tv-type{font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;width:calc(var(--n)*1ch);animation:tvType 6s steps(12) infinite}
-.tv-it{display:flex;align-items:center;gap:6px}
-.tv-it span{width:22px;height:22px;border-radius:6px;background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--muted)}
-.tv-it i{flex:1;height:6px;border-radius:3px;background:var(--line)}
-.tv-pay{margin-top:auto;height:22px;border-radius:6px;background:var(--ink);color:#fff;font-weight:600;font-size:11px;display:flex;align-items:center;justify-content:center}
-.tv-sd{display:flex;flex-direction:column;gap:12px;align-items:flex-start;width:170px}
-.tv-chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;background:#fff;box-shadow:var(--sh);color:var(--ink)}
-.tv-n{display:inline-grid}
-.tv-n b{grid-area:1/1;font-weight:600}
-.tv-n b:first-child{opacity:0;animation:tvOut 6s infinite}
-.tv-n b:last-child{animation:tvIn 6s infinite}
-.tv-toast,.tv-paid{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:#fff;box-shadow:var(--pop)}
-.tv-toast{animation:tvUpA 6s infinite}
-.tv-toast span{display:grid;color:var(--muted)}
-.tv-toast b{color:var(--ink);font-size:12px}
-.tv-truck{color:var(--primary);animation:tvDrive 6s infinite}
-.tv-dash{width:330px;height:170px;background:#fff;border-radius:12px;box-shadow:var(--sh);display:flex;overflow:hidden}
-.tv-nav{width:112px;border-right:1px solid var(--line);padding:10px 6px;display:flex;flex-direction:column;gap:4px}
-.tv-ni{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;animation:tvHi 6s infinite backwards;animation-delay:calc(var(--k)*2s)}
+.tv-card{background:var(--surface,#fff);border-radius:12px;box-shadow:var(--pop)}
+.tv-side{display:flex;flex-direction:column;gap:12px;align-items:flex-start;width:190px;position:relative}
+.tv-n{display:inline-grid;overflow:hidden}.tv-n b{grid-area:1/1;font-weight:600;color:var(--ink)}
+.tv-n b:first-child{animation-name:tvNumOut}.tv-n b:last-child{animation-name:tvNumIn}
+.tv-bal{display:grid;gap:4px;padding:12px 14px;min-width:170px}.tv-bal small{color:var(--muted);display:flex;align-items:center;gap:6px}.tv-bal .tv-n b{font-size:18px}
+.tv-bal{animation-name:tvBalPop}
+.tv-m{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;color:var(--on-primary,#fff);background:var(--primary);border:1.5px solid var(--primary)}
+/* 1 Welcome: the store's checkout on a phone, paid by QRIS, the balance goes up and the parcel leaves */
+.tv-ph{width:158px;height:214px;padding:12px;display:flex;flex-direction:column;gap:9px;border-radius:18px;animation-name:tvRise}
+.tv-top{display:flex;align-items:center;gap:6px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.tv-type{font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;width:calc(var(--n)*1ch);animation-name:tvType;animation-timing-function:steps(12)}
+.tv-it{display:flex;align-items:center;gap:7px;animation-name:tvRise;animation-delay:calc(.25s + var(--k)*.15s)}
+.tv-it span{width:24px;height:24px;border-radius:6px;background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.tv-it i{flex:1;height:6px;border-radius:3px;background:var(--line)}.tv-it em{font-style:normal;color:var(--ink);font-size:11px}
+.tv-tot{display:flex;justify-content:space-between;margin-top:auto;color:var(--muted)}.tv-tot b{color:var(--ink)}
+.tv-pay{height:30px;border-radius:8px;background:var(--ok);color:var(--on-primary,#fff);font-weight:600;display:grid;place-items:center;animation-name:tvPayBg}
+.tv-pay span{grid-area:1/1;display:flex;align-items:center;gap:6px}.tv-pay .a{animation-name:tvPayA}.tv-pay .b{animation-name:tvPayB}
+.tv-toast{display:flex;align-items:center;gap:8px;padding:10px 12px;animation-name:tvToast}.tv-toast span{display:grid;color:var(--muted)}.tv-toast b{color:var(--ink);font-size:13px}
+.tv1 .tv-bal .tv-n b:first-child,.tv1 .tv-bal .tv-n b:last-child,.tv1 .tv-bal{animation-delay:.2s}
+.tv-road{width:190px;height:30px;border-bottom:2px dashed var(--line-2);position:relative}
+.tv-truck{position:absolute;left:0;bottom:2px;color:var(--primary);display:flex;align-items:flex-end;gap:2px;transform:translateX(150px);animation-name:tvDrive}
+/* 2 Look around: a glide across the dashboard, Payments, Shipping and Cash Advance light up in turn */
+.tv-dash{width:420px;height:206px;display:flex;overflow:hidden;animation-name:tvRise}
+.tv-nav{width:156px;border-right:1px solid var(--line);padding:12px 8px;display:flex;flex-direction:column;gap:4px;position:relative}
+.tv-brand{display:flex;align-items:center;gap:6px;font-weight:600;color:var(--ink);padding:0 6px 10px;white-space:nowrap;overflow:hidden}
+.tv-ni{display:flex;align-items:center;gap:7px;height:28px;padding:0 8px;border-radius:6px;color:var(--text);white-space:nowrap}.tv-ni:nth-of-type(1){animation-name:tvHi0}.tv-ni:nth-of-type(2){animation-name:tvHi1}.tv-ni:nth-of-type(3){animation-name:tvHi2}
+.tv-ni:nth-of-type(3){background:var(--primary-soft);color:var(--primary)}
 .tv-pn{flex:1;position:relative}
-.tv-pc{position:absolute;inset:16px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;opacity:0;animation:tvShow 6s infinite backwards;animation-delay:calc(var(--k)*2s)}
-.tv-pc small{color:var(--muted)}
-.tv-pc b{font-size:18px;color:var(--ink);font-weight:600}
-.tv-docs{display:flex;flex-direction:column;gap:10px}
-.tv-doc{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:#fff;box-shadow:var(--sh);color:var(--ink);font-weight:600;animation:tvSlide 6s infinite backwards}
-.tv-doc.d2{animation-delay:.4s}
-.tv-ck{width:180px;background:#fff;border-radius:12px;box-shadow:var(--sh);padding:12px;display:flex;flex-direction:column;gap:8px}
-.tv-cr{display:flex;align-items:center;gap:8px;color:var(--ink)}
-.tv-cr .tv-m{border:1.5px solid var(--primary);animation:tvTickC 6s infinite backwards;animation-delay:calc(1.4s + var(--k)*.6s)}
-.tv-cr .tv-m svg{animation:tvTickS 6s infinite backwards;animation-delay:calc(1.4s + var(--k)*.6s)}
-.tv-act{align-self:flex-start;animation:tvPop 6s infinite}
-.tv-wa{width:176px;background:var(--ok-bg);border-radius:12px 12px 12px 2px;padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--sh);animation:tvUpW 6s infinite}
-.tv-wa small{color:var(--ok-tx);font-weight:600}
-.tv-wa p{color:var(--text);line-height:1.4}
-.tv-inv{background:#fff;border-radius:8px;padding:8px;display:grid;gap:4px}
-.tv-inv b{font-size:14px;color:var(--ink);font-weight:600}
-.tv-inv span{color:var(--primary);font-weight:600}
-.tv-paid{animation:tvUpB 6s infinite}
-.tv-ok{width:16px;height:16px;border-radius:50%;background:var(--ok);color:#fff;display:inline-flex;align-items:center;justify-content:center}
-.tv-sg{width:220px;background:#fff;border-radius:12px;box-shadow:var(--pop);padding:12px;display:flex;flex-direction:column;gap:6px;transform-origin:bottom right;animation:tvUnfold 6s infinite}
-.tv-sh{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
-.tv-sh>b{color:var(--ink);font-weight:600}
-.tv-sh i{display:block;height:4px;border-radius:2px;background:var(--line)}
-.tv-sh i b{display:block;height:100%;width:34%;background:var(--primary);border-radius:2px}
-.tv-ss{display:flex;align-items:center;gap:8px;padding:6px;border-radius:6px}
-.tv-ss .tv-m{background:#fff;border:1.5px solid var(--line-2)}
-.tv-ss.nx{color:var(--ink);font-weight:500;animation:tvPulse 2s infinite;animation-delay:1.2s}
-@keyframes tvType{0%{width:0}25%,100%{width:calc(var(--n)*1ch)}}
-@keyframes tvDrive{0%,25%{transform:none;opacity:1}45%{transform:translateX(90px);opacity:0}100%{transform:none;opacity:0}}
-@keyframes tvUpA{0%,45%{opacity:0;transform:translateY(8px)}55%,92%{opacity:1;transform:none}100%{opacity:0}}
-@keyframes tvIn{0%,62%{opacity:0}68%,100%{opacity:1}}
-@keyframes tvOut{0%,62%{opacity:1}68%,100%{opacity:0}}
-@keyframes tvHi{0%{background:none;color:var(--text)}3%,30%{background:var(--primary-soft);color:var(--primary)}34%,100%{background:none;color:var(--text)}}
-@keyframes tvShow{0%{opacity:0;transform:translateY(6px)}4%,30%{opacity:1;transform:none}34%,100%{opacity:0}}
-@keyframes tvSlide{0%{opacity:0;transform:translateX(-30px)}15%,82%{opacity:1;transform:none}95%,100%{opacity:0}}
-@keyframes tvTickC{0%{background:#fff;border-color:var(--line-2)}5%,70%{background:var(--primary);border-color:var(--primary)}80%,100%{background:#fff;border-color:var(--line-2)}}
-@keyframes tvTickS{0%{opacity:0}5%,70%{opacity:1}80%,100%{opacity:0}}
-@keyframes tvPop{0%,70%{opacity:0;transform:scale(.8)}78%,96%{opacity:1;transform:none}100%{opacity:0}}
-@keyframes tvUpW{0%{opacity:0;transform:translateY(10px)}12%,92%{opacity:1;transform:none}100%{opacity:0}}
-@keyframes tvUpB{0%,35%{opacity:0;transform:translateY(8px)}45%,92%{opacity:1;transform:none}100%{opacity:0}}
-@keyframes tvUnfold{0%{transform:scale(.15);opacity:0}18%,94%{transform:none;opacity:1}100%{opacity:0}}
-@keyframes tvPulse{0%,100%{box-shadow:0 0 0 0 var(--primary-soft);background:none}50%{box-shadow:0 0 0 3px var(--primary-soft);background:var(--primary-soft)}}
-@media (max-width:420px){.tv{transform:scale(.86)}}
-@media (prefers-reduced-motion:reduce){.tv *{animation:none!important}.tv-pc:last-child{opacity:1}.tv-ni:last-child{background:var(--primary-soft);color:var(--primary)}}
+.tv-pc{position:absolute;inset:16px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;opacity:0}.tv-pc:nth-child(1){animation-name:tvShow0}.tv-pc:nth-child(2){animation-name:tvShow1}.tv-pc:nth-child(3){animation-name:tvShow2}
+.tv-pc:last-child{opacity:1}
+.tv-pc small{color:var(--muted)}.tv-pc b{font-size:22px;color:var(--ink);font-weight:600}
+.tv-bars{display:flex;align-items:flex-end;gap:6px;height:58px;margin-top:auto;width:100%}
+.tv-bars i{flex:1;border-radius:3px 3px 0 0;background:var(--primary-soft);height:calc(var(--h)*1%);transform-origin:bottom;animation-delay:calc(var(--j)*.05s)}.tv-pc:nth-child(1) .tv-bars i{animation-name:tvBar0}.tv-pc:nth-child(2) .tv-bars i{animation-name:tvBar1}.tv-pc:nth-child(3) .tv-bars i{animation-name:tvBar2}
+.tv-bars i:nth-child(5){background:var(--primary)}
+/* 3 Get verified: KTP and NPWP slide into the checklist, it ticks itself and ends on Active */
+.tv-docs{display:flex;flex-direction:column;gap:12px}
+.tv-doc{display:flex;align-items:center;gap:8px;padding:10px 12px;width:150px;color:var(--ink);animation-name:tvDoc;animation-delay:calc(var(--k)*.35s)}
+.tv-doc small{margin-left:auto;color:var(--muted)}.tv-doc svg{color:var(--primary)}
+.tv-ck{width:214px;padding:14px;display:flex;flex-direction:column;gap:10px;animation-name:tvRise}
+.tv-ck>b{color:var(--ink);font-weight:600;font-size:13px}
+.tv-cr{display:flex;align-items:center;gap:9px;color:var(--ink)}
+.tv-cr:nth-of-type(1) .tv-m{animation-name:tvTk0}.tv-cr:nth-of-type(2) .tv-m{animation-name:tvTk1}.tv-cr:nth-of-type(3) .tv-m{animation-name:tvTk2}
+.tv-cr:nth-of-type(1) .tv-m svg{animation-name:tvTs0}.tv-cr:nth-of-type(2) .tv-m svg{animation-name:tvTs1}.tv-cr:nth-of-type(3) .tv-m svg{animation-name:tvTs2}
+.tv-act{display:flex;align-items:center;gap:8px;color:var(--muted);padding-top:10px;border-top:1px solid var(--line);animation-name:tvPop}
+/* 4 Sandbox: the sample sale. The invoice is emailed, paid by QRIS, and the test balance goes up */
+.tv-mail{width:196px;padding:12px;display:grid;gap:9px;animation-name:tvRise}
+.tv-mh{display:flex;align-items:center;gap:8px}.tv-mh>span{display:grid}.tv-mh b{color:var(--ink);font-weight:600}.tv-mh small{color:var(--muted)}
+.tv-mh i{width:28px;height:28px;border-radius:50%;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex:none}
+.tv-mail p{color:var(--muted)}
+.tv-inv{background:var(--hover);border-radius:8px;padding:10px;display:grid;gap:8px}.tv-inv b{font-size:16px;color:var(--ink);font-weight:600}
+.tv-btn{height:28px;border-radius:6px;background:var(--primary);color:var(--on-primary,#fff);font-weight:600;display:grid;place-items:center;animation-name:tvPress}
+.tv-paid{display:flex;align-items:center;gap:8px;padding:10px 12px;animation-name:tvToast}.tv-paid>span{display:grid;color:var(--ink)}.tv-paid small{color:var(--muted)}
+.tv-ok{width:18px;height:18px;border-radius:50%;background:var(--ok);color:var(--on-primary,#fff);display:flex;align-items:center;justify-content:center;margin-left:auto}
+/* 5 Checklist: the setup guide unfolds from the corner and its next step pulses */
+.tv5{justify-content:flex-end;align-items:center;padding:16px 28px}
+.tv-pg{position:absolute;left:24px;top:22px;right:24px;display:grid;gap:10px;opacity:.55}
+.tv-pg i{display:block;height:10px;border-radius:5px;background:var(--line)}.tv-pg i:first-child{width:30%;height:16px;background:var(--line-2)}.tv-pg i:nth-child(3){width:70%}.tv-pg i:nth-child(4){width:55%}
+.tv-sg{width:280px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;transform-origin:100% 100%;position:relative;animation-name:tvUnfold}
+.tv-sh{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}.tv-sh>b{color:var(--ink);font-weight:600;font-size:13px}
+.tv-sh i{display:block;height:4px;border-radius:2px;background:var(--line)}.tv-sh i b{display:block;height:100%;width:34%;background:var(--primary);border-radius:2px;animation-name:tvFill}
+.tv-gh{display:flex;justify-content:space-between;color:var(--muted);font-weight:500;padding:4px 6px}
+.tv-ss{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:6px;white-space:nowrap}
+.tv-ss .tv-m{background:var(--surface,#fff);border-color:var(--line-2)}
+.tv-ss.dn .tv-m{background:var(--primary);border-color:var(--primary);animation-name:tvTk5}.tv-ss.dn .tv-m svg{animation-name:tvTs5}.tv-ss.dn{color:var(--muted);text-decoration:line-through}
+.tv-ss.nx{color:var(--ink);font-weight:500;animation-name:tvPulse}.tv-ss.nx .tv-m{border:5px solid var(--primary)}
+@keyframes tvCam{0%{transform:scale(.97)}88%{transform:scale(1.03)}100%{transform:scale(.97)}}
+@keyframes tvRise{0%{opacity:0;transform:translateY(14px)}12%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes tvType{0%,6%{width:0}24%,100%{width:calc(var(--n)*1ch)}}
+@keyframes tvPayBg{0%,38%{background:var(--ink);transform:none}41%{background:var(--ink);transform:scale(.94)}45%,100%{background:var(--ok);transform:none}}
+@keyframes tvPayA{0%,42%{opacity:1}45%,100%{opacity:0}}
+@keyframes tvPayB{0%,43%{opacity:0;transform:scale(.8)}48%,100%{opacity:1;transform:none}}
+@keyframes tvToast{0%,46%{opacity:0;transform:translateX(24px)}54%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes tvNumOut{0%,58%{opacity:1;transform:none}63%,100%{opacity:0;transform:translateY(-100%)}}
+@keyframes tvNumIn{0%,58%{opacity:0;transform:translateY(100%)}63%,100%{opacity:1;transform:none}}
+@keyframes tvBalPop{0%,10%{opacity:0;transform:translateY(14px)}18%,58%{opacity:1;transform:none;box-shadow:var(--pop)}62%{transform:scale(1.04);box-shadow:var(--pop),0 0 0 6px var(--primary-soft)}70%,94%{opacity:1;transform:none;box-shadow:var(--pop)}100%{opacity:0}}
+@keyframes tvDrive{0%,64%{transform:none;opacity:0}67%{opacity:1;transform:none}86%,94%{transform:translateX(150px);opacity:1}100%{transform:translateX(170px);opacity:0}}
+@keyframes tvHi0{0%,3%{background:none;color:var(--text)}6%,27%{background:var(--primary-soft);color:var(--primary)}30%,100%{background:none;color:var(--text)}}@keyframes tvHi1{0%,30%{background:none;color:var(--text)}33%,57%{background:var(--primary-soft);color:var(--primary)}60%,100%{background:none;color:var(--text)}}@keyframes tvHi2{0%,60%{background:none;color:var(--text)}63%,94%{background:var(--primary-soft);color:var(--primary)}100%{background:none;color:var(--text)}}
+@keyframes tvShow0{0%,3%{opacity:0;transform:translateY(10px)}7%,26%{opacity:1;transform:none}29%,100%{opacity:0;transform:translateY(-8px)}}@keyframes tvShow1{0%,30%{opacity:0;transform:translateY(10px)}34%,56%{opacity:1;transform:none}59%,100%{opacity:0;transform:translateY(-8px)}}@keyframes tvShow2{0%,60%{opacity:0;transform:translateY(10px)}64%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes tvBar0{0%,4%{transform:scaleY(0)}12%,100%{transform:none}}@keyframes tvBar1{0%,31%{transform:scaleY(0)}39%,100%{transform:none}}@keyframes tvBar2{0%,61%{transform:scaleY(0)}69%,100%{transform:none}}
+
+@keyframes tvDoc{0%{opacity:0;transform:translate(-40px,6px) rotate(-6deg)}10%,30%{opacity:1;transform:none}40%,94%{opacity:.35;transform:translateX(16px) scale(.96)}100%{opacity:0}}
+@keyframes tvTk0{0%,34%{background:var(--surface,#fff);border-color:var(--line-2)}38%,100%{background:var(--primary);border-color:var(--primary)}}@keyframes tvTs0{0%,34%{opacity:0;transform:scale(.4)}38%,100%{opacity:1;transform:none}}@keyframes tvTk1{0%,42%{background:var(--surface,#fff);border-color:var(--line-2)}46%,100%{background:var(--primary);border-color:var(--primary)}}@keyframes tvTs1{0%,42%{opacity:0;transform:scale(.4)}46%,100%{opacity:1;transform:none}}@keyframes tvTk2{0%,50%{background:var(--surface,#fff);border-color:var(--line-2)}54%,100%{background:var(--primary);border-color:var(--primary)}}@keyframes tvTs2{0%,50%{opacity:0;transform:scale(.4)}54%,100%{opacity:1;transform:none}}@keyframes tvTk5{0%,24%{background:var(--surface,#fff);border-color:var(--line-2)}28%,100%{background:var(--primary);border-color:var(--primary)}}@keyframes tvTs5{0%,24%{opacity:0;transform:scale(.4)}28%,100%{opacity:1;transform:none}}
+@keyframes tvPop{0%,64%{opacity:0;transform:scale(.9)}70%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes tvPress{0%,32%{transform:none}35%{transform:scale(.94)}38%,100%{transform:none}}
+@keyframes tvUnfold{0%,6%{transform:scale(.12);opacity:0}20%,94%{transform:none;opacity:1}100%{opacity:0}}
+@keyframes tvFill{0%,22%{width:0}34%,100%{width:34%}}
+@keyframes tvPulse{0%,40%{box-shadow:none;background:none}50%{box-shadow:0 0 0 4px var(--primary-soft);background:var(--primary-soft)}60%{box-shadow:none;background:none}70%{box-shadow:0 0 0 4px var(--primary-soft);background:var(--primary-soft)}80%,100%{box-shadow:none;background:none}}
+@media (max-width:520px){.tv{zoom:.7}.tr-ill.tr-s{height:200px}}
+@media (prefers-reduced-motion:reduce){.tv,.tv *{animation:none!important}.tv-n b:first-child,.tv-pay .a,.tv-pc{opacity:0}.tv-pc:last-child{opacity:1}.tv-ni:nth-of-type(3){background:var(--primary-soft);color:var(--primary)}}
 
 .tr-ill{height:200px;background:var(--hover);position:relative;display:flex;align-items:center;justify-content:center;gap:14px}
 .tr-ill::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,#FF7A2E,#FF2DB8,#6A4BFF,#00E5FF)}
@@ -2465,7 +2488,7 @@ body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;heig
 .set-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.set-row:last-child{border-bottom:0}.set-box>.set-row:first-child{padding-top:0}.set-box>.set-row:last-child{padding-bottom:0}
 .set-row .tx{flex:1;min-width:0}.set-row b{display:block;color:var(--ink);font-weight:500}.set-row small{display:block;color:var(--muted);font-size:13px}
 .set-row .cb{flex:none}
-.set-tbl table{min-width:640px}
+.set-tbl table{min-width:640px}.set-tbl tr[data-stm]{cursor:pointer}.stm-t table{min-width:0}.stm-t td,.stm-t th{padding-left:0}.stm-t td:last-child,.stm-t th:last-child{text-align:right;padding-right:0;white-space:nowrap}.set-tbl tr[data-stm]:hover td{background:var(--hover)}.set-tbl tr[data-stm]:focus-visible{outline:2px solid var(--primary);outline-offset:-2px}
 .vx-doc.set-logo{box-shadow:none;padding:0 0 16px;margin:0 0 16px;border-radius:0;border-bottom:1px solid var(--line);gap:16px}.set-logo .ic{width:72px;height:72px;border-radius:10px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:center;flex:none;color:var(--muted)}.set-logo span{display:block}.set-logo .ic img{width:52px;height:52px;object-fit:contain}[data-ctc]{min-width:88px;justify-content:center}.set-acts .set-row>.btn{min-width:136px;justify-content:center}.set-logo .btn{margin:10px 0 0}
 .set-ntf table{min-width:480px}.set-ntf :is(th,td):not(:first-child){width:140px;text-align:center}.set-ntf td .cb{margin:0 auto}
 .set-g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -7879,22 +7902,29 @@ const TOUR=[['bolt','Welcome to FLIK, Dewi','Ship, get paid and grow from one pl
   ['shield','Get verified to go live','You\'ll need your KTP, NPWP, NIB if you have one, and a bank account in your business\'s name.',['doc','shield','bank'],'Start verification'],
   ['code','Practise in the sandbox','Sample payments and test money. Developers get a real API response in one click.',['tx','code','key'],'See it work'],
   ['check','Your checklist','Your next steps, in order. It follows you on every page.',['home','check','chart']]];
-/* welcome slides lead with motion (spec §1, decision 27): a 6-second loop per slide, built from the dashboard's own parts with the store's name and logo and sample data.
-   With reduced motion each slide shows its last frame */
+/* welcome slides lead with motion (spec §1, decision 27): a 6-second scene per slide, built from the dashboard's own parts with the store's name, logo and sample data.
+   With reduced motion each slide shows its finished scene */
 const TV_AMT=289000;
+const tvLogo=()=>cpLogo(cpGet(),14);
 const TOUR_V=[
-  ()=>`<div class="tv tv1"><div class="tv-ph"><div class="tv-top">${cpLogo(cpGet(),14)}<b class="tv-type" style="--n:${MERCHANT.length}">${MERCHANT}</b></div><div class="tv-it"><span>${ic('box',14)}</span><i></i></div><div class="tv-it"><span>${ic('box',14)}</span><i></i></div><div class="tv-pay">Pay now</div></div>
-    <div class="tv-sd"><span class="tv-chip">${ic('wallet',13)}<span class="tv-n"><b>Rp0</b><b>${rp(TV_AMT)}</b></span></span><div class="tv-toast">${pmLg('qris')}<span>Payment received<b>${rp(TV_AMT)}</b></span></div><span class="tv-truck">${ic('truck',22)}</span></div></div>`,
-  ()=>`<div class="tv tv2"><div class="tv-dash"><div class="tv-nav">${[['cart','Payments'],['truck','Shipping'],['coins','Cash Advance']].map(([i,l],k)=>`<span class="tv-ni" style="--k:${k}">${ic(i,13)}${l}</span>`).join('')}</div>
-    <div class="tv-pn">${[['Transactions',rp(4250000),'ok','Succeeded'],['Shipments','24 in transit','pu','On the way'],['Cash Advance',rp(50000000),'warn','Offer ready']].map(([t,v,c,s],k)=>`<div class="tv-pc" style="--k:${k}"><small>${t}</small><b>${v}</b><span class="st ${c}">${s}</span></div>`).join('')}</div></div></div>`,
-  ()=>`<div class="tv tv3"><div class="tv-docs"><span class="tv-doc">${ic('doc',14)}KTP</span><span class="tv-doc d2">${ic('doc',14)}NPWP</span></div>
-    <div class="tv-ck">${['Business details','Documents','Payout account'].map((t,k)=>`<div class="tv-cr" style="--k:${k}"><span class="tv-m">${ic('check',10,3)}</span>${t}</div>`).join('')}<span class="st ok tv-act">Active</span></div></div>`,
-  ()=>`<div class="tv tv4"><div class="tv-wa"><small>${MERCHANT}</small><p>Hi Toko Contoh A, here's your invoice.</p><div class="tv-inv"><b>${rp(TV_AMT)}</b><span>Pay this invoice</span></div></div>
-    <div class="tv-sd"><div class="tv-paid">${pmLg('qris')}<span>Paid by QRIS</span><span class="tv-ok">${ic('check',10,3)}</span></div><span class="tv-chip">${ic('wallet',13)}<span class="tv-n"><b>Rp2.000.000</b><b>${rp(2000000+TV_AMT)}</b></span><span class="st pu">Test</span></span></div></div>`,
-  ()=>`<div class="tv tv5"><div class="tv-sg"><div class="tv-sh"><b>Setup guide</b><i><b></b></i></div>${['Run a sample sale','Get verified','Ship your first order'].map((t,k)=>`<div class="tv-ss${k?'':' nx'}"><span class="tv-m"></span>${t}</div>`).join('')}</div></div>`];
+  ()=>`<div class="tv tv1"><div class="tv-ph tv-card"><div class="tv-top">${tvLogo()}<b class="tv-type" style="--n:${MERCHANT.length}">${MERCHANT}</b></div>
+      ${[['Linen shirt',189000],['Tote bag',100000]].map(([n,p],k)=>`<div class="tv-it" style="--k:${k}"><span>${ic('box',14)}</span><i></i><em>${rp(p)}</em></div>`).join('')}
+      <div class="tv-tot"><span>Total</span><b>${rp(TV_AMT)}</b></div><div class="tv-pay"><span class="a">Pay with QRIS</span><span class="b">${ic('check',12,3)}Paid</span></div></div>
+    <div class="tv-side"><div class="tv-toast tv-card">${pmLg('qris')}<span>Payment received<b>${rp(TV_AMT)}</b></span></div>
+      <div class="tv-bal tv-card"><small>${ic('wallet',13)}Balance</small><span class="tv-n"><b>${rp(4523800)}</b><b>${rp(4523800+TV_AMT)}</b></span></div>
+      <div class="tv-road"><span class="tv-truck">${ic('truck',24)}</span></div></div></div>`,
+  ()=>`<div class="tv tv2"><div class="tv-dash tv-card"><div class="tv-nav"><b class="tv-brand">${tvLogo()}${MERCHANT}</b>${[['cart','Payments'],['truck','Shipping'],['coins','Cash Advance']].map(([i,l],k)=>`<span class="tv-ni" style="--k:${k}">${ic(i,14)}${l}</span>`).join('')}</div>
+    <div class="tv-pn">${[['Transactions',rp(4250000),'ok','Succeeded',[30,45,38,62,80,55,70]],['Shipments','24 in transit','pu','On the way',[50,35,60,48,74,66,58]],['Cash Advance',rp(50000000),'warn','Offer ready',[20,28,36,46,60,72,86]]].map(([t,v,c,s,h],k)=>`<div class="tv-pc" style="--k:${k}"><small>${t}</small><b>${v}</b><span class="st ${c}">${s}</span><span class="tv-bars">${h.map((x,j)=>`<i style="--h:${x};--j:${j};--k:${k}"></i>`).join('')}</span></div>`).join('')}</div></div></div>`,
+  ()=>`<div class="tv tv3"><div class="tv-docs">${[['KTP','ktp.jpg'],['NPWP','npwp.pdf']].map(([n,f],k)=>`<span class="tv-doc tv-card" style="--k:${k}">${ic('doc',16)}<b>${n}</b><small>${f}</small></span>`).join('')}</div>
+    <div class="tv-ck tv-card"><b>Get verified</b>${['Business details','Documents','Payout account'].map((t,k)=>`<div class="tv-cr" style="--k:${k}"><span class="tv-m">${ic('check',10,3)}</span>${t}</div>`).join('')}<div class="tv-act"><span class="st ok">Active</span>Real actions work</div></div></div>`,
+  ()=>`<div class="tv tv4"><div class="tv-mail tv-card"><div class="tv-mh"><i>${ic('invoice',14)}</i><span><b>${MERCHANT}</b><small>To contoh.a@example.com</small></span></div><p>Invoice TEST-INV-2026-0051</p><div class="tv-inv"><b>${rp(TV_AMT)}</b><span class="tv-btn">Pay this invoice</span></div></div>
+    <div class="tv-side"><div class="tv-paid tv-card">${pmLg('qris')}<span>Paid by QRIS<small>Toko Contoh A</small></span><span class="tv-ok">${ic('check',10,3)}</span></div>
+      <div class="tv-bal tv-card"><small>${ic('wallet',13)}Test balance<span class="st pu">Test</span></small><span class="tv-n"><b>${rp(2000000)}</b><b>${rp(2000000+TV_AMT)}</b></span></div></div></div>`,
+  ()=>`<div class="tv tv5"><div class="tv-pg"><i></i><i></i><i></i><i></i></div><div class="tv-sg tv-card"><div class="tv-sh"><b>Setup guide</b><i><b></b></i></div><div class="tv-gh"><span>Try FLIK</span><span>1/3</span></div>
+    <div class="tv-ss dn"><span class="tv-m">${ic('check',10,3)}</span>Take the tour</div><div class="tv-ss nx"><span class="tv-m"></span>Choose how to accept payments</div><div class="tv-ss"><span class="tv-m"></span>Run a sample sale</div><div class="tv-gh"><span>Go live</span><span>0/1</span></div></div></div>`];
 function openTour(){let i=0;modal.classList.add('tour');
   const draw=()=>{const s=TOUR[i],last=i===TOUR.length-1;
-    modal.innerHTML=`<div class="tr-ill" aria-hidden="true">${TOUR_V[i]()}</div>
+    modal.innerHTML=`<div class="tr-ill tr-s" aria-hidden="true">${TOUR_V[i]()}</div>
     <div class="tr-b"><h3>${s[1]}</h3><p>${s[2]}</p><div class="tr-dots" aria-label="Slide ${i+1} of 5">${TOUR.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>${s[4]?`<button class="btn btn-o" style="margin-top:12px" data-tx="${i}">${s[4]}</button>`:''}</div>
     <div class="tr-f"><button class="skip" data-tskip>Skip</button><div style="display:flex;gap:8px">${i?`<button class="btn btn-o" data-tb>Back</button>`:''}<button class="btn btn-p" data-tn>${last?'Open my checklist':'Next'}</button></div></div>`};
   const end=(done)=>{ONB.tour=true;ONB.done.tour=1;ONB.guide='open';onbSave();closeModal();modal.classList.remove('tour');drawGuide();if(!done)toast('Tour skipped. Your checklist is bottom right.')};
@@ -8233,6 +8263,37 @@ function renderSet(){const el=document.getElementById('view-set'),{c,t}=setRoute
   const sx=el.querySelector('[data-sbxexit]');if(sx)sx.onclick=e=>{e.stopPropagation();exitSbx()};
   (SET_WIRE[c+':'+tab]||(()=>{}))()}
 const later=x=>`<div class="empty"><b>${x[1]} comes ${x[2]==='Later'?'later':'in '+x[2]}</b>It shows here once it's built, so you know it's on the way.</div>`;
+/* ----- billing statements (spec §7.2, AG 7 Nov 2026): one per month, every fee FLIK charged, by category and sub-type,
+   with count, rate, fee before VAT, VAT and total. Published on T+3 as PDF and Excel. Not a tax invoice ----- */
+const STM_VAT=.11;
+/* [category, sub-type, rate shown, count, base amount (for % rates) or null, rate, agreement clause] */
+const STM_CAT=[['Payment fees (MDR)','QRIS','0.7%',812,98450000,.007,'§4.1'],['Payment fees (MDR)','BCA virtual account','Rp4.000',214,null,4000,'§4.1'],['Payment fees (MDR)','GoPay','2%',96,14200000,.02,'§4.1'],
+  ['Checkout platform fee','','Rp1.000',1122,null,1000,'§4.3'],['Shipping platform fee','Standard','Rp1.500',640,null,1500,'§5.2'],['COD fee','','3%',188,21500000,.03,'§5.4'],
+  ['Return fees','','Rp12.000',7,null,12000,'§5.6'],['Withdrawal fees','','Rp5.000',4,null,5000,'§6.2'],['Refund and dispute fees','Refund fee','Rp5.000',6,null,5000,'§4.5']];
+const STM_M=[['2026-09','September 2026',1,'3 Oct 2026',[['Dispute fee recharged','DSP-2026-0012',15000]]],['2026-08','August 2026',.86,'3 Sep 2026',[['Refund fee reversed','RF-2026-0381',-5000]]],
+  ['2026-07','July 2026',.74,'3 Aug 2026',[]],['2026-06','June 2026',.61,'3 Jul 2026',[]],['2026-05','May 2026',.52,'3 Jun 2026',[]],['2026-04','April 2026',.4,'3 May 2026',[]]];
+function stmBuild(m){const[k,per,f,pub,adj]=m,ln=STM_CAT.map(([c,s,rl,n,base,r,cl])=>{const cnt=Math.max(1,Math.round(n*f)),b=base?Math.round(base*f):null,fee=b?Math.round(b*r):cnt*r;return{c,s,rl,cnt,fee,vat:Math.round(fee*STM_VAT),cl}});
+  const aj=adj.map(([t,ref,a])=>({t,ref,a,vat:Math.round(a*STM_VAT)})),fee=ln.reduce((a,l)=>a+l.fee,0)+aj.reduce((a,x)=>a+x.a,0),vat=ln.reduce((a,l)=>a+l.vat,0)+aj.reduce((a,x)=>a+x.vat,0);
+  return{k,per,pub,no:'ST-FEE-'+k+'-0042',ln,aj,fee,vat,tot:fee+vat,st:'Ready',mca:Math.round(1240000*f),ship:Math.round(8640000*f),shipN:Math.max(1,Math.round(640*f)),test:false}}
+/* the sandbox has one sample statement built from the test sale and delivery, marked TEST */
+function stmSample(){const ln=[['Payment fees (MDR)','QRIS','0.7%',1,Math.round(289000*.007),'§4.1'],['Checkout platform fee','','Rp1.000',1,1000,'§4.3'],['Shipping platform fee','Standard','Rp1.500',1,1500,'§5.2'],['COD fee','','3%',1,Math.round(289000*.03),'§5.4']].map(([c,s,rl,cnt,fee,cl])=>({c,s,rl,cnt,fee,vat:Math.round(fee*STM_VAT),cl}));
+  const fee=ln.reduce((a,l)=>a+l.fee,0),vat=ln.reduce((a,l)=>a+l.vat,0);return{k:'2026-10',per:'October 2026',pub:'Sample',no:'TEST-ST-FEE-2026-10',ln,aj:[],fee,vat,tot:fee+vat,st:'Ready',mca:0,ship:12000,shipN:1,test:true}}
+const stmList=()=>ONB.sbx?[stmSample()]:verified()?STM_M.map(stmBuild):[];
+const stmFile=(s,x)=>`Statement-${s.k}${s.test?'-TEST':''}.${x}`;
+function stmDrawer(i){const s=stmList()[i];if(!s)return;
+  const row=l=>`<tr><td><b style="font-weight:500;color:var(--ink)">${l.c}${l.s?` · ${l.s}`:''}</b><br><small style="color:var(--muted)">${l.cnt.toLocaleString('id-ID')} × ${l.rl} · Agreement ${l.cl}</small></td><td class="num">${rp(l.fee+l.vat)}</td></tr>`;
+  drawer.innerHTML=`<div class="dh"><span class="kind">${ic('doc',15)}Billing statement</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+  <div class="db"><div class="d-amt"><b class="num">${rp(s.tot)}</b><span class="st ok">${s.st}</span>${s.test?'<span class="st gr">TEST</span>':''}</div>
+    <p class="d-sub">${s.per} · ${s.no}${s.test?'':` · Published ${s.pub}`}</p>
+    <div class="d-acts"><button class="btn btn-o" data-toast="Downloading ${stmFile(s,'pdf')}">${ic('export',15)}Download PDF</button><button class="btn btn-o" data-toast="Downloading ${stmFile(s,'xlsx')}">${ic('export',15)}Download Excel</button></div>
+    <div class="dsec"><h5>Summary</h5><div class="tbl-wrap set-tbl stm-t"><table><thead><tr><th>Fee · transactions × rate</th><th>Incl. VAT</th></tr></thead><tbody>${s.ln.map(row).join('')}</tbody></table></div>
+      <dl class="kv" style="margin-top:12px"><dt>Fees before VAT${s.aj.length?'<br><small style="color:var(--muted)">Includes adjustments</small>':''}</dt><dd class="num">${rp(s.fee)}</dd><dt>VAT (11%)</dt><dd class="num">${rp(s.vat)}</dd><dt><b style="font-weight:600;color:var(--ink)">Total FLIK fees</b></dt><dd class="num"><b>${rp(s.tot)}</b></dd></dl>
+      <p class="src" style="margin-top:8px">The PDF and Excel show the fee before VAT and the VAT on every line. The Excel file has a Transactions sheet with one row per charge. Its totals match this summary.</p></div>
+    ${s.aj.length?`<div class="dsec"><h5>Adjustments</h5><dl class="kv">${s.aj.map(x=>`<dt>${x.t}<br><small style="color:var(--muted)">${x.ref}</small></dt><dd class="num">${x.a<0?'−':''}${rp(x.a+x.vat)}</dd>`).join('')}</dl><p class="src" style="margin-top:8px">Fees reversed or charged again this month. Included in the total, with VAT.</p></div>`:''}
+    ${s.mca?`<div class="dsec"><h5>Cash Advance</h5><dl class="kv"><dt>Biaya Platform returned</dt><dd class="num">${rp(s.mca)}</dd></dl><p class="src" style="margin-top:8px">Part of your Cash Advance returns this month. It isn't a transaction fee, so it's not in the total.</p></div>`:''}
+    <div class="dsec"><h5>Shipping costs</h5><dl class="kv"><dt>Paid on to couriers</dt><dd class="num">${rp(s.ship)}</dd><dt>Shipments</dt><dd>${s.shipN.toLocaleString('id-ID')}</dd></dl><p class="src" style="margin-top:8px">Passed through to the couriers. Not a FLIK fee, so it's not in the total.</p></div>
+    <p class="src">This statement isn't a tax invoice.</p></div>`;
+  drawer.classList.add('open');dscrim.classList.add('open');drawer.setAttribute('aria-hidden','false');drawer.querySelector('[data-dclose]').onclick=closeDetail}
 const sec=(h,body,o={})=>`<section class="set-sec"><div class="set-sh"><h3>${h}</h3>${o.ct?ctl(o.ct):''}<span class="sp"></span>${o.act||''}</div>${o.p?`<p class="set-p">${o.p}</p>`:''}${o.ro?`<div class="set-ro">${lockIc()}${o.ro}</div>`:''}${body}</section>`;
 const ctl=k=>({step:`<span class="st pu ctl">Confirm with 2FA</span>`,rev:`<span class="st warn ctl">Reviewed by FLIK</span>`,flik:`<span class="st gr ctl">Set by FLIK</span>`,pend:`<span class="st warn ctl">Pending FLIK review</span>`})[k];
 const roOnly=(who,roles)=>roles.includes(ONB.role)?'':`Only ${who} can change this. You can still see it.`;
@@ -8305,7 +8366,7 @@ const SET_TABS={
       ${p&&ONB.payst<4?`<div class="vx-tl" style="margin-top:18px">${S.map((x,i)=>`<div class="${i<ONB.payst?'done':i===ONB.payst?'on':''}"><i>${i<ONB.payst?ck(11):''}</i><div><b>${x}</b><span>${['Behind a fresh code. Every registered contact was told.','A one-time code to the phone on file before the request.','A FLIK checker approves. Never the person who handled it.','You can still cancel.','Old and new emails are both told.'][i]}</span></div></div>`).join('')}</div><div style="display:flex;gap:8px;margin-top:4px"><button class="btn btn-o" data-pcan>Cancel request</button><button class="btn btn-o" data-pnext title="Prototype control">Prototype: next status</button></div>`:''}`,
       {ct:'rev',act:!p||ONB.payst>=4?(['owner','admin'].includes(ONB.role)?'<button class="btn btn-p" data-pnew>Request a new payout account</button>':''):'',p:'Only one account is active at a time. A new one is checked with the bank, confirmed on your registered phone and approved by FLIK before it goes live.',ro:roOnly('the Owner or an Admin',['owner','admin'])})},
   'money:withdrawals':()=>sec('Withdrawals',`<div class="set-box"><dl class="kv"><dt>How</dt><dd>On request, up to your withdrawable balance</dd><dt>Goes to</dt><dd>${verified()?payAcct():'Your payout account, once you\'re verified'}</dd><dt>Charges due first</dt><dd>Any charges due to FLIK, from your agreement</dd><dt>Fee</dt><dd>From your agreement, with VAT shown on each withdrawal</dd></dl></div>`,{p:'Withdraw from Balances. A changed contact or account is checked for 24 hours first, shown as "Being verified".'}),
-  'money:fees':()=>sec('Fees and statements',tbl(['Month','Paid orders','Fees','Statement'],[],['No statements yet','Your first monthly statement appears after your first month with paid orders. Every deduction is named, with the agreement clause behind it.']),{p:'Owner, Admin and Finance can see these.'}),
+  'money:fees':()=>{const L=stmList();return sec('Billing statements',tbl(['Period','FLIK fees (excl. VAT)','Incl. VAT','Status',''],L.map((s,i)=>`<tr data-stm="${i}" tabindex="0"><td><b style="font-weight:500;color:var(--ink)">${s.per}</b>${s.test?' <span class="st gr">TEST</span>':''}</td><td class="num">${rp(s.fee)}</td><td class="num">${rp(s.tot)}</td><td><span class="st ok">${s.st}</span></td><td><button class="dots-b" data-stmm="${i}" aria-label="Download ${s.per}">${ic('dots',16)}</button></td></tr>`),['No statements yet','Your first statement comes on the 3rd day after your first month with fees. It lists every fee FLIK charged, with the agreement clause behind it.']),{p:ONB.sbx?'A sample statement from your test sale and delivery. Owner, Admin and Finance can see these.':`One statement per month, with every fee FLIK charged, ready on the 3rd day after the month ends.${L.length?' October 2026 is ready on 3 Nov 2026.':''} Owner, Admin and Finance can see these.`})},
   'money:terms':()=>sec('Terms set by FLIK',`<div class="set-box"><dl class="kv"><dt>Reserve</dt><dd>5% of COD value, released when shipments are final</dd><dt>Early settlement</dt><dd>Not on</dd><dt>Account status</dt><dd><span class="st ok">Normal</span></dd><dt>Monthly invoicing</dt><dd>Off</dd><dt>Free return to sender</dt><dd>Comes in cycle 18</dd></dl><p style="color:var(--muted);font-size:13px;margin-top:12px">To change these, contact your account manager.</p></div>`,{ct:'flik'}),
   'money:linked':()=>{const ed=['owner','admin'].includes(ONB.role),V=verified(),L=ONB.links||[],REL=r=>r?` (${r})`:'';
     const box=(dir,t,sub,empty)=>{const X=L.filter(l=>l.dir===dir);return`<section class="set-box"><div class="ct-h"><b>${t}</b></div><p class="ct-g">${sub}</p>${X.length?X.map(l=>`<div class="set-row"><span class="tx"><b>${esc(l.n)}${REL(l.rel)}</b><small>Requested ${l.when||'14 Oct, 16:20'} · FLIK checks both accounts</small></span><span class="st warn">Waiting for FLIK</span></div>`).join(''):`<div class="set-row"><span class="tx"><small>${empty}</small></span></div>`}</section>`};
@@ -8456,6 +8517,9 @@ const SET_WIRE={
     const inv=v.querySelector('[data-inv]');if(inv)inv.onclick=()=>inviteModal();
     v.querySelectorAll('[data-mrm]').forEach(b=>b.onclick=e=>{e.stopPropagation();const i=+b.dataset.mrm,m=teamList()[i];dvMenu(b,[['Remove from team',()=>confirmDanger(`Remove ${m.n}?`,`${m.n} loses access straight away. You can invite them again later.`,'Remove',()=>stepUp('remove a team member',()=>{teamList().splice(i,1);onbSave();renderSet();toast('Removed from the team')})),1,'trash']])});
     const own=v.querySelector('[data-own]');if(own)own.onclick=e=>{e.stopPropagation();dvMenu(own,[['Transfer ownership',()=>stepUp('transfer ownership',()=>{modal.innerHTML=`<div class="mh"><h3>Transfer ownership</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="sx-f"><label for="to-n">New Owner</label><span class="sp-sw rf-sw"><select class="rf-sel" id="to-n">${teamList().filter(m=>m.s==='Active'&&m.r!=='owner').map(m=>`<option>${m.n}</option>`).join('')}</select></span></div><p style="color:var(--muted);font-size:13px;line-height:1.5">The new Owner becomes the authorised person for the business. They accept with their own two-step login, and FLIK reviews the change as an update to your verified people.</p></div><div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="to-go">Send request</button></div>`;document.getElementById('to-go').onclick=()=>{closeModal();toast('Ownership transfer sent. Waiting for them to accept.')};mscrim.classList.add('open')}),0,'team']])}},
+  'money:fees':()=>{const v=document.getElementById('view-set');
+    v.querySelectorAll('[data-stm]').forEach(r=>{r.onclick=e=>{if(e.target.closest('[data-stmm]'))return;stmDrawer(+r.dataset.stm)};r.onkeydown=e=>{if(e.key==='Enter')stmDrawer(+r.dataset.stm)}});
+    v.querySelectorAll('[data-stmm]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=stmList()[+b.dataset.stmm];dvMenu(b,[['Download PDF',()=>toast(`Downloading ${stmFile(s,'pdf')}`),0,'export'],['Download Excel',()=>toast(`Downloading ${stmFile(s,'xlsx')}`),0,'export']])})},
   'money:payout':()=>{const v=document.getElementById('view-set');
     const n=v.querySelector('[data-pnew]');if(n)n.onclick=()=>stepUp('request a new payout account',payoutModal);
     const c=v.querySelector('[data-pcan]');if(c)c.onclick=()=>{ONB.pay=null;ONB.payst=0;onbSave();renderSet();toast('Request cancelled. Nothing changed.')};
