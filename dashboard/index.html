@@ -285,6 +285,8 @@ td .st svg{display:none}
 .fld .hint{font-size:12.5px;color:var(--muted);margin-top:5px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:13.5px;z-index:100;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;max-width:calc(100% - 32px)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.top{top:76px;bottom:auto;transform:translate(-50%,-12px);background:var(--ink);box-shadow:var(--pop);padding:12px 18px;font-weight:500}.toast.top.show{transform:translate(-50%,0)}
+.toast.top{display:flex;align-items:center;gap:10px;padding:11px 18px 11px 12px}.tst-ic{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;color:var(--ink)}.tst-gen{background:#fff}.tst-ok{background:var(--ok)}.tst-bad{background:var(--bad);color:#fff}
 
 /* Responsive */
 @media (max-width:960px){
@@ -2559,6 +2561,7 @@ body.sbx #balv::after{content:"Test";display:inline-flex;align-items:center;heig
 .spn{position:absolute;right:10px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;border:2px solid var(--line-2);border-top-color:var(--primary);animation:spn .7s linear infinite}
 @keyframes spn{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spn{animation-duration:2s}}
+/* shopper loading states: a spinner inside the busy button, or under the 6-digit code while it's checked */.btn.is-ld,.ck-pay.is-ld{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:progress}.btn.is-ld:disabled,.ck-pay.is-ld:disabled,.ck-b .ck-pay.is-ld[disabled],.ck-inv .ck-pay.is-ld[disabled],.ck .ck-pay.is-ld[disabled],.ck-nw .ck-pay.is-ld:disabled,#modal.ew .ckl .ck-pay.is-ld:disabled{opacity:1;cursor:progress}.btn-p.is-ld:disabled{background:var(--ink)}:is(.btn,.ck-pay).is-ld .spn,.otp-ld .spn{position:static;margin:0;flex:none}:is(.btn-p,.ck-pay).is-ld .spn{border-color:rgba(255,255,255,.35);border-top-color:#fff}.otp-ld{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:13px;margin:12px 0 0}.otp6 input:disabled{opacity:.6}
 .vx-doc .st+.btn{margin-left:0}
 .vx-file{color:var(--primary);font:inherit;font-size:12.5px;padding:0}.vx-file:hover{text-decoration:underline}
 .vx-thumb{width:44px;height:44px;border-radius:6px;background:var(--hover);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:inset 0 0 0 1px var(--line);overflow:hidden}
@@ -3716,7 +3719,7 @@ document.getElementById('bell').onclick=e=>{e.stopPropagation();const b=e.curren
 
 /* ===== Toast + generic actions ===== */
 const toastEl=document.getElementById('toast');let tt;
-function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2400)}
+function toast(m,k){const ck=document.getElementById('ckp'),sh=(ck&&!ck.hidden)||[...document.querySelectorAll('.cv-ck')].some(x=>x.offsetParent);toastEl.classList.toggle('top',!!sh);if(sh){const hs=[...document.querySelectorAll('#ckp .ck-top,#ckp header,#ckp [class*="-top"],.cv-ck .ck-top')].map(h=>h.getBoundingClientRect()).filter(r=>r.height&&r.top<200).map(r=>r.bottom);toastEl.style.top=(hs.length?Math.max(...hs):60)+12+'px';const an=innerWidth>=768&&['#ckp .ck-col>.ck-card','.cv-ck .pp-pay','#ckp .qp','.cv-ck .qp','#ckp .ck-main>*','.cv-ck .ck-main>*'].map(q=>[...document.querySelectorAll(q)].find(e=>e.offsetParent&&e.getBoundingClientRect().width>280)).find(Boolean),ar=an&&an.getBoundingClientRect();toastEl.style.left=ar?ar.left+ar.width/2+'px':'';toastEl.style.width=ar?ar.width+'px':''}else toastEl.style.top=toastEl.style.left=toastEl.style.width='';if(sh){const t=k==='ok'||k==='bad'?k:'gen',g={gen:'<path d="M12 11v5M12 7.6v.1"/>',ok:'<path d="m8 12.3 2.7 2.7L16 9.6"/>',bad:'<path d="m9 9 6 6M15 9l-6 6"/>'}[t];toastEl.innerHTML=`<span class="tst-ic tst-${t}" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${g}</svg></span><span></span>`;toastEl.lastChild.textContent=m;toastEl.setAttribute('role',t==='bad'?'alert':'status')}else toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2400)}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-toast]');if(a){toast(a.dataset.toast);if(a.closest('#side'))setSide(false)}});
 
 render();
@@ -4204,7 +4207,7 @@ const flCookieDlg=()=>{const d={...flCookies},row=(k,t,s)=>`<button type="button
     modal.onclick=e=>{const t=e.target;if(t.closest('[data-mclose]')){modal.onclick=null;closeModal();return}
       const r=t.closest('[data-ckk]');if(r){d[r.dataset.ckk]=!d[r.dataset.ckk];draw();modal.querySelector(`[data-ckk="${r.dataset.ckk}"]`)?.focus();return}
       if(t.closest('[data-ckrej]')){flCookies={an:false,mk:false};modal.onclick=null;closeModal();toast('Only the cookies checkout needs are on');return}
-      if(t.closest('[data-cksave]')){flCookies=d;modal.onclick=null;closeModal();toast('Cookie choices saved')}}};
+      if(t.closest('[data-cksave]')){flCookies=d;modal.onclick=null;closeModal();toast('Cookie choices saved','ok')}}};
   draw();modal.querySelector('[data-cksave]').focus()};
 document.addEventListener('click',e=>{if(e.target.closest('[data-cookies]')){e.preventDefault();e.stopPropagation();flCookieDlg()}},true);
 function pvBody(kind,o={}){
@@ -4390,7 +4393,7 @@ const ccAdd=(kind,done)=>{const bca=kind==='bcad',dg=x=>String(x).replace(/\D/g,
   cI.oninput=()=>{cI.value=dg(cI.value).slice(0,4);upd()};mI.onchange=upd;yI.onchange=upd;
   modal.onclick=e=>{if(e.target.closest('[data-mclose]')){modal.onclick=null;closeModal()}};
   go.onclick=()=>{const n=dg(nI.value),c={id:Date.now(),brand:bca?'bca':/^4/.test(n)?'visa':/^(5[1-5]|2[2-7])/.test(n)?'mastercard':'card',last4:n.slice(-4),exp:mI.value+'/'+String(yI.value).slice(2)};
-    modal.onclick=null;qp3ds({add:1,logo:c.brand==='bca'?'bca':c.brand==='mastercard'?'mastercard':'visa',cardName:`${c.brand==='bca'?'BCA debit':c.brand==='mastercard'?'Mastercard':'Visa'} •••• ${c.last4}`},()=>{done(c);toast('Card added')})};
+    modal.onclick=null;qp3ds({add:1,logo:c.brand==='bca'?'bca':c.brand==='mastercard'?'mastercard':'visa',cardName:`${c.brand==='bca'?'BCA debit':c.brand==='mastercard'?'Mastercard':'Visa'} •••• ${c.last4}`},()=>{done(c);toast('Card added','ok')})};
   nI.focus()};
 const ccExp=c=>c.exp||'08/28';
 const qp3ds=(o,onOk,onCancel)=>{let err='';const draw=()=>{modal.innerHTML=`<div class="mh"><h3>${o.add?"Verify your card":"Confirm it’s you"}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb ckst tds"><div class="tds-h"><span class="ckd-lg"><img src="${IMG}payment/${o.logo}.png" alt=""></span><div><b>3-D Secure</b><span>From your card’s bank</span></div></div>
@@ -4400,18 +4403,18 @@ const qp3ds=(o,onOk,onCancel)=>{let err='';const draw=()=>{modal.innerHTML=`<div
     <div class="mf"><button class="btn btn-o" data-tdsx>Cancel payment</button></div>`;
     modal.classList.add('md','ew');mscrim.classList.add('open');ckDlgTr();const ins=[...modal.querySelectorAll('.tds-otp input')];ins[0].focus();
     ins.forEach((t,i)=>{t.oninput=()=>{const dg=t.value.replace(/\D/g,'');t.value=dg.slice(-1);if(dg.length>1)[...dg].slice(0,6-i).forEach((c,j)=>ins[i+j]&&(ins[i+j].value=c));const nx=ins.find(x=>!x.value);if(nx)nx.focus();else chk()};t.onkeydown=e=>{if(e.key==='Backspace'&&!t.value&&i)ins[i-1].focus()}});
-    const chk=()=>{const c=ins.map(x=>x.value).join('');if(c.length<6)return;if(c==='000000'){err='Wrong code. Check your messages and try again.';draw();return}modal.onclick=null;closeModal();onOk()};
+    const chk=()=>{const c=ins.map(x=>x.value).join('');if(c.length<6||ins[0].disabled)return;otpLd(ins);setTimeout(()=>{if(!ins[0].isConnected)return;if(c==='000000'){err='Wrong code. Check your messages and try again.';draw();return}modal.onclick=null;closeModal();onOk()},LD_MS)};
     modal.onclick=e=>{if(e.target.closest('[data-mclose],[data-tdsx]')){modal.onclick=null;closeModal();onCancel&&onCancel();return}if(e.target.closest('[data-tdsre]')){err='';draw();toast('New code sent')}}};draw()};
 /* one clock for every open QR page: the countdown, the bar, and the switch to expired */
 setInterval(()=>{const t=document.querySelectorAll('[data-qptm]');if(!t.length)return;const l=qpLeft();t.forEach(x=>x.textContent=qpMMSS(l));document.querySelectorAll('[data-qpbar]').forEach(x=>x.style.width=l/QP.dur*100+'%');
   if(l<120)document.querySelectorAll('.qp-tm').forEach(x=>x.classList.add('low'));if(!l&&QP.state==='wait'){QP.state='expired';QP.cb&&QP.cb.redraw()}},1000);
 document.addEventListener('click',e=>{const t=e.target.closest('[data-qpsim],[data-qpcheck],[data-qpback],[data-qpnew],[data-qpsave],[data-qpcopy]');if(!t||!QP.cb)return;e.preventDefault();e.stopPropagation();const d=t.dataset;
-  if('qpsave' in d){toast('QR saved to your photos');return}
+  if('qpsave' in d){toast('QR saved to your photos','ok');return}
   if('qpback' in d){QP.cb.back();return}
   if('qpnew' in d){qpStart(QP.kind,QP.pm);QP.cb.redraw();toast(QP.kind==='va'?'New account number ready. It works for 24 hours.':'New QR ready. It works for 15 minutes.');return}
-  if('qpcopy' in d){toast('Virtual account number copied');return}
+  if('qpcopy' in d){toast('Virtual account number copied','ok');return}
   if(d.qpsim==='expire'){QP.t0=Date.now()-QP.dur*1000;QP.state='expired';QP.cb.redraw();return}
-  if(d.qpsim==='pay'||'qpcheck' in d){if(QP.state==='expired'){toast(QP.kind==='va'?'This account number has expired. Get a new number first.':'This QR has expired. Get a new QR first.');return}QP.kind='proc';QP.state='wait';QP.cb.redraw();qpRun()}},true);
+  if(d.qpsim==='pay'||'qpcheck' in d){if(QP.state==='expired'){toast(QP.kind==='va'?'This account number has expired. Get a new number first.':'This QR has expired. Get a new QR first.','bad');return}QP.kind='proc';QP.state='wait';QP.cb.redraw();qpRun()}},true);
 /* ===== E-wallet connect and manage (invoice and checkout share it). Connect: terms -> phone number -> the wallet's own app (simulated) -> back with it connected.
    Manage (a connected wallet): the account card in the wallet's brand colour (taken from its logo), balance, top up, terms, disconnect ===== */
 const EW_COL={gopay:'#00A8D8',ovo:'#7058A0',dana:'#0088E8',shopeepay:'#E84828'};
@@ -4473,8 +4476,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-ewback],[d
     const v=document.getElementById('ew-ph')?.value||EW.ph;EW.ph=v;if(!ckPhOk(v,'ew-ph')){EW.err='Enter the phone number registered with '+ewN(EW.k)+'.';EW.cb.redraw();return}EW.err='';EW.chk=true;EW.cb.redraw();setTimeout(()=>{if(!EW.cb||EW.step!=='phone')return;EW.chk=false;const n=ewN(EW.k);
       if(normPhone(EW.ph)===normPhone(EW_TAKEN)){EW.err=`This ${n} number is already connected to another FLIK account. Disconnect it from that account first, then try again.`;EW.cb.redraw();return}
       EW.step='app';EW.cb.redraw()},1300);return}
-  if('ewapprove' in d){const dg=String(EW.ph).replace(/\D/g,'').replace(/^0/,''),ph=ccDial('ew-ph')+' '+dg.replace(/(\d{3})(\d{4})(\d+)/,'$1-$2-$3'),cb=EW.cb,k=EW.k;ewShut();cb.done(k,ph);toast(`${ewN(k)} connected`);return}
-  if('ewrefresh' in d){toast('Balance updated');return}
+  if('ewapprove' in d){const dg=String(EW.ph).replace(/\D/g,'').replace(/^0/,''),ph=ccDial('ew-ph')+' '+dg.replace(/(\d{3})(\d{4})(\d+)/,'$1-$2-$3'),cb=EW.cb,k=EW.k;ewShut();cb.done(k,ph);toast(`${ewN(k)} connected`,'ok');return}
+  if('ewrefresh' in d){toast('Balance updated','ok');return}
   if('ewtopup' in d){EW.step='topup';EW.tp='0-0';EW.cb.redraw();return}
   if(d.ewtp){EW.tp=EW.tp===d.ewtp?'':d.ewtp;const l=modal.querySelector('.pp-rl'),y=l?l.scrollTop:0;EW.cb.redraw();const l2=modal.querySelector('.pp-rl');if(l2)l2.scrollTop=y;return}
   if('ewterms' in d){EW.step='wterms';EW.cb.redraw();return}
@@ -4496,7 +4499,7 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
     ins.forEach((x,i)=>{x.oninput=()=>{const d=x.value.replace(/\D/g,'');x.value=d.slice(-1);if(d.length>1)[...d].slice(0,6-i).forEach((c,j)=>ins[i+j].value=c);const nx=ins[Math.min(i+Math.max(d.length,1),5)];if(d&&nx)nx.focus();go.disabled=!ins.every(y=>y.value)};x.onkeydown=e=>{if(e.key==='Backspace'&&!x.value&&ins[i-1])ins[i-1].focus();if(e.key==='Enter'&&!go.disabled)go.click()}});
     go.onclick=()=>{clearTimeout(chkT);Object.assign(st,{acct:true,full:false,chk:'flik',em:v.D.cust.email||st.em,cvc:''});
       if(!st.cards.some(c=>c.id==='flik1'))st.cards.unshift({id:'flik1',brand:'visa',last4:'2931'});st.pick='card:flik1';st.open='card';
-      closeModal();draw(1);toast(`Signed in as ${st.em}`)};
+      closeModal();draw(1);toast(`Signed in as ${st.em}`,'ok')};
     mscrim.classList.add('open');ins[0].focus()};
   /* Connect: in the live product the wallet opens in a new tab and asks for the phone number on the account; here a dialog stands in for that tab */
   /* Add card: card number, expiry and security code; the saved card is chosen straight away */
@@ -4520,7 +4523,7 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
       </article>
     </div><div class="pp-ft">${FLIK_WM}<span>1-Click Checkout</span>${FLIK_LINKS()}</div>`,'qp',ph,'')};
   /* the end of every payment: mark paid, count it on the link or invoice, show the paid page */
-  const finPay=p=>{if(!st.acct&&st.chk==='new'&&st.save)toast(`Your FLIK account is ready. Next time, sign in with ${st.em}`);st.paid=p==='flik'?'flik':st.pick;if(v.pl){v.pl.pays++;v.pl.rev+=plTotal(v.pl,st);if(location.hash==='#payment-links')renderPl()}if(v.inv){v.inv.status='paid';if(location.hash==='#invoices')renderInv()}draw()};
+  const finPay=p=>{if(!st.acct&&st.chk==='new'&&st.save)toast(`Your FLIK account is ready. Next time, sign in with ${st.em}`,'ok');st.paid=p==='flik'?'flik':st.pick;if(v.pl){v.pl.pays++;v.pl.rev+=plTotal(v.pl,st);if(location.hash==='#payment-links')renderPl()}if(v.inv){v.inv.status='paid';if(location.hash==='#invoices')renderInv()}draw()};
   const ckOn=()=>at==='page'&&(LK?!!st.paid||!st.qris:CV_VAR!=='a'&&!st.paid&&!st.qris);
   /* variations B and C: the method row opens this list in a dialog; picking a method closes it */
   const pmPick=()=>{const keep=D;D=v.D;const {rows}=ppPay(st);D=keep;modal.classList.add('ew');
@@ -4561,10 +4564,10 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
     pop.onclick=ev=>{const t=ev.target.closest('[data-cvme-out],[data-cvme-in]');if(!t)return;ev.stopPropagation();closePop();if('cvmeOut' in t.dataset){Object.assign(st,{acct:false,full:false,pick:'qris',open:null,cvc:''});draw(1);toast('Signed out of FLIK')}else cvAuth('phone')};placePop(b,true)};
   /* Pay with FLIK opens the checkout's log-in steps in the pay card: phone, then the WhatsApp code, then the page is signed in */
   const cvAuth=to=>{st.auth=null;if(!to){clearInterval(ckOtpT);draw(1);return}ckLogin(to,cvOk,to==='otp'&&st.em?st.em:'')};
-  const cvPhGo=()=>{if(!ckPhOk(ckPh,'ck-ph')){ckPhErr=ccErr('ck-ph');draw(1);el.querySelector('#ck-ph')?.focus();return}cvAuth('otp')};
-  const cvOtp=ins=>{const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';draw(1);el.querySelector('.ck-otp input')?.focus();return}cvOk()};
-  const cvOk=acc=>{clearInterval(ckOtpT);clearTimeout(chkT);if(acc){Object.assign(st,{auth:null,acct:true,full:true,chk:'flik',em:acc.em,me:{name:acc.nm,phone:ckPh},pick:'qris',open:null,cvc:''});draw(1);toast(`Welcome to FLIK, ${acc.nm.split(' ')[0]}`);return}Object.assign(st,{auth:null,acct:true,full:false,chk:'flik',em:/flik/i.test(st.em)?st.em:CK_TEST.flik.em,me:{name:CK_TEST.flik.nm,phone:CK_TEST.flik.ph},cvc:''});
-    if(!st.cards.some(c=>c.id==='flik1'))st.cards.unshift({id:'flik1',brand:'visa',last4:'2931'});st.pick='card:flik1';st.open='card';draw(1);toast(`Signed in as ${st.em}`)};
+  const cvPhGo=()=>{if(!ckPhOk(ckPh,'ck-ph')){ckPhErr=ccErr('ck-ph');draw(1);el.querySelector('#ck-ph')?.focus();return}const gb=el.querySelector('[data-ckauth-go]');if(gb&&!gb.classList.contains('is-ld')){btnLd(gb,'Sending code','Mengirim kode');el.querySelector('#ck-ph')?.setAttribute('disabled','');setTimeout(()=>{if(el.querySelector('[data-ckauth-go].is-ld'))cvAuth('otp')},LD_MS);return}cvAuth('otp')};
+  const cvOtp=ins=>{const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(!ins[0].disabled){otpLd(ins);setTimeout(()=>{if(ins[0].isConnected)cvOtp(ins)},LD_MS);return}if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';draw(1);el.querySelector('.ck-otp input')?.focus();return}cvOk()};
+  const cvOk=acc=>{clearInterval(ckOtpT);clearTimeout(chkT);if(acc){Object.assign(st,{auth:null,acct:true,full:true,chk:'flik',em:acc.em,me:{name:acc.nm,phone:ckPh},pick:'qris',open:null,cvc:''});draw(1);toast(`Welcome to FLIK, ${acc.nm.split(' ')[0]}`,'ok');return}Object.assign(st,{auth:null,acct:true,full:false,chk:'flik',em:/flik/i.test(st.em)?st.em:CK_TEST.flik.em,me:{name:CK_TEST.flik.nm,phone:CK_TEST.flik.ph},cvc:''});
+    if(!st.cards.some(c=>c.id==='flik1'))st.cards.unshift({id:'flik1',brand:'visa',last4:'2931'});st.pick='card:flik1';st.open='card';draw(1);toast(`Signed in as ${st.em}`,'ok')};
   /* prototype only: jump to each shopper state on the payment page, like checkout's Prototype menu. Email with "flik" = FLIK shopper, any other = new shopper */
   const PV=[['empty','No email yet'],['checking','Checking the email'],['flik','FLIK shopper (Continue with FLIK)'],['otp','FLIK shopper, code sent'],['in','Signed in with FLIK'],['new','New shopper, saves information'],['guest','New shopper, guest checkout'],['paid','Paid']];
   const pvCur=()=>st.paid?'paid':st.acct?'in':document.querySelector('#modal .ck-otp')&&mscrim.classList.contains('open')?'otp':st.chk==='checking'?'checking':st.chk==='flik'?'flik':st.chk==='new'?(st.save?'new':'guest'):st.em?'':'empty';
@@ -4593,6 +4596,7 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
     if('flikinfo' in d){flikInfo();return}
     if('qback' in d){st.qris=false;draw();return}
     if(d.hp){st.hp=st.hp===+d.hp?-1:+d.hp;draw(1);return}
+    if(d.pay==='1'&&st.pick==='qris'&&!t.classList.contains('is-ld')){btnLd(el.querySelectorAll('[data-pay="1"]'),'Creating your QR','Membuat QR');setTimeout(()=>{if(!el.querySelector('[data-pay="1"].is-ld')||st.pick!=='qris')return;st.qris=true;qpStart('qr','qris');QP.cb={redraw:()=>draw(1),paid:()=>{},back:()=>{}};draw()},LD_MS);return}
     if(d.pay==='1'&&st.pick==='qris'){st.qris=true;qpStart('qr','qris');QP.cb={redraw:()=>draw(1),paid:()=>{},back:()=>{}};draw();return}
     if(d.pay==='1'&&qpIsVA(st.pick)){st.qris=true;qpStart('va',st.pick);draw();return}
     if(d.pay&&d.pay!=='flik'&&PM_GROUPS.wallet.includes(st.pick)&&!st.linked[st.pick]){connect(st.pick);return}
@@ -9281,27 +9285,31 @@ const ckLogin=(step,onOk,who,reg)=>{let s=step,nw={nm:'',em:/@/.test(who||'')?wh
       ne.oninput=()=>{nw.em=ne.value;clearTimeout(nwT);const was=nwChk||nwErr.em;nwChk=null;nwErr.em='';if(was)nwRe();if(!ckEmOk(nw.em))return;
         nwT=setTimeout(()=>{nwChk='checking';nwRe();nwT=setTimeout(()=>{if(!modal.querySelector('#ckl-em'))return;if(nwTaken(nw.em)){nwChk='taken';nwErr.em=nwTakenMsg}else nwChk='ok';nwRe()},900)},600)};[nn,ne].forEach(i=>i.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();fin()}});modal.querySelector('#ckl-nw').onclick=fin;(nw.nm?ne:nn).focus();return}
     const ph=modal.querySelector('#ck-ph');
-    if(ph){const go=()=>{if(!ckPhOk(ckPh,'ck-ph')){ckPhErr=ccErr('ck-ph');draw();return}ckPhErr=ckOtpErr='';s='otp';sent();draw()};
+    if(ph){const go=()=>{if(!ckPhOk(ckPh,'ck-ph')){ckPhErr=ccErr('ck-ph');draw();return}ckPhErr=ckOtpErr='';const gb=modal.querySelector('#ckl-go');btnLd(gb,'Sending code','Mengirim kode');ph.disabled=true;setTimeout(()=>{if(!modal.contains(gb))return;s='otp';sent();draw()},LD_MS)};
       ph.oninput=()=>{ckPh=ph.value;if(ckPhErr){ckPhErr='';ph.closest('.sx-f').querySelector('.wh-err')?.remove()}};ph.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();go()}};modal.querySelector('#ckl-go').onclick=go;ph.focus();return}
     const ins=[...modal.querySelectorAll('.ck-otp input')];
     ins.forEach((t,i)=>{t.oninput=()=>{const d=t.value.replace(/\D/g,'');t.value=d.slice(-1);if(d.length>1)[...d].slice(0,6-i).forEach((c,j)=>ins[i+j].value=c);const nx=ins[Math.min(i+Math.max(d.length,1),5)];if(d&&nx)nx.focus();
-        const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';draw();return}clearInterval(ckOtpT);ckOtpErr='';if(!reg&&!ckKnown(ckPh)){s='new';draw();return}modal.onclick=null;closeModal();onOk()};
+        const code=ins.map(x=>x.value).join('');if(code.length<6||ins[0].disabled)return;otpLd(ins);ckDlgTr();setTimeout(()=>{if(!ins[0].isConnected)return;if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';draw();return}clearInterval(ckOtpT);ckOtpErr='';if(!reg&&!ckKnown(ckPh)){s='new';draw();return}modal.onclick=null;closeModal();onOk()},LD_MS)};
       t.onkeydown=e=>{if(e.key==='Backspace'&&!t.value)ins[i-1]?.focus()}});
     modal.querySelector('[data-ckl-chg]').onclick=()=>{clearInterval(ckOtpT);ckOtpErr='';s='phone';draw()};
     modal.onclick=e=>{if(e.target.closest('[data-ckresend]')){ckOtpErr='';sent();draw()}};ins[0].focus()};
   ckPhErr=ckOtpErr='';if(s==='otp')sent();draw()};
 const ckLoginOk=acc=>{ckAuth='in';ckSess=true;ckOtpErr='';ckGuest=null;
-  if(acc){/* new to FLIK: signed in, no saved address yet */ckMe={to:acc.nm,ph:ckPh,em:acc.em,cc:ccDial('ck-ph')};if(!ckAddrBk)ckAddrBk={a:ckAddr,s:ckAddrSel};ckAddr=[];ckAddrSel=null;ckpDraw();toast(`Welcome to FLIK, ${acc.nm.split(' ')[0]}`);return}
+  if(acc){/* new to FLIK: signed in, no saved address yet */ckMe={to:acc.nm,ph:ckPh,em:acc.em,cc:ccDial('ck-ph')};if(!ckAddrBk)ckAddrBk={a:ckAddr,s:ckAddrSel};ckAddr=[];ckAddrSel=null;ckpDraw();toast(`Welcome to FLIK, ${acc.nm.split(' ')[0]}`,'ok');return}
   ckMe=null;if(ckAddrBk){ckAddr=ckAddrBk.a;ckAddrSel=ckAddrBk.s;ckAddrBk=null}ckShipLoad(ckpDraw);toast(`Logged in with ${ccJoin(ccDial('ck-ph'),ckPh)}`)};
 /* checkout log-in stays in the page (the invoice uses the pop-up): phone -> code -> signed in; a number new to FLIK gets "Finish your FLIK account" (name, email; an email that already has a FLIK account can't be used) */
 let ckNw={nm:'',em:''},ckNwErr={},ckNwChk=null,ckNwT=0;
+/* loading states shared by the checkout and the invoice page */
+const LD_MS=900;
+const btnLd=(bs,en,id)=>{(bs.length!=null?[...bs]:[bs]).filter(Boolean).forEach(b=>{b.disabled=true;b.setAttribute('aria-busy','true');b.classList.add('is-ld');b.innerHTML=`<span class="spn" aria-hidden="true"></span>${ewT(en,id)}`})};
+const otpLd=ins=>{ins.forEach(x=>x.disabled=true);const g=ins[0]&&ins[0].closest('.otp6');if(g&&!(g.nextElementSibling&&g.nextElementSibling.classList.contains('otp-ld'))){g.parentNode.querySelectorAll('.wh-err').forEach(x=>x.remove());g.insertAdjacentHTML('afterend',`<p class="otp-ld" role="status"><span class="spn" aria-hidden="true"></span>${ewT('Checking the code','Memeriksa kode')}</p>`)}};
 const ckGoAuth=to=>{ckPhErr=ckOtpErr='';if(to==='otp'){ckPh=CK_ME.ph;ccSel['ck-ph']='id';ckOtpStart();toast(`Code sent to ${ccJoin(ccDial('ck-ph'),ckPh)} on WhatsApp`)}else clearInterval(ckOtpT);ckAuth=to;ckpDraw();document.getElementById('ckp-b').scrollTop=0;if(to==='phone')document.getElementById('ck-ph')?.focus()};
 const ckNwCheck=()=>{clearTimeout(ckNwT);const was=ckNwChk||ckNwErr.em;ckNwChk=null;ckNwErr.em='';if(was)ckGDraw();if(!ckEmOk(ckNw.em))return;
   ckNwT=setTimeout(()=>{ckNwChk='checking';ckGDraw();ckNwT=setTimeout(()=>{if(ckAuth!=='new')return;if(/flik/i.test(ckNw.em)){ckNwChk='taken';ckNwErr.em='This email already has a FLIK account. Use a different email.'}else ckNwChk='ok';ckGDraw()},900)},600)};
 const ckNwGo=()=>{ckNwErr={};if(!ckNw.nm.trim())ckNwErr.nm='Enter your name.';if(!ckEmOk(ckNw.em))ckNwErr.em=ckNw.em.trim()?'Enter a valid email, like name@example.com.':'Enter your email.';else if(/flik/i.test(ckNw.em)){ckNwErr.em='This email already has a FLIK account. Use a different email.';ckNwChk='taken'}
   if(ckNwErr.nm||ckNwErr.em){ckpDraw();document.getElementById(ckNwErr.nm?'ck-nwn':'ck-nwe')?.focus();return}clearTimeout(ckNwT);const acc={nm:ckNw.nm.trim(),em:ckNw.em.trim()};ckNw={nm:'',em:''};ckNwChk=null;ckLoginOk(acc)};
-const ckPhGo=()=>{if(!ckPhOk(ckPh,'ck-ph')){ckPhErr=ccErr('ck-ph');ckpDraw();const i=document.getElementById('ck-ph');if(i)i.focus();return}ckPhErr='';ckOtpErr='';ckAuth='otp';ckOtpStart();ckpDraw();toast(`Code sent to ${ccJoin(ccDial('ck-ph'),ckPh)} on WhatsApp`)};
-const ckOtpCheck=ins=>{const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';ckpDraw();return}
+const ckPhGo=()=>{if(!ckPhOk(ckPh,'ck-ph')){ckPhErr=ccErr('ck-ph');ckpDraw();const i=document.getElementById('ck-ph');if(i)i.focus();return}const gb=document.querySelector('#ckp-b [data-ckauth-go]');if(gb&&!gb.classList.contains('is-ld')){btnLd(gb,'Sending code','Mengirim kode');document.getElementById('ck-ph')?.setAttribute('disabled','');setTimeout(()=>{if(ckAuth==='phone')ckPhGo()},LD_MS);return}ckPhErr='';ckOtpErr='';ckAuth='otp';ckOtpStart();ckpDraw();toast(`Code sent to ${ccJoin(ccDial('ck-ph'),ckPh)} on WhatsApp`)};
+const ckOtpCheck=ins=>{const code=ins.map(x=>x.value).join('');if(code.length<6)return;if(!ins[0].disabled){otpLd(ins);setTimeout(()=>{if(ins[0].isConnected)ckOtpCheck(ins)},LD_MS);return}if(code==='000000'){ckOtpErr='Wrong code. Check WhatsApp and try again.';ckpDraw();return}
   clearInterval(ckOtpT);ckOtpErr='';
   if(ckStage==='reg'){ckRegStep='form';ckSess=true;ckAuth='in';ckGuest=null;ckAddrBk=null;ckStage='welcome';ckpDraw();document.getElementById('ckp-b').scrollTop=0;toast('Your FLIK account is ready');return}
   if(!ckKnown(ckPh)){ckAuth='new';ckNwErr={};ckNwChk=null;ckpDraw();document.getElementById('ck-nwn')?.focus();return}
@@ -9407,7 +9415,7 @@ function ckDiscPick(redraw){let on=[...ckVOn],rew={...ckRew},code='',err='';cons
     const l=modal.querySelector('.pp-rl');if(l)l.scrollTop=y;
     const q=document.getElementById('ckd-q'),add=document.getElementById('ckd-add');if(focus){q.focus();q.setSelectionRange(q.value.length,q.value.length)}
     q.oninput=()=>{code=q.value;add.disabled=!code.trim();if(err){err='';modal.querySelector('.ckd-in+.wh-err')?.remove()}};q.onkeydown=e=>{if(e.key==='Enter'&&!add.disabled)add.click()};
-    add.onclick=()=>{const k=code.trim().toUpperCase(),why=CK_V[k]&&ckVWhy(k,mode);if(!CK_V[k])err='This code isn’t valid or has ended. Check the spelling and try again.';else if(why)err=`${k} can’t be used on this order. ${why}.`;else{if(!ckVList.includes(k))ckVList.unshift(k);on=on.filter(x=>CK_V[x].t!==CK_V[k].t).concat(k);code='';toast(`${k} applied`)}draw()};
+    add.onclick=()=>{if(!add.classList.contains('is-ld')){btnLd(add,'Applying','Menerapkan');q.disabled=true;setTimeout(()=>{if(add.isConnected)add.onclick()},700);return}const k=code.trim().toUpperCase(),why=CK_V[k]&&ckVWhy(k,mode);if(!CK_V[k])err='This code isn’t valid or has ended. Check the spelling and try again.';else if(why)err=`${k} can’t be used on this order. ${why}.`;else{if(!ckVList.includes(k))ckVList.unshift(k);on=on.filter(x=>CK_V[x].t!==CK_V[k].t).concat(k);code='';toast(`${k} applied`)}draw()};
     /* one voucher of each kind: picking one replaces the other of that kind; tapping the chosen one removes it */
     modal.querySelectorAll('[data-vk]').forEach(b=>b.onclick=()=>{const k=b.dataset.vk;on=on.includes(k)?on.filter(x=>x!==k):on.filter(x=>CK_V[x].t!==CK_V[k].t).concat(k);draw()});
     modal.querySelectorAll('[data-rk]').forEach(b=>b.onclick=()=>{rew[b.dataset.rk]=!rew[b.dataset.rk];draw()});
@@ -9464,9 +9472,11 @@ const ckThanksC=(c,phone,o)=>{const K=o.K,pu=o.mode==='pickup';
 const ckThanks=(c,phone,o)=>`${ckAuth==='gst'&&ckStage==='paid'?`<div class="om-proto"><span class="st gr">Prototype</span><span>The page a guest sees right after paying</span><button class="btn btn-o" data-ckm1>Next: the order email${ic('chev',14)}</button></div>`:''}<div class="ck ck-ty2 ck-ty-c${phone?' ck-m':''}"><header class="ck-top"><span>${cpLogo(c,phone?20:22)}</span><span class="ck-u"><button class="lang ck-lang" data-cklang aria-label="Language: ${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[1]}" aria-haspopup="menu">${ic('globe',16)}<span>${(LANGS.find(l=>l[0]===ckLang)||LANGS[0])[2]}</span>${ic('chev',13)}</button></span></header>
     ${ckThanksC(c,phone,o)}
     <footer class="ck-foot${phone?' ck-foot-m':''}"><span class="ck-fl">${FLIK_WM}<span>1-Click Checkout</span></span>${FLIK_LINKS()}</footer></div>`;
+let ckPayLd=false;
 const ckPayNow=(skipQr)=>{const c=ckC();if(ckPuOff)c.pickup=false;c.auth=ckAuth;ckOrder=ckOrderOf(c);const k=ckOrder.pk;if(!skipQr&&qpIsWallet(k)&&!ckPayS.linked[k]){ckEwOpen(k);return}const top=()=>{ckpDraw();document.getElementById('ckp-b').scrollTop=0};
   if(skipQr){ckStage='paid';top();return}
   /* every method opens the payment step, then Payment received, then the thank-you page */
+  if(k==='qris'&&!ckPayLd){ckPayLd=true;btnLd(document.querySelectorAll('#ckp-b .ck-pay'),'Creating your QR','Membuat QR');setTimeout(()=>{if(ckStage==='checkout')ckPayNow(skipQr);ckPayLd=false},LD_MS);return}
   if(k==='qris'||qpIsVA(k)){qpStart(k==='qris'?'qr':'va',k);ckStage='qr';top();return}
   const go=()=>{qpStart('proc',k);ckStage='qr';top();qpRun()};
   if(qpIsCard(k)){const cd=ckOrder.card;qp3ds({amount:ckOrder.K.total,logo:k==='bcad'?'bca':cd&&cd.brand==='mastercard'?'mastercard':'visa',cardName:k==='bcad'?'BCA debit card':`${cd&&cd.brand==='mastercard'?'Mastercard':'Visa'} •••• ${cd?cd.last4:''}`},go);return}
