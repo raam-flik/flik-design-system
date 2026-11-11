@@ -4560,7 +4560,7 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
       <div class="ie-acts">${at==='page'&&!LK?`<button class="btn btn-o" data-cvproto aria-haspopup="menu">Prototype${ic('chev',14)}</button>`:''}${at==='email'||LK?'':`<button class="btn btn-o" data-cv="email">Back to email</button>`}</div></div>
     <div class="cv-b${ckOn()||at==='page'&&(st.paid||st.qris)?' ckp-b cv-ck':''}">${ONB.sbx&&at==='page'&&!st.paid?(LK?SIM_PANEL().replace('Create an invoice','Create a payment link').replace('Send it','Share it'):SIM_PANEL()):''}${at==='email'?mail():at==='page'?page():at==='pdf'?`<div class="cv-pdf">${v.pdf.replace('<span class="ip-pay">Pay online</span>','<button class="ip-pay lnk" data-cv="page">Pay online</button>')}</div>`:page()}</div>`;el.querySelector('.cv-b').scrollTop=y;
     const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}};
-  const shut=()=>{closeDetail();el.hidden=true;document.body.style.overflow='';document.body.classList.remove('cvon');if(location.hash==='#invoices/pay')location.hash='invoices';else if(location.hash==='#payment-links/pay')location.hash='payment-links'};
+  const shut=()=>{closeDetail();el.hidden=true;document.body.style.overflow='';document.body.classList.remove('cvon');if(location.hash==='#invoices/pay')location.hash='invoices';else if(/^#payment-links\/pay/.test(location.hash))location.hash='payment-links'};
   /* View invoice details: a side panel with the lines, what's paid and left, and the payment history, like Stripe's hosted invoice */
   const details=()=>{const row=(a,b,c='')=>`<div class="cvd-r ${c}"><span>${a}</span><span class="num">${b}</span></div>`;
     drawer.innerHTML=`<div class="dh"><span class="kind">${ic('invoice',15)}Invoice details</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
@@ -4690,7 +4690,8 @@ const plCopy=L=>{try{navigator.clipboard&&navigator.clipboard.writeText('https:/
 function plToggle(L){const go=()=>{L.active=!L.active;closeModal();renderPl();if(drawer.classList.contains('open'))plDrawer(L);toast(L.active?'Link is active again':'Link deactivated. Shoppers who open it see that it no longer takes payments')};
   if(L.active)confirmDanger('Deactivate this payment link?','Shoppers who open it see that it no longer takes payments. You can turn it on again any time.','Deactivate',go);else go()}
 /* the shopper's page for a link: the customer view in the checkout style, with the link's products, the details it asks for and its payment methods */
-function plOpen(L){custView({kind:'link',pl:L,who:MERCHANT,no:'PL-'+L.id.slice(6,12).toUpperCase(),total:plTotal(L),lines:L.lines.map(l=>({...l})),D:{pms:new Set(L.pms),cust:ICUST.find(c=>c.email),lines:L.lines.map(l=>({...l})),disc:0,notes:''}},'page')}
+/* each link's page has its own address, #payment-links/pay/<id>, like #invoices/pay and #checkout: opening it from the list changes the address, and the address opens the page */
+function plOpen(L,route){if(!route){const h='#payment-links/pay/'+L.id.slice(6);if(location.hash!==h){location.hash=h;return}}custView({kind:'link',pl:L,who:MERCHANT,no:'PL-'+L.id.slice(6,12).toUpperCase(),total:plTotal(L),lines:L.lines.map(l=>({...l})),D:{pms:new Set(L.pms),cust:ICUST.find(c=>c.email),lines:L.lines.map(l=>({...l})),disc:0,notes:''}},'page')}
 function plDrawer(L){const s=PLST[L.active?'on':'off'],col=plCollects(L);
   drawer.innerHTML=`<div class="dh"><span class="kind">${ic('link',15)}Payment link</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="db"><div class="d-amt"><b class="num">${L.type==='custom'?'Customer chooses':rp(plTotal(L))}</b><span class="st ${s[1]}">${s[0]}</span></div><p class="d-sub">${esc(L.name)}</p>
@@ -4830,7 +4831,7 @@ document.getElementById('plx-close').onclick=()=>{const go=()=>{location.hash='p
 document.getElementById('plx-go').onclick=()=>{if(plErr())return;const L=plFromQ();plData().unshift(L);pltab='all';location.hash='payment-links';
   addEventListener('hashchange',()=>setTimeout(()=>{plDrawer(L);toast(ONB.sbx?'Test payment link created. It only takes test payments':'Payment link created. Copy it and share it anywhere')},0),{once:true})};
 /* prototype only: #payment-links/pay opens the shopper's page for the first active link, to check it without creating one */
-function plSample(){const L=plData().find(x=>x.active&&x.adj)||plData()[0];plOpen(L)}
+function plSample(){const L=plData().find(x=>x.active&&x.adj)||plData()[0];plOpen(L,1)}
 
 /* ===== Shipments: list ===== */
 const LOGO=Object.fromEntries(Object.entries({anteraja:'anteraja',sicepat:'sicepat',lion:'lionparcel',jne:'jne',ninja:'ninjaxpress',spx:'spx',jnt:'jnt'}).map(([k,f])=>[k,IMG+'courier/'+f+'.png']));
@@ -7007,7 +7008,7 @@ function show(view){
   if(location.hash==='#checkout'){view='set';openCkp()}else if(!document.getElementById('ckp').hidden)closeCkp();
   if(location.hash==='#invoices/pay'){view='inv';sampleView()}else if(!document.getElementById('cv').hidden)document.querySelector('#cv [data-cvx]').click();
   if(location.hash==='#payment-links/create'){view='pl';openPlx()}else if(!plx.hidden)closePlx();
-  if(location.hash==='#payment-links/pay'){view='pl';plSample()}
+  {const m=location.hash.match(/^#payment-links\/pay(?:\/([\w-]+))?$/);if(m){view='pl';const L=m[1]&&plGet('plink_'+m[1]);if(L)plOpen(L,1);else plSample()}}
   if(location.hash==='#shipments/create'){view='shp';openShip()}else if(!sx.hidden)closeShip();
   if(location.hash==='#warehouses/new'){view='wh';openWh()}else if(!wx.hidden&&!whEdit)closeWh();
   if(location.hash==='#merchant-cash-advance/apply'){view='mca';openMca()}else if(!mx.hidden)closeMca();
