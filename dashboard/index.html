@@ -581,7 +581,7 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 .fl-lg{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px;font-size:13px;color:var(--muted)}.fl-lg i{font-style:normal;color:var(--faint)}
 nav.fl-lg :is(a,button).lnk{color:var(--muted);font:inherit;text-decoration:none}nav.fl-lg :is(a,button).lnk:hover{color:var(--ink);text-decoration:none}
 .pp-ft .fl-lg{margin-top:8px}
-.fl-agree{text-align:center;color:var(--muted);font-size:12px;line-height:1.5;margin:12px 0 0}.ck-pot.ck-pot-up{margin:0 0 12px}.fl-agree .lnk{color:var(--muted);text-decoration:underline;text-underline-offset:2px}.fl-agree .lnk:hover{color:var(--ink)}
+.fl-agree{text-align:center;color:var(--muted);font-size:12px;line-height:1.5;margin:12px 0 0}.ck-pot.ck-pot-up{margin:0 0 12px}p.fl-agree a.lnk{color:var(--muted);text-decoration:underline;text-underline-offset:2px}p.fl-agree a.lnk:hover{color:var(--ink)}
 .ck-m>.ck-main>.fl-agree{margin:4px 16px 0}
 .ck .ck-foot.ck-foot-m{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;padding:20px 16px 24px}.ck-foot-m .fl-lg,.ck-m .pp-ft .fl-lg{gap:6px 16px}.ck-foot-m .fl-lg i,.ck-m .pp-ft .fl-lg i{display:none}
 .fl-ck p{color:var(--muted);font-size:13.5px;line-height:1.5;margin-bottom:6px}.fl-ck p .lnk{color:var(--ink)}
@@ -9259,7 +9259,6 @@ const ckTyItems=o=>`<ul class="ck-rc-l">${o.items.map(x=>`<li><span><b>${x.n}</b
 /* B: a paper receipt. The store's message sits above it like a chat bubble; the receipt tears in the middle; the reward is the last thing */
 const ckThanksB=(c,phone,o)=>{const K=o.K,pu=o.mode==='pickup',n=o.items.reduce((a,x)=>a+x.q,0),gst=ckAuth==='gst';
   return`<div class="tyb-w">
-    <div class="tyb-msg"><span class="tyb-av">${cpLogo(c,20)}</span><div class="tyb-bub"><b>${MERCHANT}</b><p>${ckTyMsg(c,o)}</p></div></div>
     <article class="tyb-t" aria-label="Receipt">
       <div class="tyb-top"><span class="tyb-ok">${ic('check',26,2.6)}</span><span class="tyb-k">Payment successful</span><b class="tyb-a num">${rp(K.total)}</b><span class="tyb-s">Paid to ${MERCHANT} · ${ckTyAt()}</span></div>
       <div class="tyb-cut" aria-hidden="true"></div>
