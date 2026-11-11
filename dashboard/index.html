@@ -600,28 +600,29 @@ nav.fl-lg :is(a,button).lnk{color:var(--muted);font:inherit;text-decoration:none
 .sum-kv dt{color:var(--muted)}.sum-kv dd{color:var(--ink)}
 /* payment links: editor tabs and sub-fields; the shopper page in two columns (one on phones) */
 .pl-tabs{max-width:520px;margin:-16px 0 32px}
-.pl-sub{margin:2px 0 10px 26px}
+/* create link: a clear gap between the product search (or the total) and the quantity option */#plx-form :is(.ie-fld,.ie-tot)+.ie-chk{margin-top:12px}
+.pl-sub{margin:2px 0 10px 26px}/* preview when the link sends shoppers to the merchant's website */.pl-redir{background:var(--hover);border-radius:12px;padding:96px 24px;margin-top:16px}.pl-redir-u{display:block;color:var(--text);overflow-wrap:anywhere}.pl-redir .qic{margin:0 auto 16px}.pl-sub .ie-hint{line-height:1.45}/* create link, After payment: no lines between the choices; the message box and website field line up with the choice's text */#plx-form .ie-rad .ie-r{border-bottom:0;padding:8px 0}#plx-form .ie-rad .ie-ta,#plx-form .ie-rad .pl-sub{margin:4px 0 8px 28px;width:calc(100% - 28px)}#plx-form .ie-rad .pl-sub input{width:100%}#plx-form .ie-rad+.ie-chk{margin-top:8px}
 .ck-lk:not(.ck-m) .ck-main,.cv-ck .ck-b.ck-lk:not(.ck-m) .ck-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:960px;width:100%;margin:0 auto;gap:24px}
 .cv-ck .ck-b.ck-lk:not(.ck-m){--ckw:960px}
 .ck-lk.ck-lkd:not(.ck-m) .ck-main,.cv-ck .ck-b.ck-lk.ck-lkd:not(.ck-m) .ck-main{grid-template-columns:minmax(0,1fr);max-width:528px}
 .cv-ck .ck-b.ck-lk.ck-lkd:not(.ck-m){--ckw:528px}
-.ck-lk .ck-store{margin-bottom:14px}
-.ck-lk .ck-pr{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.ck-lk .ck-qty{gap:10px;padding:0 4px}
-.ck-lk .ck-qty button{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;color:var(--muted);font-size:16px}
-.ck-lk .ck-qty button:hover:not(:disabled){background:var(--hover);color:var(--ink)}
-.ck-lk .ck-qty button:disabled{opacity:.4;cursor:not-allowed}
-.ck-lk .pl-q{font-size:13px;color:var(--muted)}
-.ck-lk .pl-amt{margin-top:4px}
-.ck-lk .pl-det{display:grid;gap:12px}
-.ck-lk .pl-det h4{margin-bottom:0}
+:is(.ck-lk,.cv-ck) .ck-store{margin-bottom:14px}
+:is(.ck-lk,.cv-ck) .ck-pr{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+:is(.ck-lk,.cv-ck) .ck-qty{gap:10px;padding:0 4px}
+:is(.ck-lk,.cv-ck) .ck-qty button{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;color:var(--muted);font-size:16px}
+:is(.ck-lk,.cv-ck) .ck-qty button:hover:not(:disabled){background:var(--hover);color:var(--ink)}
+:is(.ck-lk,.cv-ck) .ck-qty button:disabled{opacity:.4;cursor:not-allowed}
+:is(.ck-lk,.cv-ck) .pl-q{font-size:13px;color:var(--muted)}
+:is(.ck-lk,.cv-ck) .pl-amt{margin-top:4px}
+:is(.ck-lk,.cv-ck) .pl-det{display:grid;gap:12px}
+:is(.ck-lk,.cv-ck) .pl-det h4{margin-bottom:0}
 .ck-lk .pl-msg{color:var(--muted);font-size:13.5px;line-height:1.5;margin-top:8px;text-align:center}
 .pl-url{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px}
 @media (max-width:1100px){.ie-form{padding:32px 32px 80px}.ie-pv{padding:32px}}
 @media (max-width:900px){.ie-body{grid-template-columns:1fr;overflow-y:auto}.ie-form,.ie-pv{overflow:visible}.ie:not(.pvon) .ie-pv{display:none}.ie.pvon .ie-form{display:none}}
 @media (max-width:600px){.ie-top{padding:0 12px;gap:8px}.ie-top .sep,.ie-top b{display:none}.ie-form{padding:24px 16px 80px}.ie-pv{padding:24px 16px}.ie-paper{padding:22px 18px 30px}.ie-line{grid-template-columns:1fr auto 28px}.ie-line .lt{display:none}}
 /* invoice payment page, variations B and C: the checkout's parts (see ckInv and ckShell) */
-.cv-ck .ck-b .ck-main{grid-template-columns:minmax(0,1fr);max-width:528px}/* invoice B on desktop: two panels (the invoice on the left, account and payment with Pay now on the right) */.cv-ck .ck-b.ck-2:not(.ck-m) .ck-main{max-width:960px}.cv-ck .ck-b.ck-2:not(.ck-m){--ckw:960px}.ck-b .cv-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}.ck-b .cv-2l{display:grid;gap:20px;min-width:0}.ck-b .cv-2r{position:sticky;top:24px}.ck-b .ie-pp{margin:0;max-width:none;gap:16px}/* the invoice keeps its own footer under the cards (FLIK, 1-Click Checkout, legal links), not the checkout's footer bar */.ck-inv .pp-ft{margin-top:8px}
+.cv-ck .ck-b .ck-main{grid-template-columns:minmax(0,1fr);max-width:528px}/* invoice B on desktop: two panels (the invoice on the left, account and payment with Pay now on the right) */.cv-ck .ck-b.ck-2:not(.ck-m) .ck-main{max-width:960px}.cv-ck .ck-b.ck-2:not(.ck-m){--ckw:960px}.ck-b .cv-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}.ck-b .cv-2l{display:grid;gap:20px;min-width:0}.ck-b .cv-2r{position:sticky;top:24px;display:grid;gap:20px;align-content:start}.cv-ck .pl-l .pl-items{margin-top:16px}.ck-b.ck-m .pl-det{margin-top:0}.ck-b .ie-pp{margin:0;max-width:none;gap:16px}/* the invoice keeps its own footer under the cards (FLIK, 1-Click Checkout, legal links), not the checkout's footer bar */.ck-inv .pp-ft{margin-top:8px}
 .ck-b .pp-btn{height:46px;font-size:15px;font-weight:600;border-radius:8px}
 .ck-b .pp-kv{grid-template-columns:1fr auto;gap:10px 12px}.ck-b .pp-kv dd{text-align:right;font-weight:400}
 .ck-b.ck-m .pp-pay>[data-pay="1"]{display:none}.ck-b .ck-pay[disabled]{opacity:.4;cursor:not-allowed}.ck-b .ck-pay{cursor:pointer}
@@ -1353,7 +1354,7 @@ nav.fl-lg :is(a,button).lnk{color:var(--muted);font:inherit;text-decoration:none
 .tyb-ok{width:56px;height:56px;border-radius:50%;background:var(--ok-bg);color:var(--ok-tx);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px #fff,0 0 0 7px var(--ok-bd);margin-bottom:14px}
 .tyb-k{font-size:13.5px;color:var(--muted);font-weight:500}.tyb-a{font-size:34px;font-weight:600;color:var(--ink);letter-spacing:-.8px;line-height:1.2}.tyb-s{font-size:13px;color:var(--muted)}
 .tyb-cut{position:relative;border-top:2px dashed var(--line-2);margin:24px 0 20px}.tyb-cut::before,.tyb-cut::after{content:'';position:absolute;top:-12px;width:22px;height:22px;border-radius:50%;background:var(--hover)}.tyb-cut::before{left:-35px}.tyb-cut::after{right:-35px}
-.tyb-kv{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:13.5px}.tyb-kv dt{color:var(--muted)}.tyb-kv dd{margin:0;color:var(--ink);text-align:right;display:flex;justify-content:flex-end;align-items:center;gap:6px;min-width:0}
+.tyb-kv{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:13.5px}.tyb-top+.tyb-kv{margin-top:20px}.tyb-kv dt{color:var(--muted)}.tyb-kv dd{margin:0;color:var(--ink);text-align:right;display:flex;justify-content:flex-end;align-items:center;gap:6px;min-width:0}
 .tyb-cp{color:var(--muted);display:inline-flex;padding:2px;border-radius:4px}.tyb-cp:hover{color:var(--ink);background:var(--hover)}
 .tyb-det{margin-top:18px;border-top:1px solid var(--line)}.tyb-det summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:14px 0 6px;cursor:pointer;color:var(--ink);font-weight:500}.tyb-det summary::-webkit-details-marker{display:none}.tyb-det summary svg{color:var(--muted);transition:transform .15s}.tyb-det[open] summary svg{transform:rotate(180deg)}
 .tyb-det .ck-sum{margin-top:6px}
@@ -3719,7 +3720,7 @@ document.getElementById('bell').onclick=e=>{e.stopPropagation();const b=e.curren
 
 /* ===== Toast + generic actions ===== */
 const toastEl=document.getElementById('toast');let tt;
-function toast(m,k){const ck=document.getElementById('ckp'),sh=(ck&&!ck.hidden)||[...document.querySelectorAll('.cv-ck')].some(x=>x.offsetParent);toastEl.classList.toggle('top',!!sh);if(sh){const hs=[...document.querySelectorAll('#ckp .ck-top,#ckp header,#ckp [class*="-top"],.cv-ck .ck-top')].map(h=>h.getBoundingClientRect()).filter(r=>r.height&&r.top<200).map(r=>r.bottom);toastEl.style.top=(hs.length?Math.max(...hs):60)+12+'px';const an=innerWidth>=768&&['#ckp .ck-col>.ck-card','.cv-ck .pp-pay','#ckp .qp','.cv-ck .qp','#ckp .ck-main>*','.cv-ck .ck-main>*'].map(q=>[...document.querySelectorAll(q)].find(e=>e.offsetParent&&e.getBoundingClientRect().width>280)).find(Boolean),ar=an&&an.getBoundingClientRect();toastEl.style.left=ar?ar.left+ar.width/2+'px':'';toastEl.style.width=ar?ar.width+'px':''}else toastEl.style.top=toastEl.style.left=toastEl.style.width='';if(sh){const t=k==='ok'||k==='bad'?k:'gen',g={gen:'<path d="M12 11v5M12 7.6v.1"/>',ok:'<path d="m8 12.3 2.7 2.7L16 9.6"/>',bad:'<path d="m9 9 6 6M15 9l-6 6"/>'}[t];toastEl.innerHTML=`<span class="tst-ic tst-${t}" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${g}</svg></span><span></span>`;toastEl.lastChild.textContent=m;toastEl.setAttribute('role',t==='bad'?'alert':'status')}else toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2400)}
+function toast(m,k){const ck=document.getElementById('ckp'),sh=(ck&&!ck.hidden)||[...document.querySelectorAll('.cv-ck')].some(x=>x.offsetParent&&!x.closest('.cpx-frame'));toastEl.classList.toggle('top',!!sh);if(sh){const hs=[...document.querySelectorAll('#ckp .ck-top,#ckp header,#ckp [class*="-top"],.cv-ck .ck-top')].map(h=>h.getBoundingClientRect()).filter(r=>r.height&&r.top<200).map(r=>r.bottom);toastEl.style.top=(hs.length?Math.max(...hs):60)+12+'px';const an=innerWidth>=768&&['#ckp .ck-col>.ck-card','.cv-ck .pp-pay','#ckp .qp','.cv-ck .qp','#ckp .ck-main>*','.cv-ck .ck-main>*'].map(q=>[...document.querySelectorAll(q)].find(e=>e.offsetParent&&e.getBoundingClientRect().width>280)).find(Boolean),ar=an&&an.getBoundingClientRect();toastEl.style.left=ar?ar.left+ar.width/2+'px':'';toastEl.style.width=ar?ar.width+'px':''}else toastEl.style.top=toastEl.style.left=toastEl.style.width='';if(sh){const t=k==='ok'||k==='bad'?k:'gen',g={gen:'<path d="M12 11v5M12 7.6v.1"/>',ok:'<path d="m8 12.3 2.7 2.7L16 9.6"/>',bad:'<path d="m9 9 6 6M15 9l-6 6"/>'}[t];toastEl.innerHTML=`<span class="tst-ic tst-${t}" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${g}</svg></span><span></span>`;toastEl.lastChild.textContent=m;toastEl.setAttribute('role',t==='bad'?'alert':'status')}else toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toastEl.classList.remove('show'),2400)}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-toast]');if(a){toast(a.dataset.toast);if(a.closest('#side'))setSide(false)}});
 
 render();
@@ -4210,6 +4211,29 @@ const flCookieDlg=()=>{const d={...flCookies},row=(k,t,s)=>`<button type="button
       if(t.closest('[data-cksave]')){flCookies=d;modal.onclick=null;closeModal();toast('Cookie choices saved','ok')}}};
   draw();modal.querySelector('[data-cksave]').focus()};
 document.addEventListener('click',e=>{if(e.target.closest('[data-cookies]')){e.preventDefault();e.stopPropagation();flCookieDlg()}},true);
+/* the paid page (receipt) for an invoice or a payment link, shared by the real page and the payment link preview */
+function paidHtml(v,st,ph){const mName=k=>{if(String(k).startsWith('card:')){const c=st.cards.find(x=>'card:'+x.id===k);return`${({visa:'Visa',mastercard:'Mastercard',bca:'BCA debit'})[c.brand]||'Card'} •••• ${c.last4}`}return k==='qris'?'QRIS':k==='flik'?'FLIK':PMS[k][0]};const L=v.pl||null,ls=L?(L.type==='custom'?[]:L.lines.map((l,i)=>({...l,qty:st.lq?st.lq[i]:l.qty}))):v.lines,n=ls.reduce((a,l)=>a+l.qty,0);
+    return ckShell(`<div class="tyb-w">
+      <article class="tyb-t" aria-label="Receipt">
+        <div class="tyb-top"><span class="tyc-ok tyb-pic">${ic('check',22,2.6)}</span><span class="tyb-k">${L?'Payment received':'Invoice paid'}</span><b class="tyb-a num">${rp(v.total)}</b><span class="tyb-s">Paid to ${MERCHANT} · ${ckTyAt()}</span>${L?(L.after==='redirect'?`<p class="tyb-more pl-msg">Taking you back to ${esc(L.redir||'the store’s website')}…</p>`:L.msg?`<p class="tyb-more pl-msg">${esc(L.msg)}</p>`:''):'<p class="tyb-more"><button class="lnk" data-cvd>View invoice and payment details</button></p>'}</div>
+        ${L?'':'<div class="tyb-cut" aria-hidden="true"></div>'}
+        <dl class="tyb-kv"><dt>${L?'Reference':'Invoice number'}</dt><dd><span class="num">${v.no}</span><button class="tyb-cp" data-toast="${L?'Reference':'Invoice number'} copied" aria-label="Copy ${L?'reference':'invoice number'}">${ic('copy',14)}</button></dd>
+          <dt>Paid with</dt><dd><span class="ck-rc-pm">${(()=>{const k=st.paid,cd=String(k).startsWith('card:')&&st.cards.find(c=>'card:'+c.id===k),lg=k==='flik'?FLIK_MK:cd?`${cd.brand==='mastercard'?'mastercard':'visa'}`:k==='bcad'?'bca':PMS[k]&&PMS[k][1];return!lg?'':`<span class="ckd-lg">${k==='flik'?lg:`<img src="${IMG}payment/${lg}.png" alt="">`}</span>`})()}${mName(st.paid)}</span></dd>${L?(L.title||L.name?`<dt>For</dt><dd>${esc(L.name||L.title)}</dd>`:'')+((st.pn||'').trim()?`<dt>Paid by</dt><dd>${esc(st.pn.trim())}</dd>`:''):`<dt>Billed to</dt><dd>${esc(v.who)}</dd>`}${st.em?`<dt>Receipt sent to</dt><dd>${esc(st.em)}</dd>`:''}</dl>
+        ${ls.length?`<details class="tyb-det"${ph?'':' open'}><summary><span>${n} ${n===1?'item':'items'}</span>${ic('chev',16)}</summary><ul class="ck-rc-l">${ls.map(l=>`<li><span><b>${esc(l.name)}</b><small>${l.qty} × ${rp(l.price)}</small></span><b class="num">${rp(l.price*l.qty)}</b></li>`).join('')}</ul><div class="ck-tot"><span>Total paid</span><b>${rp(v.total)}</b></div></details>`:''}
+        <div class="tyb-btns">${L?'':'<button class="btn btn-o" data-cv="pdf">Download invoice</button>'}<button class="btn btn-p tyb-back" data-toast="Receipt downloaded">Download receipt</button></div>
+      </article>
+    </div><div class="pp-ft">${FLIK_WM}<span>1-Click Checkout</span>${FLIK_LINKS()}</div>`,'qp',ph,'')}
+/* the shopper's payment page (invoice or payment link), shared by the real page and the editors' previews so they always match */
+const ppBtns=h=>h.replace('<u class="pp-fl">FLIK</u>','<button class="pp-fl" data-flikinfo>FLIK</button>').replace('<span class="lnk">View invoice details</span>','<button class="lnk" data-cvd>View invoice details</button>').replace('<span class="btn btn-p pp-btn">','<button class="btn btn-p pp-btn" data-pay="flik">').replace('Pay with FLIK</span>','Pay with FLIK</button>').replace(/<span class="btn btn-o pp-btn">([^<]*)<\/span>/,'<button class="btn btn-o pp-btn" data-pay="1">$1</button>');
+function payPageHtml(a,{st,ph,pl,total,payL}){
+    if(pl&&pl.cta){payL=esc(pl.cta);a=a.replace(/(<button[^>]*data-pay="1"[^>]*>)Pay now</g,'$1'+payL+'<')}
+    if(pl){const iS=a.indexOf('<div class="pp-c pp-sum">'),iP=a.indexOf('<div class="pp-c pp-pay">');if(iS>=0&&iP>iS)a=a.slice(0,iS)+plLeft(pl,st)+a.slice(iP);if(st.chk==='new'&&!st.acct&&pl.col.name&&pl.col.phone)a=a.replace(/<div class="pp-svf">[\s\S]*?<\/p><\/div>/,st.save?'<p class="pp-svh">After you pay, FLIK saves your name and phone number from your details, so your next checkout takes one click.</p>':'')}
+    /* B: the same cards as A, as checkout cards (radius, 46px buttons); on phones Pay now moves to the sticky total bar */
+    if(!ph){/* desktop: two panels. Left: the invoice (amount, who, details); right: the shopper's account and payment (Pay with FLIK, email, methods, Pay now, Save my information) */
+      const iS=a.indexOf('<div class="pp-c pp-sum'),iP=a.indexOf('<div class="pp-c pp-pay">'),iF=a.indexOf('<div class="pp-ft">');
+      if(iS>0&&iP>iS&&iF>iP){const sum=a.slice(iS,iP).trim(),ft=a.slice(iF,a.lastIndexOf('</div>'));
+        return ckShell(`<div class="ie-pp vc cv-2"><aside class="cv-2r">${sum}</aside><div class="cv-2l">${a.slice(iP,iF)}${ft}</div></div>`.replace(/class="pp-c /g,'class="pp-c ck-card '),'b ck-2',ph,'')}}
+    return ckShell(a.replace(/class="pp-c /g,'class="pp-c ck-card '),'b',ph,ph?`<div class="ck-bar"><div><span>Total</span><b>${rp(total)}</b></div><button class="ck-pay" data-pay="1" style="background:var(--ink)" ${ppOk(st)&&(!pl||plOk(pl,st))?'':'disabled'}>${payL}</button></div>`:'')}
 function pvBody(kind,o={}){
   const total=sub(),due=dueDate(),cn=D.cust?D.cust.name:'Example customer',no=o.no||(editing&&editing.no!=='Draft'?editing.no:nextNo()),em=D.cust&&D.cust.email?D.cust.email:'customer@email.com';
   const cfs=D.cf?D.cfs.filter(f=>f.k.trim()&&f.v.trim()):[],pms=[...D.pms];
@@ -4260,10 +4284,15 @@ function ckInv(v,o,kind,phone){const c=cpGet(),total=v.total,due=dueDate(),cn=v.
   const main=`<section class="ck-card ck-due"><span class="ck-dl">Invoice ${v.no} · Due ${fday(due)}</span><b class="ck-amt">${rp(total)}</b>${items}${more}</section>${contact}${payment}${phone?'':`<section class="ck-card">${sumKv.replace(/<dl class="ck-sum">[\s\S]*?<\/dl>/,'')}${pay}${FLIK_AGREE()}</section>`}`;
   return ckShell(main,kind,phone,bar)}
 const PV_TABS=[['pdf','Invoice PDF'],['email','Email'],['page','Payment page']];
-function drawPv(){
-  iePv.innerHTML=`<h2 class="ie-h" style="margin:0">Preview</h2><div class="tabs">${PV_TABS.map(t=>`<button class="tab${D.pv===t[0]?' on':''}" data-pv="${t[0]}">${t[1]}</button>`).join('')}</div>${pvBody(D.pv)}`;
+/* the Payment page tab previews the real shopper page (same builder), at desktop or phone size like the other editors */
+let ivPvM='desk';
+const ivPagePv=ph=>{const st={pick:'qris',open:null,linked:{},cards:[],live:0,em:'',chk:null,acct:false,save:true},h=pvBody('page',st);return payPageHtml(ppBtns(h),{st,ph,pl:null,total:sub(),payL:'Pay now'})};
+function drawPv(){const pg=D.pv==='page';
+  iePv.innerHTML=`<div class="cpx-pvh"><h2 class="ie-h" style="margin:0">Preview</h2>${pg?`<div class="seg" role="radiogroup" aria-label="Preview size">${[['desk','Desktop'],['phone','Phone']].map(([k,l])=>`<button class="${ivPvM===k?'on':''}" data-ivpv="${k}" role="radio" aria-checked="${ivPvM===k}">${l}</button>`).join('')}</div>`:''}</div><div class="tabs">${PV_TABS.map(t=>`<button class="tab${D.pv===t[0]?' on':''}" data-pv="${t[0]}">${t[1]}</button>`).join('')}</div>${pg?`<div class="cpx-stage ${ivPvM}"><div class="cpx-frame" inert><div class="ckp-b cv-ck">${ivPagePv(ivPvM==='phone')}</div></div></div>`:pvBody(D.pv)}`;ivFit()
 }
-iePv.addEventListener('click',e=>{const t=e.target.closest('[data-pv]');if(t){D.pv=t.dataset.pv;drawPv()}});
+function ivFit(){const st=iePv.querySelector('.cpx-stage.desk'),fr=st&&st.querySelector('.cpx-frame');if(!fr)return;const s=Math.min(1,st.clientWidth/1080);fr.style.transform=`scale(${s})`;st.style.height=fr.scrollHeight*s+'px'}
+addEventListener('resize',()=>{if(D&&D.pv==='page'&&iePv.offsetParent)ivFit()});
+iePv.addEventListener('click',e=>{const t=e.target.closest('[data-pv]');if(t){D.pv=t.dataset.pv;drawPv();return}const m=e.target.closest('[data-ivpv]');if(m){ivPvM=m.dataset.ivpv;drawPv()}});
 document.getElementById('ie-pv').onclick=e=>{const small=matchMedia('(max-width:900px)').matches;
   if(small){const on=ie.classList.toggle('pvon');e.currentTarget.textContent=on?'Edit invoice':'Show preview'}
   else{const off=ie.classList.toggle('nopv');e.currentTarget.textContent=off?'Show preview':'Hide preview'}};
@@ -4511,20 +4540,10 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
   const connect=k=>{modal.onclick=null;const lk=st.linked[k];ewOpen(lk?'manage':'connect',k,{who:(st.me&&st.me.name)||CK_TEST.flik.nm,linked:lk||''},{done:(k,p)=>{st.linked={...st.linked,[k]:p};st.pick=k;st.open='wallet';draw(1)},off:k=>{const l={...st.linked};delete l[k];st.linked=l;if(st.pick===k)st.pick='qris';draw(1)}})};
   const mName=k=>{if(String(k).startsWith('card:')){const c=st.cards.find(x=>'card:'+x.id===k);return`${({visa:'Visa',mastercard:'Mastercard',bca:'BCA debit'})[c.brand]||'Card'} •••• ${c.last4}`}return k==='qris'?'QRIS':k==='flik'?'FLIK':PMS[k][0]};
   /* once paid, the page turns into the receipt: Invoice paid, the amount, the payment and two downloads (like Stripe's hosted invoice) */
-  const paid=()=>{const ph=innerWidth<=760,n=v.lines.reduce((a,l)=>a+l.qty,0);
-    return ckShell(`<div class="tyb-w">
-      <article class="tyb-t" aria-label="Receipt">
-        <div class="tyb-top"><span class="tyc-ok tyb-pic">${ic('check',22,2.6)}</span><span class="tyb-k">Invoice paid</span><b class="tyb-a num">${rp(v.total)}</b><span class="tyb-s">Paid to ${MERCHANT} · ${ckTyAt()}</span><p class="tyb-more"><button class="lnk" data-cvd>View invoice and payment details</button></p></div>
-        <div class="tyb-cut" aria-hidden="true"></div>
-        <dl class="tyb-kv"><dt>Invoice number</dt><dd><span class="num">${v.no}</span><button class="tyb-cp" data-toast="Invoice number copied" aria-label="Copy invoice number">${ic('copy',14)}</button></dd>
-          <dt>Paid with</dt><dd><span class="ck-rc-pm">${(()=>{const k=st.paid,cd=String(k).startsWith('card:')&&st.cards.find(c=>'card:'+c.id===k),lg=k==='flik'?FLIK_MK:cd?`${cd.brand==='mastercard'?'mastercard':'visa'}`:k==='bcad'?'bca':PMS[k]&&PMS[k][1];return!lg?'':`<span class="ckd-lg">${k==='flik'?lg:`<img src="${IMG}payment/${lg}.png" alt="">`}</span>`})()}${mName(st.paid)}</span></dd><dt>Billed to</dt><dd>${esc(v.who)}</dd>${st.em?`<dt>Receipt sent to</dt><dd>${esc(st.em)}</dd>`:''}</dl>
-        <details class="tyb-det"${ph?'':' open'}><summary><span>${n} ${n===1?'item':'items'}</span>${ic('chev',16)}</summary><ul class="ck-rc-l">${v.lines.map(l=>`<li><span><b>${esc(l.name)}</b><small>${l.qty} × ${rp(l.price)}</small></span><b class="num">${rp(l.price*l.qty)}</b></li>`).join('')}</ul><div class="ck-tot"><span>Total paid</span><b>${rp(v.total)}</b></div></details>
-        <div class="tyb-btns"><button class="btn btn-o" data-cv="pdf">Download invoice</button><button class="btn btn-p tyb-back" data-toast="Receipt downloaded">Download receipt</button></div>
-      </article>
-    </div><div class="pp-ft">${FLIK_WM}<span>1-Click Checkout</span>${FLIK_LINKS()}</div>`,'qp',ph,'')};
+  const paid=()=>paidHtml(v,st,innerWidth<=760);
   /* the end of every payment: mark paid, count it on the link or invoice, show the paid page */
   const finPay=p=>{if(!st.acct&&st.chk==='new'&&st.save)toast(`Your FLIK account is ready. Next time, sign in with ${st.em}`,'ok');st.paid=p==='flik'?'flik':st.pick;if(v.pl){v.pl.pays++;v.pl.rev+=plTotal(v.pl,st);if(location.hash==='#payment-links')renderPl()}if(v.inv){v.inv.status='paid';if(location.hash==='#invoices')renderInv()}draw()};
-  const ckOn=()=>at==='page'&&(LK?!!st.paid||!st.qris:CV_VAR!=='a'&&!st.paid&&!st.qris);
+  const ckOn=()=>at==='page'&&(LK||CV_VAR!=='a')&&!st.paid&&!st.qris;
   /* variations B and C: the method row opens this list in a dialog; picking a method closes it */
   const pmPick=()=>{const keep=D;D=v.D;const {rows}=ppPay(st);D=keep;modal.classList.add('ew');
     modal.innerHTML=`<div class="mh"><h3>Choose how to pay</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb"><div class="ie-pp vc pp-pick"><div class="pp-rl">${rows.join('')}</div></div></div>`;
@@ -4533,19 +4552,13 @@ function custView(v,start){const el=document.getElementById('cv');let at=start||
       if(d.pk){st.pick=d.pk;st.cvc='';st.full=false;modal.onclick=null;closeModal();draw(1);return}
       modal.onclick=null;if(d.con)connect(d.con);else if('addcard' in d)addCard(d.addcard);else if(d.cdel){if(st.pick==='card:'+d.cdel)st.pick='qris';st.cards=st.cards.filter(c=>String(c.id)!==d.cdel);pmPick();toast('Card removed')}};
     mscrim.classList.add('open')};
-  const page=()=>{if(LK&&(st.paid||!st.qris)){const ph=innerWidth<=760;v.total=plTotal(v.pl,st);return st.paid?ckShell(plDone(v.pl,v.total,mName(st.paid),v.no),'b ck-lk ck-lkd',ph,''):plPage(v.pl,st,ph)}if(st.paid)return paid();if(st.qris){const ph=innerWidth<=760;QP.cb={redraw:()=>draw(1),paid:()=>{QP.cb=null;st.qris=false;finPay('1')},back:()=>{QP.cb=null;st.qris=false;draw()}};return ckShell(qpView({amount:v.total,ref:v.no.replace('INV-',QP.kind==='va'?'VA-':'QR-'),doc:['Invoice',v.no],card:st.cards.find(c=>'card:'+c.id===st.pick)},ph)+(QP.kind==='proc'||QP.state==='paid'?'':`<div class="pp-ft">${FLIK_WM}<span>1-Click Checkout</span>${FLIK_LINKS()}</div>`),'qp',ph,'')}const ph=innerWidth<=760;if(ckOn()&&CV_VAR==='c'){const keep=D;D=v.D;const h=ckInv(v,st,'c',ph);D=keep;return h}const keep=D;D=v.D;const h=pvBody('page',{no:v.no,...st,linked:st.linked,cards:st.cards}),{payL}=ppPay(st);D=keep;
-    const a=h.replace('<u class="pp-fl">FLIK</u>','<button class="pp-fl" data-flikinfo>FLIK</button>').replace('<span class="lnk">View invoice details</span>','<button class="lnk" data-cvd>View invoice details</button>').replace('<span class="btn btn-p pp-btn">','<button class="btn btn-p pp-btn" data-pay="flik">').replace('Pay with FLIK</span>','Pay with FLIK</button>').replace(/<span class="btn btn-o pp-btn">([^<]*)<\/span>/,'<button class="btn btn-o pp-btn" data-pay="1">$1</button>');
-    if(!ckOn())return a;
-    /* B: the same cards as A, as checkout cards (radius, 46px buttons); on phones Pay now moves to the sticky total bar */
-    if(!ph){/* desktop: two panels. Left: the invoice (amount, who, details); right: the shopper's account and payment (Pay with FLIK, email, methods, Pay now, Save my information) */
-      const iS=a.indexOf('<div class="pp-c pp-sum">'),iP=a.indexOf('<div class="pp-c pp-pay">'),iF=a.indexOf('<div class="pp-ft">');
-      if(iS>0&&iP>iS&&iF>iP){const sum=a.slice(iS,iP).trim(),ft=a.slice(iF,a.lastIndexOf('</div>'));
-        return ckShell(`<div class="ie-pp vc cv-2"><aside class="cv-2r">${sum}</aside><div class="cv-2l">${a.slice(iP,iF)}${ft}</div></div>`.replace(/class="pp-c /g,'class="pp-c ck-card '),'b ck-2',ph,'')}}
-    return ckShell(a.replace(/class="pp-c /g,'class="pp-c ck-card '),'b',ph,ph?`<div class="ck-bar"><div><span>Total</span><b>${rp(v.total)}</b></div><button class="ck-pay" data-pay="1" style="background:var(--ink)" ${ppOk(st)?'':'disabled'}>${payL}</button></div>`:'')};
+  const page=()=>{if(LK)v.total=plTotal(v.pl,st);if(st.paid)return paid();if(st.qris){const ph=innerWidth<=760;QP.cb={redraw:()=>draw(1),paid:()=>{QP.cb=null;st.qris=false;finPay('1')},back:()=>{QP.cb=null;st.qris=false;draw()}};return ckShell(qpView({amount:v.total,ref:v.no.replace(/^(INV|PL)-/,QP.kind==='va'?'VA-':'QR-'),doc:[LK?'Payment link':'Invoice',v.no],card:st.cards.find(c=>'card:'+c.id===st.pick)},ph)+(QP.kind==='proc'||QP.state==='paid'?'':`<div class="pp-ft">${FLIK_WM}<span>1-Click Checkout</span>${FLIK_LINKS()}</div>`),'qp',ph,'')}const ph=innerWidth<=760;if(ckOn()&&CV_VAR==='c'){const keep=D;D=v.D;const h=ckInv(v,st,'c',ph);D=keep;return h}const keep=D;D=v.D;const h=pvBody('page',{no:v.no,...st,linked:st.linked,cards:st.cards});let {payL}=ppPay(st);D=keep;
+    const a0=ppBtns(h);if(!ckOn())return a0;
+    return payPageHtml(a0,{st,ph,pl:LK?v.pl:null,total:v.total,payL})};
   const mail=()=>v.email.replace('<span class="btn btn-p ie-mail-btn" tabindex="-1">Pay this invoice</span>','<button class="btn btn-p ie-mail-btn" data-cv="page">Pay this invoice</button>').replace(/<\/div>$/,`<button class="cv-att" data-cv="pdf"><span class="plg plg-i">${ic('doc',15)}</span><span><b>${v.no}.pdf</b><small>PDF attachment</small></span></button></div>`);
   const draw=(stay)=>{const y=stay?el.querySelector('.cv-b').scrollTop:0,fa=document.activeElement,fid=fa&&el.contains(fa)&&fa.id,fs=fid&&fa.selectionStart;el.innerHTML=`<div class="ie-top"><button class="ib" data-cvx aria-label="Close">${ic('x',18)}</button><span class="sep"></span><b>${at==='email'?`Email to ${v.who}`:at==='pdf'?`${v.no}.pdf`:st.qris&&!st.paid?qpTitle():'Payment page'}</b><span class="st gr">Prototype</span>
       <div class="ie-acts">${at==='page'&&!LK?`<button class="btn btn-o" data-cvproto aria-haspopup="menu">Prototype${ic('chev',14)}</button>`:''}${at==='email'||LK?'':`<button class="btn btn-o" data-cv="email">Back to email</button>`}</div></div>
-    <div class="cv-b${ckOn()||at==='page'&&!LK&&(st.paid||st.qris)?' ckp-b cv-ck':''}">${ONB.sbx&&at==='page'&&!st.paid?(LK?SIM_PANEL().replace('Create an invoice','Create a payment link').replace('Send it','Share it'):SIM_PANEL()):''}${at==='email'?mail():at==='page'?page():at==='pdf'?`<div class="cv-pdf">${v.pdf.replace('<span class="ip-pay">Pay online</span>','<button class="ip-pay lnk" data-cv="page">Pay online</button>')}</div>`:page()}</div>`;el.querySelector('.cv-b').scrollTop=y;
+    <div class="cv-b${ckOn()||at==='page'&&(st.paid||st.qris)?' ckp-b cv-ck':''}">${ONB.sbx&&at==='page'&&!st.paid?(LK?SIM_PANEL().replace('Create an invoice','Create a payment link').replace('Send it','Share it'):SIM_PANEL()):''}${at==='email'?mail():at==='page'?page():at==='pdf'?`<div class="cv-pdf">${v.pdf.replace('<span class="ip-pay">Pay online</span>','<button class="ip-pay lnk" data-cv="page">Pay online</button>')}</div>`:page()}</div>`;el.querySelector('.cv-b').scrollTop=y;
     const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}};
   const shut=()=>{closeDetail();el.hidden=true;document.body.style.overflow='';document.body.classList.remove('cvon');if(location.hash==='#invoices/pay')location.hash='invoices';else if(location.hash==='#payment-links/pay')location.hash='payment-links'};
   /* View invoice details: a side panel with the lines, what's paid and left, and the payment history, like Stripe's hosted invoice */
@@ -4629,15 +4642,15 @@ const plUrl=L=>'pay.flik.id/l/'+L.id.slice(6,14);
 let PL=null,pltab='all';const PLS={q:'',cfd:{days:0},type:[]};
 function plData(){if(PL)return PL;const P=n=>CATALOG.find(p=>p[0]===n)||[n,100000],day=864e5,
   ln=(n,q=1)=>({name:n,price:P(n)[1],qty:q}),
-  mk=(name,o)=>({id:'plink_'+hsh(name).toString(36).padEnd(8,'0'),name,type:'products',lines:[],sug:0,min:0,adj:false,pms:PM_ALL.filter(k=>k!=='cod'&&pmLive(k)),col:{name:true,phone:true,addr:false},cf:'',limit:0,after:'page',msg:'',redir:'',rcpt:true,active:true,pays:0,rev:0,...o});
-  PL=[mk('Linen shirt pre-order',{lines:[ln('Linen shirt · White')],adj:true,col:{name:true,phone:true,addr:true},pays:34,d:1}),
-    mk('Gift set: tote and mug',{lines:[ln('Canvas tote bag'),ln('Ceramic mug · Sage')],col:{name:true,phone:true,addr:true},pays:18,d:3}),
+  mk=(name,o)=>({id:'plink_'+hsh(name).toString(36).padEnd(8,'0'),name,type:'products',lines:[],sug:0,min:0,adj:false,pms:PM_ALL.filter(k=>k!=='cod'&&pmLive(k)),col:{name:false,phone:false,addr:false},cf:'',limit:0,after:'page',msg:'',redir:'',rcpt:true,active:true,pays:0,rev:0,...o});
+  PL=[mk('Linen shirt pre-order',{lines:[ln('Linen shirt · White')],adj:true,col:{name:false,phone:false,addr:false},pays:34,d:1}),
+    mk('Gift set: tote and mug',{lines:[ln('Canvas tote bag'),ln('Ceramic mug · Sage')],col:{name:false,phone:false,addr:false},pays:18,d:3}),
     mk('Custom tailoring deposit',{type:'custom',sug:250000,min:100000,cf:'Measurements or notes',pays:9,d:4}),
-    mk('Batik dress · Indigo',{lines:[ln('Batik dress · Indigo')],adj:true,col:{name:true,phone:true,addr:true},pays:12,d:6}),
-    mk('Wholesale tees, 10 pieces',{lines:[ln('Basic tee · Black',10)],limit:20,col:{name:true,phone:true,addr:true},pays:7,d:9}),
+    mk('Batik dress · Indigo',{lines:[ln('Batik dress · Indigo')],adj:true,col:{name:false,phone:false,addr:false},pays:12,d:6}),
+    mk('Wholesale tees, 10 pieces',{lines:[ln('Basic tee · Black',10)],col:{name:false,phone:false,addr:false},pays:7,d:9}),
     mk('Scarf bundle',{lines:[ln('Voile scarf · Floral',3)],pays:5,d:12,after:'redirect',redir:'https://arunastudio.co.id/thank-you'}),
-    mk('Pop-up market booth payment',{type:'custom',sug:0,min:50000,col:{name:true,phone:true,addr:false},pays:26,d:15}),
-    mk('Leather sneakers',{lines:[ln('Leather sneakers')],adj:true,col:{name:true,phone:true,addr:true},pays:4,d:21}),
+    mk('Pop-up market booth payment',{type:'custom',sug:0,min:50000,col:{name:false,phone:false,addr:false},pays:26,d:15}),
+    mk('Leather sneakers',{lines:[ln('Leather sneakers')],adj:true,col:{name:false,phone:false,addr:false},pays:4,d:21}),
     mk('Ramadan hamper',{lines:[ln('Canvas tote bag'),ln('Ceramic mug · Sage',2),ln('Gift wrapping')],active:false,pays:41,d:48}),
     mk('Denim jacket · Blue',{lines:[ln('Denim jacket · Blue')],active:false,pays:2,d:60})];
   PL.forEach((L,i)=>{L.created=new Date(NOW.getTime()-L.d*day-i*37e5);L.rev=L.pays*(L.type==='custom'?(L.sug||150000):plTotal(L))});
@@ -4677,7 +4690,7 @@ const plCopy=L=>{try{navigator.clipboard&&navigator.clipboard.writeText('https:/
 function plToggle(L){const go=()=>{L.active=!L.active;closeModal();renderPl();if(drawer.classList.contains('open'))plDrawer(L);toast(L.active?'Link is active again':'Link deactivated. Shoppers who open it see that it no longer takes payments')};
   if(L.active)confirmDanger('Deactivate this payment link?','Shoppers who open it see that it no longer takes payments. You can turn it on again any time.','Deactivate',go);else go()}
 /* the shopper's page for a link: the customer view in the checkout style, with the link's products, the details it asks for and its payment methods */
-function plOpen(L){custView({kind:'link',pl:L,who:MERCHANT,no:'PL-'+L.id.slice(6,12).toUpperCase(),total:plTotal(L),lines:L.lines.map(l=>({...l})),D:{pms:new Set(L.pms),cust:ICUST.find(c=>c.email)}},'page')}
+function plOpen(L){custView({kind:'link',pl:L,who:MERCHANT,no:'PL-'+L.id.slice(6,12).toUpperCase(),total:plTotal(L),lines:L.lines.map(l=>({...l})),D:{pms:new Set(L.pms),cust:ICUST.find(c=>c.email),lines:L.lines.map(l=>({...l})),disc:0,notes:''}},'page')}
 function plDrawer(L){const s=PLST[L.active?'on':'off'],col=plCollects(L);
   drawer.innerHTML=`<div class="dh"><span class="kind">${ic('link',15)}Payment link</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="db"><div class="d-amt"><b class="num">${L.type==='custom'?'Customer chooses':rp(plTotal(L))}</b><span class="st ${s[1]}">${s[0]}</span></div><p class="d-sub">${esc(L.name)}</p>
@@ -4709,11 +4722,22 @@ function plPage(L,o,phone){const c=cpGet(),tot=plTotal(L,o),cust=L.type==='custo
       ${L.col.phone?`<div class="sx-f"><label for="cv-pp">Phone number</label>${ccPre('cv-pp')}<input id="cv-pp" inputmode="numeric" autocomplete="tel-national" ${v('pp',ccEg('cv-pp'))}></div></div>`:''}
       ${L.col.addr?`<div class="sx-f"><label for="cv-pa">Shipping address</label><input id="cv-pa" autocomplete="street-address" ${v('pa','Street, number, district, city')}></div>`:''}
       ${L.cf?`<div class="sx-f"><label for="cv-pc">${esc(L.cf)}</label><input id="cv-pc" autocomplete="off" ${v('pc','')}></div>`:''}</div>`:'',
-    pay=`<button class="ck-pay" data-pay="1" style="background:${cpBtn(c)}" ${ok?'':'disabled'}>${payL}</button>`,
+    pay=`<button class="ck-pay" data-pay="1" style="background:${cpBtn(c)}" ${ok?'':'disabled'}>${L.cta?esc(L.cta):payL}</button>`,
     card=`<div class="pp-c ck-card pp-pay">${o.acct?'':`<button class="btn btn-p pp-btn" data-signin><span class="pp-mkt">${FLIK_MK}</span>Pay with FLIK</button><div class="pp-or">Or</div>`}
       ${ppEmail(o)}${o.acct&&!o.full?`<div class="pp-mh"><b>Payment methods</b><button class="lnk" data-chg>Change</button></div>${ppLast(o)}`:`<div class="pp-mh"><b>Payment method</b></div><div class="pp-rl">${rows.join('')}</div>`}
       ${phone?'':pay}</div>${o.chk==='new'&&!o.acct?`<div class="pp-c ck-card pp-sv">${L.col.name&&L.col.phone?ppSave(o).replace(/<div class="pp-svf">[\s\S]*?<\/p><\/div>/,o.save?'<p class="pp-svh">After you pay, FLIK saves your name and phone number from above, so your next checkout takes one click.</p>':''):ppSave(o)}</div>`:''}`;
   return ckShell(`${left}<div class="ie-pp vc">${det}${card}</div>`,'b ck-lk',phone,phone?`<div class="ck-bar"><div><span>Total</span><b>${rp(tot)}</b></div>${pay}</div>`:'')}
+/* the payment link's left panel on the invoice-style page: the store, what's being paid for (quantities or the amount the customer chooses), and the details the link asks for */
+function plLeft(L,o){const c=cpGet(),tot=plTotal(L,o),cust=L.type==='custom',v=(k,ph)=>`value="${esc(o[k]||'')}" placeholder="${ph}"`;
+  const items=cust?`<div class="sx-f pl-amt"><label for="cv-amt">Amount</label><div class="pre"><em>Rp</em><input id="cv-amt" inputmode="numeric" autocomplete="off" ${v('amt',L.sug?L.sug.toLocaleString('id-ID'):'0')}></div>${L.min?`<p class="hint">At least ${rp(L.min)}</p>`:''}</div>`
+      :L.lines.map((l,i)=>{const q=o.lq?o.lq[i]:l.qty;return`<div class="ck-item"><span class="ck-img">${ic('box',22)}</span><div class="ck-tx"><b>${esc(l.name)}</b><span>${rp(l.price)} each</span></div><div class="ck-pr"><b>${rp(l.price*q)}</b>${L.adj?`<span class="ck-qty"><button data-plq="${i}" data-d="-1" aria-label="Fewer" ${q<=1?'disabled':''}>−</button><span class="num">${q}</span><button data-plq="${i}" data-d="1" aria-label="More">+</button></span>`:`<span class="pl-q">Qty ${q}</span>`}</div></div>`}).join('');
+  const det=L.col.name||L.col.phone||L.col.addr||L.cf?`<div class="pp-c pl-det"><h4>Your details</h4>
+      ${L.col.name?`<div class="sx-f"><label for="cv-pn">Full name</label><input id="cv-pn" autocomplete="name" ${v('pn','Your name')}></div>`:''}
+      ${L.col.phone?`<div class="sx-f"><label for="cv-pp">Phone number</label>${ccPre('cv-pp')}<input id="cv-pp" inputmode="numeric" autocomplete="tel-national" ${v('pp',ccEg('cv-pp'))}></div></div>`:''}
+      ${L.col.addr?`<div class="sx-f"><label for="cv-pa">Shipping address</label><input id="cv-pa" autocomplete="street-address" ${v('pa','Street, number, district, city')}></div>`:''}
+      ${L.cf?`<div class="sx-f"><label for="cv-pc">${esc(L.cf)}</label><input id="cv-pc" autocomplete="off" ${v('pc','')}></div>`:''}</div>`:'';
+  /* the same grid as the invoice's left card: the amount on top, what it's for under it, then the items */
+  return `<div class="pp-c pp-sum pl-l"><div class="pp-top"><div>${cust?'':`<div class="pp-a num">${rp(tot)}</div>`}<div class="pp-d">${esc(L.name||'Payment link')}</div></div></div><div class="pl-items">${items}</div></div>${det}`}
 /* after paying: the merchant's confirmation message (or where the link redirects to), the amount and a receipt */
 const plDone=(L,total,how,ref)=>`<div class="ie-pp vc"><div class="pp-c ck-card pp-paid"><span class="pp-pic">${ic('check',28,2.4)}</span>
     <p class="t">${L.after==='redirect'?'Payment successful':'Thanks for your payment'}</p><div class="pp-a num">${rp(total)}</div>
@@ -4724,17 +4748,23 @@ const plDone=(L,total,how,ref)=>`<div class="ie-pp vc"><div class="pp-c ck-card 
 /* ===== Create a payment link: type, then two tabs (Payment page, After payment) on the left; the preview on the right follows the tab ===== */
 const plx=document.getElementById('plx'),plxForm=document.getElementById('plx-form'),plxPv=document.getElementById('plx-pvw');
 let PQ=null,plPvM='desk';
-const plBlank=()=>({type:'products',tab:'page',lines:[],name:'',sug:'',min:'',adj:false,pms:PM_ALL.filter(k=>k!=='cod'&&pmLive(k)),col:{name:true,phone:true,addr:false},cf:false,cfl:'',lim:false,limN:'',after:'page',msg:'',redir:'',rcpt:true,dd:false,q:''});
+const plBlank=()=>({type:'products',tab:'page',lines:[],name:'',sug:'',min:'',adj:false,pms:PM_ALL.filter(k=>k!=='cod'&&pmLive(k)),col:{name:false,phone:false,addr:false},cf:false,cfl:'',lim:false,limN:'',cta:false,ctaT:'',after:'page',msg:'',redir:'',rcpt:true,dd:false,q:''});
 const plFromQ=()=>({id:'plink_'+Date.now().toString(36).slice(-8),type:PQ.type,lines:PQ.lines.map(l=>({...l})),name:PQ.type==='custom'?PQ.name.trim():PQ.lines.length?PQ.lines[0].name+(PQ.lines.length>1?` and ${PQ.lines.length-1} more`:''):'',
-  sug:plNum(PQ.sug),min:plNum(PQ.min),adj:PQ.adj,pms:PQ.pms.slice(),col:{...PQ.col},cf:PQ.cf?PQ.cfl.trim()||'Notes':'',limit:PQ.lim?plNum(PQ.limN):0,after:PQ.after,msg:PQ.msg.trim(),redir:PQ.redir.trim(),rcpt:PQ.rcpt,active:true,pays:0,rev:0,created:new Date()});
+  sug:plNum(PQ.sug),min:plNum(PQ.min),adj:PQ.adj,pms:PQ.pms.slice(),col:{...PQ.col},cf:PQ.cf?PQ.cfl.trim()||'Notes':'',limit:0,cta:PQ.cta?PQ.ctaT.trim():'',after:PQ.after,msg:PQ.msg.trim(),redir:PQ.redir.trim(),rcpt:PQ.rcpt,active:true,pays:0,rev:0,created:new Date()});
 const plErr=()=>PQ.type==='products'&&!PQ.lines.length?'Add at least one product.':PQ.type==='custom'&&!PQ.name.trim()?'Add a title.':!PQ.pms.length?'Choose at least one payment method.':PQ.lim&&!plNum(PQ.limN)?'Enter how many payments the link takes.':PQ.after==='redirect'&&!/^https?:\/\/\S+\.\S+/.test(PQ.redir.trim())?'Enter the website address, starting with https://':'';
 const plDirty=()=>JSON.stringify({...PQ,tab:'',dd:false,q:''})!==JSON.stringify({...plBlank(),tab:'',dd:false,q:''});
 function openPlx(){PQ=plBlank();plx.hidden=false;document.body.style.overflow='hidden';plx.classList.remove('nopv','pvon');drawPlx();document.getElementById('plx-pv').textContent=matchMedia('(max-width:900px)').matches?'Show preview':'Hide preview'}
 function closePlx(){plx.hidden=true;document.body.style.overflow=''}
 const plChk=(k,on,label,extra='')=>`<button class="ie-chk" data-plo="${k}" role="checkbox" aria-checked="${on}"><span class="cb${on?' on':''}">${on?ic('check',12,3):''}</span>${label}</button>${on?extra:''}`;
 const PL_GN={qris:'QRIS',wallet:'E-Wallets',va:'virtual accounts',card:'cards'},PL_GI={wallet:'wallet',va:'bal',card:'card'};
-const plPmChips=()=>PM_SET.filter(g=>g[0]!=='cod').map(([g,n,ks])=>{const on=ks.filter(k=>PQ.pms.includes(k));if(!on.length)return'';
-  return`<span class="chip set ie-pm">${on.length===1?cpChipLg(on[0]):`<span class="plg plg-sm plg-i">${ic(PL_GI[g],14)}</span>`}${on.length===1?PMS[on[0]][0]:on.length===ks.length?'All '+PL_GN[g]:`${on.length} of ${ks.length} ${PL_GN[g]}`}</span>`}).join('');
+/* the link's payment methods work like the invoice's: QRIS and cards as removable chips, e-wallets and virtual accounts as group chips with a menu, and Manage payment methods */
+const plPmGT=g=>{const n=PM_GROUPS[g].filter(k=>PQ.pms.includes(k)).length;return n===PM_GROUPS[g].length?'All '+PM_GNAME[g][0]:`${n} of ${PM_GROUPS[g].length} ${PM_GNAME[g][0]}`};
+const plPmChips=()=>['qris','bcad','card'].filter(k=>PQ.pms.includes(k)).map(k=>`<span class="chip set ie-pm">${pmLg(k)}${PMS[k][0]}<button class="clr" data-pmx="${k}" aria-label="Remove ${PMS[k][0]}">${ic('x',13)}</button></span>`).concat(Object.keys(PM_GROUPS).map(g=>PM_GROUPS[g].some(k=>PQ.pms.includes(k))?`<button class="chip set ie-pm" data-pmg="${g}" aria-haspopup="menu">${plPmGT(g)}<span class="ie-pm-chev">${ic('chev',13)}</span></button>`:'')).filter(Boolean).join('');
+function plPmGroupMenu(anchor,g){if(popFor===anchor){closePop();return}popFor=anchor;
+  const draw=()=>{pop.innerHTML=`<div class="menu" style="width:260px"><h6>${PM_GNAME[g][0][0].toUpperCase()+PM_GNAME[g][0].slice(1)}</h6>${PM_GROUPS[g].map(k=>`<button class="opt" data-pmt="${k}"><span class="cb${PQ.pms.includes(k)?' on':''}">${PQ.pms.includes(k)?ic('check',12,3):''}</span>${pmLg(k)}${PMS[k][0]}</button>`).join('')}</div>`;
+    pop.querySelectorAll('[data-pmt]').forEach(o=>o.onclick=ev=>{ev.stopPropagation();const k=o.dataset.pmt,on=new Set(PQ.pms);on.has(k)?on.delete(k):on.add(k);PQ.pms=PM_ALL.filter(x=>on.has(x));draw();drawPlxPv();
+      if(!PM_GROUPS[g].some(x=>PQ.pms.includes(x))){closePop();drawPlx()}else{const ch=plxForm.querySelector(`[data-pmg="${g}"]`);if(ch)ch.childNodes[0].textContent=plPmGT(g)}})};
+  draw();placePop(anchor)}
 function drawPlx(){const prod=PQ.type==='products',sb=window.SBX_ON?'test ':'',list=CATALOG.filter(p=>!PQ.q||p[0].toLowerCase().includes(PQ.q.toLowerCase())),tot=plTotal({type:PQ.type,lines:PQ.lines,sug:plNum(PQ.sug)});
   const page=`${prod?`<section><h2 class="ie-h">Products</h2><p class="ie-p">Add products from your catalog, or create a new one.</p>
       ${PQ.lines.length?`<div class="ie-lines">${PQ.lines.map((l,i)=>`<div class="ie-line"><div><b>${esc(l.name)}</b><small>${rp(l.price)} each</small></div><div class="qty"><button data-plqq="${i}" data-d="-1" aria-label="Fewer">${ic('minus',14,2)}</button><span class="num">${l.qty}</span><button data-plqq="${i}" data-d="1" aria-label="More">${ic('plus',14,2)}</button></div><span class="lt num">${rp(l.price*l.qty)}</span><button class="ib" style="width:28px;height:28px" data-plrm="${i}" aria-label="Remove ${esc(l.name)}">${ic('x',15)}</button></div>`).join('')}</div>`:''}
@@ -4747,36 +4777,34 @@ function drawPlx(){const prod=PQ.type==='products',sb=window.SBX_ON?'test ':'',l
         <div class="sx-f"><label for="plx-min">Minimum amount</label><div class="pre"><em>Rp</em><input id="plx-min" data-plf="min" inputmode="numeric" value="${esc(PQ.min)}" placeholder="Optional"></div></div></div></section>`}
     <section><h2 class="ie-h">Payment methods</h2><p class="ie-p">What shoppers can pay with on this link.</p><div class="ie-pms">${plPmChips()||'<p class="wh-err">Choose at least one payment method.</p>'}</div><button class="lnk ie-mpm" data-plpm>Manage payment methods</button></section>
     <section><h2 class="ie-h">Options</h2><p class="ie-p">Shoppers always give an email for the receipt.</p>
-      ${plChk('name',PQ.col.name,'Ask for their name')}${plChk('phone',PQ.col.phone,'Ask for a phone number')}${plChk('addr',PQ.col.addr,'Ask for a shipping address')}
       ${plChk('cf',PQ.cf,'Add a custom field',`<div class="sx-f pl-sub"><input id="plx-cf" data-plf="cfl" value="${esc(PQ.cfl)}" placeholder="Field name, like Size or Notes" aria-label="Custom field name" autocomplete="off"></div>`)}
-      ${plChk('lim',PQ.lim,'Limit the number of payments',`<div class="sx-f pl-sub"><input id="plx-lim" data-plf="limN" inputmode="numeric" value="${esc(PQ.limN)}" placeholder="50" aria-label="Number of payments" autocomplete="off"><p class="hint">The link stops taking payments after this many.</p></div>`)}</section>`;
+      ${plChk('cta',PQ.cta,'Customize the pay button',`<div class="sx-f pl-sub"><input id="plx-cta" data-plf="ctaT" maxlength="24" value="${esc(PQ.ctaT)}" placeholder="Pay now" aria-label="Pay button text" autocomplete="off"><p class="ie-hint">Shoppers see this on the button, like Pre-order now, Donate or Book my spot.</p></div>`)}</section>`;
   const r=(k,t,d)=>`<button class="ie-r" data-plaf="${k}" role="radio" aria-checked="${PQ.after===k}"><span class="rdo${PQ.after===k?' on':''}"></span><div><b>${t}</b><span class="d">${d}</span></div></button>`;
-  const after=`<section><h2 class="ie-h">Confirmation</h2><div class="ie-rad" role="radiogroup" aria-label="After payment">
+  const after=`<section><h2 class="ie-h">After payment</h2><p class="ie-p">What the shopper sees once they've paid.</p><div class="ie-rad" role="radiogroup" aria-label="After payment">
       ${r('page','Show a confirmation page','Shoppers see that they paid, with the amount and a receipt.')}${PQ.after==='page'?`<textarea class="ie-ta" data-plf="msg" placeholder="Add a message, like: Thanks! We ship your order within 2 days." aria-label="Confirmation message">${esc(PQ.msg)}</textarea>`:''}
-      ${r('redirect','Go to your website','Send shoppers to a page on your site after they pay.')}${PQ.after==='redirect'?`<div class="sx-f pl-sub"><input id="plx-url" data-plf="redir" value="${esc(PQ.redir)}" placeholder="https://arunastudio.co.id/thank-you" aria-label="Website address" autocomplete="off"></div>`:''}</div></section>
-    <section><h2 class="ie-h">Receipt</h2>${plChk('rcpt',PQ.rcpt,'Email a receipt to the shopper')}</section>`;
-  plxForm.innerHTML=`<section><h2 class="ie-h">Select type</h2><span class="sp-sw rf-sw"><select class="rf-sel" id="plx-type" aria-label="Payment link type">${[['products','Products'],['custom','Customers choose what to pay']].map(([k,l])=>`<option value="${k}" ${PQ.type===k?'selected':''}>${l}</option>`).join('')}</select></span></section>
-    <div class="tabs pl-tabs" role="tablist">${[['page','Payment page'],['after','After payment']].map(([k,l])=>`<button class="tab${PQ.tab===k?' on':''}" data-plx="${k}" role="tab" aria-selected="${PQ.tab===k}">${l}</button>`).join('')}</div>
-    ${PQ.tab==='page'?page:after}`;
+      ${r('redirect','Go to your website','Send shoppers to a page on your site after they pay.')}${PQ.after==='redirect'?`<div class="sx-f pl-sub"><input id="plx-url" data-plf="redir" value="${esc(PQ.redir)}" placeholder="https://arunastudio.co.id/thank-you" aria-label="Website address" autocomplete="off"></div>`:''}</div></section>`;
+  plxForm.innerHTML=`${page}${after}`;
   const e=plErr(),go=document.getElementById('plx-go');go.disabled=!!e;go.title=e;
   if(PQ.dd){const fi=document.getElementById('plx-q');fi.focus();fi.setSelectionRange(fi.value.length,fi.value.length)}
   drawPlxPv()}
 function drawPlxPv(){const L=plFromQ(),ph=plPvM==='phone',o={pick:'qris',open:null,linked:{},cards:[],live:0,em:'',chk:null,acct:false,save:true,lq:null,amt:PQ.sug};
   if(!L.name)L.name=PQ.type==='custom'?'Title':'Product name';
-  const html=PQ.tab==='after'?ckShell(plDone(L,plTotal(L,o),'QRIS','PL-'+L.id.slice(-6).toUpperCase()),'b ck-lk ck-lkd',ph,''):plPage(L,o,ph);
-  plxPv.innerHTML=`<h2 class="ie-h" style="margin:0">Preview</h2><div class="tabs">${[['desk','Desktop'],['phone','Phone']].map(([k,l])=>`<button class="tab${plPvM===k?' on':''}" data-plpv="${k}">${l}</button>`).join('')}</div>
-    <div class="cpx-stage ${plPvM}"><div class="cpx-frame" inert>${html}</div></div><p class="ie-hint pl-url">${ic('lock',13)}pay.flik.id/l/…</p>`;plFit()}
+  const html=PQ.tab==='after'?'<div class="ckp-b cv-ck">'+paidHtml({pl:L,total:plTotal(L,o),no:'PL-'+L.id.slice(-6).toUpperCase(),lines:L.lines,who:''},{paid:'qris',cards:[],em:'',lq:null},ph)+'</div>':(()=>{const keep=D;D={pms:new Set(L.pms),cust:null,lines:L.lines.map(l=>({...l})),disc:0,notes:''};const h=pvBody('page',o);D=keep;return '<div class="ckp-b cv-ck">'+payPageHtml(ppBtns(h),{st:o,ph,pl:L,total:plTotal(L,o),payL:'Pay now'})+'</div>'})();
+  plxPv.innerHTML=`<div class="cpx-pvh"><h2 class="ie-h" style="margin:0">Preview</h2><div class="seg" role="radiogroup" aria-label="Preview size">${[['desk','Desktop'],['phone','Phone']].map(([k,l])=>`<button class="${plPvM===k?'on':''}" data-plpv="${k}" role="radio" aria-checked="${plPvM===k}">${l}</button>`).join('')}</div></div><div class="tabs" role="tablist">${[['page','Payment page'],['after','Thank-you page']].map(([k,l])=>`<button class="tab${PQ.tab===k?' on':''}" data-plpg="${k}" role="tab" aria-selected="${PQ.tab===k}">${l}</button>`).join('')}</div>
+    ${PQ.tab==='after'&&PQ.after==='redirect'?`<div class="empty pl-redir"><span class="qic">${ic('ext',22,1.6)}</span><b>Your website opens after payment</b>${PQ.redir.trim()?`<span class="pl-redir-u">${esc(PQ.redir.trim())}</span>`:'Add your website address to send shoppers there.'}</div>`:`<div class="cpx-stage ${plPvM}"><div class="cpx-frame" inert>${html}</div></div>`}`;plFit()}
 function plFit(){const st=plxPv.querySelector('.cpx-stage.desk'),fr=st&&st.querySelector('.cpx-frame');if(!fr)return;const s=Math.min(1,st.clientWidth/1080);fr.style.transform=`scale(${s})`;st.style.height=fr.scrollHeight*s+'px'}
 addEventListener('resize',()=>{if(!plx.hidden)plFit()});
-function plPmModal(){const sel=new Set(PQ.pms);const draw=()=>{const row=k=>`<button class="ie-chk" data-plpr="${k}"><span class="cb${sel.has(k)?' on':''}">${sel.has(k)?ic('check',12,3):''}</span>${cpPmLogo(k)}${PMS[k][0]}</button>`;
-    modal.innerHTML=`<div class="mh"><h3>Payment methods</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div><div class="mb ie-pmm">${PM_SET.filter(g=>g[0]!=='cod').map(([g,n,ks])=>`<div><div class="ie-sub">${n}</div>${ks.filter(pmLive).map(row).join('')}</div>`).join('')}</div>
+function plPmModal(){const sel=new Set(PQ.pms);
+  const draw=()=>{const row=k=>`<button class="ie-chk" data-plpr="${k}"><span class="cb${sel.has(k)?' on':''}">${sel.has(k)?ic('check',12,3):''}</span>${pmLg(k)}${PMS[k][0]}</button>`;
+    modal.innerHTML=`<div class="mh"><h3>Payment methods</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb ie-pmm"><div><div class="ie-sub">QRIS and cards</div>${['qris','bcad','card'].map(row).join('')}</div>${Object.keys(PM_GROUPS).map(g=>`<div><div class="ie-sub">${PM_GNAME[g][0][0].toUpperCase()+PM_GNAME[g][0].slice(1)}</div>${PM_GROUPS[g].map(row).join('')}</div>`).join('')}</div>
     <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="plpm-go" ${sel.size?'':'disabled'}>Save methods</button></div>`;
     modal.querySelectorAll('[data-plpr]').forEach(b=>b.onclick=()=>{const k=b.dataset.plpr;sel.has(k)?sel.delete(k):sel.add(k);draw()});
     document.getElementById('plpm-go').onclick=()=>{PQ.pms=PM_ALL.filter(k=>sel.has(k));closeModal();drawPlx()}};
   draw();mscrim.classList.add('open')}
 plxForm.addEventListener('focusin',e=>{if(e.target.id==='plx-q'&&!PQ.dd){PQ.dd=true;PQ.q='';drawPlx()}});
 plxForm.addEventListener('input',e=>{const t=e.target;if(t.id==='plx-q'){PQ.q=t.value;drawPlx();return}const f=t.dataset.plf;if(!f)return;
-  if(['sug','min','limN'].includes(f)){const n=plNum(t.value);t.value=n?(f==='limN'?String(n):n.toLocaleString('id-ID')):''}PQ[f]=t.value;
+  if(['sug','min','limN'].includes(f)){const n=plNum(t.value);t.value=n?(f==='limN'?String(n):n.toLocaleString('id-ID')):''}PQ[f]=t.value;PQ.tab=['msg','redir'].includes(f)?'after':'page';
   const e2=plErr(),go=document.getElementById('plx-go');go.disabled=!!e2;go.title=e2;drawPlxPv()});
 plxForm.addEventListener('change',e=>{if(e.target.id==='plx-type'){PQ.type=e.target.value;PQ.dd=false;drawPlx()}});
 plxForm.addEventListener('keydown',e=>{if(e.key==='Escape'&&PQ.dd){PQ.dd=false;drawPlx()}});
@@ -4788,11 +4816,13 @@ plxForm.addEventListener('click',e=>{const t=e.target.closest('button');if(!e.ta
   else if(d.plqq){const l=PQ.lines[d.plqq];l.qty=Math.max(1,l.qty+(+d.d))}
   else if(d.plrm)PQ.lines.splice(+d.plrm,1);
   else if('plpm' in d){plPmModal();return}
-  else if(d.plo){const k=d.plo;if(k in PQ.col)PQ.col[k]=!PQ.col[k];else PQ[k]=!PQ[k]}
-  else if(d.plaf)PQ.after=d.plaf;
+  else if(d.pmx){PQ.pms=PQ.pms.filter(k=>k!==d.pmx)}
+  else if(d.pmg){e.stopPropagation();plPmGroupMenu(t,d.pmg);return}
+  else if(d.plo){const k=d.plo;if(k in PQ.col)PQ.col[k]=!PQ.col[k];else PQ[k]=!PQ[k];PQ.tab=k==='rcpt'?'after':'page'}
+  else if(d.plaf){PQ.after=d.plaf;PQ.tab='after'}
   else return;
   drawPlx()});
-plxPv.addEventListener('click',e=>{const t=e.target.closest('[data-plpv]');if(t){plPvM=t.dataset.plpv;drawPlxPv()}});
+plxPv.addEventListener('click',e=>{const t=e.target.closest('[data-plpv]');if(t){plPvM=t.dataset.plpv;drawPlxPv();return}const g=e.target.closest('[data-plpg]');if(g){PQ.tab=g.dataset.plpg;drawPlxPv()}});
 document.getElementById('plx-pv').onclick=e=>{const small=matchMedia('(max-width:900px)').matches;
   if(small){const on=plx.classList.toggle('pvon');e.currentTarget.textContent=on?'Edit payment link':'Show preview'}
   else{const off=plx.classList.toggle('nopv');e.currentTarget.textContent=off?'Show preview':'Hide preview'}if(!plx.classList.contains('nopv'))plFit()};
