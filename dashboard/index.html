@@ -286,7 +286,7 @@ td .st svg{display:none}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-size:13.5px;z-index:100;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;max-width:calc(100% - 32px)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.top{top:76px;bottom:auto;transform:translate(-50%,-12px);background:var(--ink);box-shadow:var(--pop);padding:12px 18px;font-weight:500}.toast.top.show{transform:translate(-50%,0)}
-.toast.top{display:flex;align-items:center;gap:10px;padding:11px 18px 11px 12px}.tst-ic{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;color:var(--ink)}.tst-ic svg{display:block}.tst-gen{background:#fff}.tst-ok{background:var(--ok)}.tst-bad{background:var(--bad);color:#fff}
+.toast.top{display:flex;align-items:center;gap:10px;padding:11px 18px 11px 12px}.tst-ic{flex:none;display:grid;place-items:center;width:16px;height:16px;border-radius:50%;color:var(--ink)}.tst-ic svg{display:block}.tst-gen{background:#fff}.tst-ok{background:var(--ok)}.tst-bad{background:var(--bad);color:#fff}
 
 /* Responsive */
 @media (max-width:960px){
@@ -536,9 +536,9 @@ u.pp-fl,button.pp-fl{text-decoration:underline;text-underline-offset:2px;color:i
 :is(#modal.ew,.ie-pp,.cv-ck) input:focus{box-shadow:0 0 0 2px rgba(0,45,93,.35)}:is(#modal.ew,.ie-pp,.cv-ck,#ckp-b) select:focus{box-shadow:0 0 0 2px rgba(0,45,93,.35)}
 #modal.ew .pre em{top:0;bottom:0;display:flex;align-items:center;font-size:14px}:is(#ckp-b,.ie-pp,.cv-ck) .pre em{top:0;bottom:0;display:flex;align-items:center;font-size:14px}:is(#ckp-b,.ie-pp,.cv-ck) .pre input{line-height:normal}
 /* country code picker on shopper phone fields: flag + dial code button inside the field, the list opens in the PopoverMenu */
-.pre-cc{position:relative}.pre-cc .cc-b{position:absolute;left:1px;top:1px;bottom:1px;z-index:1;display:flex;align-items:center;gap:6px;padding:0 8px 0 10px;border:0;border-right:1px solid var(--line);border-radius:9px 0 0 9px;background:none;color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
+.pre-cc{position:relative}.pre-cc .cc-b{position:absolute;left:1px;top:1px;bottom:1px;z-index:1;display:flex;align-items:center;gap:4px;padding:0 6px 0 8px;border:0;border-right:1px solid var(--line);border-radius:9px 0 0 9px;background:none;color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
 .pre-cc .cc-b:hover{background:var(--hover)}.pre-cc .cc-b>svg:last-child{color:var(--muted)}
-.pre.pre-cc input{padding-left:100px!important}
+.pre.pre-cc input{padding-left:88px!important;padding-right:8px!important}
 .cc-fl{display:inline-flex;flex:none;width:20px;height:14px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px var(--line)}.cc-fl svg{width:20px;height:14px;display:block}
 .pop .cc-m .opt .cc-d{margin-left:auto;color:var(--muted)}.pop .cc-m .opt .cc-k{width:14px;flex:none;color:var(--ink);display:flex}
 /* placeholders in some browsers (Safari) sit low when the input inherits the body line-height; normal keeps text and placeholder centred */
