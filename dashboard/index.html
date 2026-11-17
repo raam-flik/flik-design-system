@@ -2780,8 +2780,12 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 #modal.ew .mf>.btn:only-child{min-width:120px;justify-content:center}
 [data-ckrew],[data-ckdisc]{cursor:pointer}
 .ckst-a:has(.st){align-items:center}
-.cka .sx-cf .ie-dd .opt{flex-direction:column;align-items:flex-start;gap:1px}.cka .sx-cf .ie-dd .opt span{font-size:12.5px;color:var(--muted);margin:0}
+.cka .sx-cf .ie-dd .opt{flex-direction:column;align-items:flex-start;gap:1px}.ie-dd .opt.dd-sk{gap:8px;padding-block:10px;cursor:default;pointer-events:none}.ie-dd .opt.dd-sk .sk{height:10px}.ie-dd .opt.dd-sk .sk:first-child{height:12px}.cka .sx-cf .ie-dd .opt span{font-size:12.5px;color:var(--muted);margin:0}
 .cka-map{height:160px;border-radius:8px;background:var(--hover);box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 24px;text-align:center;color:var(--ink)}.cka-map span{font-size:13px;color:var(--muted)}
+.cka-live{position:relative;display:block;padding:0;height:200px;overflow:hidden;background:var(--hover);z-index:0}.cka-lf{position:absolute;inset:0}.cka-lf img{max-width:none!important}
+.cka-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);color:var(--surface,#fff);z-index:500;pointer-events:none;transition:transform .15s ease;filter:drop-shadow(0 2px 2px rgba(0,45,93,.35))}.cka-pin svg{fill:var(--primary)}.cka-live.mv .cka-pin{transform:translate(-50%,calc(-100% - 8px))}
+.cka-hint{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:500;background:var(--surface,#fff);color:var(--ink);font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;box-shadow:var(--sh);pointer-events:none;white-space:nowrap}
+.cka-off{display:none}.cka-live.off .cka-lf,.cka-live.off .cka-pin,.cka-live.off .cka-hint{display:none}.cka-live.off .cka-off{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink);text-align:center;padding:0 24px}.cka-live .leaflet-control-attribution{font-size:10px}
 .cka-mt{display:flex;align-items:center;gap:4px;min-width:0}.cka-bk{margin-left:-8px;color:var(--ink)}.cka-bk svg{transform:rotate(90deg)}.cka-loc{width:100%;justify-content:center}.cka .sx-f input[readonly]{background:var(--hover);color:var(--muted)}.cka .sx-slots{margin-top:8px}
 #modal.ew .sx-slots button.on{box-shadow:0 0 0 1.5px var(--ink);color:var(--ink)}#modal.ew .cb.on{background:var(--ink);border-color:var(--ink)}#modal.ew .sx-f textarea:focus{box-shadow:0 0 0 2px rgba(0,45,93,.35)}
 .ckst-r{align-items:flex-start;padding-top:14px}.pp-i>.ckst-r:last-child{padding-bottom:14px}#modal.ew .mb.ckst{padding-top:14px}.ckst-r>:first-child{margin-top:2px}.ckst-n{flex:1;min-width:0;display:grid;gap:2px}.ckst-n b{font-weight:500;color:var(--ink)}.ckst-n span{color:var(--muted);font-size:13px;line-height:1.45}
@@ -5487,19 +5491,23 @@ function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
   <div class="sx-g sx-g4">${inp(i,'l','Length','0',{unit:'cm',num:1})}${inp(i,'w','Width','0',{unit:'cm',num:1})}${inp(i,'h','Height','0',{unit:'cm',num:1})}${inp(i,'kg','Weight','0',{unit:'kg',num:1})}</div>
   <div class="sx-g sx-g2 sx-cod">${inp(i,'cod',cod?'COD amount':'Item value','0',{pre:'Rp',num:1})}<p class="hint">${cod?'What the courier collects from the shopper. FLIK charges a COD fee on it after delivery.':'The value of the goods, used if the parcel is lost or damaged.'}</p></div>
   ${X.ships.length>1?`<div class="sx-row" style="margin-top:14px;justify-content:flex-end"><button class="btn btn-d" data-del="${i}">${ic('trash',15)}Remove</button></div>`:''}</div></div>`}
+/* the customer and product lists load each time a picker opens: skeleton rows until they arrive. "Add new" works straight away */
+const DD_LD={},DD_MS=700;
+const ddLoading=(k,t,fresh,redraw)=>{if(fresh){DD_LD[k]=Date.now()+DD_MS;setTimeout(()=>{if(document.activeElement===t)redraw(t)},DD_MS+20)}return Date.now()<(DD_LD[k]||0)};
+const ddSk=(h,lbl)=>`<h6>${h}</h6><div role="status" aria-busy="true">${[[62,40],[48,52],[70,36],[54,46]].map(([a,b],r)=>`<div class="opt dd-sk" aria-hidden="true"><span class="sk" style="width:${a}%;animation-delay:${r*.08}s"></span><span class="sk" style="width:${b}%;animation-delay:${r*.08}s"></span></div>`).join('')}<span class="sr-only">${lbl}</span></div>`;
 /* Product name is a Combobox: pick from the Product catalog (fills size, weight and price) or add a new product in a side panel */
-const pdHtml=(i,q)=>{q=(q||'').trim();const L=CATALOG.filter(p=>!q||p[0].toLowerCase().includes(q.toLowerCase())).slice(0,6);
-  return`<div class="ie-dd" role="listbox"><button class="opt add" data-pnew="${i}">${ic('plus',15,2)}Add new product${q&&!CATALOG.some(p=>p[0].toLowerCase()===q.toLowerCase())?` “${esc(q)}”`:''}</button><h6>Product catalog</h6>${L.map(p=>{const d=PDIM[p[0]];return d?`<button class="opt" role="option" data-ppick="${i}" data-pn="${esc(p[0])}"><b>${esc(p[0])}</b><span class="num">${rp(p[1])} · ${String(d[3]).replace('.',',')} kg</span></button>`:`<div class="opt pd-off" aria-disabled="true"><b>${esc(p[0])}</b><span class="st warn">Missing shipping data</span></div>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}</div>`};
-const pdOpen=t=>{const box=t.closest('.sx-pf');box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',pdHtml(+t.dataset.si,t.value));t.setAttribute('aria-expanded','true')};
+const pdHtml=(i,q,ld)=>{q=(q||'').trim();const L=CATALOG.filter(p=>!q||p[0].toLowerCase().includes(q.toLowerCase())).slice(0,6);
+  return`<div class="ie-dd" role="listbox"><button class="opt add" data-pnew="${i}">${ic('plus',15,2)}Add new product${q&&!CATALOG.some(p=>p[0].toLowerCase()===q.toLowerCase())?` “${esc(q)}”`:''}</button>${ld?ddSk('Product catalog','Loading your products…'):`<h6>Product catalog</h6>${L.map(p=>{const d=PDIM[p[0]];return d?`<button class="opt" role="option" data-ppick="${i}" data-pn="${esc(p[0])}"><b>${esc(p[0])}</b><span class="num">${rp(p[1])} · ${String(d[3]).replace('.',',')} kg</span></button>`:`<div class="opt pd-off" aria-disabled="true"><b>${esc(p[0])}</b><span class="st warn">Missing shipping data</span></div>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}`}</div>`};
+const pdOpen=(t,fresh)=>{const box=t.closest('.sx-pf');if(!box)return;const ld=ddLoading('p'+t.dataset.si,t,fresh,pdOpen);box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',pdHtml(+t.dataset.si,t.value,ld));t.setAttribute('aria-expanded','true')};
 const pdClose=t=>{const box=t&&t.closest('.sx-pf');if(!box)return;box.querySelector('.ie-dd')?.remove();t.setAttribute('aria-expanded','false')};
 const pdFill=(i,name,price,d)=>{const s=X.ships[i],q=s.qty||1;s.items=name;if(d){[s.l,s.w,s.h]=d.slice(0,3).map(String);s.kg=String(Math.round(d[3]*q*100)/100)}/* an amount the catalog filled follows the product; one the merchant typed stays */if(!s.cod||s.cod===s.codAuto){s.cod=(price*q).toLocaleString('id-ID');s.codAuto=s.cod}drawSx()};
 /* Customer name is a Combobox over Customers: picking fills name, WhatsApp and the default address; "Add new customer" opens the customer form in a side panel */
-const cfHtml=(i,raw)=>{cusInit();const q=(raw||'').trim().toLowerCase(),L=CUS.filter(c=>!q||[c.name,...c.other].join(' ').toLowerCase().includes(q)).slice(0,6);
-  return`<div class="ie-dd" role="listbox"><button class="opt add" data-cnew="${i}">${ic('plus',15,2)}Add new customer${q&&!CUS.some(c=>c.name.toLowerCase()===q)?` “${esc(raw.trim())}”`:''}</button><h6>Customers</h6>${L.map(c=>{const a=c.addrs.find(x=>x.def)||c.addrs[0];return`<button class="opt" role="option" data-cpick="${i}" data-cid="${c.id}"><b>${esc(c.name)}${c.flag?` <span class="cu-flag" data-tip="Shopper delivery risk: ${c.flag.level}">${ic('warn',13)}</span>`:''}</b><span>${c.phones[0]||'No phone'}${a?` · ${esc(a.city)}`:''}</span></button>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}</div>`};
-const cfOpen=t=>{const box=t.closest('.sx-cf');box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',cfHtml(+t.dataset.si,t.value));t.setAttribute('aria-expanded','true')};
+const cfHtml=(i,raw,ld)=>{cusInit();const q=(raw||'').trim().toLowerCase(),L=CUS.filter(c=>!q||[c.name,...c.other].join(' ').toLowerCase().includes(q)).slice(0,6);
+  return`<div class="ie-dd" role="listbox"><button class="opt add" data-cnew="${i}">${ic('plus',15,2)}Add new customer${q&&!CUS.some(c=>c.name.toLowerCase()===q)?` “${esc(raw.trim())}”`:''}</button>${ld?ddSk('Customers','Loading your customers…'):`<h6>Customers</h6>${L.map(c=>{const a=c.addrs.find(x=>x.def)||c.addrs[0];return`<button class="opt" role="option" data-cpick="${i}" data-cid="${c.id}"><b>${esc(c.name)}${c.flag?` <span class="cu-flag" data-tip="Shopper delivery risk: ${c.flag.level}">${ic('warn',13)}</span>`:''}</b><span>${c.phones[0]||'No phone'}${a?` · ${esc(a.city)}`:''}</span></button>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}`}</div>`};
+const cfOpen=(t,fresh)=>{const box=t.closest('.sx-cf');if(!box)return;const ld=ddLoading('c'+t.dataset.si,t,fresh,cfOpen);box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',cfHtml(+t.dataset.si,t.value,ld));t.setAttribute('aria-expanded','true')};
 const cfClose=t=>{const box=t&&t.closest('.sx-cf');if(!box)return;box.querySelector('.ie-dd')?.remove();t.setAttribute('aria-expanded','false')};
 const cfFill=(i,c)=>{const s=X.ships[i],a=c.addrs.find(x=>x.def)||c.addrs[0];s.name=c.name;if(c.phones[0])s.phone=c.phones[0].replace(/^\+62\s?/,'');if(a)s.addr={street:a.street,city:a.kec?`${a.kec}, ${a.city}`:a.city,zip:a.zip};drawSx()};
-sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='name'&&t.closest('.sx-cf'))cfOpen(t)});
+sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='name'&&t.closest('.sx-cf'))cfOpen(t,true)});
 sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==='name'&&t.closest('.sx-cf'))cfOpen(t)});
 sxBody.addEventListener('focusout',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='name'&&t.closest('.sx-cf'))setTimeout(()=>{if(document.activeElement!==t)cfClose(t)},150)});
 sxBody.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Escape'&&t.dataset.k==='name'&&t.closest('.sx-cf')?.querySelector('.ie-dd')){e.stopPropagation();cfClose(t)}},true);
@@ -5508,7 +5516,7 @@ sxBody.addEventListener('mousedown',e=>{const b=e.target.closest('[data-cpick],[
     cuEdit(null,{panel:true,needPhone:true,name:CUS.some(c=>c.name.toLowerCase()===q.toLowerCase())?'':q,onSave:n=>{cfFill(i,n);toast(`${n.name} added to your Customers`)}});return}
   const c=CUS.find(x=>x.id===b.dataset.cid);cfFill(+b.dataset.cpick,c);toast(c.addrs.length?'Name, WhatsApp and address filled in from Customers':'Name and WhatsApp filled in from Customers')},true);
 function prodDrawer(i,q){productDrawer(null,{name:q,over:true,needWeight:true,onSave:p=>{pdFill(i,p.name,p.price,PDIM[p.name]);toast(`${p.name} added to your Product catalog`)}})}
-sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
+sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t,true)});
 sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==='items'&&t.closest('.sx-pf'))pdOpen(t)});
 sxBody.addEventListener('focusout',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='items')setTimeout(()=>{if(document.activeElement!==t)pdClose(t)},150)});
 sxBody.addEventListener('keydown',e=>{const t=e.target;if(e.key==='Escape'&&t.dataset.k==='items'&&t.closest('.sx-pf')?.querySelector('.ie-dd')){e.stopPropagation();pdClose(t)}},true);
@@ -5979,16 +5987,39 @@ function makeHeld(sv){if(!X.held||!X.held.length)return null;const main=SERVICES
 function finishHeldOnly(){const keep=X.ships;X.ships=X.held.map(h=>h.s);const r=recSvc(svcStats(),'reg');X.ships=keep;
   const sv=SERVICES[r!=null?r:SERVICES.findIndex(v=>v[0]==='ninja'&&v[1]==='Standard')];X.done={heldOnly:true,held:makeHeld(sv)};stab='all';drawSx();sxBody.scrollTop=0}
 function bDoneCheck(){if(!bCounts().left){X.bv='all';X.bpg=0;drawSx();toast(`All ${X.bulk.length} orders are ready`);return true}return false}
-function addrModal(i){const a=X.ships[i].addr||{street:'',city:'',zip:''};
-  modal.innerHTML=`<div class="mh"><h3>Customer address</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><div class="fld"><label for="ad1">Street address</label><input id="ad1" value="${a.street}" placeholder="Street, building, house number"></div>
-  <div class="fld"><label for="ad2">District and city</label><input id="ad2" value="${a.city}" placeholder="e.g. Cilandak, Jakarta Selatan"></div>
-  <div class="fld"><label for="ad3">Postal code</label><input id="ad3" value="${a.zip}" inputmode="numeric" placeholder="12430"></div></div>
-  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="adsave" disabled>Save address</button></div>`;
-  mscrim.classList.add('open');const v=()=>[1,2,3].map(n=>document.getElementById('ad'+n).value.trim());const b=document.getElementById('adsave');
-  const chk=()=>{const [s1,c1,z]=v();b.disabled=!(s1&&c1&&/^\d{5}$/.test(z))};chk();modal.oninput=chk;
-  b.onclick=()=>{const [s1,c1,z]=v();X.ships[i].addr={street:s1,city:c1,zip:z};closeModal();modal.oninput=null;drawSx()};
-  document.getElementById('ad1').focus()}
+/* Customer address: the same form as the checkout's shipping address (find the address, map pin, full address, details, province and city from the search,
+   postal code), plus an optional note for the courier */
+function addrModal(i){const s=X.ships[i],a=s.addr||{};const F={q:a.q||'',full:a.street||'',det:a.det||'',prov:a.prov||'',city:a.city||'',zip:a.zip||'',note:a.note||'',ll:a.ll||null};
+  let zips=(CK_PLACES.find(p=>p[1]===F.city)||[0,0,0,[]])[3];
+  const ok=()=>F.full.trim()&&F.city&&/^\d{5}$/.test(F.zip);
+  const place=(p,fly=true)=>{F.full=p[0];F.city=p[1];F.prov=p[2];zips=p[3];if(!zips.includes(F.zip))F.zip='';F.q=`${p[0]}, ${p[1]}, ${p[2]}`;const ll=CK_LL[CK_PLACES.indexOf(p)];if(ll&&fly)F.ll=ll;draw();if(ll&&fly)MP.fly(ll)};
+  const MP=mapPin(F.ll,(lat,lng)=>{F.ll=[lat,lng];const k=ckNear(lat,lng);if(k>=0&&CK_PLACES[k][0]!==F.full)place(CK_PLACES[k],false)});
+  const draw=()=>{const fa=document.activeElement,fid=fa&&modal.contains(fa)&&fa.id,fs=fid&&fa.selectionStart;
+    modal.innerHTML=`<div class="mh"><h3>${s.addr?'Edit customer address':'Add customer address'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb ckst cka">
+      <div class="sx-f"><label for="sxa-q">Find the address</label><div class="sx-cf ie-fld">${ic('search',16)}<input class="ie-in" id="sxa-q" value="${esc(F.q)}" placeholder="Search street, area or city" autocomplete="off" role="combobox" aria-expanded="false"></div></div>
+      <div data-mapslot></div>
+      <div class="sx-f"><label for="sxa-full">Full address</label><textarea id="sxa-full" rows="3" placeholder="Street name, building, area">${esc(F.full)}</textarea></div>
+      <div class="sx-f"><label for="sxa-det">Address details (optional)</label><input id="sxa-det" value="${esc(F.det)}" placeholder="House number, floor or landmark"></div>
+      <div class="ew-2"><div class="sx-f"><label for="sxa-pr">Province</label><input id="sxa-pr" readonly value="${esc(F.prov)}" placeholder="From the address"></div><div class="sx-f"><label for="sxa-ci">City</label><input id="sxa-ci" readonly value="${esc(F.city)}" placeholder="From the address"></div></div>
+      <div class="sx-f"><label for="sxa-zip">Postal code</label><input id="sxa-zip" inputmode="numeric" maxlength="5" value="${esc(F.zip)}" placeholder="Type or pick a postal code">
+        ${zips.length?`<div class="sx-slots" role="radiogroup" aria-label="Postal codes for this area">${zips.map(z=>`<button type="button" class="${F.zip===z?'on':''}" data-adzip="${z}" role="radio" aria-checked="${F.zip===z}">${z}</button>`).join('')}</div>`:''}</div>
+      <div class="sx-f"><label for="sxa-note">Note for the courier (optional)</label><textarea id="sxa-note" rows="2" maxlength="200" placeholder="e.g. Leave it with the security guard">${esc(F.note)}</textarea></div></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="sxa-save" ${ok()?'':'disabled'}>Save address</button></div>`;
+    const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}
+    MP.mount(modal.querySelector('[data-mapslot]'));
+    const go=document.getElementById('sxa-save'),upd=()=>go.disabled=!ok();
+    [['sxa-full','full'],['sxa-det','det'],['sxa-zip','zip'],['sxa-note','note']].forEach(([id,k])=>{const el=document.getElementById(id);el.oninput=()=>{if(k==='zip')el.value=el.value.replace(/\D/g,'').slice(0,5);F[k]=el.value;if(k==='zip')modal.querySelectorAll('[data-adzip]').forEach(b=>{const on=b.dataset.adzip===F.zip;b.classList.toggle('on',on);b.setAttribute('aria-checked',on)});upd()}});
+    /* address search: a Combobox of matching places; picking one fills the address, province, city and postal codes */
+    const q=document.getElementById('sxa-q'),box=q.closest('.sx-cf'),list=()=>{box.querySelector('.ie-dd')?.remove();const t=q.value.trim().toLowerCase();if(!t){q.setAttribute('aria-expanded','false');return}
+      const L=CK_PLACES.filter(p=>p.slice(0,3).join(' ').toLowerCase().includes(t)).slice(0,6);
+      box.insertAdjacentHTML('beforeend',`<div class="ie-dd" role="listbox">${L.map(p=>`<button class="opt" role="option" data-adpl="${CK_PLACES.indexOf(p)}"><b>${p[0]}</b><span>${p[1]}, ${p[2]}</span></button>`).join('')||'<div class="opt" style="color:var(--muted)">No matches. Try a street or area name.</div>'}</div>`);q.setAttribute('aria-expanded','true')};
+    q.oninput=()=>{F.q=q.value;list()};q.onkeydown=e=>{if(e.key==='Escape'&&box.querySelector('.ie-dd')){e.stopPropagation();box.querySelector('.ie-dd').remove();q.setAttribute('aria-expanded','false')}};
+    box.onmousedown=e=>{const o=e.target.closest('[data-adpl]');if(o){e.preventDefault();place(CK_PLACES[+o.dataset.adpl])}};
+    q.onblur=()=>setTimeout(()=>{box.querySelector('.ie-dd')?.remove()},150);
+    modal.querySelectorAll('[data-adzip]').forEach(b=>b.onclick=()=>{F.zip=b.dataset.adzip;draw()});
+    go.onclick=()=>{s.addr={street:F.full.trim(),det:F.det.trim(),prov:F.prov,city:F.city,zip:F.zip,note:F.note.trim(),q:F.q,ll:F.ll};closeModal();drawSx()}};
+  modal.classList.add('md');draw();mscrim.classList.add('open');if(!s.addr)document.getElementById('sxa-q').focus()}
 function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Warehouse</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="mb sx-wl">${WAREHOUSES.map((w,i)=>`<button class="opt" data-w="${i}"><span class="rdo${sel===i?' on':''}"></span><div><b>${w.n}</b><span>${w.a}</span></div></button>`).join('')}</div>
   <div class="mf" style="justify-content:space-between"><button class="btn btn-o" data-toast="Opens Add warehouse">${ic('plus',15,2)}Add address</button><div style="display:flex;gap:8px"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="whsave">Use address</button></div></div>`;
@@ -9576,6 +9607,21 @@ const ckAddrLine=a=>`${a.full}${a.det?` (${a.det})`:''}, ${a.city}, ${a.prov} ${
 /* prototype search results; the live page uses Google Maps */
 const CK_PLACES=[['Kec. Jagakarsa','Kota Jakarta Selatan','DKI Jakarta',['12620','12630','12640']],['Jl. Baung, Kebagusan, Pasar Minggu','Kota Jakarta Selatan','DKI Jakarta',['12520','12530']],
   ['Jl. Raya Kopo, Cirangrang, Babakan Ciparay','Kota Bandung','Jawa Barat',['40225','40226','40227','40228','40229']],['Jl. Raya Darmo, Wonokromo','Kota Surabaya','Jawa Timur',['60241','60243']],['Tambakselo, Wirosari','Kabupaten Grobogan','Jawa Tengah',['58192']]];
+/* the address map: OpenStreetMap through Leaflet, loaded the first time an address form opens. The pin stays in the middle;
+   dragging the map moves the address under it, and picking a search result moves the map there. Without a connection it falls back to the plain placeholder */
+let LF=null;
+const lfLoad=()=>LF||(LF=new Promise((res,rej)=>{if(window.L)return res(window.L);const c=document.createElement('link');c.rel='stylesheet';c.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(c);
+  const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=()=>res(window.L);s.onerror=()=>{LF=null;rej()};document.head.appendChild(s)}));
+const CK_LL=[[-6.3346,106.8227],[-6.3080,106.8270],[-6.9530,107.5830],[-7.2875,112.7380],[-7.0650,111.1890]];
+const ckNear=(lat,lng)=>{let b=-1,d=1e9;CK_LL.forEach(([a,o],i)=>{const x=(a-lat)**2+(o-lng)**2;if(x<d){d=x;b=i}});return d<.0016?b:-1};
+function mapPin(at,onDrag){const el=document.createElement('div');el.className='cka-map cka-live';
+  el.innerHTML=`<div class="cka-lf"></div><span class="cka-pin" aria-hidden="true">${ic('pin',34,2)}</span><span class="cka-hint">Move the map to place the pin</span><span class="cka-off">${ic('pin',30)}<span>Search the address to place the pin</span></span>`;
+  let m=null;const ll=at||[-6.2088,106.8456];
+  lfLoad().then(L=>{m=L.map(el.querySelector('.cka-lf'),{zoomControl:true,attributionControl:true}).setView(ll,at?16:11);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(m);
+    m.on('movestart',()=>el.classList.add('mv'));m.on('moveend',()=>el.classList.remove('mv'));
+    m.on('dragend',()=>{const c=m.getCenter();onDrag(c.lat,c.lng)});setTimeout(()=>m.invalidateSize(),50)}).catch(()=>el.classList.add('off'));
+  return{el,mount(slot){if(!slot)return;slot.replaceWith(el);if(m)setTimeout(()=>m.invalidateSize(),0)},fly(p){if(m)m.flyTo(p,16,{duration:.8})}}}
 const ckMark=on=>on?`<span class="pp-ck">${ic('check',11,3)}</span>`:'<span class="rdo"></span>';
 function ckAddrPick(redraw){let pick=ckAddrSel;
   const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Shipping address</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
@@ -9592,7 +9638,8 @@ function ckAddrPick(redraw){let pick=ckAddrSel;
 /* the address form: first address, Add new address and Edit look the same; back reopens the list on Cancel */
 function ckAddrForm(a,redraw,back){const F=a?{...a,q:''}:{self:!ckGuest,to:ckGuest?ckGuest.nm:ckMeNow().to,ph:ckGuest?'':ckMeNow().ph,full:'',det:'',prov:'',city:'',zip:'',q:''};ccSet('cka-ph',a?(a.cc||'+62'):'+62');let zips=a?(CK_PLACES.find(p=>p[1]===a.city)||[0,0,0,[]])[3]:[];
   const ok=()=>F.full.trim()&&F.city&&/^\d{5}$/.test(F.zip)&&(F.self||(F.to.trim().length>1&&ckPhOk(F.ph,'cka-ph')));
-  const place=p=>{F.full=p[0];F.city=p[1];F.prov=p[2];zips=p[3];if(!zips.includes(F.zip))F.zip='';F.q=`${p[0]}, ${p[1]}, ${p[2]}`;draw()};
+  const place=(p,fly=true)=>{F.full=p[0];F.city=p[1];F.prov=p[2];zips=p[3];if(!zips.includes(F.zip))F.zip='';F.q=`${p[0]}, ${p[1]}, ${p[2]}`;draw();const ll=CK_LL[CK_PLACES.indexOf(p)];if(ll&&fly)MP.fly(ll)};
+  const MP=mapPin(a?CK_LL[CK_PLACES.findIndex(p=>p[1]===a.city)]:null,(lat,lng)=>{const k=ckNear(lat,lng);if(k>=0&&CK_PLACES[k][0]!==F.full)place(CK_PLACES[k],false)});
   const draw=()=>{const fa=document.activeElement,fid=fa&&modal.contains(fa)&&fa.id,fs=fid&&fa.selectionStart;
     modal.innerHTML=`<div class="mh"><div class="cka-mt">${back?`<button class="ib cka-bk" id="cka-bk" aria-label="Back to shipping addresses">${ic('chev',18)}</button>`:''}<h3>${a?'Edit shipping address':ckAddr.length?'Add shipping address':'Add your shipping address'}</h3></div><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
     <div class="mb ckst cka">
@@ -9600,7 +9647,7 @@ function ckAddrForm(a,redraw,back){const F=a?{...a,q:''}:{self:!ckGuest,to:ckGue
       ${F.self?'':`<div class="ew-2"><div class="sx-f"><label for="cka-to">Recipient name</label><input id="cka-to" value="${esc(F.to)}" autocomplete="name" placeholder="Full name"></div>
         <div class="sx-f"><label for="cka-ph">Phone number</label>${ccPre('cka-ph')}<input id="cka-ph" inputmode="numeric" autocomplete="tel-national" value="${esc(F.ph)}" placeholder="${ccEg('cka-ph')}"></div></div></div>`}
       <div class="sx-f"><label for="cka-q">Find your address</label><div class="sx-cf ie-fld">${ic('search',16)}<input class="ie-in" id="cka-q" value="${esc(F.q)}" placeholder="Search street, area or city" autocomplete="off" role="combobox" aria-expanded="false"></div></div>
-      <div class="cka-map" role="img" aria-label="Map with a pin on your address">${ic('pin',30)}<span>${F.city?`${esc(F.full)}, ${esc(F.city)}`:'Search your address, or move the map to place the pin'}</span></div>
+      <div data-mapslot></div>
       <button class="btn btn-o cka-loc" data-adloc>${ic('pin',16)}Use my current location</button>
       <div class="sx-f"><label for="cka-full">Full address</label><textarea id="cka-full" rows="3" placeholder="Street name, building, area">${esc(F.full)}</textarea></div>
       <div class="sx-f"><label for="cka-det">Address details (optional)</label><input id="cka-det" value="${esc(F.det)}" placeholder="House number, floor or landmark"></div>
@@ -9609,6 +9656,7 @@ function ckAddrForm(a,redraw,back){const F=a?{...a,q:''}:{self:!ckGuest,to:ckGue
         ${zips.length?`<div class="sx-slots" role="radiogroup" aria-label="Postal codes for this area">${zips.map(z=>`<button type="button" class="${F.zip===z?'on':''}" data-adzip="${z}" role="radio" aria-checked="${F.zip===z}">${z}</button>`).join('')}</div>`:''}</div></div>
     <div class="mf"><button class="btn btn-o" id="cka-x">Cancel</button><button class="btn btn-p" id="cka-save" ${ok()?'':'disabled'}>Save address</button></div>`;
     const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}
+    MP.mount(modal.querySelector('[data-mapslot]'));
     const go=document.getElementById('cka-save'),upd=()=>go.disabled=!ok();
     [['cka-to','to'],['cka-ph','ph'],['cka-full','full'],['cka-det','det'],['cka-zip','zip']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.oninput=()=>{if(k==='zip')el.value=el.value.replace(/\D/g,'').slice(0,5);F[k]=el.value;if(k==='zip')modal.querySelectorAll('[data-adzip]').forEach(b=>{const on=b.dataset.adzip===F.zip;b.classList.toggle('on',on);b.setAttribute('aria-checked',on)});upd()}});
     /* address search: a Combobox of matching places; picking one fills the address, province, city and postal codes */
