@@ -658,6 +658,8 @@ nav.fl-lg :is(a,button).lnk{color:var(--muted);font:inherit;text-decoration:none
 .stp.done{color:var(--text)}.stp.done i{border-color:var(--primary);color:var(--primary)}
 .stp-l{width:28px;height:1px;background:var(--line-2)}
 .sx-body{flex:1;min-height:0;overflow-y:auto;background:#fff}
+.sx-sk{display:grid;gap:20px}.sx-skh{display:grid;gap:10px}.sx-skr{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sx-skc{display:flex;gap:12px;align-items:flex-start}.sx-skc>div{flex:1;display:grid;gap:8px}.sx-skg{display:grid;gap:16px}.sx-skf{display:grid;gap:8px}.sx-skf .sk:last-child{border-radius:8px}
+@media (max-width:640px){.sx-sk .sx-skr{grid-template-columns:1fr}}
 .sx-in{max-width:1120px;margin:0 auto;padding:36px 32px 120px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:start}
 .sx-in.solo{grid-template-columns:minmax(0,1fr);max-width:820px}
 .sx-main>section{margin-bottom:36px}
@@ -5478,8 +5480,19 @@ const DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const SLOTS=['09:00–12:00','12:00–15:00','15:00–18:00'];
 const pickupTx=()=>X.day==null?'—':`${DOW[DAYS[X.day].getDay()]}, ${fday(DAYS[X.day])} · ${SLOTS[X.slot]}`;
 function stepOk(){if(X.step===0)return X.how==='bulk'?!!(X.uploaded&&X.bulk&&!X.bfix&&!bCounts().left):X.ships.length&&X.ships.every(shipOk);if(X.step===1)return X.svc!=null&&!unresolved().length;if(X.step===2)return X.day!=null&&X.slot!=null;if(X.step===4)return BAL>=costs().now;return true}
-function openShip(){X=blankX();try{const v=JSON.parse(sessionStorage.getItem('flik-ship-to')||'null');/* only the menu file that owns Create shipment uses it up; another file only passes it on */if(v&&Date.now()-v.t<1e4){if(typeof MENU_FILE==='undefined'||MENU_FILE[OWN]===MENU_FILE.shp)sessionStorage.removeItem('flik-ship-to');Object.assign(X.ships[0],{name:v.name,phone:v.phone.replace(/^\+62\s?/,''),addr:v.addr})}}catch(e){}sx.hidden=false;document.body.style.overflow='hidden';drawSx()}
-function closeShip(){sx.hidden=true;document.body.style.overflow=''}
+function openShip(){X=blankX();try{const v=JSON.parse(sessionStorage.getItem('flik-ship-to')||'null');/* only the menu file that owns Create shipment uses it up; another file only passes it on */if(v&&Date.now()-v.t<1e4){if(typeof MENU_FILE==='undefined'||MENU_FILE[OWN]===MENU_FILE.shp)sessionStorage.removeItem('flik-ship-to');Object.assign(X.ships[0],{name:v.name,phone:v.phone.replace(/^\+62\s?/,''),addr:v.addr})}}catch(e){}sx.hidden=false;document.body.style.overflow='hidden';sxLoad()}
+/* Create shipment opens on a loading state: the steps show straight away, the page shows skeleton cards and fields while warehouses, customers and couriers load */
+let sxLdT=0;
+function sxLoad(){drawSx();clearTimeout(sxLdT);const k=(w,h,d)=>`<span class="sk" style="width:${w};${h?`height:${h}px;`:''}animation-delay:${d||0}s"></span>`,
+  fld=d=>`<div class="sx-skf">${k('34%',10,d)}${k('100%',38,d)}</div>`;
+  sxBody.innerHTML=`<div class="sx-in solo" aria-busy="true"><div class="sx-main sx-sk"><span class="sr-only" role="status">Loading Create shipment…</span>
+    <div class="sx-skh">${k('38%',26)}${k('58%',12)}</div>
+    <div class="sx-skr">${[0,1].map(i=>`<div class="sx-card sx-skc">${k('28px',28,i*.08)}<div>${k('50%',12,i*.08)}${k('80%',10,i*.08)}</div></div>`).join('')}</div>
+    ${k('22%',16,.16)}
+    <div class="sx-card sx-skg">${k('30%',14,.2)}<div class="sx-skr">${fld(.24)}${fld(.24)}</div>${fld(.28)}<div class="sx-skr">${fld(.32)}${fld(.32)}</div>${fld(.36)}</div></div></div>`;
+  sxFoot.hidden=false;sxFoot.innerHTML=`<span class="sp"></span><button class="btn btn-p" disabled>Continue</button>`;
+  sxLdT=setTimeout(()=>{if(!sx.hidden)drawSx()},800)}
+function closeShip(){clearTimeout(sxLdT);sx.hidden=true;document.body.style.overflow=''}
 const inp=(i,k,lab,ph,o={})=>`<div class="sx-f"><label for="s${i}${k}">${lab}</label><div class="${o.pre?'pre':o.unit?'unit':''}">${o.pre?`<em>${o.pre}</em>`:''}<input id="s${i}${k}" data-si="${i}" data-k="${k}" value="${X.ships[i][k]}" placeholder="${ph}" ${o.num?'inputmode="numeric"':''}>${o.unit?`<em>${o.unit}</em>`:''}</div></div>`;
 function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
   return`<div class="sx-ship${s.open?' open':''}"><button class="sx-sh" data-tog="${i}"><b>Shipment ${i+1}</b>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${s.addr&&s.phone.replace(/\D/g,'').length>=9&&health(s).band!=='ok'?`<span class="st ${health(s).band}" title="${health(s).why.join('. ')}">${HB[health(s).band]} number · ${health(s).sc}</span>`:''}<span class="sum">${!s.open?`${s.name?s.name+' · ':''}${whOf(s).n}${s.addr?` → ${s.addr.city.split(', ').slice(-2,-1)[0]||s.addr.city}`:''} · ${cod?'COD':'Non-COD'}`:''}</span><span class="chev">${ic('chev',16)}</span></button>
@@ -5506,7 +5519,7 @@ const cfHtml=(i,raw,ld)=>{cusInit();const q=(raw||'').trim().toLowerCase(),L=CUS
   return`<div class="ie-dd" role="listbox"><button class="opt add" data-cnew="${i}">${ic('plus',15,2)}Add new customer${q&&!CUS.some(c=>c.name.toLowerCase()===q)?` “${esc(raw.trim())}”`:''}</button>${ld?ddSk('Customers','Loading your customers…'):`<h6>Customers</h6>${L.map(c=>{const a=c.addrs.find(x=>x.def)||c.addrs[0];return`<button class="opt" role="option" data-cpick="${i}" data-cid="${c.id}"><b>${esc(c.name)}${c.flag?` <span class="cu-flag" data-tip="Shopper delivery risk: ${c.flag.level}">${ic('warn',13)}</span>`:''}</b><span>${c.phones[0]||'No phone'}${a?` · ${esc(a.city)}`:''}</span></button>`}).join('')||'<div class="opt" style="color:var(--muted)">No matches</div>'}`}</div>`};
 const cfOpen=(t,fresh)=>{const box=t.closest('.sx-cf');if(!box)return;const ld=ddLoading('c'+t.dataset.si,t,fresh,cfOpen);box.querySelector('.ie-dd')?.remove();box.insertAdjacentHTML('beforeend',cfHtml(+t.dataset.si,t.value,ld));t.setAttribute('aria-expanded','true')};
 const cfClose=t=>{const box=t&&t.closest('.sx-cf');if(!box)return;box.querySelector('.ie-dd')?.remove();t.setAttribute('aria-expanded','false')};
-const cfFill=(i,c)=>{const s=X.ships[i],a=c.addrs.find(x=>x.def)||c.addrs[0];s.name=c.name;if(c.phones[0])s.phone=c.phones[0].replace(/^\+62\s?/,'');if(a)s.addr={street:a.street,city:a.kec?`${a.kec}, ${a.city}`:a.city,zip:a.zip};drawSx()};
+const cfFill=(i,c)=>{const s=X.ships[i],a=c.addrs.find(x=>x.def)||c.addrs[0];s.name=c.name;s.cid=c.id;s.ai=a?c.addrs.indexOf(a):null;if(c.phones[0])s.phone=c.phones[0].replace(/^\+62\s?/,'');if(a)s.addr={street:a.street,city:a.kec?`${a.kec}, ${a.city}`:a.city,zip:a.zip};drawSx()};
 sxBody.addEventListener('focusin',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='name'&&t.closest('.sx-cf'))cfOpen(t,true)});
 sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==='name'&&t.closest('.sx-cf'))cfOpen(t)});
 sxBody.addEventListener('focusout',e=>{const t=e.target;if(t.dataset&&t.dataset.k==='name'&&t.closest('.sx-cf'))setTimeout(()=>{if(document.activeElement!==t)cfClose(t)},150)});
@@ -5989,13 +6002,35 @@ function finishHeldOnly(){const keep=X.ships;X.ships=X.held.map(h=>h.s);const r=
 function bDoneCheck(){if(!bCounts().left){X.bv='all';X.bpg=0;drawSx();toast(`All ${X.bulk.length} orders are ready`);return true}return false}
 /* Customer address: the same form as the checkout's shipping address (find the address, map pin, full address, details, province and city from the search,
    postal code), plus an optional note for the courier */
-function addrModal(i){const s=X.ships[i],a=s.addr||{};const F={q:a.q||'',full:a.street||'',det:a.det||'',prov:a.prov||'',city:a.city||'',zip:a.zip||'',note:a.note||'',ll:a.ll||null};
+/* Customer address: a customer picked from Customers with saved addresses gets the list first (Modal + RadioList, like the checkout's
+   "Shipping address"): choose one, or "Add new address" for a new one. Without saved addresses it opens the form */
+const sxCust=s=>s.cid&&CUS?CUS.find(x=>x.id===s.cid&&x.name===s.name)||null:null;
+const sxAddrOf=(a,note)=>({street:a.street,det:a.det||'',prov:a.prov||'',city:a.kec?`${a.kec}, ${a.city}`:a.city,zip:a.zip,note:note||''});
+const sxAddrLine=a=>[a.street+(a.det?` (${a.det})`:''),a.kel,a.kec,a.city,`${a.prov||''} ${a.zip}`.trim()].filter(Boolean).join(', ');
+function addrModal(i){const s=X.ships[i],c=sxCust(s);if(c&&c.addrs.length)addrPick(i,c);else addrForm(i,null,c)}
+function addrPick(i,c){const s=X.ships[i];let pick=s.ai!=null?s.ai:s.addr&&s.addr.custom?-1:Math.max(0,c.addrs.findIndex(a=>a.def));let note=s.addr?s.addr.note||'':'';
+  const one=s.addr&&s.addr.custom?s.addr:null;
+  const draw=()=>{const row=(k,b,line,tag)=>{const on=pick===k;return`<div class="pp-i${on?' on':''}"><button class="pp-r ckst-r" data-sxap="${k}" role="radio" aria-checked="${on}"><span class="rdo${on?' on':''}"></span><span class="ckst-n"><b>${b}</b><span>${esc(line)}</span></span></button>${tag?`<div class="ckst-a">${tag}</div>`:''}</div>`};
+    modal.innerHTML=`<div class="mh"><h3>${esc(c.name)}'s addresses</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="mb ckst"><div class="ie-pp vc pp-pick"><div class="pp-rl" role="radiogroup" aria-label="Saved addresses">
+      ${c.addrs.map((a,k)=>row(k,`${esc(a.label||'Address')} · ${esc(a.name||c.name)} | ${esc(a.phone||c.phones[0]||'')}`,sxAddrLine(a),a.def?'<span class="st gr">Default</span>':'')).join('')}
+      ${one?row(-1,'New address · this shipment only',sxAddrLine({...one,city:one.city}),'<button class="lnk" data-sxae>Edit</button>'):''}
+      <button class="btn btn-o pp-add" data-sxan>${ic('pluscirc',16)}Add new address</button></div></div>
+      <div class="sx-f"><label for="sxa-note2">Note for the courier (optional)</label><textarea id="sxa-note2" rows="2" maxlength="200" placeholder="e.g. Leave it with the security guard">${esc(note)}</textarea></div></div>
+    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="sxa-use">Use this address</button></div>`;
+    const nt=document.getElementById('sxa-note2');nt.oninput=()=>note=nt.value;
+    modal.querySelectorAll('[data-sxap]').forEach(b=>b.onclick=()=>{pick=+b.dataset.sxap;draw()});
+    modal.querySelector('[data-sxan]').onclick=()=>addrForm(i,()=>addrPick(i,c),c,true);
+    const e=modal.querySelector('[data-sxae]');if(e)e.onclick=()=>addrForm(i,()=>addrPick(i,c),c);
+    document.getElementById('sxa-use').onclick=()=>{if(pick>=0){s.addr=sxAddrOf(c.addrs[pick],note.trim());s.ai=pick}else{s.addr={...one,note:note.trim()};s.ai=null}closeModal();drawSx()}};
+  modal.classList.add('md');draw();mscrim.classList.add('open')}
+function addrForm(i,back,c,fresh){const s=X.ships[i],a=fresh||!(s.addr&&(s.addr.custom||!c))?{}:s.addr;let keep=!!c;const F={q:a.q||'',full:a.street||'',det:a.det||'',prov:a.prov||'',city:a.city||'',zip:a.zip||'',note:a.note||'',ll:a.ll||null};
   let zips=(CK_PLACES.find(p=>p[1]===F.city)||[0,0,0,[]])[3];
   const ok=()=>F.full.trim()&&F.city&&/^\d{5}$/.test(F.zip);
   const place=(p,fly=true)=>{F.full=p[0];F.city=p[1];F.prov=p[2];zips=p[3];if(!zips.includes(F.zip))F.zip='';F.q=`${p[0]}, ${p[1]}, ${p[2]}`;const ll=CK_LL[CK_PLACES.indexOf(p)];if(ll&&fly)F.ll=ll;draw();if(ll&&fly)MP.fly(ll)};
   const MP=mapPin(F.ll,(lat,lng)=>{F.ll=[lat,lng];const k=ckNear(lat,lng);if(k>=0&&CK_PLACES[k][0]!==F.full)place(CK_PLACES[k],false)});
   const draw=()=>{const fa=document.activeElement,fid=fa&&modal.contains(fa)&&fa.id,fs=fid&&fa.selectionStart;
-    modal.innerHTML=`<div class="mh"><h3>${s.addr?'Edit customer address':'Add customer address'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    modal.innerHTML=`<div class="mh"><div class="cka-mt">${back?`<button class="ib cka-bk" id="sxa-bk" aria-label="Back to ${c?esc(c.name)+"'s":'saved'} addresses">${ic('chev',18)}</button>`:''}<h3>${a.street?'Edit customer address':'Add customer address'}</h3></div><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
     <div class="mb ckst cka">
       <div class="sx-f"><label for="sxa-q">Find the address</label><div class="sx-cf ie-fld">${ic('search',16)}<input class="ie-in" id="sxa-q" value="${esc(F.q)}" placeholder="Search street, area or city" autocomplete="off" role="combobox" aria-expanded="false"></div></div>
       <div data-mapslot></div>
@@ -6004,8 +6039,9 @@ function addrModal(i){const s=X.ships[i],a=s.addr||{};const F={q:a.q||'',full:a.
       <div class="ew-2"><div class="sx-f"><label for="sxa-pr">Province</label><input id="sxa-pr" readonly value="${esc(F.prov)}" placeholder="From the address"></div><div class="sx-f"><label for="sxa-ci">City</label><input id="sxa-ci" readonly value="${esc(F.city)}" placeholder="From the address"></div></div>
       <div class="sx-f"><label for="sxa-zip">Postal code</label><input id="sxa-zip" inputmode="numeric" maxlength="5" value="${esc(F.zip)}" placeholder="Type or pick a postal code">
         ${zips.length?`<div class="sx-slots" role="radiogroup" aria-label="Postal codes for this area">${zips.map(z=>`<button type="button" class="${F.zip===z?'on':''}" data-adzip="${z}" role="radio" aria-checked="${F.zip===z}">${z}</button>`).join('')}</div>`:''}</div>
-      <div class="sx-f"><label for="sxa-note">Note for the courier (optional)</label><textarea id="sxa-note" rows="2" maxlength="200" placeholder="e.g. Leave it with the security guard">${esc(F.note)}</textarea></div></div>
-    <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="sxa-save" ${ok()?'':'disabled'}>Save address</button></div>`;
+      <div class="sx-f"><label for="sxa-note">Note for the courier (optional)</label><textarea id="sxa-note" rows="2" maxlength="200" placeholder="e.g. Leave it with the security guard">${esc(F.note)}</textarea></div>
+      ${c?`<button class="ie-chk" data-sxkeep role="checkbox" aria-checked="${keep}"><span class="cb${keep?' on':''}">${keep?ic('check',12,3):''}</span>Save to ${esc(c.name)}'s addresses</button>`:''}</div>
+    <div class="mf"><button class="btn btn-o" id="sxa-x">Cancel</button><button class="btn btn-p" id="sxa-save" ${ok()?'':'disabled'}>${back?'Use this address':'Save address'}</button></div>`;
     const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}
     MP.mount(modal.querySelector('[data-mapslot]'));
     const go=document.getElementById('sxa-save'),upd=()=>go.disabled=!ok();
@@ -6018,8 +6054,13 @@ function addrModal(i){const s=X.ships[i],a=s.addr||{};const F={q:a.q||'',full:a.
     box.onmousedown=e=>{const o=e.target.closest('[data-adpl]');if(o){e.preventDefault();place(CK_PLACES[+o.dataset.adpl])}};
     q.onblur=()=>setTimeout(()=>{box.querySelector('.ie-dd')?.remove()},150);
     modal.querySelectorAll('[data-adzip]').forEach(b=>b.onclick=()=>{F.zip=b.dataset.adzip;draw()});
-    go.onclick=()=>{s.addr={street:F.full.trim(),det:F.det.trim(),prov:F.prov,city:F.city,zip:F.zip,note:F.note.trim(),q:F.q,ll:F.ll};closeModal();drawSx()}};
-  modal.classList.add('md');draw();mscrim.classList.add('open');if(!s.addr)document.getElementById('sxa-q').focus()}
+    document.getElementById('sxa-x').onclick=()=>back?back():closeModal();const bk=document.getElementById('sxa-bk');if(bk)bk.onclick=()=>back();
+    const kp=modal.querySelector('[data-sxkeep]');if(kp)kp.onclick=()=>{keep=!keep;draw()};
+    go.onclick=()=>{const r={street:F.full.trim(),det:F.det.trim(),prov:F.prov,city:F.city,zip:F.zip,note:F.note.trim(),q:F.q,ll:F.ll};
+      /* a new address is saved to the customer when the box is ticked; otherwise it's for this shipment only */
+      if(c&&keep){c.addrs.push({label:'Other',def:false,name:c.name,phone:c.phones[0]||'',street:r.street,det:r.det,kel:'',kec:'',city:r.city,prov:r.prov,zip:r.zip});s.ai=c.addrs.length-1;s.addr=r;toast(`Address saved to ${c.name}'s addresses`)}
+      else{s.addr={...r,custom:!!c};s.ai=null}closeModal();drawSx()}};
+  modal.classList.add('md');draw();mscrim.classList.add('open');if(!a.street)document.getElementById('sxa-q').focus()}
 function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Warehouse</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="mb sx-wl">${WAREHOUSES.map((w,i)=>`<button class="opt" data-w="${i}"><span class="rdo${sel===i?' on':''}"></span><div><b>${w.n}</b><span>${w.a}</span></div></button>`).join('')}</div>
   <div class="mf" style="justify-content:space-between"><button class="btn btn-o" data-toast="Opens Add warehouse">${ic('plus',15,2)}Add address</button><div style="display:flex;gap:8px"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="whsave">Use address</button></div></div>`;
