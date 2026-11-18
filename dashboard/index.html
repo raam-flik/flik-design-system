@@ -9139,6 +9139,11 @@ const SIM_PANEL=()=>SIMF({t:'Simulate payment',steps:['Create an invoice','Send 
 /* first run */
 /* arriving from the website's Create account (?signup=new&n=<first name>&b=<business name>): start as a new merchant, not verified, with the welcome tour.
    Only the first name and the business name travel in the address; the address is cleaned straight away (Raam, 18 Nov 2026) */
+/* arriving from the website's Sign in (?signin=1): the sample store Aruna Studio, active, main product Payments, several outlets, SNAP partner, live credentials, viewed as Owner (Raam, 18 Nov 2026) */
+(function(){if(new URLSearchParams(location.search).get('signin')!=='1')return;
+  ONB=Object.assign(ONB_DEF(),{st:'active',tour:true,guide:'pill',main:'pay',outlets:true,snap:true,live:true,role:'owner',sbx:false,who:''});ONB.done.tour=1;
+  onbSave();history.replaceState(null,'',location.pathname+(location.hash||'#home'));
+})();
 (function(){const q=new URLSearchParams(location.search);if(q.get('signup')!=='new')return;
   ONB.sbx=false; /* the page loads straight into the live account; the rest of the script draws it */
   Object.assign(ONB,{st:'new',sb:null,events:[],vok:false,tour:false,guide:'open',done:{},hide:{},gOpen:undefined,gAt:false,smpl:null,simRun:null,v:ONB_DEF().v,vmax:0,step:0,pay:null,creds:[],who:''});
