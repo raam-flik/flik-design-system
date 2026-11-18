@@ -2785,7 +2785,9 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .cka .sx-cf .ie-dd .opt{flex-direction:column;align-items:flex-start;gap:1px}.ie-dd .opt.dd-sk{gap:8px;padding-block:10px;cursor:default;pointer-events:none}.ie-dd .opt.dd-sk .sk{height:10px}.ie-dd .opt.dd-sk .sk:first-child{height:12px}.cka .sx-cf .ie-dd .opt span{font-size:12.5px;color:var(--muted);margin:0}
 .cka-map{height:160px;border-radius:8px;background:var(--hover);box-shadow:var(--sh);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 24px;text-align:center;color:var(--ink)}.cka-map span{font-size:13px;color:var(--muted)}
 .cka-live{position:relative;display:block;padding:0;height:200px;overflow:hidden;background:var(--hover);z-index:0}.cka-lf{position:absolute;inset:0}.cka-lf img{max-width:none!important}
-.cka-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);color:var(--surface,#fff);z-index:500;pointer-events:none;transition:transform .15s ease;filter:drop-shadow(0 2px 2px rgba(0,45,93,.35))}.cka-pin svg{fill:var(--primary)}.cka-live.mv .cka-pin{transform:translate(-50%,calc(-100% - 8px))}
+/* the map marker is Google Maps' own red pin (a third-party mark, so it keeps its colours); it lifts while the map moves and its shadow stays on the ground */
+.cka-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);z-index:500;pointer-events:none;transition:transform .15s ease;line-height:0}.cka-pin svg{display:block}.cka-live.mv .cka-pin{transform:translate(-50%,calc(-100% - 10px))}
+.cka-sh{position:absolute;left:50%;top:50%;width:14px;height:5px;border-radius:50%;background:rgba(0,0,0,.28);transform:translate(-50%,-50%);z-index:499;pointer-events:none;transition:opacity .15s ease}.cka-live.mv .cka-sh{opacity:.6}.cka-live.off .cka-sh{display:none}
 .cka-hint{position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:500;background:var(--surface,#fff);color:var(--ink);font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;box-shadow:var(--sh);pointer-events:none;white-space:nowrap}
 .cka-off{display:none}.cka-live.off .cka-lf,.cka-live.off .cka-pin,.cka-live.off .cka-hint{display:none}.cka-live.off .cka-off{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink);text-align:center;padding:0 24px}.cka-live .leaflet-control-attribution{font-size:10px}
 .cka-mt{display:flex;align-items:center;gap:4px;min-width:0}.cka-bk{margin-left:-8px;color:var(--ink)}.cka-bk svg{transform:rotate(90deg)}.cka-loc{width:100%;justify-content:center}.cka .sx-f input[readonly]{background:var(--hover);color:var(--muted)}.cka .sx-slots{margin-top:8px}
@@ -5094,10 +5096,9 @@ function cuDetail(id){cusInit();const c=CUS.find(x=>x.id===id);if(!c)return;cons
 /* the customer form opens in the side panel everywhere (it's long, like the product form) */
 function cuEdit(c,o={}){o={panel:true,...o};const C=c?{name:c.name,ph:c.phones[0]?c.phones[0].replace(/^\+62\s?/,''):'',ph2:c.phones[1]?c.phones[1].replace(/^\+62\s?/,''):'',em:c.emails[0]||'',tags:c.tags.join(', '),notes:c.notes}:{name:o.name||'',ph:'',ph2:'',em:'',tags:'',notes:''};
   /* a new customer can carry one address (optional); later ones are added in the Addresses tab */
-  const A={street:'',kel:'',kec:'',city:'',prov:'',zip:''},AF=[['street','Street address','Street, building, house number',1],['kel','Kelurahan','Cilandak Barat'],['kec','Kecamatan','Cilandak'],['city','City','Jakarta Selatan'],['prov','Province','DKI Jakarta'],['zip','Postcode','12430']];
+  const A={street:'',det:'',kel:'',kec:'',city:'',prov:'',zip:''};
   const box=o.panel?drawer:modal,title=c?'Edit customer':'New customer';
-  const adr=c?'':`<div class="sx-ship ce-adr"><button class="sx-sh" data-ceadr aria-expanded="false" aria-controls="ce-adrb"><b>Address</b><span class="opt-l">(optional)</span><span class="sum" id="ce-asum"></span><span class="chev">${ic('chev',16)}</span></button>
-      <div class="sx-sb" id="ce-adrb"><div class="sx-g sx-g2">${AF.map(([k,l,ph,w])=>`<div class="sx-f${w?' cu-w2':''}"><label for="ce-a-${k}">${l}</label><input id="ce-a-${k}" data-cea="${k}" placeholder="${ph}" ${k==='zip'?'inputmode="numeric" maxlength="5"':''}></div>`).join('')}</div><p class="hint" id="ce-aerr"></p></div></div>`;
+  const adr=c?'':`<div class="sx-g"><div class="sx-f"><label for="ce-adr">Address <span class="opt-l">(optional)</span></label><button class="sx-addr" id="ce-adr" data-ceadr>${ic('pin',16)}<span id="ce-asum">Search the address or drop a pin</span><span class="chev">${ic('chev',16)}</span></button></div></div>`;
   /* name and WhatsApp on one row; each message sits under its own field; the address comes last */
   const body=`<div class="ce-f"><div class="sx-g sx-g2" style="margin-top:0"><div class="sx-f"><label for="ce-name">Name</label><input id="ce-name" data-ce="name" value="${esc(C.name)}" placeholder="${o.needPhone?'':'Rina Putri'}"></div>
       <div class="sx-f"><label for="ce-ph">Phone number</label><div class="pre"><em>+62</em><input id="ce-ph" data-ce="ph" inputmode="numeric" value="${esc(C.ph)}" placeholder="${o.needPhone?'':'812-3456-7890'}"></div><p class="hint" id="ce-pherr"></p></div></div>
@@ -5112,32 +5113,27 @@ function cuEdit(c,o={}){o={panel:true,...o};const C=c?{name:c.name,ph:c.phones[0
   else{modal.innerHTML=`<div class="mh"><h3>${title}</h3><button class="ib" data-ceclose aria-label="Close">${ic('x',18)}</button></div><div class="mb">${body}</div>${foot}`;modal.classList.add('md');mscrim.classList.add('open')}
   const g=x=>document.getElementById(x),go=g('ce-go'),close=()=>{box.oninput=null;if(o.panel){closeDetail();drawer.classList.remove('over-sx');dscrim.classList.remove('over-sx')}else closeModal()};
   const cancel=()=>{close();if(c)cuDetail(c.id)};
-  const at=box.querySelector('[data-ceadr]');if(at)at.onclick=()=>{const w=at.parentElement,op=!w.classList.contains('open');w.classList.toggle('open',op);at.setAttribute('aria-expanded',op);
-    const bad=g('ce-aerr').textContent,sm=g('ce-asum');sm.textContent=op?'':bad?'Finish or clear the address':[A.street,A.city].filter(x=>x.trim()).join(', ');sm.style.color=bad&&!op?'var(--bad-tx)':'';if(op)setTimeout(()=>g('ce-a-street').focus(),0)};box.querySelectorAll('[data-ceclose]').forEach(b=>b.onclick=cancel);if(o.panel)dscrim.onclick=cancel;
+  /* the address opens the shared address pop-up on top of the side panel; saving shows it in the field */
+  const at=box.querySelector('[data-ceadr]');if(at)at.onclick=()=>addrPopup({a:A.street?A:null,title:A.street?'Edit address':'Add address',saveText:'Use this address',
+    onSave:r=>{Object.assign(A,{street:r.street,det:r.det,kel:r.kel,kec:r.kec,city:r.city,prov:r.prov,zip:r.zip});at.classList.add('set');g('ce-asum').textContent=`${A.street}${A.det?` (${A.det})`:''}, ${[addrArea(A.street,A),A.prov].filter(Boolean).join(', ')} ${A.zip}`;chk()}});box.querySelectorAll('[data-ceclose]').forEach(b=>b.onclick=cancel);if(o.panel)dscrim.onclick=cancel;
   const chk=()=>{const d=C.ph.replace(/\D/g,''),dup=d.length>=9&&CUS.find(x=>x!==c&&x.phones.some(p=>p.replace(/\D/g,'').endsWith(d))),emOk=!C.em||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(C.em);
-    const aAny=Object.values(A).some(v=>v.trim()),aOk=!aAny||(A.street.trim()&&A.kec.trim()&&A.city.trim()&&/^\d{5}$/.test(A.zip));
+    const aOk=true;
     const phMsg=dup?`This number already belongs to ${dup.name}. Merge them instead.`:!o.needPhone&&!d&&!C.em?'Add a phone number or an email.':'';
     g('ce-pherr').textContent=phMsg;g('ce-pherr').classList.toggle('err',!!dup);g('ce-err').textContent=emOk?'':'Check the email address.';g('ce-err').classList.toggle('err',!emOk);
-    if(g('ce-aerr')){g('ce-aerr').textContent=aOk?'':'Fill the street, kecamatan, city and a 5-digit postcode, or leave the address empty.';g('ce-aerr').classList.toggle('err',!aOk)}
     go.disabled=!(C.name.trim()&&(d.length>=9||(!o.needPhone&&C.em&&emOk))&&!dup&&emOk&&aOk)};
-  box.oninput=e=>{const k=e.target.dataset.ce,a=e.target.dataset.cea;if(k)C[k]=e.target.value;if(a){if(a==='zip')e.target.value=e.target.value.replace(/\D/g,'');A[a]=e.target.value}chk()};chk();setTimeout(()=>g(C.name?'ce-ph':'ce-name').focus(),o.panel?250:0);
+  box.oninput=e=>{const k=e.target.dataset.ce;if(k)C[k]=e.target.value;chk()};chk();setTimeout(()=>g(C.name?'ce-ph':'ce-name').focus(),o.panel?250:0);
   go.onclick=()=>{const v={name:C.name.trim(),phones:[...(C.ph.replace(/\D/g,'').length>=9?['+62 '+C.ph.trim()]:[]),...(c?c.phones.slice(1):[])],emails:C.em?[C.em.trim()]:[],tags:C.tags.split(',').map(x=>x.trim()).filter(Boolean),notes:C.notes.trim()};close();
     if(c){if(v.name!==c.name){c.other=[...new Set([c.name,...c.other])].filter(x=>x!==v.name);c.locked=true}Object.assign(c,v);renderCus();cuDetail(c.id);toast('Customer saved');return}
-    const ad=A.street.trim()?[{label:'Home',def:true,name:v.name,phone:v.phones[0]||'',street:A.street.trim(),kel:A.kel.trim(),kec:A.kec.trim(),city:A.city.trim(),prov:A.prov.trim(),zip:A.zip}]:[];
+    const ad=A.street.trim()?[{label:'Home',def:true,name:v.name,phone:v.phones[0]||'',street:A.street.trim(),det:A.det,kel:A.kel,kec:A.kec,city:A.city,prov:A.prov,zip:A.zip}]:[];
     const n={id:'ctc_'+(1300+CUS.length),...v,other:[],city:ad[0]?ad[0].city:'',life:'lead',src:'manual',flag:null,act:[],addrs:ad,created:new Date(NOW),locked:true};CUS.unshift(n);
     if(n.phones[0])addCustomer({name:n.name,phone:n.phones[0],email:n.emails[0]||'',city:n.city});
     if(o.onSave){o.onSave(n);return}CUSV.state='normal';renderCus();cuDetail(n.id);toast(`${n.name} added as a lead`)}}
 
-/* address add and edit, down to kelurahan and postcode */
-function cuAddr(c,i){const a=i>=0?{...c.addrs[i]}:{label:c.addrs.length?'Office':'Home',name:c.name,phone:c.phones[0]||'',street:'',kel:'',kec:'',city:'',prov:'',zip:'',def:!c.addrs.length};
-  const F=[['label','Label','Home'],['name','Recipient name','Full name'],['street','Street address','Street, building, house number'],['kel','Kelurahan','Cilandak Barat'],['kec','Kecamatan','Cilandak'],['city','City','Jakarta Selatan'],['prov','Province','DKI Jakarta'],['zip','Postcode','12430']];
-  modal.innerHTML=`<div class="mh"><h3>${i>=0?'Edit address':'Add address'}</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><div class="sx-g sx-g2" style="margin-top:0">${F.map(([k,l,ph])=>`<div class="sx-f${k==='street'?' cu-w2':''}"><label for="ca-${k}">${l}</label><input id="ca-${k}" data-ca="${k}" value="${esc(a[k]||'')}" placeholder="${ph}" ${k==='zip'?'inputmode="numeric"':''}></div>`).join('')}</div>
-    <button class="lnk cu-pin" data-toast="Opens the map to drop a pin" style="margin-top:12px">${ic('pin',14)}Drop a pin on the map</button></div>
-  <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="ca-go">${i>=0?'Save address':'Add address'}</button></div>`;
-  modal.classList.add('md');mscrim.classList.add('open');const go=document.getElementById('ca-go'),chk=()=>{go.disabled=!(a.street.trim()&&a.kec.trim()&&a.city.trim()&&/^\d{5}$/.test(a.zip))};
-  modal.oninput=e=>{const k=e.target.dataset.ca;if(k)a[k]=e.target.value;chk()};chk();
-  go.onclick=()=>{modal.oninput=null;if(i>=0)c.addrs[i]=a;else c.addrs.push(a);if(a.def||c.addrs.length===1){c.addrs.forEach(x=>x.def=x===a);c.city=a.city}if(c.life==='lead'&&false)c.life='recipient';closeModal();renderCus();CUSV.dtab='adr';cuDetail(c.id);toast(i>=0?'Address saved':'Address added')}}
+/* address add and edit: the shared address pop-up, with the label and recipient first */
+function cuAddr(c,i){const a=i>=0?{...c.addrs[i]}:{label:c.addrs.length?'Office':'Home',name:c.name,def:!c.addrs.length};
+  addrPopup({a,title:i>=0?'Edit address':'Add address',top:[['label','Label','Home',1],['name','Recipient name','Full name',1]],saveText:i>=0?'Save address':'Add address',
+    onSave:r=>{const n={...a,...r,phone:a.phone||c.phones[0]||''};delete n.note;delete n.q;if(i>=0)c.addrs[i]=n;else c.addrs.push(n);if(n.def||c.addrs.length===1){c.addrs.forEach(x=>x.def=x===n);c.city=n.city}
+      renderCus();CUSV.dtab='adr';cuDetail(c.id);toast(i>=0?'Address saved':'Address added')}})}
 
 /* merge two customers: pick the name to keep; phones, emails, addresses and activity combine */
 function cuMerge(L){let keep=0;const ord=['lead','recipient','customer'];
@@ -5497,7 +5493,7 @@ const inp=(i,k,lab,ph,o={})=>`<div class="sx-f"><label for="s${i}${k}">${lab}</l
 function shipCard(s,i){const ok=shipOk(s),cod=isCod(s);
   return`<div class="sx-ship${s.open?' open':''}"><button class="sx-sh" data-tog="${i}"><b>Shipment ${i+1}</b>${ok?`<span class="ok">${ic('check',15,2.4)}</span>`:''}${s.addr&&s.phone.replace(/\D/g,'').length>=9&&health(s).band!=='ok'?`<span class="st ${health(s).band}" title="${health(s).why.join('. ')}">${HB[health(s).band]} number · ${health(s).sc}</span>`:''}<span class="sum">${!s.open?`${s.name?s.name+' · ':''}${whOf(s).n}${s.addr?` → ${s.addr.city.split(', ').slice(-2,-1)[0]||s.addr.city}`:''} · ${cod?'COD':'Non-COD'}`:''}</span><span class="chev">${ic('chev',16)}</span></button>
   <div class="sx-sb"><div class="sx-g sx-g2"><div class="sx-f"><label for="s${i}name">Customer name</label><div class="ie-fld sx-cf">${ic('search',16)}<input class="ie-in" id="s${i}name" data-si="${i}" data-k="name" value="${esc(s.name||'')}" placeholder="Find or add a customer…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false"></div></div>${inp(i,'phone','Customer WhatsApp','812-3456-7890',{pre:'+62',num:1})}</div>
-  <div class="sx-g"><div class="sx-f"><label>Customer address</label><button class="sx-addr${s.addr?' set':''}" data-addr="${i}">${ic('pin',16)}<span>${s.addr?`${s.addr.street}, ${[s.addr.kel,s.addr.kec,s.addr.city].filter(Boolean).join(', ')} ${s.addr.zip}`:'Search the address or drop a pin'}</span><span class="chev">${ic('chev',16)}</span></button></div></div>
+  <div class="sx-g"><div class="sx-f"><label>Customer address</label><button class="sx-addr${s.addr?' set':''}" data-addr="${i}">${ic('pin',16)}<span>${s.addr?`${s.addr.street}, ${addrArea(s.addr.street,s.addr)} ${s.addr.zip}`:'Search the address or drop a pin'}</span><span class="chev">${ic('chev',16)}</span></button></div></div>
   <div class="sx-g sx-g2"><div class="sx-f"><label id="s${i}whl">Pickup from</label>${(()=>{const w=WH.find(x=>x.code===s.whk)||{n:'Choose a warehouse',code:''},open=X.whOpen===i;return`<div class="ie-fld whp"><button class="whp-btn${open?' on':''}" data-whp="${i}" aria-haspopup="listbox" aria-expanded="${open}" aria-labelledby="s${i}whl">${ic('wh',16)}<span>${w.n}${w.code?` · ${w.code}`:''}</span><span class="chev">${ic('chev',14)}</span></button>${open?`<div class="ie-dd" role="listbox"><button class="opt add" data-whnew="${i}">${ic('plus',15,2)}Add new warehouse</button><h6>Warehouses</h6>${WH.filter(x=>x.active).map(x=>`<button class="opt${x.code===s.whk?' on':''}" role="option" aria-selected="${x.code===s.whk}" data-whpick="${i}" data-code="${x.code}"><b>${x.n}</b><span>${x.code} · ${x.city}</span></button>`).join('')}</div>`:''}</div>`})()}</div>
     <div class="sx-f"><label id="s${i}pl">Payment method</label><div class="seg sx-seg" role="radiogroup" aria-labelledby="s${i}pl"><button role="radio" aria-checked="${cod}" class="${cod?'on':''}" data-spay="${i}" data-v="cod">COD</button><button role="radio" aria-checked="${!cod}" class="${cod?'':'on'}" data-spay="${i}" data-v="non">Non-COD</button></div></div></div>
   <div class="sx-g sx-gpq"><div class="sx-f"><label for="s${i}items">Product name</label><div class="ie-fld sx-pf">${ic('search',16)}<input class="ie-in" id="s${i}items" data-si="${i}" data-k="items" value="${esc(s.items||'')}" placeholder="Find or add a product…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false"></div></div><div class="sx-f"><label>Quantity</label><div class="qty sx-qty"><button data-sq="${i}" data-d="-1" aria-label="Less" ${(s.qty||1)<=1?'disabled':''}>${ic('minus',14,2)}</button><span class="num">${s.qty||1}</span><button data-sq="${i}" data-d="1" aria-label="More">${ic('plus',14,2)}</button></div></div></div>
@@ -6006,7 +6002,7 @@ function bDoneCheck(){if(!bCounts().left){X.bv='all';X.bpg=0;drawSx();toast(`All
    "Shipping address"): choose one, or "Add new address" for a new one. Without saved addresses it opens the form */
 const sxCust=s=>s.cid&&CUS?CUS.find(x=>x.id===s.cid&&x.name===s.name)||null:null;
 const sxAddrOf=(a,note)=>({street:a.street,det:a.det||'',prov:a.prov||'',city:a.city,kec:a.kec||'',kel:a.kel||'',zip:a.zip,note:note||''});
-const sxAddrLine=a=>[a.street+(a.det?` (${a.det})`:''),a.kel,a.kec,a.city,`${a.prov||''} ${a.zip}`.trim()].filter(Boolean).join(', ');
+const sxAddrLine=a=>[a.street+(a.det?` (${a.det})`:''),addrArea(a.street,a),`${a.prov||''} ${a.zip}`.trim()].filter(Boolean).join(', ');
 function addrModal(i){const s=X.ships[i],c=sxCust(s);if(c&&c.addrs.length)addrPick(i,c);else addrForm(i,null,c)}
 function addrPick(i,c){const s=X.ships[i];let pick=s.ai!=null?s.ai:s.addr&&s.addr.custom?-1:Math.max(0,c.addrs.findIndex(a=>a.def));let note=s.addr?s.addr.note||'':'';
   const one=s.addr&&s.addr.custom?s.addr:null;
@@ -6024,14 +6020,19 @@ function addrPick(i,c){const s=X.ships[i];let pick=s.ai!=null?s.ai:s.addr&&s.add
     const e=modal.querySelector('[data-sxae]');if(e)e.onclick=()=>addrForm(i,()=>addrPick(i,c),c);
     document.getElementById('sxa-use').onclick=()=>{if(pick>=0){s.addr=sxAddrOf(c.addrs[pick],note.trim());s.ai=pick}else{s.addr={...one,note:note.trim()};s.ai=null}closeModal();drawSx()}};
   modal.classList.add('md');draw();mscrim.classList.add('open')}
-function addrForm(i,back,c,fresh){const s=X.ships[i],a=fresh||!(s.addr&&(s.addr.custom||!c))?{}:s.addr;let keep=!!c;const F={q:a.q||'',full:a.street||'',det:a.det||'',prov:a.prov||'',city:a.city||'',kec:a.kec||'',kel:a.kel||'',zip:a.zip||'',note:a.note||'',ll:a.ll||null};
+/* the address pop-up, shared by Create shipment's customer address and the customer's addresses: find the address, map pin, full address,
+   details, province, city, kecamatan, and the postal code with its kelurahan. o: {a, title, back, top (extra fields first), note, keep, saveText, onSave(r,keep)} */
+function addrPopup(o){const a=o.a||{},top=o.top||[];let keep=o.keep?o.keep.on!==false:false;
+  const F={q:a.q||'',full:a.street||'',det:a.det||'',prov:a.prov||'',city:a.city||'',kec:a.kec||'',kel:a.kel||'',zip:a.zip||'',note:a.note||'',ll:a.ll||null};top.forEach(([k])=>F[k]=a[k]||'');
+  if(F.zip&&!F.kel){const z=zipDb().find(x=>x.zip===F.zip);if(z){F.kel=z.kel;F.kec=F.kec||z.kec}}
   let zq=null;
-  const ok=()=>F.full.trim()&&F.city&&/^\d{5}$/.test(F.zip)&&F.kel;
-  const place=(p,fly=true)=>{const k=CK_PLACES.indexOf(p);F.full=p[0];F.city=p[1];F.prov=p[2];F.kec=CK_KEC[k]||'';if(!p[3].includes(F.zip)){F.zip='';F.kel=''}F.q=`${p[0]}, ${p[1]}, ${p[2]}`;const ll=CK_LL[CK_PLACES.indexOf(p)];if(ll&&fly)F.ll=ll;draw();if(ll&&fly)MP.fly(ll)};
+  const ok=()=>F.full.trim()&&F.city&&/^\d{5}$/.test(F.zip)&&F.kel&&top.every(([k,,,req])=>!req||F[k].trim());
+  const place=(p,fly=true)=>{const k=CK_PLACES.indexOf(p);F.full=p[0];F.city=p[1];F.prov=p[2];F.kec=CK_KEC[k]||'';if(!p[3].includes(F.zip)){F.zip='';F.kel=''}F.q=`${p[0]}, ${p[1]}, ${p[2]}`;const ll=CK_LL[k];if(ll&&fly)F.ll=ll;draw();if(ll&&fly)MP.fly(ll)};
   const MP=mapPin(F.ll,(lat,lng)=>{F.ll=[lat,lng];const k=ckNear(lat,lng);if(k>=0&&CK_PLACES[k][0]!==F.full)place(CK_PLACES[k],false)});
   const draw=()=>{const fa=document.activeElement,fid=fa&&modal.contains(fa)&&fa.id,fs=fid&&fa.selectionStart;
-    modal.innerHTML=`<div class="mh"><div class="cka-mt">${back?`<button class="ib cka-bk" id="sxa-bk" aria-label="Back to ${c?esc(c.name)+"'s":'saved'} addresses">${ic('chev',18)}</button>`:''}<h3>${a.street?'Edit customer address':'Add customer address'}</h3></div><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
+    modal.innerHTML=`<div class="mh"><div class="cka-mt">${o.back?`<button class="ib cka-bk" id="sxa-bk" aria-label="${esc(o.backLabel||'Back')}">${ic('chev',18)}</button>`:''}<h3>${esc(o.title)}</h3></div><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
     <div class="mb ckst cka">
+      ${top.length?`<div class="ew-2">${top.map(([k,l,ph])=>`<div class="sx-f"><label for="sxa-t-${k}">${l}</label><input id="sxa-t-${k}" data-sxt="${k}" value="${esc(F[k])}" placeholder="${ph}"></div>`).join('')}</div>`:''}
       <div class="sx-f"><label for="sxa-q">Find the address</label><div class="sx-cf ie-fld">${ic('search',16)}<input class="ie-in" id="sxa-q" value="${esc(F.q)}" placeholder="Search street, area or city" autocomplete="off" role="combobox" aria-expanded="false"></div></div>
       <div data-mapslot></div>
       <div class="sx-f"><label for="sxa-full">Full address</label><textarea id="sxa-full" rows="3" placeholder="Street name, building, area">${esc(F.full)}</textarea></div>
@@ -6039,35 +6040,39 @@ function addrForm(i,back,c,fresh){const s=X.ships[i],a=fresh||!(s.addr&&(s.addr.
       <div class="ew-2"><div class="sx-f"><label for="sxa-pr">Province</label><input id="sxa-pr" readonly value="${esc(F.prov)}" placeholder="From the address"></div><div class="sx-f"><label for="sxa-ci">City</label><input id="sxa-ci" readonly value="${esc(F.city)}" placeholder="From the address"></div></div>
       <div class="sx-f"><label for="sxa-kec">Kecamatan</label><input id="sxa-kec" readonly value="${esc(F.kec)}" placeholder="From the address or postal code"></div>
       <div class="sx-f"><label for="sxa-zip">Postal code</label><div class="sx-cf ie-fld sxa-zf">${ic('search',16)}<input class="ie-in" id="sxa-zip" value="${esc(zq!=null?zq:F.zip?zipLine(F):'')}" placeholder="Type a postal code or kelurahan" autocomplete="off" role="combobox" aria-expanded="false" aria-describedby="sxa-zh"></div><p class="ie-hint" id="sxa-zh">Pick the one that matches the kelurahan.</p></div>
-      <div class="sx-f"><label for="sxa-note">Note for the courier (optional)</label><textarea id="sxa-note" rows="2" maxlength="200" placeholder="e.g. Leave it with the security guard">${esc(F.note)}</textarea></div>
-      ${c?`<button class="ie-chk" data-sxkeep role="checkbox" aria-checked="${keep}"><span class="cb${keep?' on':''}">${keep?ic('check',12,3):''}</span>Save to ${esc(c.name)}'s addresses</button>`:''}</div>
-    <div class="mf"><button class="btn btn-o" id="sxa-x">Cancel</button><button class="btn btn-p" id="sxa-save" ${ok()?'':'disabled'}>${back?'Use this address':'Save address'}</button></div>`;
+      ${o.note?`<div class="sx-f"><label for="sxa-note">Note for the courier (optional)</label><textarea id="sxa-note" rows="2" maxlength="200" placeholder="e.g. Leave it with the security guard">${esc(F.note)}</textarea></div>`:''}
+      ${o.keep?`<button class="ie-chk" data-sxkeep role="checkbox" aria-checked="${keep}"><span class="cb${keep?' on':''}">${keep?ic('check',12,3):''}</span>${esc(o.keep.label)}</button>`:''}</div>
+    <div class="mf"><button class="btn btn-o" id="sxa-x">Cancel</button><button class="btn btn-p" id="sxa-save" ${ok()?'':'disabled'}>${esc(o.saveText||'Save address')}</button></div>`;
     const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}
     MP.mount(modal.querySelector('[data-mapslot]'));
     const go=document.getElementById('sxa-save'),upd=()=>go.disabled=!ok();
-    [['sxa-full','full'],['sxa-det','det'],['sxa-note','note']].forEach(([id,k])=>{const el=document.getElementById(id);el.oninput=()=>{F[k]=el.value;upd()}});
+    [['sxa-full','full'],['sxa-det','det'],['sxa-note','note']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.oninput=()=>{F[k]=el.value;upd()}});
+    modal.querySelectorAll('[data-sxt]').forEach(el=>el.oninput=()=>{F[el.dataset.sxt]=el.value;upd()});
     /* postal code: a Combobox of "postal code - kelurahan, kecamatan, city, province". Empty, it lists the codes for the city found; typing searches by code or kelurahan. Picking one fills kecamatan, city and province */
     const zi=document.getElementById('sxa-zip'),zb=zi.closest('.sx-cf'),zlist=()=>{zb.querySelector('.ie-dd')?.remove();const t=(zq||'').trim().toLowerCase();
-      const L=zipDb().filter(o=>t?(o.zip.startsWith(t)||[o.kel,o.kec].join(' ').toLowerCase().includes(t)):(!F.city||o.city===F.city)).slice(0,8);
-      zb.insertAdjacentHTML('beforeend',`<div class="ie-dd" role="listbox">${L.map(o=>`<button class="opt" role="option" data-zp="${zipDb().indexOf(o)}" aria-selected="${o.zip===F.zip&&o.kel===F.kel}"><b>${o.zip} - ${esc(o.kel)}</b><span>${esc([o.kec,o.city,o.prov].join(', '))}</span></button>`).join('')||'<div class="opt" style="color:var(--muted)">No postal code matches. Check the code or kelurahan.</div>'}</div>`);zi.setAttribute('aria-expanded','true')};
+      const L=zipDb().filter(x=>t?(x.zip.startsWith(t)||[x.kel,x.kec].join(' ').toLowerCase().includes(t)):(!F.city||x.city===F.city)).slice(0,8);
+      zb.insertAdjacentHTML('beforeend',`<div class="ie-dd" role="listbox">${L.map(x=>`<button class="opt" role="option" data-zp="${zipDb().indexOf(x)}" aria-selected="${x.zip===F.zip&&x.kel===F.kel}"><b>${x.zip} - ${esc(x.kel)}</b><span>${esc([x.kec,x.city,x.prov].join(', '))}</span></button>`).join('')||'<div class="opt" style="color:var(--muted)">No postal code matches. Check the code or kelurahan.</div>'}</div>`);zi.setAttribute('aria-expanded','true')};
     zi.onfocus=()=>{if(zq==null){zq='';zi.value=''}zlist()};zi.oninput=()=>{zq=zi.value;if(F.zip){F.zip='';F.kel='';upd()}zlist()};
     zi.onkeydown=e=>{if(e.key==='Escape'&&zb.querySelector('.ie-dd')){e.stopPropagation();zb.querySelector('.ie-dd').remove();zi.setAttribute('aria-expanded','false')}};
-    zb.onmousedown=e=>{const o=e.target.closest('[data-zp]');if(!o)return;e.preventDefault();const z=zipDb()[+o.dataset.zp];Object.assign(F,{zip:z.zip,kel:z.kel,kec:z.kec,city:z.city,prov:z.prov});zq=null;draw()};
+    zb.onmousedown=e=>{const x=e.target.closest('[data-zp]');if(!x)return;e.preventDefault();const z=zipDb()[+x.dataset.zp];Object.assign(F,{zip:z.zip,kel:z.kel,kec:z.kec,city:z.city,prov:z.prov});zq=null;draw()};
     zi.onblur=()=>setTimeout(()=>{if(document.activeElement===zi)return;zb.querySelector('.ie-dd')?.remove();zi.setAttribute('aria-expanded','false');if(zq!=null){zq=null;zi.value=F.zip?zipLine(F):''}},150);
-    /* address search: a Combobox of matching places; picking one fills the address, province, city and postal codes */
+    /* address search: a Combobox of matching places; picking one fills the address, province, city and kecamatan */
     const q=document.getElementById('sxa-q'),box=q.closest('.sx-cf'),list=()=>{box.querySelector('.ie-dd')?.remove();const t=q.value.trim().toLowerCase();if(!t){q.setAttribute('aria-expanded','false');return}
       const L=CK_PLACES.filter(p=>p.slice(0,3).join(' ').toLowerCase().includes(t)).slice(0,6);
       box.insertAdjacentHTML('beforeend',`<div class="ie-dd" role="listbox">${L.map(p=>`<button class="opt" role="option" data-adpl="${CK_PLACES.indexOf(p)}"><b>${p[0]}</b><span>${p[1]}, ${p[2]}</span></button>`).join('')||'<div class="opt" style="color:var(--muted)">No matches. Try a street or area name.</div>'}</div>`);q.setAttribute('aria-expanded','true')};
     q.oninput=()=>{F.q=q.value;list()};q.onkeydown=e=>{if(e.key==='Escape'&&box.querySelector('.ie-dd')){e.stopPropagation();box.querySelector('.ie-dd').remove();q.setAttribute('aria-expanded','false')}};
-    box.onmousedown=e=>{const o=e.target.closest('[data-adpl]');if(o){e.preventDefault();place(CK_PLACES[+o.dataset.adpl])}};
+    box.onmousedown=e=>{const p=e.target.closest('[data-adpl]');if(p){e.preventDefault();place(CK_PLACES[+p.dataset.adpl])}};
     q.onblur=()=>setTimeout(()=>{box.querySelector('.ie-dd')?.remove()},150);
-    document.getElementById('sxa-x').onclick=()=>back?back():closeModal();const bk=document.getElementById('sxa-bk');if(bk)bk.onclick=()=>back();
+    document.getElementById('sxa-x').onclick=()=>o.back?o.back():closeModal();const bk=document.getElementById('sxa-bk');if(bk)bk.onclick=()=>o.back();
     const kp=modal.querySelector('[data-sxkeep]');if(kp)kp.onclick=()=>{keep=!keep;draw()};
-    go.onclick=()=>{const r={street:F.full.trim(),det:F.det.trim(),prov:F.prov,city:F.city,kec:F.kec,kel:F.kel,zip:F.zip,note:F.note.trim(),q:F.q,ll:F.ll};
-      /* a new address is saved to the customer when the box is ticked; otherwise it's for this shipment only */
+    go.onclick=()=>{const r={street:F.full.trim(),det:F.det.trim(),prov:F.prov,city:F.city,kec:F.kec,kel:F.kel,zip:F.zip,note:F.note.trim(),q:F.q,ll:F.ll};top.forEach(([k])=>r[k]=F[k].trim());closeModal();o.onSave(r,keep)}};
+  modal.classList.add('md');draw();mscrim.classList.add('open');if(!a.street)setTimeout(()=>{const f=document.getElementById(top.length?'sxa-t-'+top[0][0]:'sxa-q');if(f&&!f.value)f.focus()},0)}
+function addrForm(i,back,c,fresh){const s=X.ships[i],a=fresh||!(s.addr&&(s.addr.custom||!c))?{}:s.addr;
+  addrPopup({a,title:a.street?'Edit customer address':'Add customer address',back,backLabel:`Back to ${c?c.name+"'s":'saved'} addresses`,note:true,keep:c?{label:`Save to ${c.name}'s addresses`}:null,saveText:back?'Use this address':'Save address',
+    onSave:(r,keep)=>{/* a new address is saved to the customer when the box is ticked; otherwise it's for this shipment only */
       if(c&&keep){c.addrs.push({label:'Other',def:false,name:c.name,phone:c.phones[0]||'',street:r.street,det:r.det,kel:r.kel,kec:r.kec,city:r.city,prov:r.prov,zip:r.zip});s.ai=c.addrs.length-1;s.addr=r;toast(`Address saved to ${c.name}'s addresses`)}
-      else{s.addr={...r,custom:!!c};s.ai=null}closeModal();drawSx()}};
-  modal.classList.add('md');draw();mscrim.classList.add('open');if(!a.street)document.getElementById('sxa-q').focus()}
+      else{s.addr={...r,custom:!!c};s.ai=null}drawSx()}})}
+
 function whModal(){let sel=X.wh;const draw=()=>{modal.innerHTML=`<div class="mh"><h3>Warehouse</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
   <div class="mb sx-wl">${WAREHOUSES.map((w,i)=>`<button class="opt" data-w="${i}"><span class="rdo${sel===i?' on':''}"></span><div><b>${w.n}</b><span>${w.a}</span></div></button>`).join('')}</div>
   <div class="mf" style="justify-content:space-between"><button class="btn btn-o" data-toast="Opens Add warehouse">${ic('plus',15,2)}Add address</button><div style="display:flex;gap:8px"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="whsave">Use address</button></div></div>`;
@@ -9651,7 +9656,9 @@ const CK_ADDR0=()=>[{id:1,self:true,to:'Raam',ph:'838-2105-0649',full:'Jl. Raya 
   {id:2,self:false,to:'Dewi Lestari',ph:'857-7781-2304',full:'Jl. Kemang Raya No. 12, Bangka, Mampang Prapatan',det:'Office, 3rd floor',prov:'DKI Jakarta',city:'Kota Jakarta Selatan',zip:'12730'}];
 let ckAddr=CK_ADDR0(),ckAddrSel=1;
 const ckAddrCur=()=>ckAddr.find(a=>a.id===ckAddrSel)||ckAddr[0]||null;
-const ckAddrLine=a=>`${a.full}${a.det?` (${a.det})`:''}, ${a.city}, ${a.prov} ${a.zip}`;
+/* kelurahan, kecamatan and city, each once and only when the street doesn't already name it */
+const addrArea=(st,a)=>[...new Set([a.kel,a.kec,a.city].filter(x=>x&&!(st||'').toLowerCase().includes(x.toLowerCase())))].join(', ');
+const ckAddrLine=a=>`${a.full}${a.det?` (${a.det})`:''}, ${[addrArea(a.full,a),a.prov].filter(Boolean).join(', ')} ${a.zip}`;
 /* prototype search results; the live page uses Google Maps */
 const CK_PLACES=[['Kec. Jagakarsa','Kota Jakarta Selatan','DKI Jakarta',['12620','12630','12640']],['Jl. Baung, Kebagusan, Pasar Minggu','Kota Jakarta Selatan','DKI Jakarta',['12520','12530']],
   ['Jl. Raya Kopo, Cirangrang, Babakan Ciparay','Kota Bandung','Jawa Barat',['40225','40226','40227','40228','40229']],['Jl. Raya Darmo, Wonokromo','Kota Surabaya','Jawa Timur',['60241','60243']],['Tambakselo, Wirosari','Kabupaten Grobogan','Jawa Tengah',['58192']]];
@@ -9672,7 +9679,7 @@ const zipDb=()=>ZIPDB||(ZIPDB=(()=>{const L=[],seen=new Set(),add=o=>{const k=o.
   CK_PLACES.forEach(p=>p[3].forEach(z=>{const k=CK_KEL[z];if(k)add({zip:z,kel:k[0],kec:k[1],city:p[1],prov:p[2]})}));(typeof AREA!=='undefined'?AREA:[]).forEach(a=>add({...a}));return L})());
 const zipLine=o=>`${o.zip} - ${[o.kel,o.kec,o.city,o.prov].filter(Boolean).join(', ')}`;
 function mapPin(at,onDrag){const el=document.createElement('div');el.className='cka-map cka-live';
-  el.innerHTML=`<div class="cka-lf"></div><span class="cka-pin" aria-hidden="true">${ic('pin',34,2)}</span><span class="cka-hint">Move the map to place the pin</span><span class="cka-off">${ic('pin',30)}<span>Search the address to place the pin</span></span>`;
+  el.innerHTML=`<div class="cka-lf"></div><span class="cka-sh" aria-hidden="true"></span><span class="cka-pin" aria-hidden="true"><svg width="27" height="43" viewBox="0 0 27 43"><path d="M13.5 0C6 0 0 6 0 13.4c0 4.7 2.3 8.3 4.9 11.6 3.6 4.6 7.2 9.2 8.1 17.4.1.4.3.6.5.6s.4-.2.5-.6c.9-8.2 4.5-12.8 8.1-17.4 2.6-3.3 4.9-6.9 4.9-11.6C27 6 21 0 13.5 0Z" fill="#EA4335" stroke="#C5221F" stroke-width="1"/><circle cx="13.5" cy="13.5" r="4.6" fill="#B31412"/></svg></span><span class="cka-hint">Move the map to place the pin</span><span class="cka-off">${ic('pin',30)}<span>Search the address to place the pin</span></span>`;
   let m=null;const ll=at||[-6.2088,106.8456];
   lfLoad().then(L=>{m=L.map(el.querySelector('.cka-lf'),{zoomControl:true,attributionControl:true}).setView(ll,at?16:11);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(m);
@@ -9693,9 +9700,10 @@ function ckAddrPick(redraw){let pick=ckAddrSel;
     document.getElementById('cka-go').onclick=()=>{const chg=ckAddrSel!==pick;ckAddrSel=pick;closeModal();chg?ckShipLoad(redraw):redraw()}};
   draw();modal.classList.add('md','ew');mscrim.classList.add('open')}
 /* the address form: first address, Add new address and Edit look the same; back reopens the list on Cancel */
-function ckAddrForm(a,redraw,back){const F=a?{...a,q:''}:{self:!ckGuest,to:ckGuest?ckGuest.nm:ckMeNow().to,ph:ckGuest?'':ckMeNow().ph,full:'',det:'',prov:'',city:'',zip:'',q:''};ccSet('cka-ph',a?(a.cc||'+62'):'+62');let zips=a?(CK_PLACES.find(p=>p[1]===a.city)||[0,0,0,[]])[3]:[];
-  const ok=()=>F.full.trim()&&F.city&&/^\d{5}$/.test(F.zip)&&(F.self||(F.to.trim().length>1&&ckPhOk(F.ph,'cka-ph')));
-  const place=(p,fly=true)=>{F.full=p[0];F.city=p[1];F.prov=p[2];zips=p[3];if(!zips.includes(F.zip))F.zip='';F.q=`${p[0]}, ${p[1]}, ${p[2]}`;draw();const ll=CK_LL[CK_PLACES.indexOf(p)];if(ll&&fly)MP.fly(ll)};
+function ckAddrForm(a,redraw,back){const F=a?{...a,q:''}:{self:!ckGuest,to:ckGuest?ckGuest.nm:ckMeNow().to,ph:ckGuest?'':ckMeNow().ph,full:'',det:'',prov:'',city:'',kec:'',kel:'',zip:'',q:''};ccSet('cka-ph',a?(a.cc||'+62'):'+62');let zq=null;
+  if(a&&!F.kel){const z=zipDb().find(o=>o.zip===a.zip);if(z){F.kel=z.kel;F.kec=z.kec}}
+  const ok=()=>F.full.trim()&&F.city&&/^\d{5}$/.test(F.zip)&&F.kel&&(F.self||(F.to.trim().length>1&&ckPhOk(F.ph,'cka-ph')));
+  const place=(p,fly=true)=>{const k=CK_PLACES.indexOf(p);F.full=p[0];F.city=p[1];F.prov=p[2];F.kec=CK_KEC[k]||'';if(!p[3].includes(F.zip)){F.zip='';F.kel=''}F.q=`${p[0]}, ${p[1]}, ${p[2]}`;draw();const ll=CK_LL[CK_PLACES.indexOf(p)];if(ll&&fly)MP.fly(ll)};
   const MP=mapPin(a?CK_LL[CK_PLACES.findIndex(p=>p[1]===a.city)]:null,(lat,lng)=>{const k=ckNear(lat,lng);if(k>=0&&CK_PLACES[k][0]!==F.full)place(CK_PLACES[k],false)});
   const draw=()=>{const fa=document.activeElement,fid=fa&&modal.contains(fa)&&fa.id,fs=fid&&fa.selectionStart;
     modal.innerHTML=`<div class="mh"><div class="cka-mt">${back?`<button class="ib cka-bk" id="cka-bk" aria-label="Back to shipping addresses">${ic('chev',18)}</button>`:''}<h3>${a?'Edit shipping address':ckAddr.length?'Add shipping address':'Add your shipping address'}</h3></div><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
@@ -9709,13 +9717,21 @@ function ckAddrForm(a,redraw,back){const F=a?{...a,q:''}:{self:!ckGuest,to:ckGue
       <div class="sx-f"><label for="cka-full">Full address</label><textarea id="cka-full" rows="3" placeholder="Street name, building, area">${esc(F.full)}</textarea></div>
       <div class="sx-f"><label for="cka-det">Address details (optional)</label><input id="cka-det" value="${esc(F.det)}" placeholder="House number, floor or landmark"></div>
       <div class="ew-2"><div class="sx-f"><label for="cka-pr">Province</label><input id="cka-pr" readonly value="${esc(F.prov)}" placeholder="From your address"></div><div class="sx-f"><label for="cka-ci">City</label><input id="cka-ci" readonly value="${esc(F.city)}" placeholder="From your address"></div></div>
-      <div class="sx-f"><label for="cka-zip">Postal code</label><input id="cka-zip" inputmode="numeric" maxlength="5" value="${esc(F.zip)}" placeholder="Type or pick a postal code">
-        ${zips.length?`<div class="sx-slots" role="radiogroup" aria-label="Postal codes for this area">${zips.map(z=>`<button type="button" class="${F.zip===z?'on':''}" data-adzip="${z}" role="radio" aria-checked="${F.zip===z}">${z}</button>`).join('')}</div>`:''}</div></div>
+      <div class="sx-f"><label for="cka-kec">Kecamatan</label><input id="cka-kec" readonly value="${esc(F.kec)}" placeholder="From your address or postal code"></div>
+      <div class="sx-f"><label for="cka-zip">Postal code</label><div class="sx-cf ie-fld cka-zf">${ic('search',16)}<input class="ie-in" id="cka-zip" value="${esc(zq!=null?zq:F.zip?zipLine(F):'')}" placeholder="Type a postal code or kelurahan" autocomplete="off" role="combobox" aria-expanded="false" aria-describedby="cka-zh"></div><p class="ie-hint" id="cka-zh">Pick the one that matches your kelurahan.</p></div></div>
     <div class="mf"><button class="btn btn-o" id="cka-x">Cancel</button><button class="btn btn-p" id="cka-save" ${ok()?'':'disabled'}>Save address</button></div>`;
     const nf=fid&&document.getElementById(fid);if(nf){nf.focus();if(fs!=null)try{nf.setSelectionRange(fs,fs)}catch(e){}}
     MP.mount(modal.querySelector('[data-mapslot]'));
     const go=document.getElementById('cka-save'),upd=()=>go.disabled=!ok();
-    [['cka-to','to'],['cka-ph','ph'],['cka-full','full'],['cka-det','det'],['cka-zip','zip']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.oninput=()=>{if(k==='zip')el.value=el.value.replace(/\D/g,'').slice(0,5);F[k]=el.value;if(k==='zip')modal.querySelectorAll('[data-adzip]').forEach(b=>{const on=b.dataset.adzip===F.zip;b.classList.toggle('on',on);b.setAttribute('aria-checked',on)});upd()}});
+    [['cka-to','to'],['cka-ph','ph'],['cka-full','full'],['cka-det','det']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.oninput=()=>{F[k]=el.value;upd()}});
+    /* postal code: a Combobox of "postal code - kelurahan, kecamatan, city, province", the same as Create shipment's customer address */
+    const zi=document.getElementById('cka-zip'),zb=zi.closest('.sx-cf'),zlist=()=>{zb.querySelector('.ie-dd')?.remove();const t=(zq||'').trim().toLowerCase();
+      const L=zipDb().filter(o=>t?(o.zip.startsWith(t)||[o.kel,o.kec].join(' ').toLowerCase().includes(t)):(!F.city||o.city===F.city)).slice(0,8);
+      zb.insertAdjacentHTML('beforeend',`<div class="ie-dd" role="listbox">${L.map(o=>`<button class="opt" role="option" data-zp="${zipDb().indexOf(o)}" aria-selected="${o.zip===F.zip&&o.kel===F.kel}"><b>${o.zip} - ${esc(o.kel)}</b><span>${esc([o.kec,o.city,o.prov].join(', '))}</span></button>`).join('')||'<div class="opt" style="color:var(--muted)">No postal code matches. Check the code or kelurahan.</div>'}</div>`);zi.setAttribute('aria-expanded','true')};
+    zi.onfocus=()=>{if(zq==null){zq='';zi.value=''}zlist()};zi.oninput=()=>{zq=zi.value;if(F.zip){F.zip='';F.kel='';upd()}zlist()};
+    zi.onkeydown=e=>{if(e.key==='Escape'&&zb.querySelector('.ie-dd')){e.stopPropagation();zb.querySelector('.ie-dd').remove();zi.setAttribute('aria-expanded','false')}};
+    zb.onmousedown=e=>{const o=e.target.closest('[data-zp]');if(!o)return;e.preventDefault();const z=zipDb()[+o.dataset.zp];Object.assign(F,{zip:z.zip,kel:z.kel,kec:z.kec,city:z.city,prov:z.prov});zq=null;draw()};
+    zi.onblur=()=>setTimeout(()=>{if(document.activeElement===zi)return;zb.querySelector('.ie-dd')?.remove();zi.setAttribute('aria-expanded','false');if(zq!=null){zq=null;zi.value=F.zip?zipLine(F):''}},150);
     /* address search: a Combobox of matching places; picking one fills the address, province, city and postal codes */
     const q=document.getElementById('cka-q'),box=q.closest('.sx-cf'),list=()=>{box.querySelector('.ie-dd')?.remove();const t=q.value.trim().toLowerCase();if(!t){q.setAttribute('aria-expanded','false');return}
       const L=CK_PLACES.filter(p=>p.slice(0,3).join(' ').toLowerCase().includes(t)).slice(0,6);
@@ -9725,10 +9741,9 @@ function ckAddrForm(a,redraw,back){const F=a?{...a,q:''}:{self:!ckGuest,to:ckGue
     q.onblur=()=>setTimeout(()=>{box.querySelector('.ie-dd')?.remove()},150);
     if(!ckGuest)modal.querySelector('[data-adself]').onclick=()=>{F.self=!F.self;if(F.self){F.to=ckMeNow().to;F.ph=ckMeNow().ph}else if(F.to===ckMeNow().to){F.to='';F.ph=''}draw()};
     modal.querySelector('[data-adloc]').onclick=()=>{place(CK_PLACES[0]);toast('Location found (prototype)')};
-    modal.querySelectorAll('[data-adzip]').forEach(b=>b.onclick=()=>{F.zip=b.dataset.adzip;draw()});
     /* opened from the list (Edit or Add new address): the back arrow and Cancel return to it without saving */
     document.getElementById('cka-x').onclick=()=>back?back():closeModal();const bk=document.getElementById('cka-bk');if(bk)bk.onclick=()=>back();
-    go.onclick=()=>{const r={self:F.self,to:F.to.trim(),ph:F.ph,cc:F.self?(ckMeNow().cc||'+62'):ccDial('cka-ph'),full:F.full.trim(),det:F.det.trim(),prov:F.prov,city:F.city,zip:F.zip};
+    go.onclick=()=>{const r={self:F.self,to:F.to.trim(),ph:F.ph,cc:F.self?(ckMeNow().cc||'+62'):ccDial('cka-ph'),full:F.full.trim(),det:F.det.trim(),prov:F.prov,city:F.city,kec:F.kec,kel:F.kel,zip:F.zip};
       if(a)Object.assign(a,r);else{const n={id:Date.now(),...r};ckAddr.push(n);ckAddrSel=n.id}
       closeModal();ckShipLoad(redraw);toast(a?'Address updated':'Address saved')}};
   modal.classList.add('md','ew');draw();mscrim.classList.add('open');if(!a)document.getElementById('cka-q').focus()}
