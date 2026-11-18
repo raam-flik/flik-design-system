@@ -8290,6 +8290,7 @@ if(!P.bank)P.bank='<path d="M4 10h16M5 10v8M9.7 10v8M14.3 10v8M19 10v8M3 21h18M1
 
 /* ----- sidebar: store name with its status, the verify card, the account menu ----- */
 function drawAcct(){{const dv=document.querySelector('#side-foot [data-hash="settings/developers"]');if(dv)dv.hidden=!['owner','admin','developer'].includes(ONB.role)}const a=document.getElementById('acct');if(!a)return;
+  a.querySelector('.acct-t b').textContent=ONB.v.brand||'Aruna Studio'; /* the name given at sign-up, else the sample store */
   const st={new:'Not verified',draft:'Not verified',review:'In review',needs:'In review',active:'Verified'}[ONB.st];
   a.querySelector('.acct-t small').className=verified()?'ok':'';
   a.querySelector('.acct-t small').innerHTML=verified()?'':st; /* a verified store shows just its name */
@@ -8357,7 +8358,7 @@ const TOUR_V=[
 function openTour(){let i=0;modal.classList.add('tour');
   const draw=()=>{const s=TOUR[i],last=i===TOUR.length-1;
     modal.innerHTML=`<div class="tr-ill tr-s" aria-hidden="true">${TOUR_V[i]()}</div>
-    <div class="tr-b"><h3>${s[1]}</h3><p>${s[2]}</p><div class="tr-dots" aria-label="Slide ${i+1} of 5">${TOUR.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>${s[4]?`<button class="btn btn-o" style="margin-top:12px" data-tx="${i}">${s[4]}</button>`:''}</div>
+    <div class="tr-b"><h3>${s[1].replace('Dewi',ONB.who||'Dewi')}</h3><p>${s[2]}</p><div class="tr-dots" aria-label="Slide ${i+1} of 5">${TOUR.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</div>${s[4]?`<button class="btn btn-o" style="margin-top:12px" data-tx="${i}">${s[4]}</button>`:''}</div>
     <div class="tr-f"><button class="skip" data-tskip>Skip</button><div style="display:flex;gap:8px">${i?`<button class="btn btn-o" data-tb>Back</button>`:''}<button class="btn btn-p" data-tn>${last?'Open my checklist':'Next'}</button></div></div>`};
   const end=(done)=>{ONB.tour=true;ONB.done.tour=1;ONB.guide='open';onbSave();closeModal();modal.classList.remove('tour');drawGuide();if(!done)toast('Tour skipped. Your checklist is bottom right.')};
   modal.onclick=e=>{const t=e.target.closest('[data-tn],[data-tb],[data-tskip],[data-tx]');if(!t)return;
@@ -9136,6 +9137,15 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-simmin],.s
 const SIM_PANEL=()=>SIMF({t:'Simulate payment',steps:['Create an invoice','Send it','Shopper pays'],i:2,next:'choose what the shopper does',note:'No money moves. Your integration gets the same objects and events it will in live.',acts:[['data-sim="paid"','Shopper pays'],['data-sim="failed"','Payment fails'],['data-sim="expired"','Expires']]});
 
 /* first run */
+/* arriving from the website's Create account (?signup=new&n=<first name>&b=<business name>): start as a new merchant, not verified, with the welcome tour.
+   Only the first name and the business name travel in the address; the address is cleaned straight away (Raam, 18 Nov 2026) */
+(function(){const q=new URLSearchParams(location.search);if(q.get('signup')!=='new')return;
+  ONB.sbx=false; /* the page loads straight into the live account; the rest of the script draws it */
+  Object.assign(ONB,{st:'new',sb:null,events:[],vok:false,tour:false,guide:'open',done:{},hide:{},gOpen:undefined,gAt:false,smpl:null,simRun:null,v:ONB_DEF().v,vmax:0,step:0,pay:null,creds:[],who:''});
+  const n=(q.get('n')||'').trim().slice(0,40),b=(q.get('b')||'').trim().slice(0,60);
+  if(n)ONB.who=n;if(b){ONB.v.name=b;ONB.v.brand=b}
+  onbSave();history.replaceState(null,'',location.pathname+(location.hash||'#home'));
+})();
 drawAcct();drawGuide();
 document.getElementById('acct').onclick=e=>{e.stopPropagation();acctMenu(e.currentTarget)};
 if(ONB.st==='new'&&!ONB.tour)setTimeout(openTour,400);
