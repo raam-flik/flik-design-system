@@ -651,6 +651,9 @@ nav.fl-lg :is(a,button).lnk{color:var(--muted);font:inherit;text-decoration:none
 .sx-top{height:60px;flex:none;display:flex;align-items:center;gap:14px;padding:0 20px;border-bottom:1px solid var(--line)}
 .sx-top .sep{width:1px;height:20px;background:var(--line-2)}
 .sx-top>b{font-weight:500;color:var(--ink);font-size:14.5px;white-space:nowrap}
+/* the stepper sits in the middle of the top bar, whatever is on its left; the title gives way when space runs short */
+.sx-top{position:relative}.sx-top>.steps{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;padding:0;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:6px}
+@media (max-width:1100px){.sx-top>.sep,.sx-top>b{display:none}}
 .steps{display:flex;align-items:center;gap:6px;margin:0 auto;padding-right:120px}
 .stp{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--faint);font-weight:500;white-space:nowrap}
 .stp i{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11px}
