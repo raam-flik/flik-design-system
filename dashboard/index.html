@@ -8306,18 +8306,20 @@ function acctMenu(b){if(popFor===b){closePop();return}popFor=b;
   const r=(k,l)=>`<button class="opt" data-ps="${k}"><span class="rdo${ONB.st===k?' on':''}"></span>${l}</button>`,c=(k,l)=>`<button class="opt" data-pt="${k}"><span class="cb${ONB[k]?' on':''}">${ONB[k]?ic('check',12,3):''}</span>${l}</button>`;
   pop.innerHTML=`<div class="menu" style="width:260px" role="menu">
     ${ONB.sbx?`<button class="opt" data-am="exit">${ic('x',15)}Exit sandbox</button><button class="opt" data-am="reset">${ic('refresh',15)}Reset sandbox</button>`:`<button class="opt" data-am="sbx">${ic('code',15)}Open sandbox</button>`}
-    <button class="opt" data-am="set">${ic('gear',15)}Settings</button><button class="opt" data-am="tour">${ic('help',15)}Take the tour</button>
+    <button class="opt" data-am="set">${ic('gear',15)}Settings</button><button class="opt" data-am="tour">${ic('help',15)}Take the tour</button><hr><button class="opt" data-am="out">${ic('logout',15)}Log out</button>
     <hr><h6>Prototype: merchant</h6>${r('new','New merchant')}${r('review','Verification in review')}${r('needs','FLIK needs info')}${r('active','Active')}
     <hr><h6>Prototype: main product</h6>${[['pay','Payments'],['ship','Shipping'],['mca','Cash Advance']].map(([k,l])=>`<button class="opt" data-mp="${k}"><span class="rdo${(ONB.main||'pay')===k?' on':''}"></span>${l}</button>`).join('')}
     <hr><h6>Prototype: account</h6>${c('outlets','Several outlets')}${c('snap','SNAP partner')}${c('live','Has live credentials')}
     <hr><h6>Prototype: view as</h6><div style="padding:2px 10px 6px"><span class="sp-sw rf-sw"><select class="rf-sel" id="am-role" aria-label="View as role">${Object.entries(ROLE_N).map(([k,n])=>`<option value="${k}" ${ONB.role===k?'selected':''}>${n}</option>`).join('')}</select></span></div></div>`;
   pop.onclick=e=>{const t=e.target.closest('[data-am],[data-ps],[data-pt],[data-mp]');if(!t)return;const d=t.dataset;
     if(d.mp){ONB.main=d.mp;ONB.gOpen='try';onbSave();closePop();drawGuide();toast(`Prototype: main product ${t.textContent.trim()}`);return}
-    if(d.am){closePop();({sbx:()=>enterSbx(),exit:()=>exitSbx(),reset:resetSbx,set:()=>location.hash='settings',tour:openTour})[d.am]();return}
+    if(d.am){closePop();({sbx:()=>enterSbx(),exit:()=>exitSbx(),reset:resetSbx,set:()=>location.hash='settings',tour:openTour,out:logOut})[d.am]();return}
     if(d.ps){if(d.ps==='new'&&ONB.sbx){sbxSwap(false);ONB.sbx=false}Object.assign(ONB,d.ps==='new'?{st:'new',sb:null,events:[],vok:false,tour:false,guide:'open',done:{},hide:{},gOpen:undefined,gAt:false,smpl:null,simRun:null,v:ONB_DEF().v,vmax:0,step:0,pay:null,creds:[]}:{st:d.ps,vok:false,guide:d.ps==='active'?'pill':ONB.guide});if(d.ps!=='new'&&d.ps!=='active'){ONB.v=Object.assign(ONB_DEF().v,{type:'company',people:[{n:'Dewi Lestari',role:'Director',nik:'3174012345670001'}],docs:{nib:1,akta:1,npwp:1},acc:'0123456789',checked:true,otp:true,agree:true})}onbSave();closePop();freshSync();show(hashView());onbRefresh();if(d.ps==='new')openTour();toast(`Prototype: ${t.textContent.trim()}`);return}
     if(d.pt){ONB[d.pt]=!ONB[d.pt];onbSave();closePop();onbRefresh();toast(`Prototype: ${t.textContent.trim()} ${ONB[d.pt]?'on':'off'}`)}};
   pop.querySelector('#am-role').onchange=e=>{ONB.role=e.target.value;onbSave();closePop();onbRefresh();toast(`Viewing as ${ROLE_N[ONB.role]}`)};
   placePop(b)}
+/* Log out: back to the website's Log in page (Raam, 18 Nov 2026) */
+function logOut(){location.href=/landing-page/.test(location.hostname)?'/login/':'https://landing-page-raams-projects-2709477f.vercel.app/login/'}
 function onbRefresh(){drawAcct();drawGuide();if(!document.getElementById('view-set').hidden)renderSet();if(!document.getElementById('view-home').hidden)onbHome()}
 
 /* ----- sandbox ----- */
