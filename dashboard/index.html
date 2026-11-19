@@ -7015,15 +7015,23 @@ function renderBal(){const v=bv();
     dr:[chg?'Paid':'Debit',l=>l.a<0?-l.a:0,l=>`<td class="num dr">${l.a<0?rp2(-l.a):''}</td>`],cr:[chg?'Not covered':'Credit',l=>l.a>=0?l.a:0,l=>`<td class="num cr">${l.a>=0?rp2(l.a):''}</td>`],bal:[chg?'Owed':'Balance',l=>l.after,l=>`<td class="num">${rp2(l.after)}</td>`]},null,renderBal);
   tbl.dataset.dtt=K;head.innerHTML=`<tr>${dtHead(K)}</tr>`;
   const rows=dtSort(K,inRange.filter(l=>l.b===btab).reverse());
+  BL_ROWS=rows;
   const none=btab==='charges'?['No charges due','FLIK fees are paid from your active balance as they happen. A fee it can\'t cover shows up here until your reserve or the next money coming in pays it.']:v.lines.length?['No matching lines','Try another reference, amount or date range.']:['No movements yet','Your first sale or top-up shows up here.'];
   body.innerHTML=rows.length?rows.map(l=>{const open=bopen===l.i;
-    let x='';if(open){
-      x=`<tr class="bl-x"><td colspan="${dtN(K)}"><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl>
-      ${l.wf?`<div class="kpi-l" style="margin-top:14px">Where this money went</div><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{pg:'Opens the payment processing rate',flik:'Opens your FLIK agreement',fin:'Opens '+MCA_ID+' in Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl>`:''}
-      <div class="bl-acts"><button class="btn btn-o" ${/^(Refund|Dispute) ID$/.test(l.ref[0])?`data-goto="#transactions/${l.ref[1]}"`:`data-toast="Opens ${l.ref[0].toLowerCase()} ${l.ref[1]}"`}>${ic('ext',15)}Open ${l.ref[0].replace(' ID','').toLowerCase()} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div></td></tr>`}
+    const x='';
     return`<tr data-bl="${l.i}" class="${open?'open':''}${smpMine(l.ref&&l.ref[1])?' '+smpCls(l.ref[1]):''}">${dtCells(K,l)}</tr>${x}`}).join('')
     :`<tr><td colspan="${dtN(K)}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${none[0]}</b>${none[1]}</div></td></tr>`;
 }
+/* a statement line opens in the side panel, like a shipment (Raam, 19 Nov 2026): amount and labels, one line of context, actions, details, then where the money went */
+let BL_ROWS=[];
+function balLine(i){const l=BL_ROWS.find(x=>x.i===i);if(!l)return;
+  drawerLoad('bl:'+i,()=>{const v=bv(),pill=[l.st?`<span class="st ${l.st[1]}">${l.st[0]}</span>`:'',v.early&&l.early?'<span class="st pu">Early settlement</span>':'',l.rev?'<span class="st gr">Correction</span>':''].join('');
+    drawer.classList.remove('chat');drawer.innerHTML=`<div class="dh"><span class="kind">${ic('bal',15)}${BNAME[l.b]}</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
+    <div class="db"><div class="d-amt"><b class="num">${l.a<0?'−':'+'}${rp2(Math.abs(l.a))}</b>${pill}</div><p class="d-sub">${l.d} · ${fdateY(l.t)}</p>
+      <div class="d-acts"><button class="btn btn-o" ${/^(Refund|Dispute) ID$/.test(l.ref[0])?`data-goto="#transactions/${l.ref[1]}"`:`data-toast="Opens ${(r=>/^[A-Z]+$/.test(r)?r:r.toLowerCase())(l.ref[0])} ${l.ref[1]}"`}>${ic('ext',15)}Open ${(r=>/^[A-Z]+$/.test(r)?r:r.toLowerCase())(l.ref[0].replace(' ID',''))} ${l.ref[1]}</button>${l.fix==='bank'?'<button class="btn btn-o" data-toast="Opens bank account settings">Update bank details</button>':''}</div>
+      <div class="dsec"><h5>Details</h5><dl class="kv"><dt>Reference</dt><dd>${l.ref[0]} ${l.ref[1]}</dd><dt>Entry ID</dt><dd class="num">${l.id}</dd><dt>Business date</dt><dd>${fday(l.t)}</dd><dt>Balance</dt><dd>${BNAME[l.b]}</dd>${l.note?`<dt>Status</dt><dd>${l.note}</dd>`:''}${l.corr?`<dt>Reason</dt><dd>${l.corr}</dd>`:''}${v.early&&l.early?`<dt>Early settlement</dt><dd>Credited before FLIK received the settlement. <a href="#" data-toast="Opens the early settlement terms">See the terms</a></dd>`:''}</dl></div>
+      ${l.wf?`<div class="dsec"><h5>Where this money went</h5><dl class="bl-wf">${l.wf.map(w=>`<dt>${v.invoice&&w[2]==='cd'?'Charges due · on your monthly invoice':w[0]}${w[2]?`<button class="lnk" data-toast="${{pg:'Opens the payment processing rate',flik:'Opens your FLIK agreement',fin:'Opens '+MCA_ID+' in Cash Advance',cd:'Opens the charge and its parcel',rsv:'Opens the reserve item and its release date'}[w[2]]}">Details</button>`:''}</dt><dd>${rp2(w[1])}</dd>`).join('')}<dt class="t">Added to active balance</dt><dd class="t">${rp2(l.a)}</dd></dl></div>`:''}</div>`;
+    openDrawer()})}
 /* detail panels (one per tile) */
 function balPanel(k){const v=bv();let h='';
   const head=(icon,t)=>`<div class="dh"><span class="kind">${ic(icon,15)}${t}</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>`;
@@ -7085,7 +7093,7 @@ document.getElementById('bl-banners').addEventListener('click',e=>{if(e.target.c
 document.getElementById('bl-banners').addEventListener('keydown',e=>{const p=e.target.closest('[data-panel]');if(p&&e.target===p&&(e.key==='Enter'||e.key===' ')){e.preventDefault();balPanel(p.dataset.panel)}});
 document.getElementById('bl-info').addEventListener('click',e=>{const p=e.target.closest('[data-panel]');if(p)balPanel(p.dataset.panel)});
 document.getElementById('bl-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-bt]');if(b){btab=b.dataset.bt;bopen=null;renderBal()}});
-document.getElementById('bl-body').addEventListener('click',e=>{if(e.target.closest('.bl-x'))return;const tr=e.target.closest('tr[data-bl]');if(tr){const i=+tr.dataset.bl;bopen=bopen===i?null:i;renderBal()}});
+document.getElementById('bl-body').addEventListener('click',e=>{const tr=e.target.closest('tr[data-bl]');if(tr)balLine(+tr.dataset.bl)});
 document.getElementById('bl-q').oninput=e=>{bq=e.target.value.trim();renderBal()};
 document.getElementById('bl-state').onclick=e=>{e.stopPropagation();const b=e.currentTarget;if(popFor===b){closePop();return}popFor=b;
   pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${BSTATES.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${BS===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
@@ -7941,6 +7949,9 @@ function skelDrawer(db){const T=[],tw=e=>{const r=document.createRange();r.selec
   db.querySelectorAll('*').forEach(e=>{if(e.closest('h1,h2,h3,h4,h5,h6,dt,label,.sr-only,.sk')||T.some(t=>t[0].contains(e)||e.contains(t[0])))return;if(![...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim()))return;
     const[x,y]=tw(e),n=Math.max(1,Math.round(y/20));T.push([e,null,Array.from({length:n},(_,i)=>`<span class="sk dsk" style="display:block;width:${n>1&&i<n-1?'100%':x+'px'};height:12px;${i?'margin-top:8px;':''}"></span>`).join('')])});
   T.forEach(([e,o,inner])=>{if(o)e.outerHTML=o;else e.innerHTML=inner})}
+function drawerLoad(key,draw){const again=drawer.classList.contains('open')&&!!drawer.querySelector(`.db[data-ldk="${key}"]`);clearTimeout(shLdT);draw();
+  const db=drawer.querySelector('.db');if(!db)return;db.dataset.ldk=key;if(again)return;skelDrawer(db);db.inert=true;db.setAttribute('aria-busy','true');db.insertAdjacentHTML('afterbegin','<span class="sr-only" role="status">Loading…</span>');
+  shLdT=setTimeout(()=>{if(drawer.classList.contains('open')&&drawer.querySelector(`.db[data-ldk="${key}"]`)){draw();const d=drawer.querySelector('.db');if(d)d.dataset.ldk=key}},matchMedia('(prefers-reduced-motion: reduce)').matches?300:600)}
 function openShipment(id,quiet){const again=drawer.classList.contains('open')&&!!drawer.querySelector(`.db[data-shipd="${id}"]`);clearTimeout(shLdT);shipDraw(id,quiet||again);if(again)return;
   const db=drawer.querySelector(`.db[data-shipd="${id}"]`);if(!db)return;skelDrawer(db);db.inert=true;db.setAttribute('aria-busy','true');
   db.insertAdjacentHTML('afterbegin','<span class="sr-only" role="status">Loading shipment…</span>');
