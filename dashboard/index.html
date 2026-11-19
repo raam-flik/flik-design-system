@@ -2723,7 +2723,8 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .cks .cks-nav{display:flex;gap:24px;margin:0 auto 0 32px;font-size:13px;font-weight:500;color:var(--text)}.cks-cart{display:flex;align-items:center;gap:6px;color:var(--ink)}.cks-cart b{font-size:13px}
 .cks .ck-tx span:last-child{color:var(--ink)}.cks-go{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .12s,box-shadow .12s}.cks-go .pp-mk{width:20px;height:20px}.cks-go:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,45,93,.25)}
 .cks .ck-foot{justify-content:space-between;color:var(--muted)}
-/* FLIK opening: the logo animation, centred on white */.ck-lot{display:flex;align-items:center;justify-content:center;min-height:100%;background:var(--surface,#fff)}.ck-lot-a{width:min(320px,70%);aspect-ratio:1080/500;display:flex;align-items:center;justify-content:center}.ck-lot-a .pp-wm{height:40px;width:auto}
+/* FLIK opening: the logo animation, centred on white *//* Home loading */.hm-skk{display:flex;gap:40px}.hm-skk>div{display:grid;gap:8px}.hm-skc>.sk{border-radius:8px}.hm-skl{display:grid;gap:4px;margin-top:8px}.hm-skr{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}.hm-skr:first-child{border-top:0}.hm-skr>.sk:first-child{border-radius:8px;flex:none}.hm-skr>div{flex:1;display:grid;gap:8px}
+.ck-lot{display:flex;align-items:center;justify-content:center;min-height:100%;background:var(--surface,#fff)}.ck-lot-a{width:min(320px,70%);aspect-ratio:1080/500;display:flex;align-items:center;justify-content:center}.ck-lot-a .pp-wm{height:40px;width:auto}
 /* checkout loading: skeleton cards in the checkout's frame */.ck-ld .ck-u{pointer-events:none}.ck-skc{display:grid;gap:14px}.ck-skseg{height:36px;border-radius:8px}.ck-skr{display:flex;align-items:center;gap:12px;padding:4px 0}.ck-skr>.sk:first-child{width:28px;height:28px;border-radius:6px;flex:none}.ck-skr>div{flex:1;display:grid;gap:8px}.ck-ski>.sk:first-child{width:72px;height:72px;border-radius:8px}.ck-skl{display:flex;justify-content:space-between;align-items:center}.ck-skt2{padding-top:14px;border-top:1px solid var(--line)}.ck-skb{height:46px;border-radius:8px}
 .ck-ch{display:flex;align-items:baseline;justify-content:space-between}.ck-ch .lnk{font-weight:500;color:var(--ink)}:is(#ckp-b,#cpx-pv) :is([data-ckauth],[data-ckguest]).ck-row{cursor:pointer;border-radius:10px;transition:background .12s}:is(#ckp-b,#cpx-pv) :is([data-ckauth],[data-ckguest]).ck-row:hover{background:var(--hover)}:is(#ckp-b,#cpx-pv) [data-ckguest]:hover .ck-chev{color:var(--ink)}
 .ck-auth{display:flex;flex-direction:column;align-items:stretch;text-align:center}.ck-auth h4{margin:0}.ck-auth-s{color:var(--muted);margin:4px 0 18px}.ck-auth .sx-f{text-align:left;margin-bottom:14px}/* +62 and the number share one 44px line, so they sit on the same baseline */.ck-auth .sx-f input{height:44px;line-height:44px;padding-top:0;padding-bottom:0;font-size:15px}.ck-auth .sx-f .pre input{padding-left:48px}.ck-auth .sx-f .pre em{top:0;height:44px;line-height:44px;display:block;font-size:15px}
@@ -3877,6 +3878,24 @@ function homeHero(wp,ws){const P=hasH('pay'),S=hasH('ship'),both=P&&S;
   esArt('es-art-home','chart',both?[['cart',0],['link',1],['invoice',2],['store',3],['wallet',4],['truck',.5,1],['pkg',1.5,1],['pin',2.5,1],['wh',3.5,1]]
     :P?[['cart',0],['link',1],['invoice',2],['store',3],['chat',4],['tx',.5,1],['wallet',1.5,1],['chart',2.5,1],['box',3.5,1]]
     :[['truck',0],['pkg',1],['pin',2],['wh',3],['box',4],['invoice',.5,1],['tx',1.5,1],['wallet',2.5,1],['chat',3.5,1]])}
+/* Home loading: each time Home opens, the summaries and the Today / Yesterday lists show as skeletons in their own cards for a moment, then fill in (Raam, 19 Nov 2026).
+   A new merchant's welcome panel has nothing to load, so it shows straight away */
+let hmLdT=0;
+function homeLoad(){clearTimeout(hmLdT);const wp=document.getElementById('w-pay'),ws=document.getElementById('w-ship'),v=document.getElementById('view-home');if(!wp)return;
+  const newPay=PS.mode==='new';
+  if((!hasH('pay')||newPay)&&(!hasH('ship')||!SH.length)&&(hasH('pay')||hasH('ship'))){renderHome();return}
+  const k=(w,h,d)=>`<span class="sk" style="width:${w};${h?`height:${h}px;`:''}animation-delay:${d||0}s"></span>`,
+    sum=(t,d)=>`<div class="sec-h"><h2 class="sec">${t}</h2></div><section class="card w-card hm-sk" aria-hidden="true"><div class="w-top"><div class="hm-skk"><div>${k('84px',10,d)}${k('64px',24,d)}${k('48px',10,d)}</div><div>${k('84px',10,d)}${k('64px',24,d)}${k('48px',10,d)}</div></div>${k('170px',30,d)}</div>
+      <div class="chart sm hm-skc">${k('100%',200,d+.08)}</div><div class="w-stats">${k('62%',12,d+.16)}</div></section>`,
+    rows=(n,d)=>Array.from({length:n},(_,i)=>`<div class="hm-skr">${k('28px',28,d+i*.06)}<div>${k(['62%','48%','70%','54%','58%'][i%5],12,d+i*.06)}${k(['80%','66%','74%','60%','70%'][i%5],10,d+i*.06)}</div></div>`).join(''),
+    card=(t,c,d)=>`<section class="card ${c}" aria-hidden="true"><div class="br-h"><h2 class="sec">${t}</h2>${k('76px',10,d)}</div><div class="hm-skl">${rows(5,d)}</div></section>`;
+  wp.hidden=!hasH('pay');ws.hidden=!hasH('ship');v.querySelector('.home-g').classList.toggle('two',hasH('pay')&&hasH('ship'));
+  if(hasH('pay'))wp.innerHTML=sum('Payments summary',0);
+  if(hasH('ship'))ws.innerHTML=sum('Shipping summary',.08);
+  document.getElementById('home-brief').innerHTML=newPay&&!SH.length?'':`<div class="brief">${card('Today','br-t',.16)}${card('Yesterday','br-y',.24)}</div>`;
+  document.getElementById('home-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${HPV.find(x=>x[0]===hpv)[1]}</span>`;
+  v.setAttribute('aria-busy','true');let st=v.querySelector('.hm-st');if(!st){st=document.createElement('span');st.className='sr-only hm-st';st.setAttribute('role','status');v.prepend(st)}st.textContent='Loading Home…';
+  hmLdT=setTimeout(()=>{v.removeAttribute('aria-busy');st.textContent='';if(!v.hidden)renderHome()},matchMedia('(prefers-reduced-motion: reduce)').matches?400:900)}
 function renderHome(){const wp=document.getElementById('w-pay'),ws=document.getElementById('w-ship');if(!wp)return;
   wp.hidden=!hasH('pay');ws.hidden=!hasH('ship');document.querySelector('#view-home .home-g').classList.toggle('two',hasH('pay')&&hasH('ship'));
   const newPay=PS.mode==='new';
@@ -7104,7 +7123,7 @@ function show(view){
   Object.keys(VIEWS).forEach(k=>document.getElementById('view-'+k).hidden=k!==view);
   document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',navOn(b,view)));
   document.title=VIEWS[view][1]+' | FLIK Dashboard';
-  if(home){renderHome();onbHome()}
+  if(home){homeLoad();onbHome()}
   if(view==='set')renderSet();
   if(view==='mca'){renderMca();onbMcaNote()}
   if(view==='bal')renderBal();
