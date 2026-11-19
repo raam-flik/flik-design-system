@@ -2723,7 +2723,7 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .cks .cks-nav{display:flex;gap:24px;margin:0 auto 0 32px;font-size:13px;font-weight:500;color:var(--text)}.cks-cart{display:flex;align-items:center;gap:6px;color:var(--ink)}.cks-cart b{font-size:13px}
 .cks .ck-tx span:last-child{color:var(--ink)}.cks-go{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .12s,box-shadow .12s}.cks-go .pp-mk{width:20px;height:20px}.cks-go:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,45,93,.25)}
 .cks .ck-foot{justify-content:space-between;color:var(--muted)}
-/* FLIK opening: the logo animation, centred on white *//* Home loading */.hm-skk{display:flex;gap:40px}.hm-skk>div{display:grid;gap:8px}.hm-skc>.sk{border-radius:8px}.hm-skl{display:grid;gap:4px;margin-top:8px}.hm-skr{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}.hm-skr:first-child{border-top:0}.hm-skr>.sk:first-child{border-radius:8px;flex:none}.hm-skr>div{flex:1;display:grid;gap:8px}
+/* FLIK opening: the logo animation, centred on white *//* Home loading */.hm-skk{display:flex;gap:40px}.hm-skk>div{display:grid;gap:8px}.hm-skc>.sk{border-radius:8px}.hm-skl{display:grid;gap:4px;margin-top:8px}.hm-skr{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}.hm-skr:first-child{border-top:0}.hm-skr>.sk:first-child{border-radius:8px;flex:none}.hm-skr>div{flex:1;display:grid;gap:8px}.hm-skt>div{display:grid;grid-template-columns:1fr 1.4fr;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}.hm-skt>div:first-child{border-top:0;padding-top:4px}
 .ck-lot{display:flex;align-items:center;justify-content:center;min-height:100%;background:var(--surface,#fff)}.ck-lot-a{width:min(320px,70%);aspect-ratio:1080/500;display:flex;align-items:center;justify-content:center}.ck-lot-a .pp-wm{height:40px;width:auto}
 /* checkout loading: skeleton cards in the checkout's frame */.ck-ld .ck-u{pointer-events:none}.ck-skc{display:grid;gap:14px}.ck-skseg{height:36px;border-radius:8px}.ck-skr{display:flex;align-items:center;gap:12px;padding:4px 0}.ck-skr>.sk:first-child{width:28px;height:28px;border-radius:6px;flex:none}.ck-skr>div{flex:1;display:grid;gap:8px}.ck-ski>.sk:first-child{width:72px;height:72px;border-radius:8px}.ck-skl{display:flex;justify-content:space-between;align-items:center}.ck-skt2{padding-top:14px;border-top:1px solid var(--line)}.ck-skb{height:46px;border-radius:8px}
 .ck-ch{display:flex;align-items:baseline;justify-content:space-between}.ck-ch .lnk{font-weight:500;color:var(--ink)}:is(#ckp-b,#cpx-pv) :is([data-ckauth],[data-ckguest]).ck-row{cursor:pointer;border-radius:10px;transition:background .12s}:is(#ckp-b,#cpx-pv) :is([data-ckauth],[data-ckguest]).ck-row:hover{background:var(--hover)}:is(#ckp-b,#cpx-pv) [data-ckguest]:hover .ck-chev{color:var(--ink)}
@@ -3880,22 +3880,22 @@ function homeHero(wp,ws){const P=hasH('pay'),S=hasH('ship'),both=P&&S;
     :[['truck',0],['pkg',1],['pin',2],['wh',3],['box',4],['invoice',.5,1],['tx',1.5,1],['wallet',2.5,1],['chat',3.5,1]])}
 /* Home loading: each time Home opens, the summaries and the Today / Yesterday lists show as skeletons in their own cards for a moment, then fill in (Raam, 19 Nov 2026).
    A new merchant's welcome panel has nothing to load, so it shows straight away */
-let hmLdT=0;
+let hmLdT=0,hmLd=false;
 function homeLoad(){clearTimeout(hmLdT);const wp=document.getElementById('w-pay'),ws=document.getElementById('w-ship'),v=document.getElementById('view-home');if(!wp)return;
   const newPay=PS.mode==='new';
-  if((!hasH('pay')||newPay)&&(!hasH('ship')||!SH.length)&&(hasH('pay')||hasH('ship'))){renderHome();return}
+  if((!hasH('pay')||newPay)&&(!hasH('ship')||!SH.length)&&(hasH('pay')||hasH('ship'))){hmLd=false;renderHome();onbHome();return}
   const k=(w,h,d)=>`<span class="sk" style="width:${w};${h?`height:${h}px;`:''}animation-delay:${d||0}s"></span>`,
     sum=(t,d)=>`<div class="sec-h"><h2 class="sec">${t}</h2></div><section class="card w-card hm-sk" aria-hidden="true"><div class="w-top"><div class="hm-skk"><div>${k('84px',10,d)}${k('64px',24,d)}${k('48px',10,d)}</div><div>${k('84px',10,d)}${k('64px',24,d)}${k('48px',10,d)}</div></div>${k('170px',30,d)}</div>
       <div class="chart sm hm-skc">${k('100%',200,d+.08)}</div><div class="w-stats">${k('62%',12,d+.16)}</div></section>`,
     rows=(n,d)=>Array.from({length:n},(_,i)=>`<div class="hm-skr">${k('28px',28,d+i*.06)}<div>${k(['62%','48%','70%','54%','58%'][i%5],12,d+i*.06)}${k(['80%','66%','74%','60%','70%'][i%5],10,d+i*.06)}</div></div>`).join(''),
-    card=(t,c,d)=>`<section class="card ${c}" aria-hidden="true"><div class="br-h"><h2 class="sec">${t}</h2>${k('76px',10,d)}</div><div class="hm-skl">${rows(5,d)}</div></section>`;
+    card=(t,c,n,d)=>`<section class="card ${c}" aria-hidden="true"><div class="br-h"><h2 class="sec">${t}</h2>${k('76px',10,d)}</div><div class="hm-skl">${rows(Math.min(Math.max(n,1),5),d)}</div></section>`;
   wp.hidden=!hasH('pay');ws.hidden=!hasH('ship');v.querySelector('.home-g').classList.toggle('two',hasH('pay')&&hasH('ship'));
   if(hasH('pay'))wp.innerHTML=sum('Payments summary',0);
   if(hasH('ship'))ws.innerHTML=sum('Shipping summary',.08);
-  document.getElementById('home-brief').innerHTML=newPay&&!SH.length?'':`<div class="brief">${card('Today','br-t',.16)}${card('Yesterday','br-y',.24)}</div>`;
+  document.getElementById('home-brief').innerHTML=newPay&&!SH.length?'':`<div class="brief">${card('Today','br-t',todoList().length,.16)}${card('Yesterday','br-y',yesterdayLines().length,.24)}</div>`;
   document.getElementById('home-state').innerHTML=`${ic('sel',14)}Preview state: <span class="val">${HPV.find(x=>x[0]===hpv)[1]}</span>`;
-  v.setAttribute('aria-busy','true');let st=v.querySelector('.hm-st');if(!st){st=document.createElement('span');st.className='sr-only hm-st';st.setAttribute('role','status');v.prepend(st)}st.textContent='Loading Home…';
-  hmLdT=setTimeout(()=>{v.removeAttribute('aria-busy');st.textContent='';if(!v.hidden)renderHome()},matchMedia('(prefers-reduced-motion: reduce)').matches?400:900)}
+  hmLd=true;onbHome();v.setAttribute('aria-busy','true');let st=v.querySelector('.hm-st');if(!st){st=document.createElement('span');st.className='sr-only hm-st';st.setAttribute('role','status');v.prepend(st)}st.textContent='Loading Home…';
+  hmLdT=setTimeout(()=>{hmLd=false;v.removeAttribute('aria-busy');st.textContent='';if(!v.hidden){renderHome();onbHome()}},matchMedia('(prefers-reduced-motion: reduce)').matches?400:900)}
 function renderHome(){const wp=document.getElementById('w-pay'),ws=document.getElementById('w-ship');if(!wp)return;
   wp.hidden=!hasH('pay');ws.hidden=!hasH('ship');document.querySelector('#view-home .home-g').classList.toggle('two',hasH('pay')&&hasH('ship'));
   const newPay=PS.mode==='new';
@@ -3912,7 +3912,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-mtab]');if
 document.getElementById('view-home').addEventListener('click',e=>{
   const hs=e.target.closest('#home-state');if(hs){e.stopPropagation();if(popFor===hs){closePop();return}popFor=hs;
     pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${HPV.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${hpv===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
-    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{hpv=o.dataset.v;closePop();renderHome()});placePop(hs,true);return}
+    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{hpv=o.dataset.v;closePop();homeLoad()});placePop(hs,true);return}
   const pr=e.target.closest('[data-hper]');if(pr){e.stopPropagation();if(popFor===pr){closePop();return}popFor=pr;const S=pr.dataset.hper==='pay'?HP:HS;
     pop.innerHTML=`<div class="menu" style="width:180px"><h6>Period</h6>${[['today','Today'],['yday','Yesterday'],['month','This month']].map(([k,t])=>`<button class="opt" data-n="${k}"><span class="rdo${S.per===k?' on':''}"></span>${t}</button>`).join('')}</div>`;
     pop.querySelectorAll('[data-n]').forEach(o=>o.onclick=()=>{S.per=o.dataset.n;closePop();renderHome()});placePop(pr,true);return}
@@ -3960,7 +3960,7 @@ const TRK={
     ev:[['Out for delivery','Yogyakarta · 14 Oct 2026, 09:05','pu'],['Arrived at delivery hub','Yogyakarta · 14 Oct 2026, 05:40',''],['Picked up by courier','Jakarta · 13 Oct 2026, 14:20','']]},
   SPX8815:{c:'spx',svc:'Standard',st:'returned',sent:'8 Oct 2026, 11:00',from:'Warehouse Jakarta',pay:['COD',210000],to:'Andi Pratama',ph:'+62 821-4456-1290',addr:'Jl. Pemuda 21, Semarang Tengah, Semarang, Jawa Tengah 50132',pod:1,
     ev:[['Returned to sender','Jakarta · 14 Oct 2026, 13:30','bad'],['Return started: recipient refused the parcel','Semarang · 11 Oct 2026, 16:45','warn'],['Delivery attempt 2 failed: recipient not at home','Semarang · 11 Oct 2026, 10:20',''],['Delivery attempt 1 failed: recipient not at home','Semarang · 10 Oct 2026, 14:05',''],['Picked up by courier','Jakarta · 8 Oct 2026, 11:00','']]},
-  NJV0049921:{c:'ninja',svc:'Standard',st:'failed',sent:'12 Oct 2026, 10:10',eta:'15 Oct 2026',from:'Warehouse Bandung',pay:['COD',312500],to:'Sari Wulandari',ph:'+62 822-6610-4471',addr:'Jl. Gajah Mada 7, Medan Petisah, Medan, Sumatera Utara 20112',
+  004500049921:{c:'sicepat',svc:'Standard',st:'failed',sent:'12 Oct 2026, 10:10',eta:'15 Oct 2026',from:'Warehouse Bandung',pay:['COD',312500],to:'Sari Wulandari',ph:'+62 822-6610-4471',addr:'Jl. Gajah Mada 7, Medan Petisah, Medan, Sumatera Utara 20112',
     ev:[['Delivery failed: address not found. Next attempt tomorrow','Medan · 14 Oct 2026, 15:50','warn'],['Out for delivery','Medan · 14 Oct 2026, 08:30',''],['Picked up by courier','Bandung · 12 Oct 2026, 10:10','']]}};
 const TST={done:['Delivered','ok'],transit:['In transit','gr'],out:['Out for delivery','pu'],failed:['Delivery failed','warn'],returned:['Returned to sender','bad']};
 let trkOpen=new Set();
@@ -4865,17 +4865,16 @@ document.getElementById('plx-go').onclick=()=>{if(plErr())return;const L=plFromQ
 function plSample(){const L=plData().find(x=>x.active&&x.adj)||plData()[0];plOpen(L,1)}
 
 /* ===== Shipments: list ===== */
-const LOGO=Object.fromEntries(Object.entries({anteraja:'anteraja',sicepat:'sicepat',lion:'lionparcel',jne:'jne',ninja:'ninjaxpress',spx:'spx',jnt:'jnt'}).map(([k,f])=>[k,IMG+'courier/'+f+'.png']));
+const LOGO=Object.fromEntries(Object.entries({anteraja:'anteraja',sicepat:'sicepat',lion:'lionparcel',jne:'jne',spx:'spx',jnt:'jnt'}).map(([k,f])=>[k,IMG+'courier/'+f+'.png']));
 const COURIERS=[
   {k:'anteraja',n:'AnterAja'},{k:'sicepat',n:'SiCepat'},{k:'lion',n:'Lion Parcel'},
-  {k:'jne',n:'JNE'},{k:'ninja',n:'Ninja Xpress'},{k:'spx',n:'SPX Express'},{k:'jnt',n:'J&T Express'}];
+  {k:'jne',n:'JNE'},{k:'spx',n:'SPX Express'},{k:'jnt',n:'J&T Express'}];
 const cLogo=k=>{const c=COURIERS.find(x=>x.k===k);return LOGO[k]?`<img class="clg" src="${LOGO[k]}" alt="">`:`<span class="clg plg-i">${ic('truck',14)}</span>`};
 const SERVICES=[ // [courier, service, group, eta, Rp per kg, list price per kg|null, tag]
   ['anteraja','Regular','reg','2–3 days',11000,null],
-  ['sicepat','Regular','reg','2–4 days',6500,null],['sicepat','GOKIL','cargo','1–3 days',35000,null],
+  ['sicepat','Regular','reg','2–4 days',6500,null,'Cheapest'],['sicepat','GOKIL','cargo','1–3 days',35000,null],
   ['lion','Regular Pack','reg','2–3 days',7560,9450],['lion','Jago Pack','reg','2–7 days',7290,8100],['lion','Big Pack','cargo','6–9 days',36450,40500],
-  ['jne','Regular','reg','2–3 days',8800,11000],['jne','YES','exp','1 day',18000,null],
-  ['ninja','Standard','reg','1–3 days',6000,10000,'Cheapest'],['ninja','Cargo','cargo','1–3 days',7000,10000,'Recommended'],
+  ['jne','Regular','reg','2–3 days',8800,11000,'Recommended'],['jne','YES','exp','1 day',18000,null],
   ['spx','Standard','reg','2–4 days',7000,null],['spx','Sameday','exp','Same day',22000,null],
   ['jnt','EZ','reg','2–3 days',9000,null]];
 const WAREHOUSES=[{n:'Main warehouse',a:'Jl. Kemang Raya No. 12, Bangka, Mampang Prapatan, Jakarta Selatan, DKI Jakarta 12730'},{n:'Bandung warehouse',a:'Jl. Sekejati No. 3, Sukapada, Cibeunying Kidul, Kota Bandung, Jawa Barat 40125'}];
@@ -5201,7 +5200,6 @@ const CSET=[
   ['tiki','TIKI','tiki',[['Regular','2–3 days','reg'],['Economy Service','3–4 days','reg'],['Over Night Service','1 day','next'],['Cargo','3–4 days','cargo']]],
   ['jne','JNE','jne',[['Yakin Esok Sampai','1 day','next'],['Cargo JTR','3–4 days','cargo'],['Regular','2–3 days','reg']]],
   ['deliveree','Deliveree','deliveree',[['CDD','6–8 hours','cargo'],['Fuso Lite','6–8 hours','cargo'],['Pick Up','2–4 hours','inst'],['Van','2–4 hours','inst'],['Economy','2–4 hours','inst'],['Tronton','6–8 hours','cargo'],['Fuso Heavy','6–8 hours','cargo'],['Engkel Box','6–8 hours','cargo'],['Small Box','2–4 hours','inst']]],
-  ['ninja','NinjaExpress','ninjaxpress',[['Nextday','1 day','next'],['Sameday','6–8 hours','same'],['Cargo','1–3 days','cargo'],['Standard','1–3 days','reg']]],
   ['mrspeedy','MrSpeedy','mrspeedy',[['Instant Bike','1–3 hours','inst'],['Instant Car','1–4 hours','inst']]],
   ['paxel','Paxel','paxel',[['Medium Package 30×20×12','8–12 hours','same'],['Large Package 35×30×20','8–12 hours','same'],['Small Package 20×11×7','8–12 hours','same']]],
   ['sicepat','SiCepat','sicepat',[['Regular','2–4 days','reg'],['SiUntung','3–5 days','reg'],['Best','1–2 days','next'],['Gokil','1–3 days','cargo'],['Kepo','1–2 days','next']]],
@@ -5806,7 +5804,7 @@ function bFixRun(){const rows=X.bulk.filter(r=>r.fix),n=rows.length;let k=0;
     setTimeout(()=>{if(!X.bfix)return;bApply(r);X.bfix.done++;const t2=sxBody.querySelector(`tr[data-br="${r.i}"]`);
       if(t2){t2.outerHTML=bTr(r,true);sxBody.querySelector(`tr[data-br="${r.i}"]`).classList.add('aidone')}k++;upd();setTimeout(step,120)},760)};
   setTimeout(step,650)}
-/* ===== Courier coverage: some couriers don't deliver to a postcode, or not with COD (red zone). JNE, Ninja Xpress and J&T cover these areas. ===== */
+/* ===== Courier coverage: some couriers don't deliver to a postcode, or not with COD (red zone). JNE and J&T cover these areas. ===== */
 const MKS=[['Pandang','Panakkukang','Kota Makassar','Sulawesi Selatan','90231'],['Tamalanrea','Tamalanrea','Kota Makassar','Sulawesi Selatan','90245']];
 const RZ_COD=Object.fromEntries(['anteraja','sicepat','lion','spx'].map(k=>[k,['90231']])),NO_COVER=Object.fromEntries(['anteraja','sicepat','lion','spx'].map(k=>[k,['90245']]));
 const svName=v=>`${COURIERS.find(c=>c.k===SERVICES[v][0]).n} ${SERVICES[v][1]}`;
@@ -5894,7 +5892,7 @@ function riskModal(){const L=X.ships.map((s,i)=>[s,i,health(s)]).filter(x=>x[2].
   modal.querySelectorAll('[data-rki]').forEach(b=>b.onclick=()=>{const i=+b.dataset.rki,on=!rm.has(i);on?rm.add(i):rm.delete(i);b.setAttribute('aria-pressed',on);b.querySelector('.cb').className='cb'+(on?' on':'');b.querySelector('.cb').innerHTML=on?ic('check',12,3):'';go.disabled=!rm.size;go.textContent=rm.size?`Remove ${fmt(rm.size)} ${rm.size===1?'shipment':'shipments'}`:'Remove shipments'});
   go.onclick=()=>{const n=rm.size;X.ships=X.ships.filter((s,i)=>!rm.has(i));if(X.bulk){X.bulk=X.bulk.filter((r,i)=>!rm.has(i));X.bulk.forEach((r,i)=>r.i=i)}X.alt={};closeModal();drawSx();toast(`${fmt(n)} ${n===1?'shipment':'shipments'} removed. ${fmt(X.ships.length)} left in this batch.`)}}
 /* courier step: delivery rate per service (FLIK shipments to the same kecamatan in the last 90 days, or the city) and how many parcels fall in its red zone */
-const CR_Q={jne:1.6,jnt:-.4,sicepat:.4,ninja:-.2,anteraja:-1.1,lion:-1.6,spx:-.9};
+const CR_Q={jne:1.6,jnt:-.4,sicepat:.4,anteraja:-1.1,lion:-1.6,spx:-.9};
 const kecOf=s=>{const p=(s.addr&&s.addr.city||'').split(', ');return p.length>2?p[1]:p[0]};
 function svcStats(){const out={},N=X.ships.length;let fb=0;
   X.ships.forEach(s=>{let h=0;for(const ch of kecOf(s))h=(h*31+ch.charCodeAt(0))%9973;if(h%9<2)fb++});out.fallback=fb;
@@ -6017,7 +6015,7 @@ function makeHeld(sv){if(!X.held||!X.held.length)return null;const main=SERVICES
   return{id:ids.length===1?ids[0]:'',nb:ids.length,list,n:X.held.length,wa:X.held.filter(h=>h.kind==='wa').length,pay:X.held.filter(h=>h.kind==='pay').length,svc:sv}}
 /* every order waits for the shopper: no courier or payment now, just the waiting batch (the recommended Regular courier is noted on it) */
 function finishHeldOnly(){const keep=X.ships;X.ships=X.held.map(h=>h.s);const r=recSvc(svcStats(),'reg');X.ships=keep;
-  const sv=SERVICES[r!=null?r:SERVICES.findIndex(v=>v[0]==='ninja'&&v[1]==='Standard')];X.done={heldOnly:true,held:makeHeld(sv)};stab='all';drawSx();sxBody.scrollTop=0}
+  const sv=SERVICES[r!=null?r:SERVICES.findIndex(v=>v[0]==='sicepat'&&v[1]==='Regular')];X.done={heldOnly:true,held:makeHeld(sv)};stab='all';drawSx();sxBody.scrollTop=0}
 function bDoneCheck(){if(!bCounts().left){X.bv='all';X.bpg=0;drawSx();toast(`All ${X.bulk.length} orders are ready`);return true}return false}
 /* Customer address: the same form as the checkout's shipping address (find the address, map pin, full address, details, province and city from the search,
    postal code), plus an optional note for the courier */
@@ -7299,15 +7297,15 @@ const reach=(i,o,d)=>!/Same/i.test(SERVICES[i][3])||zoneMul(o,d)<=.85;
 const etaMax=sv=>{const n=String(sv[3]).match(/\d+/g);return n?+n[n.length-1]:1};
 
 /* --- Delivery success by area: kecamatan when there are enough shipments, otherwise the city --- */
-const SR_BASE={jne:93,jnt:92,spx:91,ninja:90,lion:89,sicepat:91,anteraja:90};
-const SR_CITY={'Kota Bandung':{jne:4,spx:-5},'Jakarta Selatan':{spx:5,jnt:2,anteraja:2},'Kota Surabaya':{jnt:4,ninja:-5},'Kota Denpasar':{spx:-11,ninja:-8,jne:3},'Kabupaten Badung':{spx:-9,jne:2},
-  'Kota Medan':{jnt:4,spx:-10,anteraja:-7},'Kota Yogyakarta':{sicepat:4,ninja:-5},'Kota Semarang':{jne:2,lion:2},'Kota Malang':{anteraja:-7,jne:2},'Kota Tangerang':{jnt:-6,spx:2},'Kota Makassar':{jne:4,spx:-5,jnt:-3,ninja:-6},'Kabupaten Sidoarjo':{jnt:3},'Kabupaten Tangerang':{spx:1}};
+const SR_BASE={jne:93,jnt:92,spx:91,lion:89,sicepat:91,anteraja:90};
+const SR_CITY={'Kota Bandung':{jne:4,spx:-5},'Jakarta Selatan':{spx:5,jnt:2,anteraja:2},'Kota Surabaya':{jnt:4},'Kota Denpasar':{spx:-11,jne:3},'Kabupaten Badung':{spx:-9,jne:2},
+  'Kota Medan':{jnt:4,spx:-10,anteraja:-7},'Kota Yogyakarta':{sicepat:4},'Kota Semarang':{jne:2,lion:2},'Kota Malang':{anteraja:-7,jne:2},'Kota Tangerang':{jnt:-6,spx:2},'Kota Makassar':{jne:4,spx:-5,jnt:-3},'Kabupaten Sidoarjo':{jnt:3},'Kabupaten Tangerang':{spx:1}};
 const clampSr=v=>Math.max(68,Math.min(98.6,v));
 function srOf(k,a){const c=clampSr(SR_BASE[k]+((SR_CITY[a.city]||{})[k]||0)+((hsh(a.city+k)%30)/10-1.5));
   const n=hsh(a.kec+'|'+k)%260;if(n<45)return{sr:Math.round(c*10)/10,level:'city',n:900+hsh(a.city+k)%2400};
   return{sr:Math.round(clampSr(c+(hsh(a.kec+k)%80)/10-4)*10)/10,level:'kecamatan',n}}
 /* --- Red zones: 'cod' means the courier won't take COD there, 'all' means it doesn't deliver there --- */
-const RZ={spx:{'Denpasar Barat':'cod','Kuta':'cod','Medan Petisah':'all','Medan Baru':'cod'},jnt:{'Cipondoh':'cod'},ninja:{'Denpasar Barat':'cod','Gedongtengen':'cod','Panakkukang':'cod'},anteraja:{'Medan Petisah':'cod','Klojen':'cod'},sicepat:{'Gayungan':'cod'},lion:{'Panakkukang':'all'},jne:{}};
+const RZ={spx:{'Denpasar Barat':'cod','Kuta':'cod','Medan Petisah':'all','Medan Baru':'cod'},jnt:{'Cipondoh':'cod'},anteraja:{'Medan Petisah':'cod','Klojen':'cod'},sicepat:{'Gayungan':'cod'},lion:{'Panakkukang':'all'},jne:{}};
 const rzOf=(k,a)=>(RZ[k]||{})[a.kec]||null;
 const rzBlocks=(k,a,pay)=>{const z=rzOf(k,a);return z==='all'||(z==='cod'&&pay==='cod')};
 const RZ_TX={cod:'Red zone for COD',all:'Not delivered'};
@@ -7354,7 +7352,7 @@ const SH=[],BATCH=[],TK=[],CL=[],PEND=[],VERIFIED=new Set();
 const FN=['Rina','Budi','Sari','Andi','Dewi','Fajar','Maya','Rizky','Putri','Agus','Nadia','Yoga','Intan','Bayu','Citra','Dimas','Eka','Gita','Hendra','Indah','Joko','Kartika','Lukman','Mega'],LN=['Putri','Santoso','Wulandari','Pratama','Lestari','Nugroho','Sari','Ramadhan','Ayu','Setiawan','Rahma','Saputra','Permata','Hidayat','Kusuma','Wijaya'];
 const PRODUCTS=[['Linen shirt · White',289000,.4],['Canvas tote bag',149000,.3],['Wide-leg trousers',219000,.5],['Basic tee · Black',99000,.2],['Voile scarf · Floral',125000,.1],['Leather sneakers',459000,1.2],['Batik dress · Indigo',375000,.5]];
 const STREETS=['Jl. Melati','Jl. Kenanga','Jl. Mawar','Jl. Anggrek','Jl. Cempaka','Jl. Flamboyan','Jl. Merdeka','Jl. Sudirman','Jl. Diponegoro','Jl. Gajah Mada'];
-const AWBP={spx:'SPXID0',jnt:'JP',jne:'JNE0',ninja:'NLIDAP',lion:'99LP',sicepat:'0045',anteraja:'1000'};
+const AWBP={spx:'SPXID0',jnt:'JP',jne:'JNE0',lion:'99LP',sicepat:'0045',anteraja:'1000'};
 let awbSeq=0;const mkAwb=k=>(window.SBX_ON?'TEST-':'')+AWBP[k]+String(4100000000+(++awbSeq)*7919);
 const ageOf=s=>(NOW-s.created)/DAY;
 /* SLA: the courier's promised days for this route (from the warehouse to the customer's area). Waiting for pickup has its own SLA of 1 day */
@@ -7396,7 +7394,7 @@ const needsAct=s=>!!issueOf(s)&&!s.tk;
 const rstate=s=>{const m=monOf(s);if(needsAct(s))return'open';if(s.tk&&m!=='safe')return'ack';if((s.tk||s.had)&&m==='safe')return'resolved';return null};
 
 function genActive(seed,nb){const R=mkRng(seed||4242),pk=a=>a[Math.floor(R()*a.length)];SH.length=0;BATCH.length=0;TK.length=0;CL.length=0;PEND.length=0;VERIFIED.clear();awbSeq=0;clSeq=0;
-  const codes=['JKT-01','JKT-01','BDG-01','SBY-01'],mix=['spx','spx','jnt','jnt','jne','jne','ninja','ninja','sicepat','lion','anteraja'];
+  const codes=['JKT-01','JKT-01','BDG-01','SBY-01'],mix=['spx','spx','jnt','jnt','jne','jne','sicepat','sicepat','sicepat','lion','anteraja'];
   const regOf=k=>SERVICES.findIndex(v=>v[0]===k&&v[2]==='reg');
   const dests=AREA.map((a,i)=>[a,i<14?3:1]).flatMap(([a,w])=>Array(w).fill(a));
   let bseq=0;
@@ -7450,7 +7448,7 @@ function addTicket(s,type,by='Merchant',at=NOW,note='',cat=catOf(s)){const t={id
   t.chat=[{from:'me',text:note||(type==='claim'?'I want to file a claim for this parcel.':type==='support'?'Can you check on this parcel?'+(issueOf(s)?' '+issueOf(s).t+'.':''):'Please help me reach the customer about this parcel.'),at}];
   if(type==='customer')t.chat.push({from:'sys',text:'WhatsApp sent to '+s.name.split(' ')[0]+' from FLIK',at});
   TK.unshift(t);s.tk=t.id;return t}
-const AGENT={flik:['Dewi','FLIK support'],k:k=>[({jne:'Rudi',jnt:'Hendra',spx:'Wulan',ninja:'Sinta',lion:'Arif',sicepat:'Yudi',anteraja:'Lina'})[k]||'Agent',cName(k)+' team']};
+const AGENT={flik:['Dewi','FLIK support'],k:k=>[({jne:'Rudi',jnt:'Hendra',spx:'Wulan',lion:'Arif',sicepat:'Yudi',anteraja:'Lina'})[k]||'Agent',cName(k)+' team']};
 function agentSay(t,who,text,at=NOW){t.chat.push({from:who,text,at});return t}
 
 /* ===== Orders waiting for a Risky COD customer (WhatsApp from FLIK's number) =====
@@ -9140,6 +9138,10 @@ function secretModal(c,roll){const sec=(c.env==='test'?'test_sec_':'live_sec_')+
 
 /* Home: "By outlet" card for merchants with 2+ outlets */
 function onbHome(){const v=document.getElementById('view-home');if(!v)return;v.querySelectorAll('.ol-card').forEach(x=>x.remove());if(!ONB.outlets)return;
+  /* while Home loads: the two outlet tables as skeletons under their real titles */
+  if(hmLd){const k=(w,h,d)=>`<span class="sk" style="width:${w};${h?`height:${h}px;`:''}animation-delay:${d||0}s"></span>`,
+    t=(n,d)=>`<section class="card w-card hm-sk" aria-hidden="true"><div class="hm-skt">${Array.from({length:n},(_,i)=>`<div>${k(['40%','30%','46%','36%','42%'][i%5],i?12:10,d+i*.06)}${k(['56%','44%','38%','50%','34%'][i%5],i?12:10,d+i*.06)}</div>`).join('')}</div></section>`;
+    v.insertAdjacentHTML('beforeend',`<div class="home-g two ol-card"><div><div class="sec-h"><h2 class="sec">Outlets needing attention</h2></div>${t(3,.3)}</div><div><div class="sec-h"><h2 class="sec">Top and bottom outlets</h2></div>${t(6,.36)}</div></div>`);return}
   /* always the last thing on Home */
   v.insertAdjacentHTML('beforeend',`<div class="home-g two ol-card">
     <div><div class="sec-h"><h2 class="sec">Outlets needing attention</h2><button class="lnk" data-goto="settings/outlets?t=terminals">Open Terminals ${ic('chev',13)}</button></div>
@@ -9510,7 +9512,7 @@ function ckLangMenu(b,redraw){if(popFor===b){closePop();return}popFor=b;
   pop.onclick=e=>{const t=e.target.closest('[data-cklg]');if(!t)return;closePop();if(t.dataset.cklg===ckLang)return;ckLang=t.dataset.cklg;redraw();toast(ckLang==='id'?'Bahasa Indonesia dipilih':'English selected')};placePop(b,true)}
 /* ===== Checkout dialogs (6 Nov 2026): Choose courier, Choose how to pay, Discounts and Potential reward. Same parts as the store and address pickers (Modal + RadioList in the shopper style); totals follow the shopper's choices ===== */
 /* couriers that serve this address (prototype: about 14, minus the services the merchant switched off), grouped by speed; prices are per order */
-const CK_ROUTE=['grab|Instant Delivery','lalamove|Bike','jnt|Sameday','paxel|Small Package 20×11×7','jne|Yakin Esok Sampai','sicepat|Best','jne|Regular','jnt|Standard','sicepat|Regular','idx|Standard','anteraja|Regular','ninja|Standard','jne|Cargo JTR','sicepat|Gokil'];
+const CK_ROUTE=['grab|Instant Delivery','lalamove|Bike','jnt|Sameday','paxel|Small Package 20×11×7','jne|Yakin Esok Sampai','sicepat|Best','jne|Regular','jnt|Standard','sicepat|Regular','idx|Standard','anteraja|Regular','jne|Cargo JTR','sicepat|Gokil'];
 const CK_SG=[['inst','Instant',32000],['same','Same day',22000],['next','Next day',17000],['reg','Regular',9000],['cargo','Cargo',40000]];
 const ckSvcs=c=>CK_ROUTE.filter(id=>!c.off.includes(id)).map((id,i)=>{const [k,sn]=id.split('|'),x=CSET.find(y=>y[0]===k),sv=x&&x[3].find(y=>y[0]===sn);if(!sv)return null;const g=CK_SG.find(y=>y[0]===sv[2])||CK_SG[3];return{id,k,n:x[1],lg:x[2],s:sv[0],eta:sv[1],g:g[0],p:g[2]+(i*7%5)*1000}}).filter(Boolean);
 let ckSvc=null;
