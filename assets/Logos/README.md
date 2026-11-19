@@ -13,7 +13,7 @@ Square 24px icons of the banks, e-wallets, QRIS, couriers and sales and ad platf
 
 - **Use the PNG.** The courier and platform SVGs only wrap a bitmap and weigh up to 466 KB; the PNGs are 2–6 KB and stay sharp up to 48px. The payment SVGs are true vectors except `ovo.svg`.
 - **Payment (13):** bca, bni, bri, bsi, mandiri, permata, dana, gopay, ovo, qris, shopeepay, visa, mastercard (visa and mastercard are PNG only, from the brand files). Show a card payment method with both.
-- **Courier (18):** anteraja, deliveree, gosend, grabexpress, idexpress, jne, jnt, lalamove, lionparcel, mrspeedy, ninjaxpress, paxel, rpx, sap, sicepat, spx, tiki, wahana. `spx.png` (160px, PNG only) comes from the dashboard's earlier courier set.
+- **Courier (17):** anteraja, deliveree, gosend, grabexpress, idexpress, jne, jnt, lalamove, lionparcel, mrspeedy, paxel, rpx, sap, sicepat, spx, tiki, wahana. `spx.png` (160px, PNG only) comes from the dashboard's earlier courier set.
 - **Platform (12):** blibli, googleads, lazada, magento1, magento2, metaads, shopee, shopify, tiktok, tokopedia, woocommerce, zalora. Use `tiktok`, `shopee` and `tokopedia` for their ads products too (TikTok Ads, Shopee Ads, Tokopedia Ads).
 - Not in the set yet: other card networks (JCB, Amex), and COD (FLIK's own method). Show those, and channels with no brand (offline store, other), with the `fl-plogo--icon` tile and a line icon.
 - File names are lowercase brand keys; add new partners the same way (both formats, 24px viewBox, 96px PNG).

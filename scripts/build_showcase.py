@@ -166,7 +166,7 @@ counts = sum(len(v) for v in comps.values())
 PARTNER_NAMES = {"bca": "BCA", "bni": "BNI", "bri": "BRI", "bsi": "BSI", "mandiri": "Mandiri", "permata": "Permata", "dana": "DANA",
                  "gopay": "GoPay", "ovo": "OVO", "qris": "QRIS", "shopeepay": "ShopeePay", "anteraja": "AnterAja", "deliveree": "Deliveree",
                  "gosend": "GoSend", "grabexpress": "GrabExpress", "idexpress": "ID Express", "jne": "JNE", "jnt": "J&T Express",
-                 "lalamove": "Lalamove", "lionparcel": "Lion Parcel", "mrspeedy": "Mr. Speedy", "ninjaxpress": "Ninja Xpress", "paxel": "Paxel",
+                 "lalamove": "Lalamove", "lionparcel": "Lion Parcel", "mrspeedy": "Mr. Speedy", "paxel": "Paxel",
                  "rpx": "RPX", "sap": "SAP Express", "sicepat": "SiCepat", "spx": "SPX Express", "tiki": "TIKI", "wahana": "Wahana",
                  "blibli": "Blibli", "googleads": "Google Ads", "lazada": "Lazada", "magento1": "Magento 1", "magento2": "Magento 2",
                  "metaads": "Meta Ads", "shopee": "Shopee", "shopify": "Shopify", "tiktok": "TikTok", "tokopedia": "Tokopedia",
