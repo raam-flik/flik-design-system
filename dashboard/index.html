@@ -2723,7 +2723,7 @@ body:has(#ckp:not([hidden])) #sg{display:none}
 .cks .cks-nav{display:flex;gap:24px;margin:0 auto 0 32px;font-size:13px;font-weight:500;color:var(--text)}.cks-cart{display:flex;align-items:center;gap:6px;color:var(--ink)}.cks-cart b{font-size:13px}
 .cks .ck-tx span:last-child{color:var(--ink)}.cks-go{display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .12s,box-shadow .12s}.cks-go .pp-mk{width:20px;height:20px}.cks-go:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,45,93,.25)}
 .cks .ck-foot{justify-content:space-between;color:var(--muted)}
-/* FLIK opening: the logo animation, centred on white *//* Home loading */.hm-skk{display:flex;gap:40px}.hm-skk>div{display:grid;gap:8px}.hm-skc>.sk{border-radius:8px}.hm-skl{display:grid;gap:4px;margin-top:8px}.hm-skr{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}.hm-skr:first-child{border-top:0}.hm-skr>.sk:first-child{border-radius:8px;flex:none}.hm-skr>div{flex:1;display:grid;gap:8px}.hm-skt>div{display:grid;grid-template-columns:1fr 1.4fr;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}.hm-skt>div:first-child{border-top:0;padding-top:4px}
+/* FLIK opening: the logo animation, centred on white *//* Home loading */.hm-skk{display:flex;gap:40px}.hm-skk>div{display:grid;gap:8px}.hm-skc>.sk{border-radius:8px}.hm-skl{display:grid;gap:4px;margin-top:8px}.hm-skr{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}.hm-skr:first-child{border-top:0}.hm-skr>.sk:first-child{border-radius:8px;flex:none}.hm-skr>div{flex:1;display:grid;gap:8px}.skz{display:grid;gap:10px;align-content:start}.dsk{display:inline-block;vertical-align:middle;max-width:100%}.hm-skt>div{display:grid;grid-template-columns:1fr 1.4fr;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}.hm-skt>div:first-child{border-top:0;padding-top:4px}
 .ck-lot{display:flex;align-items:center;justify-content:center;min-height:100%;background:var(--surface,#fff)}.ck-lot-a{width:min(320px,70%);aspect-ratio:1080/500;display:flex;align-items:center;justify-content:center}.ck-lot-a .pp-wm{height:40px;width:auto}
 /* checkout loading: skeleton cards in the checkout's frame */.ck-ld .ck-u{pointer-events:none}.ck-skc{display:grid;gap:14px}.ck-skseg{height:36px;border-radius:8px}.ck-skr{display:flex;align-items:center;gap:12px;padding:4px 0}.ck-skr>.sk:first-child{width:28px;height:28px;border-radius:6px;flex:none}.ck-skr>div{flex:1;display:grid;gap:8px}.ck-ski>.sk:first-child{width:72px;height:72px;border-radius:8px}.ck-skl{display:flex;justify-content:space-between;align-items:center}.ck-skt2{padding-top:14px;border-top:1px solid var(--line)}.ck-skb{height:46px;border-radius:8px}
 .ck-ch{display:flex;align-items:baseline;justify-content:space-between}.ck-ch .lnk{font-weight:500;color:var(--ink)}:is(#ckp-b,#cpx-pv) :is([data-ckauth],[data-ckguest]).ck-row{cursor:pointer;border-radius:10px;transition:background .12s}:is(#ckp-b,#cpx-pv) :is([data-ckauth],[data-ckguest]).ck-row:hover{background:var(--hover)}:is(#ckp-b,#cpx-pv) [data-ckguest]:hover .ck-chev{color:var(--ink)}
@@ -7131,7 +7131,7 @@ function show(view){
   if(view==='cou'){renderCou();nav.querySelector('[data-view=\"cou\"]')?.closest('.grp')?.classList.add('open')}
   if(view==='wh'){renderWh();nav.querySelector('[data-view=\"wh\"]')?.closest('.grp')?.classList.add('open')}
   if(view==='trk'){nav.querySelector('[data-view=\"trk\"]')?.closest('.grp')?.classList.add('open');setTimeout(()=>document.getElementById('trk-q').focus(),0)}
-  if(view==='mon'||view==='cr'||view==='ana'){({mon:renderMon,cr:renderCr,ana:renderAna})[view]();nav.querySelector(`[data-view="${view}"]`)?.closest('.grp')?.classList.add('open')}
+  if(view==='mon'||view==='cr'||view==='ana'){({mon:monLoad,cr:renderCr,ana:anaLoad})[view]();nav.querySelector(`[data-view="${view}"]`)?.closest('.grp')?.classList.add('open')}
   if(view==='pl'){renderPl();nav.querySelector('[data-view="pl"]')?.closest('.grp')?.classList.add('open')}
   if(view==='inv'){renderInv();nav.querySelector('[data-view=\"inv\"]')?.closest('.grp')?.classList.add('open')}
   closeDetail();setSide(false);scrollTo(0,0);
@@ -7596,6 +7596,23 @@ document.getElementById('view-mon').addEventListener('click',e=>{const m=e.targe
     pop.querySelectorAll('[data-fmk]').forEach(o=>o.onclick=x=>{x.stopPropagation();const k=o.dataset.fmk;closePop();fpop(m,k)});placePop(m,false)}});
 /* a to-do's filter: "st=pickup" sets that filter on the tab it opens; a bare value filters Needs action by type */
 function monPre(t,c){if(!c)return;if(c.includes('=')){const [k,v]=c.split('='),F=({list:MS.l,resolve:MS.r,risky:MS.w,claims:MS.c,tickets:MS.t})[t];if(F){F[k]=[v];F.pg=0}return}MS.r.mon=[c];MS.r.pg=0}
+/* Loading for Monitoring (every tab) and Shipping analytics (Raam, 19 Nov 2026): the page draws as it will look, then every table body and every card
+   becomes a skeleton of the same size (titles, tabs and toolbars stay), and fills in a moment later. Toolbars wait (inert) while it loads */
+function skelize(root){const k=(w,h,d)=>`<span class="sk" style="width:${w};height:${h}px;animation-delay:${d||0}s"></span>`,W=[70,85,60,75,55,80,65,90];
+  root.querySelectorAll('table').forEach(t=>{const b=t.tBodies[0];if(!b)return;const hr=t.tHead&&t.tHead.rows[0],c=hr?hr.cells.length:b.rows[0]?b.rows[0].cells.length:4,sel=!!(hr&&hr.cells[0]&&hr.cells[0].classList.contains('selc')),n=Math.min(Math.max(b.rows.length,3),8);
+    b.innerHTML=Array.from({length:n},(_,r)=>`<tr class="nohover">${Array.from({length:c},(_,j)=>`<td>${sel&&!j?'':k(W[(r+j)%8]+'%',12,r*.06)}</td>`).join('')}</tr>`).join('');t.setAttribute('aria-busy','true')});
+  root.querySelectorAll('.bl-tile,.card,.an-w').forEach((c,i)=>{if(c.querySelector('table')||c.parentElement.closest('[data-skd]'))return;
+    const cs=getComputedStyle(c),H=c.getBoundingClientRect().height,hd=c.querySelector(':scope>.mon-h,:scope>h2,:scope>h3,:scope>h4'),d=(i%8)*.05;
+    const room=H-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)-(hd?hd.getBoundingClientRect().height+14:0)-2;
+    c.dataset.skd=1;c.style.height=H+'px';c.style.boxSizing='border-box';c.setAttribute('aria-hidden','true');
+    c.innerHTML=(hd?hd.outerHTML:'')+`<div class="skz">${c.classList.contains('bl-tile')||room<110?[['46%',10],['38%',22],['30%',10]].slice(0,Math.max(1,Math.min(3,Math.floor(room/28)))).map(x=>k(x[0],x[1],d)).join(''):`${k('34%',12,d)}<span class="sk" style="width:100%;height:${Math.max(40,room-30)}px;border-radius:8px;animation-delay:${d}s"></span>`}</div>`});
+  root.querySelectorAll('.foot>span:first-child').forEach(s=>s.textContent='Loading…')}
+let skLdT=0;
+function pageLoad(el,body,draw,label){clearTimeout(skLdT);draw();const b=body();if(!b)return;skelize(b);b.inert=true;el.setAttribute('aria-busy','true');
+  let st=el.querySelector('.sk-st');if(!st){st=document.createElement('span');st.className='sr-only sk-st';st.setAttribute('role','status')}el.prepend(st);st.textContent=label;
+  skLdT=setTimeout(()=>{b.inert=false;el.removeAttribute('aria-busy');if(!el.hidden)draw();const s=el.querySelector('.sk-st');if(s)s.textContent=''},matchMedia('(prefers-reduced-motion: reduce)').matches?400:800)}
+const monLoad=()=>{const el=document.getElementById('view-mon');pageLoad(el,()=>document.getElementById('mon-body'),renderMon,`Loading ${(MTABS.find(t=>t[0]===MS.tab)||[,'Monitoring'])[1]}…`)};
+const anaLoad=()=>{const el=document.getElementById('view-ana');pageLoad(el,()=>SH.length?el.querySelector('.an-g')?.parentElement:null,renderAna,'Loading Shipping analytics…')};
 function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on Live */if(location.hash!==MS._h){if(location.hash==='#monitoring'){/* a Home to-do asked for a tab: good for 10 s, since the menu file that hands over renders Monitoring once too */let o=null;try{const v=(sessionStorage.getItem('flik-mon-open')||'').split('|');if(Date.now()-(+v[1]||0)<1e4)o=v[0]}catch(e){}{const [t,c]=(o||'').split(':');MS.tab=MTABS.some(x=>x[0]===t)?t:'health';/* a to-do opens its own issues only (review 5 Nov, open item 3) */monPre(t,c)}}MS._h=location.hash}
   if(!SH.length){el.innerHTML=`<div class="ph"><h1>Monitoring</h1></div>`+monEmpty('Nothing to monitor yet','After your first shipment, this page shows each batch, anything delayed or at risk, and how each courier performs for you.');return}
   const base=msBase(),open=SH.filter(s=>rstate(s)==='open').length;
@@ -7906,10 +7923,23 @@ function timeline(s){const sv=SERVICES[s.svc],w=whByCode(s.wh),at=f=>new Date(s.
   if(s.st==='returning'||s.st==='returned')ev.push(['Delivery attempt 2 failed: customer refused the parcel',to,at(.88),'warn'],['Return started',to,at(.92),'warn']);
   if(s.st==='returned')ev.push(['Returned to sender',from,s.upd,'bad']);if(s.st==='lost')ev.push(['Reported lost at the sorting hub',to,s.upd,'bad']);
   return ev.reverse()}
-function openShipment(id){drawer.classList.remove('chat');const s=SH.find(x=>x.id===id);if(!s)return;const is=issueOf(s),m=monOf(s),t=s.tk&&TK.find(k=>k.id===s.tk),open=is&&rstate(s)==='open';
+/* Shipment panel loading (Raam, 19 Nov 2026): opening a shipment shows the panel at once with its real headings and labels, every value as a skeleton
+   of the same size, then fills in. Redrawing the shipment that's already open (after an action) skips it */
+let shLdT=0;
+function skelDrawer(db){const T=[],tw=e=>{const r=document.createRange();r.selectNodeContents(e);const b=r.getBoundingClientRect();return[Math.max(24,Math.round(b.width)),Math.round(b.height)]};
+  db.querySelectorAll('.btn,.sx-note,.st,.pm').forEach(e=>{if(T.some(t=>t[0].contains(e)))return;const b=e.getBoundingClientRect();
+    T.push([e,`<span class="sk dsk" style="width:${e.matches('.sx-note')?'100%':Math.round(b.width)+'px'};height:${e.matches('.pm')?14:Math.round(b.height)}px;border-radius:${e.matches('.pm')?4:e.matches('.st')?6:8}px"></span>`])});
+  db.querySelectorAll('.d-amt b,.d-sub,.tli b,.tli>div>span,dd').forEach(e=>{if(T.some(t=>t[0].contains(e)||e.contains(t[0])))return;const[x,y]=tw(e),n=Math.max(1,Math.round(y/20)),h=e.matches('.d-amt b')?28:12;
+    T.push([e,null,Array.from({length:n},(_,i)=>`<span class="sk dsk" style="display:block;width:${n>1&&i<n-1?'100%':x+'px'};height:${h}px;${i?'margin-top:8px;':''}"></span>`).join('')])});
+  T.forEach(([e,o,inner])=>{if(o)e.outerHTML=o;else e.innerHTML=inner})}
+function openShipment(id,quiet){const again=drawer.classList.contains('open')&&!!drawer.querySelector(`.db[data-shipd="${id}"]`);clearTimeout(shLdT);shipDraw(id,quiet||again);if(again)return;
+  const db=drawer.querySelector(`.db[data-shipd="${id}"]`);if(!db)return;skelDrawer(db);db.inert=true;db.setAttribute('aria-busy','true');
+  db.insertAdjacentHTML('afterbegin','<span class="sr-only" role="status">Loading shipment…</span>');
+  shLdT=setTimeout(()=>{if(drawer.classList.contains('open')&&drawer.querySelector(`.db[data-shipd="${id}"]`))shipDraw(id,true)},matchMedia('(prefers-reduced-motion: reduce)').matches?300:600)}
+function shipDraw(id,quiet){drawer.classList.remove('chat');const s=SH.find(x=>x.id===id);if(!s)return;const is=issueOf(s),m=monOf(s),t=s.tk&&TK.find(k=>k.id===s.tk),open=is&&rstate(s)==='open';
   /* the same panel as a payment in Transactions: headline, one line of context, actions, notes, then sections */
   drawer.innerHTML=`<div class="dh"><span class="kind">${ic('truck',15)}Shipment</span><button class="ib" data-dclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="db"><div class="d-amt"><b class="mono">${s.awb||'AWB after pickup'}</b><span class="st ${SST3[s.st][1]}">${SST3[s.st][0]}</span></div>
+  <div class="db" data-shipd="${s.id}"><div class="d-amt"><b class="mono">${s.awb||'AWB after pickup'}</b><span class="st ${SST3[s.st][1]}">${SST3[s.st][0]}</span></div>
     <p class="d-sub">${cName(s.k)} ${SERVICES[s.svc][1]} · batch ${s.batch} · ${fdateY(s.created)}</p>
     <div class="d-acts">${open?`<button class="btn btn-o" data-act="${s.id}" data-a="${is.act}">${TKT[is.act][1]}</button>`:''}${s.awb?`<button class="btn btn-o" data-copy="${s.awb}">${ic('copy',15)}Copy AWB</button>`:''}${s.st==='pickup'?`<button class="btn btn-o" data-plabel="${s.id}">${ic('doc',15)}Print label</button>`:''}${open?`<button class="btn btn-o d-more" data-dmore aria-label="Other actions" aria-haspopup="menu">${ic('dots',16)}</button>`:''}</div>
     ${open?`<div class="sx-note ${m==='problem'?'bad':''}">${ic('warn',16)}<span><b>${esc(is.t)}.</b> ${esc(is.next)}</span></div>`:''}
@@ -7923,7 +7953,7 @@ function openShipment(id){drawer.classList.remove('chat');const s=SH.find(x=>x.i
   drawer.querySelectorAll('[data-podm]').forEach(b=>b.onclick=()=>{const e=timeline(s)[0];podModal({awb:s.awb,k:s.k,ret:s.st==='returned',who:s.st==='returned'?((whByCode(s.wh)||{}).n||s.wh):s.name.split(' ')[0],where:e[1],at:fdateY(e[2])},b.dataset.podm)});
   const mo=drawer.querySelector('[data-dmore]');if(mo)mo.onclick=e=>{e.stopPropagation();if(popFor===mo){closePop();return}popFor=mo;pop.classList.add('in-d');
     pop.innerHTML=`<div class="menu">${['claim','support','customer'].filter(a=>a!==is.act).map(a=>`<button class="opt" data-pa="${a}">${ic(a==='claim'?'shield':a==='support'?'chat2':'phone2',15)}${TKT[a][1]}</button>`).join('')}</div>`;
-    pop.querySelectorAll('[data-pa]').forEach(o=>o.onclick=()=>{closePop();actionModal(s.id,o.dataset.pa)});placePop(mo,false)};track('shipment_opened',{monitoring:m})}
+    pop.querySelectorAll('[data-pa]').forEach(o=>o.onclick=()=>{closePop();actionModal(s.id,o.dataset.pa)});placePop(mo,false)};if(!quiet)track('shipment_opened',{monitoring:m})}
 /* ---- Actions → tickets ---- */
 function ndrModal(id){const s=SH.find(x=>x.id===id),left=Math.max(1,3-s.tries);let how='again',wa=true,when='next',h='',ph='';
   /* the reattempt pop-up from our pieces: the payment card at the top, SegmentedControl, FormField, ChoicePills (pickup slots), Checkbox row, note */
@@ -8027,7 +8057,7 @@ const tstepHtml=t=>stepper(['open','progress','resolved'],TKST,t.st);
 /* ---- events ---- */
 document.getElementById('view-mon').addEventListener('click',e=>{const t=e.target.closest('button,tr,select');if(!t)return;const d=t.dataset;
   if(t.tagName==='SELECT')return;
-  if(d.mt){MS.tab=d.mt;renderMon();return}
+  if(d.mt){MS.tab=d.mt;monLoad();return}
   if(d.fc){e.stopPropagation();fpop(t,d.fc);return}
   if('fclear' in d){MS.f={wh:'',k:'',pay:''};renderMon();return}
   if(d.bt){MS.open.has(d.bt)?MS.open.delete(d.bt):MS.open.add(d.bt);track('batch_expanded',{});renderMon();return}
