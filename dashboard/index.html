@@ -6304,7 +6304,11 @@ const MC_APPD={'FLIKCM-2026-0042':()=>{const k=mcKof('FLIKCM-2026-0042');return{
   'FLIKCM-2026-0052':()=>({amt:150e6,tenor:60,pur:'Stock and inventory',sub:'3 Oct 2026',at:3,pay:{live:1,placed:150e6,admin:1.5e6,fee:9e6,start:'27 Sep 2026',end:'About 60 days after it starts',paid:'Not yet'}}),
   'FLIKCM-2026-0024':()=>({amt:750e6,tenor:120,pur:'A new outlet',sub:'14 Jul 2026',stage:['gr','Declined'],note:'You can apply again from 1 Jan 2027. Your FLIK account manager can tell you more.'}),
   'FLIKCM-2026-0009':()=>({amt:200e6,tenor:90,pur:'Stock and inventory',sub:'3 Mar 2026',at:4,pay:{placed:200e6,admin:2e6,fee:12e6,start:'3 Mar 2026',end:'14 Jun 2026',paid:'3 Mar 2026'}})};
-function mcCaDrawer(id){id=MC_CAID[id]||id;const qd=MC_QD.find(x=>x.id===id),g=MC_APPD[id]||(qd&&(()=>{const Q=mcQ(),q=Q.find(x=>x.id===id)||{...qd,pos:2,tot:qd.placed+qd.fee,start:new Date(UJ.end.getTime()+864e5),end:new Date(UJ.end.getTime()+(qd.tenor+1)*864e5)},prev=q.pos===2?UJ.id:Q[q.pos-3].id;
+/* the Cash Advance side panel loads like the shipment panel: opened fresh it shows its frame with skeleton values, then fills in; a redraw of the open one doesn't (Raam, 19 Nov 2026) */
+function mcCaDrawer(id,...a){const key='ca:'+(MC_CAID[id]||id),again=drawer.classList.contains('open')&&!!drawer.querySelector(`.db[data-ldk="${key}"]`);clearTimeout(shLdT);mcCaDraw(id,...a);
+  const db=drawer.querySelector('.db');if(!db)return;db.dataset.ldk=key;if(again)return;skelDrawer(db);db.inert=true;db.setAttribute('aria-busy','true');db.insertAdjacentHTML('afterbegin','<span class="sr-only" role="status">Loading Cash Advance…</span>');
+  shLdT=setTimeout(()=>{if(drawer.classList.contains('open')&&drawer.querySelector(`.db[data-ldk="${key}"]`)){mcCaDraw(id,...a);const d=drawer.querySelector('.db');if(d)d.dataset.ldk=key}},matchMedia('(prefers-reduced-motion: reduce)').matches?300:600)}
+function mcCaDraw(id){id=MC_CAID[id]||id;const qd=MC_QD.find(x=>x.id===id),g=MC_APPD[id]||(qd&&(()=>{const Q=mcQ(),q=Q.find(x=>x.id===id)||{...qd,pos:2,tot:qd.placed+qd.fee,start:new Date(UJ.end.getTime()+864e5),end:new Date(UJ.end.getTime()+(qd.tenor+1)*864e5)},prev=q.pos===2?UJ.id:Q[q.pos-3].id;
     return{amt:q.placed,tenor:q.tenor,pur:q.pur,sub:q.sub,at:3,pay:{queued:1,pos:q.pos,prev,placed:q.placed,admin:q.admin,fee:q.fee,start:fday(q.start),end:fday(q.end),paid:q.paid}}}));if(!g)return;const a=g(),st=mcKof(id),P=a.pay,live=P&&P.live,f=live&&['live','behind'].includes(st)?ujFigK(st):null;
   const tot=P?P.placed+P.fee:0,ret=P?(P.queued?0:live?(f?f.ret:0):tot):0,rem=tot-ret,pct=P?ret/tot*100:0;
   const pill=MC_ALLK[st]||(P?MC_GPILL.done:`<span class="st ${a.stage[0]}">${a.stage[1]}</span>`);
@@ -6409,7 +6413,7 @@ function mcAllTable(){const K='mc-all',dash='<span class="src">—</span>';MC.se
       :`<tr><td colspan="${dtN(K)+2}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No results</b>Try changing the filters or search.</div></td></tr>`}</tbody></table></div>
     <div class="foot"><span>${R.length?`Viewing <b>1–${R.length}</b> of <b>${R.length}</b> results`:'Viewing <b>0</b> results'}</span></div>`}
 function mcEntry(){const h=mcNone(),cut=h.indexOf('<div class="mc-two">');return h.slice(0,cut).replace(/<button class="btn btn-o es-cta" data-mcjump="mc-chk">[^<]*<\/button>/,'').replace(/<div class="es-cards c3">[\s\S]*$/,'')+`<h2 class="sec mc-allh">Your Cash Advances</h2>${mcAllTable()}`}
-const mcOpenOne=id=>{const r=mcAll().find(x=>x.id===id);if(!r)return;MC.det=id;MC.aid=id;if(MC.multi)MC.one=false;MC.st=r.k;MC.atab=null;renderMca();scrollTo(0,0)};
+const mcOpenOne=id=>{const r=mcAll().find(x=>x.id===id);if(!r)return;MC.det=id;MC.aid=id;if(MC.multi)MC.one=false;MC.st=r.k;MC.atab=null;mcaLoad();scrollTo(0,0)};
 /* like Disputes on Transactions: a Live Cash Advance that's behind shows a count on the menu and on the Live tab */
 const mcBehindN=()=>['none','unverified'].includes(MC.base)?0:mcAll().filter(r=>r.k==='behind').length;
 function mcNavBadge(){const b=document.querySelector('#nav [data-view="mca"]')||document.querySelector('[data-view="mca"]');if(!b)return;b.querySelector('.tab-bd')?.remove();const n=mcBehindN();if(n)b.insertAdjacentHTML('beforeend',`<span class="st warn tab-bd" aria-label="${n} Cash Advance behind schedule">${n}</span>`)}
@@ -6427,7 +6431,7 @@ document.getElementById('view-mca').addEventListener('input',e=>{if(e.target.id=
 document.getElementById('view-mca').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
   if(b.id==='mc-state'){e.stopPropagation();if(popFor===b){closePop();return}popFor=b;
     pop.innerHTML=`<h6>Preview a state (prototype only)</h6>${MC_STATES.map(o=>`<button class="opt" data-v="${o[0]}"><span class="rdo${MC.pvk===o[0]?' on':''}"></span>${o[1]}</button>`).join('')}`;
-    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{closePop();MC.many=o.dataset.v==='review2';MC.tdone={};MC.multi=o.dataset.v==='multi';MC.det=null;MC.aid='FLIKCM-2026-0042';MC.one=o.dataset.v==='offer1';MC.nq={live2:1,live5:4}[o.dataset.v]||0;MC.st=MC.multi?'live':MC.many?'review':MC.one?'offer':MC.nq?'live':o.dataset.v;MC.base=MC.multi?'multi':MC.st;MC.pvk=o.dataset.v;MC.taskDone=false;MC.atab=null;renderMca();scrollTo(0,0)});placePop(b,true);return}
+    pop.querySelectorAll('[data-v]').forEach(o=>o.onclick=()=>{closePop();MC.many=o.dataset.v==='review2';MC.tdone={};MC.multi=o.dataset.v==='multi';MC.det=null;MC.aid='FLIKCM-2026-0042';MC.one=o.dataset.v==='offer1';MC.nq={live2:1,live5:4}[o.dataset.v]||0;MC.st=MC.multi?'live':MC.many?'review':MC.one?'offer':MC.nq?'live':o.dataset.v;MC.base=MC.multi?'multi':MC.st;MC.pvk=o.dataset.v;MC.taskDone=false;MC.atab=null;mcaLoad();scrollTo(0,0)});placePop(b,true);return}
   if('mcsrc' in d){mcSrcDrawer();return}
   if('mctall' in d){mcTaskDrawer();return}
   if(d.mcrun){mcRunAct(d.mcrun,mcMain(d.mcrun));return}
@@ -6440,8 +6444,8 @@ document.getElementById('view-mca').addEventListener('click',e=>{const b=e.targe
   if('mcsw' in d){e.stopPropagation();if(popFor===b){closePop();return}popFor=b;
     pop.innerHTML=`<div class="menu mc-swm">${mcAll().map(r=>`<button class="opt${r.id===MC.det?' on':''}" data-swid="${r.id}"><span class="mc-swck">${r.id===MC.det?ic('check',14,2.4):''}</span><span class="mc-id">${r.id}</span>${MC_ALLK[r.k]}</button>`).join('')}</div>`;
     pop.querySelectorAll('[data-swid]').forEach(o=>o.onclick=()=>{closePop();if(o.dataset.swid!==MC.det)mcOpenOne(o.dataset.swid)});placePop(b,false);return}
-  if('mcback' in d){MC.det=null;MC.st=MC.multi?'live':MC.base;MC.aid='FLIKCM-2026-0042';renderMca();scrollTo(0,0);return}
-  if(d.matab){MC.atab=d.matab;renderMca();return}
+  if('mcback' in d){MC.det=null;MC.st=MC.multi?'live':MC.base;MC.aid='FLIKCM-2026-0042';mcaLoad();scrollTo(0,0);return}
+  if(d.matab){MC.atab=d.matab;mcaLoad();return}
   if('mcrclr' in d){MC.rq='';MC.rfd={days:0};MC.rsrc=[];renderMca();return}
   if(d.mcq){MC.chk[d.mcq]=d.v;renderMca();return}
   if(d.mctier){MC.tier=+d.mctier;renderMca();return}
@@ -7123,7 +7127,7 @@ function show(view){
   document.title=VIEWS[view][1]+' | FLIK Dashboard';
   if(home){homeLoad();onbHome()}
   if(view==='set')renderSet();
-  if(view==='mca'){renderMca();onbMcaNote()}
+  if(view==='mca')mcaLoad()
   if(view==='bal')renderBal();
   if(view==='shp'){shpRoute();nav.querySelector('[data-view=\"shp\"]')?.closest('.grp')?.classList.add('open')}
   if(view==='cus')renderCus();
@@ -7612,6 +7616,8 @@ function pageLoad(el,body,draw,label){clearTimeout(skLdT);draw();const b=body();
   let st=el.querySelector('.sk-st');if(!st){st=document.createElement('span');st.className='sr-only sk-st';st.setAttribute('role','status')}el.prepend(st);st.textContent=label;
   skLdT=setTimeout(()=>{b.inert=false;el.removeAttribute('aria-busy');if(!el.hidden)draw();const s=el.querySelector('.sk-st');if(s)s.textContent=''},matchMedia('(prefers-reduced-motion: reduce)').matches?400:800)}
 const monLoad=()=>{const el=document.getElementById('view-mon');pageLoad(el,()=>document.getElementById('mon-body'),renderMon,`Loading ${(MTABS.find(t=>t[0]===MS.tab)||[,'Monitoring'])[1]}…`)};
+/* Cash Advance: the list, a Cash Advance's page, its tabs and the Preview state switch all load the same way */
+const mcaLoad=()=>{const el=document.getElementById('view-mca');pageLoad(el,()=>el,()=>{renderMca();if(typeof onbMcaNote==='function')onbMcaNote()},'Loading Cash Advance…')};
 const anaLoad=()=>{const el=document.getElementById('view-ana');pageLoad(el,()=>SH.length?el.querySelector('.an-g')?.parentElement:null,renderAna,'Loading Shipping analytics…')};
 function renderMon(){const el=document.getElementById('view-mon');/* opening Monitoring from elsewhere starts on Live */if(location.hash!==MS._h){if(location.hash==='#monitoring'){/* a Home to-do asked for a tab: good for 10 s, since the menu file that hands over renders Monitoring once too */let o=null;try{const v=(sessionStorage.getItem('flik-mon-open')||'').split('|');if(Date.now()-(+v[1]||0)<1e4)o=v[0]}catch(e){}{const [t,c]=(o||'').split(':');MS.tab=MTABS.some(x=>x[0]===t)?t:'health';/* a to-do opens its own issues only (review 5 Nov, open item 3) */monPre(t,c)}}MS._h=location.hash}
   if(!SH.length){el.innerHTML=`<div class="ph"><h1>Monitoring</h1></div>`+monEmpty('Nothing to monitor yet','After your first shipment, this page shows each batch, anything delayed or at risk, and how each courier performs for you.');return}
@@ -7931,6 +7937,9 @@ function skelDrawer(db){const T=[],tw=e=>{const r=document.createRange();r.selec
     T.push([e,`<span class="sk dsk" style="width:${e.matches('.sx-note')?'100%':Math.round(b.width)+'px'};height:${e.matches('.pm')?14:Math.round(b.height)}px;border-radius:${e.matches('.pm')?4:e.matches('.st')?6:8}px"></span>`])});
   db.querySelectorAll('.d-amt b,.d-sub,.tli b,.tli>div>span,dd').forEach(e=>{if(T.some(t=>t[0].contains(e)||e.contains(t[0])))return;const[x,y]=tw(e),n=Math.max(1,Math.round(y/20)),h=e.matches('.d-amt b')?28:12;
     T.push([e,null,Array.from({length:n},(_,i)=>`<span class="sk dsk" style="display:block;width:${n>1&&i<n-1?'100%':x+'px'};height:${h}px;${i?'margin-top:8px;':''}"></span>`).join('')])});
+  /* any other value with its own text (headings and labels stay) */
+  db.querySelectorAll('*').forEach(e=>{if(e.closest('h1,h2,h3,h4,h5,h6,dt,label,.sr-only,.sk')||T.some(t=>t[0].contains(e)||e.contains(t[0])))return;if(![...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim()))return;
+    const[x,y]=tw(e),n=Math.max(1,Math.round(y/20));T.push([e,null,Array.from({length:n},(_,i)=>`<span class="sk dsk" style="display:block;width:${n>1&&i<n-1?'100%':x+'px'};height:12px;${i?'margin-top:8px;':''}"></span>`).join('')])});
   T.forEach(([e,o,inner])=>{if(o)e.outerHTML=o;else e.innerHTML=inner})}
 function openShipment(id,quiet){const again=drawer.classList.contains('open')&&!!drawer.querySelector(`.db[data-shipd="${id}"]`);clearTimeout(shLdT);shipDraw(id,quiet||again);if(again)return;
   const db=drawer.querySelector(`.db[data-shipd="${id}"]`);if(!db)return;skelDrawer(db);db.inert=true;db.setAttribute('aria-busy','true');
