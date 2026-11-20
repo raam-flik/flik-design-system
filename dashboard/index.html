@@ -48,7 +48,7 @@ svg{display:block;flex:none}
 .grp.open>.ni .chev{transform:rotate(180deg)}
 .sub{display:none;padding:2px 0 4px 30px}
 .grp.open .sub{display:grid}
-.sub .ni{height:auto;min-height:30px;padding-top:6px;padding-bottom:6px;font-size:13.5px;line-height:1.35}
+.sub .ni{height:auto;min-height:30px;padding-top:6px;padding-bottom:6px;padding-right:6px;font-size:13.5px;line-height:1.35}
 .navh{font-size:12.5px;color:var(--muted);padding:18px 10px 6px;font-weight:500}
 .wy-g{grid-template-columns:repeat(2,minmax(0,1fr))}
 .wy-c>span{color:var(--muted);font-size:13.5px;line-height:1.5}
@@ -77,7 +77,7 @@ svg{display:block;flex:none}
 .balbox button:hover{background:var(--hover)}
 .balbox .bal-add{width:32px;padding:0;justify-content:center;border-left:1px solid var(--line);color:var(--muted)}
 .balbox .bal-add:hover{color:var(--primary)}
-.lang{height:32px;display:inline-flex;align-items:center;gap:5px;padding:0 8px;border-radius:6px;color:var(--muted);font-size:13px;font-weight:500}
+.lang{height:32px;display:inline-flex;align-items:center;gap:5px;padding:0 4px 0 8px;border-radius:6px;color:var(--muted);font-size:13px;font-weight:500}.lang+.ib{margin-left:-4px}
 .lang:hover{background:var(--hover);color:var(--text)}
 .lang [data-ic="chev"] svg{width:13px;height:13px}
 .lang-opt{justify-content:flex-start}
@@ -3102,11 +3102,10 @@ P.code='<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>';
 const NAV=[
   {i:'home',t:'Home',v:'home'},{i:'bal',t:'Balances',v:'bal'},{i:'tx',t:'Transactions',v:'tx'},{i:'user',t:'Customers',v:'cus'},{i:'box',t:'Product Catalog',v:'prd'},
   {h:'Products'},
-  {i:'cart',t:'Payments',sub:[{t:'Invoice',v:'inv'},'Offline Shop',{t:'Payment Link',v:'pl'},'Order Form']},
+  {i:'cart',t:'Payments',sub:[{t:'Checkout personalization',v:'set',h:'checkout-personalization'},{t:'Invoice',v:'inv'},'Offline Shop',{t:'Payment Link',v:'pl'},'Order Form']},
   {i:'truck',t:'Shipping',sub:[{t:'Shipment',v:'shp',h:'shipments/create'},{t:'Monitoring',v:'mon'},{t:'Check rate',v:'cr'},{t:'Analytics',v:'ana'}]},
   {i:'coins',t:'Cash Advance',v:'mca'},
   {i:'tag',t:'Marketing',sub:['Chat Commerce','Leads Management','Voucher','Post Purchase Offer','Cashback']},
-  {i:'chart',t:'Analytics',sub:['Checkout','Shipping']},
   {i:'gear',t:'Settings',v:'set',hash:'settings'}
 ];
 const nav=document.getElementById('nav');
@@ -7161,7 +7160,7 @@ const VIEWS={set:['settings','Settings'],home:['home','Home'],tx:['transactions'
 const hashView=()=>location.hash==='#checkout-personalization'||location.hash==='#checkout'?'set':location.hash==='#warehouses'?(history.replaceState(null,'','#settings/shipping'),'set'):/^#(settings|verify)/.test(location.hash)?'set':location.hash==='#invoices/create'||location.hash==='#invoices/pay'?'inv':location.hash==='#shipments/create'||/^#shipments\/[0-9A-F]{8}/.test(location.hash)?'shp':location.hash==='#warehouses/new'?'wh':location.hash==='#merchant-cash-advance/apply'?'mca':/^#transactions\//.test(location.hash)?'tx':/^#payment-links/.test(location.hash)?'pl':Object.keys(VIEWS).find(k=>'#'+VIEWS[k][0]===location.hash)||'home';
 /* which sidebar item is on: Developers and Settings both open the Settings view, so they go by the address. Checkout editing sits under Settings */
 function navOn(b,view){if(b.dataset.view!==view)return false;if(view!=='set')return true;const h=location.hash,d=b.dataset.hash,dev=/^#settings\/developers/.test(h);
-  return d==='settings/developers'?dev:d==='settings'?(/^#settings/.test(h)&&!dev)||h==='#checkout-personalization'||h==='#checkout':false}
+  return d==='settings/developers'?dev:d==='checkout-personalization'?h==='#checkout-personalization':d==='settings'?(/^#settings/.test(h)&&!dev)||h==='#checkout':false}
 function show(view){
   if(location.hash==='#verify'&&document.getElementById('vx').hidden)openVer();
   if(view!=='set'){hideSave();ONB.dirty=false}
