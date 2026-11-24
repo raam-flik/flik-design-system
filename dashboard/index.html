@@ -1236,7 +1236,11 @@ nav.fl-lg :is(a,button).lnk{color:var(--muted);font:inherit;text-decoration:none
 .bk .okk{color:var(--ok-tx);display:inline-flex;align-items:center;gap:4px;font-size:12.5px;padding-top:6px}
 .bk td[data-c="name"]{min-width:150px}.bk td[data-c="phone"]{min-width:130px}.bk td[data-c="street"]{min-width:200px}
 .bk td[data-c="kel"],.bk td[data-c="kec"]{min-width:190px}.bk td[data-c="city"]{min-width:180px}.bk td[data-c="prov"]{min-width:170px}
-.bk td[data-c="zip"]{min-width:100px}.bk td[data-c="items"]{min-width:190px}.bk td[data-c="wh"]{min-width:120px}.bk td[data-c="pay"]{min-width:150px;white-space:nowrap}
+.bk td[data-c="zip"]{min-width:100px}.bk td[data-c="items"]{min-width:190px}
+.bk td[data-c="kg"]{min-width:96px}.bk td[data-c="size"]{min-width:172px}.bk td[data-c="pay"]{min-width:124px}.bk td[data-c="val"]{min-width:124px}
+.bk-dim{display:flex;align-items:center;gap:4px}.bk-dim span{color:var(--muted);font-size:12px}.bk .bk-dim input{width:46px;flex:none;text-align:center;padding:0 4px}
+.bk .bk-dim input.err{box-shadow:0 0 0 1.5px var(--bad-tx);background:var(--bad-bg)}.bk .bk-dim input.sug{box-shadow:0 0 0 1.5px var(--pu-bd);background:var(--pu-bg)}.bk .bk-dim input.auto{box-shadow:0 0 0 1px var(--pu-bd)}
+.bk td.sug input::placeholder,.bk .bk-dim input.sug::placeholder{color:var(--pu-tx)}.bk td.err input::placeholder,.bk .bk-dim input.err::placeholder{color:var(--bad-tx)}.bk td[data-c="wh"]{min-width:120px}.bk td[data-c="pay"]{min-width:150px;white-space:nowrap}
 .sx-sub-l{display:block;font-size:13px;font-weight:500;color:var(--ink);margin:14px 0 6px}
 .sx-drop{border:1.5px dashed var(--line-2);border-radius:10px;padding:32px;text-align:center;color:var(--muted)}
 .sx-drop b{display:block;color:var(--ink);font-weight:600;margin:10px 0 4px}
@@ -5652,7 +5656,7 @@ function doneHtml(){if(X.done.heldOnly){const h=X.done.held,f=x=>x.toLocaleStrin
     ${d.batches.map(b=>`<tr><td class="dn-id">${b.id}</td><td><div class="dn-c">${cLogo(SERVICES[b.v][0])}${svName(b.v)}</div></td><td class="num">${fmt(b.n)}</td><td>${b.wh.length<3?b.wh.join(', '):`<span class="tt" data-tip="${b.wh.join(', ')}" tabindex="0">${b.wh.length} warehouses</span>`}</td><td><span class="st warn">Waiting for pickup</span></td><td><button class="btn btn-o" data-toast="Printing ${fmt(b.n)} ${b.n===1?'label':'labels'} for batch ${b.id}">${ic('print',14)}Labels</button></td></tr>`).join('')}
     ${d.held?d.held.list.map(b=>`<tr><td class="dn-id">${b.id}</td><td><div class="dn-c">${cLogo(SERVICES[b.v][0])}${svName(b.v)}</div></td><td class="num">1</td><td><span class="src">${b.name} · ${b.kind==='later'?'when you decide':'after they reply'}</span></td><td><span class="st ${b.kind==='later'?'gr':'pu'}">${b.kind==='later'?'Needs decision':'Waiting for confirmation'}</span></td><td></td></tr>`).join(''):''}</tbody></table></div></section></div>`}
 // edits
-sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.br!=null){if(t.tagName==='SELECT')return;X.bulk[t.dataset.br][t.dataset.bk]=t.value.trim();bRefresh(+t.dataset.br);return}if(t.dataset.si!=null){if(t.dataset.k==='cod'){const n=+t.value.replace(/\D/g,'');t.value=n?n.toLocaleString('id-ID'):''}X.ships[t.dataset.si][t.dataset.k]=t.value;
+sxBody.addEventListener('input',e=>{const t=e.target;if(t.dataset.br!=null){if(t.tagName==='SELECT')return;const bk=t.dataset.bk;X.bulk[t.dataset.br][bk]=bk==='val'?t.value.replace(/\D/g,''):['kg','l','w','h'].includes(bk)?t.value.trim().replace(',','.'):t.value.trim();bRefresh(+t.dataset.br);return}if(t.dataset.si!=null){if(t.dataset.k==='cod'){const n=+t.value.replace(/\D/g,'');t.value=n?n.toLocaleString('id-ID'):''}X.ships[t.dataset.si][t.dataset.k]=t.value;
   const card=t.closest('.sx-ship'),i=+t.dataset.si,ok=shipOk(X.ships[i]);const has=card.querySelector('.sx-sh .ok');
   if(ok&&!has)card.querySelector('.sx-sh b').insertAdjacentHTML('afterend',`<span class="ok">${ic('check',15,2.4)}</span>`);if(!ok&&has)has.remove();
   document.getElementById('sx-next').disabled=!stepOk()}});
@@ -5738,24 +5742,37 @@ const whCodes=()=>WH.filter(w=>w.active).map(w=>w.code);
 function makeBulk(){let sd=11;const r=n=>{sd=(sd*9301+49297)%233280;return Math.floor(sd/233280*n)};
   const FN=['Rina','Budi','Sari','Andi','Dewi','Fajar','Maya','Rizky','Putri','Agus','Nadia','Yoga','Intan','Bayu','Citra','Dimas','Eka','Gita','Hendra','Indah'],LN=['Putri','Santoso','Wulandari','Pratama','Lestari','Nugroho','Sari','Ramadhan','Ayu','Setiawan','Rahma','Saputra','Permata','Hidayat','Kusuma','Wijaya'];
   const ST=['Jl. Melati','Jl. Kenanga','Jl. Mawar','Jl. Anggrek','Jl. Cempaka','Jl. Flamboyan','Jl. Merdeka','Jl. Sudirman','Jl. Diponegoro','Jl. Gajah Mada'];
-  const PR=[['Linen shirt · White',289000,.4],['Canvas tote bag',149000,.3],['Wide-leg trousers',219000,.5],['Basic tee · Black',99000,.2],['Voile scarf · Floral',125000,.1],['Leather sneakers',459000,1.2],['Batik dress · Indigo',375000,.5]];
+  const PR=[['Linen shirt · White',289000,.4,[30,20,5]],['Canvas tote bag',149000,.3,[35,40,3]],['Wide-leg trousers',219000,.5,[30,25,5]],['Basic tee · Black',99000,.2,[25,20,2]],['Voile scarf · Floral',125000,.1,[20,15,2]],['Leather sneakers',459000,1.2,[33,22,12]],['Batik dress · Indigo',375000,.5,[30,25,4]]];
   const rows=[];for(let i=0;i<500;i++){const a=AREAS[r(AREAS.length)],p=PR[r(PR.length)],q=1+r(3);
-    rows.push({i,ro:i+1,pay:(i*7)%10<7?'cod':'non',name:FN[r(FN.length)]+' '+LN[r(LN.length)],phone:`8${1+r(8)}${r(10)}-${1000+r(9000)}-${1000+r(9000)}`,street:`${ST[r(ST.length)]} No. ${1+r(120)}`,kel:a[0],kec:a[1],city:a[2],prov:a[3],zip:a[4],items:`${p[0]} ×${q}`,kg:String(Math.max(.1,Math.round(p[2]*q*10)/10)),val:p[1]*q,wh:['JKT-01','JKT-01','BDG-01','SBY-01'][r(4)]})}
+    rows.push({i,ro:i+1,pay:(i*7)%10<7?'cod':'non',name:FN[r(FN.length)]+' '+LN[r(LN.length)],phone:`8${1+r(8)}${r(10)}-${1000+r(9000)}-${1000+r(9000)}`,street:`${ST[r(ST.length)]} No. ${1+r(120)}`,kel:a[0],kec:a[1],city:a[2],prov:a[3],zip:a[4],items:`${p[0]} ×${q}`,kg:String(Math.max(.1,Math.round(p[2]*q*10)/10)),l:String(p[3][0]),w:String(p[3][1]),h:String(p[3][2]),val:p[1]*q,wh:['JKT-01','JKT-01','BDG-01','SBY-01'][r(4)]})}
   [[23,0],[97,0],[184,1],[302,0],[411,1]].forEach(([i,m])=>{const a=MKS[m];Object.assign(rows[i],{kel:a[0],kec:a[1],city:a[2],prov:a[3],zip:a[4],pay:'cod'})});
   BULK_ISSUES.forEach(([i,ai,wh,bad,fix,msg])=>{const a=AREAS[ai],row=rows[i];Object.assign(row,{kel:a[0],kec:a[1],city:a[2],prov:a[3],zip:a[4],wh},bad,{flag:true,msg,bad});
     if(fix)row.fix=fix;else row.need=Object.keys(bad)});
+  /* missing product details and payment (Raam, 24 Nov 2026): AI fills weight and size from the Product catalog when the product is in it,
+     and COD when a COD amount is filled; a missing product name, a product not in the catalog, or a payment with no amount needs the merchant.
+     [row, values as uploaded, empty or wrong cells, AI fix (null: the merchant fills it in), message] */
+  [[11,{},{items:''},null,'Product name is empty. Type what\'s in the parcel.'],
+   [47,{items:'Linen shirt · White ×1',l:'30',w:'20',h:'5'},{kg:''},{kg:'0.4'},'Weight is empty. AI suggests 0.4 kg from your Product catalog.'],
+   [96,{items:'Canvas tote bag ×1',kg:'0.3'},{l:'',w:'',h:''},{l:'35',w:'40',h:'3'},'Size is empty. AI suggests 35 × 40 × 3 cm from your Product catalog.'],
+   [159,{items:'Handmade vase ×1'},{kg:'',l:'',w:'',h:''},null,'Handmade vase isn\'t in your Product catalog. Type the weight and size.'],
+   [232,{items:'Batik dress · Indigo ×1',kg:'0.5',val:375000},{pay:''},{pay:'cod'},'Payment is empty, but a COD amount is filled. AI suggests COD.'],
+   [300,{},{pay:'',val:''},null,'Payment is empty. Choose COD or Non-COD.'],
+   [380,{pay:'cod'},{val:''},null,'COD amount is empty. Type what the courier collects.'],
+   [420,{items:'Ceramic mug ×2',kg:'0.8',l:'12',w:'12'},{h:''},null,'Height is empty. Type it in cm.']
+  ].forEach(([i,set,bad,fix,msg])=>{const row=rows[i];Object.assign(row,set,bad,{flag:true,msg,bad});if(fix)row.fix=fix;else row.need=Object.keys(bad)});
   return rows}
 const bSnap=rows=>rows.map(r=>({ro:r.ro,...Object.fromEntries(Object.keys(D_LBL).map(k=>[k,r[k]]))}));
-const bFieldOk=(r,k)=>bOpts(r,k).includes(r[k]);
+const bNum=v=>+String(v??'').replace(',','.');
+const bFieldOk=(r,k)=>k==='items'?!!String(r.items||'').trim():['kg','l','w','h'].includes(k)?bNum(r[k])>0:k==='pay'?r.pay==='cod'||r.pay==='non':k==='val'?r.pay!=='cod'||+String(r.val).replace(/\D/g,'')>0:bOpts(r,k).includes(r[k]);
 const bSt=r=>r.fix?'sug':r.need&&r.need.some(k=>!bFieldOk(r,k))?'err':'ok';
 const hRow=r=>health({phone:r.phone,addr:{zip:r.zip,city:`${r.kel}, ${r.kec}, ${r.city}, ${r.prov}`}});
 const riskTag=h=>`<span class="st ${h.band} rk-tag" tabindex="0" data-tip="Health score ${h.sc} out of 100, higher is safer. ${h.why.join('. ')}. Check the name and number with your customer and fix them here, or remove the order." aria-label="Health score ${h.sc}">${h.sc}</span>`;
 /* risky rows: name and phone can be edited right in the table */
 const rkEdit=(r,k,h)=>`<td data-c="${k}" class="${k==='phone'?'rk-'+h.band:''}"><div class="rk-in"><input data-br="${r.i}" data-bk="${k}" value="${r[k]}" ${k==='phone'?'inputmode="tel"':''} aria-label="Row ${r.i+1} ${k==='phone'?'phone':'customer name'}">${k==='phone'?riskTag(h):''}</div></td>`;
 function bCounts(){let ok=0,sug=0,err=0,flag=0,risk=0;for(const r of X.bulk){if(r.flag)flag++;if(hRow(r).band!=='ok')risk++;const s=bSt(r);s==='ok'?ok++:s==='sug'?sug++:err++}return{ok,sug,err,flag,risk,left:sug+err}}
-const bCols=()=>[['wh','Warehouse'],['street','Full address'],['prov','Province'],['city','City or regency'],['kec','Kecamatan'],['kel','Kelurahan'],['zip','Postcode'],['name','Customer name'],['phone','Phone'],['items','Product'],['pay','Payment']];
+const bCols=()=>[['wh','Warehouse'],['street','Full address'],['prov','Province'],['city','City or regency'],['kec','Kecamatan'],['kel','Kelurahan'],['zip','Postcode'],['name','Customer name'],['phone','Phone'],['items','Product'],['kg','Weight (kg)'],['size','Size (cm)'],['pay','Payment'],['val','COD amount']];
 const bCls=(r,k)=>r.fix&&k in r.fix?'sug':r.need&&r.need.includes(k)&&!bFieldOk(r,k)?'err':r.ai&&r.ai.includes(k)?'auto':'';
-function bApply(r){r.ai=Object.keys(r.fix);r.aiTx=r.ai.map(k=>`${r.bad[k]} → ${r.fix[k]}`).join(', ');Object.assign(r,r.fix);r.fix=null}
+function bApply(r){r.ai=Object.keys(r.fix);r.aiTx=r.ai.map(k=>`${bShow(k,r.bad[k])} → ${bShow(k,r.fix[k])}`).join(', ');Object.assign(r,r.fix);r.fix=null}
 function bCheck(r){
   if(r.fix)return`<div class="is-sm sug">${ic('bolt',13)}AI suggestion</div><div class="is sug full"><span class="msg" title="${r.msg}">${ic('bolt',13)}${r.msg}</span><button class="btn btn-o" data-bacc="${r.i}">Accept</button></div>`;
   if(bSt(r)==='err')return`<div class="is-sm err">${ic('warn',13)}Needs your input</div><div class="is err full"><span class="msg" title="${r.msg}">${r.msg}</span></div>`;
@@ -5766,11 +5783,15 @@ function bCheck(r){
   const note=r.ai?`Fixed by AI: ${r.aiTx}`:r.need||r.you?'Chosen by you':'';
   return`<div class="is-sm ok">${ic('check',13,2.4)}Ready</div>${note?`<div class="is ok full"><span class="msg" title="${note}"><b>${ic('check',13,2.4)}Ready</b> · ${note}</span></div>`:''}`}
 function bCell(r,k,lab){const cls=bCls(r,k),need=r.need&&r.need.includes(k);
-  if(k in r.bad){const o=bOpts(r,k),cur=o.includes(r[k]),sg=r.fix&&r.fix[k];
+  /* size: three small boxes (L × W × H); only the empty or suggested box is marked */
+  if(k==='size')return`<td data-c="size"><div class="bk-dim">${['l','w','h'].map((x,j)=>`<input class="${bCls(r,x)}" data-br="${r.i}" data-bk="${x}" value="${r[x]??''}" inputmode="decimal" placeholder="${r.fix&&r.fix[x]?r.fix[x]:r.need&&r.need.includes(x)?'LWH'[j]:''}" aria-label="Row ${r.i+1} ${['Length','Width','Height'][j]} in cm">`).join('<span aria-hidden="true">×</span>')}</div></td>`;
+  if(k==='pay'){const sg=r.fix&&r.fix.pay;return`<td data-c="pay" class="${cls} sel"><select data-br="${r.i}" data-bk="pay" aria-label="Row ${r.i+1} Payment">${r.pay?'':'<option value="" selected>Choose</option>'}${[['cod','COD'],['non','Non-COD']].map(([v,t])=>`<option value="${v}" ${r.pay===v?'selected':''}>${t}${sg===v?' · AI suggestion':''}</option>`).join('')}</select></td>`}
+  if(k==='val'&&r.pay==='non')return`<td data-c="val" class="tx"><span class="src">—</span></td>`;
+  if(k in r.bad&&(k==='wh'||ADDR_K.includes(k))){const o=bOpts(r,k),cur=o.includes(r[k]),sg=r.fix&&r.fix[k];
     return`<td data-c="${k}" class="${cls} sel"><select data-br="${r.i}" data-bk="${k}" aria-label="Row ${r.i+1} ${lab}">${cur?'':`<option value="${r[k]}" selected>${r[k]||'Choose'}</option>`}${o.map(v=>`<option value="${v}" ${r[k]===v?'selected':''}>${v}${sg===v?' · AI suggestion':''}</option>`).join('')}</select></td>`}
-  return`<td data-c="${k}" class="${cls}"><input data-br="${r.i}" data-bk="${k}" value="${k==='val'?Number(r.val).toLocaleString('id-ID'):r[k]}" ${need?'placeholder="Required"':''} ${k==='zip'||k==='val'?'inputmode="numeric"':''} aria-label="Row ${r.i+1} ${lab}"></td>`}
-const bTx=(r,k)=>{if(k==='pay')return`<td data-c="pay" class="tx">${r.pay==='cod'?`<span class="st pu">COD</span> <span class="num">${rp(r.val)}</span>`:'<span class="st gr">Non-COD</span>'}</td>`;if(k==='phone'){const h=hRow(r);return`<td data-c="phone" class="tx${h.band!=='ok'?' rk-'+h.band:''}"><span class="rk-ph">${r.phone}${h.band!=='ok'?riskTag(h):''}</span></td>`}return`<td data-c="${k}" class="tx${k==='val'||k==='kg'?' num':''}">${k==='val'?rp(r.val):r[k]}</td>`};
-const bTr=(r,check,cour)=>`<tr data-br="${r.i}"><td class="rn">${r.ro}</td>${cour?`<td data-c="svc" class="tx">${svName(svcFor(r.i))}</td>`:''}${(()=>{const h=check&&!r.flag?hRow(r):null;return bCols().map(([k,l])=>check&&r.flag&&k!=='pay'?bCell(r,k,l):h&&h.band!=='ok'&&(k==='name'||k==='phone')?rkEdit(r,k,h):bTx(r,k)).join('')})()}${check?`<td class="iss" tabindex="0">${bCheck(r)}</td>`:''}</tr>`;
+  return`<td data-c="${k}" class="${cls}"><input data-br="${r.i}" data-bk="${k}" value="${k==='val'?(+r.val?Number(r.val).toLocaleString('id-ID'):''):r[k]}" ${r.fix&&r.fix[k]?`placeholder="${r.fix[k]}"`:need&&!bFieldOk(r,k)?'placeholder="Required"':''} ${k==='zip'||k==='val'?'inputmode="numeric"':k==='kg'?'inputmode="decimal"':''} aria-label="Row ${r.i+1} ${lab}"></td>`}
+const bTx=(r,k)=>{if(k==='pay')return`<td data-c="pay" class="tx">${r.pay==='cod'?'<span class="st pu">COD</span>':'<span class="st gr">Non-COD</span>'}</td>`;if(k==='size')return`<td data-c="size" class="tx num">${r.l||'—'} × ${r.w||'—'} × ${r.h||'—'}</td>`;if(k==='val'&&r.pay!=='cod')return`<td data-c="val" class="tx">${r.pay===''&&+r.val?`<span class="num">${rp(r.val)}</span>`:'<span class="src">—</span>'}</td>`;if(k==='phone'){const h=hRow(r);return`<td data-c="phone" class="tx${h.band!=='ok'?' rk-'+h.band:''}"><span class="rk-ph">${r.phone}${h.band!=='ok'?riskTag(h):''}</span></td>`}return`<td data-c="${k}" class="tx${k==='val'||k==='kg'?' num':''}">${k==='val'?rp(r.val):r[k]}</td>`};
+const bTr=(r,check,cour)=>`<tr data-br="${r.i}"><td class="rn">${r.ro}</td>${cour?`<td data-c="svc" class="tx">${svName(svcFor(r.i))}</td>`:''}${(()=>{const h=check&&!r.flag?hRow(r):null;return bCols().map(([k,l])=>check&&r.flag&&(k!=='pay'||'pay' in r.bad)?bCell(r,k,l):h&&h.band!=='ok'&&(k==='name'||k==='phone')?rkEdit(r,k,h):bTx(r,k)).join('')})()}${check?`<td class="iss" tabindex="0">${bCheck(r)}</td>`:''}</tr>`;
 function bTable(rows,check,cour){return`<div class="tbl-wrap bk${X.bfix?' busy':''}"><table><thead><tr><th></th>${cour?'<th>Courier</th>':''}${bCols().map(c=>`<th>${c[1]}</th>`).join('')}${check?'<th class="iss">Check</th>':''}</tr></thead><tbody>${rows.map(r=>bTr(r,check,cour)).join('')}</tbody></table></div>`}
 /* picking from a dropdown: a different value than the AI's settles that cell; the postcode follows the kelurahan */
 function bPick(el){const r=X.bulk[el.dataset.br],k=el.dataset.bk;r[k]=el.value;if(r.fix&&k in r.fix){delete r.fix[k];r.you=true;if(!Object.keys(r.fix).length)r.fix=null}
@@ -5787,8 +5808,8 @@ function bulkHtml(){const R=X.bulk,c=bCounts();if(X.bv==='risk'&&!c.risk)X.bv='a
   ${X.bfix?`<div class="bk-ai" id="bk-ai" role="status" aria-live="polite"><span class="bk-ai-ic">${ic('bolt',16)}</span><div><b>AI is fixing your rows</b><span id="bk-ai-tx">${X.bfix.tx}</span></div><span class="bk-ai-n" id="bk-ai-n">${X.bfix.done}/${X.bfix.n}</span><div class="bk-ai-bar"><i id="bk-ai-fill"></i></div></div>`:''}
   <div class="bk-sum" id="bk-sum">${bSumHtml()}</div>${X.bv==='risk'?`<p class="bk-mp rk-lead">These numbers failed deliveries before, or go to areas where fewer deliveries succeed. The score runs from 0 to 100: higher means less risk. Keep the ones you trust, or remove them.</p>`:''}${bTable(rows,true)}${X.bv==='all'?bPager():''}`}
 /* Review: every difference between the uploaded file and what ships now, row by row */
-const D_LBL={name:'Customer name',phone:'WhatsApp',street:'Street',kel:'Kelurahan',kec:'Kecamatan',city:'City',prov:'Province',zip:'Postcode',wh:'Warehouse',items:'Contents',kg:'Weight',val:'COD amount',pay:'Payment'};
-const dVal=(k,v)=>k==='val'?rp(+v):k==='pay'?(v==='cod'?'COD':'Non-COD'):k==='phone'?`+62 ${v}`:k==='kg'?`${v} kg`:v||'—';
+const D_LBL={name:'Customer name',phone:'WhatsApp',street:'Street',kel:'Kelurahan',kec:'Kecamatan',city:'City',prov:'Province',zip:'Postcode',wh:'Warehouse',items:'Contents',kg:'Weight',l:'Length',w:'Width',h:'Height',val:'COD amount',pay:'Payment'};
+const dVal=(k,v)=>['l','w','h'].includes(k)?(v?`${v} cm`:'—'):k==='val'?rp(+v):k==='pay'?(v==='cod'?'COD':'Non-COD'):k==='phone'?`+62 ${v}`:k==='kg'?`${v} kg`:v||'—';
 function bDiff(){const o=X.orig;if(!o)return[];const held=new Map((X.held||[]).map(h=>[h.s.ro,h.kind])),now=new Map(X.bulk.map((r,i)=>[r.ro,[r,i]])),L=[];
   o.rows.forEach(r0=>{const ro=r0.ro;
     if(held.has(ro)){L.push({t:'wait',ro,name:r0.name,what:'Moved to a WhatsApp batch',a:'In this batch',b:held.get(ro)==='pay'?'Waits for payment':'Waits for confirmation'});return}
@@ -5807,17 +5828,18 @@ function bCompare(){const o=X.orig;if(!o)return'';const f=x=>x.toLocaleString('i
     ${rows.map(d=>`<tr class="cmp-${d.t}"><td class="rn">${d.ro}</td><td>${d.name}</td><td>${d.what}</td><td class="cmp-a">${d.a}</td><td class="cmp-b">${d.b}</td></tr>`).join('')}</tbody></table></div>`:''}</section>`}
 const bReview=()=>bTable(X.bulk.slice(X.bpg*BPG,X.bpg*BPG+BPG),false,true)+bPager();
 const bPickup=()=>{const cs=[...new Set(X.bulk.map(r=>r.wh))];return`${cs.length} warehouses (${cs.join(', ')})`};
-const bShip=r=>({ro:r.ro,whk:r.wh,pay:r.pay,phone:r.phone,name:r.name,addr:{street:r.street,city:`${r.kel}, ${r.kec}, ${r.city}, ${r.prov}`,zip:r.zip},l:'30',w:'20',h:'10',kg:r.kg,items:r.items,cod:String(r.val),open:false});
+const bShip=r=>({ro:r.ro,whk:r.wh,pay:r.pay,phone:r.phone,name:r.name,addr:{street:r.street,city:`${r.kel}, ${r.kec}, ${r.city}, ${r.prov}`,zip:r.zip},l:r.l||'30',w:r.w||'20',h:r.h||'10',kg:r.kg,items:r.items,cod:String(r.val),open:false});
 function bRefresh(i,whole){const r=X.bulk[i],tr=sxBody.querySelector(`tr[data-br="${i}"]`);
-  if(tr&&whole)tr.outerHTML=bTr(r,true);else if(tr){tr.querySelector('.iss').innerHTML=bCheck(r);tr.querySelectorAll('td[data-c]').forEach(td=>td.className=bCls(r,td.dataset.c)+(td.querySelector('select')?' sel':''))}
+  if(tr&&whole)tr.outerHTML=bTr(r,true);else if(tr){tr.querySelector('.iss').innerHTML=bCheck(r);tr.querySelectorAll('td[data-c]').forEach(td=>td.className=bCls(r,td.dataset.c)+(td.querySelector('select')?' sel':''));tr.querySelectorAll('.bk-dim input').forEach(x=>x.className=bCls(r,x.dataset.bk))}
   document.getElementById('bk-sum').innerHTML=bSumHtml();document.getElementById('sx-next').disabled=!stepOk()}
 /* Fix all with AI: confirm first, then fix row by row so the merchant sees what changes */
-const B_LBL={zip:'Postcode',kel:'Kelurahan',kec:'Kecamatan',city:'City',prov:'Province',wh:'Warehouse'};
+const B_LBL={zip:'Postcode',kel:'Kelurahan',kec:'Kecamatan',city:'City',prov:'Province',wh:'Warehouse',items:'Product',kg:'Weight',l:'Length',w:'Width',h:'Height',pay:'Payment',val:'COD amount'};
+const bShow=(k,v)=>v===''||v==null?'—':k==='pay'?(v==='cod'?'COD':'Non-COD'):k==='kg'?`${v} kg`:['l','w','h'].includes(k)?`${v} cm`:v;
 const aiDots='<span class="ai-dots" aria-hidden="true"><i></i><i></i><i></i></span>';
 function bFixConfirm(){const rows=X.bulk.filter(r=>r.fix),n=rows.length,left=bCounts().err,rw=n===1?'row':'rows';
   modal.innerHTML=`<div class="mh"><h3>Fix ${n} ${rw} with AI?</h3><button class="ib" data-mclose aria-label="Close">${ic('x',18)}</button></div>
-  <div class="mb"><p class="bk-mp">AI will fix every flagged row using its suggestions from your address and warehouse data. You can still change any cell afterwards.</p>
-  <div class="tbl-wrap sp-wrap fx-wrap"><table class="sp-tbl fx-tbl"><thead><tr><th>Row</th><th>Field</th><th>In your file</th><th>AI fix</th></tr></thead><tbody>${rows.flatMap(r=>Object.keys(r.fix).map(k=>`<tr><td>${r.ro}</td><td>${B_LBL[k]}</td><td class="fx-old">${r.bad[k]}</td><td class="fx-new">${ic('bolt',13)}${r.fix[k]}</td></tr>`)).join('')}</tbody></table></div>
+  <div class="mb"><p class="bk-mp">AI will fix every flagged row using its suggestions from your address, warehouse and Product catalog data. You can still change any cell afterwards.</p>
+  <div class="tbl-wrap sp-wrap fx-wrap"><table class="sp-tbl fx-tbl"><thead><tr><th>Row</th><th>Field</th><th>In your file</th><th>AI fix</th></tr></thead><tbody>${rows.flatMap(r=>Object.keys(r.fix).map(k=>`<tr><td>${r.ro}</td><td>${B_LBL[k]}</td><td class="fx-old">${bShow(k,r.bad[k])}</td><td class="fx-new">${ic('bolt',13)}${bShow(k,r.fix[k])}</td></tr>`)).join('')}</tbody></table></div>
   ${left?`<p class="bk-mp">${left} ${left===1?'row has':'rows have'} empty cells. AI can't guess those, so you'll choose them yourself.</p>`:''}</div>
   <div class="mf"><button class="btn btn-o" data-mclose>Cancel</button><button class="btn btn-p" id="bk-go">${ic('bolt',15)}Fix ${n} ${rw}</button></div>`;
   modal.classList.add('md');mscrim.classList.add('open');document.getElementById('bk-go').onclick=()=>{closeModal();bFixRun()};setTimeout(()=>document.getElementById('bk-go').focus(),0)}
