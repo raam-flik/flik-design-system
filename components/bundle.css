@@ -203,6 +203,12 @@
 .fl-empty-card{background:var(--app-hover);border-radius:var(--radius-card);padding:20px;display:flex;flex-direction:column;align-items:flex-start}
 .fl-empty-card h3{font-size:15px;font-weight:600;color:var(--app-ink);margin:0}
 .fl-empty-card p{color:var(--app-muted);margin:8px 0 0;line-height:1.5}
+/* Empty table: a list or table with no rows (no data yet, or nothing matches). Grey icon tile, bold title, one muted line; left-aligned, centred in the space */
+.fl-table-empty{display:grid;grid-template-columns:fit-content(460px);justify-content:center;justify-items:start;padding:72px 24px;color:var(--app-muted);font-size:14px;line-height:1.5}
+.fl-table-empty-ic{width:48px;height:48px;border-radius:var(--radius-card);background:var(--app-hover);color:var(--app-ink);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.fl-table-empty b{font-size:20px;line-height:1.3;font-weight:600;color:var(--app-ink);margin-bottom:6px}
+.fl-table-empty p{margin:0}
+.fl-table-empty .fl-abtn{margin-top:16px}
 .fl-ulink{margin-top:auto;padding-top:18px;font-weight:500;color:var(--app-text);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--app-faint)}
 .fl-ulink:hover{color:var(--primary);text-decoration-color:currentColor}
 /* Full-screen flow: top bar (close, title, steps), scrolling body, fixed footer */

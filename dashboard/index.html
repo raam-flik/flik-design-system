@@ -144,7 +144,7 @@ h1{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.4px;margin-t
 #view-cr .cr-t .cr-srw .src{text-decoration:underline dotted var(--faint);text-underline-offset:3px}
 #view-cr .cr-t .cr-srw:focus-visible{box-shadow:0 0 0 2px var(--primary)}
 /* All shipments: a button under an empty or error message */
-#view-mon .empty .ms-eb{display:flex;margin:12px auto 0}
+#view-mon .empty .ms-eb{display:flex;margin:16px 0 0}
 /* ticket panel: a normal panel body, the conversation keeps its chat layout */
 #drawer.chat .db.ch-body{display:block;background:none}
 :is(#drawer,#modal) .ch-conv .ch-av{display:inline-flex}
@@ -241,9 +241,16 @@ td .st svg{display:none}
 .foot .lnk{color:var(--primary);font-weight:500}
 .foot .lnk:hover{text-decoration:underline}
 .pager{display:flex;gap:8px}
-.empty{padding:56px 0;text-align:center;color:var(--muted)}
-.empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
-.w-empty .empty{padding:40px 24px}.w-empty .empty .qic{margin:0 auto 16px}.w-empty .empty .btn{display:flex;margin:20px auto 0}
+/* empty table and list states (Raam, 24 Nov 2026): a grey icon tile with the search glass, a bold title, one muted line, left-aligned and centred in the space */
+.empty{display:grid;grid-template-columns:fit-content(460px);justify-content:center;justify-items:start;align-content:start;padding:72px 24px;text-align:left;color:var(--muted);font-size:14px;line-height:1.5;white-space:normal}
+.empty::before,.empty::after{content:"";grid-area:1/1;width:48px;height:48px;margin-bottom:16px}
+.empty::before{border-radius:8px;background:var(--hover)}
+.empty::after{background:var(--ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='m20 20-4.2-4.2'/%3E%3C/svg%3E") center/22px no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='m20 20-4.2-4.2'/%3E%3C/svg%3E") center/22px no-repeat}
+.empty b{display:block;color:var(--ink);font-size:20px;font-weight:600;line-height:1.3;margin-bottom:6px}
+.empty .btn{margin-top:16px}
+.empty:has(.qic){justify-items:center;text-align:center}.empty:has(.qic)::before,.empty:has(.qic)::after{display:none}.empty:has(.qic) b{font-size:15px}
+@media (max-width:760px){td>.empty{position:sticky;left:0;width:min(100%,calc(100vw - 32px));box-sizing:border-box;padding:48px 16px}}
+.w-empty .empty{padding:40px 24px;justify-items:center;text-align:center}.w-empty .empty::before,.w-empty .empty::after{display:none}.w-empty .empty b{font-size:15px}.w-empty .empty .qic{margin:0 auto 16px}.w-empty .empty .btn{display:flex;margin:20px auto 0}
 
 /* Drawer */
 .scrim{position:fixed;inset:0;background:rgba(0,45,93,.28);z-index:70;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -3341,7 +3348,7 @@ function renderRD(){const isR=S.tab==='refunds',K='tx-'+S.tab;
   const tb=document.getElementById('tbody');
   const empty=isR?['No refunds yet','Refund a shopper from the payment: open it and choose Refund.']:['No disputes','A dispute is when a shopper asks their bank or card issuer to reverse a payment. If one opens, it shows here with what to send and by when.'];
   tb.innerHTML=view.length?view.map(x=>`<tr ${isR?`data-rf="${x.id}"`:`data-dp="${x.id}"`}>${dtCells(K,x)}</tr>`).join('')
-    :`<tr><td colspan="${dtN(K)}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${any?'No matches':empty[0]}</b>${any?'Try another filter or search.':empty[1]}</div></td></tr>`;
+    :`<tr><td colspan="${dtN(K)}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${any?(isR?'No refunds match':'No disputes match'):empty[0]}</b>${any?`Try another ${isR?'refund':'dispute'} ID, payment or customer, or clear the filters.`:empty[1]}</div></td></tr>`;
   document.getElementById('count').innerHTML=L.length?`Viewing <b>${S.page*PER+1}–${Math.min(L.length,S.page*PER+PER)}</b> of <b>${L.length}</b> results`:'Viewing <b>0</b> results';
   const pv=document.getElementById('prev'),nx=document.getElementById('next');pv.disabled=S.page===0;nx.disabled=S.page>=pages-1;pv.style.opacity=S.page===0?.5:1;nx.style.opacity=S.page>=pages-1?.5:1;
   tb.querySelectorAll('tr[data-rf]').forEach(tr=>tr.onclick=()=>refundDetail(tr.dataset.rf));
@@ -3381,7 +3388,7 @@ function render(){
   document.getElementById('thead').innerHTML=`<tr><th class="c-chk"><button class="cb ${allSel?'on':someSel?'mixed':''}" id="selall" aria-label="Select all">${allSel?ic('check',12,3):''}</button></th>`+
     dtHead(K)+'<th style="width:40px"></th></tr>';document.getElementById('thead').closest('table').dataset.dtt=K;
   const tb=document.getElementById('tbody');
-  if(!view.length){tb.innerHTML=`<tr><td colspan="${dtN(K)+2}" style="height:auto;border:0;cursor:default"><div class="empty">${PAY.length?'<b>No results</b>Try changing the filters or search.':'<b>No transactions yet</b>Payments from checkout, invoices and payment links show up here.'}</div></td></tr>`}
+  if(!view.length){tb.innerHTML=`<tr><td colspan="${dtN(K)+2}" style="height:auto;border:0;cursor:default"><div class="empty">${PAY.length?'<b>No payments match</b>Try another customer, order ID or amount, or clear the filters.':'<b>No transactions yet</b>Payments from checkout, invoices and payment links show up here.'}</div></td></tr>`}
   else tb.innerHTML=view.map(r=>{
     const on=S.sel.has(r.id);
     const cells=dtCells(K,r);
@@ -5448,7 +5455,7 @@ function renderBatch(b){if(BQ.id!==b.id)BQ={id:b.id,q:'',pay:'all',st:'all',pg:0
     <button class="chip${BQ.st!=='all'?' set':''}" data-btst>${ic(BQ.st==='all'?'pluscirc':'check',14)}${BQ.st==='all'?'Status':OST[BQ.st][0]}</button>
     <div class="fright"><button class="btn btn-o" data-export="Shipments|Batch ${b.id} · orders|CSV">${ic('export',15)}Export</button></div></div>
   <div class="tbl-wrap"><table class="bt-tbl"><thead><tr><th>Order ID</th><th>AWB</th><th>Customer</th><th>Address</th><th>COD</th><th>Weight</th><th>Product</th><th>Status</th><th></th></tr></thead><tbody>${page.length?page.map(o=>`<tr data-ord="${o.id}" tabindex="0"><td class="mono">${o.id}</td><td><span class="mono">${o.awb}</span><button class="ib cp" data-copy="${o.awb}" aria-label="Copy AWB ${o.awb}">${ic('copy',14)}</button></td><td><b>${o.name}</b><span class="src">+62 ${o.phone}</span></td><td class="bt-ad" title="${o.addr.street}, ${o.addr.city} ${o.addr.zip}">${o.addr.street}, ${o.addr.city}</td><td class="num">${o.cod?rp(o.cod):'<span class="src">—</span>'}</td><td class="num">${o.kg} kg</td><td>${o.items}</td><td>${oPill(o.st)}</td><td><button class="dots-b" data-toast="Opens actions for order ${o.id}" aria-label="Actions for order ${o.id}">${ic('dots',16)}</button></td></tr>`).join('')
-    :`<tr><td colspan="9" style="height:auto;border:0;cursor:default"><div class="empty"><b>No orders match</b>Try another search or filter.</div></td></tr>`}</tbody></table></div>
+    :`<tr><td colspan="9" style="height:auto;border:0;cursor:default"><div class="empty"><b>No orders match</b>Try another order ID, AWB or customer, or change the payment or status filter.</div></td></tr>`}</tbody></table></div>
   <div class="foot"><span>Showing <b>${rows.length?BQ.pg*PG+1:0}–${Math.min(rows.length,BQ.pg*PG+PG)}</b> of <b>${fmt(rows.length)}</b></span><div class="pager"><button class="btn btn-o" data-btpg="-1" ${BQ.pg?'':'disabled'}>Previous</button><button class="btn btn-o" data-btpg="1" ${(BQ.pg+1)*PG<rows.length?'':'disabled'}>Next</button></div></div>`;
   const qi=document.getElementById('bt-q');qi.oninput=()=>{BQ.q=qi.value.trim();BQ.pg=0;renderBatch(b);const n=document.getElementById('bt-q');n.focus();n.setSelectionRange(n.value.length,n.value.length)}}
 function renderOrder(b,o){const ow=o.wh||b.wh;const sv=b.svc,fmt=x=>x.toLocaleString('id-ID'),kv=l=>`<dl class="od-kv">${l.map(([k,v,w])=>`<div${w?` class="${w===1?'w2':w}"`:''}><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
@@ -6474,7 +6481,7 @@ function mcAllTable(){const K='mc-all',dash='<span class="src">—</span>';MC.se
   return`${tabs}
     <div class="tbl-wrap"><table data-dtt="${K}"><thead><tr>${dtHead(K)}<th></th></tr></thead><tbody>
     ${R.length?R.map(r=>{const on=MC.sel.has(r.id);return`<tr data-mcdet="${r.id}"${smpMine(r.id)?` class="${smpCls(r.id)}"`:''}>${dtCells(K,r)}<td class="mc-actc"><div class="mc-actw">${(m=>m<0?'':(x=>`<button class="btn btn-o mc-rbtn" data-mcrun="${r.id}">${mcShort[x[0]]||x[0]}</button>`)(mcActList(r.id)[m]))(mcMain(r.id))}<button class="dots-b" data-mcrm="${r.id}" aria-label="More actions for ${r.id}" aria-haspopup="menu">${ic('dots',16)}</button></div></td></tr>`}).join('')
-      :`<tr><td colspan="${dtN(K)+2}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No results</b>Try changing the filters or search.</div></td></tr>`}</tbody></table></div>
+      :`<tr><td colspan="${dtN(K)+2}" style="height:auto;border:0;cursor:default"><div class="empty"><b>No Cash Advances match</b>Try another ID or status, or clear the filters.</div></td></tr>`}</tbody></table></div>
     <div class="foot"><span>${R.length?`Viewing <b>1–${R.length}</b> of <b>${R.length}</b> results`:'Viewing <b>0</b> results'}</span></div>`}
 function mcEntry(){const h=mcNone(),cut=h.indexOf('<div class="mc-two">');return h.slice(0,cut).replace(/<button class="btn btn-o es-cta" data-mcjump="mc-chk">[^<]*<\/button>/,'').replace(/<div class="es-cards c3">[\s\S]*$/,'')+`<h2 class="sec mc-allh">Your Cash Advances</h2>${mcAllTable()}`}
 const mcOpenOne=id=>{const r=mcAll().find(x=>x.id===id);if(!r)return;MC.det=id;MC.aid=id;if(MC.multi)MC.one=false;MC.st=r.k;MC.atab=null;mcaLoad();scrollTo(0,0)};
@@ -7072,7 +7079,7 @@ function renderBal(){const v=bv();
     tbl.dataset.dtt=K;head.innerHTML=`<tr>${dtHead(K)}</tr>`;
     const items=dtSort(K,pend);
     body.innerHTML=items.length?items.map(x=>`<tr class="bl-in">${dtCells(K,x)}</tr>`).join('')
-      :`<tr><td colspan="${dtN(K)}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${v.pending?'No matching items':'Nothing pending'}</b>${v.pending?'Try another order ID or amount.':'Orders you haven\'t completed and payments FLIK hasn\'t received yet show up here.'}</div></td></tr>`;
+      :`<tr><td colspan="${dtN(K)}" style="height:auto;border:0;cursor:default"><div class="empty"><b>${v.pending?'No pending items match':'Nothing pending'}</b>${v.pending?'Try another order ID or amount.':'Orders you haven\'t completed and payments FLIK hasn\'t received yet show up here.'}</div></td></tr>`;
     return}
   const K='bal-'+btab,chg=btab==='charges';
   const pill=l=>[l.st?`<span class="st ${l.st[1]}">${l.st[0]}</span>`:'',v.early&&l.early?'<span class="st pu">Early settlement</span>':'',l.rev?'<span class="st gr">Correction</span>':''].filter(Boolean).join('');
@@ -7748,7 +7755,7 @@ function monRisky(){const F=MS.w,q=F.q.trim().toLowerCase(),A0=waOpen();
   const pages=Math.max(1,Math.ceil(A.length/PERL));F.pg=Math.min(F.pg,pages-1);const L=A.slice(F.pg*PERL,F.pg*PERL+PERL);
   return msBar('Customer, phone, city or batch',`<button class="btn btn-o" data-wset>WhatsApp settings</button>${dlBtn('m-wa')}`)+
   `<div class="tbl-wrap"><table data-dtt="mon-risky"><thead><tr>${dtHead('mon-risky')}<th></th></tr></thead><tbody>
-  ${L.length?L.map(p=>`<tr data-wa="${p.id}">${dtCells('mon-risky',p)}<td class="r act">${drAct(p)}</td></tr>`).join(''):`<tr><td colspan="${dtN('mon-risky')+1}" style="height:auto;border:0;cursor:default">${msNone(A0.length,'No risky orders waiting','COD orders from Risky customers wait here for your decision or for the customer\'s answer on WhatsApp.')}</td></tr>`}</tbody></table></div>`+msFoot(A.length,pages,F.pg,'order')}
+  ${L.length?L.map(p=>`<tr data-wa="${p.id}">${dtCells('mon-risky',p)}<td class="r act">${drAct(p)}</td></tr>`).join(''):`<tr><td colspan="${dtN('mon-risky')+1}" style="height:auto;border:0;cursor:default">${msNone(A0.length,'No orders on hold','Risky COD orders wait here for your decision or for the customer\'s answer on WhatsApp.','orders')}</td></tr>`}</tbody></table></div>`+msFoot(A.length,pages,F.pg,'order')}
 function waAct(p,a){if(a==='ya'){const sh=confirmPend(p);track('shopper_confirmed',{});track('waiting_order_booked',{courier:sh.k});toast(`Confirmed. ${sh.awb} booked automatically`)}
   else if(a==='batal'){p.st='declined';p.log.unshift([`Customer replied BATAL. Order cancelled. The ${rp(VIP_FEE)} check fee stays`,NOW]);track('shopper_declined',{});toast('The customer said they didn\'t order. The order is cancelled')}
   else if(a==='ship'){const sh=sendPend(p,NOW,true);track('waiting_order_shipped_anyway',{from:p.kind});toast(`${sh.awb} booked`)}
@@ -7782,7 +7789,7 @@ const ageTd=s=>{const d=ageDays(s),o=d-slaOf(s);return`<td class="age${o>0?' ove
 /* ---- Needs resolving and Risky customers: each its own tab, straight to the table, with the All shipments search and Filter (27 Oct) ---- */
 const msBar=(ph,right)=>{const F=FT(),nf=fkeys().filter(k=>mfVal(k)).length;return`<div class="filters ms-lf"><label class="search bl-search"><span>${ic('search',16)}</span><input id="ms-q" value="${esc(F.q)}" placeholder="${ph}" autocomplete="off" aria-label="${ph}"></label><button class="btn btn-o${nf?' on':''}" data-ffil aria-haspopup="menu">${ic('filter',15)}${nf?plural(nf,'filter'):'Filter'}</button><button class="btn btn-o dt-ic" data-colcfg="mon-${MS.tab}" aria-label="Edit columns" data-tip="Edit columns">${ic('sliders',16)}</button><div class="fright">${right}</div></div>`};
 const msFoot=(n,pages,pg,word)=>`<div class="foot"><span><b>${n.toLocaleString('id-ID')}</b> ${n===1?word:word+'s'}</span><div class="pager"><button class="btn btn-o" data-lpg="-1" ${pg?'':'disabled'}>Previous</button><button class="btn btn-o" data-lpg="1" ${pg<pages-1?'':'disabled'}>Next</button></div></div>`;
-const msNone=(any,b,p)=>`<div class="empty"><b>${any?'Nothing matches':b}</b>${any?'Try another search, or clear the search and filters.':p}${any?'<button class="btn btn-o ms-eb" data-lclr>Clear search and filters</button>':''}</div>`;
+const msNone=(any,b,p,what='items')=>`<div class="empty"><b>${any?`No ${what} match`:b}</b>${any?'Try another search, or clear the search and filters.':p}${any?'<button class="btn btn-o ms-eb" data-lclr>Clear search and filters</button>':''}</div>`;
 function monResolve(base){const F=MS.r,q=F.q.trim().toLowerCase(),pool=base.filter(needsAct),ord={problem:0,risk:1,delayed:2};
   DL['m-resolve']=()=>['flik-needs-resolving',['AWB','Courier','Status','Monitoring','Issue','SLA (days)','Age (days)','Over SLA (days)','Customer name','Customer phone','City'],pool.map(s=>[s.awb||'',cName(s.k),SST3[s.st][0],MON3[monOf(s)][0],issueOf(s).t,slaOf(s),Math.round(ageDays(s)*10)/10,Math.max(0,Math.round((ageDays(s)-slaOf(s))*10)/10),s.name,'+'+s.phone,s.area.city])];
   dtUse('mon-resolve',{awb:['AWB',s=>s.awb||'~',awbTd,{fixed:1}],mon:['Monitoring',s=>ord[monOf(s)],s=>`<td class="c-st"><span class="st ${MSTAT[monOf(s)][1]}">${MSTAT[monOf(s)][0]}</span></td>`],k:['Courier',s=>cName(s.k),cTd],
@@ -7792,7 +7799,7 @@ function monResolve(base){const F=MS.r,q=F.q.trim().toLowerCase(),pool=base.filt
   const row=s=>{const is=issueOf(s);return`<tr data-sid="${s.id}">${dtCells('mon-resolve',s)}<td class="r act">${s.st==='failed'?`<button class="btn btn-o" data-ndrgo="${s.id}">Reattempt</button>`:`<button class="btn btn-o" data-act="${s.id}" data-a="${is.act}">${TKT[is.act][1]}</button>`}<button class="dots-b" data-actm="${s.id}" aria-label="Other actions">${ic('dots',16)}</button></td></tr>`};
   return msBar('AWB, customer, phone or issue',`<button class="btn btn-o" data-wset>Delivery Boost: ${PS.boost?'on':'off'}</button>${dlBtn('m-resolve')}`)+
   `<div class="tbl-wrap"><table data-dtt="mon-resolve"><thead><tr>${dtHead('mon-resolve')}<th></th></tr></thead><tbody>
-  ${V.length?V.map(row).join(''):`<tr><td colspan="${dtN('mon-resolve')+1}" style="height:auto;border:0;cursor:default">${msNone(pool.length,'Nothing needs resolving','Delayed, at-risk and problem shipments without a ticket show up here.')}</td></tr>`}</tbody></table></div>`+msFoot(L.length,pages,F.pg,'shipment')}
+  ${V.length?V.map(row).join(''):`<tr><td colspan="${dtN('mon-resolve')+1}" style="height:auto;border:0;cursor:default">${msNone(pool.length,'Nothing needs action','Delayed, at-risk and problem shipments without a ticket show up here.','shipments')}</td></tr>`}</tbody></table></div>`+msFoot(L.length,pages,F.pg,'shipment')}
 /* Health uses the StatusBadge tones: safe ok, on track info (violet), delayed neutral, at risk warn, problem bad */
 const HCOLS=['safe','ontrack','delayed','risk','problem'];
 const HTONE={safe:'ok',ontrack:'pu',delayed:'gr',risk:'warn',problem:'bad'};
@@ -7919,7 +7926,7 @@ function monClaims(){const F=MS.c,q=F.q.trim().toLowerCase();
   return msBar('Claim ID, ticket or AWB',`${dlBtn('m-claims')}<button class="btn btn-p" data-clnew>${ic('plus',15,2)}File a claim</button>`)+
   `<div class="tbl-wrap"><table class="mt" data-dtt="mon-claims"><thead><tr>${dtHead('mon-claims')}</tr></thead><tbody>
   ${V.length?V.map(c=>`<tr data-cl="${c.id}">${dtCells('mon-claims',c)}</tr>`).join('')
-    :`<tr><td colspan="${dtN('mon-claims')}" style="height:auto;border:0;cursor:default">${msNone(CL.length,'No claims yet','File a claim when a parcel is lost, damaged, returned without your confirmation, or delivered late.')}</td></tr>`}</tbody></table></div>`+msFoot(rows.length,pages,F.pg,'claim')}
+    :`<tr><td colspan="${dtN('mon-claims')}" style="height:auto;border:0;cursor:default">${msNone(CL.length,'No claims yet','File a claim when a parcel is lost, damaged, returned without your confirmation, or delivered late.','claims')}</td></tr>`}</tbody></table></div>`+msFoot(rows.length,pages,F.pg,'claim')}
 function stepper(flow,lab,cur,bad){const at=flow.indexOf(cur);return`<div class="tstp">${flow.map((k,i)=>`<div class="stp-i ${i<at||(i===at&&!bad)?'done':''}${i===at?' cur':''}${i===at&&bad?' bad':''}"><i>${i<at||(i===at&&!bad)?ic('check',10,3):''}</i>${lab[k][0]}</div>`).join('')}</div>`}
 const logTl=(log,LAB)=>`<div class="tl">${log.map((l,i)=>{const cl=l[2]&&LAB[l[2]]?LAB[l[2]][1]:'';return`<div class="tli ${i===0?(cl==='ok'?'ok':cl==='bad'?'bad':''):''}"><i>${i===0&&cl==='ok'?ic('check',11,3):''}</i><div><b>${esc(l[0])}</b><span>${l[2]&&LAB[l[2]]?`<em class="st ${LAB[l[2]][1]} sm">${LAB[l[2]][0]}</em> `:''}${fdateY(l[1])}</span></div></div>`}).join('')}</div>`;
 /* ---- Filing a claim: which cases this shipment can be claimed for, and why not ---- */
@@ -7998,7 +8005,7 @@ function monTickets(){const F=MS.t,q=F.q.trim().toLowerCase(),kOf=t=>(SH.find(x=
   return msBar('Ticket ID, subject or AWB',`${dlBtn('m-tickets')}<button class="btn btn-p" data-tknew>${ic('plus',15,2)}Create ticket</button>`)+
   `<div class="tbl-wrap"><table class="mt" data-dtt="mon-tickets"><thead><tr>${dtHead('mon-tickets')}</tr></thead><tbody>
   ${V.length?V.map(t=>`<tr data-tk="${t.id}">${dtCells('mon-tickets',t)}</tr>`).join('')
-    :`<tr><td colspan="${dtN('mon-tickets')}" style="height:auto;border:0;cursor:default">${msNone(TK.length,'No tickets yet','Actions you take in Needs action open tickets here.')}</td></tr>`}</tbody></table></div>`+msFoot(rows.length,pages,F.pg,'ticket')}
+    :`<tr><td colspan="${dtN('mon-tickets')}" style="height:auto;border:0;cursor:default">${msNone(TK.length,'No tickets yet','Actions you take in Needs action open tickets here.','tickets')}</td></tr>`}</tbody></table></div>`+msFoot(rows.length,pages,F.pg,'ticket')}
 
 /* ---- Shipment drawer: details, issue, tracking history ---- */
 function timeline(s){const sv=SERVICES[s.svc],w=whByCode(s.wh),at=f=>new Date(s.created.getTime()+(s.upd-s.created)*f),from=w?w.city:'Warehouse',to=s.area.city;
